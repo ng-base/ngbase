@@ -2,6 +2,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@meeui/accordion": ["./projects/accordion/src/public-api"],
+      "@meeui/button": ["./projects/button/src/public-api"],
+      "@meeui/card": ["./projects/card/src/public-api"],
+      "@meeui/checkbox": ["./projects/checkbox/src/public-api"],
+      "@meeui/list": ["./projects/list/src/public-api"],
+      "@meeui/tab": ["./projects/tab/src/public-api"],
+      "@meeui/dialog": ["./projects/dialog/src/public-api"],
+      "@meeui/separator": ["./projects/separator/src/public-api"],
+      "@meeui/tooltip": ["./projects/tooltip/src/public-api"],
+      "@meeui/portal": ["./projects/portal/src/public-api"],
+      "@meeui/switch": ["./projects/switch/src/public-api"],
+      "@meeui/typography": ["./projects/typography/src/public-api"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -18,10 +32,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

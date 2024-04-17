@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply text-base antialiased;
+}
+
+body {
+  @apply min-h-screen bg-bg-secondary text-base;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+}
+
+:root {
+  --color-text-muted: 113, 113, 122;
+}
+
+@layer components {
+  .mee-header {
+    @apply bg-bg-primary text-white;
+  }
+}

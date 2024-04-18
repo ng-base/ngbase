@@ -9,6 +9,8 @@ import { dialogPortal } from '@meeui/dialog';
 import { AddComponent } from './add.component';
 import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
+import { Switch } from '@meeui/switch';
+import { AccordionGroup, AccordionItem } from '@meeui/accordion';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,9 @@ import { FormsModule } from '@angular/forms';
     Card,
     Checkbox,
     Heading,
+    Switch,
+    AccordionGroup,
+    AccordionItem,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -29,6 +34,7 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent {
   title = 'mee-ui';
   checkBox = false;
+  switch = false;
 
   dialogPortal = dialogPortal();
 

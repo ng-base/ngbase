@@ -4,6 +4,7 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { generateId } from '../../../utils';
 
 @Component({
   selector: 'mee-checkbox',
@@ -37,7 +38,7 @@ import {
   ],
 })
 export class Checkbox implements ControlValueAccessor {
-  id = Math.random().toString(36).substring(7);
+  id = generateId();
   value: any;
   onChange = (value: any) => {};
   onTouched = () => {};

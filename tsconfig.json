@@ -14,7 +14,10 @@
       "@meeui/tooltip": ["./projects/tooltip/src/public-api"],
       "@meeui/portal": ["./projects/portal/src/public-api"],
       "@meeui/switch": ["./projects/switch/src/public-api"],
-      "@meeui/typography": ["./projects/typography/src/public-api"]
+      "@meeui/typography": ["./projects/typography/src/public-api"],
+      "@meeui/autocomplete": ["./projects/autocomplete/src/public-api"],
+      "@meeui/input": ["./projects/input/src/public-api"],
+      "@meeui/select": ["./projects/select/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

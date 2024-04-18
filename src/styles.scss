@@ -4,11 +4,11 @@
 @tailwind utilities;
 
 html {
-  @apply text-base antialiased;
+  @apply text-sm antialiased;
 }
 
 body {
-  @apply min-h-screen bg-bg-secondary text-base;
+  @apply min-h-screen bg-bg-secondary;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -23,4 +23,8 @@ body {
   .mee-header {
     @apply bg-bg-primary text-white;
   }
+}
+
+p {
+  @apply text-base;
 }

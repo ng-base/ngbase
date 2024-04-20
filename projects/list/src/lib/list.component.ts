@@ -6,9 +6,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: ` <ng-content></ng-content> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    :host {
-      @apply block w-full rounded-md p-2 text-left hover:bg-gray-100;
+    :host[disabled] {
+      @apply cursor-not-allowed text-gray-400;
     }
   `,
+  host: {
+    class: 'block w-full rounded-md p-2 text-left hover:bg-gray-100',
+  },
 })
 export class ListComponent {}

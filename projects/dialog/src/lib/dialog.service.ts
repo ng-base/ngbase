@@ -11,10 +11,14 @@ export function dialogPortal() {
   function open<T>(component: Type<T>, opt?: DialogOptions) {
     const options = { ...new DialogOptions(), ...opt };
     const d = DialogComponent as Type<DialogComponent>;
-    const parent = dom.componentCreator.createComponent(d, { injector });
+    const parent = dom.createComponent(d, injector, 'dialog');
     parent.instance.setOptions(options);
 
-    const diaRef = new DialogRef(parent, options);
+    function destroy() {
+      dom.deleteComponent('dialog', parent);
+    }
+
+    const diaRef = new DialogRef(parent.instance, options, destroy);
     parent.changeDetectorRef.markForCheck();
 
     parent.instance.afterView.pipe(first()).subscribe((vcRef) => {
@@ -29,7 +33,7 @@ export function dialogPortal() {
   }
 
   function closeAll() {
-    dom.componentCreator.clear();
+    dom.clear('dialog');
   }
   return { open, closeAll };
 }

@@ -19,11 +19,13 @@ export class PortalService {
   private injector = inject(Injector);
   private appRef = inject(ApplicationRef);
 
+  private trackElements = new Map<string, ComponentRef<any>[]>();
+
   constructor() {
     this.mainContainer = this.appendComponentToBody(PortalComponent);
   }
 
-  get componentCreator() {
+  private componentCreator() {
     return this.mainContainer.instance.myDialog()!;
   }
 
@@ -43,5 +45,33 @@ export class PortalService {
     // 4. Append DOM element to the body
     this.document.body.appendChild(domElem);
     return componentRef;
+  }
+
+  createComponent<T>(
+    component: Type<T>,
+    injector: Injector,
+    container: string,
+  ) {
+    const d = this.componentCreator().createComponent(component, { injector });
+    if (!this.trackElements.has(container)) {
+      this.trackElements.set(container, []);
+    }
+    this.trackElements.get(container)!.push(d);
+    return d;
+  }
+
+  deleteComponent<T>(container: string, component: ComponentRef<T>) {
+    component.destroy();
+    const index = this.trackElements.get(container)!.indexOf(component);
+    this.trackElements.get(container)!.splice(index, 1);
+  }
+
+  clear(container: string) {
+    if (this.trackElements.has(container)) {
+      this.trackElements.get(container)!.forEach((c) => {
+        c.destroy();
+      });
+      this.trackElements.delete(container);
+    }
   }
 }

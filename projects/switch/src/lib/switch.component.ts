@@ -21,49 +21,45 @@ import {
     />
     <label [for]="id" class="text-gray-700"><ng-content></ng-content></label>
   `,
+  host: {
+    class: 'inline-flex items-center gap-2 py-1',
+  },
   styles: `
-    :host {
-      --nonchecked-color: #fbfbfb;
-      --checked-color: #38f;
-      @apply inline-flex items-center gap-2 py-1;
-    }
     .switch {
       -webkit-appearance: none;
       position: relative;
       border-radius: 10px;
-      width: 32px;
+      width: 36px;
       height: 20px;
-      border: solid 1px var(--nonchecked-color);
-      background: var(--nonchecked-color);
+      @apply border border-gray-300 bg-gray-300;
       overflow: hidden;
       transition: all 0.1s ease-out;
-    }
-    .switch:checked {
-      background: var(--checked-color);
-      border: solid 1px var(--checked-color);
-    }
-    .switch:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    .switch:after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #fff;
-      transition: all 0.1s ease-out;
-    }
-    .switch:checked:after {
-      left: 14px;
+
+      &:checked {
+        @apply border-primary bg-primary;
+        &:after {
+          left: 17px;
+        }
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #fff;
+        transition: all 0.1s ease-out;
+      }
     }
   `,
   providers: [

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'button[meeButton], a[meeButton]',
@@ -6,10 +6,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    :host {
-      @apply inline-block rounded-lg bg-blue-500 px-4 py-1 text-white hover:bg-blue-700 active:bg-blue-800;
-    }
-  `,
+  host: {
+    class:
+      'inline-block rounded bg-primary px-4 py-1 text-white hover:bg-opacity-80 active:bg-opacity-70',
+  },
 })
-export class Button {}
+export class Button {
+  variant = input<'primary' | 'outline'>('primary');
+}

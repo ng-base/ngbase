@@ -17,7 +17,16 @@
       "@meeui/typography": ["./projects/typography/src/public-api"],
       "@meeui/autocomplete": ["./projects/autocomplete/src/public-api"],
       "@meeui/input": ["./projects/input/src/public-api"],
-      "@meeui/select": ["./projects/select/src/public-api"]
+      "@meeui/select": ["./projects/select/src/public-api"],
+      "@meeui/menu": ["./projects/menu/src/public-api"],
+      "@meeui/popover": ["./projects/popover/src/public-api"],
+      "@meeui/progress": ["./projects/progress/src/public-api"],
+      "@meeui/resizable": ["./projects/resizable/src/public-api"],
+      "@meeui/drag": ["./projects/drag/src/public-api"],
+      "@meeui/slider": ["./projects/slider/src/public-api"],
+      "@meeui/sonner": ["./projects/sonner/src/public-api"],
+      "@meeui/toggle": ["./projects/toggle/src/public-api"],
+      "@meeui/toggle-group": ["./projects/toggle-group/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

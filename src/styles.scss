@@ -4,11 +4,11 @@
 @tailwind utilities;
 
 html {
-  @apply text-sm antialiased;
+  @apply text-base antialiased;
 }
 
 body {
-  @apply min-h-screen bg-bg-secondary;
+  @apply bg-bg min-h-screen;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -17,11 +17,22 @@ body {
 
 :root {
   --color-text-muted: 113, 113, 122;
+  --color-primary: 0, 0, 0;
+  // #f4f4f5
+  --color-gray: 244, 244, 245;
+  // #004f4f
+  // --color-primary: 0, 79, 79;
+  // yellow
+  // --color-primary: 255, 215, 0;
+  // #f4f4f5
+  --color-bg: 244, 244, 245;
+  // #ffffff
+  --color-fg: 255, 255, 255;
 }
 
 @layer components {
   .mee-header {
-    @apply bg-bg-primary text-white;
+    @apply bg-fg text-white;
   }
 }
 

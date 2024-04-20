@@ -1,6 +1,6 @@
-<nav class="w-full rounded-md border-b bg-bg-primary p-4">
+<nav class="w-full border-b bg-primary p-4">
   <div class="flex h-full items-center justify-between">
-    <div class="text-lg">App</div>
+    <div class="text-lg text-white">Mee UI</div>
   </div>
 </nav>
 
@@ -10,6 +10,7 @@
     <mee-card>
       <h4 meeHeader>Heading 1</h4>
       <mee-separator></mee-separator>
+      <button meeButton (click)="inc()">{{ count }} Count</button>
       <p class="text-base text-muted">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis
         maiores in aspernatur rerum, eligendi, pariatur ipsum eaque non,
@@ -18,14 +19,21 @@
         nostrum distinctio dignissimos, laboriosam consectetur veritatis vero
         maiores repudiandae expedita quod numquam temporibus!
       </p>
+
+      <h4 meeHeader class="mt-10">Checkbox</h4>
       <mee-checkbox class="w-full" [(ngModel)]="checkBox">
         Check the UI
       </mee-checkbox>
       <mee-checkbox class="w-full">Check the UI</mee-checkbox>
+
+      <h4 meeHeader class="mt-10">Switch</h4>
       <mee-switch class="w-full" [(ngModel)]="switch">Switch the UI</mee-switch>
+
+      <h4 meeHeader class="mt-10">Dialog</h4>
       <button meeButton (click)="open()">submit</button>
 
-      <mee-accordion-group>
+      <h4 meeHeader class="mt-10">Accordion</h4>
+      <mee-accordion-group [multiple]="false">
         <mee-accordion-item>
           <h4>Heading 1</h4>
           <p>
@@ -43,6 +51,76 @@
           </p>
         </mee-accordion-item>
       </mee-accordion-group>
+
+      <h4 meeHeader class="mt-10">Tab</h4>
+      <mee-tab-group [activeIndex]="1">
+        <mee-tab title="Tab 1">
+          <p>
+            Tab 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Reiciendis, rerum? Quidem doloremque sit omnis! Blanditiis dolorem
+            exercitationem obcaecati, necessitatibus voluptatibus maxime! Est
+            ipsa ratione, vel quae iusto facilis id quisquam.
+          </p>
+        </mee-tab>
+        <mee-tab title="Tab 2">
+          <p>
+            Tab 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Reiciendis, rerum? Quidem doloremque sit omnis! Blanditiis dolorem
+            exercitationem obcaecati, necessitatibus voluptatibus maxime! Est
+            ipsa ratione, vel quae iusto facilis id quisquam.
+          </p>
+        </mee-tab>
+      </mee-tab-group>
+
+      <h4 meeHeader class="mt-10">Progress</h4>
+      <button meeButton (click)="percentage = percentage + 10">+</button>
+      <button meeButton (click)="percentage = percentage - 10">-</button>
+      <mee-progress [percentage]="percentage"></mee-progress>
+
+      <h4 meeHeader class="mt-10">Resizable</h4>
+      <mee-resizable-group class="rounded-lg border">
+        <mee-resizable [size]="30">
+          <div class="flex h-[200px] w-full items-center justify-center">
+            Resizable 1
+          </div>
+        </mee-resizable>
+        <mee-resizable [size]="50">
+          <mee-resizable-group class="h-full" direction="vertical">
+            <mee-resizable [size]="50">
+              <div class="flex h-full w-full items-center justify-center">
+                Resizable 2
+              </div>
+            </mee-resizable>
+            <mee-resizable [size]="50">
+              <div class="flex h-full w-full items-center justify-center">
+                Resizable 3
+              </div>
+            </mee-resizable>
+          </mee-resizable-group>
+        </mee-resizable>
+        <mee-resizable [size]="20">
+          <div class="flex h-[200px] w-full items-center justify-center">
+            Resizable 4
+          </div>
+        </mee-resizable>
+      </mee-resizable-group>
+
+      <h4 meeHeader class="mt-10">Slider</h4>
+      <mee-slider [(ngModel)]="slider" [step]="10" [max]="200"></mee-slider>
+
+      <h4 meeHeader class="mt-10">Sonner</h4>
+      <button meeButton (click)="addMessage()">Sonner</button>
+      <button meeButton (click)="clearMessage()">Clear Message</button>
+
+      <h4 meeHeader class="mt-10">Toggle</h4>
+      <button meeToggle [(ngModel)]="toggle">B</button>
+
+      <h4 meeHeader class="mt-10">Toggle Group</h4>
+      <mee-toggle-group [(ngModel)]="toggleGroup">
+        <button meeToggleItem value="A">A</button>
+        <button meeToggleItem value="B">B</button>
+        <button meeToggleItem value="C">C</button>
+      </mee-toggle-group>
     </mee-card>
   </div>
 </main>

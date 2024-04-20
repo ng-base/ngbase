@@ -13,11 +13,11 @@ abstract class BaseDialogRef<T> {
   afterClosed = this.afterClosedSource.asObservable();
 
   constructor(
-    private d: ComponentRef<DialogComponent>,
+    private d: DialogComponent,
     private options: DialogOptions,
+    private destroyParent: () => void,
   ) {
-    d.instance.backdropColor = options.backdropColor || false;
-    this.backdropSub = d.instance.backdrop.subscribe((r) => {
+    this.backdropSub = d.backdrop.subscribe((r) => {
       if (options.backdrop || r === 'close') {
         this.close();
       }
@@ -33,7 +33,7 @@ abstract class BaseDialogRef<T> {
     this.backdropSub?.unsubscribe();
     this.afterClosedSource.complete();
     this.onDestroySource.next(false);
-    this.d?.destroy();
+    this.destroyParent();
   }
 }
 

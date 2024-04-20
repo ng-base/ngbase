@@ -4,10 +4,8 @@ import { Component, OnInit } from '@angular/core';
   standalone: true,
   selector: '[meeDialogTitle]',
   template: `<ng-content></ng-content>`,
-  styles: `
-    :host {
-      @apply text-lg font-semibold;
-    }
-  `,
+  host: {
+    class: 'text-lg font-semibold',
+  },
 })
 export class DialogTitle {}

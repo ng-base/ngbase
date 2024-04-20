@@ -5,10 +5,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    :host {
-      @apply block rounded-md border bg-bg-primary p-4;
-    }
-  `,
+  host: {
+    class: 'block rounded-md border bg-fg p-4',
+  },
 })
 export class Card {}

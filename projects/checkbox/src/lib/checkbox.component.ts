@@ -17,16 +17,16 @@ import { generateId } from '../../../utils';
       [(ngModel)]="value"
       (ngModelChange)="updateValue()"
       [id]="id"
-      class="h-5 w-5 text-blue-600"
+      class="h-5 w-5"
     />
     <label [for]="id" class="text-gray-700"><ng-content></ng-content></label>
   `,
+  host: {
+    class: 'inline-flex items-center gap-2 py-1',
+  },
   styles: `
-    :host {
-      @apply inline-flex items-center gap-2 py-1;
-    }
     input {
-      @apply h-4 w-4 text-blue-600;
+      @apply h-4 w-4 text-primary;
     }
   `,
   providers: [

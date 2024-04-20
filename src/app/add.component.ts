@@ -28,7 +28,7 @@ import { DialogClose, DialogTitle, dialogPortal } from '@meeui/dialog';
       dolorum hic quidem amet quia perferendis asperiores rerum ea, cum,
       excepturi nostrum ut molestiae soluta facere nam.
     </p>
-    <div class="flex gap-4">
+    <div class="mt-4 flex gap-4">
       <button meeButton (click)="open()">Inner dialog</button>
       <button meeButton meeDialogClose>Close</button>
       <button meeButton (click)="closeAll()">Close all</button>

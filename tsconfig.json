@@ -26,7 +26,8 @@
       "@meeui/slider": ["./projects/slider/src/public-api"],
       "@meeui/sonner": ["./projects/sonner/src/public-api"],
       "@meeui/toggle": ["./projects/toggle/src/public-api"],
-      "@meeui/toggle-group": ["./projects/toggle-group/src/public-api"]
+      "@meeui/toggle-group": ["./projects/toggle-group/src/public-api"],
+      "@meeui/sheet": ["./projects/sheet/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

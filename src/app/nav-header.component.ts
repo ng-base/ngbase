@@ -25,6 +25,7 @@ import { Card } from '@meeui/card';
       <a meeList href="#">Tabs</a>
       <a meeList href="#">Toggle</a>
       <a meeList href="#">Toggle Group</a>
+      <a meeList href="#">Tooltip</a>
     </mee-card>
   `,
   styles: ``,

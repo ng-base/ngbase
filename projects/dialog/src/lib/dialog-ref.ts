@@ -1,6 +1,16 @@
-import { ComponentRef, InjectionToken, Injector } from '@angular/core';
-import { Subscription, Subject, first } from 'rxjs';
-import { DialogComponent } from './dialog.component';
+import { InjectionToken, Injector, ViewContainerRef } from '@angular/core';
+import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
+
+export class BaseDialogComponent {
+  backdrop = new Subject<'close'>();
+
+  _afterViewSource = new BehaviorSubject<ViewContainerRef | null>(null);
+  afterView = this._afterViewSource.asObservable().pipe(filter(Boolean));
+
+  animationCompleted$ = new Subject<boolean>();
+
+  setOptions(options: DialogOptions): void {}
+}
 
 abstract class BaseDialogRef<T> {
   data: T = this.options.data;
@@ -13,11 +23,11 @@ abstract class BaseDialogRef<T> {
   afterClosed = this.afterClosedSource.asObservable();
 
   constructor(
-    private d: DialogComponent,
+    private d: BaseDialogComponent,
     private options: DialogOptions,
     private destroyParent: () => void,
   ) {
-    this.backdropSub = d.backdrop.subscribe((r) => {
+    this.backdropSub = this.d.backdrop.subscribe((r) => {
       if (options.backdrop || r === 'close') {
         this.close();
       }

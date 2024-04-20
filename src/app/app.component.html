@@ -32,6 +32,9 @@
       <h4 meeHeader class="mt-10">Dialog</h4>
       <button meeButton (click)="open()">submit</button>
 
+      <h4 meeHeader class="mt-10">Sheet</h4>
+      <button meeButton (click)="openSheet()">Open sheet</button>
+
       <h4 meeHeader class="mt-10">Accordion</h4>
       <mee-accordion-group [multiple]="false">
         <mee-accordion-item>
@@ -73,8 +76,20 @@
       </mee-tab-group>
 
       <h4 meeHeader class="mt-10">Progress</h4>
-      <button meeButton (click)="percentage = percentage + 10">+</button>
-      <button meeButton (click)="percentage = percentage - 10">-</button>
+      <button
+        meeButton
+        meeTooltip="increment"
+        (click)="percentage = percentage + 10"
+      >
+        +
+      </button>
+      <button
+        meeButton
+        meeTooltip="decrement"
+        (click)="percentage = percentage - 10"
+      >
+        -
+      </button>
       <mee-progress [percentage]="percentage"></mee-progress>
 
       <h4 meeHeader class="mt-10">Resizable</h4>
@@ -121,6 +136,9 @@
         <button meeToggleItem value="B">B</button>
         <button meeToggleItem value="C">C</button>
       </mee-toggle-group>
+
+      <h4 meeHeader class="mt-10">Tooltip</h4>
+      <button meeTooltip="Tooltip" class="m-2" meeButton>Tooltip</button>
     </mee-card>
   </div>
 </main>

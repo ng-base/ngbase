@@ -1,17 +1,22 @@
-import { Injector, Type, inject } from '@angular/core';
-import { DialogComponent } from './dialog.component';
-import { DialogOptions, createInj, DialogRef } from './dialog-ref';
+import { inject, Injector, Type } from '@angular/core';
 import { first } from 'rxjs';
+import {
+  DialogOptions,
+  DialogRef,
+  createInj,
+} from '../../../dialog/src/lib/dialog-ref';
 import { PortalService } from '@meeui/portal';
+import { SheetComponent } from './sheet.component';
 
-export function dialogPortal() {
-  const NAME = 'dialog';
+export function sheetPortal() {
+  const NAME = 'sheet';
   const dom = inject(PortalService);
   const injector = inject(Injector);
 
   function open<T>(component: Type<T>, opt?: DialogOptions) {
     const options = { ...new DialogOptions(), ...opt };
-    const parent = dom.createComponent(DialogComponent, injector, NAME);
+    const d = SheetComponent as Type<SheetComponent>;
+    const parent = dom.createComponent(d, injector, NAME);
     parent.instance.setOptions(options);
 
     function destroy() {

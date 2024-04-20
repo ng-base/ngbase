@@ -19,6 +19,8 @@ import { sonnerPortal } from '@meeui/sonner';
 import { Toggle } from '@meeui/toggle';
 import { ToggleGroup, ToggleItem } from '@meeui/toggle-group';
 import { JsonPipe } from '@angular/common';
+import { sheetPortal } from '@meeui/sheet';
+import { Tooltip } from '@meeui/tooltip';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +47,7 @@ import { JsonPipe } from '@angular/common';
     Toggle,
     ToggleGroup,
     ToggleItem,
+    Tooltip,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -55,10 +58,11 @@ export class AppComponent {
   checkBox = false;
   switch = false;
   dialogPortal = dialogPortal();
+  sonner = sonnerPortal();
+  sheetPortal = sheetPortal();
   count = 0;
   percentage = 40;
   slider = 50;
-  sonner = sonnerPortal();
   toggle = false;
   toggleGroup = ['A'];
 
@@ -69,6 +73,14 @@ export class AppComponent {
   open() {
     this.dialogPortal.open(AddComponent, {
       width: '80vw',
+      title: 'Add',
+      fullWindow: true,
+    });
+  }
+
+  openSheet() {
+    this.sheetPortal.open(AddComponent, {
+      width: '25rem',
       title: 'Add',
       fullWindow: true,
     });

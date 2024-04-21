@@ -14,10 +14,15 @@ import { Card } from '@meeui/card';
       <a meeList href="#">Card</a>
       <a meeList href="#">Checkbox</a>
       <a meeList href="#">Dialog</a>
+      <a meeList href="#">Drawer</a>
       <a meeList href="#">Heading</a>
+      <a meeList href="#">Hover Card</a>
+      <a meeList href="#">Input</a>
       <a meeList href="#">List</a>
       <a meeList href="#">Progress</a>
+      <a meeList href="#">Popover</a>
       <a meeList href="#">Resizable</a>
+      <a meeList href="#">Select</a>
       <a meeList href="#">Separator</a>
       <a meeList href="#">Slider</a>
       <a meeList href="#">Sonner</a>

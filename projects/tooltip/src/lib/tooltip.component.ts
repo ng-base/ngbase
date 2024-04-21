@@ -13,6 +13,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { tooltipPosition } from '@meeui/portal';
 
 @Component({
   selector: 'mee-tooltip',
@@ -46,18 +47,10 @@ export class TooltipComponent {
 
   constructor() {
     afterNextRender(() => {
-      const { top, left, width, height } = this.target.getBoundingClientRect();
-      const { width: elWidth, height: elHeight } =
-        this.el.nativeElement.getBoundingClientRect();
-      let tTop = top - elHeight - 5;
-      const tLeft = left + width / 2 - elWidth / 2;
-      // we need to check whether the tooltip is overflowing the viewport on top
-      // if so, we need to adjust the top position
-      if (tTop < 0) {
-        tTop = top + height + 5;
-      }
-      this.top.set(tTop);
-      this.left.set(tLeft);
+      const el = this.el.nativeElement;
+      const { top, left } = tooltipPosition(this.target, el, 'top');
+      this.top.set(top);
+      this.left.set(left);
     });
   }
 }

@@ -1,8 +1,15 @@
-import { InjectionToken, Injector, ViewContainerRef } from '@angular/core';
+import {
+  InjectionToken,
+  Injector,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
-export class BaseDialogComponent {
-  backdrop = new Subject<'close'>();
+export type DialogPosition = 'top' | 'bottom' | 'left' | 'right';
+
+export abstract class BaseDialogComponent {
+  dialogRef = inject(DialogRef);
 
   _afterViewSource = new BehaviorSubject<ViewContainerRef | null>(null);
   afterView = this._afterViewSource.asObservable().pipe(filter(Boolean));
@@ -10,9 +17,13 @@ export class BaseDialogComponent {
   animationCompleted$ = new Subject<boolean>();
 
   setOptions(options: DialogOptions): void {}
+
+  close() {
+    this.dialogRef.close();
+  }
 }
 
-abstract class BaseDialogRef<T> {
+export class DialogRef<T = any> {
   data: T = this.options.data;
   private backdropSub: Subscription | null = null;
 
@@ -23,20 +34,18 @@ abstract class BaseDialogRef<T> {
   afterClosed = this.afterClosedSource.asObservable();
 
   constructor(
-    private d: BaseDialogComponent,
-    private options: DialogOptions,
+    public options: DialogOptions,
     private destroyParent: () => void,
-  ) {
-    this.backdropSub = this.d.backdrop.subscribe((r) => {
-      if (options.backdrop || r === 'close') {
-        this.close();
-      }
-    });
-  }
+    private closeAllFn: () => void,
+  ) {}
 
-  close(data?: any) {
+  close = (data?: any) => {
     this.afterClosedSource.next(data);
     this.destroy();
+  };
+
+  closeAll() {
+    this.closeAllFn();
   }
 
   private destroy() {
@@ -46,8 +55,6 @@ abstract class BaseDialogRef<T> {
     this.destroyParent();
   }
 }
-
-export class DialogRef<T = any> extends BaseDialogRef<T> {}
 
 export class DialogTestingRef {
   close() {}
@@ -62,6 +69,8 @@ export class DialogOptions {
   title?: string;
   fullWindow?: boolean;
   width?: string;
+  height?: string;
+  maxHeight?: string;
   classNames?: string[] = [];
   isHideHeader?: boolean;
   overrideLowerDialog?: boolean = false;

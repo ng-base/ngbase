@@ -5,7 +5,7 @@ import { NavComponent } from './nav-header.component';
 import { Separator } from '@meeui/separator';
 import { Card } from '@meeui/card';
 import { Checkbox } from '@meeui/checkbox';
-import { dialogPortal } from '@meeui/dialog';
+import { DialogClose, dialogPortal } from '@meeui/dialog';
 import { AddComponent } from './add.component';
 import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,13 @@ import { ToggleGroup, ToggleItem } from '@meeui/toggle-group';
 import { JsonPipe } from '@angular/common';
 import { sheetPortal } from '@meeui/sheet';
 import { Tooltip } from '@meeui/tooltip';
+import { PopoverTrigger, popoverPortal } from '@meeui/popover';
+import { drawerPortal } from '@meeui/drawer';
+import { AppService } from './app.service';
+import { HoverCard } from '@meeui/hover-card';
+import { ColorPicker } from '@meeui/color-picker';
+import { Input } from '@meeui/input';
+import { Select, SelectOption } from '@meeui/select';
 
 @Component({
   selector: 'app-root',
@@ -48,9 +55,17 @@ import { Tooltip } from '@meeui/tooltip';
     ToggleGroup,
     ToggleItem,
     Tooltip,
+    PopoverTrigger,
+    DialogClose,
+    HoverCard,
+    ColorPicker,
+    Input,
+    Select,
+    SelectOption,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  providers: [AppService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
@@ -60,11 +75,16 @@ export class AppComponent {
   dialogPortal = dialogPortal();
   sonner = sonnerPortal();
   sheetPortal = sheetPortal();
+  popoverPortal = popoverPortal();
+  drawerPortal = drawerPortal();
   count = 0;
   percentage = 40;
   slider = 50;
   toggle = false;
   toggleGroup = ['A'];
+  inputValue = 'Input';
+  selectValue = 'Select';
+  options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
 
   inc() {
     this.count++;
@@ -74,7 +94,6 @@ export class AppComponent {
     this.dialogPortal.open(AddComponent, {
       width: '80vw',
       title: 'Add',
-      fullWindow: true,
     });
   }
 
@@ -82,7 +101,22 @@ export class AppComponent {
     this.sheetPortal.open(AddComponent, {
       width: '25rem',
       title: 'Add',
-      fullWindow: true,
+    });
+  }
+
+  openPopover(event: MouseEvent) {
+    this.popoverPortal.open(AddComponent, event.target as HTMLElement, {
+      width: '25rem',
+      title: 'Add',
+      backdrop: false,
+    });
+  }
+
+  openDrawer() {
+    this.drawerPortal.open(AddComponent, {
+      width: '80vw',
+      title: 'Add',
+      backdropColor: false,
     });
   }
 

@@ -5,7 +5,7 @@ import {
   viewChild,
   afterNextRender,
 } from '@angular/core';
-import { BaseDialogComponent, DialogOptions } from './dialog-ref';
+import { BaseDialogComponent, DialogOptions } from '@meeui/portal';
 import { NgStyle } from '@angular/common';
 import { NguModalViewAnimation, fadeAnimation } from './dialog.animation';
 import { Separator } from '@meeui/separator';
@@ -27,11 +27,7 @@ import { Button } from '@meeui/button';
         @if (!isHideHeader) {
           <div class="bg-secondary-background flex h-8 items-center">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button
-              meeButton
-              (click)="backdrop.next('close')"
-              class="mr-1"
-            ></button>
+            <button meeButton (click)="close()" class="mr-1"></button>
           </div>
         }
         <div class="h-full overflow-auto">
@@ -42,7 +38,7 @@ import { Button } from '@meeui/button';
     @if (backdropColor && !options.fullWindow) {
       <div
         class="backdropColor absolute top-0 -z-10 h-full w-full"
-        (click)="backdrop.next('close')"
+        (click)="close()"
         [@fadeAnimation]
       ></div>
     }

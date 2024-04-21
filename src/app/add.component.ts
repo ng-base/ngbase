@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Button } from '@meeui/button';
-import { DialogClose, DialogTitle, dialogPortal } from '@meeui/dialog';
+import {
+  DialogClose,
+  DialogTitle,
+  dialogPortal,
+  DialogRef,
+} from '@meeui/dialog';
+import { AppService } from './app.service';
+import { AddService } from './add.service';
 
 @Component({
   selector: 'app-add',
@@ -35,11 +42,21 @@ import { DialogClose, DialogTitle, dialogPortal } from '@meeui/dialog';
     </div>
   `,
   standalone: true,
+  providers: [AddService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, DialogClose, DialogTitle],
+  styles: `
+    :host {
+      display: block;
+      overflow: auto;
+    }
+  `,
 })
 export class AddComponent {
+  dialogRef = inject(DialogRef);
   dialogPortal = dialogPortal();
+  appService = inject(AppService);
+  addService = inject(AddService);
 
   open() {
     this.dialogPortal.open(AddComponent, {
@@ -49,6 +66,6 @@ export class AddComponent {
   }
 
   closeAll() {
-    this.dialogPortal.closeAll();
+    this.dialogRef.closeAll();
   }
 }

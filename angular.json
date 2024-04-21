@@ -833,6 +833,96 @@
           }
         }
       }
+    },
+    "drawer": {
+      "projectType": "library",
+      "root": "projects/drawer",
+      "sourceRoot": "projects/drawer/src",
+      "prefix": "mee",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/drawer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/drawer/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/drawer/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/drawer/tsconfig.spec.json",
+            "polyfills": []
+          }
+        }
+      }
+    },
+    "hover-card": {
+      "projectType": "library",
+      "root": "projects/hover-card",
+      "sourceRoot": "projects/hover-card/src",
+      "prefix": "mee",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/hover-card/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/hover-card/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/hover-card/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/hover-card/tsconfig.spec.json",
+            "polyfills": []
+          }
+        }
+      }
+    },
+    "color-picker": {
+      "projectType": "library",
+      "root": "projects/color-picker",
+      "sourceRoot": "projects/color-picker/src",
+      "prefix": "mee",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/color-picker/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/color-picker/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/color-picker/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/color-picker/tsconfig.spec.json",
+            "polyfills": []
+          }
+        }
+      }
     }
   },
   "schematics": {

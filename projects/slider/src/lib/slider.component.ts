@@ -95,9 +95,11 @@ export class Slider implements ControlValueAccessor {
       // we need to make the percentage to be a multiple of the step
       percentage = Math.round(percentage / this.step()) * this.step();
       // update the value
-      this.value.set(percentage);
-      this.onChange(percentage);
-      this.onTouched();
+      if (percentage != this.value()) {
+        this.value.set(percentage);
+        this.onChange(percentage);
+        this.onTouched();
+      }
     } else {
       this.totalWidth = 0;
       this.totalSliderWidth = 0;

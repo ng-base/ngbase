@@ -1,8 +1,12 @@
 import { Injector, Type, inject } from '@angular/core';
 import { DialogComponent } from './dialog.component';
-import { DialogOptions, createInj, DialogRef } from './dialog-ref';
 import { first } from 'rxjs';
-import { PortalService } from '@meeui/portal';
+import {
+  PortalService,
+  DialogOptions,
+  createInj,
+  DialogRef,
+} from '@meeui/portal';
 
 export function dialogPortal() {
   const NAME = 'dialog';
@@ -11,19 +15,20 @@ export function dialogPortal() {
 
   function open<T>(component: Type<T>, opt?: DialogOptions) {
     const options = { ...new DialogOptions(), ...opt };
-    const parent = dom.createComponent(DialogComponent, injector, NAME);
+    const diaRef = new DialogRef(options, destroy, closeAll);
+    const childInjector = createInj(injector, options.data, diaRef);
+    const parent = dom.createComponent(DialogComponent, childInjector, NAME);
     parent.instance.setOptions(options);
 
     function destroy() {
       dom.deleteComponent(NAME, parent);
     }
 
-    const diaRef = new DialogRef(parent.instance, options, destroy);
     parent.changeDetectorRef.markForCheck();
 
     parent.instance.afterView.pipe(first()).subscribe((vcRef) => {
       const child = vcRef.createComponent(component, {
-        injector: createInj(injector, options.data, diaRef),
+        injector: parent.injector,
       });
       diaRef.onDestroy.subscribe(() => child.destroy());
     });

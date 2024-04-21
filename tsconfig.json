@@ -27,7 +27,10 @@
       "@meeui/sonner": ["./projects/sonner/src/public-api"],
       "@meeui/toggle": ["./projects/toggle/src/public-api"],
       "@meeui/toggle-group": ["./projects/toggle-group/src/public-api"],
-      "@meeui/sheet": ["./projects/sheet/src/public-api"]
+      "@meeui/sheet": ["./projects/sheet/src/public-api"],
+      "@meeui/drawer": ["./projects/drawer/src/public-api"],
+      "@meeui/hover-card": ["./projects/hover-card/src/public-api"],
+      "@meeui/color-picker": ["./projects/color-picker/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

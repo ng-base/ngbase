@@ -12,6 +12,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SelectOption } from './select-option.component';
 import { NgTemplateOutlet } from '@angular/common';
 import { popoverPortal } from '@meeui/popover';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'mee-select',
@@ -48,6 +49,7 @@ export class Select implements ControlValueAccessor {
   onTouched = () => {};
   popover = popoverPortal();
   popClose: () => void = () => {};
+  events = new Subject<'open' | 'close'>();
 
   constructor() {
     effect(() => {
@@ -63,13 +65,19 @@ export class Select implements ControlValueAccessor {
 
   open() {
     const el = this.inputContainer()!.nativeElement;
-    const { close } = this.popover.open(
+    const { diaRef } = this.popover.open(
       this.optionsTemplate()!,
       el,
       { width: 'target', maxHeight: '400px' },
       'bottom',
     );
-    this.popClose = close;
+    diaRef.events.subscribe(() => {
+      this.events.next('open');
+    });
+    this.popClose = () => {
+      diaRef.close();
+      this.events.next('close');
+    };
   }
 
   selectValue(value: string): void {

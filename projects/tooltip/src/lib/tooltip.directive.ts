@@ -1,5 +1,6 @@
 import { Directive, ElementRef, inject, input } from '@angular/core';
 import { tooltipPortal } from './tooltip.service';
+import { DialogPosition } from '@meeui/portal';
 
 @Directive({
   standalone: true,
@@ -11,6 +12,7 @@ import { tooltipPortal } from './tooltip.service';
 })
 export class Tooltip {
   meeTooltip = input.required<string>();
+  meeTooltipPosition = input<DialogPosition>('top');
   delay = input(0);
   el = inject(ElementRef);
   tooltip = tooltipPortal();
@@ -33,6 +35,7 @@ export class Tooltip {
     const { destroy } = this.tooltip.open(
       this.meeTooltip(),
       this.el.nativeElement,
+      this.meeTooltipPosition(),
     );
     this.destroy = destroy;
   }

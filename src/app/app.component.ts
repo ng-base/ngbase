@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { NavComponent } from './nav-header.component';
@@ -8,7 +9,7 @@ import { Checkbox } from '@meeui/checkbox';
 import { DialogClose, dialogPortal } from '@meeui/dialog';
 import { AddComponent } from './add.component';
 import { Heading } from '@meeui/typography';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Switch } from '@meeui/switch';
 import { AccordionGroup, AccordionItem } from '@meeui/accordion';
 import { Tab, TabGroup } from '@meeui/tab';
@@ -27,7 +28,9 @@ import { AppService } from './app.service';
 import { HoverCard } from '@meeui/hover-card';
 import { ColorPicker } from '@meeui/color-picker';
 import { Input } from '@meeui/input';
-import { Select, SelectOption } from '@meeui/select';
+import { Select, SelectInput, SelectOption } from '@meeui/select';
+import { Menu, MenuTrigger } from '@meeui/menu';
+import { List } from '@meeui/list';
 
 @Component({
   selector: 'app-root',
@@ -35,8 +38,10 @@ import { Select, SelectOption } from '@meeui/select';
   imports: [
     FormsModule,
     RouterOutlet,
+    ReactiveFormsModule,
     JsonPipe,
     NavComponent,
+    List,
     Button,
     Separator,
     Card,
@@ -62,6 +67,9 @@ import { Select, SelectOption } from '@meeui/select';
     Input,
     Select,
     SelectOption,
+    SelectInput,
+    MenuTrigger,
+    Menu,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -84,7 +92,18 @@ export class AppComponent {
   toggleGroup = ['A'];
   inputValue = 'Input';
   selectValue = 'Select';
+  search = new FormControl('');
+  searchChange = toSignal(this.search.valueChanges);
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
+  optionsFilter = computed(() => {
+    const search = (this.searchChange() || '').toLowerCase();
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(search),
+    );
+  });
+  primaryColor = '#3b82f6';
+  backgroundColor = '#f3f4f6';
+  foregroundColor = '#111827';
 
   inc() {
     this.count++;

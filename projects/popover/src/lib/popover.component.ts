@@ -22,6 +22,7 @@ import {
   animate,
 } from '@angular/animations';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'mee-popover',
@@ -29,7 +30,7 @@ import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
   imports: [],
   template: ` <div
       #container
-      class="pointer-events-auto absolute z-10 overflow-auto rounded-md border bg-white p-2 shadow-md"
+      class="pointer-events-auto absolute z-10 overflow-auto rounded-md border bg-white p-1 shadow-md"
       [@slideInOutAnimation]="1"
     >
       <ng-container #myDialog></ng-container>
@@ -56,13 +57,13 @@ import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 export class Popover extends BaseDialogComponent implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
-  backdropColor = false;
+  vv = inject(ViewContainerRef);
+  document = inject(DOCUMENT);
   options!: DialogOptions;
-  classNames = '';
-  isHideHeader = false;
   target!: HTMLElement;
-  el = inject(ElementRef);
   position: DialogPosition = 'top';
+  private lastPosition: DialogPosition = 'top';
+
   events: Observable<{ type: string; value: any }> = this._afterViewSource.pipe(
     switchMap((e) => {
       const el = this.container()!.nativeElement;
@@ -84,7 +85,11 @@ export class Popover extends BaseDialogComponent implements OnDestroy {
     super();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
+      this.lastPosition = this.position;
       const el = this.container()!.nativeElement;
+      if (this.options.backdrop) {
+        this.document.body.style.overflow = 'hidden';
+      }
       if (this.options.width === 'target') {
         // update the width of the container to be the same as the target
         el.style.width = `${this.target.offsetWidth}px`;
@@ -99,26 +104,39 @@ export class Popover extends BaseDialogComponent implements OnDestroy {
       }
 
       this.updateDimension();
-      window.addEventListener('wheel', this.updateDimension);
+      if (!this.options.backdrop) {
+        window.addEventListener('wheel', this.updateDimension);
+      }
     });
   }
 
   private updateDimension = () => {
-    const el = this.container()!.nativeElement;
-    const { top, left } = tooltipPosition(this.target, el, this.position);
-    // we need to update the values directly instead of signal to avoid too many CD checks
-    el.style.top = `${top}px`;
-    el.style.left = `${left}px`;
+    requestAnimationFrame(() => {
+      const el = this.container()!.nativeElement;
+      const { top, left, bottom, position } = tooltipPosition(
+        this.target,
+        el,
+        this.lastPosition,
+      );
+      this.lastPosition = position;
+      // we need to update the values directly instead of signal to avoid too many CD checks
+      if (bottom) {
+        el.style.bottom = `${bottom}px`;
+        el.style.top = '';
+      } else if (top) {
+        el.style.top = `${top}px`;
+        el.style.bottom = '';
+      }
+      el.style.left = `${left}px`;
+    });
   };
 
   override setOptions(options: DialogOptions): void {
     this.options = options;
-    this.classNames = this.options.classNames?.join(' ') || '';
-    this.isHideHeader = this.options.isHideHeader || false;
-    this.backdropColor = this.options.backdropColor || true;
   }
 
   ngOnDestroy(): void {
     window.removeEventListener('wheel', this.updateDimension);
+    this.document.body.style.overflow = '';
   }
 }

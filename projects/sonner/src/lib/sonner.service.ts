@@ -1,14 +1,12 @@
-import { Injector, Type, inject } from '@angular/core';
-import { PortalService } from '@meeui/portal';
+import { basePortal } from '@meeui/portal';
 import { Sonner } from './sonner.component';
 
 export function sonnerPortal() {
-  const dom = inject(PortalService);
-  const injector = inject(Injector);
+  const NAME = 'sonner';
+  const base = basePortal(NAME, Sonner);
 
   function open<T>() {
-    const d = Sonner as Type<Sonner>;
-    const parent = dom.createComponent(d, injector, 'sonner');
+    const { parent } = base.open();
     return parent.instance;
   }
 

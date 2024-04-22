@@ -21,10 +21,10 @@ export class PopoverTrigger {
   close: () => void = () => {};
 
   open() {
-    const { close } = this.popoverPortal.open(
+    const { diaRef } = this.popoverPortal.open(
       this.meePopoverTrigger(),
       this.el.nativeElement,
     );
-    this.close = close;
+    this.close = diaRef.close;
   }
 }

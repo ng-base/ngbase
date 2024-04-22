@@ -15,3 +15,4 @@ export {
 export { tooltipPosition } from './lib/utils';
 export * from './lib/dialog-close.directive';
 export * from './lib/container.component';
+export * from './lib/portal-base.service';

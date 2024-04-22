@@ -6,7 +6,15 @@ import {
 } from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
-export type DialogPosition = 'top' | 'bottom' | 'left' | 'right';
+export type DialogPosition =
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'tl'
+  | 'tr'
+  | 'bl'
+  | 'br';
 
 export abstract class BaseDialogComponent {
   dialogRef = inject(DialogRef);
@@ -32,6 +40,8 @@ export class DialogRef<T = any> {
 
   private afterClosedSource = new Subject<any>();
   afterClosed = this.afterClosedSource.asObservable();
+
+  events = new Subject<'created'>();
 
   constructor(
     public options: DialogOptions,

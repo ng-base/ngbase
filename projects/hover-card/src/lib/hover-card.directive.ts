@@ -29,14 +29,14 @@ export class HoverCard {
       return;
     }
     this.inTimer = setTimeout(() => {
-      const { close, events } = this.popoverPortal.open(
+      const { diaRef, events } = this.popoverPortal.open(
         this.meeHoverCard(),
         this.el.nativeElement,
         {
           backdrop: false,
         },
       );
-      this.close = close;
+      this.close = diaRef.close;
       events.subscribe((e) => {
         if (e.type === 'mouseleave') {
           this.closePopup();
@@ -59,6 +59,6 @@ export class HoverCard {
       this.close?.();
       this.close = null;
       this.outTimer = null;
-    }, 700);
+    }, 500);
   }
 }

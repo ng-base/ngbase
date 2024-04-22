@@ -9,42 +9,82 @@
 
 import { DialogPosition } from './dialog-ref';
 
+const positionSwap: Record<DialogPosition, DialogPosition> = {
+  top: 'bottom',
+  bottom: 'top',
+  left: 'right',
+  right: 'left',
+  tl: 'bl',
+  tr: 'br',
+  bl: 'tl',
+  br: 'tr',
+};
+
 export function tooltipPosition(
   target: HTMLElement,
   el: HTMLElement,
   priority: DialogPosition = 'bottom',
-): { top: number; left: number } {
+  offset = 5,
+): { top: number; left: number; bottom: number; position: DialogPosition } {
+  console.log('target', priority);
+  let position: DialogPosition = priority;
   const { top, left, width, height } = target.getBoundingClientRect();
   const { width: elWidth, height: elHeight } = el.getBoundingClientRect();
-  let tTop = top - elHeight - 5;
+  let tTop = top - elHeight - offset;
   let tLeft = left + width / 2 - elWidth / 2;
   // we need to check whether the tooltip is overflowing the viewport on top
   // if so, we need to adjust the top position
+  const isTop = tTop < 0;
+
   if (tTop < 0) {
-    tTop = top + height + 5;
+    tTop = top + height + offset;
+    position = 'bottom';
   } else if (priority === 'bottom') {
-    tTop = top + height + 5;
+    tTop = top + height + offset;
+  } else if (priority === 'left' || priority === 'right') {
+    tTop = top - elHeight / 2 + height / 2;
+  } else if (priority === 'br' || priority === 'bl') {
+    tTop = top + height + offset;
   }
   // we need to check whether the tooltip is overflowing the viewport on bottom
   // if so, we need to adjust the top position
-  if (tTop + elHeight > window.innerHeight) {
-    tTop = top - elHeight - 5;
-  } else if (priority === 'top') {
-    tTop = top - elHeight - 5;
+  if (!isTop && tTop + elHeight > window.innerHeight) {
+    tTop = top - elHeight - offset;
+    position = positionSwap[priority];
+    if (priority === 'top') {
+      tTop = top - elHeight - offset;
+    } else if (priority === 'tr' || priority === 'tl') {
+      tTop = top;
+    }
   }
   // we need to check whether the tooltip is overflowing the viewport on left
   // if so, we need to adjust the left position
   if (tLeft < 0) {
     tLeft = 0;
+  } else if (priority === 'left') {
+    tLeft = left - elWidth - offset;
   } else if (priority === 'right') {
-    tLeft = left - elWidth - 5;
+    tLeft = left + width + offset;
+  } else if (priority === 'tr' || priority === 'br') {
+    tLeft = left + width + offset;
   }
   // we need to check whether the tooltip is overflowing the viewport on right
   // if so, we need to adjust the left position
   if (tLeft + elWidth > window.innerWidth) {
     tLeft = window.innerWidth - elWidth;
-  } else if (priority === 'left') {
-    tLeft = left + width + 5;
+    if (priority === 'left') {
+      tLeft = left + width + offset;
+    } else if (priority === 'bl') {
+      tLeft = left - elWidth + width;
+    } else if (priority === 'tl' || priority === 'tr') {
+      tLeft = left - elWidth - offset;
+    }
+  } else if (priority === 'bl' || priority === 'tl') {
+    tLeft = left;
   }
-  return { top: tTop, left: tLeft };
+  let bottom = 0;
+  if (position === 'top') {
+    bottom = window.innerHeight - tTop - elHeight;
+  }
+  return { top: tTop, bottom, left: tLeft, position };
 }

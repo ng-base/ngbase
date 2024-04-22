@@ -14,4 +14,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     class: 'block w-full rounded-md p-2 text-left hover:bg-gray-100',
   },
 })
-export class ListComponent {}
+export class List {}

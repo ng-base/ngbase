@@ -1,20 +1,23 @@
-import { inject, Injector } from '@angular/core';
-import { PortalService } from '../../../portal/src/lib/portal.service';
 import { TooltipComponent } from './tooltip.component';
+import { DialogPosition, basePortal } from '@meeui/portal';
 
 export function tooltipPortal() {
   const NAME = 'tooltip';
-  const dom = inject(PortalService);
-  const injector = inject(Injector);
+  const base = basePortal(NAME, TooltipComponent);
 
-  function open(content: string, target: HTMLElement) {
-    const d = TooltipComponent;
-    const parent = dom.createComponent(d, injector, NAME);
-    parent.instance.content = content;
-    parent.instance.target = target;
+  function open(
+    content: string,
+    target: HTMLElement,
+    position?: DialogPosition,
+  ) {
+    const { diaRef, parent } = base.open(undefined, (comp) => {
+      comp.instance.content = content;
+      comp.instance.target = target;
+      comp.instance.position = position || 'top';
+    });
 
     function destroy() {
-      dom.deleteComponent(NAME, parent);
+      diaRef.close();
     }
 
     return { destroy, parent };

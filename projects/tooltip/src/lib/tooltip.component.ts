@@ -13,7 +13,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { tooltipPosition } from '@meeui/portal';
+import { DialogPosition, tooltipPosition } from '@meeui/portal';
 
 @Component({
   selector: 'mee-tooltip',
@@ -44,11 +44,12 @@ export class TooltipComponent {
   top = signal(0);
   left = signal(0);
   el = inject(ElementRef);
+  position: DialogPosition = 'top';
 
   constructor() {
     afterNextRender(() => {
       const el = this.el.nativeElement;
-      const { top, left } = tooltipPosition(this.target, el, 'top');
+      const { top, left } = tooltipPosition(this.target, el, this.position);
       this.top.set(top);
       this.left.set(left);
     });

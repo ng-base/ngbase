@@ -1,5 +1,9 @@
-import { TemplateRef, Type } from '@angular/core';
-import { DialogOptions, DialogPosition, basePortal } from '@meeui/portal';
+import {
+  DialogInput,
+  DialogOptions,
+  DialogPosition,
+  basePortal,
+} from '@meeui/portal';
 import { Popover } from './popover.component';
 
 export function popoverPortal() {
@@ -7,7 +11,7 @@ export function popoverPortal() {
   const base = basePortal(NAME, Popover);
 
   function open<T>(
-    component: Type<T> | TemplateRef<T>,
+    component: DialogInput,
     target: HTMLElement,
     opt?: DialogOptions,
     priority?: DialogPosition,

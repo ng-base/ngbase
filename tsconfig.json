@@ -31,7 +31,8 @@
       "@meeui/drawer": ["./projects/drawer/src/public-api"],
       "@meeui/hover-card": ["./projects/hover-card/src/public-api"],
       "@meeui/color-picker": ["./projects/color-picker/src/public-api"],
-      "@meeui/keys": ["./projects/keys/src/public-api"]
+      "@meeui/keys": ["./projects/keys/src/public-api"],
+      "@meeui/radio": ["./projects/radio/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

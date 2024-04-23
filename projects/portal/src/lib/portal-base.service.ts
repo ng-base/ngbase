@@ -15,14 +15,16 @@ import {
 } from './dialog-ref';
 import { PortalService } from './portal.service';
 
+export type DialogInput = Type<any> | TemplateRef<any>;
+
 export function basePortal<U>(name: string, baseComponent: Type<U>) {
   const NAME = name;
   const dom = inject(PortalService);
   const injector = inject(Injector);
-  const keyManager = inject(Keys);
+  const keyManager = new Keys();
 
   function open<T>(
-    component?: Type<T> | TemplateRef<T>,
+    component?: DialogInput,
     callback?: (comp: ComponentRef<U>) => void,
     opt?: DialogOptions,
   ) {
@@ -42,7 +44,10 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     }
 
     // close on esc
-    sub = keyManager.event('esc').subscribe(() => {
+    sub = keyManager.event('esc').subscribe(([_, ev]) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
       diaRef.close();
     });
 

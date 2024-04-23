@@ -81,6 +81,9 @@
             "styles": ["src/styles.scss"],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     },
@@ -949,6 +952,36 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "projects/keys/tsconfig.spec.json",
+            "polyfills": []
+          }
+        }
+      }
+    },
+    "radio": {
+      "projectType": "library",
+      "root": "projects/radio",
+      "sourceRoot": "projects/radio/src",
+      "prefix": "mee",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/radio/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/radio/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/radio/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/radio/tsconfig.spec.json",
             "polyfills": []
           }
         }

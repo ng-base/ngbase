@@ -9,7 +9,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class Keys {
   private keyup$ = fromEvent<KeyboardEvent>(document, 'keyup');
   private keydown$ = fromEvent<KeyboardEvent>(document, 'keydown');

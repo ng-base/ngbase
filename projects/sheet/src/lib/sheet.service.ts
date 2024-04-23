@@ -1,12 +1,11 @@
-import { Type } from '@angular/core';
-import { DialogOptions, basePortal } from '@meeui/portal';
+import { DialogInput, DialogOptions, basePortal } from '@meeui/portal';
 import { SheetComponent } from './sheet.component';
 
 export function sheetPortal() {
   const NAME = 'sheet';
   const base = basePortal(NAME, SheetComponent);
 
-  function open<T>(component: Type<T>, opt?: DialogOptions) {
+  function open<T>(component: DialogInput, opt?: DialogOptions) {
     const { diaRef } = base.open(
       component,
       (comp) => {

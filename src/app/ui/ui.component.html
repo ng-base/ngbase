@@ -6,6 +6,7 @@
       <mee-separator></mee-separator>
       <h4>Primary Color</h4>
       <mee-color-picker [(ngModel)]="primaryColor"></mee-color-picker>
+      <!-- <mee-color-picker-2></mee-color-picker-2> -->
     </mee-card>
     <mee-card id="cardPage">
       <h4 meeHeader>Heading 1</h4>
@@ -49,15 +50,33 @@
 
       <h4 meeHeader class="mt-10" id="selectPage">Select</h4>
       <mee-select [(ngModel)]="selectValue" class="w-full">
-        <!-- <input
+        <input
           meeSelectInput
           placeholder="Search options"
           [formControl]="search"
-        /> -->
+        />
         @for (item of optionsFilter(); track item) {
           <mee-select-option [value]="item">{{ item }}</mee-select-option>
         }
       </mee-select>
+
+      <h4 meeHeader class="mt-10" id="autocompletePage">Autocomplete</h4>
+      {{ selectValue }}
+      <mee-autocomplete
+        [(ngModel)]="selectValue"
+        class="w-full"
+        [multiple]="true"
+      >
+        <!-- <input placeholder="Search options" [formControl]="search" /> -->
+        @for (item of optionsFilter(); track item) {
+          <mee-select-option [value]="item">{{ item }}</mee-select-option>
+        }
+      </mee-autocomplete>
+
+      <h4 meeHeader class="mt-10" id="calendarPagePage">Calendar</h4>
+      <mee-date-picker class="w-full"></mee-date-picker>
+      <h4 meeHeader class="mt-10" id="datepickerPage">Datepicker</h4>
+      <button meeButton meeDatepickerTrigger>Open datepicker</button>
 
       <h4 meeHeader class="mt-10" id="dialogPage">Dialog</h4>
       <button meeButton (click)="open()">submit</button>
@@ -80,6 +99,14 @@
         <button meeList>Team</button>
         <button meeList>New Team</button>
       </mee-menu>
+
+      <h4 meeHeader class="mt-10" id="contextMenuPage">Context Menu</h4>
+      <mee-card
+        class="grid h-44 place-items-center"
+        [meeContextMenu]="menuContainer"
+      >
+        Right click to open context menu
+      </mee-card>
 
       <h4 meeHeader class="mt-10" id="popoverPage">Popover</h4>
       <button meeButton (click)="openPopover($event)" class="mr-4">
@@ -167,7 +194,7 @@
       <mee-progress [percentage]="percentage"></mee-progress>
 
       <h4 meeHeader class="mt-10" id="resizablePage">Resizable</h4>
-      <mee-resizable-group class="rounded-lg border">
+      <mee-resizable-group class="rounded-lg border border-border">
         <mee-resizable [size]="30">
           <div class="flex h-[200px] w-full items-center justify-center">
             Resizable 1

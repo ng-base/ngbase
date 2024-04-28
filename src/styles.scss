@@ -8,31 +8,39 @@ html {
 }
 
 body {
-  @apply bg-bg min-h-screen;
+  @apply bg-background min-h-screen;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "slnt" 0;
+  color: rgb(var(--text));
 }
 
 :root {
-  --color-text-muted: 113, 113, 122;
-  --color-primary: 0, 0, 0;
-  // #f4f4f5
-  --color-gray: 244, 244, 245;
-  // #004f4f
-  // --color-primary: 0, 79, 79;
-  // yellow
-  // --color-primary: 255, 215, 0;
-  // #f4f4f5
-  --color-bg: 244, 244, 245;
-  // #ffffff
-  --color-fg: 255, 255, 255;
+  --primary: 14, 165, 233;
+  --background: 244, 244, 245;
+  --foreground: 255, 255, 255;
+  --muted: 113, 113, 122;
+  --text: 24, 24, 27;
+  --border: 228, 228, 231;
+  --lighter: 243, 244, 246;
+  --input: 243, 244, 246;
+}
+
+.dark {
+  --muted: 161, 161, 170;
+  // --color-primary: 15, 114, 255;
+  --text: 255, 255, 255;
+  --background: 0, 0, 0;
+  --foreground: 24, 24, 27;
+  --border: 39, 39, 42;
+  --lighter: 39, 39, 42;
+  --input: 39, 39, 42;
 }
 
 @layer components {
   .mee-header {
-    @apply bg-fg text-white;
+    @apply bg-foreground text-white;
   }
 }
 

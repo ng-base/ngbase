@@ -8,13 +8,16 @@ import { Card } from '@meeui/card';
   imports: [List, Card],
   template: `
     <mee-card>
-      <a meeList href="#" disabled>Autocomplete</a>
+      <a meeList href="#autocompletePage">Autocomplete</a>
       <a meeList href="#accordionPage">Accordion</a>
       <a meeList href="#buttonPage">Button</a>
       <a meeList href="#cardPage">Card</a>
       <a meeList href="#colorPickerPage">Color Picker</a>
+      <a meeList href="#calendarPage">Calendar</a>
       <a meeList href="#checkboxPage">Checkbox</a>
-      <a meeList href="#dialogPage">Dialog</a>
+      <a meeList href="#contextMenuPage">Context Menu</a>
+      <a meeList href="#datepickerPage">Datepicker</a>
+      <a meeList href="/#dialogPage">Dialog</a>
       <a meeList href="#drawerPage">Drawer</a>
       <a meeList href="#headingPage">Heading</a>
       <a meeList href="#hoverCardPage">Hover Card</a>

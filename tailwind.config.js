@@ -4,11 +4,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: withOpacity("--color-primary"),
-        muted: withOpacity("--color-text-muted"),
+        primary: withOpacity("--primary"),
+        muted: withOpacity("--muted"),
         gy: withOpacity("--color-gray"),
-        bg: withOpacity("--color-bg"),
-        fg: withOpacity("--color-fg"),
+        background: withOpacity("--background"),
+        foreground: withOpacity("--foreground"),
+        border: withOpacity("--border"),
+        lighter: withOpacity("--lighter"),
+        text: withOpacity("--text"),
+        input: withOpacity("--input"),
         secondary: {
           100: "#E2E2D5",
           200: "#888883",

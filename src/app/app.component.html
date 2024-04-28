@@ -1,6 +1,12 @@
-<nav class="w-full border-b bg-primary p-4">
+<nav class="border-border w-full border-b bg-primary p-4">
   <div class="flex h-full items-center justify-between">
     <div class="text-lg text-white">Mee UI</div>
+    <div>
+      <a meeButton routerLink="/json-view" class="mr-4 text-white">Json</a>
+      <a meeButton routerLink="/ui" class="text-white">UI</a>
+      <a meeButton routerLink="/ui-test" class="text-white">UI Test</a>
+      <a meeButton class="text-white" (click)="themeService.toggle()">Theme</a>
+    </div>
   </div>
 </nav>
 

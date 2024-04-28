@@ -26,12 +26,14 @@ import { PopoverTrigger, popoverPortal } from '@meeui/popover';
 import { drawerPortal } from '@meeui/drawer';
 import { AppService } from '../app.service';
 import { HoverCard } from '@meeui/hover-card';
-import { ColorPicker } from '@meeui/color-picker';
+import { ColorPicker, ColorPicker2 } from '@meeui/color-picker';
 import { Input } from '@meeui/input';
 import { Select, SelectInput, SelectOption } from '@meeui/select';
-import { Menu, MenuTrigger } from '@meeui/menu';
+import { Menu, MenuTrigger, ContextMenu } from '@meeui/menu';
 import { List } from '@meeui/list';
 import { Radio, RadioGroup } from '@meeui/radio';
+import { Autocomplete } from '@meeui/autocomplete';
+import { DatePickerComponent, DatepickerTrigger } from '@meeui/datepicker';
 
 @Component({
   standalone: true,
@@ -76,6 +78,11 @@ import { Radio, RadioGroup } from '@meeui/radio';
     Menu,
     Radio,
     RadioGroup,
+    Autocomplete,
+    ColorPicker2,
+    DatePickerComponent,
+    DatepickerTrigger,
+    ContextMenu,
   ],
 })
 export class UiComponent {
@@ -94,7 +101,7 @@ export class UiComponent {
   toggle = false;
   toggleGroup = ['A'];
   inputValue = 'Input';
-  selectValue = 'Select';
+  selectValue = 'Option 1';
   radioValue = '1';
   search = new FormControl('');
   searchChange = toSignal(this.search.valueChanges);
@@ -128,11 +135,11 @@ export class UiComponent {
   }
 
   openPopover(event: MouseEvent) {
-    this.popoverPortal.open(AddComponent, event.target as HTMLElement, {
-      width: '25rem',
-      title: 'Add',
-      backdrop: false,
-    });
+    this.popoverPortal.open(
+      AddComponent,
+      { target: event.target as HTMLElement },
+      { width: '25rem', title: 'Add', backdrop: false },
+    );
   }
 
   openDrawer() {

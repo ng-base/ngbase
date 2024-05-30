@@ -8,7 +8,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   template: `<ng-content></ng-content>`,
   host: {
     class: 'block w-9 h-9 rounded relative',
-    '[class.bg-gy]': 'value',
+    '[class.bg-background]': 'value',
     '(click)': 'toggle()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +33,7 @@ export class Toggle implements ControlValueAccessor {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void {
+  registerOnTouched(fn: VoidFunction): void {
     this.onTouched = fn;
   }
 

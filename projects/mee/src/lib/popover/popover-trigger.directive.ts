@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { popoverPortal } from './popover.service';
+import { DialogPosition } from '../portal';
 
 @Directive({
   standalone: true,
@@ -15,15 +16,18 @@ import { popoverPortal } from './popover.service';
   },
 })
 export class PopoverTrigger {
+  meePopoverTrigger = input.required<TemplateRef<any>>();
   popoverPortal = popoverPortal();
   el = inject<ElementRef<HTMLElement>>(ElementRef);
-  meePopoverTrigger = input.required<TemplateRef<any>>();
-  close: () => void = () => {};
+  options = input<{ position?: DialogPosition; anchor?: boolean }>();
+  close: VoidFunction = () => {};
 
   open() {
+    const options = this.options();
     const { diaRef } = this.popoverPortal.open(this.meePopoverTrigger(), {
       target: this.el.nativeElement,
-      position: 'top',
+      anchor: options?.anchor,
+      position: options?.position || 'top',
     });
     this.close = diaRef.close;
   }

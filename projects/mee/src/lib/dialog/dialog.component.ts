@@ -4,48 +4,65 @@ import {
   ChangeDetectionStrategy,
   viewChild,
   afterNextRender,
+  signal,
 } from '@angular/core';
-import { BaseDialogComponent, DialogOptions } from '../portal';
-import { NgStyle } from '@angular/common';
+import { BaseDialog, DialogOptions } from '../portal';
+import { NgClass, NgStyle } from '@angular/common';
 import { NguModalViewAnimation, fadeAnimation } from './dialog.animation';
 import { Separator } from '../separator';
 import { Button } from '../button';
+import { Subject } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [NgStyle, Separator, Button],
+  imports: [NgStyle, Separator, Button, NgClass],
   selector: 'mee-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
       <div
-        class="bg-foreground pointer-events-auto flex flex-col overflow-hidden rounded-md border border-border p-4 shadow-2xl"
-        [class]="options.fullWindow ? 'full-window' : ''"
-        [ngStyle]="{ width: options.width }"
-        [@viewAnimation]
+        class="pointer-events-auto relative flex flex-col overflow-hidden rounded-base border border-border bg-foreground"
+        [ngClass]="[options.fullWindow ? 'full-window' : '', classNames]"
+        [ngStyle]="{
+          width: options.width,
+          maxWidth: options.maxWidth,
+          maxHeight: options.maxHeight || '96vh'
+        }"
+        [@viewAnimation]="status() ? 1 : 0"
       >
         @if (!isHideHeader) {
-          <div class="bg-secondary-background flex h-8 items-center">
-            <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton (click)="close()" class="mr-1"></button>
+          <div class="bg-secondary-background flex items-center px-b pb-h pt-b">
+            <h2 class="flex-1 text-base font-bold">{{ options.title }}</h2>
           </div>
         }
-        <div class="h-full overflow-auto">
+        @if (!options.disableClose) {
+          <button
+            meeButton
+            variant="ghost"
+            (click)="close()"
+            class="absolute right-1 top-h mr-1"
+          >
+            X
+          </button>
+        }
+        <div class="h-full overflow-auto p-b">
           <ng-container #myDialog></ng-container>
         </div>
       </div>
+      @if (!options.fullWindow && options.backdrop) {
+        <div
+          class="backdropColor pointer-events-auto absolute top-0 -z-10 h-full w-full"
+          (click)="!options.disableClose && close()"
+          [@fadeAnimation]="status() ? 1 : 0"
+          (@fadeAnimation.done)="animationDone()"
+        ></div>
+      }
     </div>
-    @if (backdropColor && !options.fullWindow) {
-      <div
-        class="backdropColor absolute top-0 -z-10 h-full w-full"
-        (click)="close()"
-        [@fadeAnimation]
-      ></div>
-    }
   `,
   host: {
     '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto',
+    class:
+      'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none',
   },
   styles: `
     .backdropColor {
@@ -63,7 +80,7 @@ import { Button } from '../button';
   `,
   animations: [NguModalViewAnimation, fadeAnimation],
 })
-export class DialogComponent extends BaseDialogComponent {
+export class Dialog extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
 
   backdropColor = true;
@@ -72,12 +89,20 @@ export class DialogComponent extends BaseDialogComponent {
   options!: DialogOptions;
   classNames = '';
   isHideHeader = false;
+  onDone = new Subject<any>();
 
   constructor() {
     super();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
+
+      // setTimeout(() => {
+      //   this.show.set(false);
+      // }, 2000);
     });
+    // this.dialogRef.afterClosed.subscribe(() => {
+    //   this.status.set(false);
+    // });
   }
 
   override setOptions(options: DialogOptions) {

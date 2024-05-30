@@ -3,6 +3,7 @@ import {
   Injector,
   ViewContainerRef,
   inject,
+  signal,
 } from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
@@ -16,53 +17,68 @@ export type DialogPosition =
   | 'bl'
   | 'br';
 
-export abstract class BaseDialogComponent {
+export abstract class BaseDialog {
   dialogRef = inject(DialogRef);
 
   _afterViewSource = new BehaviorSubject<ViewContainerRef | null>(null);
   afterView = this._afterViewSource.asObservable().pipe(filter(Boolean));
 
-  animationCompleted$ = new Subject<boolean>();
+  target = signal<HTMLElement | null>(null);
+
+  status = this.dialogRef.status;
 
   setOptions(options: DialogOptions): void {}
 
   close() {
     this.dialogRef.close();
   }
+
+  animationDone() {
+    if (!this.status()) {
+      this.dialogRef.destroy();
+    }
+  }
 }
 
 export class DialogRef<T = any> {
-  data: T = this.options.data;
+  data = this.options.data;
   private backdropSub: Subscription | null = null;
 
   private onDestroySource = new Subject();
   onDestroy = this.onDestroySource.asObservable().pipe(first());
 
   private afterClosedSource = new Subject<any>();
-  afterClosed = this.afterClosedSource.asObservable();
+  afterClosed = this.afterClosedSource.asObservable().pipe(first());
 
   events = new Subject<'created'>();
 
+  status = signal(true);
+
   constructor(
-    public options: DialogOptions,
-    private destroyParent: () => void,
-    private closeAllFn: () => void,
+    public options: DialogOptions<T>,
+    private destroyParent: VoidFunction,
+    private closeAllFn: VoidFunction,
+    private animation = true,
   ) {}
 
   close = (data?: any) => {
+    this.status.set(false);
     this.afterClosedSource.next(data);
-    this.destroy();
+    if (!this.animation) {
+      this.destroy();
+    }
   };
 
   closeAll() {
     this.closeAllFn();
   }
 
-  private destroy() {
+  destroy() {
     this.backdropSub?.unsubscribe();
     this.afterClosedSource.complete();
     this.onDestroySource.next(false);
     this.destroyParent();
+    console.log('destroyed parent');
   }
 }
 
@@ -70,20 +86,22 @@ export class DialogTestingRef {
   close() {}
 }
 
-export class DialogOptions {
+export class DialogOptions<T = any> {
   backdrop? = true;
   backdropColor? = true;
   hideOverlay? = false;
-  data?: any;
+  data?: T;
   isSidePopup? = false;
   title?: string;
   fullWindow?: boolean;
   width?: string;
   height?: string;
+  maxWidth?: string;
   maxHeight?: string;
   classNames?: string[] = [];
   isHideHeader?: boolean;
   overrideLowerDialog?: boolean = false;
+  disableClose? = false;
 }
 
 export const DIALOG_INJ = new InjectionToken('dialogInj');

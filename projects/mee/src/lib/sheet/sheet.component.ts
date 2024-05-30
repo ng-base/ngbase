@@ -5,28 +5,37 @@ import {
   afterNextRender,
   viewChild,
 } from '@angular/core';
-import { BaseDialogComponent, DialogOptions } from '../portal';
+import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
 import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
+import { Button } from '../button';
 
 @Component({
   selector: 'mee-sheet',
   standalone: true,
-  imports: [NgStyle],
+  imports: [NgStyle, Button],
   template: `
     <div class="pointer-events-none flex h-full justify-end">
       <div
-        class="bg-foreground pointer-events-auto flex flex-col overflow-hidden rounded-md border-l border-border p-4 shadow-2xl"
+        class="pointer-events-auto flex flex-col overflow-hidden border-l border-border bg-foreground shadow-2xl"
         [ngStyle]="{ width: options.width }"
-        [@sideAnimation]="true"
+        [@sideAnimation]="status() ? 1 : 0"
+        (@sideAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
-          <div class="bg-secondary-background flex h-8 items-center">
+          <div class="bg-secondary-background flex items-center px-b py-h">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton (click)="close()" class="mr-1"></button>
+            <button
+              meeButton
+              variant="ghost"
+              (click)="close()"
+              class="small mr-1"
+            >
+              x
+            </button>
           </div>
         }
-        <div class="h-full overflow-auto">
+        <div class="h-full overflow-auto p-b">
           <ng-container #myDialog></ng-container>
         </div>
       </div>
@@ -34,8 +43,9 @@ import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
     @if (backdropColor) {
       <div
         class="backdropColor absolute top-0 -z-10 h-full w-full"
+        [class]="status() ? 'pointer-events-auto' : 'pointer-events-none'"
         (click)="close()"
-        [@fadeAnimation]
+        [@fadeAnimation]="status() ? 1 : 0"
       ></div>
     }
   `,
@@ -52,7 +62,7 @@ import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [sideAnimation, fadeAnimation],
 })
-export class SheetComponent extends BaseDialogComponent {
+export class Sheet extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;

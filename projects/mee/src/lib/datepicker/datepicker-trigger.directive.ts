@@ -1,6 +1,7 @@
-import { Directive, ElementRef, inject } from '@angular/core';
+import { Directive, ElementRef, inject, input } from '@angular/core';
 import { popoverPortal } from '../popover';
-import { DatePickerComponent } from './datepicker.component';
+import { DatePicker } from './datepicker.component';
+import { Input } from '../input';
 
 @Directive({
   standalone: true,
@@ -10,17 +11,30 @@ import { DatePickerComponent } from './datepicker.component';
   },
 })
 export class DatepickerTrigger {
+  datepicker = input<DatePicker>();
+  noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
+  range = input(false);
+  inputS = inject(Input);
+  pickerType = input<'date' | 'month' | 'year'>('date');
+
   constructor() {}
 
   el = inject(ElementRef);
   popover = popoverPortal();
-  close: () => void = () => {};
+  close: VoidFunction = () => {};
 
   open() {
     const { diaRef } = this.popover.open(
-      DatePickerComponent,
-      { target: this.el.nativeElement, position: 'bl' },
-      { maxHeight: '400px' },
+      DatePicker,
+      { target: this.el.nativeElement, position: 'bottom' },
+      {
+        maxHeight: '400px',
+        data: {
+          pickerType: this.pickerType(),
+          noOfCalendars: this.noOfCalendars(),
+          range: this.range(),
+        },
+      },
     );
     this.close = diaRef.close;
   }

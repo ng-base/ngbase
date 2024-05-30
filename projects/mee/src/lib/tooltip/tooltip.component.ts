@@ -23,7 +23,7 @@ import { DialogPosition, tooltipPosition } from '../portal';
   styles: ``,
   host: {
     class:
-      'fixed inline-block rounded bg-primary px-2 py-0.5 text-white text-sm',
+      'fixed inline-block rounded-base bg-text px-3 py-1.5 text-background text-xs',
     '[style.top.px]': 'top()',
     '[style.left.px]': 'left()',
     '[@slideInOutAnimation]': '1',

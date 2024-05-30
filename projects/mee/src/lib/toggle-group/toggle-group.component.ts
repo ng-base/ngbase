@@ -31,7 +31,7 @@ export class ToggleGroup implements ControlValueAccessor {
   multiple = input(true);
   toggleItems = contentChildren(ToggleItem);
   subscriptions = new Subscription();
-  value!: any[];
+  value: any[] = [];
   onChange = (value: any) => {};
   onTouched = () => {};
 
@@ -74,7 +74,7 @@ export class ToggleGroup implements ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value = value || [];
   }
 
   registerOnChange(fn: any): void {

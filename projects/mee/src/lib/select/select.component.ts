@@ -12,31 +12,50 @@ import {
   computed,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SelectOption } from './select-option.component';
+import { Option } from './option.component';
 import { NgTemplateOutlet } from '@angular/common';
 import { popoverPortal } from '../popover';
 import { Subject } from 'rxjs';
-import { InputStyle } from '../input/input.directive';
+import { InputStyle } from '../input/input-style.directive';
+import { Icons } from '../icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronsUpDown } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-select',
   standalone: true,
-  imports: [NgTemplateOutlet, InputStyle],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet, InputStyle, Icons],
   template: `
-    <input
+    <button
       #inputContainer
       meeInputStyle
-      class="readonly"
+      role="combobox"
+      class="flex w-full items-center justify-between whitespace-nowrap font-medium"
+      (click)="open()"
+    >
+      <span class="truncate" [class.text-muted]="!cValue()">{{
+        cValue() || placeholder()
+      }}</span>
+      <!-- <input
+      #inputContainer
+      meeInputStyle
+      class="readonly w-full font-medium"
       readonly
       (click)="open()"
       [value]="cValue()"
-    />
+      [placeholder]="placeholder()"
+    /> -->
+      <mee-icon name="lucideChevronsUpDown" class="text-muted"></mee-icon>
+    </button>
     <ng-template #options>
       <ng-content></ng-content>
     </ng-template>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'block',
+  },
+  viewProviders: [provideIcons({ lucideChevronsUpDown })],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -46,31 +65,43 @@ import { InputStyle } from '../input/input.directive';
   ],
 })
 export class Select implements ControlValueAccessor {
-  selectOption = contentChildren(SelectOption);
+  selectOptions = contentChildren(Option, { descendants: true });
   optionsTemplate = viewChild('options', { read: TemplateRef });
   inputContainer = viewChild<ElementRef>('inputContainer');
   multiple = input<boolean>(false);
+  placeholder = input<string>('');
+  size = input<'target' | 'free'>('target');
   value = signal<any[]>([]);
   cValue = computed(() => {
-    const value = this.value()?.filter(
+    const multiple = this.multiple();
+    const options = this.selectOptions();
+    const filtered = this.value()?.filter(
       (x) => x !== undefined && x !== null && x !== '',
     );
-    console.log(value);
+
+    const values = options.reduce((acc, option) => {
+      if (filtered?.includes(option.value())) {
+        acc.push(option.label());
+      }
+      return acc;
+    }, [] as string[]);
+
+    // console.log(values);
     // if the value is greater than 1, then take the first value and add a plus sign with the length of the remaining values
-    if (value.length > 1) {
-      return `${value[0]} (+${value.length - 1})`;
+    if (multiple && values.length > 1) {
+      return `${values[0]} (+${values.length - 1})`;
     }
-    return value[0];
+    return values[0] || '';
   });
   onChange = (value: string) => {};
   onTouched = () => {};
   popover = popoverPortal();
-  popClose: () => void = () => {};
+  popClose: VoidFunction = () => {};
   events = new Subject<'open' | 'close'>();
 
   constructor() {
     effect(() => {
-      const options = this.selectOption();
+      const options = this.selectOptions();
       options.forEach((option) => {
         option.selectOption = () => {
           this.selectValue(option.value());
@@ -86,8 +117,8 @@ export class Select implements ControlValueAccessor {
     const target = this.inputContainer()!.nativeElement;
     const { diaRef } = this.popover.open(
       this.optionsTemplate()!,
-      { target },
-      { width: 'target', maxHeight: '400px' },
+      { target, position: 'bl' },
+      { width: this.size() === 'target' ? 'target' : '', maxHeight: '400px' },
     );
     diaRef.events.subscribe(() => {
       this.events.next('open');
@@ -99,17 +130,19 @@ export class Select implements ControlValueAccessor {
   }
 
   selectValue(value: string): void {
-    // if (!this.multiple()) {
-    //   this.value.update(() => []);
-    // }
     this.setValue(value);
   }
 
   setValue(value: string, isWrite = false): void {
     if (this.multiple()) {
-      this.value.update((x) => [...x, value]);
+      const index = this.value().indexOf(value);
+      if (index > -1) {
+        this.value.update((x) => x.filter((_, i) => i !== index));
+      } else {
+        this.value.update((x) => [...x, value]);
+      }
     } else {
-      this.value.update(() => [value]);
+      this.value.set([value]);
     }
     if (!isWrite) {
       this.onChange(value);
@@ -125,7 +158,7 @@ export class Select implements ControlValueAccessor {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void {
+  registerOnTouched(fn: VoidFunction): void {
     this.onTouched = fn;
   }
 }

@@ -11,6 +11,6 @@ import {
   template: `<ng-container #myDialog></ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PortalComponent {
+export class Portal {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
 }

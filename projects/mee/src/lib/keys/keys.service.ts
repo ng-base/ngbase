@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
 import { fromEvent, merge } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -9,10 +10,11 @@ import {
   tap,
 } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class Keys {
-  private keyup$ = fromEvent<KeyboardEvent>(document, 'keyup');
-  private keydown$ = fromEvent<KeyboardEvent>(document, 'keydown');
+  private document = inject(DOCUMENT);
+  private keyup$ = fromEvent<KeyboardEvent>(this.document, 'keyup');
+  private keydown$ = fromEvent<KeyboardEvent>(this.document, 'keydown');
   private keypress$ = merge(this.keyup$, this.keydown$).pipe(
     tap((ev) => {
       if (ev.type === 'keyup') {

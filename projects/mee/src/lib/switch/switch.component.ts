@@ -17,7 +17,7 @@ import {
       [(ngModel)]="value"
       (ngModelChange)="updateValue()"
       [id]="id"
-      class="switch bg-input relative h-5 w-9 overflow-hidden rounded-full border border-border"
+      class="switch relative box-content h-6 w-11 overflow-hidden rounded-full border border-border bg-input"
     />
     <label [for]="id"><ng-content></ng-content></label>
   `,
@@ -27,32 +27,18 @@ import {
   styles: `
     .switch {
       -webkit-appearance: none;
-      transition: all 0.1s ease-out;
 
       &:checked {
         @apply border-primary bg-primary;
         &:after {
-          left: 17px;
+          @apply left-[calc(100%-1.375rem)];
         }
-      }
-      &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
       }
       &:after {
         content: '';
         position: absolute;
-        top: 1px;
-        left: 1px;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        @apply bg-foreground;
-        transition: all 0.1s ease-out;
+        @apply left-0.5 top-0.5 h-5 w-5 rounded-full bg-foreground;
+        transition: all 0.2s ease-out;
       }
     }
   `,

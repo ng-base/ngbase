@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
     class:
       'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70',
     '(click)': 'clicked()',
-    '[class.bg-gy]': 'active()',
+    '[class.bg-background]': 'active()',
   },
 })
 export class ToggleItem {

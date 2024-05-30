@@ -4,35 +4,47 @@
 @tailwind utilities;
 
 html {
-  @apply text-base antialiased;
+  @apply antialiased;
 }
 
 body {
-  @apply bg-background min-h-screen;
-  font-family: "Inter", sans-serif;
+  @apply min-h-screen bg-background text-sm;
+  font-family: 'Geist', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings: "slnt" 0;
+  font-variation-settings: 'slnt' 0;
   color: rgb(var(--text));
 }
 
+@font-face {
+  font-family: 'Geist';
+  src: url(assets/GeistVF.woff2);
+}
+
 :root {
-  --primary: 14, 165, 233;
+  /* --primary: 129, 140, 248; */
+  // --primary: 8, 145, 178;
+  --primary: 0, 0, 0;
   --background: 244, 244, 245;
   --foreground: 255, 255, 255;
-  --muted: 113, 113, 122;
-  --text: 24, 24, 27;
+  --muted: 113, 113, 122; // 75, 85, 99;
+  // --text: 24, 24, 27;
+  --text: 9, 9, 11;
   --border: 228, 228, 231;
   --lighter: 243, 244, 246;
   --input: 243, 244, 246;
+  --density: 1;
+  --radius: 0.375rem;
+  --spacing-base: 1rem;
 }
 
 .dark {
+  // --primary: 255, 255, 255;
   --muted: 161, 161, 170;
-  // --color-primary: 15, 114, 255;
   --text: 255, 255, 255;
   --background: 0, 0, 0;
-  --foreground: 24, 24, 27;
+  // --foreground: 24, 24, 27;
+  --foreground: 25, 27, 35;
   --border: 39, 39, 42;
   --lighter: 39, 39, 42;
   --input: 39, 39, 42;
@@ -40,10 +52,11 @@ body {
 
 @layer components {
   .mee-header {
-    @apply bg-foreground text-white;
+    @apply bg-foreground text-text;
   }
 }
 
-p {
-  @apply text-base;
+.small {
+  --spacing-base: 0.5rem;
+  @apply text-sm;
 }

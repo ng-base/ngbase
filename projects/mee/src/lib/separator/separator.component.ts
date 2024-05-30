@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'mee-separator',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ``,
-  styles: `
-    :host {
-      @apply bg-border my-3 block h-[.01rem] w-full;
-    }
-  `,
+  host: {
+    class: 'bg-border block flex-none',
+    '[class]': `orientation() === 'horizontal' ? 'h-[.01rem] w-full' : 'w-[.01rem]'`,
+  },
 })
-export class Separator {}
+export class Separator {
+  orientation = input<'horizontal' | 'vertical'>('horizontal');
+}

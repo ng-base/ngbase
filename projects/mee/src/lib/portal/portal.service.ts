@@ -9,11 +9,11 @@ import {
   inject,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { PortalComponent } from './portal.component';
+import { Portal } from './portal.component';
 
 @Injectable({ providedIn: 'root' })
 export class PortalService {
-  private mainContainer: ComponentRef<PortalComponent>;
+  private mainContainer: ComponentRef<Portal>;
   private document = inject(DOCUMENT);
   private componentFactoryResolver = inject(ComponentFactoryResolver);
   private injector = inject(Injector);
@@ -22,7 +22,7 @@ export class PortalService {
   private trackElements = new Map<string, ComponentRef<any>[]>();
 
   constructor() {
-    this.mainContainer = this.appendComponentToBody(PortalComponent);
+    this.mainContainer = this.appendComponentToBody(Portal);
   }
 
   private componentCreator() {

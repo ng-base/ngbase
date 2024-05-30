@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   forwardRef,
   signal,
 } from '@angular/core';
@@ -9,7 +10,7 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { InputStyle } from '../input/input.directive';
+import { InputStyle } from '../input/input-style.directive';
 
 @Component({
   selector: 'mee-color-picker',
@@ -131,10 +132,20 @@ export class ColorPicker implements ControlValueAccessor {
   value = signal('#FF7B00');
   onChange = (value: string) => {};
   onTouched = () => {};
+  write = '';
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      if (this.value() === this.write) {
+        return;
+      }
+      this.onChange(this.value());
+      this.onTouched();
+    });
+  }
 
   writeValue(value: string): void {
+    this.write = value;
     this.value.set(value);
   }
 
@@ -144,5 +155,16 @@ export class ColorPicker implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
+  }
+
+  hexToRgb(hex: string) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   }
 }

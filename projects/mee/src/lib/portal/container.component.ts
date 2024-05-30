@@ -10,6 +10,7 @@ import { DialogRef } from './dialog-ref';
 @Component({
   standalone: true,
   selector: 'mee-portal-container',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-container #myDialog></ng-container>
     @if (options.backdropColor && !options.fullWindow) {
       <div
@@ -18,12 +19,11 @@ import { DialogRef } from './dialog-ref';
         [@fadeAnimation]
       ></div>
     } `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'fixed top-0 left-0 w-full h-full pointer-events-none',
   },
 })
-export class PortalContainerComponent {
+export class PortalContainer {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   dialogRef = inject(DialogRef);
   options = this.dialogRef.options;

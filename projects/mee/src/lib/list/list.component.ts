@@ -11,7 +11,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }
   `,
   host: {
-    class: 'block w-full rounded-md p-2 text-left hover:bg-lighter',
+    class:
+      'flex items-center w-full rounded-md p-h text-left hover:bg-lighter outline-0',
   },
 })
 export class List {}

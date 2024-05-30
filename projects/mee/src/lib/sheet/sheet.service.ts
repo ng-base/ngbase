@@ -1,9 +1,9 @@
 import { DialogInput, DialogOptions, basePortal } from '../portal';
-import { SheetComponent } from './sheet.component';
+import { Sheet } from './sheet.component';
 
 export function sheetPortal() {
   const NAME = 'sheet';
-  const base = basePortal(NAME, SheetComponent);
+  const base = basePortal(NAME, Sheet);
 
   function open<T>(component: DialogInput, opt?: DialogOptions) {
     const { diaRef } = base.open(

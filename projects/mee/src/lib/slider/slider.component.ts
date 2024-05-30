@@ -12,24 +12,23 @@ import {
   afterNextRender,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DragDirective, DragData } from '../drag';
+import { Drag, DragData } from '../drag';
 
 @Component({
   selector: 'mee-slider',
   standalone: true,
-  imports: [DragDirective],
+  imports: [Drag],
   template: `
-    <div class="bg-background h-full overflow-hidden rounded-full">
+    <div class="h-full overflow-hidden rounded-full bg-background" meeDrag>
       <div class="h-full bg-primary" #track></div>
     </div>
     <span
-      class="bg-foreground absolute -top-1 inline-block h-4 w-4 -translate-x-1/2 rounded-full border border-primary shadow-md"
+      class="pointer-events-none absolute -top-1 inline-block h-4 w-4 -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
       #slider
-      meeDrag
     ></span>
   `,
   host: {
-    class: 'block relative h-2 my-1',
+    class: 'block relative h-1.5 my-1',
     role: 'progressbar',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,10 +43,11 @@ import { DragDirective, DragData } from '../drag';
 export class Slider implements ControlValueAccessor {
   private slider = viewChild<ElementRef<HTMLElement>>('slider');
   private track = viewChild<ElementRef<HTMLElement>>('track');
-  private drag = viewChild(DragDirective);
+  private drag = viewChild(Drag);
   el = inject(ElementRef);
   step = input(1);
   max = input(100);
+  performance = input(true);
   value = signal(100);
 
   sliderPosition = computed(() => this.getPercentage(this.value()));
@@ -95,7 +95,7 @@ export class Slider implements ControlValueAccessor {
   }
 
   get width() {
-    return this.el.nativeElement.getBoundingClientRect().width;
+    return this.el.nativeElement.clientWidth;
   }
 
   getPercentage(value: number) {
@@ -103,29 +103,45 @@ export class Slider implements ControlValueAccessor {
   }
 
   move(data: DragData) {
-    this.moveSlider(data);
     requestAnimationFrame(() => this.moveSlider(data));
+  }
+
+  clicked(clientX: number) {
+    const slider = this.el.nativeElement;
+    const rect = slider.getBoundingClientRect();
+    const x = clientX - rect.left;
+    return this.perRound(x, this.width);
+  }
+
+  private perRound(x: number, width: number) {
+    // the new percentage of the slider
+    const percentage = (x / width) * 100;
+    // convert percentage to value
+    let value = (percentage / 100) * this.max();
+    // we need to make the percentage to be a multiple of the step
+    return parseFloat(
+      (Math.round(value / this.step()) * this.step()).toFixed(10),
+    );
   }
 
   private moveSlider(data: DragData) {
     data.event?.preventDefault();
     // convert value to percentage based on the max value
     if (data.type === 'start') {
-      this.startValue = this.value();
+      this.clicked(data.clientX!);
+      this.startValue = this.clicked(data.clientX!);
       const valuePercentage = this.getPercentage(this.startValue);
       // total width of the slider
       this.totalWidth = this.width;
       // the width of the slider using current percentage
       this.totalSliderWidth = this.totalWidth * (valuePercentage / 100);
+      if (this.startValue != this.value()) {
+        this.updateElement(this.startValue);
+      }
     } else if (data.type === 'move') {
       // the new percentage of the slider
       const newSize = this.totalSliderWidth + data.x;
-      // the new percentage of the slider
-      let percentage = (newSize / this.totalWidth) * 100;
-      // convert percentage to value
-      percentage = (percentage / 100) * this.max();
-      // we need to make the percentage to be a multiple of the step
-      percentage = Math.round(percentage / this.step()) * this.step();
+      const percentage = this.perRound(newSize, this.totalWidth);
       // update the value only when the percentage is different and within the range
       if (
         percentage >= 0 &&
@@ -134,15 +150,22 @@ export class Slider implements ControlValueAccessor {
       ) {
         this.startValue = percentage;
         this.updateElement(percentage);
+        if (!this.performance()) {
+          this.updateValue(percentage);
+        }
       }
     } else {
       this.totalWidth = 0;
       this.totalSliderWidth = 0;
       if (this.startValue != this.value()) {
-        this.value.set(this.startValue);
-        this.onChange(this.startValue);
-        this.onTouched();
+        this.updateValue(this.startValue);
       }
     }
+  }
+
+  private updateValue(percentage: number) {
+    this.value.set(percentage);
+    this.onChange(percentage);
+    this.onTouched();
   }
 }

@@ -19,7 +19,7 @@ export class HoverCard {
   popoverPortal = popoverPortal();
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   meeHoverCard = input.required<TemplateRef<any>>();
-  close: null | (() => void) = null;
+  close: null | VoidFunction = null;
   inTimer: any;
   outTimer: any;
 
@@ -42,7 +42,7 @@ export class HoverCard {
           this.resetOut();
         }
       });
-    }, 700);
+    }, 400);
   }
 
   private resetOut() {

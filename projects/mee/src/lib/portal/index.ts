@@ -9,7 +9,7 @@ export {
   DialogOptions,
   DIALOG_INJ,
   createInj,
-  BaseDialogComponent,
+  BaseDialog,
   DialogPosition,
 } from './dialog-ref';
 export { tooltipPosition } from './utils';

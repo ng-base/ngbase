@@ -1,29 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { dialogPortal } from '../dialog';
+import { ThemeComponent } from './theme.component';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  isDark = true;
+  dialog = dialogPortal();
+  mode = signal<'light' | 'dark' | ''>('light');
 
   constructor() {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-      this.isDark = true;
-    } else {
-      this.isDark = false;
-    }
-    if (this.isDark) {
-      document.body.classList.add('dark');
+    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+      const theme = localStorage.getItem('theme');
+      this._update((theme as 'light' | 'dark') || 'light');
     }
   }
 
   toggle() {
+    this._update(this.mode() === 'dark' ? 'light' : 'dark');
+  }
+
+  private _update(mode: 'light' | 'dark' = 'light') {
     const body = document.body;
-    this.isDark = !this.isDark;
-    if (this.isDark) {
+    if (mode === 'dark') {
       body.classList.add('dark');
     } else {
       body.classList.remove('dark');
     }
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+    localStorage.setItem('theme', mode);
+    this.mode.set(mode);
+  }
+
+  open() {
+    this.dialog.open(ThemeComponent, {
+      title: 'Theme',
+      backdrop: false,
+      width: '20rem',
+    });
   }
 }

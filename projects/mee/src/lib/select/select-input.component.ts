@@ -1,18 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-} from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { Select } from './select.component';
-import { InputStyle } from '../input/input.directive';
+import { InputStyle } from '../input/input-style.directive';
 
-@Component({
+@Directive({
   standalone: true,
   selector: '[meeSelectInput]',
-  template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [InputStyle],
+  host: {
+    class: 'w-full mb-h !ring-0 border-b border-border rounded-none px-b/2',
+  },
 })
 export class SelectInput {
   el = inject<ElementRef<HTMLInputElement>>(ElementRef);

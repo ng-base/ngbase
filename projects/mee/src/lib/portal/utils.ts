@@ -7,6 +7,7 @@
 // we need to prioritize the position of the tooltip based on the priority
 // we need to update the values directly instead of signal to avoid too many CD checks
 
+import { Signal } from '@angular/core';
 import { DialogPosition } from './dialog-ref';
 
 const positionSwap: Record<DialogPosition, DialogPosition> = {
@@ -25,7 +26,26 @@ export interface OverlayConfig {
   el?: HTMLElement;
   position?: DialogPosition;
   offset?: number;
-  clientXY?: { x: number; y: number } | null;
+  client?: { x: number; y: number; w: number; h: number } | null;
+  className?: string;
+  backdropClassName?: string;
+  clipPath?: Signal<string>;
+  anchor?: boolean;
+  smoothScroll?: boolean;
+}
+
+interface ConfigObj {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  elWidth: number;
+  elHeight: number;
+  offset: number;
+  priority: DialogPosition;
+  position: DialogPosition;
+  windowWidth: number;
+  windowHeight: number;
 }
 
 export function tooltipPosition(config: OverlayConfig): {
@@ -39,72 +59,200 @@ export function tooltipPosition(config: OverlayConfig): {
     el,
     position: priority = 'bottom',
     offset = 5,
-    clientXY = null,
+    client: clientXY = null,
   } = config;
   let position: DialogPosition = priority;
   let { top, left, width, height } = target.getBoundingClientRect();
   if (clientXY) {
     top = clientXY.y;
     left = clientXY.x;
-    width = 1;
-    height = 1;
+    width = clientXY.w;
+    height = clientXY.h;
   }
-  const { width: elWidth, height: elHeight } = el!.getBoundingClientRect();
-  let tTop = top - elHeight - offset;
-  let tLeft = left + width / 2 - elWidth / 2;
-  // we need to check whether the tooltip is overflowing the viewport on top
-  // if so, we need to adjust the top position
-  const isTop = tTop < 0;
+  const { clientWidth: elWidth, clientHeight: elHeight } = el!;
 
-  if (tTop < 0) {
-    tTop = top + height + offset;
-    position = 'bottom';
-  } else if (priority === 'bottom') {
-    tTop = top + height + offset;
-  } else if (priority === 'left' || priority === 'right') {
-    tTop = top - elHeight / 2 + height / 2;
-  } else if (priority === 'br' || priority === 'bl') {
-    tTop = top + height + offset;
+  // we need to check whether the height of the target element is greater than the height then we need to adjust the height
+  if (height > window.innerHeight) {
+    height = window.innerHeight - top;
   }
-  // we need to check whether the tooltip is overflowing the viewport on bottom
-  // if so, we need to adjust the top position
-  if (!isTop && tTop + elHeight > window.innerHeight) {
-    tTop = top - elHeight - offset;
-    position = positionSwap[priority];
-    if (priority === 'top') {
-      tTop = top - elHeight - offset;
-    } else if (priority === 'tr' || priority === 'tl') {
-      tTop = top;
+
+  return tooltipPositionInternal({
+    top,
+    left,
+    width,
+    height,
+    elWidth,
+    elHeight,
+    offset,
+    priority,
+    position,
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight,
+  });
+}
+
+export function tooltipPositionInternal(data: ConfigObj): {
+  top: number;
+  bottom: number;
+  left: number;
+  position: DialogPosition;
+} {
+  // console.log(structuredClone(data));
+  let {
+    top,
+    left,
+    width,
+    height,
+    elWidth,
+    elHeight,
+    offset,
+    priority,
+    position,
+    windowWidth,
+    windowHeight,
+  } = data;
+
+  position = positionSwapBasedOnOverflow(data);
+
+  // if the tooltip is overflowing the viewport, we need to swap the position
+  // if the tooltip is still overflowing the viewport, we need to swap the position again
+
+  // let topPos = top;
+  // let leftPos = left;
+  // // let bottomPos = 0;
+  // // let rightPos = 0;
+
+  // if (position.includes('top')) {
+  //   topPos = top - elHeight - offset;
+  //   leftPos = left + (width - elWidth) / 2;
+  // } else if (position.includes('bottom')) {
+  //   topPos = top + height + offset;
+  //   leftPos = left + (width - elWidth) / 2;
+  // } else if (position.includes('left')) {
+  //   leftPos = left - elWidth - offset;
+  // } else if (position.includes('right')) {
+  //   leftPos = left + width + offset;
+  // } else if (position.includes('tl')) {
+  //   topPos = top - elHeight - offset;
+  //   leftPos = left;
+  // } else if (position.includes('tr')) {
+  //   topPos = top - elHeight - offset;
+  //   leftPos = left - (elWidth - width);
+  // } else if (position.includes('bl')) {
+  //   topPos = top + height + offset;
+  //   leftPos = left;
+  // } else if (position.includes('br')) {
+  //   topPos = top + height + offset;
+  //   leftPos = left - (elWidth - width);
+  // } else {
+  //   topPos = top - elHeight - offset;
+  // }
+
+  let { top: topPos, left: leftPos } = getTooltipCoordinates(position, data);
+
+  if (topPos <= 0) {
+    topPos = offset;
+  } else if (topPos + elHeight > windowHeight) {
+    topPos = windowHeight - elHeight - offset;
+  } else if (leftPos < 0) {
+    leftPos = 0;
+  } else if (leftPos + elWidth > windowWidth) {
+    leftPos = windowWidth - elWidth;
+  }
+
+  let bottomPos = position.includes('top')
+    ? windowHeight - (topPos + elHeight)
+    : 0;
+
+  return { top: topPos, bottom: bottomPos, left: leftPos, position };
+}
+
+function getTooltipCoordinates(
+  position: DialogPosition,
+  data: ConfigObj,
+): { top: number; left: number } {
+  const { top, left, width, height, elWidth, elHeight, offset } = data;
+  switch (position) {
+    case 'top':
+      return {
+        top: top - elHeight - offset,
+        left: left + (width - elWidth) / 2,
+      };
+    case 'bottom':
+      return { top: top + height + offset, left: left + (width - elWidth) / 2 };
+    case 'left':
+      return { top, left: left - elWidth - offset };
+    case 'right':
+      return { top, left: left + width + offset };
+    case 'tl':
+      return { top: top - elHeight - offset, left };
+    case 'tr':
+      return { top: top - elHeight - offset, left: left - (elWidth - width) };
+    case 'bl':
+      return { top: top + height + offset, left };
+    case 'br':
+      return { top: top + height + offset, left: left - (elWidth - width) };
+    default:
+      return {
+        top: top - elHeight - offset,
+        left: left + (width - elWidth) / 2,
+      };
+  }
+}
+
+// function to check the overflow sides for target and element
+export function checkOverflow(data: ConfigObj) {
+  const isTop = data.top - data.elHeight < 0;
+  const isBottom = data.top + data.height + data.elHeight > data.windowHeight;
+  const isLeft = data.left - data.elWidth < 0;
+  const isRight = data.left + data.width + data.elWidth > data.windowWidth;
+
+  return { top: isTop, bottom: isBottom, left: isLeft, right: isRight };
+}
+
+// position swap based on the overflow and priority
+function positionSwapBasedOnOverflow(data: ConfigObj): DialogPosition {
+  const {
+    bottom: bottomOverflow,
+    left: leftOverflow,
+    right: rightOverflow,
+    top: topOverflow,
+  } = checkOverflow(data);
+  const { priority } = data;
+
+  let position = priority;
+  if (topOverflow) {
+    if (position.includes('top')) {
+      position = positionSwap[position];
     }
   }
-  // we need to check whether the tooltip is overflowing the viewport on left
-  // if so, we need to adjust the left position
-  if (tLeft < 0) {
-    tLeft = 0;
-  } else if (priority === 'left') {
-    tLeft = left - elWidth - offset;
-  } else if (priority === 'right') {
-    tLeft = left + width + offset;
-  } else if (priority === 'tr' || priority === 'br') {
-    tLeft = left + width + offset;
-  }
-  // we need to check whether the tooltip is overflowing the viewport on right
-  // if so, we need to adjust the left position
-  if (tLeft + elWidth > window.innerWidth) {
-    tLeft = window.innerWidth - elWidth;
-    if (priority === 'left') {
-      tLeft = left + width + offset;
-    } else if (priority === 'bl') {
-      tLeft = left - elWidth + width;
-    } else if (priority === 'tl' || priority === 'tr') {
-      tLeft = left - elWidth - offset;
+  if (bottomOverflow) {
+    if (position.includes('bottom')) {
+      position = positionSwap[position];
+    } else if (position.includes('bl')) {
+      position = rightOverflow ? 'tr' : 'tl';
     }
-  } else if (priority === 'bl' || priority === 'tl') {
-    tLeft = left;
   }
-  let bottom = 0;
-  if (position === 'top' || position === 'tl' || position === 'tr') {
-    bottom = window.innerHeight - tTop - elHeight;
+  if (leftOverflow) {
+    if (position.includes('left')) {
+      position = positionSwap[position];
+    }
   }
-  return { top: tTop, bottom, left: tLeft, position };
+  if (rightOverflow) {
+    if (position.includes('right')) {
+      position = !leftOverflow
+        ? 'left'
+        : bottomOverflow && !leftOverflow
+          ? positionSwap[position]
+          : leftOverflow && bottomOverflow
+            ? 'top'
+            : 'br';
+    } else if (position.includes('bl')) {
+      position = bottomOverflow ? 'tr' : 'br';
+    }
+  }
+
+  // console.log(position);
+
+  return position;
 }

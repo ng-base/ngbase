@@ -10,11 +10,16 @@ export function tooltipPortal() {
     target: HTMLElement,
     position?: DialogPosition,
   ) {
-    const { diaRef, parent } = base.open(undefined, (comp) => {
-      comp.instance.content = content;
-      comp.instance.target = target;
-      comp.instance.position = position || 'top';
-    });
+    const { diaRef, parent } = base.open(
+      undefined,
+      (comp) => {
+        comp.instance.content = content;
+        comp.instance.target = target;
+        comp.instance.position = position || 'top';
+      },
+      undefined,
+      false,
+    );
 
     function destroy() {
       diaRef.close();

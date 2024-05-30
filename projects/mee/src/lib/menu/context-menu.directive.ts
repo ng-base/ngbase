@@ -12,7 +12,7 @@ import { popoverPortal } from '../popover';
 export class ContextMenu {
   meeContextMenu = input.required<Menu>();
   popover = popoverPortal();
-  close: () => void = () => {};
+  close: VoidFunction = () => {};
 
   open(ev: MouseEvent) {
     ev.preventDefault();
@@ -24,7 +24,7 @@ export class ContextMenu {
         target: ev.target as HTMLElement,
         position: 'bl',
         offset: 0,
-        clientXY: { x: ev.clientX, y: ev.clientY },
+        client: { x: ev.clientX, y: ev.clientY, w: 1, h: 1 },
       },
       { maxHeight: '400px' },
     );

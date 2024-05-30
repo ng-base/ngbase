@@ -5,10 +5,10 @@ import {
   afterNextRender,
   viewChild,
 } from '@angular/core';
-import { BaseDialogComponent, DialogOptions } from '../portal';
+import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
 import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
-import { DragDirective } from '../drag';
+import { Drag } from '../drag';
 import {
   trigger,
   state,
@@ -20,12 +20,12 @@ import {
 @Component({
   selector: 'mee-drawer',
   standalone: true,
-  imports: [NgStyle, DragDirective],
+  imports: [NgStyle, Drag],
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
-        class="bg-foreground pointer-events-auto flex flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t border-border p-4 shadow-2xl"
-        [@sideAnimation]
+        class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t border-border bg-foreground p-4 shadow-2xl"
+        [@sideAnimation]="status() ? 1 : 0"
       >
         <button class="mx-auto h-2 w-20 rounded-full bg-muted"></button>
         @if (!isHideHeader) {
@@ -43,7 +43,9 @@ import {
       <div
         class="backdropColor absolute top-0 -z-10 h-full w-full"
         (click)="close()"
-        [@fadeAnimation]
+        [@fadeAnimation]="status() ? 1 : 0"
+        [class.pointer-events-none]="!status()"
+        (@fadeAnimation.done)="animationDone()"
       ></div>
     }
   `,
@@ -67,7 +69,7 @@ import {
     fadeAnimation,
   ],
 })
-export class Drawer extends BaseDialogComponent {
+export class Drawer extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;

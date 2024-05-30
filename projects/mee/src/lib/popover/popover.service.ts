@@ -1,30 +1,26 @@
-import { DialogInput, DialogOptions, basePortal } from '../portal';
+import { Observable } from 'rxjs';
+import { DialogInput, DialogOptions, DialogRef } from '../portal';
 import { OverlayConfig } from '../portal/utils';
+import { basePopoverPortal } from './base-popover.service';
 import { Popover } from './popover.component';
 
+export interface PopoverOpen<T> {
+  diaRef: DialogRef<any>;
+  events: Observable<{ type: string; value: any }>;
+  parent: Popover;
+  replace: ((component: DialogInput<T>) => void) | undefined;
+}
+
 export function popoverPortal() {
-  const NAME = 'popover';
-  const base = basePortal(NAME, Popover);
+  const base = basePopoverPortal(Popover);
 
   function open<T>(
     component: DialogInput<T>,
     tooltipOptions: OverlayConfig,
     opt?: DialogOptions,
-  ) {
-    const { diaRef, parent } = base.open(component, (comp) => {
-      const options = { ...new DialogOptions(), ...opt };
-      comp.instance.setOptions(options);
-      comp.instance.tooltipOptions = tooltipOptions;
-    });
-
-    return {
-      diaRef,
-      events: parent.instance.events,
-    };
+  ): PopoverOpen<T> {
+    return base.open(component, tooltipOptions, opt);
   }
 
-  function closeAll() {
-    base.closeAll();
-  }
-  return { open, closeAll };
+  return { open, closeAll: base.closeAll };
 }

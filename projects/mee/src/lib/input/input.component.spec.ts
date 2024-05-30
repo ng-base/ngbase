@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Input } from './input.component';
+import { Input } from './input.directive';
 
 describe('InputComponent', () => {
   let component: Input;

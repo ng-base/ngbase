@@ -19,12 +19,12 @@ import {
   selector: 'mee-accordion-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button class="w-full py-4 text-left font-medium" (click)="toggleActive()">
+    <button class="w-full py-b text-left font-medium" (click)="toggleActive()">
       <ng-content select="h4"></ng-content>
     </button>
     @if (active()) {
       <div [@slide]>
-        <div class="pb-4">
+        <div class="pb-b">
           <ng-content></ng-content>
         </div>
       </div>
@@ -32,7 +32,7 @@ import {
   `,
   styles: `
     :host {
-      @apply border-border block border-b;
+      @apply block border-b border-border;
     }
   `,
   animations: [

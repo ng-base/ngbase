@@ -1,15 +1,18 @@
-import { DialogComponent } from './dialog.component';
+import { Dialog } from './dialog.component';
 import { DialogInput, DialogOptions, basePortal } from '../portal';
 
 export function dialogPortal() {
   const NAME = 'dialog';
-  const base = basePortal(NAME, DialogComponent);
+  const base = basePortal(NAME, Dialog);
 
   function open<T>(component: DialogInput, opt?: DialogOptions) {
-    const { diaRef } = base.open(component, (comp) => {
-      const options = { ...new DialogOptions(), ...opt };
-      comp.instance.setOptions(options);
-    });
+    const { diaRef } = base.open(
+      component,
+      (comp, options) => {
+        comp.instance.setOptions(options);
+      },
+      opt,
+    );
 
     return diaRef;
   }

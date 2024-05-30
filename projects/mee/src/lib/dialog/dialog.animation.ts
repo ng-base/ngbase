@@ -24,7 +24,7 @@ export const fadeAnimation: AnimationTriggerMetadata = trigger(
     state('1', style({ opacity: 1 })),
     state('void', style({ opacity: 0 })),
     state('0', style({ opacity: 0 })),
-    transition('* => *', animate('400ms ease')),
+    transition('* => *', animate('300ms ease')),
   ],
 );
 
@@ -34,9 +34,10 @@ export const NguModalViewAnimation: AnimationTriggerMetadata = trigger(
     state('1', style({ transform: 'none', opacity: 1 })),
     state(
       'void',
-      style({ transform: 'translate3d(0, 25%, 0) scale(0.9)', opacity: 0 }),
+      style({ transform: 'translate3d(0, 10px, 0) scale(0.99)', opacity: 0.5 }),
     ),
-    state('0', style({ transform: 'translate3d(0, 25%, 0)', opacity: 0 })),
-    transition('* => *', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')),
+    state('0', style({ transform: 'translate3d(0, 10px, 0)', opacity: 0 })),
+    transition('* => *', animate('150ms ease')),
   ],
 );
+// cubic-bezier(0.25, 0.8, 0.25, 1)

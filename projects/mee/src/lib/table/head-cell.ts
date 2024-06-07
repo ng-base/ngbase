@@ -5,7 +5,7 @@ import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
   selector: '[meeHead]',
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'h-b3 px-b text-left align-middle font-medium text-muted',
+    class: 'h-b3 px-b4 text-left align-middle font-medium text-muted',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

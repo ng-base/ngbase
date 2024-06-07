@@ -24,7 +24,7 @@ import {
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
-        class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t border-border bg-foreground p-4 shadow-2xl"
+        class="p-b4 pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground shadow-2xl"
         [@sideAnimation]="status() ? 1 : 0"
       >
         <button class="mx-auto h-2 w-20 rounded-full bg-muted"></button>

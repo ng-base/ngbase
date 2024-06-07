@@ -11,8 +11,8 @@ import { RangePipe } from '@meeui/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader="sm">Heading 1</h4>
-    <mee-separator></mee-separator>
-    <p class="text-base text-muted">
+    <mee-separator class="my-2"></mee-separator>
+    <p class="text-muted-foreground text-base">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis
       maiores in aspernatur rerum, eligendi, pariatur ipsum eaque non, similique
       veritatis delectus earum magni nemo sunt odio officiis tenetur. Obcaecati
@@ -21,16 +21,16 @@ import { RangePipe } from '@meeui/utils';
       expedita quod numquam temporibus!
     </p>
 
-    <h4 meeHeader="lg" class="mt-b">Heading lg</h4>
+    <h4 meeHeader="lg" class="mt-b4">Heading lg</h4>
     <h4 meeHeader="md">Heading md</h4>
     <h4 meeHeader="sm">Heading sm</h4>
     <h4 meeHeader>Heading</h4>
 
-    <div class="mt-b flex flex-col gap-b">
+    <div class="mt-b4 gap-b4 flex flex-col">
       @for (i of 2 | range; track i) {
         <mee-card>
           <h4 meeHeader>Heading 2</h4>
-          <p class="text-muted">
+          <p class="text-muted-foreground">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit.
             Perferendis maiores in aspernatur rerum, eligendi
           </p>

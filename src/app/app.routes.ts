@@ -1,24 +1,36 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './json-view/home.component';
-import { UiComponent } from './ui/ui.component';
-import { UiTestComponent } from './ui-test.component';
 
 export const routes: Routes = [
   {
-    path: 'json-view',
-    component: HomeComponent,
+    path: 'examples',
+    loadComponent: () =>
+      import('./examples/main.component').then((m) => m.Theme1Component),
   },
+  // {
+  //   path: 'game',
+  //   loadComponent: () =>
+  //     import('./wordpower.component').then((m) => m.WordPowerComponent),
+  // },
   {
     path: 'ui',
-    component: UiComponent,
+    loadChildren: () => import('./ui/ui.routes').then((m) => m.UI_ROUTES),
   },
-  {
-    path: 'ui-test',
-    component: UiTestComponent,
-  },
+  // {
+  //   path: 'chat',
+  //   loadChildren: () => import('./chat/chat.routes').then((m) => m.CHAT_ROUTES),
+  // },
+  // {
+  //   path: 'x',
+  //   loadChildren: () => import('./x/x.routes').then((m) => m.X_ROUTES),
+  // },
+  // {
+  //   path: '',
+  //   loadChildren: () =>
+  //     import('./interview/interview.routes').then((m) => m.INTERVIEW_ROUTES),
+  // },
   {
     path: '',
-    redirectTo: 'ui',
+    redirectTo: 'examples',
     pathMatch: 'full',
   },
 ];

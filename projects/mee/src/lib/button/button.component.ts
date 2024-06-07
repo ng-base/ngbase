@@ -3,21 +3,20 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 
 @Component({
-  selector: '[meeButton], [meeButton]',
   standalone: true,
-  imports: [],
-  template: `<ng-content></ng-content>`,
+  selector: '[meeButton], [meeButton]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content></ng-content>`,
   host: {
     class:
-      'inline-flex items-center justify-center rounded-base px-b py-h border font-medium disabled:text-muted disabled:cursor-not-allowed',
+      'inline-flex items-center justify-center rounded-base px-b4 py-b2 border font-medium disabled:text-muted disabled:cursor-not-allowed',
     '[class]': `variant() === 'primary'
           ? 'bg-primary text-foreground disabled:bg-background border-primary'
           : variant() === 'secondary'
-          ? 'bg-background disabled:bg-background border-background'
+          ? 'bg-muted-background disabled:bg-muted-background border-muted-background'
           : variant() === 'ghost'
-            ? '[&:not(:disabled)]:hover:bg-background [&:not(:disabled)]:active:bg-background/50 border-0'
-              : 'border-border text-primary [&:not(:disabled)]:hover:bg-background [&:not(:disabled)]:active:bg-background/50'`,
+            ? '[&:not(:disabled)]:hover:bg-muted-background [&:not(:disabled)]:active:bg-muted-background/50 border-0'
+              : ' text-primary [&:not(:disabled)]:hover:bg-background [&:not(:disabled)]:active:bg-background/50'`,
   },
 })
 export class Button {

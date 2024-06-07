@@ -43,7 +43,7 @@ import {
         >
           <div class="flex items-center">
             <div
-              class="mr-2 grid aspect-square w-10 place-content-center rounded-full border-2 border-border transition-colors"
+              class="mr-2 grid aspect-square w-10 place-content-center rounded-full border-2 transition-colors"
               [class.bg-primary]="activeIndex() > $index"
               [class.border-primary]="activeIndex() >= $index"
             >

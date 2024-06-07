@@ -21,7 +21,7 @@ import { Stepper } from './stepper.component';
       <ng-container *ngTemplateOutlet="stepContainer"></ng-container>
     }
     <ng-template #stepContainer>
-      <div class="py-b">
+      <div class="py-b4">
         <ng-content></ng-content>
       </div>
     </ng-template> `,

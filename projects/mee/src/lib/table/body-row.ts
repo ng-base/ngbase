@@ -17,7 +17,7 @@ import { Row } from './column';
   selector: '[meeBodyRow]',
   template: `<ng-container #container></ng-container>`,
   host: {
-    class: '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-border',
+    class: '[&:not(:last-child)]:border-b',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

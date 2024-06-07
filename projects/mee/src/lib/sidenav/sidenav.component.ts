@@ -22,14 +22,14 @@ import { SidenavHeader } from './sidenav-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- <div [@slide]="show()" class="absolute h-full"> -->
-    <ng-content select="mee-sidenav-header"></ng-content>
+    <ng-content select="mee-sidenav-header" />
     <!-- </div> -->
     <!-- <div
       [style.paddingLeft.px]="left()"
       [class.transition-all]="this.headerWidth()"
       class="h-full w-full"
     > -->
-    <ng-content select="mee-sidenav-content"></ng-content>
+    <ng-content />
     <!-- </div> -->
   `,
   host: {

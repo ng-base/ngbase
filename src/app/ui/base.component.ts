@@ -46,7 +46,7 @@ import { AppService } from '../app.service';
   viewProviders: [provideIcons({ lucideMenu })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="h-12 w-full border-b border-border bg-foreground px-4 py-2">
+    <nav class="h-12 w-full border-b bg-foreground px-4 py-2">
       <div class="flex h-full items-center justify-between">
         <div class="text-lg">
           <button meeButton variant="ghost" (click)="toggleShow()">
@@ -55,7 +55,7 @@ import { AppService } from '../app.service';
           Mee UI
         </div>
         <div class="flex h-full">
-          <a
+          <button
             meeButton
             variant="ghost"
             (click)="themeService.open()"
@@ -63,8 +63,8 @@ import { AppService } from '../app.service';
             meeTourStep
           >
             Theme
-          </a>
-          <a
+          </button>
+          <button
             meeButton
             variant="ghost"
             (click)="themeService.toggle()"
@@ -72,7 +72,7 @@ import { AppService } from '../app.service';
             class="tour-mode"
           >
             mode
-          </a>
+          </button>
           <mee-avatar
             class="h-full"
             src="https://avatars.dicebear.com/api/avataaars/1.svg"
@@ -89,17 +89,17 @@ import { AppService } from '../app.service';
     </mee-menu>
 
     <mee-scroll-area>
-      <mee-sidenav class="mt-2" [show]="showSideMenu()">
+      <mee-sidenav class="mt-b4" [show]="showSideMenu()">
         <mee-sidenav-header class="w-56">
           <app-nav class="tour-nav block w-56" meeTourStep></app-nav>
         </mee-sidenav-header>
-        <mee-sidenav-content class="flex-1 overflow-x-hidden px-2">
-          <mee-card class="mb-2">
+        <div class="flex-1 overflow-x-hidden px-b4">
+          <mee-card class="mb-b4">
             <router-outlet></router-outlet>
           </mee-card>
 
-          <!-- <mee-ui [show]="showSideMenu()"></mee-ui> -->
-        </mee-sidenav-content>
+          <mee-ui [show]="showSideMenu()"></mee-ui>
+        </div>
       </mee-sidenav>
     </mee-scroll-area>
   `,

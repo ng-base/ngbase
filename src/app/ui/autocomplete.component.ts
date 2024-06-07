@@ -30,8 +30,8 @@ import { Chip } from '@meeui/chip';
   template: `
     <h4 meeHeader="sm" class="mb-5" id="autocompletePage">Autocomplete</h4>
 
-    <h4 meeHeader class="my-5">Autocomplete with custom template</h4>
-    Value: {{ selectValue2.value() }}
+    <h4 meeHeader class="mb-b2">Autocomplete</h4>
+    <!-- Value: {{ selectValue2.value() }} -->
     <mee-autocomplete [(ngModel)]="selectValue2.value" class="w-full">
       <input
         placeholder="Search options"
@@ -43,8 +43,10 @@ import { Chip } from '@meeui/chip';
       }
     </mee-autocomplete>
 
-    <h4 meeHeader class="my-5" id="autocompletePage">Autocomplete with Chip</h4>
-    Value: {{ selectValue.value() | json }}
+    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">
+      Autocomplete Chip
+    </h4>
+    <!-- Value: {{ selectValue.value() | json }} -->
     <mee-autocomplete
       [(ngModel)]="selectValue.value"
       class="w-full"
@@ -63,8 +65,8 @@ import { Chip } from '@meeui/chip';
       }
     </mee-autocomplete>
 
-    <h4 meeHeader class="my-5" id="autocompletePage">
-      Autocomplete with count
+    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">
+      Autocomplete count
     </h4>
     <mee-autocomplete
       [(ngModel)]="selectValue1.value"

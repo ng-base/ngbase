@@ -9,8 +9,8 @@ module.exports = {
         gy: withOpacity('--color-gray'),
         background: withOpacity('--background'),
         foreground: withOpacity('--foreground'),
+        'muted-background': withOpacity('--muted-background'),
         border: withOpacity('--border'),
-        lighter: withOpacity('--lighter'),
         text: withOpacity('--text'),
         input: withOpacity('--input'),
         secondary: {
@@ -22,20 +22,26 @@ module.exports = {
         body: ['Nunito'],
       },
       spacing: {
+        'b0.5': 'calc(var(--spacing-base) * 0.5)',
         b: 'var(--spacing-base)',
-        'b/2': 'calc(var(--spacing-base) / 2)',
-        'b/3': 'calc(var(--spacing-base) / 2.67)',
-        'b/4': 'calc(var(--spacing-base) / 4)',
+        'b1.5': 'calc(var(--spacing-base) * 1.5)',
         b2: 'calc(var(--spacing-base) * 2)',
         b3: 'calc(var(--spacing-base) * 3)',
-        h: 'calc(var(--spacing-base) / 2)',
+        b4: 'calc(var(--spacing-base) * 4)',
+        b5: 'calc(var(--spacing-base) * 5)',
+        b6: 'calc(var(--spacing-base) * 6)',
+        b7: 'calc(var(--spacing-base) * 7)',
+        b8: 'calc(var(--spacing-base) * 8)',
+        b9: 'calc(var(--spacing-base) * 9)',
+        b10: 'calc(var(--spacing-base) * 10)',
+        b11: 'calc(var(--spacing-base) * 11)',
       },
       borderRadius: {
         base: 'var(--radius)',
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
 
 function withOpacity(variableName) {

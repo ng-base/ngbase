@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { DragData, Drag } from '../drag';
 import { Subscription } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass } from '@angular/common';
 import { ResizableGroup } from './resizable-group.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
@@ -24,22 +24,24 @@ import { Icons } from '../icon';
 @Component({
   selector: 'mee-resizable',
   standalone: true,
-  imports: [Drag, Icons],
+  imports: [Drag, Icons, NgClass],
   template: `<ng-content></ng-content>
     <ng-template #dragElement>
       <!-- @if (draggable()) { -->
       <div
         meeDrag
-        class="dragElement relative flex cursor-ew-resize items-center justify-center border-border after:absolute after:top-0 after:h-full after:w-h"
-        [class]="
+        class="dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0"
+        [ngClass]="
           resizable.direction() === 'vertical'
-            ? 'bottom-0 left-0 h-0 w-full cursor-ns-resize border-b'
-            : 'right-0 top-0 w-0 cursor-ew-resize border-l'
+            ? 'bottom-0 left-0 h-0 w-full cursor-ns-resize border-b after:-mt-b after:h-b2 after:w-full'
+            : 'right-0 top-0 w-0 cursor-ew-resize border-l after:h-full after:w-b2'
         "
       >
         <mee-icon
           name="lucideGripVertical"
-          class="rounded-base bg-background py-0.5"
+          class="z-10 rounded-base border bg-muted-background py-0.5"
+          size=".75rem"
+          [class]="resizable.direction() === 'vertical' ? 'rotate-90' : ''"
         ></mee-icon>
       </div>
     </ng-template>`,

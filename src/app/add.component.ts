@@ -12,7 +12,7 @@ import { AddService } from './add.service';
 @Component({
   selector: 'app-add',
   template: `
-    <p class="text-muted">
+    <p class="text-muted-foreground">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime velit
       eveniet animi odio laboriosam ad ea nulla sunt dolorem iure quod dolores
       nesciunt, delectus consequatur a cupiditate sit aliquam fugit quam, enim

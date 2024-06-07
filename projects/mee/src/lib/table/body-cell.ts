@@ -5,7 +5,7 @@ import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
   selector: '[meeCell]',
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'p-b align-middle',
+    class: 'p-b4 align-middle',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

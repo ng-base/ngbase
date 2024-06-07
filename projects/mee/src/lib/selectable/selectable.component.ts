@@ -13,10 +13,9 @@ import { SelectableItem } from './selectable-item.component';
   standalone: true,
   selector: 'mee-selectable',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
-    class: 'inline-flex relative bg-background rounded-base p-1',
+    class: 'inline-flex relative bg-muted-background rounded-base p-b',
   },
 })
 export class Selectable {

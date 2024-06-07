@@ -10,22 +10,22 @@ import { PopoverTrigger } from '@meeui/popover';
   imports: [Drag, DragMove, Button, DialogClose, PopoverTrigger],
   template: `
     <div
-      class="absolute left-0 top-0 aspect-square w-40 border border-border bg-slate-100"
+      class="absolute left-0 top-0 aspect-square w-40 border bg-slate-100"
       [meePopoverTrigger]="myTemplate"
       [options]="{ position: 'right', anchor: true }"
     ></div>
     <div
-      class="absolute right-0 top-0 aspect-square w-40 border border-border bg-slate-100"
+      class="absolute right-0 top-0 aspect-square w-40 border bg-slate-100"
       [meePopoverTrigger]="myTemplate"
       [options]="{ position: 'right', anchor: true }"
     ></div>
     <!-- <div
-      class="absolute bottom-0 top-10 aspect-square w-40 border border-border bg-slate-100"
+      class="absolute bottom-0 top-10 aspect-square w-40 border bg-slate-100"
       [meePopoverTrigger]="myTemplate"
       [options]="{ position: 'right', anchor: true }"
     ></div> -->
     <div
-      class="absolute bottom-0 right-0 aspect-square w-40 border border-border bg-slate-100"
+      class="absolute bottom-0 right-0 aspect-square w-40 border bg-slate-100"
       [meePopoverTrigger]="myTemplate"
       [options]="{ position: 'right', anchor: true }"
     ></div>

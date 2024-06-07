@@ -12,7 +12,7 @@ import { RangePipe } from '@meeui/utils';
   imports: [FormsModule, Heading, ScrollArea, List, Card, RangePipe],
   template: `
     <h4 meeHeader class="mb-5" id="scrollAreaPage">Scroll Area</h4>
-    <mee-scroll-area class="max-h-40 rounded-md border border-border">
+    <mee-scroll-area class="max-h-40 rounded-md border">
       @for (item of 10 | range; track item) {
         <button meeList>List 1</button>
       }

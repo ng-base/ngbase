@@ -15,15 +15,15 @@ import { Checkbox } from '../checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Checkbox, FormsModule],
   template: ` @if (multiple()) {
-      <mee-checkbox [ngModel]="checked"></mee-checkbox>
+      <mee-checkbox [ngModel]="checked" class="mr-b2" />
     }
-    <ng-content></ng-content>`,
+    <ng-content />`,
   host: {
     class:
-      'flex items-center w-full py-b/3 px-b/2 hover:bg-lighter cursor-pointer rounded-md focus:bg-lighter outline-none text-sm',
+      'flex items-center w-full py-b1.5 px-b2 hover:bg-muted-background cursor-pointer rounded-md focus:bg-muted-background outline-none text-sm',
     role: 'option',
     '(click)': 'selectOption()',
-    '[class.bg-lighter]': 'active()',
+    '[class.bg-muted-background]': 'active()',
     tabindex: '-1',
   },
 })

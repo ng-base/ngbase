@@ -19,16 +19,19 @@ import { Drag, DragData } from '../drag';
   standalone: true,
   imports: [Drag],
   template: `
-    <div class="h-full overflow-hidden rounded-full bg-background" meeDrag>
+    <div
+      class="h-full overflow-hidden rounded-full bg-muted-background"
+      meeDrag
+    >
       <div class="h-full bg-primary" #track></div>
     </div>
     <span
-      class="pointer-events-none absolute -top-1 inline-block h-4 w-4 -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
+      class="h-b4 w-b4 pointer-events-none absolute -top-b inline-block -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
       #slider
     ></span>
   `,
   host: {
-    class: 'block relative h-1.5 my-1',
+    class: 'block relative h-b2 my-b',
     role: 'progressbar',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,

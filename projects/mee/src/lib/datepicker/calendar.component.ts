@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   signal,
@@ -6,28 +5,30 @@ import {
   input,
   ChangeDetectionStrategy,
   inject,
+  viewChildren,
   effect,
+  ElementRef,
+  OnDestroy,
 } from '@angular/core';
-import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
+import { NgClass } from '@angular/common';
 import { Button } from '../button';
-import { DialogRef } from '../portal';
 import { DatePicker } from './datepicker.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { Icons } from '../icon';
 
 @Component({
   standalone: true,
   selector: 'mee-calendar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, Button, Icons],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   template: `
-    <div class="header">
+    <div class="mb-b2 flex items-center justify-between">
       <button
         meeButton
         variant="outline"
-        class="small h-7 w-7 rounded-md"
+        class="h-b6 w-b6 rounded-md !px-0"
         [class]="!first() ? 'invisible' : ''"
         (click)="navigate(-1)"
       >
@@ -36,7 +37,7 @@ import { Icons } from '@meeui/icon';
       <button
         meeButton
         variant="ghost"
-        class="small rounded-md px-3 py-1"
+        class="small rounded-md"
         (click)="toggleView()"
       >
         {{ title() }}
@@ -44,7 +45,7 @@ import { Icons } from '@meeui/icon';
       <button
         meeButton
         variant="outline"
-        class="small h-7 w-7 rounded-md"
+        class="h-b6 w-b6 rounded-md !px-0"
         [class]="!last() ? 'invisible' : ''"
         (click)="navigate(1)"
       >
@@ -56,13 +57,13 @@ import { Icons } from '@meeui/icon';
       <div class="years">
         @for (year of years(); track year) {
           <button
-            class="items-center justify-center rounded-md py-2  hover:bg-lighter"
+            class="items-center justify-center rounded-md py-b2  hover:bg-muted-background"
             (click)="selectYear(year)"
             [ngClass]="[
-              todayDay() && cSelectedYear() === year
-                ? 'border border-border bg-lighter'
+              todayDay() && cStartYear() === year
+                ? 'border bg-muted-background'
                 : '',
-              cSelectedYear() === year ? '!bg-primary text-foreground' : ''
+              cStartYear() === year ? '!bg-primary text-foreground' : ''
             ]"
           >
             {{ year }}
@@ -73,37 +74,42 @@ import { Icons } from '@meeui/icon';
       <div class="months">
         @for (month of months; track month.value) {
           <button
-            class="items-center justify-center rounded-md py-2  hover:bg-lighter"
+            class="items-center justify-center rounded-md py-b2  hover:bg-muted-background"
             (click)="selectMonth(month)"
-            [ngClass]="[
-              todayDay() && cSelectedMonth() === month.value
-                ? 'border border-border bg-lighter'
-                : '',
-              cSelectedMonth() === month.value
-                ? '!bg-primary text-foreground'
-                : ''
-            ]"
+            [ngClass]="{
+              'border bg-muted-background':
+                todayDay() && cStartMonth() === month.value,
+              '!bg-primary text-foreground': datePicker
+                .dates()
+                .month.includes(month.value + 1 + '-' + cStartYear())
+            }"
           >
             {{ month.name }}
           </button>
         }
       </div>
     } @else {
-      <div class="day-names">
+      <div class="day-names grid grid-cols-7">
         @for (dayName of dayNames; track dayName) {
-          <div class="p-1 text-center text-muted">{{ dayName }}</div>
+          <div class="p-b text-center text-muted">{{ dayName }}</div>
         }
       </div>
-      <div class="days">
+      <div class="grid grid-cols-7 gap-y-b2">
         @for (day of getDaysArray(); track $index) {
           <button
             (click)="selectDate(day.day)"
-            class="day mx-auto flex h-9 w-9 items-center justify-center rounded-md hover:bg-lighter"
+            #days
+            class="mx-auto flex h-b9 w-b9 items-center justify-center text-center hover:bg-muted-background"
             [ngClass]="{
-              'bg-lighter': day.day === todayDay() && day.current,
+              'bg-muted-background':
+                (day.day === todayDay() && day.current) ||
+                (day.count <= datePicker.hoveredCount() &&
+                  datePicker.startDateCount() &&
+                  day.count >= datePicker.startDateCount()),
               'text-slate-400': !day.current || day.disabled,
-              '!bg-primary text-foreground':
-                day.day === selectedDay() && day.current
+              '!bg-primary text-foreground': datePicker
+                .dates()
+                .day.includes(day.day + '-' + day.mon + '-' + cStartYear())
             }"
           >
             {{ day.day }}
@@ -112,26 +118,25 @@ import { Icons } from '@meeui/icon';
       </div>
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'inline-block min-h-[18.75rem] p-2 w-[268px]',
+    class: 'inline-block min-h-[18.75rem] p-b2 w-[268px]',
   },
   styles: `
-    .day-names {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-    }
+    // .day-names {
+    // display: grid;
+    // grid-template-columns: repeat(7, 1fr);
+    // }
 
-    .day {
-      text-align: center;
-    }
+    // .day {
+    //   text-align: center;
+    // }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+    // .header {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   align-items: center;
+    //   margin-bottom: 10px;
+    // }
 
     .years,
     .months {
@@ -145,19 +150,21 @@ import { Icons } from '@meeui/icon';
     }
   `,
 })
-export class Calendar {
+export class Calendar implements OnDestroy {
   datePicker = inject(DatePicker);
+  days = viewChildren<ElementRef<HTMLElement>>('days');
   first = input(false);
   last = input(false);
   index = input(0);
 
-  readonly cSelectedMonth = computed(() => {
-    const month = this.datePicker.selectedMonth() + this.index();
+  readonly cStartMonth = computed(() => {
+    const month = this.datePicker.startMonth() + this.index();
     return month > 11 ? 12 - month : month;
   });
-  readonly cSelectedYear = computed(() => {
-    const year = this.datePicker.selectedYear();
-    const month = this.datePicker.selectedMonth();
+
+  readonly cStartYear = computed(() => {
+    const year = this.datePicker.startYear();
+    const month = this.datePicker.startMonth();
     const showType = this.datePicker.showType();
     const index = this.index();
     if (showType === 'date') {
@@ -168,11 +175,13 @@ export class Calendar {
       return year + index * 24;
     }
   });
+
   readonly selectedMonthName = computed(() => {
-    const date = new Date(this.cSelectedYear(), this.cSelectedMonth());
+    const date = new Date(this.cStartYear(), this.cStartMonth());
     return date.toLocaleString('default', { month: 'long' });
   });
-  years = signal(this.getYears(this.cSelectedYear()));
+
+  years = signal(this.getYears(this.cStartYear()));
   readonly months = Array.from({ length: 12 }, (_, i) => {
     const name = new Date(0, i).toLocaleString('default', { month: 'long' });
     return { name: name.substring(0, 3), value: i };
@@ -182,7 +191,7 @@ export class Calendar {
   readonly title = computed(() => {
     const type = this.datePicker.showType();
     const month = this.selectedMonthName();
-    const year = this.cSelectedYear();
+    const year = this.cStartYear();
     const years = this.years();
     const r =
       type === 'year'
@@ -192,42 +201,52 @@ export class Calendar {
           : month + ' ' + year;
     return r;
   });
+
   readonly dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   // get the days array based on the month and year
   getDaysArray = computed(() => {
-    const month = this.cSelectedMonth();
-    const year = this.cSelectedYear();
+    const month = this.cStartMonth();
+    const year = this.cStartYear();
     const dateFilter = this.datePicker.dateFilter();
     const numDays = new Date(year, month + 1, 0).getDate();
-    const daysArray = Array.from({ length: numDays }, (_, i) => ({
-      mon: month + 1,
-      day: i + 1,
-      disabled: !dateFilter?.(new Date(year, month, i + 1)) || false,
-      current: true,
-    }));
+    const daysArray = Array.from({ length: numDays }, (_, i) => {
+      const date = new Date(year, month, i + 1);
+      return {
+        mon: month + 1,
+        day: i + 1,
+        disabled: !dateFilter?.(date) || false,
+        current: true,
+        count: date.getTime(),
+      };
+    });
     const startDay = new Date(year, month).getDay();
     // get the additional days from the previous month
     const prevMonth = new Date(year, month, 0).getDate();
-    const daysArrayPrev = Array.from({ length: startDay }, (_, i) => ({
-      mon: month,
-      day: prevMonth - startDay + i + 1,
-      disabled:
-        !dateFilter?.(
-          new Date(year, month - 1, prevMonth - startDay + i + 1),
-        ) || false,
-      current: false,
-    }));
+    const daysArrayPrev = Array.from({ length: startDay }, (_, i) => {
+      const date = new Date(year, month - 1, prevMonth - startDay + i + 1);
+      return {
+        mon: month,
+        day: prevMonth - startDay + i + 1,
+        disabled: !dateFilter?.(date) || false,
+        current: false,
+        count: date.getTime(),
+      };
+    });
     const t = daysArrayPrev.concat(daysArray); // Padding for start day alignment
     // get the additional days from the next month to fill the last row
     // we need to check whether it is divisible by 7 and we have to fill only the remaining days
     const remaining = t.length % 7 === 0 ? 0 : 7 - (t.length % 7);
-    const daysArrayNext = Array.from({ length: remaining }, (_, i) => ({
-      mon: month + 2,
-      day: i + 1,
-      disabled: !dateFilter?.(new Date(year, month + 1, i + 1)) || false,
-      current: false,
-    }));
+    const daysArrayNext = Array.from({ length: remaining }, (_, i) => {
+      const date = new Date(year, month + 1, i + 1);
+      return {
+        mon: month + 2,
+        day: i + 1,
+        disabled: !dateFilter?.(date) || false,
+        current: false,
+        count: date.getTime(),
+      };
+    });
     t.push(...daysArrayNext);
     return t;
   });
@@ -237,28 +256,57 @@ export class Calendar {
     return this.getSelectedDayOfMonth(today);
   });
 
-  selectedDay = computed(() => {
-    const today = this.datePicker.currentDate();
-    return this.getSelectedDayOfMonth(today);
-  });
+  eventListeners: { element: HTMLElement; listener: () => void }[] = [];
+
+  constructor() {
+    effect(() => {
+      const days = this.days();
+      const range = this.datePicker.range();
+      const dates = this.datePicker.selectedDates();
+      this.clearListeners();
+
+      if (days.length && range && dates[0] && !dates[1]) {
+        const arr = this.getDaysArray();
+
+        days.forEach((day, i) => {
+          const listener = () => {
+            this.hoverDate(arr[i].day, arr[i].mon - 1);
+          };
+
+          day.nativeElement.addEventListener('mouseover', listener);
+          this.eventListeners.push({ element: day.nativeElement, listener });
+        });
+      }
+    });
+  }
 
   private getSelectedDayOfMonth(date: Date) {
     const r =
-      this.cSelectedMonth() === date.getMonth() &&
-      this.cSelectedYear() === date.getFullYear()
+      this.cStartMonth() === date.getMonth() &&
+      this.cStartYear() === date.getFullYear()
         ? date.getDate()
         : 0;
     return r;
   }
 
+  clearListeners() {
+    this.eventListeners.forEach(({ element, listener }) => {
+      element.removeEventListener('mouseover', listener);
+    });
+  }
+
+  hoverDate(day: number, month: number) {
+    this.datePicker.updateHoveredDate(new Date(this.cStartYear(), month, day));
+  }
+
   selectDate(day: number) {
-    const date = new Date(this.cSelectedYear(), this.cSelectedMonth(), day);
+    const date = new Date(this.cStartYear(), this.cStartMonth(), day);
     this.datePicker.selectDate(date);
   }
 
   navigate(direction: number) {
-    let selectedYear = this.datePicker.selectedYear();
-    let selectedMonth = this.datePicker.selectedMonth();
+    let selectedYear = this.datePicker.startYear();
+    let selectedMonth = this.datePicker.startMonth();
     const count = this.datePicker.noOfCalendar();
     direction = direction * count;
     const type = this.datePicker.showType();
@@ -278,8 +326,8 @@ export class Calendar {
       }
     }
 
-    this.datePicker.selectedYear.set(selectedYear);
-    this.datePicker.selectedMonth.set(selectedMonth);
+    this.datePicker.startYear.set(selectedYear);
+    this.datePicker.startMonth.set(selectedMonth);
   }
 
   getYears(year: number) {
@@ -291,10 +339,14 @@ export class Calendar {
   }
 
   selectMonth(month: any) {
-    this.datePicker.selectMonth(month.value, this.cSelectedYear());
+    this.datePicker.selectMonth(month.value, this.cStartYear());
   }
 
   toggleView() {
     this.datePicker.toggleView();
+  }
+
+  ngOnDestroy(): void {
+    this.clearListeners();
   }
 }

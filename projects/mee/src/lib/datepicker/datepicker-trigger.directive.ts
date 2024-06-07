@@ -11,28 +11,31 @@ import { Input } from '../input';
   },
 })
 export class DatepickerTrigger {
+  el = inject(ElementRef);
   datepicker = input<DatePicker>();
   noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
   range = input(false);
+  format = input<string>('MM-dd-yyyy');
   inputS = inject(Input);
   pickerType = input<'date' | 'month' | 'year'>('date');
 
-  constructor() {}
-
-  el = inject(ElementRef);
   popover = popoverPortal();
-  close: VoidFunction = () => {};
+  close?: VoidFunction;
+
+  constructor() {}
 
   open() {
     const { diaRef } = this.popover.open(
       DatePicker,
-      { target: this.el.nativeElement, position: 'bottom' },
+      { target: this.el.nativeElement, position: 'bl' },
       {
         maxHeight: '400px',
         data: {
           pickerType: this.pickerType(),
           noOfCalendars: this.noOfCalendars(),
           range: this.range(),
+          format: this.format(),
+          target: this.el.nativeElement,
         },
       },
     );

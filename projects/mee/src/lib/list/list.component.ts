@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   `,
   host: {
     class:
-      'flex items-center w-full rounded-md p-h text-left hover:bg-lighter outline-0',
+      'flex items-center w-full rounded-md gap-b2 p-b2 text-left hover:bg-muted-background outline-0',
   },
 })
 export class List {}

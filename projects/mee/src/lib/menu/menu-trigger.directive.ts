@@ -10,6 +10,7 @@ import { popoverPortal } from '../popover';
 import { Menu } from './menu.component';
 import { NavigationMenu } from './navigation-menu.directive';
 import { Subject } from 'rxjs';
+import { DialogOptions } from '../portal';
 
 @Directive({
   standalone: true,
@@ -21,6 +22,7 @@ import { Subject } from 'rxjs';
 export class MenuTrigger {
   meeMenuTrigger = input.required<Menu>();
   hover = inject(NavigationMenu, { optional: true });
+  options = input<DialogOptions>({});
   private parent = inject(Menu, { optional: true });
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   private popover = popoverPortal();
@@ -95,9 +97,9 @@ export class MenuTrigger {
       {
         target: this.el.nativeElement,
         position: this.parent ? 'right' : 'bl',
-        offset: 0,
+        offset: 4,
       },
-      { maxHeight: '400px', backdrop: !this.parent },
+      { maxHeight: '400px', backdrop: !this.parent, ...this.options() },
     );
     menu.diaRef = diaRef;
     menu.opened();

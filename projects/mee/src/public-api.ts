@@ -35,3 +35,8 @@ export * from './lib/datepicker';
 export * from './lib/scroll-area';
 export * from './lib/theme';
 export * from './lib/alert';
+export * from './lib/spinner';
+export * from './lib/table';
+export * from './lib/icon';
+export * from './lib/portal';
+export * from './lib/color-picker';

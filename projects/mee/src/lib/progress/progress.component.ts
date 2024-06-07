@@ -14,7 +14,7 @@ import {
   ></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'block h-2 my-1 bg-background rounded-full overflow-hidden',
+    class: 'block h-b2 my-1 bg-muted-background rounded-full overflow-hidden',
     role: 'progressbar',
   },
 })

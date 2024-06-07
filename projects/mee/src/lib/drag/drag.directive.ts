@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, OnDestroy, inject } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import {
@@ -22,8 +23,7 @@ export class DragData {
     public clientX?: number,
     public clientY?: number,
     public direction?: 'left' | 'right',
-    // between 0 and 1
-    public velocity = 0,
+    public velocity = 0, // between 0 to 1
     public time = Date.now(), // Add the time property
   ) {}
 }
@@ -34,40 +34,30 @@ export class DragData {
 })
 export class Drag implements OnDestroy {
   el = inject(ElementRef);
+  document = inject(DOCUMENT);
   events = new Subject<DragData>();
   meeDrag = outputFromObservable(this.events);
   startEvent!: MouseEvent | Touch;
   lastValue = new DragData();
-  private dragEvent = merge(
-    fromEvent<MouseEvent>(this.el.nativeElement, 'mousedown'),
-    fromEvent<TouchEvent>(this.el.nativeElement, 'touchstart'),
-  ).pipe(
+  private dragEvent = this.listen('mousedown', 'touchstart').pipe(
     switchMap((event) => {
-      this.startEvent = event instanceof TouchEvent ? event.touches[0] : event;
-      // this.lastValue = new DragData();
-      // this.lastValue.event = event;
+      this.startEvent = event instanceof MouseEvent ? event : event.touches[0];
       this.lastValue = this.getDragEvent(event, 'start');
-      // this.lastValue.event = event;
       this.events.next(this.lastValue);
-      return merge(
-        fromEvent<MouseEvent>(document, 'mousemove'),
-        fromEvent<TouchEvent>(document, 'touchmove'),
-      ).pipe(
+      this.toggleUserSelect();
+      return this.listen('mousemove', 'touchmove', this.document).pipe(
         takeUntil(
-          merge(
-            fromEvent<MouseEvent>(document, 'mouseup'),
-            fromEvent<TouchEvent>(document, 'touchend'),
-          ).pipe(
+          this.listen('mouseup', 'touchend', this.document).pipe(
             tap(() => {
               const value = this.getDragEvent(this.lastValue.event!, 'end');
               value.velocity = this.lastValue.velocity;
               this.events.next(value);
               this.lastValue = new DragData();
+              this.toggleUserSelect(false);
             }),
           ),
         ),
         map((e) => {
-          // e.preventDefault();
           this.lastValue = this.getDragEvent(e, 'move');
           return this.lastValue;
         }),
@@ -77,12 +67,22 @@ export class Drag implements OnDestroy {
   subscription!: Subscription;
 
   constructor() {
-    // fromEvent(document, 'touchmove').subscribe((e) => {
-    //   console.log(e);
-    // });
     this.subscription = this.dragEvent.subscribe((event) => {
       this.events.next(event);
     });
+  }
+
+  listen(first: string, second: string, el = this.el.nativeElement) {
+    return merge(
+      fromEvent<MouseEvent>(el, first),
+      fromEvent<TouchEvent>(el, second),
+    );
+  }
+
+  private toggleUserSelect(active = true) {
+    const value = active ? 'none' : '';
+    this.document.body.style.userSelect = value;
+    this.document.body.style.webkitUserSelect = value;
   }
 
   private getDirection(ev: MouseEvent | Touch) {
@@ -99,9 +99,9 @@ export class Drag implements OnDestroy {
     } else if (ev instanceof Touch) {
       const touch = ev;
       const startTouch =
-        this.startEvent instanceof TouchEvent
-          ? this.startEvent.touches[0]
-          : this.startEvent;
+        this.startEvent instanceof MouseEvent
+          ? this.startEvent
+          : (this.startEvent as any).touches[0];
       if (touch.clientX > startTouch.clientX) {
         direction = 'right';
       } else if (touch.clientX < startTouch.clientX) {

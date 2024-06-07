@@ -8,7 +8,7 @@ import { Heading } from '@meeui/typography';
   imports: [Resizable, ResizableGroup, Heading],
   template: `
     <h4 meeHeader class="mb-5" id="resizablePage">Resizable</h4>
-    <mee-resizable-group class="rounded-lg border border-border">
+    <mee-resizable-group class="rounded-lg border">
       <mee-resizable [size]="30">
         <div class="flex h-[200px] w-full items-center justify-center">
           Resizable 1

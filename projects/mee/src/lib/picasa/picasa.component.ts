@@ -7,6 +7,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { DialogRef } from '../dialog';
+import { PicasaBase } from './picasa-base.component';
 
 @Component({
   standalone: true,
@@ -28,6 +29,7 @@ export class PicasaContainer {
   data = inject(DialogRef);
   imgEl = viewChild<ElementRef<HTMLImageElement>>('imgEl');
   dialogRef = inject(DialogRef);
+  picasa = inject(PicasaBase);
 
   constructor() {
     let transform = '';
@@ -45,16 +47,18 @@ export class PicasaContainer {
       imgEl.style.transform = transform;
       console.log(transform);
       setTimeout(() => {
-        imgEl.style.transition =
-          '500ms cubic-bezier(0.000, 0.405, 0.000, 1.285)';
+        imgEl.style.transition = '500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
         imgEl.style.transform = `none`;
       });
     });
 
     this.dialogRef.afterClosed.subscribe(() => {
       const imgEl = this.imgEl()!.nativeElement;
-      imgEl.style.transition = '500ms cubic-bezier(0.000, 0.405, 0.000, 1.285)';
+      imgEl.style.transition = '500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
       imgEl.style.transform = transform;
+      imgEl.addEventListener('transitionend', this.picasa.animationDone, {
+        once: true,
+      });
     });
   }
 }

@@ -34,14 +34,14 @@ import { AutocompleteInput } from './autocomplete.directive';
       class="readonly !flex flex-wrap gap-2"
       (click)="prevent($event)"
     >
-      <ng-content select="mee-chip"></ng-content>
+      <ng-content select="mee-chip" />
 
       <li class="flex min-w-8 flex-1 items-center" (click)="open()">
-        <ng-content select="input"></ng-content>
+        <ng-content select="input" />
       </li>
     </ul>
     <ng-template #options>
-      <ng-content></ng-content>
+      <ng-content />
     </ng-template>
   `,
   providers: [
@@ -55,6 +55,7 @@ import { AutocompleteInput } from './autocomplete.directive';
 export class Autocomplete implements ControlValueAccessor {
   selectOption = contentChildren(Option);
   inputContainer1 = contentChild(AutocompleteInput);
+  chips = contentChildren(Chip);
   container = viewChild('container', { read: ElementRef });
   optionsTemplate = viewChild('options', { read: TemplateRef });
   multiple = input(false);
@@ -143,9 +144,9 @@ export class Autocomplete implements ControlValueAccessor {
   }
 
   private updateInputValue() {
-    // if (this.multiple()) {
-    this.inputContainer1()?.updateValue(this.cValue());
-    // }
+    if (!this.chips()?.length) {
+      this.inputContainer1()?.updateValue(this.cValue());
+    }
   }
 
   selectValue(value: string): void {

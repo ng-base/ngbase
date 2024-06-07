@@ -17,10 +17,7 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
   standalone: true,
   imports: [NgComponentOutlet, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div
-      class="relative flex overflow-hidden border-b border-border"
-      role="tabList"
-    >
+  template: `<div class="relative flex overflow-hidden border-b" role="tabList">
       <button
         #leftScroll
         (click)="scroll('left')"
@@ -32,7 +29,7 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
         @for (tab of tabs(); track $index) {
           <button
             #tab
-            class="border-b-2 border-transparent px-b py-h font-medium text-muted"
+            class="border-b-2 border-transparent px-b4 py-b3 font-medium text-muted"
             [class]="
               $index === activeIndex() ? '!border-primary !text-text' : ''
             "

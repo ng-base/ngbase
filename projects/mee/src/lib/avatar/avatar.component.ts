@@ -1,25 +1,33 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 @Component({
-  selector: 'mee-avatar',
   standalone: true,
+  selector: 'mee-avatar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (src()) {
       <img
         [src]="src()"
         alt="avatar"
-        class="aspect-sqaure h-full max-h-full w-full max-w-full rounded-full"
+        class="aspect-sqaure h-full max-h-full max-w-full rounded-full"
       />
-    } @else {
+    } @else if (name()) {
       <div
         class="flex h-full w-full items-center justify-center rounded-full bg-background p-2"
       >
         {{ nameChar() }}
       </div>
+    } @else {
+      <ng-content />
     }
   `,
   host: {
-    class: 'inline-block aspect-sqaure',
+    class: 'inline-flex aspect-sqaure rounded-base',
   },
 })
 export class Avatar {

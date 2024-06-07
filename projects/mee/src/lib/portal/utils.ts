@@ -150,15 +150,15 @@ export function tooltipPositionInternal(data: ConfigObj): {
 
   let { top: topPos, left: leftPos } = getTooltipCoordinates(position, data);
 
-  if (topPos <= 0) {
-    topPos = offset;
-  } else if (topPos + elHeight > windowHeight) {
-    topPos = windowHeight - elHeight - offset;
-  } else if (leftPos < 0) {
-    leftPos = 0;
-  } else if (leftPos + elWidth > windowWidth) {
-    leftPos = windowWidth - elWidth;
-  }
+  // if (topPos <= 0) {
+  //   topPos = offset;
+  // } else if (topPos + elHeight > windowHeight) {
+  //   topPos = windowHeight - elHeight - offset;
+  // } else if (leftPos < 0) {
+  //   leftPos = 0;
+  // } else if (leftPos + elWidth > windowWidth) {
+  //   leftPos = windowWidth - elWidth;
+  // }
 
   let bottomPos = position.includes('top')
     ? windowHeight - (topPos + elHeight)

@@ -43,7 +43,7 @@ import { OverlayConfig } from '../portal/utils';
   imports: [],
   template: ` <div
       #container
-      class="menu-container pointer-events-auto fixed z-10 rounded-base border border-border bg-foreground p-1 shadow-md"
+      class="menu-container pointer-events-auto fixed z-10 rounded-base border bg-foreground p-b shadow-md"
       [class]="[
         tooltipOptions.anchor ? 'popover-anchor' : 'overflow-auto',
         tooltipOptions.className

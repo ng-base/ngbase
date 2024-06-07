@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Icons } from '@meeui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
 
 @Component({
-  selector: 'mee-breadcrumb',
   standalone: true,
+  selector: 'mee-breadcrumb',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icons],
   viewProviders: [provideIcons({ lucideChevronRight })],
   template: `
@@ -22,7 +23,7 @@ import { lucideChevronRight } from '@ng-icons/lucide';
     }
   `,
   host: {
-    class: 'flex items-center space-x-h text-muted',
+    class: 'flex items-center space-x-b2 text-muted',
   },
 })
 export class Breadcrumb {

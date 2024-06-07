@@ -74,11 +74,11 @@ export class PicasaBase extends BaseDialog {
       //   this.show.set(false);
       // }, 2000);
     });
-    this.dialogRef.afterClosed.subscribe(() => {
-      setTimeout(() => {
-        this.animationDone();
-      }, 310);
-    });
+    // this.dialogRef.afterClosed.subscribe(() => {
+    //   setTimeout(() => {
+    //     this.animationDone();
+    //   }, 500);
+    // });
   }
 
   override setOptions(options: DialogOptions) {

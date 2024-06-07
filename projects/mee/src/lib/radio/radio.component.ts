@@ -7,13 +7,14 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { generateId } from '../utils';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'mee-radio',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf, NgClass],
   template: `
-    <input
+    <!-- <input
       type="radio"
       [checked]="checked()"
       (change)="updateValue($event)"
@@ -24,7 +25,19 @@ import { generateId } from '../utils';
     />
     <label [for]="inputId">
       <ng-content></ng-content>
-    </label>
+    </label> -->
+    <div
+      class="flex cursor-pointer items-center gap-b2"
+      (click)="updateValue($event)"
+    >
+      <button
+        type="radio"
+        class="custom-radio h-b4 w-b4 relative flex items-center justify-center rounded-full border border-black"
+      >
+        <div *ngIf="checked()" class="h-b2 w-b2 rounded-full bg-black"></div>
+      </button>
+      <ng-content></ng-content>
+    </div>
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,

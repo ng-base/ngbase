@@ -2,18 +2,18 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { Button } from '../button';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { Icons } from '../icon';
 
 @Component({
   standalone: true,
   selector: 'mee-chip, [meeChip]',
-  imports: [Button, Icons],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, Icons],
   viewProviders: [provideIcons({ lucideX })],
   template: `<ng-content></ng-content>
     <button
       meeButton
-      class="small -my-2 -mr-b"
+      class="small -my-b2 -mr-b4"
       variant="ghost"
       (click)="close.emit()"
     >
@@ -21,7 +21,7 @@ import { Icons } from '@meeui/icon';
     </button> `,
   host: {
     class:
-      'inline-flex items-center bg-background rounded-base px-h py-1 text-xs',
+      'inline-flex items-center bg-muted-background rounded-base px-b2 py-1 text-xs font-medium',
   },
 })
 export class Chip {

@@ -36,7 +36,7 @@ import { fadeAnimation } from '@meeui/dialog/dialog.animation';
   template: `
     <div
       #container
-      class="pointer-events-auto fixed z-10 overflow-auto rounded-md border border-border bg-foreground p-1 shadow-md"
+      class="pointer-events-auto fixed z-10 overflow-auto rounded-md border bg-foreground p-1 shadow-md"
       [@slideInOutAnimation]="status() ? 1 : 0"
       (@slideInOutAnimation.done)="animationDone()"
     >

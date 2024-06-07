@@ -33,11 +33,11 @@ export abstract class BaseDialog {
     this.dialogRef.close();
   }
 
-  animationDone() {
+  animationDone = () => {
     if (!this.status()) {
       this.dialogRef.destroy();
     }
-  }
+  };
 }
 
 export class DialogRef<T = any> {

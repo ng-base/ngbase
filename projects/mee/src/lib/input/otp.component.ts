@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { InputStyle } from './input-style.directive';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RangePipe } from '@meeui/utils';
+import { RangePipe } from '../utils';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -85,6 +85,7 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
           let index = this.values.findIndex((v) => !v);
           index = index === -1 ? this.no() - 1 : index;
           inputs[index].nativeElement.focus();
+          inputs[index].nativeElement.style.position = 'relative';
         };
 
         const keydownListener = (e: KeyboardEvent) => {
@@ -100,14 +101,20 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
           }
         };
 
+        const blurListener = () => {
+          inputEl.style.position = '';
+        };
+
         inputEl.addEventListener('input', inputListener);
         inputEl.addEventListener('focus', focusListener);
+        inputEl.addEventListener('blur', blurListener);
         inputEl.addEventListener('keydown', keydownListener);
 
         // remove event listener
         this.listeners.push(() => {
           inputEl.removeEventListener('input', inputListener);
           inputEl.removeEventListener('focus', focusListener);
+          inputEl.removeEventListener('blur', blurListener);
           inputEl.removeEventListener('keydown', keydownListener);
         });
       });

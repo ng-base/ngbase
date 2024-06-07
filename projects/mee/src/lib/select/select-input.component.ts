@@ -7,7 +7,7 @@ import { InputStyle } from '../input/input-style.directive';
   selector: '[meeSelectInput]',
   hostDirectives: [InputStyle],
   host: {
-    class: 'w-full mb-h !ring-0 border-b border-border rounded-none px-b/2',
+    class: 'w-full mb-b !ring-0 border-b rounded-none px-b2',
   },
 })
 export class SelectInput {
@@ -22,3 +22,9 @@ export class SelectInput {
     });
   }
 }
+
+@Directive({
+  standalone: true,
+  selector: '[meeSelectTrigger]',
+})
+export class SelectTrigger {}

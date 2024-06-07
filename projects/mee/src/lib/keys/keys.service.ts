@@ -45,7 +45,7 @@ export class Keys {
     let isFirstTrueValue = false;
 
     return this.keypress$.pipe(
-      map<KeyboardEvent, [boolean, KeyboardEvent]>((evnt) => {
+      map<KeyboardEvent, [boolean, KeyboardEvent]>((ev) => {
         // make sure key combination and number of keys should be same
         const isLengthSame = this.keys.size === keys.length;
         // check all the keys are matching
@@ -53,7 +53,7 @@ export class Keys {
         const active = isLengthSame && isAllKeysSame;
 
         isFirstTrueValue = isFirstTrueValue || active;
-        return [active, evnt];
+        return [active, ev];
       }),
       filter(() => isFirstTrueValue), //skipValues until positive value comes
       distinctUntilKeyChanged(0), // avoid duplicate values emitting

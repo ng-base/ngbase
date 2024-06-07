@@ -17,13 +17,13 @@ import { Button } from '../button';
   template: `
     <div class="pointer-events-none flex h-full justify-end">
       <div
-        class="pointer-events-auto flex flex-col overflow-hidden border-l border-border bg-foreground shadow-2xl"
+        class="pointer-events-auto flex flex-col overflow-hidden border-l bg-foreground shadow-2xl"
         [ngStyle]="{ width: options.width }"
         [@sideAnimation]="status() ? 1 : 0"
         (@sideAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
-          <div class="bg-secondary-background flex items-center px-b py-h">
+          <div class="bg-secondary-background px-b4 flex items-center py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
             <button
               meeButton
@@ -35,7 +35,7 @@ import { Button } from '../button';
             </button>
           </div>
         }
-        <div class="h-full overflow-auto p-b">
+        <div class="p-b4 h-full overflow-auto">
           <ng-container #myDialog></ng-container>
         </div>
       </div>

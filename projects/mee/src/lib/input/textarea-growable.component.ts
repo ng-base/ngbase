@@ -36,42 +36,42 @@ import { InputStyle } from './input-style.directive';
   host: {
     class: 'overflow-auto',
   },
-  styles: [
-    `
-      :host {
-        /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
-        display: grid;
-        &::after {
-          /* Note the weird space! Needed to preventy jumpy behavior */
-          content: attr(data-replicated-value) ' ';
+  // styles: [
+  //   `
+  //     :host {
+  //       /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
+  //       display: grid;
+  //       &::after {
+  //         /* Note the weird space! Needed to preventy jumpy behavior */
+  //         content: attr(data-replicated-value) ' ';
 
-          /* This is how textarea text behaves */
-          white-space: pre-wrap;
+  //         /* This is how textarea text behaves */
+  //         white-space: pre-wrap;
 
-          /* Hidden from view, clicks, and screen readers */
-          visibility: hidden;
-        }
-        & > textarea {
-          /* You could leave this, but after a user resizes, then it ruins the auto sizing */
-          resize: none;
-          background: transparent;
+  //         /* Hidden from view, clicks, and screen readers */
+  //         visibility: hidden;
+  //       }
+  //       & > textarea {
+  //         /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+  //         resize: none;
+  //         background: transparent;
 
-          /* Firefox shows scrollbar on growth, you can hide like this. */
-          overflow: hidden;
-        }
-        & > textarea,
-        &::after {
-          /* Identical styling required!! */
-          // padding: 5rem;
-          @apply px-3 py-h;
-          font: inherit;
+  //         /* Firefox shows scrollbar on growth, you can hide like this. */
+  //         overflow: hidden;
+  //       }
+  //       & > textarea,
+  //       &::after {
+  //         /* Identical styling required!! */
+  //         // padding: 5rem;
+  //         @apply px-3 py-b2;
+  //         font: inherit;
 
-          /* Place on top of each other */
-          grid-area: 1 / 1 / 2 / 2;
-        }
-      }
-    `,
-  ],
+  //         /* Place on top of each other */
+  //         grid-area: 1 / 1 / 2 / 2;
+  //       }
+  //     }
+  //   `,
+  // ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

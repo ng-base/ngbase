@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Button, ButtonVariant } from '../button';
 import { DialogRef } from '../portal';
 import { Heading } from '../typography';
@@ -16,10 +16,11 @@ export interface AlertOptions {
 @Component({
   standalone: true,
   selector: 'mee-alert',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Heading],
   template: `
-    <h4 class="mb-h text-base font-bold">{{ options.data?.title }}</h4>
-    <p class="pb-3 text-muted">{{ options.data?.description }}</p>
+    <h4 class="mb-b2 text-base font-bold">{{ options.data?.title }}</h4>
+    <p class="text-muted-foreground pb-b3">{{ options.data?.description }}</p>
     <div class="flex justify-end gap-4 pt-1">
       @for (action of options.data?.actions; track action) {
         <button

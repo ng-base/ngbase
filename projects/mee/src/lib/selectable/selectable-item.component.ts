@@ -10,8 +10,7 @@ import { Selectable } from './selectable.component';
   standalone: true,
   selector: 'mee-selectable-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
     class:
       'flex-1 flex items-center font-medium justify-center px-3 py-1 cursor-pointer transition-colors rounded-base whitespace-nowrap',

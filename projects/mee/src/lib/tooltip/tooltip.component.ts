@@ -23,7 +23,7 @@ import { DialogPosition, tooltipPosition } from '../portal';
   styles: ``,
   host: {
     class:
-      'fixed inline-block rounded-base bg-text px-3 py-1.5 text-background text-xs',
+      'fixed inline-block rounded-base bg-foreground px-b3 py-b1.5 border shadow-md',
     '[style.top.px]': 'top()',
     '[style.left.px]': 'left()',
     '[@slideInOutAnimation]': '1',
@@ -34,7 +34,7 @@ import { DialogPosition, tooltipPosition } from '../portal';
       state('1', style({ transform: 'none', opacity: 1 })),
       state('void', style({ transform: 'translateY(20%)', opacity: 0 })),
       state('0', style({ transform: 'translateY(20%)', opacity: 0 })),
-      transition('* => *', animate('200ms ease-out')),
+      transition('* => *', animate('150ms ease-out')),
     ]),
   ],
 })

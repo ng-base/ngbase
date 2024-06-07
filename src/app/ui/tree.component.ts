@@ -79,7 +79,7 @@ interface ExampleFlatNode {
           </button>
           {{ item.name }}
           <button meeButton variant="ghost" (click)="add(item)">Add</button>
-          <div meeTreeNodeContent class="text-muted">
+          <div meeTreeNodeContent class="text-muted-foreground">
             This is the content of {{ item.name }}
           </div>
         </mee-tree-node>

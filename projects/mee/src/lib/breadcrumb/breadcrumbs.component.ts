@@ -1,12 +1,18 @@
-import { Component, contentChildren, effect } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  contentChildren,
+  effect,
+} from '@angular/core';
 import { Breadcrumb } from './breadcrumb.component';
 
 @Component({
-  selector: 'mee-breadcrumbs',
   standalone: true,
+  selector: 'mee-breadcrumbs',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'flex items-center space-x-h',
+    class: 'flex items-center space-x-b2',
     'aria-label': 'breadcrumb',
   },
 })

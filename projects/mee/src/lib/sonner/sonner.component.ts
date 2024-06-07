@@ -17,7 +17,7 @@ import {
       <ul class="fixed bottom-0 right-0 m-4 flex w-96 flex-col gap-2">
         @for (msg of messages(); track msg.id) {
           <li
-            class="absolute w-full rounded-base border border-border bg-foreground p-4 shadow-md transition-all"
+            class="absolute w-full rounded-base border bg-foreground p-4 shadow-md transition-all"
             [style]="{
               'z-index': -$index,
               bottom: 16 * $index + 'px',

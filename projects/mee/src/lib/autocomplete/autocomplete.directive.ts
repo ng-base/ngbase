@@ -24,15 +24,15 @@ export class AutocompleteInput {
   blur = signal(false);
 
   constructor() {
-    afterNextRender(() => {
-      // if (this.autoComplete.multiple()) return;
-      // this.autoComplete.events.subscribe((event) => {
-      //   if (event === 'close') {
-      //     const value = this.autoComplete.cValue();
-      //     this.el.nativeElement.value = value;
-      //   }
-      // });
-    });
+    // afterNextRender(() => {
+    // if (this.autoComplete.multiple()) return;
+    // this.autoComplete.events.subscribe((event) => {
+    //   if (event === 'close') {
+    //     const value = this.autoComplete.cValue();
+    //     this.el.nativeElement.value = value;
+    //   }
+    // });
+    // });
   }
 
   onFocus() {

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  signal,
+  model,
 } from '@angular/core';
 import { AccordionService } from './accordion.service';
 import { generateId } from '../utils';
@@ -19,22 +19,20 @@ import {
   selector: 'mee-accordion-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button class="w-full py-b text-left font-medium" (click)="toggleActive()">
+    <button class="w-full py-b2 text-left font-medium" (click)="toggleActive()">
       <ng-content select="h4"></ng-content>
     </button>
     @if (active()) {
       <div [@slide]>
-        <div class="pb-b">
+        <div class="pb-b2">
           <ng-content></ng-content>
         </div>
       </div>
     }
   `,
-  styles: `
-    :host {
-      @apply block border-b border-border;
-    }
-  `,
+  host: {
+    class: 'block border-b4',
+  },
   animations: [
     trigger('slide', [
       state('void', style({ height: '0', overflow: 'hidden' })),
@@ -45,7 +43,7 @@ import {
   ],
 })
 export class AccordionItem {
-  active = signal(false);
+  active = model(false);
   id = generateId();
 
   accordionService = inject(AccordionService);

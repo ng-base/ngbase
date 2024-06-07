@@ -8,10 +8,10 @@ import { Button } from '@meeui/button';
   imports: [Sidenav, SidenavHeader, SidenavContent, Button],
   template: `
     <mee-sidenav [show]="show()" class="min-h-64">
-      <mee-sidenav-header class="h-full w-40 border border-border">
+      <mee-sidenav-header class="h-full w-40 border">
         <div class="p-2">This is the header</div>
       </mee-sidenav-header>
-      <mee-sidenav-content class="h-full border border-border p-2">
+      <mee-sidenav-content class="h-full border p-2">
         <p>This is the content</p>
         <button meeButton (click)="toggle()">Toggle</button>
       </mee-sidenav-content>

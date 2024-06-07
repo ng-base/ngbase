@@ -17,12 +17,12 @@ import {
       [(ngModel)]="value"
       (ngModelChange)="updateValue()"
       [id]="id"
-      class="switch relative box-content h-6 w-11 overflow-hidden rounded-full border border-border bg-input"
+      class="switch relative box-content h-b6 w-b11 overflow-hidden rounded-full border bg-input"
     />
     <label [for]="id"><ng-content></ng-content></label>
   `,
   host: {
-    class: 'inline-flex items-center gap-2 py-1',
+    class: 'inline-flex items-center gap-b2 py-b',
   },
   styles: `
     .switch {

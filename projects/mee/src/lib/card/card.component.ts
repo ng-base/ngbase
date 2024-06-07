@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'mee-card, [meeCard]',
   standalone: true,
-  template: `<ng-content></ng-content>`,
+  selector: 'mee-card, [meeCard]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content></ng-content>`,
   host: {
-    class:
-      'block rounded-base border border-border bg-foreground p-b text-left',
+    class: 'block rounded-base border bg-foreground p-b4 text-left',
   },
 })
 export class Card {}

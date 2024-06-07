@@ -56,7 +56,7 @@ interface Employee {
     <!-- <button meeButton (click)="update()" class="mb-5">
       Click me {{ randomNum() }}
     </button> -->
-    <mee-card class="p-h">
+    <mee-card class="p-b2">
       <mee-scroll-area class="m-bb h-full max-w-4xl">
         <table meeTable [data]="employees()" [trackBy]="trackByFn">
           @for (column of columns(); track column) {
@@ -107,13 +107,13 @@ interface Employee {
     <!-- <table class="w-full text-sm">
         <thead>
           <tr class="border-b">
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted">
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
               Header 1
             </th>
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted">
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
               Header 2
             </th>
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted">
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
               Header 3
             </th>
           </tr>

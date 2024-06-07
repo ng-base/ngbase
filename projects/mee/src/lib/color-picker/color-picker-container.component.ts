@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   afterNextRender,
@@ -14,6 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   standalone: true,
   selector: 'mee-color-picker-container',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Drag],
   template: `
     <div class="flex w-full flex-col gap-4">

@@ -10,6 +10,7 @@ import {
   input,
   signal,
   computed,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Option } from './option.component';
@@ -28,33 +29,25 @@ import { lucideChevronsUpDown } from '@ng-icons/lucide';
   imports: [NgTemplateOutlet, InputStyle, Icons],
   template: `
     <button
-      #inputContainer
-      meeInputStyle
       role="combobox"
       class="flex w-full items-center justify-between whitespace-nowrap font-medium"
-      (click)="open()"
     >
-      <span class="truncate" [class.text-muted]="!cValue()">{{
-        cValue() || placeholder()
-      }}</span>
-      <!-- <input
-      #inputContainer
-      meeInputStyle
-      class="readonly w-full font-medium"
-      readonly
-      (click)="open()"
-      [value]="cValue()"
-      [placeholder]="placeholder()"
-    /> -->
-      <mee-icon name="lucideChevronsUpDown" class="text-muted"></mee-icon>
+      <span class="truncate" [class.text-muted]="!cValue()">
+        <ng-content select="[meeSelectTrigger]">
+          {{ cValue() || placeholder() }}
+        </ng-content>
+      </span>
+      <mee-icon name="lucideChevronsUpDown" class="text-muted" />
     </button>
     <ng-template #options>
-      <ng-content></ng-content>
+      <ng-content />
     </ng-template>
   `,
   host: {
-    class: 'block',
+    class: 'flex cursor-pointer',
+    '(click)': 'open()',
   },
+  hostDirectives: [InputStyle],
   viewProviders: [provideIcons({ lucideChevronsUpDown })],
   providers: [
     {
@@ -65,9 +58,9 @@ import { lucideChevronsUpDown } from '@ng-icons/lucide';
   ],
 })
 export class Select implements ControlValueAccessor {
+  el = inject(ElementRef);
   selectOptions = contentChildren(Option, { descendants: true });
   optionsTemplate = viewChild('options', { read: TemplateRef });
-  inputContainer = viewChild<ElementRef>('inputContainer');
   multiple = input<boolean>(false);
   placeholder = input<string>('');
   size = input<'target' | 'free'>('target');
@@ -100,21 +93,27 @@ export class Select implements ControlValueAccessor {
   events = new Subject<'open' | 'close'>();
 
   constructor() {
-    effect(() => {
-      const options = this.selectOptions();
-      options.forEach((option) => {
-        option.selectOption = () => {
-          this.selectValue(option.value());
-          if (this.multiple() === false) {
-            this.popClose();
-          }
-        };
-      });
-    });
+    effect(
+      () => {
+        const options = this.selectOptions();
+        options.forEach((option) => {
+          option.multiple.set(this.multiple());
+          option.checked = this.value().includes(option.value());
+          option.selectOption = () => {
+            this.selectValue(option.value());
+            option.checked = !option.checked;
+            if (!this.multiple()) {
+              this.popClose();
+            }
+          };
+        });
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   open() {
-    const target = this.inputContainer()!.nativeElement;
+    const target = this.el.nativeElement;
     const { diaRef } = this.popover.open(
       this.optionsTemplate()!,
       { target, position: 'bl' },

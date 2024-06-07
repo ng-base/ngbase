@@ -13,7 +13,7 @@ import {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@if (active()) {
-    <div class="p-b">
+    <div class="p-b4">
       <ng-content></ng-content>
     </div>
   }`,

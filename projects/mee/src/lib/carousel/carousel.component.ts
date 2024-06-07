@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   afterNextRender,
@@ -13,6 +14,7 @@ import { Drag } from '../drag';
 @Component({
   standalone: true,
   selector: 'mee-carousel',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Drag],
   template: `
     <div class="touch-none overflow-hidden" meeDrag #mainContainer>

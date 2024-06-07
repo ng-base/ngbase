@@ -27,7 +27,7 @@ import { Heading } from '@meeui/typography';
   ],
   template: `
     <h4 meeHeader class="mb-5 ">Forms</h4>
-    <form [formGroup]="forms" class="flex w-96 flex-col gap-h">
+    <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
       <div class="flex flex-col">
         <label for="name" class="mb-1">Name</label>
         <input meeInput formControlName="name" id="name" placeholder="Name" />

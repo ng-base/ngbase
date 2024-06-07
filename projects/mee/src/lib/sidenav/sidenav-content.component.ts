@@ -5,9 +5,9 @@ import { Sidenav } from './sidenav.component';
   standalone: true,
   selector: 'mee-sidenav-content',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
-    class: 'block h-full w-full',
+    class: 'block h-full flex-1',
     // '[style.marginLeft.px]': 'sidenav.left()',
     '[class.transition-all]': 'sidenav.headerWidth()',
   },

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "paths": {
       "@meeui/*": ["./projects/mee/src/lib/*"]
+      // "@meeui/*": ["./dist/mee"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

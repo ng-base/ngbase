@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Input } from '../input';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '../button';
-import { ColorPicker } from '@meeui/color-picker';
+import { ColorPicker } from '../color-picker';
 
 interface ThemeData {
   name: string;
@@ -22,14 +22,14 @@ interface ThemeData {
   selector: 'mee-theme',
   imports: [Input, ReactiveFormsModule, Button, ColorPicker],
   template: `
-    <div class="mb-b flex gap-4">
+    <div class="mb-b4 flex gap-4">
       @for (theme of themes; track theme) {
         <button meeButton variant="outline" (click)="changeTheme(theme)">
           {{ theme.name }}
         </button>
       }
     </div>
-    <form [formGroup]="form" class="flex flex-col gap-b">
+    <form [formGroup]="form" class="flex flex-col gap-b4">
       <div>
         Radius: <input meeInput formControlName="radius" class="ml-2" />
       </div>
@@ -98,7 +98,7 @@ export class ThemeComponent {
     {
       name: 'Light',
       radius: '0.5rem',
-      space: '1rem',
+      space: '0.25rem',
       background: '#f4f4f5',
       foreground: '#ffffff',
       primary: '#000000',

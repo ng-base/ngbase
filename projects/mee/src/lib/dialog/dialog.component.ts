@@ -21,7 +21,7 @@ import { Subject } from 'rxjs';
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
       <div
-        class="pointer-events-auto relative flex flex-col overflow-hidden rounded-base border border-border bg-foreground"
+        class="pointer-events-auto relative flex flex-col overflow-hidden rounded-base border bg-foreground shadow-lg"
         [ngClass]="[options.fullWindow ? 'full-window' : '', classNames]"
         [ngStyle]="{
           width: options.width,
@@ -31,7 +31,9 @@ import { Subject } from 'rxjs';
         [@viewAnimation]="status() ? 1 : 0"
       >
         @if (!isHideHeader) {
-          <div class="bg-secondary-background flex items-center px-b pb-h pt-b">
+          <div
+            class="bg-secondary-background px-b4 pt-b4 flex items-center pb-b2"
+          >
             <h2 class="flex-1 text-base font-bold">{{ options.title }}</h2>
           </div>
         }
@@ -40,12 +42,12 @@ import { Subject } from 'rxjs';
             meeButton
             variant="ghost"
             (click)="close()"
-            class="absolute right-1 top-h mr-1"
+            class="absolute right-1 top-b2 mr-1"
           >
             X
           </button>
         }
-        <div class="h-full overflow-auto p-b">
+        <div class="p-b4 h-full overflow-auto">
           <ng-container #myDialog></ng-container>
         </div>
       </div>

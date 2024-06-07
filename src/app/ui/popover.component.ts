@@ -20,14 +20,14 @@ import { DialogClose } from '@meeui/dialog';
     </button>
 
     <ng-template #myTemplate>
-      <div class="w-56 p-h">
+      <div class="w-56 p-b2">
         <h4 meeHeader class="">Popover</h4>
-        <p class="text-muted">
+        <p class="text-muted-foreground">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita
           sit facere minus minima quis, accusamus vero voluptatem cumque.
           Impedit!
         </p>
-        <button meeButton meeDialogClose class="mt-h">Close</button>
+        <button meeButton meeDialogClose class="mt-b2">Close</button>
       </div>
     </ng-template>
   `,

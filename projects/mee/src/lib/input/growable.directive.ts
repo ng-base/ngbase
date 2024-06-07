@@ -16,6 +16,7 @@ export class Growable implements OnDestroy {
   private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private model = inject(NgControl, { optional: true });
   private sub?: Subscription;
+  private ro?: ResizeObserver;
 
   constructor() {
     // Disable textarea resizing
@@ -34,6 +35,15 @@ export class Growable implements OnDestroy {
           setTimeout(() => this.update());
         }
       });
+
+      this.ro = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          this.update();
+        }
+      });
+
+      // Observe one or multiple elements
+      this.ro.observe(this.el.nativeElement);
     });
   }
 
@@ -45,5 +55,6 @@ export class Growable implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.ro?.disconnect();
   }
 }

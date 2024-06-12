@@ -10,12 +10,11 @@ html {
 }
 
 body {
-  @apply min-h-screen bg-background text-sm;
+  @apply min-h-screen bg-background text-sm text-text;
   font-family: 'Geist', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: 'slnt' 0;
-  color: rgb(var(--text));
 }
 
 * {

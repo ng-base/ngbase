@@ -159,9 +159,9 @@ import {
               @for (mail of filteredMails(); track $index) {
                 <button
                   meeCard
-                  class="hover:bg-background"
+                  class="hover:bg-muted-background"
                   (click)="select(mail)"
-                  [class.!bg-background]="selected() === mail"
+                  [class.bg-muted-background]="selected() === mail"
                 >
                   <div class="flex justify-between">
                     <h4 meeHeader class="!font-semibold">

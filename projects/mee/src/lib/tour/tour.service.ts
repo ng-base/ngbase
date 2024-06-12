@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { TourStep } from './tour-step.directive';
-import { DialogInput } from '@meeui/portal';
+import { DialogInput } from '../portal';
 import { PopoverOpen, popoverPortal } from '../popover';
 
 @Injectable({ providedIn: 'root' })
@@ -37,7 +37,7 @@ export class TourService {
     )`;
   });
 
-  constructor() {}
+  constructor() { }
 
   addStep(step: TourStep) {
     this.steps.update((x) => [...x, step]);

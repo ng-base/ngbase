@@ -11,12 +11,8 @@ import { List } from '@meeui/list';
   template: `
     <mee-card class="!p-b2">
       <a meeList routerLink="/colors">Colors</a>
-      <a meeList routerLink="/svg">Svg</a>
+      <a meeList routerLink="/svgviewer">Svg</a>
     </mee-card>
   `,
 })
-export class SidebarComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class SidebarComponent { }

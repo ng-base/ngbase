@@ -1,4 +1,8 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["meeui", "Sonner"]
+  "files.autoSave": "off",
+  "cSpell.words": [
+    "meeui",
+    "Sonner"
+  ]
 }

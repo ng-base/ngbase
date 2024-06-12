@@ -2,8 +2,7 @@ import { Directive, contentChildren, effect, input } from '@angular/core';
 import { MenuTrigger } from './menu-trigger.directive';
 import { basePopoverPortal } from '../popover/base-popover.service';
 import { Popover, PopoverOpen } from '../popover';
-import { merge } from 'rxjs/internal/observable/merge';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { merge, Subscription } from 'rxjs';
 
 @Directive({
   standalone: true,

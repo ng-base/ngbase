@@ -406,12 +406,12 @@ export class InventoryComponent {
 
 // prettier-ignore
 const TABLE_DATA = [
-  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status:	'Fulfilled', date:	'2023-06-23', amount:	'$250.00' },
-  { name: 'Olivia Smith', email: 'olivia@example.com', type: 'Refund', status:	'Declined', date:	'2023-06-24', amount:	'$150.00' },
-  { name: 'Noah Williams', email: 'noah@example.com', type: 'Subscription', status:	'Fulfilled', date:	'2023-06-25', amount:	'$350.00' },
-  { name: 'Emma Brown', email: 'emma@example.com', type: 'Sale', status:	'Fulfilled', date:	'2023-06-26', amount:	'$450.00' },
-  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status:	'Fulfilled', date:	'2023-06-23', amount:	'$250.00' },
-  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status:	'Fulfilled', date:	'2023-06-23', amount:	'$250.00' },
-  { name: 'Olivia Smith', email: 'olivia@example.com', type: 'Refund', status:	'Declined', date:	'2023-06-24', amount:	'$150.00' },
-  { name: 'Emma Brown', email: 'emma@example.com', type: 'Sale', status:	'Fulfilled', date:	'2023-06-26', amount:	'$450.00' },
+  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status: 'Fulfilled', date: '2023-06-23', amount: '$250.00' },
+  { name: 'Olivia Smith', email: 'olivia@example.com', type: 'Refund', status: 'Declined', date: '2023-06-24', amount: '$150.00' },
+  { name: 'Noah Williams', email: 'noah@example.com', type: 'Subscription', status: 'Fulfilled', date: '2023-06-25', amount: '$350.00' },
+  { name: 'Emma Brown', email: 'emma@example.com', type: 'Sale', status: 'Fulfilled', date: '2023-06-26', amount: '$450.00' },
+  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status: 'Fulfilled', date: '2023-06-23', amount: '$250.00' },
+  { name: 'Liam Johnson', email: 'liam@example.com', type: 'Sale', status: 'Fulfilled', date: '2023-06-23', amount: '$250.00' },
+  { name: 'Olivia Smith', email: 'olivia@example.com', type: 'Refund', status: 'Declined', date: '2023-06-24', amount: '$150.00' },
+  { name: 'Emma Brown', email: 'emma@example.com', type: 'Sale', status: 'Fulfilled', date: '2023-06-26', amount: '$450.00' },
 ];

@@ -6,7 +6,7 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { Icons } from '@meeui/icon';
+import { Icons } from '../icon';
 import { TREE_NODE_DATA, Tree } from './tree.component';
 import { TreeNodeDef } from './tree-node.directive';
 
@@ -39,7 +39,7 @@ export class TreeNode {
     return when?.(0, this.data.data) ? true : false;
   });
 
-  constructor() {}
+  constructor() { }
 
   toggle() {
     // this.isOpen.update((isOpen) => !isOpen);

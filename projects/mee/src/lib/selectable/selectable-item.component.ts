@@ -14,8 +14,9 @@ import { Selectable } from './selectable.component';
   host: {
     class:
       'flex-1 flex items-center font-medium justify-center px-3 py-1 cursor-pointer transition-colors rounded-base whitespace-nowrap',
-    '[class]': `selected() ? 'bg-foreground shadow-sm' : ''`,
+    '[class]': `selected() ? 'bg-foreground shadow-md' : ''`,
     '(click)': 'select()',
+    'role': 'tab'
   },
 })
 export class SelectableItem {

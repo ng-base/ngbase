@@ -3,8 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@meeui/*": ["./projects/mee/src/lib/*"]
-      // "@meeui/*": ["./dist/mee"]
+      "@meeui/*": [
+        "./projects/mee/src/lib/*"
+      ]
+      // "@meeui/*": [
+      //   "./dist/mee"
+      // ]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -22,7 +26,10 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,14 +1,15 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import { fromEvent, merge } from 'rxjs';
 import {
+  fromEvent,
+  merge,
   distinctUntilKeyChanged,
   filter,
   finalize,
   map,
   share,
   tap,
-} from 'rxjs/operators';
+} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class Keys {

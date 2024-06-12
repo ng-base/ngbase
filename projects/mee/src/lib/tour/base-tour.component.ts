@@ -14,11 +14,10 @@ import {
 import { TourService } from './tour.service';
 import { Button } from '../button';
 import { BaseDialog, DialogPosition } from '../portal';
-import { OverlayConfig, tooltipPosition } from '@meeui/portal/utils';
+import { OverlayConfig, tooltipPosition } from '../portal/utils';
 import { DialogOptions } from '../dialog';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent } from 'rxjs/internal/observable/fromEvent';
-import { debounce, debounceTime, delay, startWith, take } from 'rxjs/operators';
+import { fromEvent, debounce, debounceTime, delay, startWith, take } from 'rxjs';
 import {
   trigger,
   state,
@@ -26,7 +25,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { fadeAnimation } from '@meeui/dialog/dialog.animation';
+import { fadeAnimation } from '../dialog/dialog.animation';
 
 @Component({
   standalone: true,

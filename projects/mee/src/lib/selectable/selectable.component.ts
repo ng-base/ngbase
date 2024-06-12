@@ -16,6 +16,7 @@ import { SelectableItem } from './selectable-item.component';
   template: `<ng-content />`,
   host: {
     class: 'inline-flex relative bg-muted-background rounded-base p-b',
+    role: 'tablist'
   },
 })
 export class Selectable {

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, inject, input } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, effect, inject, input } from '@angular/core';
 import { tooltipPortal } from './tooltip.service';
 import { DialogPosition } from '../portal';
 
@@ -11,7 +11,7 @@ import { DialogPosition } from '../portal';
   // },
 })
 export class Tooltip implements OnDestroy {
-  meeTooltip = input.required<string>();
+  meeTooltip = input<string>();
   meeTooltipPosition = input<DialogPosition>('top');
   delay = input(0);
   el = inject(ElementRef);
@@ -20,8 +20,19 @@ export class Tooltip implements OnDestroy {
   timer: any;
 
   constructor() {
-    this.el.nativeElement.addEventListener('mouseenter', this.show);
-    this.el.nativeElement.addEventListener('mouseleave', this.hide);
+    let active = false;
+    effect(() => {
+      if (this.meeTooltip()) {
+        if (!active) {
+          this.el.nativeElement.addEventListener('mouseenter', this.show);
+          this.el.nativeElement.addEventListener('mouseleave', this.hide);
+          active = true;
+        }
+      } else if (active) {
+        this.remove();
+        active = false;
+      }
+    });
   }
 
   show = () => {
@@ -36,7 +47,7 @@ export class Tooltip implements OnDestroy {
 
   private insert() {
     const { destroy } = this.tooltip.open(
-      this.meeTooltip(),
+      this.meeTooltip()!,
       this.el.nativeElement,
       this.meeTooltipPosition(),
     );
@@ -48,8 +59,12 @@ export class Tooltip implements OnDestroy {
     this.destroy?.();
   };
 
-  ngOnDestroy() {
+  remove() {
     this.el.nativeElement.removeEventListener('mouseenter', this.show);
     this.el.nativeElement.removeEventListener('mouseleave', this.hide);
+  }
+
+  ngOnDestroy() {
+    this.remove();
   }
 }

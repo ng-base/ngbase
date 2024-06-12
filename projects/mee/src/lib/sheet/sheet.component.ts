@@ -17,7 +17,7 @@ import { Button } from '../button';
   template: `
     <div class="pointer-events-none flex h-full justify-end">
       <div
-        class="pointer-events-auto flex flex-col overflow-hidden border-l bg-foreground shadow-2xl"
+        class="pointer-events-auto flex flex-col overflow-hidden border-l bg-foreground shadow-2xl m-b2 rounded-base"
         [ngStyle]="{ width: options.width }"
         [@sideAnimation]="status() ? 1 : 0"
         (@sideAnimation.done)="animationDone()"

@@ -109,6 +109,6 @@ export class DatepickerComponent {
   show = signal(true);
 
   toggle() {
-    this.show.update((v) => !v);
+    this.show.update(v => !v);
   }
 }

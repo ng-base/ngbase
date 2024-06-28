@@ -9,16 +9,10 @@ import { Input } from '@meeui/input';
   imports: [FormsModule, Heading, Input],
   template: `
     <h4 meeHeader class="mb-5" id="inputPage">Input</h4>
-    <div class="gap-b4 flex flex-col">
+    <div class="flex flex-col gap-b4">
       <div>
         <label for="input" class="mb-b block">Input</label>
-        <input
-          meeInput
-          [(ngModel)]="inputValue"
-          placeholder="Input"
-          id="input"
-          class="w-full"
-        />
+        <input meeInput [(ngModel)]="inputValue" placeholder="Input" id="input" class="w-full" />
       </div>
 
       <div>

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { ChatService } from './chat.service';
 import { Card } from '@meeui/card';
@@ -20,10 +15,7 @@ import { Separator } from '@meeui/separator';
       <mee-card class="w-96"> </mee-card>
       <mee-card class="flex-1">
         @for (chat of chatService.data; track chat.id) {
-          <div
-            class="flex gap-2 py-4"
-            [class]="chat.type == 'sent' ? 'bg-background' : ''"
-          >
+          <div class="flex gap-2 py-4" [class]="chat.type == 'sent' ? 'bg-background' : ''">
             <div class="items center flex">
               {{ chat.message }}
             </div>

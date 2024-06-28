@@ -9,15 +9,7 @@ import { Button } from '@meeui/button';
   standalone: true,
   selector: 'app-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    Carousel,
-    CarouselItem,
-    CarouselButton,
-    RangePipe,
-    Card,
-    Heading,
-    Button,
-  ],
+  imports: [Carousel, CarouselItem, CarouselButton, RangePipe, Card, Heading, Button],
   template: `
     <h4 meeHeader class="mb-5">Carousel</h4>
     <mee-carousel #myCarousel>

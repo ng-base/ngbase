@@ -8,6 +8,7 @@
     "build:lib": "ng build mee",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "format": "prettier --write \"src/**/*.ts\"",
     "gh": "ng deploy --dir=dist/mee-ui/browser --base-href=/mee-ui/",
     "serve:ssr:mee-ui": "node dist/mee-ui/server/server.mjs"
   },

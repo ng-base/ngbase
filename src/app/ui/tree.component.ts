@@ -1,13 +1,7 @@
 import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Icons } from '@meeui/icon';
-import {
-  Tree,
-  TreeNode,
-  TreeNodeContent,
-  TreeNodeDef,
-  TreeNodeToggle,
-} from '@meeui/tree';
+import { Tree, TreeNode, TreeNodeContent, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
 import { Heading } from '@meeui/typography';
@@ -53,28 +47,13 @@ interface ExampleFlatNode {
     <h4 meeHeader class="mb-5">Tree</h4>
     <button meeButton (click)="toggle()">Toggle</button>
     @if (show()) {
-      <button meeButton variant="outline" (click)="myTree.foldAll()">
-        Fold All
-      </button>
-      <button meeButton variant="outline" (click)="myTree.expandAll()">
-        Expand All
-      </button>
-      <mee-tree
-        [dataSource]="items()"
-        [trackBy]="trackBy"
-        [expanded]="true"
-        #myTree
-      >
+      <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
+      <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
+      <mee-tree [dataSource]="items()" [trackBy]="trackBy" [expanded]="true" #myTree>
         <mee-tree-node *meeTreeNodeDef="let item; when: hasChild" #myNode>
-          <button
-            meeTreeNodeToggle
-            class="p-2"
-            [class.invisible]="!item.children?.length"
-          >
+          <button meeTreeNodeToggle class="p-2" [class.invisible]="!item.children?.length">
             <mee-icon
-              [name]="
-                myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'
-              "
+              [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
             ></mee-icon>
           </button>
           {{ item.name }}
@@ -133,11 +112,11 @@ export class TreeComponent {
   show = signal(true);
 
   treeControl = new FlatTreeControl<TreeItem>(
-    (node) => {
+    node => {
       console.log(node.level);
       return node.level;
     },
-    (node) => !!node.children?.length,
+    node => !!node.children?.length,
   );
 
   dataSource = new ArrayDataSource(this.items());
@@ -195,11 +174,11 @@ export class TreeComponent {
       isExpanded: false,
       name: `Child ${data.children.length + 1}`,
     });
-    this.items.update((items) => [...items]);
+    this.items.update(items => [...items]);
   }
 
   toggle() {
-    this.show.update((show) => !show);
+    this.show.update(show => !show);
   }
 
   // hasChild(_: number, item: TreeItem) {

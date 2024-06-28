@@ -20,10 +20,7 @@ export class SonnerComponent {
   sonner = sonnerPortal();
 
   addMessage() {
-    this.sonner.add(
-      'Event has been created',
-      'Sunday, December 03, 2023 at 9:00 AM',
-    );
+    this.sonner.add('Event has been created', 'Sunday, December 03, 2023 at 9:00 AM');
   }
 
   clearMessage() {

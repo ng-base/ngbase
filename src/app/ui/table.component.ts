@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  signal,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, OnInit, signal, ChangeDetectionStrategy, input } from '@angular/core';
 import { CdkTableModule } from '@angular/cdk/table';
 import {
   BodyRow,
@@ -197,7 +191,7 @@ export class TableComponent {
 
   update() {
     this.columns.set([]);
-    this.employees.update((x) => {
+    this.employees.update(x => {
       x[0] = { ...x[0], name: 'John 123' };
       // x.pop();
       return [...x];

@@ -33,9 +33,8 @@ import { PopoverTrigger } from '@meeui/popover';
     <ng-template #myTemplate>
       <div class="w-56">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita
-          sit facere minus minima quis, accusamus vero voluptatem cumque.
-          Impedit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
+          minima quis, accusamus vero voluptatem cumque. Impedit!
         </p>
         <button meeButton meeDialogClose>Close</button>
       </div>

@@ -10,15 +10,7 @@ import { Heading } from '@meeui/typography';
 @Component({
   standalone: true,
   selector: 'app-placeholder',
-  imports: [
-    FormsModule,
-    Heading,
-    MentionTrigger,
-    Input,
-    Menu,
-    Option,
-    RangePipe,
-  ],
+  imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, RangePipe],
   template: `
     <h4 meeHeader class="mb-5" id="mentionPage">Mention</h4>
     <textarea
@@ -44,12 +36,10 @@ export class MentionComponent {
   filteredItems = computed(() => {
     const items = this.items();
     const search = (this.search() || '').toLowerCase();
-    return search
-      ? items.filter((item) => item.toLowerCase().includes(search))
-      : items;
+    return search ? items.filter(item => item.toLowerCase().includes(search)) : items;
   });
 
   selected(ev: any) {
-    this.value.update((v) => v + ev);
+    this.value.update(v => v + ev);
   }
 }

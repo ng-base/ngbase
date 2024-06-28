@@ -11,9 +11,7 @@ import { Button } from '@meeui/button';
   template: `
     <h4 meeHeader class="mb-5" id="colorPickerPage">Color picker</h4>
     <mee-color-picker></mee-color-picker>
-    <button meeButton meeColorPickerTrigger class="mt-5">
-      Open color picker
-    </button>
+    <button meeButton meeColorPickerTrigger class="mt-5">Open color picker</button>
   `,
 })
 export class ColorPickerComponent {}

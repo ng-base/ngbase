@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
 import { Button } from '@meeui/button';
@@ -36,7 +30,7 @@ import { Heading } from '@meeui/typography';
   template: `
     <mee-card class="w-[28rem]">
       <h4 meeHeader="sm" class="mb-b4">Let’s get you hired!</h4>
-      <div class="gap-b4 flex">
+      <div class="flex gap-b4">
         <div class="mb-b4 flex flex-1 flex-col gap-b2">
           <label for="firstName">First Name*</label>
           <input meeInput id="firstName" placeholder="First Name" />
@@ -69,18 +63,14 @@ import { Heading } from '@meeui/typography';
       </div>
       <div class="mb-b4 flex flex-col gap-b2">
         <label for="experience">Year of Experience</label>
-        <div class="gap-b4 flex">
+        <div class="flex gap-b4">
           <input meeInput id="experience" placeholder="Years" />
           <input meeInput id="experience" placeholder="Months" />
         </div>
       </div>
       <div class="mb-b4 flex flex-col gap-b2">
         <label for="skills">My Technical Skills</label>
-        <mee-autocomplete
-          placeholder="My Technical Skills"
-          [multiple]="true"
-          [(ngModel)]="skills"
-        >
+        <mee-autocomplete placeholder="My Technical Skills" [multiple]="true" [(ngModel)]="skills">
           <input
             [(ngModel)]="skillSearch"
             meeAutocompleteInput
@@ -99,12 +89,12 @@ import { Heading } from '@meeui/typography';
         <mee-checkbox>Subscribe to our newsletter</mee-checkbox>
         <mee-checkbox>Accept terms and conditions</mee-checkbox>
       </div>
-      <div class="gap-b4 flex flex-col text-center">
+      <div class="flex flex-col gap-b4 text-center">
         <button meeButton>Find Dream Jobs</button>
         <p>Already have an account? <a>Login here</a></p>
         <p>
-          By submitting, you acknowledge that you have read and agreed to our
-          Terms of Service and Privacy Policy.
+          By submitting, you acknowledge that you have read and agreed to our Terms of Service and
+          Privacy Policy.
         </p>
       </div>
     </mee-card>
@@ -115,7 +105,7 @@ export class FormsComponent {
   skillSearch = signal('');
   filteredSkills = computed(() => {
     const search = this.skillSearch().toLowerCase();
-    return SKILLS.filter((skill) => skill.toLowerCase().includes(search));
+    return SKILLS.filter(skill => skill.toLowerCase().includes(search));
   });
 
   constructor() {

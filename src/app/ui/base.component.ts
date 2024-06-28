@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService } from '@meeui/theme';
@@ -109,6 +104,6 @@ export class BaseComponent {
   showSideMenu = signal(true);
 
   toggleShow() {
-    this.showSideMenu.update((x) => !x);
+    this.showSideMenu.update(x => !x);
   }
 }

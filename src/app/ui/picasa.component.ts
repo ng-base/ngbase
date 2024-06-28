@@ -12,12 +12,7 @@ import { RangePipe } from '@meeui/utils';
     <h4 meeHeader class="mb-5">Picasa</h4>
     <div meePicasa class="grid grid-cols-5">
       @for (item of 5 | range; track $index) {
-        <img
-          meePicasaItem
-          src="assets/wallpaper.jpg"
-          alt="Placeholder"
-          width="100"
-        />
+        <img meePicasaItem src="assets/wallpaper.jpg" alt="Placeholder" width="100" />
       }
       <img meePicasaItem src="assets/logo.png" alt="Placeholder" />
     </div>

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Card } from '@meeui/card';
 import { MarkdownComponent } from './markdown.component';
 import { HttpClient } from '@angular/common/http';
@@ -27,7 +22,7 @@ export class BlogsComponent {
       .get('/assets/nodejs.md', {
         responseType: 'text',
       })
-      .subscribe((data) => {
+      .subscribe(data => {
         // this.data = data;
         this.data.set(data);
       });

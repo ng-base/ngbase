@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService } from '@meeui/theme';
@@ -30,7 +25,7 @@ export class AppComponent {
     this.num.set(3);
 
     const numbers$ = toObservable(this.num);
-    numbers$.subscribe((value) => {
+    numbers$.subscribe(value => {
       console.log(value);
     });
 

@@ -138,7 +138,7 @@ export class PlaygroundComponent {
   filteredPresets = computed(() => {
     const search = this.searchPreset()?.toLowerCase() || '';
     return search
-      ? this.presets.filter((option) => option.toLowerCase().includes(search))
+      ? this.presets.filter(option => option.toLowerCase().includes(search))
       : this.presets;
   });
   private presets = [
@@ -160,7 +160,7 @@ export class PlaygroundComponent {
     return search
       ? this.models.reduce(
           (acc, model) => {
-            const list = model.list.filter((option) => option.toLowerCase().includes(search));
+            const list = model.list.filter(option => option.toLowerCase().includes(search));
             return list.length ? acc.concat({ ...model, list }) : acc;
           },
           [] as { name: string; list: string[] }[],

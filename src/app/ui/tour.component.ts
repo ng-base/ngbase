@@ -12,9 +12,7 @@ import { Shortcuts } from '@meeui/shortcuts';
   template: `
     <h4 meeHeader class="mb-5">Tour</h4>
 
-    <button meeButton (click)="start()" meeShortcut="ctrl+t" (onKeys)="start()">
-      Start Tour
-    </button>
+    <button meeButton (click)="start()" meeShortcut="ctrl+t" (onKeys)="start()">Start Tour</button>
   `,
 })
 export class TourComponent implements OnInit {

@@ -3,8 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'examples',
-    loadComponent: () =>
-      import('./examples/main.component').then((m) => m.Theme1Component),
+    loadComponent: () => import('./examples/main.component').then(m => m.Theme1Component),
   },
   // {
   //   path: 'game',
@@ -13,7 +12,7 @@ export const routes: Routes = [
   // },
   {
     path: 'ui',
-    loadChildren: () => import('./ui/ui.routes').then((m) => m.UI_ROUTES),
+    loadChildren: () => import('./ui/ui.routes').then(m => m.UI_ROUTES),
   },
   // {
   //   path: 'chat',

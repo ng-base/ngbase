@@ -22,6 +22,6 @@ export class SidenavComponent {
   show = signal(true);
 
   toggle() {
-    this.show.update((show) => !show);
+    this.show.update(show => !show);
   }
 }

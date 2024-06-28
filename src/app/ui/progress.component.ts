@@ -10,21 +10,10 @@ import { Heading } from '@meeui/typography';
   imports: [Progress, Button, Tooltip, Heading],
   template: `
     <h4 meeHeader class="mb-5" id="progressPage">Progress</h4>
-    <button
-      meeButton
-      meeTooltip="increment"
-      class="mr-2"
-      (click)="percentage = percentage + 10"
-    >
+    <button meeButton meeTooltip="increment" class="mr-2" (click)="percentage = percentage + 10">
       +
     </button>
-    <button
-      meeButton
-      meeTooltip="decrement"
-      (click)="percentage = percentage - 10"
-    >
-      -
-    </button>
+    <button meeButton meeTooltip="decrement" (click)="percentage = percentage - 10">-</button>
     <mee-progress [value]="percentage"></mee-progress>
   `,
 })

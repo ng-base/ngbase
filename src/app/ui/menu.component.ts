@@ -6,13 +6,7 @@ import { Button } from '@meeui/button';
 import { List } from '@meeui/list';
 import { Icons } from '@meeui/icon';
 import { provideIcons } from '@ng-icons/core';
-import {
-  lucideCross,
-  lucideDelete,
-  lucideMenu,
-  lucidePen,
-  lucideTrash2,
-} from '@ng-icons/lucide';
+import { lucideCross, lucideDelete, lucideMenu, lucidePen, lucideTrash2 } from '@ng-icons/lucide';
 import { Option } from '@meeui/select';
 
 @Component({
@@ -33,11 +27,7 @@ import { Option } from '@meeui/select';
     <h4 meeHeader class="mb-5" id="menuPage">Menu</h4>
     <div class="flex justify-between">
       <button meeButton [meeMenuTrigger]="menuContainer">Open menu</button>
-      <button
-        meeButton
-        [meeMenuTrigger]="menuContainer2"
-        [options]="{ title: 'Header' }"
-      >
+      <button meeButton [meeMenuTrigger]="menuContainer2" [options]="{ title: 'Header' }">
         Open menu
       </button>
       <button meeButton [meeMenuTrigger]="menuContainer1">Open menu</button>
@@ -46,19 +36,15 @@ import { Option } from '@meeui/select';
     <mee-menu #menuContainer1>
       <div class="flex gap-b4">
         <div>
-          <h4 meeHeader="xs" class="text-muted-foreground p-b2">
-            Document Set
-          </h4>
+          <h4 meeHeader="xs" class="text-muted-foreground p-b2">Document Set</h4>
           <button meeOption>
             <mee-icon name="lucideCross" class="mr-b2"></mee-icon> Document Set
           </button>
           <button meeOption>
-            <mee-icon name="lucideTrash2" class="mr-b2"></mee-icon> Remove
-            Document Set
+            <mee-icon name="lucideTrash2" class="mr-b2"></mee-icon> Remove Document Set
           </button>
           <button meeOption>
-            <mee-icon name="lucidePen" class="mr-b2"></mee-icon> Disable
-            Document Set Edit
+            <mee-icon name="lucidePen" class="mr-b2"></mee-icon> Disable Document Set Edit
           </button>
         </div>
         <mee-separator orientation="vertical"></mee-separator>
@@ -70,9 +56,7 @@ import { Option } from '@meeui/select';
           <button meeOption>
             <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Edit Query
           </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View
-          </button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View</button>
           <button meeOption>
             <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View as
           </button>
@@ -80,9 +64,7 @@ import { Option } from '@meeui/select';
         <mee-separator orientation="vertical"></mee-separator>
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Actions</h4>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Export
-          </button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Export</button>
           <button meeOption>
             <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Assign user
           </button>
@@ -90,39 +72,30 @@ import { Option } from '@meeui/select';
             <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Assign stage
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Change
-            Priority
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Change Priority
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Update Lookup
-            Values
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Update Lookup Values
           </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Rescore
-          </button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Rescore</button>
         </div>
         <mee-separator orientation="vertical"></mee-separator>
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Settings</h4>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Disable
-            Document Grouping
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Disable Document Grouping
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable
-            Training Mode
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Training Mode
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Auto
-            Complete
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Auto Complete
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Hide Filter
-            Pane
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Hide Filter Pane
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable
-            Document Download
+            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Document Download
           </button>
         </div>
       </div>

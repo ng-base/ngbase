@@ -34,13 +34,7 @@ import { Heading } from '@meeui/typography';
       </div>
       <div class="flex flex-col">
         <label for="email" class="mb-1">Email</label>
-        <input
-          meeInput
-          formControlName="email"
-          autocomplete="off"
-          id="email"
-          placeholder="Email"
-        />
+        <input meeInput formControlName="email" autocomplete="off" id="email" placeholder="Email" />
       </div>
       <div class="flex flex-col">
         <label for="password" class="mb-1">Password</label>
@@ -55,11 +49,7 @@ import { Heading } from '@meeui/typography';
       </div>
       <div class="flex flex-col">
         <label for="country" class="mb-1">Country</label>
-        <mee-select
-          formControlName="country"
-          id="country"
-          placeholder="Country"
-        >
+        <mee-select formControlName="country" id="country" placeholder="Country">
           <mee-option value="India">India</mee-option>
           <mee-option value="USA">USA</mee-option>
           <mee-option value="UK">UK</mee-option>
@@ -78,12 +68,7 @@ import { Heading } from '@meeui/typography';
       </div>
       <div class="flex flex-col">
         <label for="users" class="mb-1">Users</label>
-        <mee-autocomplete
-          formControlName="users"
-          id="users"
-          placeholder="Users"
-          [multiple]="true"
-        >
+        <mee-autocomplete formControlName="users" id="users" placeholder="Users" [multiple]="true">
           <input meeAutocompleteInput placeholder="Search users" />
           <mee-option value="User 1">User 1</mee-option>
           <mee-option value="User 2">User 2</mee-option>

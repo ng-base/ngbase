@@ -285,7 +285,7 @@ Best regards, William`,
 
   filteredMails = computed(() => {
     const type = this.type();
-    return this.mails.filter((mail) => {
+    return this.mails.filter(mail => {
       return type === 0 || (type === 1 && mail.status === 'unread');
     });
   });

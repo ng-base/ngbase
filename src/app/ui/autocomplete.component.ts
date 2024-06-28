@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Signal,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { Option } from '@meeui/select';
 import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
@@ -43,36 +37,20 @@ import { Chip } from '@meeui/chip';
       }
     </mee-autocomplete>
 
-    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">
-      Autocomplete Chip
-    </h4>
+    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">Autocomplete Chip</h4>
     <!-- Value: {{ selectValue.value() | json }} -->
-    <mee-autocomplete
-      [(ngModel)]="selectValue.value"
-      class="w-full"
-      [multiple]="true"
-    >
+    <mee-autocomplete [(ngModel)]="selectValue.value" class="w-full" [multiple]="true">
       @for (value of selectValue.value(); track value) {
         <mee-chip>{{ value }}</mee-chip>
       }
-      <input
-        placeholder="Search options"
-        meeAutocompleteInput
-        [formControl]="selectValue.search"
-      />
+      <input placeholder="Search options" meeAutocompleteInput [formControl]="selectValue.search" />
       @for (item of selectValue.optionsFilter(); track item) {
         <mee-option [value]="item">{{ item }}</mee-option>
       }
     </mee-autocomplete>
 
-    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">
-      Autocomplete count
-    </h4>
-    <mee-autocomplete
-      [(ngModel)]="selectValue1.value"
-      class="w-full"
-      [multiple]="true"
-    >
+    <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">Autocomplete count</h4>
+    <mee-autocomplete [(ngModel)]="selectValue1.value" class="w-full" [multiple]="true">
       <input
         placeholder="Search options"
         [formControl]="selectValue1.search"
@@ -97,9 +75,7 @@ class AutocompleteForm<T> {
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
   optionsFilter = computed(() => {
     const search = (this.searchChange() || '').toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(search),
-    );
+    return this.options.filter(option => option.toLowerCase().includes(search));
   });
 
   constructor(value: T) {

@@ -12,29 +12,19 @@ import { Icons } from '@meeui/icon';
     <mee-card>
       <a meeList (click)="scrollToTop()" routerLink="accordion"> Accordion</a>
       <a meeList href="#autocompletePage" disabled>Alert</a>
-      <a meeList (click)="scrollToTop()" routerLink="alert-dialog">
-        Alert Dialog
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="alert-dialog"> Alert Dialog </a>
       <a meeList (click)="scrollToTop()" routerLink="avatar">Avatar</a>
-      <a meeList (click)="scrollToTop()" routerLink="autocomplete">
-        Autocomplete
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="autocomplete"> Autocomplete </a>
       <a meeList (click)="scrollToTop()" routerLink="badge">Badge</a>
       <a meeList (click)="scrollToTop()" routerLink="buttons">Buttons</a>
-      <a meeList (click)="scrollToTop()" routerLink="breadcrumbs">
-        Breadcrumbs
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="breadcrumbs"> Breadcrumbs </a>
       <a meeList href="#cardPage">Card</a>
-      <a meeList (click)="scrollToTop()" routerLink="color-picker">
-        Color Picker
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="color-picker"> Color Picker </a>
       <a meeList (click)="scrollToTop()" routerLink="calendar">Calendar</a>
       <a meeList (click)="scrollToTop()" routerLink="carousel">Carousel</a>
       <a meeList (click)="scrollToTop()" routerLink="checkbox">Checkbox</a>
       <a meeList (click)="scrollToTop()" routerLink="chip" disabled>Chip</a>
-      <a meeList (click)="scrollToTop()" routerLink="context-menu">
-        Context Menu
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="context-menu"> Context Menu </a>
       <a meeList (click)="scrollToTop()" routerLink="datepicker">Datepicker</a>
       <a meeList (click)="scrollToTop()" routerLink="dialog">Dialog</a>
       <a meeList (click)="scrollToTop()" routerLink="drawer">Drawer</a>
@@ -43,24 +33,18 @@ import { Icons } from '@meeui/icon';
       <a meeList href="#iconPage" disabled>Icon</a>
       <a meeList (click)="scrollToTop()" routerLink="input">Input</a>
       <a meeList (click)="scrollToTop()" routerLink="otp">Input OTP</a>
-      <a meeList (click)="scrollToTop()" routerLink="keyboard-shortcuts">
-        Keyboard Shortcuts
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="keyboard-shortcuts"> Keyboard Shortcuts </a>
       <a meeList href="#listPage">List</a>
       <a meeList (click)="scrollToTop()" routerLink="mention">Mention</a>
       <a meeList (click)="scrollToTop()" routerLink="menu">Menu</a>
-      <a meeList (click)="scrollToTop()" routerLink="navigation-menu">
-        Navigation Menu
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="navigation-menu"> Navigation Menu </a>
       <a meeList (click)="scrollToTop()" routerLink="pagination">Pagination</a>
       <a meeList (click)="scrollToTop()" routerLink="progress">Progress</a>
       <a meeList (click)="scrollToTop()" routerLink="popover">Popover</a>
       <a meeList (click)="scrollToTop()" routerLink="picasa" disabled>Picasa</a>
       <a meeList (click)="scrollToTop()" routerLink="radio">Radio</a>
       <a meeList (click)="scrollToTop()" routerLink="resizable">Resizable</a>
-      <a meeList (click)="scrollToTop()" routerLink="scroll-area">
-        Scroll Area
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="scroll-area"> Scroll Area </a>
       <a meeList (click)="scrollToTop()" routerLink="select">Select</a>
       <a meeList href="#separatorPage">Separator</a>
       <a meeList (click)="scrollToTop()" routerLink="sheet">Sheet</a>
@@ -73,9 +57,7 @@ import { Icons } from '@meeui/icon';
       <a meeList (click)="scrollToTop()" routerLink="table">Table</a>
       <a meeList (click)="scrollToTop()" routerLink="tabs">Tabs</a>
       <a meeList (click)="scrollToTop()" routerLink="toggle">Toggle</a>
-      <a meeList (click)="scrollToTop()" routerLink="toggle-group">
-        Toggle Group
-      </a>
+      <a meeList (click)="scrollToTop()" routerLink="toggle-group"> Toggle Group </a>
       <a meeList (click)="scrollToTop()" routerLink="tooltip">Tooltip</a>
       <a meeList (click)="scrollToTop()" routerLink="tour">Tour</a>
       <a meeList (click)="scrollToTop()" routerLink="tree">Tree</a>

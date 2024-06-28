@@ -116,14 +116,14 @@ export class Popover extends BaseDialog implements OnDestroy {
   scrolled = signal(0);
 
   events: Observable<{ type: string; value: any }> = this._afterViewSource.pipe(
-    switchMap((e) => {
+    switchMap(e => {
       const el = this.container()!.nativeElement;
       const mouseenter = fromEvent(el, 'mouseenter');
       const mouseleave = fromEvent(el, 'mouseleave');
       const event = mouseenter.pipe(
-        switchMap((e) =>
+        switchMap(e =>
           mouseleave.pipe(
-            map((x) => ({ type: 'mouseleave', value: x })),
+            map(x => ({ type: 'mouseleave', value: x })),
             startWith({ type: 'mouseenter', value: e }),
           ),
         ),
@@ -169,7 +169,7 @@ export class Popover extends BaseDialog implements OnDestroy {
         //     this.schedulePopoverUpdate(target, el);
         //   });
         scrollToElement(target).then(() => {
-          this.scrolled.update((x) => x + 1);
+          this.scrolled.update(x => x + 1);
           this.schedulePopoverUpdate(target, el);
         });
       } else {

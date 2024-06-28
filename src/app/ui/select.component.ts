@@ -7,45 +7,20 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   selector: 'app-select',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    Heading,
-    Select,
-    SelectInput,
-    Option,
-    OptionGroup,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, Heading, Select, SelectInput, Option, OptionGroup],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="selectPage">Select</h4>
-    <mee-select
-      [(ngModel)]="selectValue"
-      (ngModelChange)="valueChanged()"
-      class="w-full"
-    >
-      <input
-        meeSelectInput
-        placeholder="Search options"
-        [formControl]="search"
-      />
+    <mee-select [(ngModel)]="selectValue" (ngModelChange)="valueChanged()" class="w-full">
+      <input meeSelectInput placeholder="Search options" [formControl]="search" />
       @for (item of optionsFilter(); track item) {
         <mee-option [value]="item">{{ item }}</mee-option>
       }
     </mee-select>
 
     <h4 meeHeader class="my-5">Select with group</h4>
-    <mee-select
-      [(ngModel)]="groupValue"
-      class="w-[196px]"
-      placeholder="Select label"
-      size="free"
-    >
-      <input
-        meeSelectInput
-        placeholder="Search options"
-        [formControl]="groupSearch"
-      />
+    <mee-select [(ngModel)]="groupValue" class="w-[196px]" placeholder="Select label" size="free">
+      <input meeSelectInput placeholder="Search options" [formControl]="groupSearch" />
       @for (item of groupOptionsFilter(); track item.label) {
         <mee-option-group [label]="item.label">
           @for (item of item.children; track item) {
@@ -71,9 +46,7 @@ export class SelectComponent {
 
   optionsFilter = computed(() => {
     const search = (this.searchChange() || '').toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(search),
-    );
+    return this.options.filter(option => option.toLowerCase().includes(search));
   });
 
   groupValue = '';
@@ -89,7 +62,7 @@ export class SelectComponent {
     const search = (this.groupSearchChange() || '').toLowerCase();
     return this.groupOptions.reduce(
       (acc, group) => {
-        const filteredChildren = group.children.filter((option) =>
+        const filteredChildren = group.children.filter(option =>
           option.toLowerCase().includes(search),
         );
         if (filteredChildren.length) {

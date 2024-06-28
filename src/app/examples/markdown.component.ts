@@ -21,7 +21,7 @@ import { ThemeService } from '@meeui/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<article
     [innerHTML]="htmlContent()"
-    class="markdown prose lg:prose-xl mx-auto overflow-auto"
+    class="markdown prose mx-auto overflow-auto lg:prose-xl"
     [class]="theme.mode() === 'dark' ? 'dark:prose-invert' : ''"
   ></article>`,
   styles: [
@@ -91,17 +91,11 @@ export class MarkdownComponent {
     let unsafeHtmlContent = '';
     if (this.markdownContent() || this.isStreaming()) {
       if (this.isStreaming()) {
-        this.markdownContent.set(
-          this.markdownContent + `<span id="typing-animation"></span>`,
-        );
+        this.markdownContent.set(this.markdownContent + `<span id="typing-animation"></span>`);
       } else {
-        this.markdownContent.update((x) =>
-          x.replace(`<span id="typing-animation"></span>`, ''),
-        );
+        this.markdownContent.update(x => x.replace(`<span id="typing-animation"></span>`, ''));
       }
-      const processedMarkdownContent = this.appendClosingBackticks(
-        this.markdownContent() || '',
-      );
+      const processedMarkdownContent = this.appendClosingBackticks(this.markdownContent() || '');
       // console.log(processedMarkdownContent);
       // console.log(this.markdownToPlainText(processedMarkdownContent));
       unsafeHtmlContent = marked(processedMarkdownContent, {
@@ -175,7 +169,7 @@ export class MarkdownComponent {
 
   private attachCopyButtonClickListeners(): void {
     // Remove previous listeners
-    this.listeners.forEach((listener) => listener());
+    this.listeners.forEach(listener => listener());
 
     // Reset the listeners array
     this.listeners = [];
@@ -210,7 +204,7 @@ export class MarkdownComponent {
     const lines = plainText.split('\n');
 
     // Process each line to remove the | character in tables
-    const processedLines = lines.map((line) => {
+    const processedLines = lines.map(line => {
       // Check if the line is a table row or a table header separator
       const isTableRow = line.match(/^\|?[^|\n]+\|[^|\n]+(\|[^|\n]+)*\|?$/);
       const isTableHeaderSeparator = line.match(/^\|?:?-+:?\|+$/);

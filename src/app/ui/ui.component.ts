@@ -1,11 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
@@ -157,9 +151,7 @@ export class UiComponent {
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
   optionsFilter = computed(() => {
     const search = (this.searchChange() || '').toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(search),
-    );
+    return this.options.filter(option => option.toLowerCase().includes(search));
   });
   primaryColor = '#3b82f6';
   backgroundColor = '#f3f4f6';

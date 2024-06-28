@@ -11,10 +11,7 @@ import { Card } from '@meeui/card';
   imports: [ContextMenu, Heading, Menu, List, Separator, Card],
   template: `
     <h4 meeHeader class="mb-5" id="contextMenuPage">Context Menu</h4>
-    <mee-card
-      class="grid h-44 place-items-center"
-      [meeContextMenu]="menuContainer"
-    >
+    <mee-card class="grid h-44 place-items-center" [meeContextMenu]="menuContainer">
       Right click to open context menu
     </mee-card>
 

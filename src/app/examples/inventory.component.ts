@@ -125,11 +125,7 @@ import {
             <mee-breadcrumb>Recent Orders</mee-breadcrumb>
           </mee-breadcrumbs>
           <div class="flex-1"></div>
-          <input
-            meeInput
-            placeholder="Search..."
-            class="w-[366px] bg-foreground"
-          />
+          <input meeInput placeholder="Search..." class="w-[366px] bg-foreground" />
           <button
             meeButton
             variant="outline"
@@ -161,32 +157,30 @@ import {
                   Seamless Management and Insightful Analysis.
                 </p>
 
-                <button meeButton class="flex-none" class="mt-b4">
-                  Create New Order
-                </button>
+                <button meeButton class="flex-none" class="mt-b4">Create New Order</button>
               </mee-card>
               <mee-card class="flex flex-col gap-b2 p-b8">
                 <p class="text-muted">This Week</p>
                 <h4 meeHeader="md">$1,329</h4>
                 <p class="text-muted">+25% from last week</p>
 
-                <mee-progress [percentage]="25" class="!h-b4" />
+                <mee-progress [value]="25" class="!h-b4" />
               </mee-card>
               <mee-card class="flex flex-col gap-b2 p-b8">
                 <p class="text-muted">This Month</p>
                 <h4 meeHeader="md">$5,329</h4>
                 <p class="text-muted">+10% from last month</p>
 
-                <mee-progress [percentage]="10" class="!h-b4" />
+                <mee-progress [value]="10" class="!h-b4" />
               </mee-card>
             </div>
             <!-- Table header -->
             <div class="mt-b4">
               <div class="my-b2 mt-b8 flex">
                 <mee-selectable class="bg-muted">
-                  <mee-selectable-item>Week</mee-selectable-item>
-                  <mee-selectable-item>Month</mee-selectable-item>
-                  <mee-selectable-item>Year</mee-selectable-item>
+                  <mee-selectable-item [value]="0">Week</mee-selectable-item>
+                  <mee-selectable-item [value]="1">Month</mee-selectable-item>
+                  <mee-selectable-item [value]="2">Year</mee-selectable-item>
                 </mee-selectable>
 
                 <div class="ml-auto flex items-center gap-b2">
@@ -199,11 +193,7 @@ import {
                     <mee-icon class="mr-b2" name="lucideFilter" />
                     Filter
                   </button>
-                  <button
-                    meeButton
-                    variant="outline"
-                    class="small bg-foreground"
-                  >
+                  <button meeButton variant="outline" class="small bg-foreground">
                     <mee-icon class="mr-b2" name="lucideFile" /> Export
                   </button>
                   <mee-menu #filterMenu>
@@ -219,9 +209,7 @@ import {
               </div>
               <mee-card class="p-b8">
                 <h4 meeHeader="sm" class="mb-b4">Orders</h4>
-                <p class="text-muted-foreground mb-b4">
-                  Recent orders from your store.
-                </p>
+                <p class="text-muted-foreground mb-b4">Recent orders from your store.</p>
 
                 <table meeTable [data]="tableData" [trackBy]="trackByFn">
                   <ng-container meeRow="customer">
@@ -272,18 +260,10 @@ import {
                 <p class="text-muted">Date: November 23, 2023</p>
               </div>
               <div class="ml-auto flex items-center gap-b2">
-                <button
-                  meeButton
-                  variant="outline"
-                  class="h-9 w-9 bg-foreground"
-                >
+                <button meeButton variant="outline" class="h-9 w-9 bg-foreground">
                   <mee-icon name="lucidePackage" />
                 </button>
-                <button
-                  meeButton
-                  variant="outline"
-                  class="h-9 w-9 bg-foreground"
-                >
+                <button meeButton variant="outline" class="h-9 w-9 bg-foreground">
                   <mee-icon name="lucideFilter" />
                 </button>
               </div>
@@ -333,9 +313,7 @@ import {
                   </div>
                 </div>
                 <div class="grid gap-b2">
-                  <h4 meeHeader class="mb-3 !font-semibold">
-                    Billing Information
-                  </h4>
+                  <h4 meeHeader class="mb-3 !font-semibold">Billing Information</h4>
                   <div class="flex flex-col text-muted">
                     <div>Same as shipping address</div>
                   </div>
@@ -343,9 +321,7 @@ import {
               </div>
               <mee-separator class="my-4" />
               <div>
-                <h4 meeHeader class="mb-3 !font-semibold">
-                  Customer Information
-                </h4>
+                <h4 meeHeader class="mb-3 !font-semibold">Customer Information</h4>
                 <ul class="grid gap-3">
                   <li class="flex items-center gap-b2">
                     <div class="text-muted">Customer</div>
@@ -363,9 +339,7 @@ import {
               </div>
               <mee-separator class="my-4" />
               <div>
-                <h4 meeHeader class="mb-3 !font-semibold">
-                  Payment Information
-                </h4>
+                <h4 meeHeader class="mb-3 !font-semibold">Payment Information</h4>
                 <ul class="grid gap-3">
                   <li class="flex items-center gap-b2">
                     <div class="flex gap-b text-muted">
@@ -377,9 +351,7 @@ import {
                 </ul>
               </div>
             </div>
-            <div
-              class="flex items-center gap-b2 border-t bg-background px-b8 py-b4"
-            >
+            <div class="flex items-center gap-b2 border-t bg-background px-b8 py-b4">
               <div class="text-sm text-muted">Updated November 23, 2023</div>
               <div class="ml-auto flex items-center gap-b2">
                 <button meeButton variant="outline" class="small bg-foreground">

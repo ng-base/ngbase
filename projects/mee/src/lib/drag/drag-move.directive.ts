@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject } from '@angular/core';
+import { Directive, ElementRef, inject, input } from '@angular/core';
 import { Drag } from './drag.directive';
 
 @Directive({
@@ -9,18 +9,30 @@ import { Drag } from './drag.directive';
 export class DragMove {
   drag = inject(Drag);
   el = inject(ElementRef);
+  target = input<HTMLElement>();
 
   constructor() {
     let x = 0;
     let y = 0;
     this.drag.events.subscribe((data) => {
-      if (data.type === 'start') {
-        const rect = this.el.nativeElement.getBoundingClientRect();
-        x = data.clientX! - rect.left;
-        y = data.clientY! - rect.top;
-      } else if (data.type === 'move') {
-        this.el.nativeElement.style.transform = `translate(${data.clientX! - x}px, ${data.clientY! - y}px)`;
-      }
+      requestAnimationFrame(() => {
+        // if (data.type === 'start') {
+        // const rect = this.element.getBoundingClientRect();
+        // x = data.clientX! - rect.left;
+        // y = data.clientY! - rect.top;
+        // console.log('start', x, y, rect, data);
+        // } else
+        if (data.type === 'move') {
+          // this.element.style.transform = `translate(${data.clientX! - x}px, ${data.clientY! - y}px)`;
+          x += data.xx;
+          y += data.yy;
+          this.element.style.transform = `translate(${x}px, ${y}px)`;
+        }
+      });
     });
+  }
+
+  get element() {
+    return this.target() ?? this.el.nativeElement;
   }
 }

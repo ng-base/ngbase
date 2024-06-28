@@ -52,15 +52,11 @@ export function tooltipPosition(config: OverlayConfig): {
   top: number;
   left: number;
   bottom: number;
+  right?: number;
   position: DialogPosition;
 } {
-  const {
-    target,
-    el,
-    position: priority = 'bottom',
-    offset = 5,
-    client: clientXY = null,
-  } = config;
+  const { target, el, position: priority = 'bottom', offset = 5, client: clientXY = null } = config;
+  // eslint-disable-next-line prefer-const
   let position: DialogPosition = priority;
   let { top, left, width, height } = target.getBoundingClientRect();
   if (clientXY) {
@@ -95,22 +91,12 @@ export function tooltipPositionInternal(data: ConfigObj): {
   top: number;
   bottom: number;
   left: number;
+  right?: number;
   position: DialogPosition;
 } {
   // console.log(structuredClone(data));
-  let {
-    top,
-    left,
-    width,
-    height,
-    elWidth,
-    elHeight,
-    offset,
-    priority,
-    position,
-    windowWidth,
-    windowHeight,
-  } = data;
+  // eslint-disable-next-line prefer-const
+  let { elHeight, position, windowHeight, windowWidth, offset, elWidth } = data;
 
   position = positionSwapBasedOnOverflow(data);
 
@@ -149,22 +135,29 @@ export function tooltipPositionInternal(data: ConfigObj): {
   // }
 
   let { top: topPos, left: leftPos } = getTooltipCoordinates(position, data);
+  let rightPos: number | undefined;
 
-  // if (topPos <= 0) {
-  //   topPos = offset;
-  // } else if (topPos + elHeight > windowHeight) {
-  //   topPos = windowHeight - elHeight - offset;
-  // } else if (leftPos < 0) {
-  //   leftPos = 0;
-  // } else if (leftPos + elWidth > windowWidth) {
-  //   leftPos = windowWidth - elWidth;
-  // }
+  if (topPos <= 0) {
+    topPos = offset;
+  } else if (topPos + elHeight > windowHeight) {
+    topPos = windowHeight - elHeight - offset;
+  } else if (leftPos < 0) {
+    leftPos = 0;
+  } else if (leftPos + elWidth > windowWidth) {
+    rightPos = 0;
+    leftPos = 0;
+  }
 
-  let bottomPos = position.includes('top')
-    ? windowHeight - (topPos + elHeight)
-    : 0;
+  // eslint-disable-next-line prefer-const
+  let bottomPos = position.startsWith('t') ? windowHeight - (topPos + elHeight) : 0;
 
-  return { top: topPos, bottom: bottomPos, left: leftPos, position };
+  return {
+    top: topPos,
+    bottom: bottomPos,
+    left: leftPos,
+    position,
+    right: rightPos,
+  };
 }
 
 function getTooltipCoordinates(

@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  afterNextRender,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
 import { popoverPortal } from '../popover';
 import { Menu } from './menu.component';
 import { NavigationMenu } from './navigation-menu.directive';
@@ -15,6 +8,7 @@ import { DialogOptions } from '../portal';
 @Directive({
   standalone: true,
   selector: '[meeMenuTrigger]',
+  exportAs: 'meeMenuTrigger',
   host: {
     '(click)': 'clickOpen($event)',
   },
@@ -99,7 +93,7 @@ export class MenuTrigger {
         position: this.parent ? 'right' : 'bl',
         offset: 4,
       },
-      { maxHeight: '400px', backdrop: !this.parent, ...this.options() },
+      { backdrop: !this.parent, ...this.options() },
     );
     menu.diaRef = diaRef;
     menu.opened();
@@ -130,5 +124,9 @@ export class MenuTrigger {
         this.close?.();
       });
     }
+  }
+
+  closeMenu() {
+    this.close?.();
   }
 }

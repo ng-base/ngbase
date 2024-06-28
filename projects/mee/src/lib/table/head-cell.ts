@@ -5,9 +5,9 @@ import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
   selector: '[meeHead]',
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'h-b3 px-b4 text-left align-middle font-medium text-muted',
+    class: 'px-b4 py-3 text-left align-middle font-medium text-muted border-b'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Head {
   constructor() {}
@@ -15,6 +15,6 @@ export class Head {
 
 @Directive({
   standalone: true,
-  selector: '[meeHeadDef]',
+  selector: '[meeHeadDef]'
 })
 export class HeadDef {}

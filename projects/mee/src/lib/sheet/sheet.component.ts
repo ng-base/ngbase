@@ -3,7 +3,7 @@ import {
   Component,
   ViewContainerRef,
   afterNextRender,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
@@ -18,21 +18,18 @@ import { Button } from '../button';
     <div class="pointer-events-none flex h-full justify-end">
       <div
         class="pointer-events-auto flex flex-col overflow-hidden border-l bg-foreground shadow-2xl m-b2 rounded-base"
-        [ngStyle]="{ width: options.width }"
+        [ngStyle]="{
+          width: options.width,
+          minWidth: options.minWidth,
+          maxWidth: options.maxWidth
+        }"
         [@sideAnimation]="status() ? 1 : 0"
         (@sideAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
           <div class="bg-secondary-background px-b4 flex items-center py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button
-              meeButton
-              variant="ghost"
-              (click)="close()"
-              class="small mr-1"
-            >
-              x
-            </button>
+            <button meeButton variant="ghost" (click)="close()" class="small mr-1">x</button>
           </div>
         }
         <div class="p-b4 h-full overflow-auto">
@@ -50,8 +47,8 @@ import { Button } from '../button';
     }
   `,
   host: {
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto ',
-    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto z-150',
+    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }'
   },
   styles: `
     .backdropColor {
@@ -60,7 +57,7 @@ import { Button } from '../button';
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [sideAnimation, fadeAnimation],
+  animations: [sideAnimation, fadeAnimation]
 })
 export class Sheet extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });

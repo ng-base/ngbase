@@ -142,7 +142,7 @@ export class TreeComponent {
 
   dataSource = new ArrayDataSource(this.items());
 
-  hasChild = (_: number, node: TreeItem) => !!node.children?.length;
+  hasChild = (_: number, node: TreeItem) => node.children || [];
   trackBy = (_: number, node: TreeItem) => node.id;
 
   constructor() {

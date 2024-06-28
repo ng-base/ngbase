@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
 import { Tab, Tabs } from '@meeui/tabs';
@@ -47,7 +42,7 @@ import { TermorComponent } from './termor.component';
   ],
   viewProviders: [provideIcons({ lucideSun, lucideMoon })],
   template: `
-    <mee-tabs [activeIndex]="3">
+    <mee-tabs [selectedIndex]="3">
       <mee-tab label="Mail">
         @defer (on viewport) {
           <app-mail />
@@ -127,9 +122,7 @@ import { TermorComponent } from './termor.component';
       class="absolute right-0 top-0.5 h-9 w-9"
       (click)="theme.toggle()"
     >
-      <mee-icon
-        [name]="theme.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"
-      ></mee-icon>
+      <mee-icon [name]="theme.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"></mee-icon>
     </button>
   `,
 })

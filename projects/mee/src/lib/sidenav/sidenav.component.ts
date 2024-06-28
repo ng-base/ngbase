@@ -1,18 +1,11 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
   contentChild,
-  effect,
-  input,
+  model
 } from '@angular/core';
 import { SidenavHeader } from './sidenav-header.component';
 
@@ -33,12 +26,12 @@ import { SidenavHeader } from './sidenav-header.component';
     <!-- </div> -->
   `,
   host: {
-    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
+    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full'
   },
-  animations: [],
+  animations: []
 })
 export class Sidenav {
-  show = input(true);
+  show = model(true);
   header = contentChild(SidenavHeader, { read: ElementRef });
   headerWidth = computed(() => this.header()?.nativeElement.offsetWidth || 0);
   left = computed(() => (this.show() ? this.headerWidth() : 0));
@@ -48,5 +41,9 @@ export class Sidenav {
     // effect(() => {
     //   console.log(this.headerWidth());
     // });
+  }
+
+  toggle() {
+    this.show.update(show => !show);
   }
 }

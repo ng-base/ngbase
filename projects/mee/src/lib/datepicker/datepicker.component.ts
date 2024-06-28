@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   signal,
@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy,
   inject,
   effect,
+  TemplateRef,
 } from '@angular/core';
 import { Button } from '../button';
 import { Input } from '../input';
@@ -14,41 +15,53 @@ import { DialogRef } from '../portal';
 import { Calendar } from './calendar.component';
 import { RangePipe } from '../utils';
 import { DefaultDateAdapter } from './date-adapter';
+import {
+  DatePickerOptions,
+  DatepickerTrigger,
+} from './datepicker-trigger.directive';
 
 @Component({
   standalone: true,
   selector: 'mee-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, Button, Calendar, RangePipe],
-  template: ` @for (no of noOfCalendar() | range; track no) {
-    <mee-calendar
-      [first]="$first"
-      [last]="$last"
-      [index]="$index"
-    ></mee-calendar>
-  }`,
-  host: {
-    class: 'flex',
-  },
+  imports: [NgClass, Button, Calendar, RangePipe, NgTemplateOutlet],
+  template: `
+    <div class="flex flex-col">
+      @for (no of noOfCalendar() | range; track no) {
+        <mee-calendar
+          [first]="$first"
+          [last]="$last"
+          [index]="$index"
+        ></mee-calendar>
+      }
+    </div>
+    @if (template()) {
+      <div class="px-b2 pb-b2">
+        <ng-container *ngTemplateOutlet="template()"></ng-container>
+      </div>
+    }
+  `,
 })
 export class DatePicker {
-  inputS = inject(Input, { optional: true });
-  private dialogRef = inject(DialogRef, { optional: true });
-  noOfCalendar = signal(this.dialogRef?.data.noOfCalendars || 1);
-  range = signal<boolean>(this.dialogRef?.data.range || false);
-  format = signal<string>(this.dialogRef?.data.format || 'MM-dd-yyyy');
-  adapter = new DefaultDateAdapter();
-  dateFilter = input<(date: Date) => boolean>((d) => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    // return day !== 0 && day !== 6;
-    return true;
+  inputS = inject(DatepickerTrigger, { optional: true });
+  private dialogRef = inject<DialogRef<DatePickerOptions>>(DialogRef, {
+    optional: true,
   });
-  pickerType = input<'date' | 'month' | 'year'>('date');
-  showType = signal<'date' | 'month' | 'year'>('date');
-  // readonly currentDate$ = new Subject<Date>();
-  // selectedDate = outputFromObservable(this.currentDate$);
+  noOfCalendar = signal(this.data?.noOfCalendars || 1);
+  range = signal<boolean>(this.data?.range || false);
+  time = signal<boolean>(this.data?.time || false);
+  format = signal<string>(this.data?.format || 'MM-dd-yyyy');
+  adapter = new DefaultDateAdapter();
+  template = signal<TemplateRef<any> | null>(this.data?.template || null);
+  dateFilter = input<(date: Date) => boolean>(
+    this.data?.dateFilter || (() => true),
+  );
+  pickerType = input<'date' | 'month' | 'year'>(
+    this.data?.pickerType || 'date',
+  );
+  showType = signal<'date' | 'month' | 'year'>(this.pickerType());
   selectedDates = signal<[Date | null, Date | null]>([null, null]);
+  times = signal<[string | null, string | null]>([null, null]);
   readonly startDate = computed<Date>(() => {
     const dates = this.selectedDates();
     return Array.isArray(dates) && dates[0] ? dates[0] : new Date();
@@ -70,11 +83,9 @@ export class DatePicker {
 
     const v = {
       year: dates.map((x) => x?.getFullYear()),
-      month: dates.map((x) =>
-        x ? `${x.getMonth() + 1}-${x.getFullYear()}` : '',
-      ),
+      month: dates.map((x) => (x ? `${x.getMonth()}-${x.getFullYear()}` : '')),
       day: dates.map((x) =>
-        x ? `${x.getDate()}-${x.getMonth() + 1}-${x.getFullYear()}` : '',
+        x ? `${x.getDate()}-${x.getMonth()}-${x.getFullYear()}` : '',
       ),
     };
     // return this.getSelectedDayOfMonth(today);
@@ -82,8 +93,8 @@ export class DatePicker {
   });
 
   constructor() {
-    const v = this.inputS?.value();
-    if (v) {
+    const v = this.data?.value?.filter((x) => x);
+    if ((Array.isArray(v) && v.length === 2) || v instanceof Date) {
       let date: Date;
       if (Array.isArray(v)) {
         this.selectedDates.set(v as [Date, Date]);
@@ -96,12 +107,16 @@ export class DatePicker {
       this.startYear.set(date.getFullYear());
       this.startMonth.set(date.getMonth());
     }
-    effect(
-      () => {
-        this.showType.set(this.pickerTypeData);
-      },
-      { allowSignalWrites: true },
-    );
+    // effect(
+    //   () => {
+    //     this.showType.set(this.pickerTypeData);
+    //   },
+    //   { allowSignalWrites: true },
+    // );
+  }
+
+  get data() {
+    return this.dialogRef?.data;
   }
 
   updateHoveredDate(date: Date) {
@@ -111,13 +126,11 @@ export class DatePicker {
     }
   }
 
-  get pickerTypeData() {
-    return this.dialogRef?.data.pickerType || this.pickerType();
-  }
-
-  selectDate(date: Date) {
+  selectDate(date: Date, index?: number) {
     const dates = this.selectedDates();
-    if (this.range()) {
+    if (index != undefined) {
+      dates[index] = date;
+    } else if (this.range()) {
       if (
         (dates[0] && dates[1]) ||
         !dates[0] ||
@@ -137,33 +150,12 @@ export class DatePicker {
     }
     this.selectedDates.set([...dates]);
     // this.currentDate$.next(date);
-    this.updateInput(dates as Date[]);
-  }
-
-  updateInput(dates: Date[]) {
-    if (this.range()) {
-      if (dates.filter((x) => x).length === 1) {
-        return;
-      }
-      this.inputS?.setValue(dates);
-    } else {
-      this.inputS?.setValue(dates[0]);
-    }
-
-    const d = dates
-      .map((x) => (x ? this.adapter.format(x, this.format()) : null))
-      .filter((x) => x)
-      .join(' - ');
-    requestAnimationFrame(() => {
-      if (this.dialogRef?.data.target) {
-        this.dialogRef.data.target.value = d;
-      }
-    });
+    this.inputS?.updateInput(dates as Date[]);
   }
 
   selectYear(year: number) {
     this.startYear.set(year);
-    if (this.pickerTypeData !== 'year') {
+    if (this.pickerType() !== 'year') {
       this.showType.set('month');
     } else {
       // this.updateInput([new Date(year, this.startMonth())]);
@@ -174,7 +166,7 @@ export class DatePicker {
   selectMonth(month: number, year: number) {
     this.startMonth.set(month);
     this.startYear.set(year);
-    if (this.pickerTypeData === 'date') {
+    if (this.pickerType() === 'date') {
       this.showType.set('date');
     } else {
       const date = new Date(year, month);
@@ -188,9 +180,9 @@ export class DatePicker {
     let type = this.showType();
     if (type === 'date') {
       type = 'month';
-    } else if (type === 'month' || this.pickerTypeData === 'year') {
+    } else if (type === 'month' || this.pickerType() === 'year') {
       type = 'year';
-    } else if (this.pickerTypeData === 'date') {
+    } else if (this.pickerType() === 'date') {
       type = 'date';
     } else {
       type = 'month';

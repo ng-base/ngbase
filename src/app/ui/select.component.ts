@@ -38,8 +38,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     <mee-select
       [(ngModel)]="groupValue"
       class="w-[196px]"
-      size="free"
       placeholder="Select label"
+      size="free"
     >
       <input
         meeSelectInput
@@ -53,6 +53,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
           }
         </mee-option-group>
       }
+    </mee-select>
+
+    <h4 meeHeader>Small select</h4>
+    <mee-select class="w-30" size="free">
+      <mee-option>Option 1</mee-option>
+      <mee-option>Option 2</mee-option>
+      <mee-option>Option 3</mee-option>
     </mee-select>
   `,
 })

@@ -58,32 +58,14 @@ import {
   ],
   template: `
     <mee-card class="!p-0">
-      <div class="px-b4 flex gap-b2 py-b" meeNavigationMenu>
-        <button
-          meeButton
-          variant="ghost"
-          class="small !font-bold"
-          [meeMenuTrigger]="music"
-        >
+      <div class="flex gap-b2 px-b4 py-b" meeNavigationMenu>
+        <button meeButton variant="ghost" class="small !font-bold" [meeMenuTrigger]="music">
           Music
         </button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="file">
-          File
-        </button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="edit">
-          Edit
-        </button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="view">
-          View
-        </button>
-        <button
-          meeButton
-          variant="ghost"
-          class="small"
-          [meeMenuTrigger]="account"
-        >
-          Account
-        </button>
+        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="file">File</button>
+        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="edit">Edit</button>
+        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="view">View</button>
+        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="account">Account</button>
       </div>
       <mee-menu #music>
         <button meeOption>About Music</button>
@@ -141,54 +123,38 @@ import {
 
       <mee-separator />
       <div class="flex">
-        <div class="p-b4 w-52 flex-none">
+        <div class="w-52 flex-none p-b4">
           <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Discover</h4>
           <div class="py-2">
             <button meeList class="bg-muted-background font-medium">
               <mee-icon name="lucidePlayCircle" />Listen Now
             </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideLayoutGrid" /> Browse
-            </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideRadio" /> Radio
-            </button>
+            <button meeList class="font-medium"><mee-icon name="lucideLayoutGrid" /> Browse</button>
+            <button meeList class="font-medium"><mee-icon name="lucideRadio" /> Radio</button>
           </div>
 
           <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Library</h4>
           <div class="py-2">
-            <button meeList class="font-medium">
-              <mee-icon name="lucideListMusic" />Playlist
-            </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideMusic2" /> Songs
-            </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideUser" /> Made for You
-            </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideMic" /> Artists
-            </button>
-            <button meeList class="font-medium">
-              <mee-icon name="lucideLibrary" /> Albums
-            </button>
+            <button meeList class="font-medium"><mee-icon name="lucideListMusic" />Playlist</button>
+            <button meeList class="font-medium"><mee-icon name="lucideMusic2" /> Songs</button>
+            <button meeList class="font-medium"><mee-icon name="lucideUser" /> Made for You</button>
+            <button meeList class="font-medium"><mee-icon name="lucideMic" /> Artists</button>
+            <button meeList class="font-medium"><mee-icon name="lucideLibrary" /> Albums</button>
           </div>
         </div>
         <mee-separator orientation="vertical" />
-        <div class="p-b4 flex-1 overflow-hidden">
+        <div class="flex-1 overflow-hidden p-b4">
           <div class="flex justify-between">
             <mee-selectable>
-              <mee-selectable-item>Music</mee-selectable-item>
-              <mee-selectable-item>Podcast</mee-selectable-item>
-              <mee-selectable-item>Live</mee-selectable-item>
+              <mee-selectable-item [value]="0">Music</mee-selectable-item>
+              <mee-selectable-item [value]="1">Podcast</mee-selectable-item>
+              <mee-selectable-item [value]="2">Live</mee-selectable-item>
             </mee-selectable>
             <button meeButton>Add Music</button>
           </div>
 
           <h4 meeHeader="sm" class="mt-5">Listen Now</h4>
-          <p class=" text-muted-foreground">
-            Top picks for you. Updated daily.
-          </p>
+          <p class=" text-muted-foreground">Top picks for you. Updated daily.</p>
           <mee-separator class="my-b4" />
 
           <mee-scroll-area>
@@ -210,9 +176,7 @@ import {
           </mee-scroll-area>
 
           <h4 meeHeader="sm" class="mt-8">Made for You</h4>
-          <p class=" text-muted-foreground">
-            Your personal playlists. Updated daily.
-          </p>
+          <p class=" text-muted-foreground">Your personal playlists. Updated daily.</p>
           <mee-separator class="my-b4" />
 
           <mee-scroll-area>

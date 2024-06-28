@@ -8,18 +8,29 @@ export class DefaultDateAdapter {
   }
 
   format(date: Date, format: string) {
+    if (!date) {
+      return '';
+    }
     // we should support format like yyyy, MM, dd, hh, mm, ss, SSS,
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return format
+    const value = format
       .replace(/yyyy/, year.toString())
       .replace(/MM/, month.toString().padStart(2, '0'))
       .replace(/dd/, day.toString().padStart(2, '0'))
-      .replace(/hh/, date.getHours().toString().padStart(2, '0'))
+      .replace(
+        /hh/,
+        (date.getHours() > 11 ? date.getHours() - 12 : date.getHours())
+          .toString()
+          .padStart(2, '0'),
+      )
+      .replace(/HH/, (date.getHours() % 12).toString().padStart(2, '0'))
       .replace(/mm/, date.getMinutes().toString().padStart(2, '0'))
       .replace(/ss/, date.getSeconds().toString().padStart(2, '0'))
-      .replace(/SSS/, date.getMilliseconds().toString().padStart(3, '0'));
+      .replace(/SSS/, date.getMilliseconds().toString().padStart(3, '0'))
+      .replace(/a/, date.getHours() >= 12 ? 'PM' : 'AM');
+    return value;
   }
   parse(value: string, format: string) {
     const year = parseInt(value.slice(0, 4), 10);

@@ -20,7 +20,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="datepickerPage">Datepicker</h4>
-    <div class="gap-b4 grid">
+    <div class="grid gap-b4">
       <div class="flex w-52 flex-col">
         <label for="time24" class="mb-1">Time 24 -- {{ time24() }}</label>
         <mee-time [(ngModel)]="time24" [is24]="true"></mee-time>
@@ -30,8 +30,25 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
         <mee-time [(ngModel)]="time"></mee-time>
       </div>
       <!-- <button meeButton meeDatepickerTrigger>Open datepicker</button> -->
+      <button meeButton (click)="toggle()">Toggle datepicker</button>
+      @if (show()) {
+        <div class="flex w-52 flex-col">
+          <label for="date" class="mb-1">Datetime</label>
+          <input
+            meeInput
+            [formControl]="date"
+            id="date"
+            placeholder="Date"
+            meeDatepickerTrigger
+            format="dd-MM-yyyy hh:mm a"
+            [range]="true"
+            [time]="true"
+            readonly
+          />
+        </div>
+      }
       <div class="flex w-52 flex-col">
-        <label for="date" class="mb-1">Date</label>
+        <label for="date" class="mb-1">Date 2 cals</label>
         <input
           meeInput
           [formControl]="date"
@@ -89,4 +106,9 @@ export class DatepickerComponent {
   date = new FormControl();
   time24 = signal('');
   time = signal('');
+  show = signal(true);
+
+  toggle() {
+    this.show.update((v) => !v);
+  }
 }

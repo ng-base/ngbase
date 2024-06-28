@@ -1,5 +1,5 @@
 // highlight.directive.ts
-import { Directive, ElementRef, inject } from '@angular/core';
+import { Directive, ElementRef, inject, input } from '@angular/core';
 import { TourService } from './tour.service';
 
 @Directive({
@@ -7,6 +7,7 @@ import { TourService } from './tour.service';
   selector: '[meeTourStep]',
 })
 export class TourStep {
+  meeTourStep = input.required<string>();
   el = inject<ElementRef>(ElementRef);
   tourService = inject(TourService);
 

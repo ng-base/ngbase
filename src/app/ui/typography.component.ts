@@ -24,9 +24,10 @@ import { RangePipe } from '@meeui/utils';
     <h4 meeHeader="lg" class="mt-b4">Heading lg</h4>
     <h4 meeHeader="md">Heading md</h4>
     <h4 meeHeader="sm">Heading sm</h4>
+    <h4 meeHeader="xs">Heading xs</h4>
     <h4 meeHeader>Heading</h4>
 
-    <div class="mt-b4 gap-b4 flex flex-col">
+    <div class="mt-b4 flex flex-col gap-b4">
       @for (i of 2 | range; track i) {
         <mee-card>
           <h4 meeHeader>Heading 2</h4>

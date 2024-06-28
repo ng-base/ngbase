@@ -12,10 +12,10 @@ import { InputStyle } from '../input/input-style.directive';
 })
 export class SelectInput {
   el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  select = inject(Select);
+  select = inject(Select, { optional: true });
 
   constructor() {
-    this.select.events.subscribe((event) => {
+    this.select?.events.subscribe((event) => {
       if (event === 'open') {
         this.el.nativeElement.focus();
       }

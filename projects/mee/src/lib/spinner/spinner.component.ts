@@ -6,16 +6,18 @@ import { Component, input } from '@angular/core';
   template: `
     <div
       class="aspect-square w-full animate-spin rounded-full border-2 border-transparent"
-      [class]="
-        mode() === 'dark' ? 'border-x-white border-t-white' : 'border-l-primary'
-      "
+      [class]="mode() === 'dark' ? 'border-x-white border-t-white' : 'border-l-primary'"
     ></div>
   `,
   styles: [],
   host: {
-    class: 'inline-block aspect-square w-10',
-  },
+    class: 'inline-block aspect-square w-10'
+  }
 })
 export class Spinner {
   mode = input<'light' | 'dark' | ''>('light');
+
+  diameter = input<number>(10);
+
+  strokeWidth = input<any>(2);
 }

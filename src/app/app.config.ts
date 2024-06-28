@@ -12,7 +12,12 @@ import { provideHttpClient } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
     // { provide: APP_INITIALIZER, useFactory: () => [] },
-    provideRouter(routes, withInMemoryScrolling()),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+      }),
+    ),
     provideAnimations(),
     provideExperimentalZonelessChangeDetection(),
     provideHttpClient(),

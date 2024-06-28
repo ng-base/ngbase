@@ -16,23 +16,22 @@ import {
 
 @Component({
   standalone: true,
-  selector: 'mee-accordion-item',
+  selector: 'mee-accordion',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button class="w-full py-b2 text-left font-medium" (click)="toggleActive()">
-      <ng-content select="h4"></ng-content>
-    </button>
-    @if (active()) {
+    <ng-content select="[meeAccordionHeader]"></ng-content>
+    @if (expanded()) {
       <div [@slide]>
-        <div class="pb-b2">
-          <ng-content></ng-content>
-        </div>
+        <!-- <div class="pb-b2"> -->
+        <ng-content></ng-content>
+        <!-- </div> -->
       </div>
     }
   `,
   host: {
-    class: 'block border-b4',
+    class: 'block',
   },
+  exportAs: 'meeAccordionItem',
   animations: [
     trigger('slide', [
       state('void', style({ height: '0', overflow: 'hidden' })),
@@ -42,14 +41,14 @@ import {
     ]),
   ],
 })
-export class AccordionItem {
-  active = model(false);
+export class Accordion {
+  expanded = model(false);
   id = generateId();
 
   accordionService = inject(AccordionService);
 
-  toggleActive() {
-    this.active.update((v) => !v);
-    this.accordionService.active.set(this.active() ? this.id : '');
+  toggle() {
+    this.expanded.update((v) => !v);
+    this.accordionService.activeId.set(this.expanded() ? this.id : '');
   }
 }

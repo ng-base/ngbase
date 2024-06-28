@@ -10,19 +10,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import {
-  BaseDialog,
-  DialogOptions,
-  DialogPosition,
-  tooltipPosition,
-} from '../portal';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { BaseDialog, DialogOptions, DialogPosition, tooltipPosition } from '../portal';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import {
   EMPTY,
   Observable,
@@ -36,14 +25,19 @@ import {
 } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { OverlayConfig } from '../portal/utils';
+import { DragMove } from '../drag';
+import { provideIcons } from '@ng-icons/core';
+import { lucideX } from '@ng-icons/lucide';
+import { Icons } from '../icon';
 
 @Component({
   selector: 'mee-popover',
   standalone: true,
-  imports: [],
+  imports: [DragMove, Icons],
+  providers: [provideIcons({ lucideX })],
   template: ` <div
       #container
-      class="menu-container pointer-events-auto fixed z-10 rounded-base border bg-foreground p-b shadow-md"
+      class="menu-container pointer-events-auto fixed z-10 rounded-base border bg-foreground shadow-md"
       [class]="[
         tooltipOptions.anchor ? 'popover-anchor' : 'overflow-auto',
         tooltipOptions.className
@@ -51,7 +45,19 @@ import { OverlayConfig } from '../portal/utils';
       [@slideInOutAnimation]="status() ? 1 : 0"
       (@slideInOutAnimation.done)="animationDone()"
     >
-      <ng-container #myDialog></ng-container>
+      @if (options.title) {
+        <div
+          class="flex items-center justify-between border-b px-b3 py-b2"
+          meeDragMove
+          [target]="container"
+        >
+          {{ options.title }}
+          <mee-icon name="lucideX" (click)="close()" class="cursor-pointer"></mee-icon>
+        </div>
+      }
+      <div class="p-b">
+        <ng-container #myDialog></ng-container>
+      </div>
     </div>
     @if (options.backdrop) {
       <div
@@ -63,7 +69,8 @@ import { OverlayConfig } from '../portal/utils';
       ></div>
     }`,
   host: {
-    class: 'fixed top-0 left-0 w-full h-full pointer-events-none',
+    class:
+      'fixed top-0 left-0 w-full h-full pointer-events-none z-150 flex items-center justify-center',
   },
   styles: [
     `
@@ -92,14 +99,8 @@ import { OverlayConfig } from '../portal/utils';
   animations: [
     trigger('slideInOutAnimation', [
       state('1', style({ transform: 'none', opacity: 1 })),
-      state(
-        'void',
-        style({ transform: 'translateY(-10px) scale(0.95)', opacity: 0 }),
-      ),
-      state(
-        '0',
-        style({ transform: 'translateY(-10px) scale(0.95)', opacity: 0 }),
-      ),
+      state('void', style({ transform: 'translateY(-10px) scale(0.95)', opacity: 0 })),
+      state('0', style({ transform: 'translateY(-10px) scale(0.95)', opacity: 0 })),
       transition('* => *', animate('100ms ease-out')),
     ]),
   ],
@@ -191,6 +192,8 @@ export class Popover extends BaseDialog implements OnDestroy {
       el.style.width = `${target.offsetWidth}px`;
     } else if (this.options.width) {
       el.style.width = this.options.width;
+    } else {
+      el.style.minWidth = `${target.offsetWidth}px`;
     }
     if (this.options.height) {
       el.style.height = this.options.height;
@@ -208,6 +211,9 @@ export class Popover extends BaseDialog implements OnDestroy {
   private updateDimension() {
     const el = this.container()!.nativeElement;
     const target = this.tooltipOptions.target;
+    if (!target) {
+      return;
+    }
     const { top, left, bottom, position } = tooltipPosition({
       target,
       el,
@@ -231,11 +237,7 @@ export class Popover extends BaseDialog implements OnDestroy {
     el.style.left = `${left}px`;
   }
 
-  private updateAnchorPosition(
-    position: DialogPosition,
-    el: HTMLElement,
-    target: HTMLElement,
-  ) {
+  private updateAnchorPosition(position: DialogPosition, el: HTMLElement, target: HTMLElement) {
     let deg = '0deg';
     let anchorTop = '50%';
     let anchorLeft = '50%';
@@ -265,8 +267,7 @@ export class Popover extends BaseDialog implements OnDestroy {
       case 'br':
         deg = '180deg';
         anchorTop = '-1rem';
-        anchorLeft =
-          thWidth > el.clientWidth ? '50%' : `calc(100% - ${thWidth}px)`;
+        anchorLeft = thWidth > el.clientWidth ? '50%' : `calc(100% - ${thWidth}px)`;
         break;
     }
 

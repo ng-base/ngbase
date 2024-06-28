@@ -18,13 +18,7 @@ import { OverlayConfig, tooltipPosition } from '../portal/utils';
 import { DialogOptions } from '../dialog';
 import { DOCUMENT } from '@angular/common';
 import { fromEvent, debounce, debounceTime, delay, startWith, take } from 'rxjs';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { fadeAnimation } from '../dialog/dialog.animation';
 
 @Component({
@@ -68,11 +62,9 @@ export class BaseTour extends BaseDialog implements OnDestroy {
   scrolled = signal(0);
 
   clipPath = computed(() => {
-    const step = this.tourService.step();
     const _ = this.scrolled();
-    const currentStep = this.tourService.steps()[step];
-    const { width, height, top, left } =
-      currentStep.el.nativeElement.getBoundingClientRect();
+    const currentStep = this.tourService.currentStep()!;
+    const { width, height, top, left } = currentStep.el.nativeElement.getBoundingClientRect();
     return `polygon(
       0 0,
       100% 0,

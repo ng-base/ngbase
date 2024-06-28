@@ -12,11 +12,15 @@ import { NguModalViewAnimation, fadeAnimation } from './dialog.animation';
 import { Separator } from '../separator';
 import { Button } from '../button';
 import { Subject } from 'rxjs';
+import { Icons } from '../icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideX } from '@ng-icons/lucide';
 
 @Component({
   standalone: true,
-  imports: [NgStyle, Separator, Button, NgClass],
   selector: 'mee-dialog',
+  imports: [NgStyle, Separator, Button, NgClass, Icons],
+  viewProviders: [provideIcons({ lucideX })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
@@ -31,23 +35,16 @@ import { Subject } from 'rxjs';
         [@viewAnimation]="status() ? 1 : 0"
       >
         @if (!isHideHeader) {
-          <div
-            class="bg-secondary-background px-b4 pt-b4 flex items-center pb-b2"
-          >
+          <div class="flex items-center justify-between border-b px-b4 py-b2">
             <h2 class="flex-1 text-base font-bold">{{ options.title }}</h2>
+            @if (!options.disableClose) {
+              <button meeButton variant="ghost" class="-mr-b4" (click)="close()">
+                <mee-icon name="lucideX"></mee-icon>
+              </button>
+            }
           </div>
         }
-        @if (!options.disableClose) {
-          <button
-            meeButton
-            variant="ghost"
-            (click)="close()"
-            class="absolute right-1 top-b2 mr-1"
-          >
-            X
-          </button>
-        }
-        <div class="p-b4 h-full overflow-auto">
+        <div class="h-full overflow-auto p-b4">
           <ng-container #myDialog></ng-container>
         </div>
       </div>
@@ -63,8 +60,7 @@ import { Subject } from 'rxjs';
   `,
   host: {
     '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
-    class:
-      'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none z-150',
   },
   styles: `
     .backdropColor {

@@ -34,42 +34,42 @@ interface ThemeData {
         Radius: <input meeInput formControlName="radius" class="ml-2" />
       </div>
       <div>Space: <input meeInput formControlName="space" class="ml-2" /></div>
-      <div>
+      <div class="flex">
         Background:
         <mee-color-picker
           formControlName="background"
           class="ml-2"
         ></mee-color-picker>
       </div>
-      <div>
+      <div class="flex">
         Foreground:
         <mee-color-picker
           formControlName="foreground"
           class="ml-2"
         ></mee-color-picker>
       </div>
-      <div>
+      <div class="flex">
         Primary:
         <mee-color-picker
           formControlName="primary"
           class="ml-2"
         ></mee-color-picker>
       </div>
-      <div>
+      <div class="flex">
         Muted:
         <mee-color-picker
           formControlName="muted"
           class="ml-2"
         ></mee-color-picker>
       </div>
-      <div>
+      <div class="flex">
         Border:
         <mee-color-picker
           formControlName="border"
           class="ml-2"
         ></mee-color-picker>
       </div>
-      <div>
+      <div class="flex">
         Text:
         <mee-color-picker
           formControlName="text"

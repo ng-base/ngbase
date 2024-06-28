@@ -33,12 +33,18 @@ import { Option } from '@meeui/select';
     <h4 meeHeader class="mb-5" id="menuPage">Menu</h4>
     <div class="flex justify-between">
       <button meeButton [meeMenuTrigger]="menuContainer">Open menu</button>
-      <button meeButton [meeMenuTrigger]="menuContainer2">Open menu</button>
+      <button
+        meeButton
+        [meeMenuTrigger]="menuContainer2"
+        [options]="{ title: 'Header' }"
+      >
+        Open menu
+      </button>
       <button meeButton [meeMenuTrigger]="menuContainer1">Open menu</button>
     </div>
 
     <mee-menu #menuContainer1>
-      <div class="gap-b4 flex">
+      <div class="flex gap-b4">
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">
             Document Set

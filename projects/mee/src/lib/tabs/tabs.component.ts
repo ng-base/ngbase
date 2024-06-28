@@ -13,18 +13,19 @@ import {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@if (active()) {
-    <div class="p-b4">
-      <ng-content></ng-content>
-    </div>
+    <ng-content></ng-content>
   }`,
+  exportAs: 'meeTab',
   host: {
-    class: 'block',
+    class: 'block overflow-auto',
+    '[class]': `active() ? 'flex-1 h-full' : ''`,
   },
 })
 export class Tab {
   header = contentChild(TabHeader, { read: TemplateRef });
   active = signal(false);
   label = input('Tab');
+  disabled = input(false);
 }
 
 @Directive({

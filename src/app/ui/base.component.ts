@@ -60,7 +60,7 @@ import { AppService } from '../app.service';
             variant="ghost"
             (click)="themeService.open()"
             class="tour-theme"
-            meeTourStep
+            meeTourStep="theme-open"
           >
             Theme
           </button>
@@ -68,7 +68,7 @@ import { AppService } from '../app.service';
             meeButton
             variant="ghost"
             (click)="themeService.toggle()"
-            meeTourStep
+            meeTourStep="theme-toggle"
             class="tour-mode"
           >
             mode

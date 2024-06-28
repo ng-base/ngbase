@@ -4,7 +4,7 @@ import {
   ViewContainerRef,
   computed,
   inject,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { Icons } from '../icon';
 import { TREE_NODE_DATA, Tree } from './tree.component';
@@ -17,7 +17,6 @@ import { TreeNodeDef } from './tree-node.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex items-center">
-      <ng-content select="[meeTreeNodeToggle]"></ng-content>
       <ng-content></ng-content>
     </div>
     <ng-content select="[meeTreeNodeContent]"></ng-content>
@@ -25,8 +24,8 @@ import { TreeNodeDef } from './tree-node.directive';
   `,
   host: {
     class: 'block w-full',
-    '[style.marginLeft.px]': 'data.level * 32',
-  },
+    '[style.marginLeft.px]': 'data.level * 32'
+  }
 })
 export class TreeNode {
   treeNodeDef = inject(TreeNodeDef);
@@ -34,17 +33,21 @@ export class TreeNode {
   data = inject(TREE_NODE_DATA);
   container = viewChild('container', { read: ViewContainerRef });
   isOpen = computed(() => this.tree.opened().has(this.data.data));
-  hasChildren = computed(() => {
+  private children = computed(() => {
     const when = this.treeNodeDef!.meeTreeNodeDefWhen();
-    return when?.(0, this.data.data) ? true : false;
+    return when?.(0, this.data.data) || [];
+  });
+  hasChildren = computed(() => {
+    return this.children().length ? true : false;
   });
 
-  constructor() { }
+  constructor() {}
 
   toggle() {
     // this.isOpen.update((isOpen) => !isOpen);
-    if (this.hasChildren()) {
-      this.tree.toggle(this.data.data);
+    const children = this.children();
+    if (children.length) {
+      this.tree.toggle(this.data.data, children);
     }
   }
 }

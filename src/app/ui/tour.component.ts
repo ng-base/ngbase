@@ -24,7 +24,13 @@ export class TourComponent implements OnInit {
   ngOnInit() {}
 
   start() {
-    this.tourService.start(TourDemoComponent);
+    this.tourService.start(TourDemoComponent, [
+      'theme-toggle',
+      'theme-open',
+      'context-menu',
+      'tabs',
+      'resizable',
+    ]);
     // this.ngxTour.startTour(this.dashboardTour);
   }
 }

@@ -16,12 +16,14 @@ import { DatePicker } from './datepicker.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { Icons } from '../icon';
+import { TimePicker } from './time.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'mee-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, Button, Icons],
+  imports: [NgClass, Button, Icons, TimePicker, FormsModule],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   template: `
     <div class="mb-b2 flex items-center justify-between">
@@ -31,6 +33,7 @@ import { Icons } from '../icon';
         class="h-b6 w-b6 rounded-md !px-0"
         [class]="!first() ? 'invisible' : ''"
         (click)="navigate(-1)"
+        [disabled]="leftBtn()"
       >
         <mee-icon name="lucideChevronLeft"></mee-icon>
       </button>
@@ -48,6 +51,7 @@ import { Icons } from '../icon';
         class="h-b6 w-b6 rounded-md !px-0"
         [class]="!last() ? 'invisible' : ''"
         (click)="navigate(1)"
+        [disabled]="rightBtn()"
       >
         <mee-icon name="lucideChevronRight"></mee-icon>
       </button>
@@ -55,33 +59,41 @@ import { Icons } from '../icon';
 
     @if (datePicker.showType() === 'year') {
       <div class="years">
-        @for (year of years(); track year) {
+        @for (year of years(); track year.year) {
           <button
-            class="items-center justify-center rounded-md py-b2  hover:bg-muted-background"
-            (click)="selectYear(year)"
+            class="items-center justify-center rounded-md py-b2 {{
+              year.disabled
+                ? 'cursor-default opacity-50'
+                : 'hover:bg-muted-background'
+            }}"
+            (click)="!year.disabled && selectYear(year.year)"
             [ngClass]="[
-              todayDay() && cStartYear() === year
+              todayDay() && cStartYear() === year.year
                 ? 'border bg-muted-background'
                 : '',
-              cStartYear() === year ? '!bg-primary text-foreground' : ''
+              cStartYear() === year.year ? '!bg-primary text-foreground' : ''
             ]"
           >
-            {{ year }}
+            {{ year.year }}
           </button>
         }
       </div>
     } @else if (datePicker.showType() === 'month') {
       <div class="months">
-        @for (month of months; track month.value) {
+        @for (month of months(); track month.value) {
           <button
-            class="items-center justify-center rounded-md py-b2  hover:bg-muted-background"
-            (click)="selectMonth(month)"
+            class="items-center justify-center rounded-md py-b2 {{
+              month.disabled
+                ? 'cursor-default opacity-50'
+                : 'hover:bg-muted-background'
+            }}"
+            (click)="!month.disabled && selectMonth(month)"
             [ngClass]="{
               'border bg-muted-background':
                 todayDay() && cStartMonth() === month.value,
               '!bg-primary text-foreground': datePicker
                 .dates()
-                .month.includes(month.value + 1 + '-' + cStartYear())
+                .month.includes(month.value + '-' + cStartYear())
             }"
           >
             {{ month.name }}
@@ -97,9 +109,13 @@ import { Icons } from '../icon';
       <div class="grid grid-cols-7 gap-y-b2">
         @for (day of getDaysArray(); track $index) {
           <button
-            (click)="selectDate(day.day)"
             #days
-            class="mx-auto flex h-b9 w-b9 items-center justify-center text-center hover:bg-muted-background"
+            (click)="!day.disabled && selectDate(day.day, day.mon)"
+            class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
+              day.disabled
+                ? 'cursor-default opacity-50'
+                : 'hover:bg-muted-background'
+            }}"
             [ngClass]="{
               'bg-muted-background':
                 (day.day === todayDay() && day.current) ||
@@ -116,28 +132,24 @@ import { Icons } from '../icon';
           </button>
         }
       </div>
+      @if (datePicker.time() && datePicker.range()) {
+        <mee-time
+          class="mt-b5 w-full"
+          [(ngModel)]="time1"
+          (ngModelChange)="timeChanged(0, time1()!)"
+        ></mee-time>
+        <mee-time
+          class="mt-b5 w-full"
+          [(ngModel)]="time2"
+          (ngModelChange)="timeChanged(1, time2()!)"
+        ></mee-time>
+      }
     }
   `,
   host: {
     class: 'inline-block min-h-[18.75rem] p-b2 w-[268px]',
   },
   styles: `
-    // .day-names {
-    // display: grid;
-    // grid-template-columns: repeat(7, 1fr);
-    // }
-
-    // .day {
-    //   text-align: center;
-    // }
-
-    // .header {
-    //   display: flex;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   margin-bottom: 10px;
-    // }
-
     .years,
     .months {
       display: grid;
@@ -156,6 +168,8 @@ export class Calendar implements OnDestroy {
   first = input(false);
   last = input(false);
   index = input(0);
+  time1 = signal<string | null>(null);
+  time2 = signal<string | null>(null);
 
   readonly cStartMonth = computed(() => {
     const month = this.datePicker.startMonth() + this.index();
@@ -181,10 +195,23 @@ export class Calendar implements OnDestroy {
     return date.toLocaleString('default', { month: 'long' });
   });
 
-  years = signal(this.getYears(this.cStartYear()));
-  readonly months = Array.from({ length: 12 }, (_, i) => {
-    const name = new Date(0, i).toLocaleString('default', { month: 'long' });
-    return { name: name.substring(0, 3), value: i };
+  currentYear = signal(this.cStartYear());
+  years = computed(() => {
+    const year = this.currentYear();
+    const filter = this.datePicker.dateFilter();
+    return Array.from({ length: 24 }, (_, i) => {
+      const y = year - (24 - 6) + i;
+      return { year: y, disabled: !filter?.(new Date(y, 0)) };
+    });
+  });
+  readonly months = computed(() => {
+    const filter = this.datePicker.dateFilter();
+    return Array.from({ length: 12 }, (_, i) => {
+      const date = new Date(this.cStartYear(), i);
+      const isDisabled = !filter?.(date);
+      const name = date.toLocaleString('default', { month: 'long' });
+      return { name: name.substring(0, 3), value: i, disabled: isDisabled };
+    });
   });
 
   // computed the title based on the type
@@ -195,7 +222,7 @@ export class Calendar implements OnDestroy {
     const years = this.years();
     const r =
       type === 'year'
-        ? `${years[0]} - ${years[years.length - 1]} `
+        ? `${years[0].year} - ${years[years.length - 1].year} `
         : type === 'month'
           ? year
           : month + ' ' + year;
@@ -213,7 +240,7 @@ export class Calendar implements OnDestroy {
     const daysArray = Array.from({ length: numDays }, (_, i) => {
       const date = new Date(year, month, i + 1);
       return {
-        mon: month + 1,
+        mon: month,
         day: i + 1,
         disabled: !dateFilter?.(date) || false,
         current: true,
@@ -226,7 +253,7 @@ export class Calendar implements OnDestroy {
     const daysArrayPrev = Array.from({ length: startDay }, (_, i) => {
       const date = new Date(year, month - 1, prevMonth - startDay + i + 1);
       return {
-        mon: month,
+        mon: month - 1,
         day: prevMonth - startDay + i + 1,
         disabled: !dateFilter?.(date) || false,
         current: false,
@@ -240,7 +267,7 @@ export class Calendar implements OnDestroy {
     const daysArrayNext = Array.from({ length: remaining }, (_, i) => {
       const date = new Date(year, month + 1, i + 1);
       return {
-        mon: month + 2,
+        mon: month + 1,
         day: i + 1,
         disabled: !dateFilter?.(date) || false,
         current: false,
@@ -251,6 +278,38 @@ export class Calendar implements OnDestroy {
     return t;
   });
 
+  // whether the left button is disabled based on the type
+  // and disabled state
+  leftBtn = computed(() => {
+    const type = this.datePicker.showType();
+    const year = this.cStartYear();
+    const filter = this.datePicker.dateFilter();
+    if (type === 'year') {
+      return !filter?.(new Date(this.years()[0].year - 1, 11, 31));
+    } else if (type === 'month') {
+      return !filter?.(new Date(year - 1, 0));
+    } else {
+      return !filter?.(new Date(year, this.cStartMonth() - 1));
+    }
+  });
+
+  // whether the right button is disabled based on the type
+  // and disabled state
+  rightBtn = computed(() => {
+    const type = this.datePicker.showType();
+    const year = this.cStartYear();
+    const filter = this.datePicker.dateFilter();
+    if (type === 'year') {
+      return !filter?.(
+        new Date(this.years()[this.years().length - 1].year + 1, 0),
+      );
+    } else if (type === 'month') {
+      return !filter?.(new Date(year + 1, 0));
+    } else {
+      return !filter?.(new Date(year, this.cStartMonth() + 1));
+    }
+  });
+
   todayDay = computed(() => {
     const today = new Date();
     return this.getSelectedDayOfMonth(today);
@@ -259,6 +318,11 @@ export class Calendar implements OnDestroy {
   eventListeners: { element: HTMLElement; listener: () => void }[] = [];
 
   constructor() {
+    if (this.datePicker.time() && this.datePicker.range()) {
+      const dates = this.datePicker.selectedDates();
+      this.time1.set(this.datePicker.adapter.format(dates[0]!, 'hh:mm a'));
+      this.time2.set(this.datePicker.adapter.format(dates[1]!, 'hh:mm a'));
+    }
     effect(() => {
       const days = this.days();
       const range = this.datePicker.range();
@@ -270,7 +334,7 @@ export class Calendar implements OnDestroy {
 
         days.forEach((day, i) => {
           const listener = () => {
-            this.hoverDate(arr[i].day, arr[i].mon - 1);
+            this.hoverDate(arr[i].day, arr[i].mon);
           };
 
           day.nativeElement.addEventListener('mouseover', listener);
@@ -299,8 +363,18 @@ export class Calendar implements OnDestroy {
     this.datePicker.updateHoveredDate(new Date(this.cStartYear(), month, day));
   }
 
-  selectDate(day: number) {
-    const date = new Date(this.cStartYear(), this.cStartMonth(), day);
+  timeChanged(index: number, timing: string) {
+    const [time, period] = timing.split(' ');
+    const [hours, min] = time.split(':').map(Number);
+    const dates = this.datePicker.selectedDates();
+    const date = dates[index]!;
+    date.setHours(period === 'PM' ? hours + 12 : hours, min);
+
+    this.datePicker.selectDate(date, index);
+  }
+
+  selectDate(day: number, month: number) {
+    const date = new Date(this.cStartYear(), month, day);
     this.datePicker.selectDate(date);
   }
 
@@ -312,7 +386,7 @@ export class Calendar implements OnDestroy {
     const type = this.datePicker.showType();
     if (type === 'year') {
       selectedYear += direction * 24;
-      this.years.set(this.getYears(selectedYear));
+      this.currentYear.set(selectedYear);
     } else if (type === 'month') {
       selectedYear += direction;
     } else {
@@ -328,10 +402,6 @@ export class Calendar implements OnDestroy {
 
     this.datePicker.startYear.set(selectedYear);
     this.datePicker.startMonth.set(selectedMonth);
-  }
-
-  getYears(year: number) {
-    return Array.from({ length: 24 }, (_, i) => year - (24 - 6) + i);
   }
 
   selectYear(year: number) {

@@ -6,6 +6,7 @@ import {
   contentChildren,
   effect,
   model,
+  output,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -30,12 +31,10 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
           <button
             #tab
             class="border-b-2 border-transparent px-b4 py-b3 font-medium text-muted"
-            [class]="
-              $index === activeIndex() ? '!border-primary !text-text' : ''
-            "
+            [class]="$index === selectedIndex() ? '!border-primary !text-text' : ''"
             (click)="setActive($index)"
-            [tabindex]="$index === activeIndex() ? 0 : -1"
-            [attr.aria-selected]="activeIndex() === $index"
+            [tabindex]="$index === selectedIndex() ? 0 : -1"
+            [attr.aria-selected]="selectedIndex() === $index"
             role="tab"
           >
             @if (tab.header()) {
@@ -61,7 +60,7 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
     }
   `,
   host: {
-    class: 'bg-foreground block',
+    class: 'bg-foreground flex flex-col',
   },
 })
 export class Tabs {
@@ -70,13 +69,14 @@ export class Tabs {
   leftScroll = viewChild<ElementRef<HTMLElement>>('leftScroll');
   rightScroll = viewChild<ElementRef<HTMLElement>>('rightScroll');
   tabs = contentChildren(Tab);
-  activeIndex = model(0);
+  selectedIndex = model(0);
+  selectedTabChange = output<number>();
 
   constructor() {
     effect(
       () => {
         const tabs = this.tabs();
-        const activeIndex = this.activeIndex();
+        const activeIndex = this.selectedIndex();
 
         tabs.forEach((tab, index) => {
           tab.active.set(activeIndex === index);
@@ -98,14 +98,9 @@ export class Tabs {
     });
   }
 
-  private updateScrollDisplay(
-    leftScroll: HTMLElement,
-    el: HTMLElement,
-    rightScroll: HTMLElement,
-  ) {
+  private updateScrollDisplay(leftScroll: HTMLElement, el: HTMLElement, rightScroll: HTMLElement) {
     leftScroll.style.display = el.scrollLeft > 0 ? 'block' : 'none';
-    rightScroll.style.display =
-      el.scrollLeft + el.clientWidth < el.scrollWidth ? 'block' : 'none';
+    rightScroll.style.display = el.scrollLeft + el.clientWidth < el.scrollWidth ? 'block' : 'none';
   }
 
   scroll(direction: 'left' | 'right') {
@@ -120,13 +115,10 @@ export class Tabs {
   }
 
   setActive(index: number) {
-    this.activeIndex.set(index);
+    this.selectedIndex.set(index);
     const tabList = this.tabList()!.nativeElement;
     const tabs = this.tab().slice(0, index + 1);
-    const totalWidth = tabs.reduce(
-      (a, c) => a + c.nativeElement.getBoundingClientRect().width,
-      0,
-    );
+    const totalWidth = tabs.reduce((a, c) => a + c.nativeElement.getBoundingClientRect().width, 0);
 
     const { width } = tabList.getBoundingClientRect();
     const scrollLeft = tabList.scrollLeft;
@@ -134,12 +126,12 @@ export class Tabs {
     const lastTabWidth = lastTab.getBoundingClientRect().width;
     const withoutLastTabWidth = totalWidth - lastTabWidth;
 
-    const isLeftSide =
-      scrollLeft + width / 2 > withoutLastTabWidth + lastTabWidth / 2;
+    const isLeftSide = scrollLeft + width / 2 > withoutLastTabWidth + lastTabWidth / 2;
     const left = isLeftSide ? totalWidth - lastTabWidth : totalWidth - width;
 
     if (withoutLastTabWidth < scrollLeft || totalWidth > scrollLeft + width) {
       tabList.scrollTo({ left, behavior: 'smooth' });
     }
+    this.selectedTabChange.emit(index);
   }
 }

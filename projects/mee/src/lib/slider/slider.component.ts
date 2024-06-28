@@ -19,14 +19,11 @@ import { Drag, DragData } from '../drag';
   standalone: true,
   imports: [Drag],
   template: `
-    <div
-      class="h-full overflow-hidden rounded-full bg-muted-background"
-      meeDrag
-    >
+    <div class="h-full overflow-hidden rounded-full bg-muted-background" meeDrag>
       <div class="h-full bg-primary" #track></div>
     </div>
     <span
-      class="h-b4 w-b4 pointer-events-none absolute -top-b inline-block -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
+      class="pointer-events-none absolute -top-b inline-block h-b4 w-b4 -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
       #slider
     ></span>
   `,
@@ -49,13 +46,14 @@ export class Slider implements ControlValueAccessor {
   private drag = viewChild(Drag);
   el = inject(ElementRef);
   step = input(1);
+  min = input(0);
   max = input(100);
   performance = input(true);
   value = signal(100);
 
   sliderPosition = computed(() => this.getPercentage(this.value()));
   total = computed(() => {
-    let percentage = this.sliderPosition();
+    const percentage = this.sliderPosition();
     return 100 - percentage;
   });
   onChange = (value: number) => {};
@@ -66,12 +64,15 @@ export class Slider implements ControlValueAccessor {
   startValue = 0;
 
   constructor() {
-    effect(() => {
-      const value = this.value();
-      if (this.slider()) {
-        this.updateElement(value);
-      }
-    });
+    effect(
+      () => {
+        const value = this.value();
+        if (this.slider()) {
+          this.updateElement(value);
+        }
+      },
+      { allowSignalWrites: true },
+    );
 
     afterNextRender(() => {
       this.drag()!.events.subscribe((data) => this.move(data));
@@ -81,8 +82,7 @@ export class Slider implements ControlValueAccessor {
   private updateElement(value: number) {
     const sliderPosition = this.getPercentage(value);
     this.slider()!.nativeElement.style.left = sliderPosition + '%';
-    this.track()!.nativeElement.style.transform =
-      'translateX(-' + (100 - sliderPosition) + '%)';
+    this.track()!.nativeElement.style.transform = 'translateX(-' + (100 - sliderPosition) + '%)';
   }
 
   writeValue(value: number): void {
@@ -120,11 +120,9 @@ export class Slider implements ControlValueAccessor {
     // the new percentage of the slider
     const percentage = (x / width) * 100;
     // convert percentage to value
-    let value = (percentage / 100) * this.max();
+    const value = (percentage / 100) * this.max();
     // we need to make the percentage to be a multiple of the step
-    return parseFloat(
-      (Math.round(value / this.step()) * this.step()).toFixed(10),
-    );
+    return parseFloat((Math.round(value / this.step()) * this.step()).toFixed(10));
   }
 
   private moveSlider(data: DragData) {
@@ -146,11 +144,7 @@ export class Slider implements ControlValueAccessor {
       const newSize = this.totalSliderWidth + data.x;
       const percentage = this.perRound(newSize, this.totalWidth);
       // update the value only when the percentage is different and within the range
-      if (
-        percentage >= 0 &&
-        percentage <= this.max() &&
-        percentage != this.startValue
-      ) {
+      if (percentage >= 0 && percentage <= this.max() && percentage != this.startValue) {
         this.startValue = percentage;
         this.updateElement(percentage);
         if (!this.performance()) {

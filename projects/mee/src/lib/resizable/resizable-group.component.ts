@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   contentChildren,
   effect,
   inject,
@@ -8,21 +9,19 @@ import {
   untracked,
 } from '@angular/core';
 import { Resizable } from './resizable.component';
-import { ResizableService } from './resizable.service';
 
 @Component({
   selector: 'mee-resizable-group',
   standalone: true,
   template: `<ng-content select="mee-resizable"></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ResizableService],
   host: {
     class: 'flex w-full',
     '[class.flex-col]': "direction() === 'vertical'",
   },
 })
 export class ResizableGroup {
-  resizableService = inject(ResizableService);
+  el = inject<ElementRef<HTMLElement>>(ElementRef);
   panels = contentChildren(Resizable);
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
@@ -30,50 +29,50 @@ export class ResizableGroup {
     effect(
       () => {
         const panels = this.panels();
-        const direction = this.direction();
-        this.resizableService.direction.set(direction);
+        const _ = this.direction();
 
-        panels.forEach((panel, index) => {
-          panel.index = index;
-          // hide the last panel's drag handle
-          panel.draggable.set(true);
-          if (index === panels.length - 1) {
-            panel.draggable.set(false);
-            return;
-          }
+        untracked(() => {
+          panels.forEach((panel, index) => {
+            panel.index = index;
+            // hide the last panel's drag handle
+            panel.draggable.set(true);
+            if (index === panels.length - 1) {
+              panel.draggable.set(false);
+            }
+            panel.handleDrag(undefined, false);
+          });
+          this.setAuto();
         });
       },
       { allowSignalWrites: true },
     );
+  }
 
-    // update the size
-    // effect(
-    //   () => {
-    //     const panels = this.panels();
-    //     const sizeUpdate = this.resizableService.updateSize();
-    //     const direction = this.direction();
+  get w() {
+    return this.el.nativeElement.clientWidth;
+  }
 
-    //     if (sizeUpdate) {
-    //       const first = panels[sizeUpdate.index];
-    //       const second = panels[sizeUpdate.index + 1];
-    //       const totalPercentage =
-    //         untracked(first.size) + untracked(second.size);
-    //       let total = 0;
-    //       let newSize = 0;
-    //       if (direction === 'horizontal') {
-    //         total = first.width + second.width;
-    //         newSize = first.width + sizeUpdate.event.xx;
-    //       } else {
-    //         total = first.height + second.height;
-    //         newSize = first.height + sizeUpdate.event.yy;
-    //       }
-    //       // find the percentage of the new size according to totalPercentage
-    //       const percentage = (newSize / total) * totalPercentage;
-    //       first.updateSize(percentage);
-    //       second.updateSize(totalPercentage - percentage);
-    //     }
-    //   },
-    //   { allowSignalWrites: true },
-    // );
+  get h() {
+    return this.el.nativeElement.clientHeight;
+  }
+
+  setAuto() {
+    const panels = this.panels();
+    let str = 'calc(100%';
+    const autos = [];
+    for (const panel of panels) {
+      if (panel.size() !== 'auto') {
+        str += panel.str ? ` - ${panel.str}` : '';
+      } else {
+        autos.push(panel);
+      }
+    }
+    str += ')';
+    if (autos.length > 1) {
+      str = `calc(${str} / ${autos.length})`;
+    }
+    for (const auto of autos) {
+      auto.updateElementSize(str);
+    }
   }
 }

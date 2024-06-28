@@ -1,21 +1,7 @@
-import {
-  InjectionToken,
-  Injector,
-  ViewContainerRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { InjectionToken, Injector, ViewContainerRef, inject, signal } from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
-export type DialogPosition =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'tl'
-  | 'tr'
-  | 'bl'
-  | 'br';
+export type DialogPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
 
 export abstract class BaseDialog {
   dialogRef = inject(DialogRef);
@@ -58,7 +44,7 @@ export class DialogRef<T = any> {
     public options: DialogOptions<T>,
     private destroyParent: VoidFunction,
     private closeAllFn: VoidFunction,
-    private animation = true,
+    private animation = true
   ) {}
 
   close = (data?: any) => {
@@ -91,9 +77,11 @@ export class DialogOptions<T = any> {
   backdropColor? = true;
   hideOverlay? = false;
   data?: T;
-  isSidePopup? = false;
+  // isSidePopup? = false;
   title?: string;
   fullWindow?: boolean;
+  minWidth?: string;
+  minHeight?: string;
   width?: string;
   height?: string;
   maxWidth?: string;
@@ -110,14 +98,14 @@ export function createInj(parent: Injector, data: any, diaRef: DialogRef) {
   return Injector.create({
     providers: [
       { provide: DIALOG_INJ, useValue: data },
-      { provide: DialogRef, useValue: diaRef },
+      { provide: DialogRef, useValue: diaRef }
     ],
     parent,
-    name: 'dialogInj',
+    name: 'dialogInj'
   });
 }
 
 export const DialogTestProviders = [
   { provide: DIALOG_INJ, useValue: {} },
-  { provide: DialogRef, useValue: null },
+  { provide: DialogRef, useValue: null }
 ];

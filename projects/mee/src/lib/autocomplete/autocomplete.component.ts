@@ -11,6 +11,8 @@ import {
   input,
   signal,
   computed,
+  afterNextRender,
+  untracked,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Option } from '../select';
@@ -21,6 +23,7 @@ import { Subject } from 'rxjs';
 import { InputStyle } from '../input/input-style.directive';
 import { Chip } from '../chip';
 import { AutocompleteInput } from './autocomplete.directive';
+import { SelectBase } from '../select/select-base.component';
 
 @Component({
   selector: 'mee-autocomplete',
@@ -52,134 +55,32 @@ import { AutocompleteInput } from './autocomplete.directive';
     },
   ],
 })
-export class Autocomplete implements ControlValueAccessor {
-  selectOption = contentChildren(Option);
-  inputContainer1 = contentChild(AutocompleteInput);
+export class Autocomplete<T> extends SelectBase<T> {
+  selectOptions = contentChildren(Option, { descendants: true });
+  searchInput = contentChild(AutocompleteInput);
   chips = contentChildren(Chip);
-  container = viewChild('container', { read: ElementRef });
-  optionsTemplate = viewChild('options', { read: TemplateRef });
-  multiple = input(false);
-
-  readonly values = signal<any[]>([]);
-  readonly dValue = computed(() => {
-    const value = this.values()?.filter(
-      (x) => x !== undefined && x !== null && x !== '',
-    );
-    return value;
-  });
-  readonly cValue = computed(() => {
-    const value = this.dValue();
-    // if the value is greater than 1, then take the first value and add a plus sign with the length of the remaining values
-    if (value.length > 1) {
-      return `${value[0]} (+${value.length - 1})`;
-    }
-    return value.length ? value[0] : '';
-  });
-  onChange = (value: any) => {};
-  onTouched = () => {};
-  popover = popoverPortal();
-  popClose: VoidFunction = () => {};
-  events = new Subject<'open' | 'close'>();
-  isOpen = false;
 
   constructor() {
+    super(false);
     effect(
       () => {
-        const options = this.selectOption();
-        options.forEach((option) => {
-          option.multiple.set(this.multiple());
-          option.checked = this.values().includes(option.value());
-          option.selectOption = () => {
-            this.selectValue(option.value());
-            option.checked = !option.checked;
-            if (!this.multiple) {
-              this.popClose();
-            }
-          };
-        });
+        this.options.set(this.selectOptions());
       },
       { allowSignalWrites: true },
     );
-
-    effect(() => this.updateInputValue());
+    effect(() => {
+      if (this.status() !== 'opened') this.updateInputValue();
+    });
   }
 
   prevent(ev: MouseEvent) {
     ev.stopPropagation();
   }
 
-  open() {
-    if (this.isOpen) return;
-    const el = this.container()!.nativeElement;
-    const { diaRef, events } = this.popover.open(
-      this.optionsTemplate()!,
-      { target: el },
-      { backdrop: false, width: 'target', maxHeight: '400px' },
-    );
-    this.isOpen = true;
-    let withInPopup = false;
-    events.subscribe((e) => {
-      withInPopup = e.type !== 'mouseleave';
-    });
-    const clickHandler = (e: MouseEvent) => {
-      if (!withInPopup) {
-        this.popClose();
-      }
-    };
-    diaRef.events.subscribe(() => {
-      document.addEventListener('click', clickHandler);
-      this.events.next('open');
-    });
-    diaRef.afterClosed.subscribe(() => {
-      this.isOpen = false;
-      this.events.next('close');
-    });
-    this.popClose = () => {
-      diaRef.close();
-      document.removeEventListener('click', clickHandler);
-      this.isOpen = false;
-      this.events.next('close');
-      this.updateInputValue();
-    };
-  }
-
   private updateInputValue() {
     if (!this.chips()?.length) {
-      this.inputContainer1()?.updateValue(this.cValue());
+      this.searchInput()?.meeAutocompleteInput.emit('');
+      this.searchInput()?.updateValue(this.cValue());
     }
-  }
-
-  selectValue(value: string): void {
-    this.setValue(value);
-  }
-
-  setValue(value: string): void {
-    let values = this.values();
-    if (this.multiple()) {
-      const index = values.indexOf(value);
-      if (index > -1) {
-        values = values.filter((_, i) => i !== index);
-      } else {
-        values = [...values, value];
-      }
-    } else {
-      values = [value];
-      this.popClose();
-    }
-    this.values.set(values);
-    this.onChange(values);
-    this.onTouched();
-  }
-
-  writeValue(value: string[] | string): void {
-    this.values.set(Array.isArray(value) ? value : [value]);
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: VoidFunction): void {
-    this.onTouched = fn;
   }
 }

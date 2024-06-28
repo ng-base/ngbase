@@ -6,32 +6,32 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Checkbox } from '../checkbox';
+import { ListStyle } from '../list';
 
 @Component({
   standalone: true,
   selector: 'mee-option, [meeOption]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Checkbox, FormsModule],
+  imports: [Checkbox],
   template: ` @if (multiple()) {
-      <mee-checkbox [ngModel]="checked" class="mr-b2" />
+      <mee-checkbox [checked]="checked()" class="mr-b2 !py-0" />
     }
     <ng-content />`,
   host: {
-    class:
-      'flex items-center w-full py-b1.5 px-b2 hover:bg-muted-background cursor-pointer rounded-md focus:bg-muted-background outline-none text-sm',
     role: 'option',
     '(click)': 'selectOption()',
     '[class.bg-muted-background]': 'active()',
     tabindex: '-1',
   },
+  hostDirectives: [ListStyle],
 })
-export class Option {
-  value = input<any>();
+export class Option<T> {
+  value = input<T>();
   readonly multiple = signal(false);
-  checked = false;
+  checked = signal(false);
   active = signal(false);
+  disabled = input(false);
   el = inject(ElementRef);
 
   selectOption() {}

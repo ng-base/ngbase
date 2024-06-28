@@ -15,13 +15,11 @@ import {
   input,
   signal,
   untracked,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { TreeNodeDef } from './tree-node.directive';
 
-export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>(
-  'TREE_NODE_DATA',
-);
+export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');
 
 export interface TreeNodeData<T> {
   level: number;
@@ -39,8 +37,8 @@ export interface TreeNodeImplicit<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-container #container></ng-container>`,
   host: {
-    class: 'block',
-  },
+    class: 'block'
+  }
 })
 export class Tree<T> {
   dataSource = input.required<T[]>();
@@ -48,10 +46,7 @@ export class Tree<T> {
   treeNodeDef = contentChild.required(TreeNodeDef, { read: TemplateRef });
   container = viewChild.required('container', { read: ViewContainerRef });
   opened = signal(new Set<T>());
-  trace = new Map<
-    T,
-    { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: T }
-  >();
+  trace = new Map<T, { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: T }>();
   expanded = input<boolean>(false);
   differs = inject(IterableDiffers);
   _dataDiffers?: IterableDiffer<T>;
@@ -87,7 +82,7 @@ export class Tree<T> {
           0,
           opened,
           expanded && firstLoad ? 'addAll' : 'toggle',
-          index,
+          index
         );
       }
       firstLoad = false;
@@ -101,18 +96,18 @@ export class Tree<T> {
     level = 0,
     opened: Set<T>,
     type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle',
-    index: number,
+    index: number
   ): number {
     if (!this.trace.has(data)) {
       const value: TreeNodeData<T> = { level, data };
       const injector = Injector.create({
         providers: [{ provide: TREE_NODE_DATA, useValue: value }],
-        parent: this.injector,
+        parent: this.injector
       });
       const ref = container.createEmbeddedView<TreeNodeImplicit<T>>(
         def,
         { $implicit: data, level },
-        { injector, index },
+        { injector, index }
       );
       this.trace.set(data, { ref, parent: data });
       // index++;
@@ -124,36 +119,22 @@ export class Tree<T> {
           const item = (data as any).children[i];
           index++;
 
-          index = this.renderNode(
-            item,
-            container,
-            def,
-            level + 1,
-            opened,
-            type,
-            index,
-          );
+          index = this.renderNode(item, container, def, level + 1, opened, type, index);
         }
       }
     }
     return index;
   }
 
-  toggle(data: T) {
+  toggle(data: T, children: T[]) {
     const opened = this.opened();
     this.process(data, opened);
     this.opened.set(new Set(opened));
   }
 
-  process(
-    data: T,
-    opened: Set<T>,
-    type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle',
-  ) {
+  process(data: T, opened: Set<T>, type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle') {
     const isAdd =
-      type === 'add' ||
-      type === 'addAll' ||
-      (type === 'delete' ? false : !opened.has(data));
+      type === 'add' || type === 'addAll' || (type === 'delete' ? false : !opened.has(data));
     const ref = this.trace.get(data)!;
     if (!ref) {
       return;
@@ -164,8 +145,8 @@ export class Tree<T> {
 
     // render the tree
 
-    for (let i = 0; i < (data as any).children?.length; i++) {
-      const item = (data as any).children[i];
+    for (let i = 0; i < (data as any).child?.length; i++) {
+      const item = (data as any).child[i];
       if (isAdd) {
         indexNumber = this.renderNode(
           item,
@@ -174,7 +155,7 @@ export class Tree<T> {
           ref.ref.context.level + 1,
           opened,
           type,
-          indexNumber + 1,
+          indexNumber + 1
         );
       } else {
         this.deleteNode(item, opened);
@@ -192,7 +173,7 @@ export class Tree<T> {
     if (!ref) {
       return;
     }
-    if ((item as any).children) {
+    if ((item as any).child) {
       this.process(item, opened, 'delete');
     }
     ref.ref.destroy();

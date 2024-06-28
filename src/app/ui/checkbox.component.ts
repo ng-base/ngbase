@@ -10,10 +10,9 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="checkboxPage">Checkbox</h4>
-    <mee-checkbox class="w-full" [(ngModel)]="checkBox">
-      Check the UI
-    </mee-checkbox>
+    <mee-checkbox class="w-full" [(ngModel)]="checkBox"> Check the UI </mee-checkbox>
     <mee-checkbox class="w-full">Check the UI</mee-checkbox>
+    <mee-checkbox class="w-full" [checked]="true" [disabled]="true">Check the UI</mee-checkbox>
   `,
 })
 export class CheckboxComponent {

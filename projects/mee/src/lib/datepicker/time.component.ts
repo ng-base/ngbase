@@ -4,16 +4,13 @@ import {
   effect,
   forwardRef,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { InputStyle } from '../input/input-style.directive';
 import { NumberOnly, padString } from './number-only.directive';
 import { Button } from '../button';
-import {
-  ControlValueAccessor,
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -29,7 +26,7 @@ import {
       [max]="is24() ? 23 : 11"
       [len]="2"
       [(ngModel)]="hours"
-      class="w-10 px-b2 text-center font-semibold"
+      class="w-10 px-b text-center font-semibold"
     />
     <span>:</span>
     <input
@@ -40,10 +37,10 @@ import {
       [max]="59"
       [len]="2"
       [(ngModel)]="minutes"
-      class="w-10 px-b2 text-center font-semibold"
+      class="w-10 px-b text-center font-semibold"
     />
     @if (!is24()) {
-      <div class="flex gap-b2">
+      <div class="ml-b flex gap-b2">
         <button
           type="button"
           meeButton
@@ -66,7 +63,7 @@ import {
     }
   `,
   host: {
-    class: 'inline-flex gap-b2 items-center',
+    class: 'inline-flex gap-b items-center justify-center',
   },
   providers: [
     {
@@ -77,47 +74,57 @@ import {
   ],
 })
 export class TimePicker implements ControlValueAccessor {
-  hours = signal('00');
-  minutes = signal('00');
-  am = signal(true);
-  is24 = input(false);
+  readonly hours = signal('00');
+  readonly minutes = signal('00');
+  readonly am = signal(true);
+  readonly is24 = input(false);
+  readonly valueChange = output<string>();
+  time = this.updateValue(this.hours(), this.minutes(), this.am(), false);
 
-  onChange = (value: any) => {};
-  onTouched = () => {};
+  private onChange = (value: any) => {};
+  private onTouched = () => {};
 
   constructor() {
-    effect(() => {
-      const hours = this.hours();
-      const minutes = this.minutes();
-      const am = this.am();
-      this.updateValue(hours, minutes, am);
-    });
+    effect(
+      () => {
+        const hours = this.hours();
+        const minutes = this.minutes();
+        const am = this.am();
+        this.updateValue(hours, minutes, am);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   changeAm(active: boolean) {
     this.am.set(active);
   }
 
-  updateValue(hours: string, minutes: string, am: boolean) {
-    // making it two digits
-    let time = `${padString(hours)}:${padString(minutes)}`;
-    if (!this.is24()) {
-      time += ` ${am ? 'AM' : 'PM'}`;
+  updateValue(hours: string, minutes: string, am: boolean, notify = true) {
+    const time =
+      `${padString(hours)}:${padString(minutes)}` + (!this.is24() ? ` ${am ? 'AM' : 'PM'}` : '');
+    if (notify) {
+      this.notify(time);
     }
-    this.onChange(time);
-    this.onTouched();
+    this.time = time;
+    return time;
   }
 
-  setValues(hours: number, minutes: number) {
-    this.hours.set(padString(hours));
-    this.minutes.set(padString(minutes));
+  notify(time: string) {
+    if (this.time !== time) {
+      this.onChange(time);
+      this.onTouched();
+      this.valueChange.emit(time);
+    }
   }
 
   writeValue(value: string) {
-    const splits = value?.split(':');
-    if (splits?.length === 2) {
-      const [hours, minutes] = splits[0].split(':');
-      this.setValues(+hours, +minutes);
+    if (value) {
+      const [time, period] = value.split(' ');
+      const [hours, minutes] = time.split(':');
+      this.hours.set(padString(hours));
+      this.minutes.set(padString(minutes));
+      this.am.set(period === 'AM');
     }
   }
 

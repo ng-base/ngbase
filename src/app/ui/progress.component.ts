@@ -25,7 +25,7 @@ import { Heading } from '@meeui/typography';
     >
       -
     </button>
-    <mee-progress [percentage]="percentage"></mee-progress>
+    <mee-progress [value]="percentage"></mee-progress>
   `,
 })
 export class ProgressComponent implements OnInit {

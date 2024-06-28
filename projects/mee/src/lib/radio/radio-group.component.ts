@@ -4,13 +4,10 @@ import {
   contentChildren,
   effect,
   forwardRef,
+  model,
   signal,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Radio } from './radio.component';
 import { generateId } from '../utils';
 
@@ -19,6 +16,9 @@ import { generateId } from '../utils';
   selector: 'mee-radio-group',
   imports: [FormsModule],
   template: `<ng-content></ng-content>`,
+  host: {
+    class: 'flex gap-b2',
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -28,8 +28,8 @@ import { generateId } from '../utils';
   ],
 })
 export class RadioGroup implements ControlValueAccessor {
-  radios = contentChildren(Radio);
-  value = signal<any>('');
+  radios = contentChildren(Radio, { descendants: true });
+  value = model<any>('');
   name = generateId();
   onChange = (value: any) => {};
   onTouched = () => {};
@@ -38,10 +38,8 @@ export class RadioGroup implements ControlValueAccessor {
     effect(
       () => {
         const radios = this.radios();
-        const value = this.value();
         radios.forEach((radio) => {
           radio.name = this.name;
-          radio.setValue(value);
           radio.updateValue = (ev) => {
             this.updateValue(radio.value());
           };
@@ -52,6 +50,7 @@ export class RadioGroup implements ControlValueAccessor {
   }
 
   updateValue(value: any) {
+    this.value.set(value);
     this.onChange(value);
     this.onTouched();
   }

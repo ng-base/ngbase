@@ -19,10 +19,10 @@ import {
   },
 })
 export class Progress {
-  percentage = input(0);
+  value = input(0);
 
   total = computed(() => {
-    let percentage = this.percentage();
+    let percentage = this.value();
     percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage;
     return 100 - percentage;
   });

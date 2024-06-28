@@ -8,20 +8,27 @@ export class TourService {
   private popover = popoverPortal();
   steps = signal<TourStep[]>([]);
   step = signal(-1);
+  private ids = signal<string[]>([]);
+  currentStep = computed(() => {
+    const id = this.ids()[this.step()];
+    const steps = this.steps();
+    return steps.find((x) => x.meeTourStep() === id);
+  });
   private diaRef?: PopoverOpen<any>;
   private id = 0;
   private template!: DialogInput<any>;
   showPrev = computed(() => this.step() > 0);
-  showNext = computed(() => this.step() < this.steps().length - 1);
-  isLast = computed(() => this.step() === this.steps().length - 1);
-  totalSteps = computed(() => this.steps().length);
+  showNext = computed(() => this.step() < this.ids().length - 1);
+  isLast = computed(() => this.step() === this.ids().length - 1);
+  totalSteps = computed(() => this.ids().length);
   scrolled = signal(0);
   private clipPath = computed(() => {
-    const step = this.step();
     const _ = this.scrolled();
-    const currentStep = this.steps()[step];
-    const { width, height, top, left } =
-      currentStep.el.nativeElement.getBoundingClientRect();
+    const currentStep = this.currentStep();
+    if (!currentStep) {
+      return '';
+    }
+    const { width, height, top, left } = currentStep.el.nativeElement.getBoundingClientRect();
     return `polygon(
       0 0,
       100% 0,
@@ -37,20 +44,21 @@ export class TourService {
     )`;
   });
 
-  constructor() { }
+  constructor() {}
 
   addStep(step: TourStep) {
     this.steps.update((x) => [...x, step]);
   }
 
-  start<T>(comp: DialogInput<T>) {
+  start<T>(comp: DialogInput<T>, ids: string[]) {
     this.template = comp;
+    this.ids.set(ids);
     this.step.set(-1);
     this.next();
   }
 
   prev() {
-    const steps = this.steps();
+    const steps = this.ids;
     const prevStep = this.step();
     if (steps.length) {
       const step = (prevStep - 1 + steps.length) % steps.length;
@@ -59,7 +67,7 @@ export class TourService {
   }
 
   next() {
-    const steps = this.steps();
+    const steps = this.ids();
     const prevStep = this.step();
     if (steps.length) {
       const step = (prevStep + 1) % steps.length;
@@ -72,18 +80,23 @@ export class TourService {
     }
   }
 
-  go(step: number) {
+  go(id: number) {
     const steps = this.steps();
+    const ids = this.ids();
     if (steps.length) {
       // validate the step number is within the range
-      if (step < 0 || step >= steps.length) {
+      if (id < 0 || id >= ids.length) {
         return;
       }
-      this.step.set(step);
+      this.step.set(id);
+      const step = steps.find((x) => x.meeTourStep() === ids[id]);
+      if (!step) {
+        return;
+      }
       if (this.diaRef) {
-        this.diaRef.parent.target.set(steps[step].el.nativeElement);
+        this.diaRef.parent.target.set(step.el.nativeElement);
       } else {
-        this.showOverlay(steps[step].el.nativeElement);
+        this.showOverlay(step.el.nativeElement);
       }
     }
   }

@@ -2,7 +2,10 @@ import {
   Directive,
   ElementRef,
   afterNextRender,
+  effect,
   inject,
+  model,
+  output,
   signal,
 } from '@angular/core';
 import { Autocomplete } from './autocomplete.component';
@@ -14,6 +17,7 @@ import { Autocomplete } from './autocomplete.component';
     class: 'w-full bg-transparent shadow-none outline-none',
     '(focus)': 'onFocus()',
     '(blur)': 'close()',
+    '(input)': 'meeAutocompleteInput.emit($event.target.value)',
     autocomplete: 'off',
   },
 })
@@ -22,6 +26,8 @@ export class AutocompleteInput {
   el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   focus = signal(false);
   blur = signal(false);
+  meeAutocompleteInput = output<string>();
+  search = signal('');
 
   constructor() {
     // afterNextRender(() => {

@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { AccordionItem } from './accordion-item.component';
+import { Accordion } from './accordion-item.component';
 import { AccordionService } from './accordion.service';
 
 @Component({
@@ -22,19 +22,19 @@ import { AccordionService } from './accordion.service';
   providers: [AccordionService],
 })
 export class AccordionGroup {
-  items = contentChildren(AccordionItem);
+  items = contentChildren(Accordion);
   accordionService = inject(AccordionService);
-  multiple = input(false);
+  multi = input(false);
 
   constructor() {
     effect(
       () => {
         const items = this.items();
-        const active = this.accordionService.active();
-        const isMultiple = this.multiple();
+        const active = this.accordionService.activeId();
+        const isMultiple = this.multi();
         if (!isMultiple) {
           items.forEach((item) => {
-            item.active.set(item.id === active);
+            item.expanded.set(item.id === active);
           });
         }
       },

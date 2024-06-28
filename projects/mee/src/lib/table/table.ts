@@ -17,6 +17,7 @@ import {
   EmbeddedViewRef,
   WritableSignal,
   signal,
+  untracked,
 } from '@angular/core';
 import { Row } from './column';
 import { NgFor, NgTemplateOutlet } from '@angular/common';
@@ -56,7 +57,7 @@ export class Table<T> {
   bodyRow = contentChild(BodyRow);
   headRow = contentChild(HeadRow);
   data = input.required<T[]>();
-  trackBy = input.required<(index: number, item: T) => any>();
+  trackBy = input<(index: number, item: T) => any>((_, item) => item);
   injector = inject(Injector);
   differs = inject(IterableDiffers);
   _dataDiffers?: IterableDiffer<T>;
@@ -90,42 +91,33 @@ export class Table<T> {
             providers: [{ provide: ROW_TOKEN, useValue: value }],
             parent: this.injector,
           });
-          thead.createEmbeddedView(
-            headRowDef,
-            { $implicit: value },
-            { injector },
-          );
+          thead.createEmbeddedView(headRowDef, { $implicit: value }, { injector });
           headerRendered = true;
         }
 
-        changes.forEachOperation(
-          (item, adjustedPreviousIndex, currentIndex) => {
-            if (item.previousIndex == null) {
-              const value: Column = {
-                data: signal(item.item),
-              };
-              this.valuesTracker.set(
-                this.trackBy()(currentIndex!, item.item),
-                value,
-              );
-              const injector = Injector.create({
-                providers: [{ provide: ROW_TOKEN, useValue: value }],
-                parent: this.injector,
-              });
-              const ref = tbody.createEmbeddedView(
-                bodyRowDef,
-                { $implicit: value },
-                { injector, index: currentIndex! },
-              );
-              this._values.set(ref, item.item);
-            } else if (currentIndex == null) {
-              tbody.remove(adjustedPreviousIndex!);
-            } else {
-              const view = tbody.get(adjustedPreviousIndex!);
-              tbody.move(view!, currentIndex!);
-            }
-          },
-        );
+        changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
+          if (item.previousIndex == null) {
+            const value: Column = {
+              data: signal(item.item),
+            };
+            this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);
+            const injector = Injector.create({
+              providers: [{ provide: ROW_TOKEN, useValue: value }],
+              parent: this.injector,
+            });
+            const ref = tbody.createEmbeddedView(
+              bodyRowDef,
+              { $implicit: value },
+              { injector, index: currentIndex! },
+            );
+            this._values.set(ref, item.item);
+          } else if (currentIndex == null) {
+            tbody.remove(adjustedPreviousIndex!);
+          } else {
+            const view = tbody.get(adjustedPreviousIndex!);
+            tbody.move(view!, currentIndex!);
+          }
+        });
 
         // update rows
         changes.forEachIdentityChange((record) => {

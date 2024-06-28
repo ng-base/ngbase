@@ -4,7 +4,15 @@ import { Directive, input } from '@angular/core';
   standalone: true,
   selector: '[meeHeader]',
   host: {
-    '[class]': `'font-semibold ' + (meeHeader() == 'sm' ? 'text-2xl' : meeHeader() == 'md' ? 'text-3xl' : meeHeader() == 'lg' ? 'text-4xl' : '!font-medium')`,
+    '[class]': `'font-semibold ' + (meeHeader() == 'sm' 
+    ? 'text-2xl' 
+    : meeHeader() == 'md' 
+      ? 'text-3xl' 
+      : meeHeader() == 'lg' 
+      ? 'text-4xl' 
+      : meeHeader() == 'xs'
+        ? 'text-base' 
+        : '!font-medium')`,
   },
 })
 export class Heading {

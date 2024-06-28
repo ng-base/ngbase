@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Signal,
   contentChildren,
   effect,
   model,
@@ -16,13 +17,13 @@ import { SelectableItem } from './selectable-item.component';
   template: `<ng-content />`,
   host: {
     class: 'inline-flex relative bg-muted-background rounded-base p-b',
-    role: 'tablist'
+    role: 'tablist',
   },
 })
-export class Selectable {
-  items = contentChildren(SelectableItem);
-  activeIndex = model(0);
-  valueChanged = output<number>();
+export class Selectable<T> {
+  items: Signal<readonly SelectableItem<T>[]> = contentChildren(SelectableItem);
+  activeIndex = model<T>();
+  valueChanged = output<T>();
 
   constructor() {
     effect(
@@ -30,7 +31,7 @@ export class Selectable {
         const items = this.items();
 
         items.forEach((item, index) => {
-          item.selected.update(() => index === this.activeIndex());
+          item.selected.update(() => item.value() === this.activeIndex());
         });
       },
       { allowSignalWrites: true },
@@ -38,7 +39,7 @@ export class Selectable {
 
     effect(
       () => {
-        this.valueChanged.emit(this.activeIndex());
+        this.valueChanged.emit(this.activeIndex()!);
       },
       { allowSignalWrites: true },
     );

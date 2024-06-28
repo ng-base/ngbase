@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Avatar } from '@meeui/avatar';
 import { Badge } from '@meeui/badge';
@@ -104,58 +99,38 @@ import {
             <button meeList meeHeader class="bg-muted-background">
               <mee-icon name="lucideInbox" /> Inbox
             </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideStickyNote" /> Draft
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideSend" /> Sent
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideArchiveX" /> Junk
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideTrash2" /> Trash
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideArchive" /> Archive
-            </button>
+            <button meeList meeHeader><mee-icon name="lucideStickyNote" /> Draft</button>
+            <button meeList meeHeader><mee-icon name="lucideSend" /> Sent</button>
+            <button meeList meeHeader><mee-icon name="lucideArchiveX" /> Junk</button>
+            <button meeList meeHeader><mee-icon name="lucideTrash2" /> Trash</button>
+            <button meeList meeHeader><mee-icon name="lucideArchive" /> Archive</button>
           </div>
 
           <mee-separator />
           <div class="p-2">
-            <button meeList meeHeader>
-              <mee-icon name="lucideUsers" /> Social
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideInfo" /> Updates
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideMessageSquare" /> Forums
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideShoppingCart" /> Shopping
-            </button>
-            <button meeList meeHeader>
-              <mee-icon name="lucideArchive" /> Promotions
-            </button>
+            <button meeList meeHeader><mee-icon name="lucideUsers" /> Social</button>
+            <button meeList meeHeader><mee-icon name="lucideInfo" /> Updates</button>
+            <button meeList meeHeader><mee-icon name="lucideMessageSquare" /> Forums</button>
+            <button meeList meeHeader><mee-icon name="lucideShoppingCart" /> Shopping</button>
+            <button meeList meeHeader><mee-icon name="lucideArchive" /> Promotions</button>
           </div>
         </mee-resizable>
         <mee-resizable [size]="40">
-          <div class="px-b4 my-b2 flex items-center justify-between">
+          <div class="my-b2 flex items-center justify-between px-b4">
             <h4 meeHeader="sm" class="text-xl">Inbox</h4>
             <mee-selectable [(activeIndex)]="type">
-              <mee-selectable-item class="whitespace-nowrap">
+              <mee-selectable-item [value]="0" class="whitespace-nowrap">
                 All mail
               </mee-selectable-item>
-              <mee-selectable-item>Unread</mee-selectable-item>
+              <mee-selectable-item [value]="1">Unread</mee-selectable-item>
             </mee-selectable>
           </div>
           <mee-separator />
 
-          <div class="px-b4 pt-b4 flex flex-col">
+          <div class="flex flex-col px-b4 pt-b4">
             <input meeInput placeholder="Search mail" class="w-full" />
 
-            <mee-scroll-area class="gap-b4 pt-b4 flex flex-1 flex-col">
+            <mee-scroll-area class="flex flex-1 flex-col gap-b4 pt-b4">
               @for (mail of filteredMails(); track $index) {
                 <button
                   meeCard
@@ -170,9 +145,7 @@ import {
                         <mee-badge class="!ml-2">New</mee-badge>
                       }
                     </h4>
-                    <span class="text-muted-foreground text-xs"
-                      >7 months ago</span
-                    >
+                    <span class="text-muted-foreground text-xs">7 months ago</span>
                   </div>
                   <h4 class="text-xs">{{ mail.subject }}</h4>
                   <p class="text-muted-foreground my-b2 line-clamp-2 text-xs">
@@ -191,12 +164,7 @@ import {
         <mee-resizable [size]="40" class="flex flex-col">
           <div class="flex justify-between">
             <div class="flex gap-2 px-3 py-2">
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Archive"
-              >
+              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Archive">
                 <mee-icon name="lucideArchive" />
               </button>
               <button
@@ -216,22 +184,12 @@ import {
                 <mee-icon name="lucideTrash2" />
               </button>
               <mee-separator orientation="vertical" />
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Snooze"
-              >
+              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Snooze">
                 <mee-icon name="lucideClock" />
               </button>
             </div>
             <div class="flex gap-2 px-3 py-2">
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Reply"
-              >
+              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Reply">
                 <mee-icon name="lucideReply" />
               </button>
               <button
@@ -242,12 +200,7 @@ import {
               >
                 <mee-icon name="lucideReplyAll" />
               </button>
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Forward"
-              >
+              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Forward">
                 <mee-icon name="lucideForward" />
               </button>
               <mee-separator orientation="vertical" />
@@ -270,7 +223,7 @@ import {
           </div>
           <mee-separator />
           <div>
-            <div class="gap-b4 p-b4 flex">
+            <div class="flex gap-b4 p-b4">
               <div>
                 <mee-avatar name="William Smith" />
               </div>
@@ -280,15 +233,13 @@ import {
                 <h4 class="text-xs">Reply-To: {{ selected().email }}</h4>
               </div>
               <div>
-                <p class="text-muted-foreground text-xs">
-                  Oct 22, 2023, 9:00:00 AM
-                </p>
+                <p class="text-muted-foreground text-xs">Oct 22, 2023, 9:00:00 AM</p>
               </div>
             </div>
           </div>
 
           <mee-separator />
-          <div class="p-b4 flex-1 whitespace-pre-wrap">
+          <div class="flex-1 whitespace-pre-wrap p-b4">
             {{ selected().content }}
           </div>
           <mee-separator />
@@ -298,7 +249,7 @@ import {
               class="min-h-20 w-full"
               [placeholder]="'Reply ' + selected().name"
             ></textarea>
-            <div class="pt-b4 flex justify-between">
+            <div class="flex justify-between pt-b4">
               <mee-switch class="text-sm">Mute this thread</mee-switch>
               <button meeButton variant="primary">Send</button>
             </div>

@@ -1,47 +1,30 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, model, output } from '@angular/core';
 import { generateId } from '../utils';
-import {
-  ControlValueAccessor,
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'mee-switch',
   standalone: true,
-  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <input
-      type="checkbox"
-      [(ngModel)]="value"
-      (ngModelChange)="updateValue()"
+    <button
+      type="button"
+      role="switch"
+      (click)="updateValue()"
       [id]="id"
-      class="switch relative box-content h-b6 w-b11 overflow-hidden rounded-full border bg-input"
-    />
+      class="relative h-b5 w-b9 rounded-full border-b0.5 border-transparent bg-muted-background transition-colors"
+      [class.bg-primary]="checked()"
+    >
+      <span
+        class="block h-b4 w-b4 rounded-full bg-foreground transition-transform"
+        [class.translate-x-full]="checked()"
+      ></span>
+    </button>
     <label [for]="id"><ng-content></ng-content></label>
   `,
   host: {
     class: 'inline-flex items-center gap-b2 py-b',
   },
-  styles: `
-    .switch {
-      -webkit-appearance: none;
-
-      &:checked {
-        @apply border-primary bg-primary;
-        &:after {
-          @apply left-[calc(100%-1.375rem)];
-        }
-      }
-      &:after {
-        content: '';
-        position: absolute;
-        @apply left-0.5 top-0.5 h-5 w-5 rounded-full bg-foreground;
-        transition: all 0.2s ease-out;
-      }
-    }
-  `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -52,7 +35,8 @@ import {
 })
 export class Switch implements ControlValueAccessor {
   id = generateId();
-  value: any;
+  change = output<boolean>();
+  checked = model(false);
 
   onChange = (value: any) => {};
   onTouched = () => {};
@@ -60,12 +44,15 @@ export class Switch implements ControlValueAccessor {
   constructor() {}
 
   updateValue() {
-    this.onChange(this.value);
+    const checked = !this.checked();
+    this.checked.set(checked);
+    this.onChange(checked);
     this.onTouched();
+    this.change.emit(checked);
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.checked.set(value);
   }
 
   registerOnChange(fn: any): void {

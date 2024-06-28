@@ -6,7 +6,7 @@ import {
   TemplateRef,
   contentChildren,
   output,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { DialogRef } from '../portal';
 import { Keys } from '../keys';
@@ -18,7 +18,7 @@ import { MenuItem } from './menu-item.directive';
 @Component({
   selector: 'mee-menu',
   standalone: true,
-  imports: [],
+  exportAs: 'meeMenu',
   template: `
     <ng-template #container>
       <div (click)="close()" class="flex flex-col">
@@ -26,7 +26,7 @@ import { MenuItem } from './menu-item.directive';
       </div>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Menu implements OnDestroy {
   container = viewChild('container', { read: TemplateRef });
@@ -47,33 +47,32 @@ export class Menu implements OnDestroy {
     // console.log(list);
     list[0].nativeElement.focus();
     this.sub.add(
-      merge(
-        this.manager.event('ArrowDown'),
-        this.manager.event('ArrowUp'),
-      ).subscribe(([bo, ev]) => {
-        if (bo) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          const prev = active;
-          if (ev.key === 'ArrowDown') {
-            active++;
-            active = active === list.length ? 0 : active;
-          } else {
-            active--;
-            active = active === -1 ? list.length - 1 : active;
-          }
-          console.log(ev.key, active, list[active].nativeElement);
-          const el = list[active].nativeElement;
-          list[prev].nativeElement.setAttribute('tabindex', '-1');
-          el.setAttribute('tabindex', '0');
-          el.focus();
-          // console.log(list[active].nativeElement);
-          // list.forEach((list, i) => {
-          //   // list.active.set(i === active);
+      merge(this.manager.event('ArrowDown'), this.manager.event('ArrowUp')).subscribe(
+        ([bo, ev]) => {
+          if (bo) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            const prev = active;
+            if (ev.key === 'ArrowDown') {
+              active++;
+              active = active === list.length ? 0 : active;
+            } else {
+              active--;
+              active = active === -1 ? list.length - 1 : active;
+            }
+            console.log(ev.key, active, list[active].nativeElement);
+            const el = list[active].nativeElement;
+            list[prev].nativeElement.setAttribute('tabindex', '-1');
+            el.setAttribute('tabindex', '0');
+            el.focus();
+            // console.log(list[active].nativeElement);
+            // list.forEach((list, i) => {
+            //   // list.active.set(i === active);
 
-          // });
+            // });
+          }
         }
-      }),
+      )
     );
 
     this.sub.add(
@@ -89,7 +88,7 @@ export class Menu implements OnDestroy {
           // });
           this.close();
         }
-      }),
+      })
     );
 
     this.diaRef!.afterClosed.subscribe(() => {

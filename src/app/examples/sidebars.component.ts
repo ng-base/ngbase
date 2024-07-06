@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccordionGroup, Accordion } from '@meeui/accordion';
+import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/accordion';
 import { Avatar } from '@meeui/avatar';
 import { Card } from '@meeui/card';
 import { Icons } from '@meeui/icon';
@@ -45,6 +45,7 @@ import {
     FormsModule,
     Card,
     AccordionGroup,
+    AccordionHeader,
     Accordion,
     Icons,
     Separator,
@@ -102,7 +103,7 @@ import {
             <mee-separator />
             <div class="p-b4">
               <p class="mb-b2 text-sm font-medium text-muted">Platform</p>
-              <button meeList class="px-0 font-medium hover:bg-transparent">
+              <button meeList class="!bg-transparent !px-0 font-medium">
                 <mee-icon name="lucideSearch" />
                 Search
               </button>
@@ -115,7 +116,7 @@ import {
               </ng-template>
               <mee-accordion-group [multi]="true">
                 <mee-accordion class="border-none" [expanded]="true">
-                  <h4 class="accordion-header flex items-center gap-b2">
+                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideTerminalSquare" />
                     Playground
                     <mee-icon class="ml-auto" name="lucideChevronRight" />
@@ -123,7 +124,7 @@ import {
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
                 <mee-accordion class="border-none">
-                  <h4 class="accordion-header flex items-center gap-b2">
+                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideBot" />
                     Models
                     <mee-icon class="ml-auto" name="lucideChevronRight" />
@@ -131,7 +132,7 @@ import {
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
                 <mee-accordion class="border-none">
-                  <h4 class="accordion-header flex items-center gap-b2">
+                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideBook" />
                     Documentation
                     <mee-icon class="ml-auto" name="lucideChevronRight" />
@@ -139,7 +140,7 @@ import {
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
                 <mee-accordion class="border-none">
-                  <h4 class="accordion-header flex items-center gap-b2">
+                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideCode" />
                     API
                     <mee-icon class="ml-auto" name="lucideChevronRight" />
@@ -147,7 +148,7 @@ import {
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
                 <mee-accordion class="border-none">
-                  <h4 class="accordion-header flex items-center gap-b2">
+                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideSettings2" />
                     Settings
                     <mee-icon class="ml-auto" name="lucideChevronRight" />
@@ -159,30 +160,30 @@ import {
             <mee-separator />
             <div class="p-b4">
               <p class="mb-b2 text-sm font-medium text-muted">Recent Projects</p>
-              <button meeList class="px-0 text-xs font-medium hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium hover:bg-transparent">
                 <mee-icon name="lucideFrame" />
                 Design Engineering
               </button>
-              <button meeList class="px-0 text-xs font-medium hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium hover:bg-transparent">
                 <mee-icon name="lucidePieChart" />
                 Sales & Marketing
               </button>
-              <button meeList class="px-0 text-xs font-medium hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium hover:bg-transparent">
                 <mee-icon name="lucideMap" />
                 Travel
               </button>
-              <button meeList class="px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
                 <mee-icon name="lucidePlusSquare" />
                 Add Project
               </button>
             </div>
             <div class="mt-auto p-b4">
               <p class="mb-b2 text-sm font-medium text-muted">Help</p>
-              <button meeList class="px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
                 <mee-icon name="lucideLifeBuoy" />
                 Support
               </button>
-              <button meeList class="px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
                 <mee-icon name="lucideSend" />
                 Feedback
               </button>

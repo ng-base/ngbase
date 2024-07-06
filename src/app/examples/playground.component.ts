@@ -83,7 +83,7 @@ import { Key } from '@meeui/keys';
               <button meeToggleItem><-</button>
               <button meeToggleItem>-></button>
             </mee-toggle-group> -->
-            <mee-selectable>
+            <mee-selectable [activeIndex]="0">
               <mee-selectable-item [value]="0">
                 <mee-icon name="lucideBookText" class="py-1" />
               </mee-selectable-item>

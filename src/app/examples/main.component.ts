@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
 import { Tab, Tabs } from '@meeui/tabs';
@@ -16,6 +16,7 @@ import { Button } from '@meeui/button';
 import { BlogsComponent } from './blogs.component';
 import { Spinner } from '@meeui/spinner';
 import { TermorComponent } from './termor.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -42,8 +43,8 @@ import { TermorComponent } from './termor.component';
   ],
   viewProviders: [provideIcons({ lucideSun, lucideMoon })],
   template: `
-    <mee-tabs [selectedIndex]="3">
-      <mee-tab label="Mail">
+    <mee-tabs [selectedIndex]="tabIndex()" (selectedIndexChange)="indexChange($event)">
+      <mee-tab label="Mail" class="p-b4" [mode]="'hidden'">
         @defer (on viewport) {
           <app-mail />
         } @placeholder {
@@ -52,7 +53,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Playground">
+      <mee-tab label="Playground" class="p-b4">
         @defer (on viewport) {
           <app-playground />
         } @placeholder {
@@ -61,7 +62,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Music">
+      <mee-tab label="Music" class="p-b4">
         @defer (on viewport) {
           <app-music />
         } @placeholder {
@@ -70,7 +71,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Forms">
+      <mee-tab label="Forms" class="p-b4">
         @defer (on viewport) {
           <app-forms />
         } @placeholder {
@@ -79,7 +80,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Inventory">
+      <mee-tab label="Inventory" class="p-b4">
         @defer (on viewport) {
           <app-inventory />
         } @placeholder {
@@ -88,7 +89,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Sidebars">
+      <mee-tab label="Sidebars" class="p-b4">
         @defer (on viewport) {
           <app-sidebars />
         } @placeholder {
@@ -97,7 +98,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Blogs">
+      <mee-tab label="Blogs" class="p-b4">
         @defer (on viewport) {
           <app-blogs />
         } @placeholder {
@@ -106,7 +107,7 @@ import { TermorComponent } from './termor.component';
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Termor">
+      <mee-tab label="Termor" class="p-b4">
         @defer (on viewport) {
           <app-termor />
         } @placeholder {
@@ -126,9 +127,13 @@ import { TermorComponent } from './termor.component';
     </button>
   `,
 })
-export class Theme1Component implements OnInit {
+export class Theme1Component {
   theme = inject(ThemeService);
-  constructor() {}
+  private activatedRoute = inject(ActivatedRoute);
+  private route = inject(Router);
+  tabIndex = signal(+this.activatedRoute.snapshot.params['id']);
 
-  ngOnInit() {}
+  indexChange(index: number) {
+    this.route.navigate(['examples', index]);
+  }
 }

@@ -145,7 +145,7 @@ import {
         <mee-separator orientation="vertical" />
         <div class="flex-1 overflow-hidden p-b4">
           <div class="flex justify-between">
-            <mee-selectable>
+            <mee-selectable [activeIndex]="0">
               <mee-selectable-item [value]="0">Music</mee-selectable-item>
               <mee-selectable-item [value]="1">Podcast</mee-selectable-item>
               <mee-selectable-item [value]="2">Live</mee-selectable-item>

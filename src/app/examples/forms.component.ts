@@ -5,7 +5,7 @@ import { Button } from '@meeui/button';
 import { Card } from '@meeui/card';
 import { Checkbox } from '@meeui/checkbox';
 import { Chip } from '@meeui/chip';
-import { Input } from '@meeui/input';
+import { Input, Label } from '@meeui/input';
 import { Select, Option, SelectInput } from '@meeui/select';
 import { Heading } from '@meeui/typography';
 
@@ -26,27 +26,27 @@ import { Heading } from '@meeui/typography';
     AutocompleteInput,
     Checkbox,
     Chip,
+    Label,
   ],
   template: `
     <mee-card class="w-[28rem]">
       <h4 meeHeader="sm" class="mb-b4">Let’s get you hired!</h4>
       <div class="flex gap-b4">
-        <div class="mb-b4 flex flex-1 flex-col gap-b2">
-          <label for="firstName">First Name*</label>
-          <input meeInput id="firstName" placeholder="First Name" />
-        </div>
-        <div class="mb-b4 flex flex-1 flex-col gap-b2">
-          <label for="lastName">Last Name*</label>
-          <input meeInput id="lastName" placeholder="Last Name" />
-        </div>
+        <label meeLabel>
+          First Name*
+          <input meeInput placeholder="First Name" />
+        </label>
+        <label meeLabel>
+          Last Name*
+          <input meeInput placeholder="Last Name" />
+        </label>
       </div>
-      <div class="mb-b4 flex flex-col gap-b2">
-        <label for="emailId">Email ID</label>
+      <label meeLabel>
+        Email ID
         <input meeInput id="emailId" placeholder="Email id" />
-      </div>
-      <div class="mb-b4 flex flex-col gap-b2">
-        <label for="location">Location</label>
-        <!-- <input meeInput id="location" placeholder="Location" /> -->
+      </label>
+      <label meeLabel>
+        Location
         <mee-select placeholder="Location" [multiple]="true">
           <input meeSelectInput placeholder="Search location" />
           <mee-option value="Bangalore">Bangalore</mee-option>
@@ -56,20 +56,20 @@ import { Heading } from '@meeui/typography';
           <mee-option value="Mumbai">Mumbai</mee-option>
           <mee-option value="Pune">Pune</mee-option>
         </mee-select>
-      </div>
-      <div class="mb-b4 flex flex-col gap-b2">
-        <label for="contactNumber">Contact Number</label>
+      </label>
+      <label meeLabel>
+        Contact Number
         <input meeInput id="contactNumber" placeholder="Contact number" />
-      </div>
-      <div class="mb-b4 flex flex-col gap-b2">
-        <label for="experience">Year of Experience</label>
+      </label>
+      <label meeLabel>
+        Year of Experience
         <div class="flex gap-b4">
           <input meeInput id="experience" placeholder="Years" />
           <input meeInput id="experience" placeholder="Months" />
         </div>
-      </div>
-      <div class="mb-b4 flex flex-col gap-b2">
-        <label for="skills">My Technical Skills</label>
+      </label>
+      <label meeLabel>
+        My Technical Skills
         <mee-autocomplete placeholder="My Technical Skills" [multiple]="true" [(ngModel)]="skills">
           <input
             [(ngModel)]="skillSearch"
@@ -84,7 +84,7 @@ import { Heading } from '@meeui/typography';
             <mee-option [value]="skill">{{ skill }}</mee-option>
           }
         </mee-autocomplete>
-      </div>
+      </label>
       <div class="mb-b4 flex flex-col">
         <mee-checkbox>Subscribe to our newsletter</mee-checkbox>
         <mee-checkbox>Accept terms and conditions</mee-checkbox>

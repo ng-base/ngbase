@@ -34,7 +34,7 @@ import { Icons } from '@meeui/icon';
       <a meeList (click)="scrollToTop()" routerLink="input">Input</a>
       <a meeList (click)="scrollToTop()" routerLink="otp">Input OTP</a>
       <a meeList (click)="scrollToTop()" routerLink="keyboard-shortcuts"> Keyboard Shortcuts </a>
-      <a meeList href="#listPage">List</a>
+      <a meeList (click)="scrollToTop()" routerLink="list">List</a>
       <a meeList (click)="scrollToTop()" routerLink="mention">Mention</a>
       <a meeList (click)="scrollToTop()" routerLink="menu">Menu</a>
       <a meeList (click)="scrollToTop()" routerLink="navigation-menu"> Navigation Menu </a>

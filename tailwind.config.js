@@ -1,11 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // content: ['./src/**/*.{html,ts}', './projects/**/*.{html,ts}'],
-  content: [
-    './src/**/*.{html,ts}',
-    './projects/**/*.{html,ts}',
-    './dist/mee/**/*.{html,ts,mjs}',
-  ],
+  content: ['./src/**/*.{html,ts}', './projects/**/*.{html,ts}', './dist/mee/**/*.{html,ts,mjs}'],
   theme: {
     extend: {
       colors: {
@@ -41,12 +37,14 @@ module.exports = {
         b9: 'calc(var(--spacing-base) * 9)',
         b10: 'calc(var(--spacing-base) * 10)',
         b11: 'calc(var(--spacing-base) * 11)',
+        b12: 'calc(var(--spacing-base) * 12)',
       },
       borderWidth: {
         'b0.5': 'calc(var(--spacing-base) * 0.5)',
       },
       borderRadius: {
         base: 'var(--radius)',
+        h: 'calc(var(--radius) / 2)',
       },
     },
   },

@@ -47,6 +47,7 @@ import { StepperComponent } from './stepper.component';
 import { PicasaComponent } from './picasa.component';
 import { SheetComponent } from './sheet.component';
 import { FormsComponent } from './forms.component';
+import { ListComponent } from './list.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -99,6 +100,7 @@ export const UI_ROUTES: Routes = [
       { path: 'picasa', component: PicasaComponent },
       { path: 'sheet', component: SheetComponent },
       { path: 'forms', component: FormsComponent },
+      { path: 'list', component: ListComponent },
       { path: '', redirectTo: 'accordion', pathMatch: 'full' },
     ],
   },

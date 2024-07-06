@@ -1,56 +1,51 @@
-import { Component, OnInit, signal, ChangeDetectionStrategy, input } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk/table';
-import {
-  BodyRow,
-  BodyRowDef,
-  Cell,
-  CellDef,
-  Head,
-  HeadDef,
-  HeadRow,
-  HeadRowDef,
-  Row,
-  Table,
-} from '@meeui/table';
+import { Component, signal, ChangeDetectionStrategy, input, OnDestroy } from '@angular/core';
+import { TableComponents } from '@meeui/table';
 import { RangePipe } from '@meeui/utils';
 import { Button } from '@meeui/button';
 import { ScrollArea } from '@meeui/scroll-area';
 import { Heading } from '@meeui/typography';
 import { Card } from '@meeui/card';
+import { Selectable, SelectableItem } from '../../../projects/mee/src/public-api';
 
 interface Employee {
-  id: number;
-  name: string;
-  t?: number;
+  Id: number;
+  orderNumber: number;
+  purchaseDate: string;
+  customer: string;
+  event: string;
+  amount: string;
 }
 
 @Component({
   standalone: true,
   selector: 'app-table',
   imports: [
-    Table,
-    Row,
-    Cell,
-    CellDef,
-    Head,
-    HeadDef,
-    BodyRow,
-    HeadRow,
-    BodyRowDef,
-    HeadRowDef,
+    TableComponents,
     RangePipe,
-    CdkTableModule,
     Button,
     ScrollArea,
     Heading,
     Card,
+    Selectable,
+    SelectableItem,
   ],
   template: `
     <h4 meeHeader class="mb-5">Table</h4>
     <!-- <button meeButton (click)="update()" class="mb-5">
       Click me {{ randomNum() }}
     </button> -->
-    <mee-card class="p-b2">
+    <div class="mb-b2 flex gap-b2">
+      <mee-selectable
+        [activeIndex]="1"
+        (valueChanged)="$event === 0 ? startShuffle() : stopShuffle()"
+      >
+        <mee-selectable-item [value]="0">Start</mee-selectable-item>
+        <mee-selectable-item [value]="1">Stop</mee-selectable-item>
+      </mee-selectable>
+      <button meeButton (click)="deleteAddShuffleData()">Shuffle</button>
+      <button meeButton (click)="reverse()">Reverse</button>
+    </div>
+    <mee-card class="!p-0">
       <mee-scroll-area class="m-bb h-full max-w-4xl">
         <table meeTable [data]="employees()" [trackBy]="trackByFn">
           @for (column of columns(); track column) {
@@ -64,72 +59,34 @@ interface Employee {
                 *meeCellDef="let element"
                 (click)="updateCell(column)"
               >
-                Value {{ element[column] }}
+                {{ element[column] }}
               </td>
             </ng-container>
           }
-          <tr meeHeadRow *meeHeadRowDef></tr>
-          <tr meeBodyRow *meeBodyRowDef></tr>
+          <ng-container meeRow="expandables">
+            <th meeHead *meeHeadDef>Expandables</th>
+            <td meeCell *meeCellDef="let element" [attr.colspan]="columns().length">
+              @if (selected?.Id === element.Id) {
+                {{ element.Id }} -- This is extented row for id {{ element.Id }}
+              }
+              <!-- <button meeButton (click)="updateCell('expandables')">Value</button> -->
+            </td>
+          </ng-container>
+          <tr meeHeadRow *meeHeadRowDef="columns()"></tr>
+          <tr
+            meeBodyRow
+            *meeBodyRowDef="let row; columns: columns()"
+            (click)="selected = selected === row ? undefined : row"
+            class="cursor-pointer"
+          ></tr>
+          <tr
+            meeBodyRow
+            *meeBodyRowDef="let row; columns: ['expandables']"
+            [class.hidden]="selected?.Id !== row.Id"
+          ></tr>
         </table>
       </mee-scroll-area>
     </mee-card>
-
-    <!-- <table meeTable [data]="employees">
-      @for (n of 5 | range; track n) {
-        <ng-container [meeRow]="'Title ' + n">
-          <th class="whitespace-nowrap" meeHead *meeHeadDef>Header {{ n }}</th>
-          <td class="whitespace-nowrap" meeCell *meeCellDef="let element">
-            Value {{ element.name }}
-          </td>
-        </ng-container>
-      }
-      <tr meeHeadRow *meeHeadRowDef></tr>
-      <tr meeBodyRow *meeBodyRowDef></tr>
-    </table> -->
-
-    <!-- <table cdk-table [dataSource]="10 | range" [trackBy]="trackByFn">
-          @for (n of 10 | range; track n) {
-            <ng-container [cdkColumnDef]="'Title ' + n">
-              <th cdk-header-cell *cdkHeaderCellDef>No.</th>
-              <td cdk-cell *cdkCellDef="let element">Value {{ element }}</td>
-            </ng-container>
-          }
-          <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
-          <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
-        </table> -->
-
-    <!-- <table class="w-full text-sm">
-        <thead>
-          <tr class="border-b">
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-              Header 1
-            </th>
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-              Header 2
-            </th>
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-              Header 3
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b">
-            <td class="p-4 align-middle">Value 1</td>
-            <td class="p-4 align-middle">Value 2</td>
-            <td class="p-4 align-middle">Value 3</td>
-          </tr>
-          <tr class="border-b">
-            <td class="p-4 align-middle">Value 4</td>
-            <td class="p-4 align-middle">Value 5</td>
-            <td class="p-4 align-middle">Value 6</td>
-          </tr>
-          <tr class="border-b">
-            <td class="p-4 align-middle">Value 7</td>
-            <td class="p-4 align-middle">Value 8</td>
-            <td class="p-4 align-middle">Value 9</td>
-          </tr>
-        </tbody>
-      </table> -->
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
@@ -142,34 +99,54 @@ interface Employee {
     `,
   ],
 })
-export class TableComponent {
+export class TableComponent implements OnDestroy {
   title = input<string>('Table');
   randomNum = signal(2);
-  employees = signal<any[]>([
+  employees = signal<Employee[]>([
     // { id: 1, name: 'John Doe', t: 1 },
     // { id: 2, name: 'Jane Doe', t: 2 },
     // { id: 3, name: 'John Smith', t: 3 },
     // { id: 4, name: 'Jane Smith', t: 4 },
   ]);
   columns = signal<string[]>([]);
+  selected: any;
+  intervalId: any;
 
   constructor() {
     this.changeNumber(5000);
     const columns = new Set<string>();
     const employees = [];
 
-    // for (let i = 1; i <= 50; i++) {
-    //   const obj = {} as any;
-    //   for (let i = 1; i <= 50; i++) {
-    //     obj['Title ' + i] = i;
-    //     columns.add('Title ' + i);
-    //   }
-    //   employees.push(obj);
-    // }
-    // this.columns.set([...columns]);
-    // this.employees.set(employees);
-    this.columns.set(Object.keys(DUMMY_DATA[0]));
-    this.employees.set(DUMMY_DATA);
+    for (let i = 1; i <= 50; i++) {
+      const obj = {
+        Id: i,
+      } as any;
+      columns.add('Id');
+      for (let j = 1; j <= 50; j++) {
+        obj['Title ' + j] = i + j;
+        columns.add('Title ' + j);
+      }
+      employees.push(obj);
+    }
+    this.columns.set([...columns]);
+    this.employees.set(employees);
+    // setInterval(() => {
+    //   this.deleteAddShuffleData();
+    // }, 10);
+    // this.columns.set(Object.keys(DUMMY_DATA[0]));
+    // this.employees.set(DUMMY_DATA);
+  }
+
+  startShuffle() {
+    if (this.intervalId) return;
+    this.intervalId = setInterval(() => {
+      this.deleteAddShuffleData();
+    }, 10);
+  }
+
+  stopShuffle() {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
   }
 
   changeNumber(timeout?: number) {
@@ -179,8 +156,37 @@ export class TableComponent {
     // }, timeout);
   }
 
+  reverse() {
+    this.employees.update(x => {
+      return [...x.reverse()];
+    });
+  }
+
+  deleteAddShuffleData() {
+    // delete some random data 25%
+    // const data = this.employees();
+    // const randomIndex = Math.floor(Math.random() * data.length);
+    // data.splice(randomIndex, randomIndex + Math.floor(data.length / 4));
+    // // add some random data 25%
+    // const randomData: Employee[] = [];
+    // for (let i = 0; i < data.length / 4; i++) {
+    //   randomData.push({
+    //     Id: data.length + i + 1,
+    //     orderNumber: Math.floor(Math.random() * 10000),
+    //     purchaseDate: new Date().toDateString(),
+    //     customer: 'Customer ' + (data.length + i + 1),
+    //     event: 'Event ' + (data.length + i + 1),
+    //     amount: 'US$' + (Math.random() * 100).toFixed(2),
+    //   });
+    // }
+
+    this.employees.update(x => {
+      return [...x.sort(() => Math.random() - 0.5)];
+    });
+  }
+
   trackByFn(index: number, value: Employee) {
-    return value.id;
+    return value.Id;
   }
 
   now() {
@@ -192,10 +198,14 @@ export class TableComponent {
   update() {
     this.columns.set([]);
     this.employees.update(x => {
-      x[0] = { ...x[0], name: 'John 123' };
+      x[0] = { ...x[0], customer: 'John 123' };
       // x.pop();
       return [...x];
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stopShuffle();
   }
 }
 
@@ -241,8 +251,9 @@ export class TableComponent {
 // Viking People
 // US$114.99
 
-const DUMMY_DATA = [
+const DUMMY_DATA: Employee[] = [
   {
+    Id: 1,
     orderNumber: 3000,
     purchaseDate: 'May 9, 2024',
     customer: 'Leslie Alexander',
@@ -250,6 +261,7 @@ const DUMMY_DATA = [
     amount: 'US$80.00',
   },
   {
+    Id: 2,
     orderNumber: 3001,
     purchaseDate: 'May 5, 2024',
     customer: 'Michael Foster',
@@ -257,6 +269,7 @@ const DUMMY_DATA = [
     amount: 'US$299.00',
   },
   {
+    Id: 3,
     orderNumber: 3002,
     purchaseDate: 'Apr 28, 2024',
     customer: 'Dries Vincent',
@@ -264,6 +277,7 @@ const DUMMY_DATA = [
     amount: 'US$150.00',
   },
   {
+    Id: 4,
     orderNumber: 3003,
     purchaseDate: 'Apr 23, 2024',
     customer: 'Lindsay Walton',
@@ -271,6 +285,7 @@ const DUMMY_DATA = [
     amount: 'US$80.00',
   },
   {
+    Id: 5,
     orderNumber: 3004,
     purchaseDate: 'Apr 18, 2024',
     customer: 'Courtney Henry',
@@ -278,6 +293,7 @@ const DUMMY_DATA = [
     amount: 'US$114.99',
   },
   {
+    Id: 6,
     orderNumber: 3005,
     purchaseDate: 'Apr 14, 2024',
     customer: 'Tom Cook',
@@ -285,6 +301,7 @@ const DUMMY_DATA = [
     amount: 'US$299.00',
   },
   {
+    Id: 7,
     orderNumber: 3006,
     purchaseDate: 'Apr 10, 2024',
     customer: 'Whitney Francis',
@@ -292,6 +309,7 @@ const DUMMY_DATA = [
     amount: 'US$150.00',
   },
   {
+    Id: 8,
     orderNumber: 3007,
     purchaseDate: 'Apr 6, 2024',
     customer: 'Leonard Krasner',
@@ -299,6 +317,7 @@ const DUMMY_DATA = [
     amount: 'US$80.00',
   },
   {
+    Id: 9,
     orderNumber: 3008,
     purchaseDate: 'Apr 3, 2024',
     customer: 'Floyd Miles',
@@ -306,6 +325,7 @@ const DUMMY_DATA = [
     amount: 'US$80.00',
   },
   {
+    Id: 10,
     orderNumber: 3009,
     purchaseDate: 'Mar 29, 2024',
     customer: 'Emily Selman',

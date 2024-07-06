@@ -1,17 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, signal } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { Input } from '@meeui/input';
-import {
-  ColorPicker,
-  ColorPickerContainer,
-  ColorPickerTrigger,
-} from '@meeui/color-picker';
+import { ColorPicker, ColorPickerTrigger } from '@meeui/color-picker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 
@@ -25,7 +15,7 @@ import { JsonPipe } from '@angular/common';
     Heading,
     Input,
     JsonPipe,
-    ColorPickerContainer,
+    ColorPicker,
     ColorPickerTrigger,
   ],
   template: `
@@ -41,56 +31,25 @@ import { JsonPipe } from '@angular/common';
     <div class="mt-4 flex gap-4">
       <div class="flex flex-col gap-2">
         <label>Red</label>
-        <input
-          meeInput
-          type="text"
-          min="0"
-          max="255"
-          [ngModel]="rgb().r"
-          readOnly
-        />
+        <input meeInput type="text" min="0" max="255" [ngModel]="rgb().r" readOnly />
       </div>
       <div class="flex flex-col gap-2">
         <label>Green</label>
-        <input
-          meeInput
-          type="text"
-          min="0"
-          max="255"
-          [ngModel]="rgb().g"
-          readOnly
-        />
+        <input meeInput type="text" min="0" max="255" [ngModel]="rgb().g" readOnly />
       </div>
       <div class="flex flex-col gap-2">
         <label>Blue</label>
-        <input
-          meeInput
-          type="text"
-          min="0"
-          max="255"
-          [ngModel]="rgb().b"
-          readOnly
-        />
+        <input meeInput type="text" min="0" max="255" [ngModel]="rgb().b" readOnly />
       </div>
     </div>
     <div class="mt-4 flex flex-col gap-2">
       <label>CSS Color</label>
-      <input
-        meeInput
-        type="text"
-        min="0"
-        max="255"
-        [ngModel]="cssColor()"
-        readOnly
-      />
+      <input meeInput type="text" min="0" max="255" [ngModel]="cssColor()" readOnly />
       <input meeInput type="text" [ngModel]="hex()" readOnly />
     </div>
     <div class="mt-4 flex flex-col gap-2">
       <label>Color preview</label>
-      <div
-        class="h-36 rounded-md border "
-        [style.backgroundColor]="cssColor()"
-      ></div>
+      <div class="h-36 rounded-md border " [style.backgroundColor]="cssColor()"></div>
     </div>
   `,
   host: {
@@ -131,7 +90,7 @@ export class ColorsComponent implements OnInit {
       }, [] as number[]);
     return rgb.length
       ? `#${rgb
-          .map((x) => x.toString(16).padStart(2, '0'))
+          .map(x => x.toString(16).padStart(2, '0'))
           .join('')
           .toUpperCase()}`
       : '';

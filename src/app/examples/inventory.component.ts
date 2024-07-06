@@ -137,10 +137,10 @@ import {
           <mee-menu #userMenu>
             <div class="min-w-[120px]">
               <div meeHeader class="px-b2 py-b">My Account</div>
-              <mee-separator />
+              <mee-separator class="my-b" />
               <button meeList>Settings</button>
               <button meeList>Support</button>
-              <mee-separator />
+              <mee-separator class="my-b" />
               <button meeList>Logout</button>
             </div>
           </mee-menu>
@@ -177,7 +177,7 @@ import {
             <!-- Table header -->
             <div class="mt-b4">
               <div class="my-b2 mt-b8 flex">
-                <mee-selectable class="bg-muted">
+                <mee-selectable class="bg-muted" [activeIndex]="0">
                   <mee-selectable-item [value]="0">Week</mee-selectable-item>
                   <mee-selectable-item [value]="1">Month</mee-selectable-item>
                   <mee-selectable-item [value]="2">Year</mee-selectable-item>
@@ -245,8 +245,8 @@ import {
                       {{ element.amount }}
                     </td>
                   </ng-container>
-                  <tr meeHeadRow *meeHeadRowDef></tr>
-                  <tr meeBodyRow *meeBodyRowDef></tr>
+                  <tr meeHeadRow *meeHeadRowDef="displayedColumns"></tr>
+                  <tr meeBodyRow *meeBodyRowDef="let row; columns: displayedColumns"></tr>
                 </table>
               </mee-card>
             </div>

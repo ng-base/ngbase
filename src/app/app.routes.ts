@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'examples',
+    path: 'examples/:id',
     loadComponent: () => import('./examples/main.component').then(m => m.Theme1Component),
   },
   // {
@@ -29,7 +29,7 @@ export const routes: Routes = [
   // },
   {
     path: '',
-    redirectTo: 'examples',
+    redirectTo: 'examples/0',
     pathMatch: 'full',
   },
 ];

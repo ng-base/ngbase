@@ -68,7 +68,7 @@ import { SelectBase } from './select-base.component';
 })
 export class Select<T> extends SelectBase<T> {
   // el = inject(ElementRef);
-  selectOptions = contentChildren(Option, { descendants: true });
+  // selectOptions = contentChildren(Option, { descendants: true });
   // placeholder = input<string>(' ');
   // disabled = input<boolean>(false);
   // localValue = signal<any[]>([]);
@@ -101,7 +101,7 @@ export class Select<T> extends SelectBase<T> {
 
   constructor() {
     super(true);
-    effect(() => this.options.set(this.selectOptions()), { allowSignalWrites: true });
+    // effect(() => this.options.set(this.selectOptions()), { allowSignalWrites: true });
     // effect(
     //   () => {
     //     const options = this.selectOptions();

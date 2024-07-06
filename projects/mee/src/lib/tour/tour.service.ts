@@ -12,7 +12,7 @@ export class TourService {
   currentStep = computed(() => {
     const id = this.ids()[this.step()];
     const steps = this.steps();
-    return steps.find((x) => x.meeTourStep() === id);
+    return steps.find(x => x.meeTourStep() === id);
   });
   private diaRef?: PopoverOpen<any>;
   private id = 0;
@@ -47,7 +47,7 @@ export class TourService {
   constructor() {}
 
   addStep(step: TourStep) {
-    this.steps.update((x) => [...x, step]);
+    this.steps.update(x => [...x, step]);
   }
 
   start<T>(comp: DialogInput<T>, ids: string[]) {
@@ -89,7 +89,7 @@ export class TourService {
         return;
       }
       this.step.set(id);
-      const step = steps.find((x) => x.meeTourStep() === ids[id]);
+      const step = steps.find(x => x.meeTourStep() === ids[id]);
       if (!step) {
         return;
       }

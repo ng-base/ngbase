@@ -15,21 +15,18 @@ import {
   IterableDiffer,
   effect,
   EmbeddedViewRef,
-  WritableSignal,
-  signal,
-  untracked,
 } from '@angular/core';
 import { Row } from './column';
 import { NgFor, NgTemplateOutlet } from '@angular/common';
 
-import { BodyRow, BodyRowDef } from './body-row';
-import { HeadRow, HeadRowDef } from './head-row';
+import { BodyRowDef } from './body-row';
+import { HeadRowDef } from './head-row';
 
-export interface Column {
-  data: WritableSignal<any>;
-}
+// export interface Column {
+//   data: any;
+// }
 
-export const ROW_TOKEN = new InjectionToken<Column>('ROW_TOKEN');
+export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
 
 @Component({
   standalone: true,
@@ -49,24 +46,22 @@ export const ROW_TOKEN = new InjectionToken<Column>('ROW_TOKEN');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Table<T> {
-  thead = viewChild('thead', { read: ViewContainerRef });
-  tbody = viewChild('tbody', { read: ViewContainerRef });
-  bodyRowDef = contentChild(BodyRowDef, { read: TemplateRef });
-  headRowDef = contentChild(HeadRowDef, { read: TemplateRef });
-  rows = contentChildren(Row);
-  bodyRow = contentChild(BodyRow);
-  headRow = contentChild(HeadRow);
-  data = input.required<T[]>();
-  trackBy = input<(index: number, item: T) => any>((_, item) => item);
-  injector = inject(Injector);
-  differs = inject(IterableDiffers);
-  _dataDiffers?: IterableDiffer<T>;
-  _values = new WeakMap<EmbeddedViewRef<T>, T>();
-  valuesTracker = new Map<string, Column>();
+  private readonly thead = viewChild('thead', { read: ViewContainerRef });
+  private readonly tbody = viewChild('tbody', { read: ViewContainerRef });
+  private readonly bodyRowDef = contentChildren(BodyRowDef, { read: TemplateRef });
+  private readonly headRowDef = contentChild(HeadRowDef, { read: TemplateRef });
+  readonly rows = contentChildren(Row);
+  readonly data = input.required<T[]>();
+  readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
+  private readonly injector = inject(Injector);
+  private readonly differs = inject(IterableDiffers);
+  private _dataDiffers?: IterableDiffer<T>;
+  private readonly _values = new WeakMap<EmbeddedViewRef<TableOutletContext<T>>, T>();
+  private readonly valuesTracker = new Map<string, any>();
 
   constructor() {
     afterNextRender(() => {
-      this._dataDiffers = this.differs.find([]).create(this.trackBy);
+      this._dataDiffers = this.differs.find([]).create(this.trackBy());
     });
 
     let headerRendered = false;
@@ -75,7 +70,7 @@ export class Table<T> {
         const thead = this.thead()!;
         const tbody = this.tbody()!;
         const headRowDef = this.headRowDef()!;
-        const bodyRowDef = this.bodyRowDef()!;
+        const bodyRowDefs = this.bodyRowDef()!;
         const data = this.data();
 
         const changes = this._dataDiffers?.diff(data);
@@ -86,7 +81,7 @@ export class Table<T> {
 
         // append head row
         if (!headerRendered) {
-          const value: Column = { data: signal(null) };
+          const value = null;
           const injector = Injector.create({
             providers: [{ provide: ROW_TOKEN, useValue: value }],
             parent: this.injector,
@@ -95,40 +90,78 @@ export class Table<T> {
           headerRendered = true;
         }
 
+        const len = bodyRowDefs.length;
+
         changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
+          const id = (item.item as any).Id;
           if (item.previousIndex == null) {
-            const value: Column = {
-              data: signal(item.item),
-            };
+            const value = item.item;
             this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);
             const injector = Injector.create({
               providers: [{ provide: ROW_TOKEN, useValue: value }],
               parent: this.injector,
             });
-            const ref = tbody.createEmbeddedView(
-              bodyRowDef,
-              { $implicit: value },
-              { injector, index: currentIndex! },
-            );
-            this._values.set(ref, item.item);
+            const i = currentIndex! * len;
+            for (let j = 0; j < len; j++) {
+              const ref = tbody.createEmbeddedView(
+                bodyRowDefs[j],
+                { $implicit: value },
+                { injector, index: i + j },
+              );
+              this._values.set(ref, item.item);
+            }
           } else if (currentIndex == null) {
-            tbody.remove(adjustedPreviousIndex!);
+            for (let i = 0; i < len; i++) {
+              const ref = tbody.get(adjustedPreviousIndex! * len);
+              ref?.destroy();
+            }
+            // tbody.remove(adjustedPreviousIndex!);
           } else {
-            const view = tbody.get(adjustedPreviousIndex!);
-            tbody.move(view!, currentIndex!);
+            // based on current and previous index we need to check whether we need to do 1 or -1
+            for (let i = 0; i < len; i++) {
+              const ref = tbody.get(adjustedPreviousIndex! * len + i);
+              tbody.move(ref!, currentIndex! * len + i);
+            }
           }
         });
 
         // update rows
-        changes.forEachIdentityChange((record) => {
+        changes.forEachIdentityChange(record => {
           const id = this.trackBy()(record.currentIndex!, record.item);
           const value = this.valuesTracker.get(id)!;
-          value.data.set(record.item);
+          value?.data.set(record.item);
         });
 
-        // console.log('changes', this._values);
+        this._updateItemIndexContext();
       },
       { allowSignalWrites: true },
     );
+  }
+
+  private _updateItemIndexContext() {
+    const viewContainer = this.tbody()!;
+    for (let renderIndex = 0, count = viewContainer.length; renderIndex < count; renderIndex++) {
+      const viewRef = viewContainer.get(renderIndex) as any;
+      const context = viewRef.context as TableOutletContext<T>;
+      context.count = count;
+      context.first = renderIndex === 0;
+      context.last = renderIndex === count - 1;
+      context.even = renderIndex % 2 === 0;
+      context.odd = !context.even;
+      context.index = renderIndex;
+    }
+  }
+}
+
+export class TableOutletContext<T> {
+  $implicit: T;
+  index?: number;
+  count?: number;
+  first?: boolean;
+  last?: boolean;
+  even?: boolean;
+  odd?: boolean;
+  constructor(data: T) {
+    this.$implicit = data;
   }
 }

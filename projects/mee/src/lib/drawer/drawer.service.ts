@@ -6,10 +6,13 @@ export function drawerPortal() {
   const base = basePortal(NAME, Drawer);
 
   function open<T>(component: DialogInput, opt?: DialogOptions) {
-    const { diaRef } = base.open(component, (comp) => {
-      const options = { ...new DialogOptions(), ...opt };
-      comp.instance.setOptions(options);
-    });
+    const { diaRef } = base.open(
+      component,
+      (comp, options) => {
+        comp.instance.setOptions(options);
+      },
+      opt,
+    );
 
     const { afterClosed } = diaRef;
     return { afterClosed };

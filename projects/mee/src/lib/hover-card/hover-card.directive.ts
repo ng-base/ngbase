@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  TemplateRef,
-  inject,
-  input,
-} from '@angular/core';
+import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core';
 import { popoverPortal } from '../popover';
 
 @Directive({
@@ -35,7 +29,7 @@ export class HoverCard {
         { backdrop: false },
       );
       this.close = diaRef.close;
-      events.subscribe((e) => {
+      events.subscribe(e => {
         if (e.type === 'mouseleave') {
           this.closePopup();
         } else {

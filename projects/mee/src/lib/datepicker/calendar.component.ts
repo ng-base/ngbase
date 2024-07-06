@@ -37,12 +37,7 @@ import { FormsModule } from '@angular/forms';
       >
         <mee-icon name="lucideChevronLeft"></mee-icon>
       </button>
-      <button
-        meeButton
-        variant="ghost"
-        class="small rounded-md"
-        (click)="toggleView()"
-      >
+      <button meeButton variant="ghost" class="small rounded-md" (click)="toggleView()">
         {{ title() }}
       </button>
       <button
@@ -62,16 +57,12 @@ import { FormsModule } from '@angular/forms';
         @for (year of years(); track year.year) {
           <button
             class="items-center justify-center rounded-md py-b2 {{
-              year.disabled
-                ? 'cursor-default opacity-50'
-                : 'hover:bg-muted-background'
+              year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             (click)="!year.disabled && selectYear(year.year)"
             [ngClass]="[
-              todayDay() && cStartYear() === year.year
-                ? 'border bg-muted-background'
-                : '',
-              cStartYear() === year.year ? '!bg-primary text-foreground' : ''
+              todayDay() && cStartYear() === year.year ? 'border bg-muted-background' : '',
+              cStartYear() === year.year ? '!bg-primary text-foreground' : '',
             ]"
           >
             {{ year.year }}
@@ -83,17 +74,14 @@ import { FormsModule } from '@angular/forms';
         @for (month of months(); track month.value) {
           <button
             class="items-center justify-center rounded-md py-b2 {{
-              month.disabled
-                ? 'cursor-default opacity-50'
-                : 'hover:bg-muted-background'
+              month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             (click)="!month.disabled && selectMonth(month)"
             [ngClass]="{
-              'border bg-muted-background':
-                todayDay() && cStartMonth() === month.value,
+              'border bg-muted-background': todayDay() && cStartMonth() === month.value,
               '!bg-primary text-foreground': datePicker
                 .dates()
-                .month.includes(month.value + '-' + cStartYear())
+                .month.includes(month.value + '-' + cStartYear()),
             }"
           >
             {{ month.name }}
@@ -112,9 +100,7 @@ import { FormsModule } from '@angular/forms';
             #days
             (click)="!day.disabled && selectDate(day.day, day.mon)"
             class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
-              day.disabled
-                ? 'cursor-default opacity-50'
-                : 'hover:bg-muted-background'
+              day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
               'bg-muted-background':
@@ -125,7 +111,7 @@ import { FormsModule } from '@angular/forms';
               'text-slate-400': !day.current || day.disabled,
               '!bg-primary text-foreground': datePicker
                 .dates()
-                .day.includes(day.day + '-' + day.mon + '-' + cStartYear())
+                .day.includes(day.day + '-' + day.mon + '-' + cStartYear()),
             }"
           >
             {{ day.day }}
@@ -300,9 +286,7 @@ export class Calendar implements OnDestroy {
     const year = this.cStartYear();
     const filter = this.datePicker.dateFilter();
     if (type === 'year') {
-      return !filter?.(
-        new Date(this.years()[this.years().length - 1].year + 1, 0),
-      );
+      return !filter?.(new Date(this.years()[this.years().length - 1].year + 1, 0));
     } else if (type === 'month') {
       return !filter?.(new Date(year + 1, 0));
     } else {
@@ -346,8 +330,7 @@ export class Calendar implements OnDestroy {
 
   private getSelectedDayOfMonth(date: Date) {
     const r =
-      this.cStartMonth() === date.getMonth() &&
-      this.cStartYear() === date.getFullYear()
+      this.cStartMonth() === date.getMonth() && this.cStartYear() === date.getFullYear()
         ? date.getDate()
         : 0;
     return r;

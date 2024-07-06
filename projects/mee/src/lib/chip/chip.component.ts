@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { Button } from '../button';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
@@ -11,14 +11,11 @@ import { Icons } from '../icon';
   imports: [Button, Icons],
   viewProviders: [provideIcons({ lucideX })],
   template: `<ng-content></ng-content>
-    <button
-      meeButton
-      class="small -my-b2 -mr-b4"
-      variant="ghost"
-      (click)="close.emit()"
-    >
-      <mee-icon name="lucideX"></mee-icon>
-    </button> `,
+    @if (removable()) {
+      <button meeButton class="small -my-b2 -mr-b4" variant="ghost" (click)="close.emit()">
+        <mee-icon name="lucideX"></mee-icon>
+      </button>
+    }`,
   host: {
     class:
       'inline-flex items-center bg-muted-background rounded-base px-b2 py-1 text-xs font-medium',
@@ -26,6 +23,7 @@ import { Icons } from '../icon';
 })
 export class Chip {
   close = output();
+  removable = input(true);
 }
 
 // @Component({

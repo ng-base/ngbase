@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  TemplateRef,
-  inject,
-  input,
-} from '@angular/core';
+import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core';
 import { popoverPortal } from './popover.service';
 import { DialogPosition } from '../portal';
 

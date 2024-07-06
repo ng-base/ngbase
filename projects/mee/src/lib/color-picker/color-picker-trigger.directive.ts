@@ -1,7 +1,18 @@
-import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { ColorPickerContainer } from './color-picker-container.component';
-import { NgControl } from '@angular/forms';
+import {
+  Directive,
+  effect,
+  EffectRef,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  model,
+  untracked,
+} from '@angular/core';
+import { ColorFormat, ColorPicker } from './color-picker.component';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { popoverPortal } from '../popover';
+import { Subscription } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -11,37 +22,44 @@ import { popoverPortal } from '../popover';
   },
 })
 export class ColorPickerTrigger {
-  // meeColorPickerTrigger = input.required<ColorPickerContainer>();
-  control = inject(NgControl, { optional: true, self: true });
-  el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  popover = popoverPortal();
-  colorChanged = output<string>();
-
-  constructor() {
-    // if (this.control) {
-    //   const colorPicker = this.meeColorPickerTrigger();
-    //   this.control.valueAccessor = {
-    //     writeValue: (value: string) => {
-    //       colorPicker.writeValue(value);
-    //     },
-    //     registerOnChange: (fn: (value: string) => void) => {
-    //       colorPicker.registerOnChange(fn);
-    //     },
-    //     registerOnTouched: (fn: () => void) => {
-    //       colorPicker.registerOnTouched(fn);
-    //     },
-    //     // setDisabledState: (isDisabled: boolean) => {
-    //     //   colorPicker.setDisabledState(isDisabled);
-    //     // },
-    //   };
-    // }
-  }
+  private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private popover = popoverPortal();
+  private injector = inject(Injector);
+  readonly format = input<ColorFormat>('hex');
+  readonly presetColors = input<string[]>();
+  value = model<string>();
+  sub?: Subscription;
+  effectRef?: EffectRef;
 
   open() {
-    const ref = this.popover.open(ColorPickerContainer, {
-      target: this.el.nativeElement,
-      position: 'bl',
-      offset: 0,
-    });
+    const { diaRef, childSignal } = this.popover.open(
+      ColorPicker,
+      {
+        target: this.el.nativeElement,
+        position: 'bl',
+        offset: 0,
+      },
+      { data: { format: this.format(), presetColors: this.presetColors() }, width: '255px' },
+    );
+    this.effectRef?.destroy();
+
+    this.effectRef = effect(
+      cleanup => {
+        cleanup(() => {
+          this.sub?.unsubscribe();
+          this.sub = undefined;
+        });
+        const colorPicker = childSignal()?.instance as ColorPicker;
+        if (colorPicker) {
+          untracked(() => {
+            colorPicker.setValue(this.value() || '#000000');
+            colorPicker.valueChange.subscribe(res => {
+              this.value.set(res);
+            });
+          });
+        }
+      },
+      { injector: this.injector, allowSignalWrites: true },
+    );
   }
 }

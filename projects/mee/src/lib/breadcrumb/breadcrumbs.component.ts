@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  contentChildren,
-  effect,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, contentChildren, effect } from '@angular/core';
 import { Breadcrumb } from './breadcrumb.component';
 
 @Component({

@@ -7,12 +7,8 @@ export function basePopoverPortal<T>(component: Type<T>) {
   const NAME = 'popover';
   const base = basePortal(NAME, component);
 
-  function open<T>(
-    component: DialogInput<T>,
-    tooltipOptions: OverlayConfig,
-    opt?: DialogOptions,
-  ) {
-    const { diaRef, parent, replace } = base.open(
+  function open<T>(component: DialogInput<T>, tooltipOptions: OverlayConfig, opt?: DialogOptions) {
+    const { diaRef, parent, replace, childSignal } = base.open(
       component,
       (comp, options) => {
         const compInst = comp.instance as Popover;
@@ -27,6 +23,7 @@ export function basePopoverPortal<T>(component: Type<T>) {
       events: (parent.instance as Popover).events,
       parent: parent.instance,
       replace,
+      childSignal,
     };
   }
 

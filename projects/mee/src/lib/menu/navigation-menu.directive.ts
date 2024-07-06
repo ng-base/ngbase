@@ -25,22 +25,20 @@ export class NavigationMenu {
       () => {
         const menus = this.menus();
         this.sub?.unsubscribe();
-        this.sub = merge(...menus.map((menu) => menu.events)).subscribe(
-          ({ event, type, menu }) => {
-            // console.log(type, this.clicked && type === 'enter');
-            // if (
-            //   (this.clicked && type === 'enter') ||
-            //   (!this.clicked && type === 'click')
-            // ) {
-            if (type === 'enter') {
-              currentEl = event.target as HTMLElement;
-              this.clicked = true;
-              this.open(menu);
-            } else if (currentEl === event.target) {
-              this.scheduleClose();
-            }
-          },
-        );
+        this.sub = merge(...menus.map(menu => menu.events)).subscribe(({ event, type, menu }) => {
+          // console.log(type, this.clicked && type === 'enter');
+          // if (
+          //   (this.clicked && type === 'enter') ||
+          //   (!this.clicked && type === 'click')
+          // ) {
+          if (type === 'enter') {
+            currentEl = event.target as HTMLElement;
+            this.clicked = true;
+            this.open(menu);
+          } else if (currentEl === event.target) {
+            this.scheduleClose();
+          }
+        });
       },
       { allowSignalWrites: true },
     );
@@ -64,7 +62,7 @@ export class NavigationMenu {
       { maxHeight: '400px', width: '200px', backdrop: false },
     );
     menu.diaRef = this.popoverOpen.diaRef;
-    this.popoverOpen.events.subscribe((e) => {
+    this.popoverOpen.events.subscribe(e => {
       if (e.type === 'mouseenter') {
         clearTimeout(this.timerId);
       } else {

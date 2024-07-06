@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  TemplateRef,
-  effect,
-  inject,
-  input,
-} from '@angular/core';
+import { Directive, ElementRef, TemplateRef, computed, effect, inject, input } from '@angular/core';
 import { popoverPortal } from '../popover';
 import { DatePicker } from './datepicker.component';
 import { Input } from '../input';
@@ -25,7 +18,10 @@ export class DatepickerTrigger {
   noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
   range = input(false);
   time = input(false);
-  format = input<string>('MM-dd-yyyy');
+  format = input<string>('');
+  private fieldFormat = computed(() => {
+    return this.format() || `M/d/yyyy${this.time() ? ', HH:mm a' : ''}`;
+  });
   inputS = inject(Input);
   dateFilter = input<(date: Date) => boolean>(() => true);
   pickerType = input<'date' | 'month' | 'year'>('date');
@@ -46,7 +42,7 @@ export class DatepickerTrigger {
       pickerType: this.pickerType(),
       noOfCalendars: this.noOfCalendars(),
       range: this.range(),
-      format: this.format(),
+      format: this.fieldFormat(),
       target: this.el.nativeElement,
       template: this.pickerTemplate(),
       dateFilter: this.dateFilter(),
@@ -55,15 +51,13 @@ export class DatepickerTrigger {
     const { diaRef } = this.popover.open(
       DatePicker,
       { target: this.el.nativeElement, position: 'bl' },
-      {
-        data,
-      },
+      { data, width: 'none' },
     );
     this.close = diaRef.close;
   }
 
   updateInput(dates: (Date | null)[]) {
-    const filtered = dates.filter((x) => x) as Date[];
+    const filtered = dates.filter(x => x) as Date[];
     if (this.range()) {
       if (filtered.length === 1) {
         return;
@@ -76,9 +70,10 @@ export class DatepickerTrigger {
   }
 
   updateField(filtered: Date[]) {
+    console.log(this.fieldFormat());
     const d = filtered
-      .map((x) => this.adapter.format(x, this.format()))
-      .filter((x) => x)
+      .map(x => this.adapter.format(x, this.fieldFormat()))
+      .filter(x => x)
       .join(' - ');
     requestAnimationFrame(() => {
       this.el.nativeElement.value = d;

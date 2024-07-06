@@ -12,25 +12,29 @@ import {
 } from '@angular/core';
 import { Tab } from './tabs.component';
 import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
+import { Icons } from '../icon';
 
 @Component({
   selector: 'mee-tabs',
   standalone: true,
-  imports: [NgComponentOutlet, NgTemplateOutlet],
+  imports: [NgComponentOutlet, NgTemplateOutlet, Icons],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="relative flex overflow-hidden border-b" role="tabList">
       <button
         #leftScroll
         (click)="scroll('left')"
         class="absolute left-0 grid h-full place-items-center bg-foreground px-2"
       >
-        <
+        <mee-icon name="lucideChevronLeft"></mee-icon>
       </button>
-      <div #tabList class="tabList flex overflow-auto">
+      <nav role="tablist" #tabList class="tabList flex overflow-auto">
         @for (tab of tabs(); track $index) {
           <button
             #tab
-            class="border-b-2 border-transparent px-b4 py-b3 font-medium text-muted"
+            class="whitespace-nowrap border-b-2 border-transparent px-b4 py-b3 font-medium text-muted"
             [class]="$index === selectedIndex() ? '!border-primary !text-text' : ''"
             (click)="setActive($index)"
             [tabindex]="$index === selectedIndex() ? 0 : -1"
@@ -44,13 +48,13 @@ import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
             }
           </button>
         }
-      </div>
+      </nav>
       <button
         #rightScroll
         (click)="scroll('right')"
         class="absolute right-0 grid h-full place-items-center bg-foreground px-2"
       >
-        >
+        <mee-icon name="lucideChevronRight"></mee-icon>
       </button>
     </div>
     <ng-content></ng-content> `,
@@ -79,6 +83,7 @@ export class Tabs {
         const activeIndex = this.selectedIndex();
 
         tabs.forEach((tab, index) => {
+          tab.index = index;
           tab.active.set(activeIndex === index);
         });
       },

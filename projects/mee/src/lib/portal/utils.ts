@@ -135,7 +135,7 @@ export function tooltipPositionInternal(data: ConfigObj): {
   // }
 
   let { top: topPos, left: leftPos } = getTooltipCoordinates(position, data);
-  let rightPos: number | undefined;
+  // let rightPos: number | undefined;
 
   if (topPos <= 0) {
     topPos = offset;
@@ -144,12 +144,12 @@ export function tooltipPositionInternal(data: ConfigObj): {
   } else if (leftPos < 0) {
     leftPos = 0;
   } else if (leftPos + elWidth > windowWidth) {
-    rightPos = 0;
+    // rightPos = 0;
     leftPos = 0;
   }
 
-  // eslint-disable-next-line prefer-const
-  let bottomPos = position.startsWith('t') ? windowHeight - (topPos + elHeight) : 0;
+  const bottomPos = position.startsWith('t') ? windowHeight - (topPos + elHeight) : 0;
+  const rightPos = position.endsWith('r') ? windowWidth - (leftPos + elWidth) : undefined;
 
   return {
     top: topPos,

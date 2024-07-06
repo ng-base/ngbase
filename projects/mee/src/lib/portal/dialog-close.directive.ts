@@ -5,8 +5,8 @@ import { DialogRef } from './dialog-ref';
   standalone: true,
   selector: '[meeDialogClose]',
   host: {
-    '(click)': 'close()'
-  }
+    '(click)': 'close()',
+  },
 })
 export class DialogClose {
   dialogRef = inject(DialogRef);

@@ -40,7 +40,7 @@ import { Icons } from '../icon';
       class="menu-container pointer-events-auto fixed z-10 rounded-base border bg-foreground shadow-md"
       [class]="[
         tooltipOptions.anchor ? 'popover-anchor' : 'overflow-auto',
-        tooltipOptions.className
+        tooltipOptions.className,
       ]"
       [@slideInOutAnimation]="status() ? 1 : 0"
       (@slideInOutAnimation.done)="animationDone()"
@@ -192,7 +192,7 @@ export class Popover extends BaseDialog implements OnDestroy {
       el.style.width = `${target.offsetWidth}px`;
     } else if (this.options.width) {
       el.style.width = this.options.width;
-    } else {
+    } else if (this.options.width !== 'none') {
       el.style.minWidth = `${target.offsetWidth}px`;
     }
     if (this.options.height) {
@@ -214,7 +214,7 @@ export class Popover extends BaseDialog implements OnDestroy {
     if (!target) {
       return;
     }
-    const { top, left, bottom, position } = tooltipPosition({
+    const { top, bottom, left, right, position } = tooltipPosition({
       target,
       el,
       position: this.lastPosition,
@@ -234,7 +234,13 @@ export class Popover extends BaseDialog implements OnDestroy {
       el.style.top = `${top}px`;
       el.style.bottom = '';
     }
-    el.style.left = `${left}px`;
+    if (right != undefined) {
+      el.style.right = `${right}px`;
+      el.style.left = '';
+    } else {
+      el.style.left = `${left}px`;
+      el.style.right = '';
+    }
   }
 
   private updateAnchorPosition(position: DialogPosition, el: HTMLElement, target: HTMLElement) {

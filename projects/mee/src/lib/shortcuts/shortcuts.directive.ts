@@ -1,10 +1,4 @@
-import {
-  Directive,
-  afterNextRender,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Directive, afterNextRender, inject, input, output } from '@angular/core';
 import { Keys } from '../keys';
 
 @Directive({

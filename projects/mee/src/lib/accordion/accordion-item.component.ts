@@ -1,18 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  model,
-} from '@angular/core';
-import { AccordionService } from './accordion.service';
+import { ChangeDetectionStrategy, Component, inject, model } from '@angular/core';
 import { generateId } from '../utils';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AccordionGroup } from './accordion-group.component';
 
 @Component({
   standalone: true,
@@ -45,10 +34,10 @@ export class Accordion {
   expanded = model(false);
   id = generateId();
 
-  accordionService = inject(AccordionService);
+  accordionService = inject(AccordionGroup);
 
   toggle() {
-    this.expanded.update((v) => !v);
-    this.accordionService.activeId.set(this.expanded() ? this.id : '');
+    this.expanded.update(v => !v);
+    // this.accordionService.activeId.set(this.expanded() ? this.id : '');
   }
 }

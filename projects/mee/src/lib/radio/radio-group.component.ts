@@ -38,9 +38,9 @@ export class RadioGroup implements ControlValueAccessor {
     effect(
       () => {
         const radios = this.radios();
-        radios.forEach((radio) => {
+        radios.forEach(radio => {
           radio.name = this.name;
-          radio.updateValue = (ev) => {
+          radio.updateValue = ev => {
             this.updateValue(radio.value());
           };
         });

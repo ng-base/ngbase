@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  contentChildren,
-  inject,
-  input,
-} from '@angular/core';
+import { Directive, ElementRef, contentChildren, inject, input } from '@angular/core';
 import { PicasaContainer } from './picasa.component';
 import { picasaPortal } from './picase.service';
 

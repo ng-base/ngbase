@@ -5,6 +5,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'mee-datepicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  template: ``
+  template: ``,
 })
 export class DatePickerShell {}

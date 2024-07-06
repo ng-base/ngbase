@@ -1,16 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, OnDestroy, inject } from '@angular/core';
+import { Directive, ElementRef, NgZone, OnDestroy, inject } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import {
-  Subscription,
-  fromEvent,
-  map,
-  Subject,
-  merge,
-  takeUntil,
-  tap,
-  switchMap,
-} from 'rxjs';
+import { Subscription, fromEvent, map, Subject, merge, takeUntil, tap, switchMap } from 'rxjs';
 
 export class DragData {
   constructor(
@@ -34,13 +25,14 @@ export class DragData {
 })
 export class Drag implements OnDestroy {
   el = inject(ElementRef);
+  zone = inject(NgZone);
   document = inject(DOCUMENT);
   events = new Subject<DragData>();
   meeDrag = outputFromObservable(this.events);
   startEvent!: MouseEvent | Touch;
   lastValue = new DragData();
   private dragEvent = this.listen('mousedown', 'touchstart').pipe(
-    switchMap((event) => {
+    switchMap(event => {
       this.startEvent = event instanceof MouseEvent ? event : event.touches[0];
       this.lastValue = this.getDragEvent(event, 'start');
       this.events.next(this.lastValue);
@@ -57,7 +49,7 @@ export class Drag implements OnDestroy {
             }),
           ),
         ),
-        map((e) => {
+        map(e => {
           this.lastValue = this.getDragEvent(e, 'move');
           return this.lastValue;
         }),
@@ -67,16 +59,15 @@ export class Drag implements OnDestroy {
   subscription!: Subscription;
 
   constructor() {
-    this.subscription = this.dragEvent.subscribe((event) => {
-      this.events.next(event);
+    this.zone.runOutsideAngular(() => {
+      this.subscription = this.dragEvent.subscribe(event => {
+        this.events.next(event);
+      });
     });
   }
 
   listen(first: string, second: string, el = this.el.nativeElement) {
-    return merge(
-      fromEvent<MouseEvent>(el, first),
-      fromEvent<TouchEvent>(el, second),
-    );
+    return merge(fromEvent<MouseEvent>(el, first), fromEvent<TouchEvent>(el, second));
   }
 
   private toggleUserSelect(active = true) {
@@ -113,20 +104,15 @@ export class Drag implements OnDestroy {
     return direction;
   }
 
-  private getDragEvent(
-    ev: MouseEvent | TouchEvent,
-    type: 'start' | 'move' | 'end',
-  ) {
+  private getDragEvent(ev: MouseEvent | TouchEvent, type: 'start' | 'move' | 'end') {
     const e = ev instanceof MouseEvent ? ev : ev.touches[0];
 
     const now = Date.now();
     const timeDifference = now - this.lastValue.time;
     const startClientX = this.startEvent.clientX;
     const startClientY = this.startEvent.clientY;
-    const velocityX =
-      (e.clientX - startClientX - this.lastValue.x) / timeDifference;
-    const velocityY =
-      (e.clientY - startClientY - this.lastValue.y) / timeDifference;
+    const velocityX = (e.clientX - startClientX - this.lastValue.x) / timeDifference;
+    const velocityY = (e.clientY - startClientY - this.lastValue.y) / timeDifference;
 
     const eClientX = e instanceof MouseEvent ? e.clientX : e.clientX;
     const eClientY = e instanceof MouseEvent ? e.clientY : e.clientY;
@@ -143,12 +129,8 @@ export class Drag implements OnDestroy {
     //   now,
     // );
     return new DragData(
-      e instanceof MouseEvent
-        ? eClientX - startClientX
-        : eClientX - startClientX,
-      e instanceof MouseEvent
-        ? eClientY - startClientY
-        : eClientY - startClientY,
+      e instanceof MouseEvent ? eClientX - startClientX : eClientX - startClientX,
+      e instanceof MouseEvent ? eClientY - startClientY : eClientY - startClientY,
       e instanceof MouseEvent
         ? eClientX - startClientX - this.lastValue.x
         : eClientX - startClientX - this.lastValue.x,

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
 import { ListStyle } from './list.directive';
 
 @Component({
-  selector: '[meeList]',
+  selector: 'mee-list, [meeList]',
   standalone: true,
   template: ` <ng-content></ng-content> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,8 +12,23 @@ import { ListStyle } from './list.directive';
     }
   `,
   host: {
-    role: 'list'
+    role: 'list',
   },
-  hostDirectives: [ListStyle]
+  hostDirectives: [ListStyle],
 })
-export class List {}
+export class List {
+  el = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  select() {
+    this.el.nativeElement.click();
+  }
+
+  focus() {
+    this.el.nativeElement.scrollIntoView({ block: 'nearest' });
+    this.el.nativeElement.classList.add('bg-muted-background');
+  }
+
+  unselect() {
+    this.el.nativeElement.classList.remove('bg-muted-background');
+  }
+}

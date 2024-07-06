@@ -7,9 +7,11 @@ export class DefaultDateAdapter {
     this.locale = locale;
   }
 
-  format(date: Date, format: string) {
+  format(date: Date | string, format: string) {
     if (!date) {
       return '';
+    } else if (typeof date === 'string') {
+      date = new Date(date);
     }
     // we should support format like yyyy, MM, dd, hh, mm, ss, SSS,
     const year = date.getFullYear();
@@ -18,12 +20,12 @@ export class DefaultDateAdapter {
     const value = format
       .replace(/yyyy/, year.toString())
       .replace(/MM/, month.toString().padStart(2, '0'))
+      .replace(/M/, month.toString())
       .replace(/dd/, day.toString().padStart(2, '0'))
+      .replace(/d/, day.toString())
       .replace(
         /hh/,
-        (date.getHours() > 11 ? date.getHours() - 12 : date.getHours())
-          .toString()
-          .padStart(2, '0'),
+        (date.getHours() > 11 ? date.getHours() - 12 : date.getHours()).toString().padStart(2, '0'),
       )
       .replace(/HH/, (date.getHours() % 12).toString().padStart(2, '0'))
       .replace(/mm/, date.getMinutes().toString().padStart(2, '0'))
@@ -32,7 +34,11 @@ export class DefaultDateAdapter {
       .replace(/a/, date.getHours() >= 12 ? 'PM' : 'AM');
     return value;
   }
-  parse(value: string, format: string) {
+  parse(value: Date | string) {
+    const date = new Date(value);
+    if (date || value instanceof Date) {
+      return date;
+    }
     const year = parseInt(value.slice(0, 4), 10);
     const month = parseInt(value.slice(5, 7), 10) - 1;
     const day = parseInt(value.slice(8, 10), 10);
@@ -66,11 +72,7 @@ export class DefaultDateAdapter {
     if (unit === 'year') {
       return dateA.getFullYear() - dateB.getFullYear();
     } else if (unit === 'month') {
-      return (
-        (dateA.getFullYear() - dateB.getFullYear()) * 12 +
-        dateA.getMonth() -
-        dateB.getMonth()
-      );
+      return (dateA.getFullYear() - dateB.getFullYear()) * 12 + dateA.getMonth() - dateB.getMonth();
     } else if (unit === 'date') {
       return Math.floor(diff / (24 * 60 * 60 * 1000));
     }

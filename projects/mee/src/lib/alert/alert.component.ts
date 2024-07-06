@@ -4,9 +4,9 @@ import { DialogRef } from '../portal';
 import { Heading } from '../typography';
 
 export interface AlertOptions {
-  title: string;
-  description: string;
-  actions: {
+  title?: string;
+  description?: string;
+  actions?: {
     text: string;
     type?: ButtonVariant;
     handler: (fn: VoidFunction) => any;

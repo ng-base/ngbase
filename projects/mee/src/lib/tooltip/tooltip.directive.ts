@@ -1,7 +1,9 @@
 import {
   Directive,
   ElementRef,
+  InjectionToken,
   OnDestroy,
+  computed,
   effect,
   inject,
   input,
@@ -9,6 +11,16 @@ import {
 } from '@angular/core';
 import { TooltipService, tooltipPortal } from './tooltip.service';
 import { DialogPosition } from '../portal';
+
+export const TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<TooltipDefaultOptions>(
+  'TOOLTIP_DEFAULT_OPTIONS',
+);
+
+export interface TooltipDefaultOptions {
+  showDelay?: number;
+  hideDelay?: number;
+  position?: DialogPosition;
+}
 
 @Directive({
   standalone: true,
@@ -19,11 +31,21 @@ import { DialogPosition } from '../portal';
   // },
 })
 export class Tooltip implements OnDestroy {
-  meeTooltip = input<string>();
-  meeTooltipPosition = input<DialogPosition>('top');
-  delay = input(0);
+  private defaultOptions = inject(TOOLTIP_DEFAULT_OPTIONS, { optional: true });
   el = inject(ElementRef);
-  tooltip = inject(TooltipService);
+  tooltipService = inject(TooltipService);
+  meeTooltip = input<string>();
+  meeTooltipPosition = input<DialogPosition>();
+  delay = input(0);
+  options = computed(() => {
+    const o = this.defaultOptions || {};
+    const options: TooltipDefaultOptions = {
+      showDelay: this.delay() || o.showDelay || 0,
+      hideDelay: o.hideDelay || 0,
+      position: this.meeTooltipPosition() || o.position || 'top',
+    };
+    return options;
+  });
   timer: any;
 
   constructor() {
@@ -46,29 +68,22 @@ export class Tooltip implements OnDestroy {
   }
 
   show = () => {
-    if (this.delay() === 0) {
-      this.tooltip.insert(
-        this.el.nativeElement,
-        this.meeTooltip()!,
-        this.meeTooltipPosition(),
-      );
+    const options = this.options();
+    if (options.showDelay === 0 || this.tooltipService.tooltipOpen) {
+      this.tooltipService.insert(this.el.nativeElement, this.meeTooltip()!, options.position!);
       return;
     }
     this.timer = setTimeout(() => {
-      this.tooltip.insert(
-        this.el.nativeElement,
-        this.meeTooltip()!,
-        this.meeTooltipPosition(),
-      );
-    }, 300);
+      this.tooltipService.insert(this.el.nativeElement, this.meeTooltip()!, options.position!);
+    }, options.showDelay);
   };
 
   hide = () => {
     clearTimeout(this.timer);
-    this.tooltip.destroy?.();
+    this.tooltipService.destroy();
   };
 
-  remove() {
+  private remove() {
     this.hide();
     this.el.nativeElement.removeEventListener('mouseenter', this.show);
     this.el.nativeElement.removeEventListener('mouseleave', this.hide);

@@ -24,16 +24,15 @@ export class MenuS {
   opened() {
     let active = 0;
     console.log('keys');
-    this.sub = merge(
-      this.manager.event('ArrowDown'),
-      this.manager.event('ArrowUp'),
-    ).subscribe(([bo, ev]) => {
-      if (bo) {
-        this.lists().forEach((list, i) => {
-          list.active.set(i === active);
-        });
-      }
-    });
+    this.sub = merge(this.manager.event('ArrowDown'), this.manager.event('ArrowUp')).subscribe(
+      ([bo, ev]) => {
+        if (bo) {
+          this.lists().forEach((list, i) => {
+            list.active.set(i === active);
+          });
+        }
+      },
+    );
   }
 
   close() {

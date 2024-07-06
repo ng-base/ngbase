@@ -65,7 +65,7 @@ export class Carousel {
     afterNextRender(() => {
       let x = 0;
       const el = this.subContainer()!.nativeElement;
-      this.drag()!.events.subscribe((event) => {
+      this.drag()!.events.subscribe(event => {
         event.event?.preventDefault();
         requestAnimationFrame(() => {
           if (event.type === 'start') {
@@ -76,11 +76,7 @@ export class Carousel {
             el.style.transform = `translate3d(${x}px, 0, 0)`;
           } else if (event.type === 'end') {
             el.classList.add('duration-500');
-            const step = this.getStepBasedOnX(
-              -x,
-              event.direction!,
-              event.velocity!,
-            );
+            const step = this.getStepBasedOnX(-x, event.direction!, event.velocity!);
             if (step === this.current()) {
               el.style.transform = `translate3d(-${this.x()}px, 0, 0)`;
               return;

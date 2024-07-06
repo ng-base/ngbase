@@ -8,10 +8,7 @@ import {
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
-import {
-  NguModalViewAnimation,
-  fadeAnimation,
-} from '../dialog/dialog.animation';
+import { NguModalViewAnimation, fadeAnimation } from '../dialog/dialog.animation';
 import { Separator } from '../separator';
 import { Button } from '../button';
 import { Subject } from 'rxjs';
@@ -35,8 +32,7 @@ import { Subject } from 'rxjs';
   `,
   host: {
     '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
-    class:
-      'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none',
   },
   styles: `
     .backdropColor {

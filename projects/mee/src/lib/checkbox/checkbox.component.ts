@@ -18,7 +18,7 @@ import { generateId } from '../utils';
   template: `
     <div class="flex flex-1 items-center gap-b2" (click)="updateValue()">
       <button
-        class="custom-checkbox relative flex h-b4 w-b4 items-center justify-center rounded border border-primary transition-colors"
+        class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
         [class]="disabled() ? 'border-muted bg-muted' : checked() ? 'bg-primary' : ''"
       >
         @if (checked()) {

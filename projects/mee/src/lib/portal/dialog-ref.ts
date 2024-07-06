@@ -44,7 +44,7 @@ export class DialogRef<T = any> {
     public options: DialogOptions<T>,
     private destroyParent: VoidFunction,
     private closeAllFn: VoidFunction,
-    private animation = true
+    private animation = true,
   ) {}
 
   close = (data?: any) => {
@@ -98,14 +98,14 @@ export function createInj(parent: Injector, data: any, diaRef: DialogRef) {
   return Injector.create({
     providers: [
       { provide: DIALOG_INJ, useValue: data },
-      { provide: DialogRef, useValue: diaRef }
+      { provide: DialogRef, useValue: diaRef },
     ],
     parent,
-    name: 'dialogInj'
+    name: 'dialogInj',
   });
 }
 
 export const DialogTestProviders = [
   { provide: DIALOG_INJ, useValue: {} },
-  { provide: DialogRef, useValue: null }
+  { provide: DialogRef, useValue: null },
 ];

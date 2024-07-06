@@ -3,13 +3,17 @@ import { DialogInput, DialogOptions, DialogRef } from '../portal';
 import { OverlayConfig } from '../portal/utils';
 import { basePopoverPortal } from './base-popover.service';
 import { Popover } from './popover.component';
+import { WritableSignal } from '@angular/core';
 
 export interface PopoverOpen<T> {
   diaRef: DialogRef<any>;
   events: Observable<{ type: string; value: any }>;
   parent: Popover;
   replace: ((component: DialogInput<T>) => void) | undefined;
+  childSignal: WritableSignal<any>;
 }
+
+export type PopoverType = ReturnType<typeof popoverPortal>;
 
 export function popoverPortal() {
   const base = basePopoverPortal(Popover);

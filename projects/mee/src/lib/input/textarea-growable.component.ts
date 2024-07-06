@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  ViewChild,
-  forwardRef,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -80,9 +73,7 @@ import { InputStyle } from './input-style.directive';
     },
   ],
 })
-export class TextareaGrowableComponent
-  implements ControlValueAccessor, AfterViewInit
-{
+export class TextareaGrowableComponent implements ControlValueAccessor, AfterViewInit {
   @ViewChild('inputTextarea') inputTextarea!: ElementRef<HTMLTextAreaElement>;
   @Input() placeholder = 'Enter your input here';
   readonly form = new FormControl<string>('');
@@ -91,7 +82,7 @@ export class TextareaGrowableComponent
   onTouch: any = () => {};
 
   constructor() {
-    this.form.valueChanges.subscribe((v) => {
+    this.form.valueChanges.subscribe(v => {
       this.onChangeValue();
     });
   }
@@ -113,10 +104,7 @@ export class TextareaGrowableComponent
     this.form.patchValue(input.value);
     // move cursor to end of placeholder
     // this.updateReplicateValue();
-    input.setSelectionRange(
-      start + placeholder.length,
-      start + placeholder.length,
-    );
+    input.setSelectionRange(start + placeholder.length, start + placeholder.length);
   }
 
   private updateReplicateValue() {

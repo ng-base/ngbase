@@ -75,7 +75,7 @@ export class Slider implements ControlValueAccessor {
     );
 
     afterNextRender(() => {
-      this.drag()!.events.subscribe((data) => this.move(data));
+      this.drag()!.events.subscribe(data => this.move(data));
     });
   }
 

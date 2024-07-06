@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  contentChildren,
-  effect,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, contentChildren, effect } from '@angular/core';
 import { TourService } from './tour.service';
 import { Button } from '../button';
 import { TourStep } from './tour-step.directive';

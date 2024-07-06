@@ -39,19 +39,14 @@ export class PortalService {
     this.appRef.attachView(componentRef.hostView);
 
     // 3. Get DOM element from component
-    const domElem = (componentRef.hostView as EmbeddedViewRef<unknown>)
-      .rootNodes[0] as HTMLElement;
+    const domElem = (componentRef.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement;
 
     // 4. Append DOM element to the body
     this.document.body.appendChild(domElem);
     return componentRef;
   }
 
-  createComponent<T>(
-    component: Type<T>,
-    injector: Injector,
-    container: string,
-  ) {
+  createComponent<T>(component: Type<T>, injector: Injector, container: string) {
     const d = this.componentCreator().createComponent(component, { injector });
     if (!this.trackElements.has(container)) {
       this.trackElements.set(container, []);
@@ -68,7 +63,7 @@ export class PortalService {
 
   clear(container: string) {
     if (this.trackElements.has(container)) {
-      this.trackElements.get(container)!.forEach((c) => {
+      this.trackElements.get(container)!.forEach(c => {
         c.destroy();
       });
       this.trackElements.delete(container);

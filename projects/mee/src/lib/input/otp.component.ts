@@ -74,7 +74,7 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
           } else if (!value && i > 0 && !currentVal) {
             inputs[i - 1].nativeElement.focus();
           }
-          if (this.values.every((v) => v)) {
+          if (this.values.every(v => v)) {
             this.updateValue(this.values.join(''));
           } else {
             this.updateValue('');
@@ -82,7 +82,7 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
         };
 
         const focusListener = () => {
-          let index = this.values.findIndex((v) => !v);
+          let index = this.values.findIndex(v => !v);
           index = index === -1 ? this.no() - 1 : index;
           inputs[index].nativeElement.focus();
           inputs[index].nativeElement.style.position = 'relative';
@@ -122,9 +122,7 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
   }
 
   writeValue(value: string) {
-    this.values = value
-      ? value.split('')
-      : Array.from({ length: this.no() }, () => '');
+    this.values = value ? value.split('') : Array.from({ length: this.no() }, () => '');
     this.lastValue = value;
   }
 
@@ -146,6 +144,6 @@ export class InputOtp implements ControlValueAccessor, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listeners.forEach((l) => l());
+    this.listeners.forEach(l => l());
   }
 }

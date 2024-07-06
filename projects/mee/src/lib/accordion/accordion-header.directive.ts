@@ -6,8 +6,8 @@ import { Accordion } from './accordion-item.component';
   selector: '[meeAccordionHeader]',
   host: {
     class: 'flex items-center w-full cursor-pointer py-2 px-3',
-    '(click)': 'accordion.toggle()'
-  }
+    '(click)': 'accordion.toggle()',
+  },
 })
 export class AccordionHeader {
   accordion = inject(Accordion);

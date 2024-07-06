@@ -11,8 +11,8 @@ import { Component, input } from '@angular/core';
   `,
   styles: [],
   host: {
-    class: 'inline-block aspect-square w-10'
-  }
+    class: 'inline-block aspect-square w-10',
+  },
 })
 export class Spinner {
   mode = input<'light' | 'dark' | ''>('light');

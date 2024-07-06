@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -17,9 +12,7 @@ import {
         class="aspect-sqaure h-full max-h-full max-w-full rounded-full"
       />
     } @else if (name()) {
-      <div
-        class="flex h-full w-full items-center justify-center rounded-full bg-background p-2"
-      >
+      <div class="flex h-full w-full items-center justify-center rounded-full bg-background p-2">
         {{ nameChar() }}
       </div>
     } @else {
@@ -39,7 +32,7 @@ export class Avatar {
     // split the name into words and get the first character of each word
     return name
       .split(' ')
-      .map((word) => word.charAt(0))
+      .map(word => word.charAt(0))
       .join('');
   });
 }

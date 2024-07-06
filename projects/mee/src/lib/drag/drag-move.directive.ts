@@ -14,7 +14,7 @@ export class DragMove {
   constructor() {
     let x = 0;
     let y = 0;
-    this.drag.events.subscribe((data) => {
+    this.drag.events.subscribe(data => {
       requestAnimationFrame(() => {
         // if (data.type === 'start') {
         // const rect = this.element.getBoundingClientRect();

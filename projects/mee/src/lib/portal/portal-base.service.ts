@@ -6,6 +6,7 @@ import {
   ComponentRef,
   ViewContainerRef,
   EmbeddedViewRef,
+  signal,
 } from '@angular/core';
 import { Subscription, first } from 'rxjs';
 import { Keys } from '../keys';
@@ -36,9 +37,10 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
 
     // close on backdrop click
     let sub: Subscription | undefined;
+    const childSignal = signal<any>(undefined);
 
     if (component === undefined) {
-      return { diaRef, parent, instance: null };
+      return { diaRef, parent, instance: null, childSignal };
     }
 
     // close on esc
@@ -63,12 +65,13 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     let child: ComponentRef<any> | EmbeddedViewRef<any>;
     const parentInstance = parent.instance as BaseDialog;
 
-    parentInstance.afterView.pipe(first()).subscribe((vcRef) => {
+    parentInstance.afterView.pipe(first()).subscribe(vcRef => {
       vwRef = vcRef;
       createChild(component, vcRef);
 
       diaRef.onDestroy.subscribe(() => child.destroy());
       diaRef.events.next('created');
+      childSignal.set(child);
     });
 
     function replace(component: DialogInput<T>) {
@@ -94,7 +97,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     }
     // parent.instance.
 
-    return { diaRef, parent, replace };
+    return { diaRef, parent, replace, childSignal };
   }
 
   function closeAll() {

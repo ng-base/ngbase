@@ -8,7 +8,7 @@ import { Selectable } from './selectable.component';
   template: `<ng-content />`,
   host: {
     class:
-      'flex-1 flex items-center font-medium justify-center px-3 py-1 cursor-pointer transition-colors rounded-base whitespace-nowrap',
+      'flex-1 flex items-center font-medium justify-center px-b3 py-b1.5 cursor-pointer transition-colors rounded-base whitespace-nowrap',
     '[class]': `selected() ? 'bg-foreground shadow-md' : 'opacity-60'`,
     '(click)': 'select()',
     role: 'tab',
@@ -20,6 +20,6 @@ export class SelectableItem<T> {
   value = input.required<T>();
 
   select() {
-    this.selectable.activeIndex.set(this.value());
+    // ...implemented in Selectable
   }
 }

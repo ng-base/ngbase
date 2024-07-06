@@ -15,7 +15,7 @@ import {
   input,
   signal,
   untracked,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { TreeNodeDef } from './tree-node.directive';
 
@@ -37,8 +37,8 @@ export interface TreeNodeImplicit<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-container #container></ng-container>`,
   host: {
-    class: 'block'
-  }
+    class: 'block',
+  },
 })
 export class Tree<T> {
   dataSource = input.required<T[]>();
@@ -82,7 +82,7 @@ export class Tree<T> {
           0,
           opened,
           expanded && firstLoad ? 'addAll' : 'toggle',
-          index
+          index,
         );
       }
       firstLoad = false;
@@ -96,18 +96,18 @@ export class Tree<T> {
     level = 0,
     opened: Set<T>,
     type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle',
-    index: number
+    index: number,
   ): number {
     if (!this.trace.has(data)) {
       const value: TreeNodeData<T> = { level, data };
       const injector = Injector.create({
         providers: [{ provide: TREE_NODE_DATA, useValue: value }],
-        parent: this.injector
+        parent: this.injector,
       });
       const ref = container.createEmbeddedView<TreeNodeImplicit<T>>(
         def,
         { $implicit: data, level },
-        { injector, index }
+        { injector, index },
       );
       this.trace.set(data, { ref, parent: data });
       // index++;
@@ -155,7 +155,7 @@ export class Tree<T> {
           ref.ref.context.level + 1,
           opened,
           type,
-          indexNumber + 1
+          indexNumber + 1,
         );
       } else {
         this.deleteNode(item, opened);

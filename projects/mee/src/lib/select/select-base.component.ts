@@ -14,6 +14,7 @@ import {
   signal,
   untracked,
   viewChild,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { popoverPortal } from '../popover';
@@ -23,15 +24,19 @@ import { Option } from './option.component';
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   el = inject(ElementRef);
-  options = signal<readonly Option<T>[]>([]);
+  // options = signal<readonly Option<T>[]>([]);
+  options = contentChildren(Option, { descendants: true });
   optionsTemplate = viewChild('options', { read: TemplateRef });
   container = viewChild('container', { read: ElementRef });
   value = input<T>('' as any);
-  multiple = input(false);
+  multiple = input(false, { transform: booleanAttribute });
   placeholder = input<string>(' ');
   disabled = model<boolean>(false);
   size = input<'target' | 'free'>('target');
   valueChange = output<any>();
+  opened = output<boolean>();
+  closed = output<boolean>();
+  panelOpen = signal(false);
   readonly values = signal<T[]>([]);
   readonly status = signal<'opening' | 'opened' | 'closed'>('closed');
   onChange = (value: any) => {};
@@ -46,7 +51,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     }
     const multiple = this.multiple();
     const options = this.options();
-    const filtered = this.values().filter((x) => x !== undefined && x !== null && x !== '');
+    const filtered = this.values(); // .filter(x => x !== undefined && x !== null && x !== '');
 
     const values = filtered.length
       ? options.reduce((acc, option) => {
@@ -71,10 +76,11 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     effect(
       () => {
         const options = this.options();
-        console.log('options', options, this.multiple());
-        options.forEach((option) => {
+        const values = this.values();
+        // console.log('options', options, this.multiple());
+        options.forEach(option => {
           option.multiple.set(this.multiple());
-          option.checked.set(this.values().includes(option.value()!));
+          option.checked.set(values.includes(option.value()!));
           option.selectOption = () => {
             untracked(() => {
               this.setValue([option.value()!]);
@@ -101,7 +107,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       this.status.set('opening');
       return;
     }
-    console.log('select open', this.options().length);
+    // console.log('select open', this.options().length);
     const el = this.container()?.nativeElement || this.el.nativeElement;
     const { diaRef, events } = this.popover.open(
       this.optionsTemplate()!,
@@ -120,7 +126,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       }
     };
     if (!this.isSelect) {
-      events.subscribe((e) => {
+      events.subscribe(e => {
         withInPopup = e.type !== 'mouseleave';
       });
       diaRef.events.subscribe(() => {
@@ -137,15 +143,19 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       document.removeEventListener('click', clickHandler);
       this.status.set('closed');
       this.events.next('close');
+      this.closed.emit(true);
+      this.panelOpen.set(false);
       // this.updateInputValue();
     };
+    this.opened.emit(true);
+    this.panelOpen.set(true);
   }
 
   setValue(values: T[], skip = false): void {
     let localValue = this.values();
     let setValue: any;
     if (this.multiple()) {
-      values.forEach((v) => {
+      values.forEach(v => {
         const index = localValue.indexOf(v);
         if (index > -1) {
           localValue = localValue.filter((_, i) => i !== index);

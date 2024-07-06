@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  OnDestroy,
-  inject,
-  afterNextRender,
-} from '@angular/core';
+import { Directive, ElementRef, OnDestroy, inject, afterNextRender } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -26,7 +20,7 @@ export class Growable implements OnDestroy {
       // required for updating the height for the initial value
       this.update();
 
-      this.sub = this.model?.valueChanges?.subscribe((v) => {
+      this.sub = this.model?.valueChanges?.subscribe(v => {
         if (v === this.el.nativeElement.value) {
           this.update();
         } else {
@@ -36,7 +30,7 @@ export class Growable implements OnDestroy {
         }
       });
 
-      this.ro = new ResizeObserver((entries) => {
+      this.ro = new ResizeObserver(entries => {
         for (let entry of entries) {
           this.update();
         }

@@ -30,51 +30,31 @@ interface ThemeData {
       }
     </div>
     <form [formGroup]="form" class="flex flex-col gap-b4">
-      <div>
-        Radius: <input meeInput formControlName="radius" class="ml-2" />
-      </div>
+      <div>Radius: <input meeInput formControlName="radius" class="ml-2" /></div>
       <div>Space: <input meeInput formControlName="space" class="ml-2" /></div>
       <div class="flex">
         Background:
-        <mee-color-picker
-          formControlName="background"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="background" class="ml-2"></mee-color-picker>
       </div>
       <div class="flex">
         Foreground:
-        <mee-color-picker
-          formControlName="foreground"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="foreground" class="ml-2"></mee-color-picker>
       </div>
       <div class="flex">
         Primary:
-        <mee-color-picker
-          formControlName="primary"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="primary" class="ml-2"></mee-color-picker>
       </div>
       <div class="flex">
         Muted:
-        <mee-color-picker
-          formControlName="muted"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="muted" class="ml-2"></mee-color-picker>
       </div>
       <div class="flex">
         Border:
-        <mee-color-picker
-          formControlName="border"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="border" class="ml-2"></mee-color-picker>
       </div>
       <div class="flex">
         Text:
-        <mee-color-picker
-          formControlName="text"
-          class="ml-2"
-        ></mee-color-picker>
+        <mee-color-picker formControlName="text" class="ml-2"></mee-color-picker>
       </div>
     </form>
   `,
@@ -123,7 +103,7 @@ export class ThemeComponent {
 
   constructor() {
     this.form.patchValue(this.themes[0]);
-    this.form.valueChanges.subscribe((value) => {
+    this.form.valueChanges.subscribe(value => {
       const style = document.documentElement.style;
       style.setProperty('--radius', value.radius!);
       style.setProperty('--spacing-base', value.space!);
@@ -157,13 +137,10 @@ export class ThemeComponent {
 
   hexToRgb(hex: string): string {
     const rgb = hex
-      .replace(
-        /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-        (m, r, g, b) => r + r + g + g + b + b,
-      )
+      .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => r + r + g + g + b + b)
       .substring(1)
       .match(/.{2}/g)
-      ?.map((x) => parseInt(x, 16));
+      ?.map(x => parseInt(x, 16));
     return rgb ? `rgb(${rgb.join(', ')})` : '';
   }
 
@@ -175,7 +152,7 @@ export class ThemeComponent {
     const [r, g, b] = rgb
       .substring(4, rgb.length - 1)
       .split(', ')
-      .map((x) => parseInt(x));
+      .map(x => parseInt(x));
     return { r, g, b };
   }
 }

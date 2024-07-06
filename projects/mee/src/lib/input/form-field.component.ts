@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'mee-typography',
   standalone: true,
-  imports: [],
-  template: ` <p>typography works!</p> `,
-  styles: ``,
+  selector: '[meeLabel]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content></ng-content>`,
+  host: {
+    class: 'flex flex-col font-medium mb-b2',
+  },
 })
-export class TypographyComponent {}
+export class Label {}

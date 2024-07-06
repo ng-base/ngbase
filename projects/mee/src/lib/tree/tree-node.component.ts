@@ -4,7 +4,7 @@ import {
   ViewContainerRef,
   computed,
   inject,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { Icons } from '../icon';
 import { TREE_NODE_DATA, Tree } from './tree.component';
@@ -24,8 +24,8 @@ import { TreeNodeDef } from './tree-node.directive';
   `,
   host: {
     class: 'block w-full',
-    '[style.marginLeft.px]': 'data.level * 32'
-  }
+    '[style.marginLeft.px]': 'data.level * 32',
+  },
 })
 export class TreeNode {
   treeNodeDef = inject(TreeNodeDef);

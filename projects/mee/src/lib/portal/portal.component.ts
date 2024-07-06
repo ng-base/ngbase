@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewContainerRef,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewContainerRef, viewChild } from '@angular/core';
 
 @Component({
   standalone: true,

@@ -1,15 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import {
-  fromEvent,
-  merge,
-  distinctUntilKeyChanged,
-  filter,
-  finalize,
-  map,
-  share,
-  tap,
-} from 'rxjs';
+import { fromEvent, merge, distinctUntilKeyChanged, filter, finalize, map, share, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class Keys {
@@ -17,7 +8,7 @@ export class Keys {
   private keyup$ = fromEvent<KeyboardEvent>(this.document, 'keyup');
   private keydown$ = fromEvent<KeyboardEvent>(this.document, 'keydown');
   private keypress$ = merge(this.keyup$, this.keydown$).pipe(
-    tap((ev) => {
+    tap(ev => {
       if (ev.type === 'keyup') {
         this.keys.delete(ev.key);
       } else {
@@ -46,11 +37,11 @@ export class Keys {
     let isFirstTrueValue = false;
 
     return this.keypress$.pipe(
-      map<KeyboardEvent, [boolean, KeyboardEvent]>((ev) => {
+      map<KeyboardEvent, [boolean, KeyboardEvent]>(ev => {
         // make sure key combination and number of keys should be same
         const isLengthSame = this.keys.size === keys.length;
         // check all the keys are matching
-        const isAllKeysSame = [...this.keys].every((k) => keys.includes(k));
+        const isAllKeysSame = [...this.keys].every(k => keys.includes(k));
         const active = isLengthSame && isAllKeysSame;
 
         isFirstTrueValue = isFirstTrueValue || active;

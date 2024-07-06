@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { generateId } from '../utils';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'mee-sonner',
@@ -22,7 +16,7 @@ import {
               'z-index': -$index,
               bottom: 16 * $index + 'px',
               transform: 'scale(' + (1 - $index * 0.08) + ')',
-              visibility: $index < 3 ? 'visible' : 'hidden'
+              visibility: $index < 3 ? 'visible' : 'hidden',
             }"
             [@slideInOutAnimation]
           >
@@ -54,11 +48,11 @@ export class Sonner {
     // push the new message to the top of the list
     // so that it will be displayed first
     // also the index is less than 3, the message will be visible
-    this.messages.update((x) => [data, ...x]);
+    this.messages.update(x => [data, ...x]);
 
     if (timeout === 0) return;
     setTimeout(() => {
-      this.messages.update((x) => x.filter((msg) => msg.id !== id));
+      this.messages.update(x => x.filter(msg => msg.id !== id));
     }, timeout);
   }
 

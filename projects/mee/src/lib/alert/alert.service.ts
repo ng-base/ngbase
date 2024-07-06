@@ -1,11 +1,11 @@
 import { Alert, AlertOptions } from './alert.component';
-import { DialogOptions } from '../portal';
+import { DialogInput, DialogOptions } from '../portal';
 import { dialogPortal } from '../dialog';
 
 export function alertPortal() {
   const base = dialogPortal();
 
-  function open<T>(opt: AlertOptions) {
+  function open<T>(opt: AlertOptions, comp?: DialogInput<T>) {
     const options: DialogOptions = {
       ...new DialogOptions(),
       data: opt,
@@ -16,7 +16,7 @@ export function alertPortal() {
       isHideHeader: true,
     };
 
-    const diaRef = base.open(Alert, options);
+    const diaRef = base.open(comp || Alert, options);
 
     return diaRef;
   }

@@ -8,6 +8,7 @@ import {
   effect,
   EmbeddedViewRef,
   input,
+  OnDestroy,
 } from '@angular/core';
 import { ROW_TOKEN, Table } from './table';
 import { Row } from './column';
@@ -17,12 +18,17 @@ import { Row } from './column';
   selector: '[meeHeadRow]',
   template: `<ng-container #container></ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'h-b10',
+    '[class]': `headDef.meeHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
+  },
 })
-export class HeadRow {
+export class HeadRow implements OnDestroy {
   def = inject(ROW_TOKEN);
   table = inject(Table);
   container = viewChild('container', { read: ViewContainerRef });
   ref = new Map<Row, EmbeddedViewRef<any>>();
+  headDef = inject(HeadRowDef);
 
   constructor() {
     effect(
@@ -35,7 +41,16 @@ export class HeadRow {
             return;
           }
         });
-        rows.forEach((row) => {
+        const cols = this.headDef.meeHeadRowDef();
+        rows.forEach(row => {
+          if (!cols?.includes(row.meeRow())) {
+            if (this.ref.has(row)) {
+              const ref = this.ref.get(row);
+              ref!.destroy();
+              this.ref.delete(row);
+            }
+            return;
+          }
           if (!this.ref.has(row)) {
             const ref = this.container()!.createEmbeddedView(row.heads()!);
             this.ref.set(row, ref);
@@ -56,5 +71,6 @@ export class HeadRow {
   selector: '[meeHeadRowDef]',
 })
 export class HeadRowDef {
-  meeHeadRowDef = input();
+  meeHeadRowDef = input<string[]>();
+  meeHeadRowDefSticky = input();
 }

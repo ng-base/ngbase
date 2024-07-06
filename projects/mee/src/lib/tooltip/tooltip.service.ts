@@ -47,7 +47,7 @@ export function tooltipPortal() {
         comp.instance.position = position || 'top';
       },
       undefined,
-      false
+      false,
     );
 
     function destroy() {

@@ -33,7 +33,7 @@ export class MenuTrigger {
     afterNextRender(() => {
       // if parent is provided, then this is a sub-menu and we should open on mouseenter and close on mouseleave
       if (this.parent || this.hover) {
-        this.el.nativeElement.addEventListener('mouseenter', (ev) => {
+        this.el.nativeElement.addEventListener('mouseenter', ev => {
           this.events.next({ event: ev, type: 'enter', menu: this });
           if (this.hover) {
             return;
@@ -42,7 +42,7 @@ export class MenuTrigger {
           console.log('mouseenter');
           this.open(ev);
         });
-        this.el.nativeElement.addEventListener('mouseleave', (ev) => {
+        this.el.nativeElement.addEventListener('mouseleave', ev => {
           this.events.next({ event: ev, type: 'leave', menu: this });
           if (this.hover) {
             return;
@@ -102,7 +102,7 @@ export class MenuTrigger {
       this.close = null;
     };
     if (this.hover) {
-      events.subscribe((ev) => {
+      events.subscribe(ev => {
         if (ev.type === 'mouseleave') {
           this.delayTimer = setTimeout(() => {
             this.closeParent = false;

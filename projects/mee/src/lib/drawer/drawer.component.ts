@@ -9,13 +9,7 @@ import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
 import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Drag } from '../drag';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'mee-drawer',
@@ -24,7 +18,7 @@ import {
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
-        class="p-b4 pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground shadow-2xl"
+        class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground p-b4 shadow-2xl"
         [@sideAnimation]="status() ? 1 : 0"
       >
         <button class="mx-auto h-2 w-20 rounded-full bg-muted"></button>

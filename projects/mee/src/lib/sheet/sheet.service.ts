@@ -8,7 +8,7 @@ export function sheetPortal() {
   function open<T>(component: DialogInput, opt?: DialogOptions) {
     const { diaRef } = base.open(
       component,
-      (comp) => {
+      comp => {
         const options = { ...new DialogOptions(), ...opt };
         comp.instance.setOptions(options);
       },

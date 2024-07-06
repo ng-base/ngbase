@@ -6,7 +6,7 @@ import {
   TemplateRef,
   contentChildren,
   output,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { DialogRef } from '../portal';
 import { Keys } from '../keys';
@@ -26,7 +26,7 @@ import { MenuItem } from './menu-item.directive';
       </div>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Menu implements OnDestroy {
   container = viewChild('container', { read: TemplateRef });
@@ -71,8 +71,8 @@ export class Menu implements OnDestroy {
 
             // });
           }
-        }
-      )
+        },
+      ),
     );
 
     this.sub.add(
@@ -88,7 +88,7 @@ export class Menu implements OnDestroy {
           // });
           this.close();
         }
-      })
+      }),
     );
 
     this.diaRef!.afterClosed.subscribe(() => {

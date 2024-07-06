@@ -117,7 +117,7 @@ export class BaseTour extends BaseDialog implements OnDestroy {
           if (this.options.maxHeight) {
             el.style.maxHeight = this.options.maxHeight;
           }
-          this.scrolled.update((x) => x + 1);
+          this.scrolled.update(x => x + 1);
           this.updateDimension();
         });
       // if (!this.options.backdrop) {

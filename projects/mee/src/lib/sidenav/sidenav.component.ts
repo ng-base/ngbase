@@ -5,7 +5,7 @@ import {
   ElementRef,
   computed,
   contentChild,
-  model
+  model,
 } from '@angular/core';
 import { SidenavHeader } from './sidenav-header.component';
 
@@ -26,9 +26,9 @@ import { SidenavHeader } from './sidenav-header.component';
     <!-- </div> -->
   `,
   host: {
-    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full'
+    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
   },
-  animations: []
+  animations: [],
 })
 export class Sidenav {
   show = model(true);

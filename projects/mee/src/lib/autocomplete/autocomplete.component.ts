@@ -31,12 +31,7 @@ import { SelectBase } from '../select/select-base.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, InputStyle, Chip],
   template: `
-    <ul
-      #container
-      meeInputStyle
-      class="readonly !flex flex-wrap gap-2"
-      (click)="prevent($event)"
-    >
+    <ul #container meeInputStyle class="readonly !flex flex-wrap gap-2" (click)="prevent($event)">
       <ng-content select="mee-chip" />
 
       <li class="flex min-w-8 flex-1 items-center" (click)="open()">
@@ -56,18 +51,18 @@ import { SelectBase } from '../select/select-base.component';
   ],
 })
 export class Autocomplete<T> extends SelectBase<T> {
-  selectOptions = contentChildren(Option, { descendants: true });
+  // selectOptions = contentChildren(Option, { descendants: true });
   searchInput = contentChild(AutocompleteInput);
   chips = contentChildren(Chip);
 
   constructor() {
     super(false);
-    effect(
-      () => {
-        this.options.set(this.selectOptions());
-      },
-      { allowSignalWrites: true },
-    );
+    // effect(
+    //   () => {
+    //     this.options.set(this.selectOptions());
+    //   },
+    //   { allowSignalWrites: true },
+    // );
     effect(() => {
       if (this.status() !== 'opened') this.updateInputValue();
     });

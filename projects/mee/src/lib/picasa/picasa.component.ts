@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  afterNextRender,
-  effect,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, afterNextRender, effect, inject, viewChild } from '@angular/core';
 import { DialogRef } from '../dialog';
 import { PicasaBase } from './picasa-base.component';
 

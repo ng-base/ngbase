@@ -9,6 +9,7 @@ import {
   untracked,
 } from '@angular/core';
 import { Resizable } from './resizable.component';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'mee-resizable-group',
@@ -24,6 +25,8 @@ export class ResizableGroup {
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   panels = contentChildren(Resizable);
   direction = input<'horizontal' | 'vertical'>('horizontal');
+  overlayDiv?: HTMLDivElement;
+  document = inject(DOCUMENT);
 
   constructor() {
     effect(
@@ -74,5 +77,22 @@ export class ResizableGroup {
     for (const auto of autos) {
       auto.updateElementSize(str);
     }
+  }
+
+  start() {
+    const div = this.document.createElement('div');
+    div.style.position = 'absolute';
+    div.style.top = '0';
+    div.style.left = '0';
+    div.style.width = '100%';
+    div.style.height = '100%';
+    div.style.zIndex = '9999';
+    div.style.cursor = 'ew-resize';
+    this.document.body.appendChild(div);
+    this.overlayDiv = div;
+  }
+
+  end() {
+    this.overlayDiv?.remove();
   }
 }

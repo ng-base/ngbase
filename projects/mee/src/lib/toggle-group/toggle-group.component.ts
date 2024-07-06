@@ -41,13 +41,13 @@ export class ToggleGroup implements ControlValueAccessor {
         const toggleItems = this.toggleItems();
         this.subscriptions.unsubscribe();
         this.subscriptions = new Subscription();
-        toggleItems.forEach((toggleItem) => {
+        toggleItems.forEach(toggleItem => {
           toggleItem.active.set(this.value.includes(toggleItem.value()));
           this.subscriptions.add(
-            toggleItem.activeChange.subscribe((active) => {
+            toggleItem.activeChange.subscribe(active => {
               this.toggleValue(toggleItem.value());
               if (!this.multiple() && active) {
-                toggleItems.forEach((item) => {
+                toggleItems.forEach(item => {
                   if (item !== toggleItem) {
                     item.active.set(false);
                   }
@@ -64,7 +64,7 @@ export class ToggleGroup implements ControlValueAccessor {
   toggleValue(value: any) {
     // remove the value if it's already selected
     if (this.value.includes(value)) {
-      this.value = this.value.filter((v) => v !== value);
+      this.value = this.value.filter(v => v !== value);
     } else {
       // add the value if it's not selected
       this.value = this.multiple() ? [...this.value, value] : [value];

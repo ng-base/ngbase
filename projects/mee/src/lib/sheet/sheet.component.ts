@@ -3,36 +3,42 @@ import {
   Component,
   ViewContainerRef,
   afterNextRender,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
 import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Button } from '../button';
+import { Icons } from '../icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideX } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-sheet',
   standalone: true,
-  imports: [NgStyle, Button],
+  imports: [NgStyle, Button, Icons],
+  viewProviders: [provideIcons({ lucideX })],
   template: `
     <div class="pointer-events-none flex h-full justify-end">
       <div
-        class="pointer-events-auto flex flex-col overflow-hidden border-l bg-foreground shadow-2xl m-b2 rounded-base"
+        class="pointer-events-auto m-b2 flex flex-col overflow-hidden rounded-base border-l bg-foreground shadow-2xl"
         [ngStyle]="{
           width: options.width,
           minWidth: options.minWidth,
-          maxWidth: options.maxWidth
+          maxWidth: options.maxWidth,
         }"
         [@sideAnimation]="status() ? 1 : 0"
         (@sideAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
-          <div class="bg-secondary-background px-b4 flex items-center py-b2">
+          <div class="flex items-center border-b px-b4 py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton variant="ghost" (click)="close()" class="small mr-1">x</button>
+            <button meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
+              <mee-icon name="lucideX"></mee-icon>
+            </button>
           </div>
         }
-        <div class="p-b4 h-full overflow-auto">
+        <div class="h-full overflow-auto p-b4">
           <ng-container #myDialog></ng-container>
         </div>
       </div>
@@ -48,7 +54,7 @@ import { Button } from '../button';
   `,
   host: {
     class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto z-150',
-    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }'
+    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
   },
   styles: `
     .backdropColor {
@@ -57,7 +63,7 @@ import { Button } from '../button';
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [sideAnimation, fadeAnimation]
+  animations: [sideAnimation, fadeAnimation],
 })
 export class Sheet extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });

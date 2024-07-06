@@ -38,7 +38,7 @@ import { Icons } from '../icon';
         >
           <mee-icon
             name="lucideGripVertical"
-            class="z-10 rounded-base border bg-muted-background py-0.5"
+            class="z-30 rounded-base border bg-muted-background py-0.5"
             size=".75rem"
             [class]="resizable.direction() === 'vertical' ? 'rotate-90' : ''"
           ></mee-icon>
@@ -55,7 +55,6 @@ export class Resizable implements OnDestroy {
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   resizable = inject(ResizableGroup);
   containerRef = inject(ViewContainerRef);
-  document = inject(DOCUMENT);
   drag = viewChild(Drag);
   size = model<number | string>('auto');
   dragElement = viewChild('dragElement', { read: TemplateRef });
@@ -97,9 +96,9 @@ export class Resizable implements OnDestroy {
           if (drag) {
             this.sub = drag.events.subscribe((data: DragData) => {
               if (data.type === 'start') {
-                this.document.body.style.cursor = 'ew-resize';
+                this.resizable.start();
               } else if (data.type === 'end') {
-                this.document.body.style.cursor = '';
+                this.resizable.end();
               }
               this.onDrag(data);
             });

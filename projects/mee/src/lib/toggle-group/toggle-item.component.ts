@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -12,8 +7,7 @@ import { Subject } from 'rxjs';
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class:
-      'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70',
+    class: 'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70',
     '(click)': 'clicked()',
     '[class.bg-background]': 'active()',
   },
@@ -24,7 +18,7 @@ export class ToggleItem {
   activeChange = new Subject<boolean>();
 
   clicked() {
-    this.active.update((x) => !x);
+    this.active.update(x => !x);
     this.activeChange.next(this.active());
   }
 }

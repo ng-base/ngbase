@@ -1,24 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
 import { Sidenav } from './sidenav.component';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   standalone: true,
   selector: 'mee-sidenav-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [@slide]="sidenav.show()" class="h-full w-56">
+    <div [@slide]="sidenav.show()" class="h-full w-64 overflow-auto">
       <ng-content />
     </div>
   `,
@@ -32,10 +21,7 @@ import {
     trigger('slide', [
       state('true', style({ transform: 'translateX(0)' })),
       state('false', style({ transform: 'translateX(-100%)' })),
-      transition(
-        '* => *',
-        animate('500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)'),
-      ),
+      transition('* => *', animate('500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)')),
     ]),
   ],
 })

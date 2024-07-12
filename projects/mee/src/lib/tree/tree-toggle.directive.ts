@@ -6,6 +6,7 @@ import { TreeNode } from './tree-node.component';
   selector: '[meeTreeNodeToggle]',
   host: {
     '(click)': 'toggle()',
+    '[class.invisible]': '!treeNode.hasChildren()',
   },
 })
 export class TreeNodeToggle {

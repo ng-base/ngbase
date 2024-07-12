@@ -21,6 +21,8 @@ import { TreeNodeDef } from './tree-node.directive';
 
 export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');
 
+export type TreeAction = 'add' | 'addAll' | 'delete' | 'deleteAll';
+
 export interface TreeNodeData<T> {
   level: number;
   data: T;
@@ -51,6 +53,7 @@ export class Tree<T> {
   differs = inject(IterableDiffers);
   _dataDiffers?: IterableDiffer<T>;
   trackBy = input.required<(index: number, item: T) => any>();
+  children = input.required<(node: T) => T[]>();
 
   constructor() {
     afterNextRender(() => {
@@ -75,7 +78,7 @@ export class Tree<T> {
       // }
       let index = 0;
       for (const item of data) {
-        index = this.renderNode(
+        const i = this.renderNode(
           item,
           container,
           def,
@@ -84,6 +87,11 @@ export class Tree<T> {
           expanded && firstLoad ? 'addAll' : 'toggle',
           index,
         );
+        // this is because the index is not updated in the renderNode function
+        // when expanded is false
+        if (i === index) {
+          index++;
+        }
       }
       firstLoad = false;
     });
@@ -110,13 +118,13 @@ export class Tree<T> {
         { injector, index },
       );
       this.trace.set(data, { ref, parent: data });
-      // index++;
     }
+    const children = this.children()(data);
     if (opened.has(data) || type === 'addAll') {
-      if ((data as any).children) {
+      if (children) {
         opened.add(data);
-        for (let i = 0; i < (data as any).children.length; i++) {
-          const item = (data as any).children[i];
+        for (let i = 0; i < children.length; i++) {
+          const item = children[i];
           index++;
 
           index = this.renderNode(item, container, def, level + 1, opened, type, index);
@@ -126,15 +134,19 @@ export class Tree<T> {
     return index;
   }
 
-  toggle(data: T, children: T[]) {
+  toggle(data: T) {
     const opened = this.opened();
-    this.process(data, opened);
+    const type = opened.has(data) ? 'delete' : 'add';
+    if (type === 'delete') {
+      opened.delete(data);
+    }
+    // type === 'add' || type === 'addAll' || (type === 'delete' ? false : !opened.has(data));
+    this.process(data, opened, type);
     this.opened.set(new Set(opened));
   }
 
-  process(data: T, opened: Set<T>, type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle') {
-    const isAdd =
-      type === 'add' || type === 'addAll' || (type === 'delete' ? false : !opened.has(data));
+  process(data: T, opened: Set<T>, type: TreeAction) {
+    const isAdd = type === 'add' || type === 'addAll';
     const ref = this.trace.get(data)!;
     if (!ref) {
       return;
@@ -144,9 +156,9 @@ export class Tree<T> {
     const def = this.treeNodeDef();
 
     // render the tree
-
-    for (let i = 0; i < (data as any).child?.length; i++) {
-      const item = (data as any).child[i];
+    const children = this.children()(data);
+    for (let i = 0; i < children?.length; i++) {
+      const item = children[i];
       if (isAdd) {
         indexNumber = this.renderNode(
           item,
@@ -158,23 +170,23 @@ export class Tree<T> {
           indexNumber + 1,
         );
       } else {
-        this.deleteNode(item, opened);
+        this.deleteNode(item, opened, type);
       }
     }
     if (isAdd) {
       opened.add(data);
-    } else {
+    } else if (type === 'deleteAll') {
       opened.delete(data);
     }
   }
 
-  private deleteNode(item: T, opened: Set<T>) {
+  private deleteNode(item: T, opened: Set<T>, type: TreeAction) {
     const ref = this.trace.get(item);
     if (!ref) {
       return;
     }
-    if ((item as any).child) {
-      this.process(item, opened, 'delete');
+    if (this.children()(item)) {
+      this.process(item, opened, type);
     }
     ref.ref.destroy();
     this.trace.delete(item);
@@ -184,7 +196,7 @@ export class Tree<T> {
     const opened = this.opened();
     while (opened.size) {
       const data = opened.values().next().value;
-      this.process(data, opened);
+      this.process(data, opened, 'deleteAll');
     }
     this.opened.set(new Set());
   }

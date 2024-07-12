@@ -34,8 +34,8 @@ export class TreeNode {
   container = viewChild('container', { read: ViewContainerRef });
   isOpen = computed(() => this.tree.opened().has(this.data.data));
   private children = computed(() => {
-    const when = this.treeNodeDef!.meeTreeNodeDefWhen();
-    return when?.(0, this.data.data) || [];
+    const when = this.tree.children();
+    return when(this.data.data) || [];
   });
   hasChildren = computed(() => {
     return this.children().length ? true : false;
@@ -45,9 +45,9 @@ export class TreeNode {
 
   toggle() {
     // this.isOpen.update((isOpen) => !isOpen);
-    const children = this.children();
-    if (children.length) {
-      this.tree.toggle(this.data.data, children);
-    }
+    // const children = this.children();
+    // if (children.length) {
+    this.tree.toggle(this.data.data);
+    // }
   }
 }

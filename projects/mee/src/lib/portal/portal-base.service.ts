@@ -17,7 +17,7 @@ export type DialogInput<T = any> = Type<T> | TemplateRef<any>;
 
 export function basePortal<U>(name: string, baseComponent: Type<U>) {
   const NAME = name;
-  const dom = inject(PortalService);
+  const portal = inject(PortalService);
   const injector = inject(Injector);
   const keyManager = new Keys();
 
@@ -30,7 +30,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     const options = { ...new DialogOptions(), ...opt };
     const diaRef = new DialogRef(options, destroy, closeAll, animation);
     const childInjector = createInj(injector, options.data, diaRef);
-    const parent = dom.createComponent(baseComponent, childInjector, NAME);
+    const parent = portal.createComponent(baseComponent, childInjector, NAME);
 
     // set options
     callback?.(parent, options);
@@ -44,10 +44,9 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     }
 
     // close on esc
-    console.log('disableClose', options.disableClose);
     if (!options.disableClose) {
       sub = keyManager.event('esc').subscribe(([_, ev]) => {
-        console.log('esc clicked');
+        // console.log('esc clicked');
         ev.preventDefault();
         ev.stopPropagation();
 
@@ -56,8 +55,8 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     }
 
     function destroy() {
-      dom.deleteComponent(NAME, parent);
-      console.log('destroyed');
+      portal.deleteComponent(NAME, parent);
+      // console.log('destroyed');
       sub?.unsubscribe();
     }
 
@@ -101,7 +100,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
   }
 
   function closeAll() {
-    dom.clear(NAME);
+    portal.clear(NAME);
   }
   return { open, closeAll };
 }

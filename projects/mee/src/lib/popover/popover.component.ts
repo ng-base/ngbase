@@ -70,7 +70,7 @@ import { Icons } from '../icon';
     }`,
   host: {
     class:
-      'fixed top-0 left-0 w-full h-full pointer-events-none z-150 flex items-center justify-center',
+      'fixed top-0 left-0 w-full h-full pointer-events-none z-40 flex items-center justify-center',
   },
   styles: [
     `
@@ -138,44 +138,47 @@ export class Popover extends BaseDialog implements OnDestroy {
       this._afterViewSource.next(this.myDialog()!);
     });
 
-    effect(() => {
-      const el = this.container()!.nativeElement;
-      const target = this.target() || this.tooltipOptions.target;
-      if (this.tooltipOptions.anchor) {
-        this.tooltipOptions.offset = 16;
-      }
-      this.lastPosition = this.tooltipOptions.position || 'bottom';
-      // this.schedulePopoverUpdate(target, el);
-      if (this.tooltipOptions.smoothScroll) {
-        // target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    effect(
+      () => {
+        const el = this.container()!.nativeElement;
+        const target = this.target() || this.tooltipOptions.target;
+        if (this.tooltipOptions.anchor) {
+          this.tooltipOptions.offset = 16;
+        }
+        this.lastPosition = this.tooltipOptions.position || 'bottom';
+        // this.schedulePopoverUpdate(target, el);
+        if (this.tooltipOptions.smoothScroll) {
+          // target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        // fromEvent(window, 'scroll')
-        //   .pipe(
-        //     startWith(1),
-        //     tap((x) => console.count('scroll 50')),
-        //     debounceTime(50),
-        //     take(1),
-        //   )
-        //   .subscribe(() => {});
-        // fromEvent(window, 'scroll')
-        //   .pipe(
-        //     startWith(1),
-        //     tap((x) => console.count('scroll 10')),
-        //     debounceTime(10),
-        //     take(1),
-        //   )
-        //   .subscribe(() => {
-        //     this.scrolled.update((x) => x + 1);
-        //     this.schedulePopoverUpdate(target, el);
-        //   });
-        scrollToElement(target).then(() => {
-          this.scrolled.update(x => x + 1);
+          // fromEvent(window, 'scroll')
+          //   .pipe(
+          //     startWith(1),
+          //     tap((x) => console.count('scroll 50')),
+          //     debounceTime(50),
+          //     take(1),
+          //   )
+          //   .subscribe(() => {});
+          // fromEvent(window, 'scroll')
+          //   .pipe(
+          //     startWith(1),
+          //     tap((x) => console.count('scroll 10')),
+          //     debounceTime(10),
+          //     take(1),
+          //   )
+          //   .subscribe(() => {
+          //     this.scrolled.update((x) => x + 1);
+          //     this.schedulePopoverUpdate(target, el);
+          //   });
+          scrollToElement(target).then(() => {
+            this.scrolled.update(x => x + 1);
+            this.schedulePopoverUpdate(target, el);
+          });
+        } else {
           this.schedulePopoverUpdate(target, el);
-        });
-      } else {
-        this.schedulePopoverUpdate(target, el);
-      }
-    });
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   private scheduleUpdateDimension = () => {
@@ -185,15 +188,15 @@ export class Popover extends BaseDialog implements OnDestroy {
   private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement) {
     this.tooltipOptions.target = target;
     if (this.options.backdrop) {
-      this.document.body.style.overflow = 'hidden';
+      this.onOpen();
     }
     if (this.options.width === 'target') {
       // update the width of the container to be the same as the target
       el.style.width = `${target.offsetWidth}px`;
+    } else if (this.options.width === 'free') {
+      el.style.minWidth = `${target.offsetWidth}px`;
     } else if (this.options.width) {
       el.style.width = this.options.width;
-    } else if (this.options.width !== 'none') {
-      el.style.minWidth = `${target.offsetWidth}px`;
     }
     if (this.options.height) {
       el.style.height = this.options.height;
@@ -289,7 +292,7 @@ export class Popover extends BaseDialog implements OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('wheel', this.scheduleUpdateDimension);
-    this.document.body.style.overflow = '';
+    this.onClose();
   }
 }
 

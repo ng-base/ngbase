@@ -54,4 +54,16 @@ describe('TimeComponent', () => {
     component.notify('12:30 AM');
     expect(component.valueChange.emit).toHaveBeenCalledTimes(1);
   });
+
+  it('should register on change', () => {
+    const fn = () => jest.fn();
+    component.registerOnChange(fn);
+    expect(component['onChange']).toBe(fn);
+  });
+
+  it('should register on touched', () => {
+    const fn = () => jest.fn();
+    component.registerOnTouched(fn);
+    expect(component['onTouched']).toBe(fn);
+  });
 });

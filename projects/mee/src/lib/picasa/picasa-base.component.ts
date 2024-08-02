@@ -27,6 +27,7 @@ import { Subject } from 'rxjs';
         class="backdropColor pointer-events-auto absolute top-0 -z-10 h-full w-full"
         (click)="!options.disableClose && close()"
         [@fadeAnimation]="status() ? 1 : 0"
+        (@fadeAnimation.done)="animationDone()"
       ></div>
     </div>
   `,

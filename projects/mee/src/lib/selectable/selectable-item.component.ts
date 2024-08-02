@@ -8,10 +8,11 @@ import { Selectable } from './selectable.component';
   template: `<ng-content />`,
   host: {
     class:
-      'flex-1 flex items-center font-medium justify-center px-b3 py-b1.5 cursor-pointer transition-colors rounded-base whitespace-nowrap',
-    '[class]': `selected() ? 'bg-foreground shadow-md' : 'opacity-60'`,
+      'flex-1 flex items-center font-medium justify-center px-b3 py-b1.5 cursor-pointer transition-colors rounded-bt whitespace-nowrap',
+    '[class]': `selected() ? 'bg-foreground shadow-md ring-1 ring-border' : 'opacity-60'`,
     '(click)': 'select()',
     role: 'tab',
+    '[attr.aria-selected]': 'selected()',
   },
 })
 export class SelectableItem<T> {

@@ -1,81 +1,79 @@
-// we should support utc, parse, format, add, set, get, diff
 export class DefaultDateAdapter {
   locale = 'en';
-  constructor() {}
 
   setLocale(locale: string) {
     this.locale = locale;
   }
 
-  format(date: Date | string, format: string) {
-    if (!date) {
-      return '';
-    } else if (typeof date === 'string') {
-      date = new Date(date);
-    }
-    // we should support format like yyyy, MM, dd, hh, mm, ss, SSS,
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const value = format
-      .replace(/yyyy/, year.toString())
-      .replace(/MM/, month.toString().padStart(2, '0'))
-      .replace(/M/, month.toString())
-      .replace(/dd/, day.toString().padStart(2, '0'))
-      .replace(/d/, day.toString())
-      .replace(
-        /hh/,
-        (date.getHours() > 11 ? date.getHours() - 12 : date.getHours()).toString().padStart(2, '0'),
-      )
-      .replace(/HH/, (date.getHours() % 12).toString().padStart(2, '0'))
-      .replace(/mm/, date.getMinutes().toString().padStart(2, '0'))
-      .replace(/ss/, date.getSeconds().toString().padStart(2, '0'))
-      .replace(/SSS/, date.getMilliseconds().toString().padStart(3, '0'))
-      .replace(/a/, date.getHours() >= 12 ? 'PM' : 'AM');
-    return value;
+  format(date: Date | string | null | undefined, format: string) {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+
+    const formatters: { [key: string]: () => string } = {
+      YYYY: () => d.getFullYear().toString(),
+      yyyy: () => d.getFullYear().toString(),
+      yy: () => d.getFullYear().toString().slice(-2),
+      MMM: () => d.toLocaleString(this.locale, { month: 'short' }),
+      MM: () => this.pad(d.getMonth() + 1),
+      M: () => (d.getMonth() + 1).toString(),
+      DD: () => this.pad(d.getDate()),
+      dd: () => this.pad(d.getDate()),
+      d: () => d.getDate().toString(),
+      HH: () => this.pad(d.getHours()),
+      H: () => d.getHours().toString(),
+      hh: () => this.pad(d.getHours() % 12 || 12),
+      h: () => (d.getHours() % 12 || 12).toString(),
+      mm: () => this.pad(d.getMinutes()),
+      ss: () => this.pad(d.getSeconds()),
+      SSS: () => this.pad(d.getMilliseconds(), 3),
+      a: () => (d.getHours() < 12 ? 'AM' : 'PM'),
+    };
+
+    const regex = /\b(?:yyyy|YYYY|yy|MMM|MM|M|DD|dd|d|HH|H|hh|h|mm|ss|SSS|a)\b/g;
+    return format.replace(regex, match => formatters[match]?.() ?? match);
   }
+
+  private pad(value: number, length = 2) {
+    return value.toString().padStart(length, '0');
+  }
+
   parse(value: Date | string) {
-    const date = new Date(value);
-    if (date || value instanceof Date) {
-      return date;
-    }
-    const year = parseInt(value.slice(0, 4), 10);
-    const month = parseInt(value.slice(5, 7), 10) - 1;
-    const day = parseInt(value.slice(8, 10), 10);
-    return new Date(year, month, day);
+    if (value instanceof Date) return new Date(value.setHours(0, 0, 0, 0));
+    if (typeof value !== 'string') return new Date(NaN);
+
+    const parts = value.split(/\D+/).map(Number);
+    if (parts.length !== 3) return new Date(NaN);
+
+    const [a, b, c] = parts;
+    return a > 31 ? new Date(a, b - 1, c) : new Date(c, b - 1, a);
   }
-  add(date: Date, amount: number, unit: number) {
-    return new Date(date.getTime() + amount * 24 * 60 * 60 * 1000);
+
+  add(date: Date, days: number) {
+    return new Date(date.getTime() + days * 86400000);
   }
+
   set(date: Date, value: number, unit: string) {
-    if (unit === 'year') {
-      date.setFullYear(value);
-    } else if (unit === 'month') {
-      date.setMonth(value);
-    } else if (unit === 'date') {
-      date.setDate(value);
-    }
-    return date;
+    const newDate = new Date(date);
+    if (unit === 'year') newDate.setFullYear(value);
+    else if (unit === 'month') newDate.setMonth(value);
+    else if (unit === 'date') newDate.setDate(value);
+    return newDate;
   }
+
   get(date: Date, unit: string) {
-    if (unit === 'year') {
-      return date.getFullYear();
-    } else if (unit === 'month') {
-      return date.getMonth();
-    } else if (unit === 'date') {
-      return date.getDate();
-    }
+    if (unit === 'year') return date.getFullYear();
+    if (unit === 'month') return date.getMonth();
+    if (unit === 'date') return date.getDate();
     return 0;
   }
+
   diff(dateA: Date, dateB: Date, unit: string) {
-    const diff = dateA.getTime() - dateB.getTime();
-    if (unit === 'year') {
-      return dateA.getFullYear() - dateB.getFullYear();
-    } else if (unit === 'month') {
+    const diffTime = dateA.getTime() - dateB.getTime();
+    if (unit === 'year') return dateA.getFullYear() - dateB.getFullYear();
+    if (unit === 'month')
       return (dateA.getFullYear() - dateB.getFullYear()) * 12 + dateA.getMonth() - dateB.getMonth();
-    } else if (unit === 'date') {
-      return Math.floor(diff / (24 * 60 * 60 * 1000));
-    }
+    if (unit === 'days') return Math.floor(diffTime / 86400000);
     return 0;
   }
 }

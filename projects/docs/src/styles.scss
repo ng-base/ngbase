@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'highlight.js/styles/atom-one-dark.css';
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://unpkg.com/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Medium.woff2')
+    format('woff2');
+}
+
+// @font-face {
+//   font-family: 'Geist';
+//   src: url(/GeistVF.woff2);
+// }
+
+/* CSS */
+// :root {
+//   font-family: Inter, sans-serif;
+//   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+// }
+
+html {
+  @apply antialiased;
+}
+
+body {
+  @apply min-h-screen bg-background text-sm text-text;
+  // font-family: 'Geist', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  // font-variation-settings: 'slnt' 0;
+}
+
+* {
+  @apply border-border;
+}
+
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings:
+    'liga' 1,
+    'calt' 1; /* fix for Chrome */
+  /* --primary: 129, 140, 248; */
+  // --primary: 8, 145, 178;
+  --primary: 232, 0, 0;
+  // --primary: 0, 0, 0;
+  // --primary: 29, 78, 216;
+  // --background: 251, 251, 251;
+  --background: 246, 247, 251;
+  // --background: 233, 233, 233;
+  --foreground: 255, 255, 255;
+  --muted: 113, 113, 122; // 75, 85, 99;
+  --muted-background: 244, 244, 245;
+  // --text: 24, 24, 27;
+  --text: 9, 9, 11;
+  --border: 228, 228, 231;
+  --input: 243, 244, 246;
+  --density: 1;
+  --radius: 0.5rem; // 0.375rem;
+  --spacing-base: 0.25rem;
+  --spacing-baseY: 0.25rem;
+}
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+.dark {
+  --primary: 250, 250, 250;
+  --muted: 161, 161, 170;
+  --muted-background: 39, 39, 42;
+  --text: 250, 250, 250;
+  // --background: 0, 0, 0;
+  --background: 21, 21, 24;
+  // --foreground: 24, 24, 27;
+  // --foreground: 25, 27, 35;
+  --foreground: 0, 0, 0;
+  --border: 39, 39, 42;
+  --input: 39, 39, 42;
+  color-scheme: dark;
+}
+
+@layer components {
+  .mee-header {
+    @apply bg-foreground text-text;
+  }
+}
+
+.small {
+  --spacing-base: 0.125rem;
+  @apply text-sm;
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+  margin-right: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e4e4e7; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 0px solid; /* creates padding around scroll thumb */
+}

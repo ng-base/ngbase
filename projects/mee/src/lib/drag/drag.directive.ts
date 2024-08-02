@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, NgZone, OnDestroy, inject } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Subscription, fromEvent, map, Subject, merge, takeUntil, tap, switchMap } from 'rxjs';
+import { Subscription, fromEvent, map, Subject, takeUntil, tap, switchMap } from 'rxjs';
 
 export class DragData {
   constructor(
@@ -10,18 +10,19 @@ export class DragData {
     public xx = 0,
     public yy = 0,
     public type: 'start' | 'move' | 'end' = 'start',
-    public event?: MouseEvent | TouchEvent,
+    public event?: PointerEvent,
     public clientX?: number,
     public clientY?: number,
     public direction?: 'left' | 'right',
     public velocity = 0, // between 0 to 1
-    public time = Date.now(), // Add the time property
+    public time = Date.now(),
   ) {}
 }
 
 @Directive({
   selector: '[meeDrag]',
   standalone: true,
+  exportAs: 'meeDrag',
 })
 export class Drag implements OnDestroy {
   el = inject(ElementRef);
@@ -29,19 +30,19 @@ export class Drag implements OnDestroy {
   document = inject(DOCUMENT);
   events = new Subject<DragData>();
   meeDrag = outputFromObservable(this.events);
-  startEvent!: MouseEvent | Touch;
+  startEvent!: PointerEvent;
   lastValue = new DragData();
-  private dragEvent = this.listen('mousedown', 'touchstart').pipe(
+  private dragEvent = fromEvent<PointerEvent>(this.el.nativeElement, 'pointerdown').pipe(
     switchMap(event => {
-      this.startEvent = event instanceof MouseEvent ? event : event.touches[0];
+      this.startEvent = event;
       this.lastValue = this.getDragEvent(event, 'start');
       this.events.next(this.lastValue);
       this.toggleUserSelect();
-      return this.listen('mousemove', 'touchmove', this.document).pipe(
+      return fromEvent<PointerEvent>(this.document, 'pointermove').pipe(
         takeUntil(
-          this.listen('mouseup', 'touchend', this.document).pipe(
-            tap(() => {
-              const value = this.getDragEvent(this.lastValue.event!, 'end');
+          fromEvent<PointerEvent>(this.document, 'pointerup').pipe(
+            tap(upEvent => {
+              const value = this.getDragEvent(upEvent, 'end');
               value.velocity = this.lastValue.velocity;
               this.events.next(value);
               this.lastValue = new DragData();
@@ -64,10 +65,7 @@ export class Drag implements OnDestroy {
         this.events.next(event);
       });
     });
-  }
-
-  listen(first: string, second: string, el = this.el.nativeElement) {
-    return merge(fromEvent<MouseEvent>(el, first), fromEvent<TouchEvent>(el, second));
+    this.el.nativeElement.style.touchAction = 'none';
   }
 
   private toggleUserSelect(active = true) {
@@ -76,73 +74,34 @@ export class Drag implements OnDestroy {
     this.document.body.style.webkitUserSelect = value;
   }
 
-  private getDirection(ev: MouseEvent | Touch) {
-    let direction: 'left' | 'right' = 'left';
-    if (ev instanceof MouseEvent) {
-      const evn = this.lastValue.event as MouseEvent;
-      if (ev.clientX > evn?.clientX) {
-        direction = 'right';
-      } else if (ev.clientX < evn?.clientX) {
-        direction = 'left';
-      } else {
-        direction = this.lastValue.direction || 'left';
-      }
-    } else if (ev instanceof Touch) {
-      const touch = ev;
-      const startTouch =
-        this.startEvent instanceof MouseEvent
-          ? this.startEvent
-          : (this.startEvent as any).touches[0];
-      if (touch.clientX > startTouch.clientX) {
-        direction = 'right';
-      } else if (touch.clientX < startTouch.clientX) {
-        direction = 'left';
-      } else {
-        direction = this.lastValue.direction!;
-      }
+  private getDirection(ev: PointerEvent) {
+    if (ev.clientX > this.lastValue.clientX!) {
+      return 'right';
+    } else if (ev.clientX < this.lastValue.clientX!) {
+      return 'left';
     }
-    return direction;
+    return this.lastValue.direction || 'left';
   }
 
-  private getDragEvent(ev: MouseEvent | TouchEvent, type: 'start' | 'move' | 'end') {
-    const e = ev instanceof MouseEvent ? ev : ev.touches[0];
-
+  private getDragEvent(ev: PointerEvent, type: 'start' | 'move' | 'end') {
     const now = Date.now();
     const timeDifference = now - this.lastValue.time;
     const startClientX = this.startEvent.clientX;
     const startClientY = this.startEvent.clientY;
-    const velocityX = (e.clientX - startClientX - this.lastValue.x) / timeDifference;
-    const velocityY = (e.clientY - startClientY - this.lastValue.y) / timeDifference;
+    const velocityX = (ev.clientX - startClientX - this.lastValue.x) / timeDifference;
+    const velocityY = (ev.clientY - startClientY - this.lastValue.y) / timeDifference;
 
-    const eClientX = e instanceof MouseEvent ? e.clientX : e.clientX;
-    const eClientY = e instanceof MouseEvent ? e.clientY : e.clientY;
-
-    // return new DragData(
-    //   e.clientX - this.startEvent.clientX,
-    //   e.clientY - this.startEvent.clientY,
-    //   e.clientX - this.startEvent.clientX - this.lastValue.x,
-    //   e.clientY - this.startEvent.clientY - this.lastValue.y,
-    //   type,
-    //   e,
-    //   this.getDirection(e),
-    //   Math.sqrt(velocityX * velocityX + velocityY * velocityY), // Calculate the velocity magnitude
-    //   now,
-    // );
     return new DragData(
-      e instanceof MouseEvent ? eClientX - startClientX : eClientX - startClientX,
-      e instanceof MouseEvent ? eClientY - startClientY : eClientY - startClientY,
-      e instanceof MouseEvent
-        ? eClientX - startClientX - this.lastValue.x
-        : eClientX - startClientX - this.lastValue.x,
-      e instanceof MouseEvent
-        ? eClientY - startClientY - this.lastValue.y
-        : eClientY - startClientY - this.lastValue.y,
+      ev.clientX - startClientX,
+      ev.clientY - startClientY,
+      ev.clientX - startClientX - this.lastValue.x,
+      ev.clientY - startClientY - this.lastValue.y,
       type,
       ev,
-      eClientX,
-      eClientY,
-      this.getDirection(e),
-      Math.sqrt(velocityX * velocityX + velocityY * velocityY), // Calculate the velocity magnitude
+      ev.clientX,
+      ev.clientY,
+      this.getDirection(ev),
+      Math.sqrt(velocityX * velocityX + velocityY * velocityY),
       now,
     );
   }

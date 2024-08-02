@@ -11,14 +11,13 @@ import {
 import { Drag } from '../drag';
 import {
   hexToHsb,
-  hsbToHex,
+  hsbaToHex,
+  hsbaToRgba,
   hsbToHsl,
-  hsbToRgb,
-  hslToHex,
-  hslToHsb,
-  parseHsb,
-  parseRgb,
-  rgbToHsb,
+  hslaToHsba,
+  parseHsba,
+  parseRgba,
+  rgbToHsba,
 } from './utils';
 import { DialogRef } from '../portal';
 
@@ -32,8 +31,9 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
     <div class="flex w-full flex-col gap-b">
       <div class="relative overflow-hidden">
         <div
-          #spectrumDiv
-          class="rounded-h h-[160px] w-full"
+          meeDrag
+          #spectrumDiv="meeDrag"
+          class="h-[160px] w-full rounded-h"
           style="background-image: linear-gradient(0deg, rgb(0, 0, 0), transparent), linear-gradient(90deg, rgb(255, 255, 255), rgba(255, 255, 255, 0)); background-color: var(--hue-color);"
         ></div>
         <button
@@ -42,27 +42,31 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
         ></button>
       </div>
       <div class="flex gap-b4 p-b2">
-        <div #selectedColor class="rounded-h aspect-square w-b10 border bg-slate-500"></div>
+        <div #selectedColor class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
         <div class="flex flex-1 flex-col gap-b4">
           <div class="relative">
             <div
-              #hueDiv
-              class="h-[12px] w-full"
+              meeDrag
+              #hueDiv="meeDrag"
+              class="hue-div h-[12px] w-full"
               style="inset: 0px; background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 255, 255), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 0, 0));"
             ></div>
             <button
               #hueSelector
-              class="border-red pointer-events-none absolute -left-3 -top-1 h-b5 w-b5 cursor-pointer rounded-full border-2"
+              class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
 
           <div class="alpha-container relative">
             <div
-              class="h-[12px] w-full"
+              meeDrag
+              #alphaDiv="meeDrag"
+              class="alpha-div h-[12px] w-full"
               style="inset: 0px; background: linear-gradient(to right, rgba(255, 0, 4, 0), var(--spectrum-color));"
             ></div>
             <button
-              class="border-red pointer-events-none absolute -left-3 -top-1 h-b5 w-b5 cursor-pointer rounded-full border-2"
+              #alphaSelector
+              class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
         </div>
@@ -71,7 +75,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
         <div class="flex flex-wrap gap-2 border-t p-b2 pt-b3">
           @for (color of presetColors(); track color) {
             <button
-              class="rounded-h aspect-square w-b4 border"
+              class="aspect-square w-b4 rounded-h border"
               [style.backgroundColor]="color"
               (click)="setValue(color, true)"
             ></button>
@@ -102,11 +106,18 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
 export class ColorPicker {
   private readonly el = inject(ElementRef);
   private readonly dialogRef = inject(DialogRef, { optional: true });
-  readonly hueDiv = viewChild<ElementRef<HTMLDivElement>>('hueDiv');
-  readonly spectrumDiv = viewChild<ElementRef<HTMLDivElement>>('spectrumDiv');
-  readonly spectrumSelector = viewChild<ElementRef<HTMLButtonElement>>('spectrumSelector');
-  readonly hueSelector = viewChild<ElementRef<HTMLButtonElement>>('hueSelector');
+  readonly hueDiv = viewChild.required<Drag>('hueDiv');
+  readonly hueSelector = viewChild.required<ElementRef<HTMLButtonElement>>('hueSelector');
+
+  readonly spectrumDiv = viewChild.required<Drag>('spectrumDiv');
+  readonly spectrumSelector = viewChild.required<ElementRef<HTMLButtonElement>>('spectrumSelector');
+
   readonly selectedColor = viewChild<ElementRef<HTMLDivElement>>('selectedColor');
+
+  private alpha = 100; // 0-100
+  readonly alphaDiv = viewChild.required<Drag>('alphaDiv');
+  readonly alphaSelector = viewChild.required<ElementRef<HTMLButtonElement>>('alphaSelector');
+
   readonly valueChange = output<string>();
   readonly format = input<ColorFormat>(this.dialogRef?.data.format || 'hex');
   readonly presetColors = input<string[]>(this.dialogRef?.data.presetColors || []);
@@ -116,109 +127,109 @@ export class ColorPicker {
   private lastSpectrumEvent?: MouseEvent;
   private localValue = '';
 
+  private colorParsers = new Map<ColorFormat, (value: string) => [number, number, number, number]>([
+    ['hsb', parseHsba],
+    ['hex', hexToHsb],
+    ['rgb', (value: string) => rgbToHsba(...parseRgba(value))],
+    ['hsl', (value: string) => hslaToHsba(...parseHsba(value))],
+  ]);
+
   constructor() {
-    console.log(this.format());
     afterNextRender(() => {
-      const hueDiv = this.hueDiv()!.nativeElement;
-      const spectrumDiv = this.spectrumDiv()!.nativeElement;
-
-      // Click event for hueSelector
-      hueDiv.addEventListener('mousedown', event => {
-        this.hueEvents(event.offsetX);
-        const hueMove = (ev: MouseEvent) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          requestAnimationFrame(() => {
-            const { left, width } = hueDiv.getBoundingClientRect();
-            const x = Math.round(ev.clientX - left);
-            if (x > 0 && x <= width) {
-              this.hueEvents(x);
-            }
-          });
-        };
-        const hueUp = () => {
-          document.removeEventListener('mousemove', hueMove);
-          document.removeEventListener('mouseup', hueUp);
-          this.updateValue();
-          this.valueChange.emit(this.localValue);
-        };
-        document.addEventListener('mousemove', hueMove);
-        document.addEventListener('mouseup', hueUp);
-      });
-
-      // Click event for spectrumSelector
-      spectrumDiv.addEventListener('mousedown', event => {
-        this.spectrumEvents(event);
-        const spectrumMove = (ev: MouseEvent) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          requestAnimationFrame(() => this.spectrumEvents(ev));
-        };
-        const spectrumUp = () => {
-          document.removeEventListener('mousemove', spectrumMove);
-          document.removeEventListener('mouseup', spectrumUp);
-          this.valueChange.emit(this.localValue);
-        };
-        document.addEventListener('mousemove', spectrumMove);
-        document.addEventListener('mouseup', spectrumUp);
-      });
+      this.setupEventListeners();
     });
   }
 
-  private spectrumEvents(e: MouseEvent) {
-    const spectrumRect = this.spectrumDiv()!.nativeElement.getBoundingClientRect();
+  private calculateCoordinates(e: MouseEvent, el: ElementRef) {
+    const rect = el.nativeElement.getBoundingClientRect();
 
-    let x = Math.round(e.clientX - spectrumRect.left);
-    let y = Math.round(e.clientY - spectrumRect.top);
+    let x = Math.round(e.clientX - rect.left);
+    let y = Math.round(e.clientY - rect.top);
 
     // Constrain x and y within the bounds of the spectrum box
-    x = Math.max(0, Math.min(x, spectrumRect.width));
-    y = Math.max(0, Math.min(y, spectrumRect.height));
+    x = Math.max(0, Math.min(x, rect.width));
+    y = Math.max(0, Math.min(y, rect.height));
+    return { x, y, rect };
+  }
 
-    // Calculate the saturation and brightness based on the x and y coordinates
-    const { s, b } = this.calculateSaturationAndLuminous(
-      x,
-      y,
-      spectrumRect.width,
-      spectrumRect.height,
-    );
-    this.saturation = s;
-    this.brightness = b;
-    // console.log(s, l, this.hue);
+  private setupEventListeners() {
+    this.setupDragListener(this.hueDiv(), (x, y, w, h) => this.updateHue(x, 0, w, h));
+    this.setupDragListener(this.spectrumDiv(), this.updateSpectrum.bind(this));
+    this.setupDragListener(this.alphaDiv(), (x, y, w, h) => this.updateAlpha(x, 0, w, h));
+  }
 
-    // calculate the hue offset
-    const el = this.spectrumSelector()!.nativeElement;
-    el.style.left = `${x - el.offsetWidth / 2}px`;
-    el.style.top = `${y - el.offsetHeight / 2}px`;
+  private setupDragListener(
+    dragElement: Drag,
+    updateFunction: (x: number, y: number, width: number, height: number) => void,
+  ) {
+    dragElement.events.subscribe(event => {
+      if (event.type === 'start' || event.type === 'move') {
+        this.handleColorEvent(event.event!, dragElement.el, updateFunction);
+      } else if (event.type === 'end') {
+        this.valueChange.emit(this.localValue);
+      }
+    });
+  }
 
-    this.lastSpectrumEvent = e;
+  private handleColorEvent(
+    event: MouseEvent,
+    element: ElementRef,
+    updateFunction: (x: number, y: number, width: number, height: number) => void,
+  ) {
+    const { x, y, rect } = this.calculateCoordinates(event, element);
+    updateFunction(x, y, rect.width, rect.height);
     this.updateValue();
   }
 
-  private hueEvents(x: number) {
-    const hueRect = this.hueDiv()!.nativeElement.getBoundingClientRect();
-    this.hue = Math.round((x / hueRect.width) * 360);
+  private updateHue(x: number, y: number, width: number, height: number) {
+    console.log('updateHue', x, y, width, height);
+    this.hue = Math.round((x / width) * 360);
     this.el.nativeElement.style.setProperty('--hue-color', `hsl(${this.hue}, 100%, 50%)`);
+    const hueSelector = this.hueSelector()!.nativeElement;
+    hueSelector.style.left = `${x}px`;
+    if (this.lastSpectrumEvent) this.updateValue();
+  }
 
-    const el = this.hueSelector()!.nativeElement;
-    const { width } = el.getBoundingClientRect();
-    // update the x position of the hueSelector
-    el.style.left = x - width / 2 - 2 + 'px';
-    if (this.lastSpectrumEvent) this.spectrumEvents(this.lastSpectrumEvent);
-    this.updateValue();
+  private updateSpectrum(x: number, y: number, width: number, height: number) {
+    const { s, b } = this.calculateSaturationAndLuminous(x, y!, width, height);
+    this.saturation = s;
+    this.brightness = b;
+    this.lastSpectrumEvent = { clientX: x, clientY: y } as MouseEvent;
+    const spectrumSelector = this.spectrumSelector()!.nativeElement;
+    spectrumSelector.style.left = `${x - spectrumSelector.offsetWidth / 2}px`;
+    spectrumSelector.style.top = `${y! - spectrumSelector.offsetHeight / 2}px`;
+  }
+
+  private updateAlpha(x: number, y: number, width: number, height: number) {
+    this.alpha = Math.round((x / width) * 100);
+    const alphaSelector = this.alphaSelector()!.nativeElement;
+    alphaSelector.style.left = `${x}px`;
   }
 
   setValue(value: string, emit = false): void {
     if (!value) return;
     this.parse(value);
     this.updateValue(emit);
-    this.el.nativeElement.style.setProperty('--hue-color', this.getColor(this.hue, 100, 100));
-    this.updateHueSelectorPosition();
+    this.el.nativeElement.style.setProperty('--hue-color', this.getColor(this.hue, 100, 100, 100));
+    this.updateSelectorPositions();
+  }
+
+  private updateSelectorPositions() {
+    this.updateSelectorPosition(this.hueDiv().el, this.hueSelector(), this.hue / 360);
+    this.updateSelectorPosition(this.alphaDiv().el, this.alphaSelector(), this.alpha / 100);
     this.updateSpectrumSelectorPosition();
   }
 
+  private updateSelectorPosition(
+    containerEl: ElementRef<HTMLElement>,
+    selectorEl: ElementRef<HTMLButtonElement>,
+    ratio: number,
+  ) {
+    selectorEl.nativeElement.style.left = ratio * containerEl.nativeElement.clientWidth + 'px';
+  }
+
   private updateSpectrumSelectorPosition() {
-    const spectrumRect = this.spectrumDiv()!.nativeElement.getBoundingClientRect();
+    const spectrumRect = this.spectrumDiv().el.nativeElement.getBoundingClientRect();
     const spectrumSelector = this.spectrumSelector()!.nativeElement;
     const { x, y } = this.calculateSpectrumPosition(
       this.saturation,
@@ -228,13 +239,6 @@ export class ColorPicker {
     );
     spectrumSelector.style.left = `${x}px`;
     spectrumSelector.style.top = `${y}px`;
-  }
-
-  private updateHueSelectorPosition() {
-    const hueRect = this.hueDiv()!.nativeElement.getBoundingClientRect();
-    const el = this.hueSelector()!.nativeElement;
-    const { width } = el.getBoundingClientRect();
-    el.style.left = (this.hue / 360) * hueRect.width - width / 2 - 2 + 'px';
   }
 
   // Simplified function to calculate the x and y based on the saturation and lightness
@@ -262,58 +266,42 @@ export class ColorPicker {
     return { s, b };
   }
 
-  // it is a hsb color
-  getColor(h: number, s: number, b: number) {
-    const [hh, ss, l] = hsbToHsl(h, s, b);
-    return `hsl(${hh}, ${ss}%, ${l}%)`;
-  }
-
   updateValue(emit = false) {
     this.localValue = this.toString();
-    const hsl = this.getColor(this.hue, this.saturation, this.brightness);
-    this.el.nativeElement.style.setProperty('--spectrum-color', hsl);
-    this.selectedColor()!.nativeElement.style.backgroundColor = hsl;
-    this.spectrumSelector()!.nativeElement.style.backgroundColor = hsl;
+    const hsla = this.getColor(this.hue, this.saturation, this.brightness, this.alpha);
+    this.el.nativeElement.style.setProperty('--spectrum-color', hsla);
+    this.selectedColor()!.nativeElement.style.backgroundColor = hsla;
+    this.spectrumSelector()!.nativeElement.style.backgroundColor = hsla;
     if (emit) this.valueChange.emit(this.localValue);
   }
 
-  toString() {
-    switch (this.format()) {
-      case 'hsb':
-        return `hsb(${this.hue}, ${this.saturation}%, ${this.brightness}%)`;
-      case 'hex':
-        return hsbToHex(this.hue, this.saturation, this.brightness);
-      case 'rgb': {
-        const [r, g, b] = hsbToRgb(this.hue, this.saturation, this.brightness);
-        return `rgb(${r}, ${g}, ${b})`;
-      }
-      case 'hsl': {
-        const [h, s, l] = hsbToHsl(this.hue, this.saturation, this.brightness);
-        return `hsl(${h}, ${s}%, ${l}%)`;
-      }
-      default:
-        return '';
-    }
+  getColor(h: number, s: number, b: number, a: number) {
+    const [hh, ss, l] = hsbToHsl(h, s, b);
+    return `hsla(${hh}, ${ss}%, ${l}%, ${a / 100})`;
   }
 
   parse(value: string) {
-    let hsb = [0, 0, 0];
-    switch (this.format()) {
-      case 'hsb':
-        hsb = parseHsb(value);
-        break;
-      case 'hex':
-        hsb = hexToHsb(value);
-        break;
-      case 'rgb':
-        hsb = rgbToHsb(...parseRgb(value));
-        break;
-      case 'hsl':
-        hsb = hslToHsb(...parseHsb(value));
-        break;
+    const parser = this.colorParsers.get(this.format());
+    if (parser) {
+      [this.hue, this.saturation, this.brightness, this.alpha] = parser(value);
+      this.alpha = Math.round(this.alpha * 100);
     }
-    this.hue = hsb[0];
-    this.saturation = hsb[1];
-    this.brightness = hsb[2];
+  }
+
+  toString() {
+    const alpha = this.alpha / 100;
+    const formatters = {
+      hsb: () => `hsba(${this.hue}, ${this.saturation}%, ${this.brightness}%, ${alpha})`,
+      hex: () => hsbaToHex(this.hue, this.saturation, this.brightness, alpha),
+      rgb: () => {
+        const [r, g, b, a] = hsbaToRgba(this.hue, this.saturation, this.brightness, alpha);
+        return a === 1 ? `rgb(${r}, ${g}, ${b})` : `rgba(${r}, ${g}, ${b}, ${a})`;
+      },
+      hsl: () => {
+        const [h, s, l] = hsbToHsl(this.hue, this.saturation, this.brightness);
+        return `hsla(${h}, ${s}%, ${l}%, ${alpha})`;
+      },
+    };
+    return formatters[this.format()]?.() || '';
   }
 }

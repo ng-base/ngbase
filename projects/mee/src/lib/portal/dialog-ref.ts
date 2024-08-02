@@ -13,6 +13,10 @@ export abstract class BaseDialog {
 
   status = this.dialogRef.status;
 
+  // counter is required because we have start and end animation
+  // so we need to wait for both to finish before destroying the dialog
+  count = 0;
+
   setOptions(options: DialogOptions): void {}
 
   close() {
@@ -20,10 +24,24 @@ export abstract class BaseDialog {
   }
 
   animationDone = () => {
-    if (!this.status()) {
+    this.count++;
+    if (this.count === 2) {
       this.dialogRef.destroy();
     }
   };
+
+  onOpen() {
+    // make the body not scrollable and add padding to the right
+    // calculate the padding based on the scrollbar width
+    const padding = window.innerWidth - document.body.clientWidth;
+    document.body.style.paddingRight = `${padding}px`;
+    document.body.style.overflow = 'hidden';
+  }
+
+  onClose() {
+    document.body.style.paddingRight = '';
+    document.body.style.overflow = '';
+  }
 }
 
 export class DialogRef<T = any> {
@@ -64,7 +82,7 @@ export class DialogRef<T = any> {
     this.afterClosedSource.complete();
     this.onDestroySource.next(false);
     this.destroyParent();
-    console.log('destroyed parent');
+    // console.log('destroyed parent');
   }
 }
 

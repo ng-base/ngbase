@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TooltipComponent } from './tooltip.component';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('TooltipComponent', () => {
   let component: TooltipComponent;
@@ -9,6 +10,7 @@ describe('TooltipComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TooltipComponent],
+      providers: [provideNoopAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TooltipComponent);

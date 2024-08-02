@@ -7,14 +7,15 @@ import { Drag } from './drag.directive';
   hostDirectives: [Drag],
 })
 export class DragMove {
-  drag = inject(Drag);
-  el = inject(ElementRef);
-  target = input<HTMLElement>();
+  private drag = inject(Drag);
+  private el = inject(ElementRef);
+  readonly target = input<HTMLElement>();
 
   constructor() {
     let x = 0;
     let y = 0;
     this.drag.events.subscribe(data => {
+      data.event?.preventDefault();
       requestAnimationFrame(() => {
         // if (data.type === 'start') {
         // const rect = this.element.getBoundingClientRect();
@@ -32,7 +33,7 @@ export class DragMove {
     });
   }
 
-  get element() {
+  private get element() {
     return this.target() ?? this.el.nativeElement;
   }
 }

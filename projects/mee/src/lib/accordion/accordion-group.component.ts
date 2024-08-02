@@ -1,9 +1,9 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   contentChildren,
   effect,
-  inject,
   input,
   signal,
 } from '@angular/core';
@@ -14,25 +14,24 @@ import { Accordion } from './accordion-item.component';
   selector: 'mee-accordion-group',
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    :host {
-      @apply block;
-    }
-  `,
+  host: {
+    class: 'block',
+  },
 })
 export class AccordionGroup {
   items = contentChildren(Accordion);
-  multi = input(false);
+  multiple = input(false, { transform: booleanAttribute });
+  activeId = signal('');
 
   constructor() {
     effect(
       () => {
         const items = this.items();
-        const active = items.find(item => item.expanded())?.id;
-        const isMultiple = this.multi();
+        const id = this.activeId();
+        const isMultiple = this.multiple();
         if (!isMultiple) {
           items.forEach(item => {
-            item.expanded.set(item.id === active);
+            item.expanded.set(item.id === id);
           });
         }
       },

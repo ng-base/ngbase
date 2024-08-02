@@ -63,6 +63,9 @@ export class Resizable implements OnDestroy {
   index = 0;
   sub?: Subscription;
   str = '';
+  parentRect!: DOMRect;
+  min = 0;
+  max = 0;
 
   constructor() {
     effect(
@@ -88,15 +91,18 @@ export class Resizable implements OnDestroy {
     );
 
     effect(
-      () => {
+      cleanup => {
+        cleanup(() => this.sub?.unsubscribe());
         const drag = this.drag();
-        this.sub?.unsubscribe();
 
         untracked(() => {
           if (drag) {
             this.sub = drag.events.subscribe((data: DragData) => {
               if (data.type === 'start') {
                 this.resizable.start();
+                this.parentRect = this.el.nativeElement.getBoundingClientRect();
+                this.min = this.parentRect.left;
+                this.max = this.parentRect.left + this.parentRect.width;
               } else if (data.type === 'end') {
                 this.resizable.end();
               }
@@ -123,6 +129,9 @@ export class Resizable implements OnDestroy {
   }
 
   handleDrag(event = { xx: 0, yy: 0 } as DragData, updateAuto = true) {
+    // if (event.clientX! - this.min < 0) {
+    //   return;
+    // }
     const panels = this.resizable.panels();
     const isHorizontal = this.resizable.direction() === 'horizontal';
 

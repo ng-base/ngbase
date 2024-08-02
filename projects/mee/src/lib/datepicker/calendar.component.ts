@@ -133,7 +133,7 @@ import { FormsModule } from '@angular/forms';
     }
   `,
   host: {
-    class: 'inline-block min-h-[18.75rem] p-b2 w-[268px]',
+    class: 'inline-flex flex-col min-h-[18.75rem] p-b2 w-full',
   },
   styles: `
     .years,
@@ -151,11 +151,11 @@ import { FormsModule } from '@angular/forms';
 export class Calendar implements OnDestroy {
   datePicker = inject(DatePicker);
   days = viewChildren<ElementRef<HTMLElement>>('days');
-  first = input(false);
-  last = input(false);
-  index = input(0);
-  time1 = signal<string | null>(null);
-  time2 = signal<string | null>(null);
+  readonly first = input(false);
+  readonly last = input(false);
+  readonly index = input(0);
+  readonly time1 = signal<string | null>(null);
+  readonly time2 = signal<string | null>(null);
 
   readonly cStartMonth = computed(() => {
     const month = this.datePicker.startMonth() + this.index();
@@ -181,8 +181,8 @@ export class Calendar implements OnDestroy {
     return date.toLocaleString('default', { month: 'long' });
   });
 
-  currentYear = signal(this.cStartYear());
-  years = computed(() => {
+  readonly currentYear = signal(this.cStartYear());
+  readonly years = computed(() => {
     const year = this.currentYear();
     const filter = this.datePicker.dateFilter();
     return Array.from({ length: 24 }, (_, i) => {
@@ -307,25 +307,28 @@ export class Calendar implements OnDestroy {
       this.time1.set(this.datePicker.adapter.format(dates[0]!, 'hh:mm a'));
       this.time2.set(this.datePicker.adapter.format(dates[1]!, 'hh:mm a'));
     }
-    effect(() => {
-      const days = this.days();
-      const range = this.datePicker.range();
-      const dates = this.datePicker.selectedDates();
-      this.clearListeners();
+    effect(
+      () => {
+        const days = this.days();
+        const range = this.datePicker.range();
+        const dates = this.datePicker.selectedDates();
+        this.clearListeners();
 
-      if (days.length && range && dates[0] && !dates[1]) {
-        const arr = this.getDaysArray();
+        if (days.length && range && dates[0] && !dates[1]) {
+          const arr = this.getDaysArray();
 
-        days.forEach((day, i) => {
-          const listener = () => {
-            this.hoverDate(arr[i].day, arr[i].mon);
-          };
+          days.forEach((day, i) => {
+            const listener = () => {
+              this.hoverDate(arr[i].day, arr[i].mon);
+            };
 
-          day.nativeElement.addEventListener('mouseover', listener);
-          this.eventListeners.push({ element: day.nativeElement, listener });
-        });
-      }
-    });
+            day.nativeElement.addEventListener('mouseover', listener);
+            this.eventListeners.push({ element: day.nativeElement, listener });
+          });
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   private getSelectedDayOfMonth(date: Date) {

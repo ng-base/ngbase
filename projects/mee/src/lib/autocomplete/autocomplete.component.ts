@@ -31,7 +31,12 @@ import { SelectBase } from '../select/select-base.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, InputStyle, Chip],
   template: `
-    <ul #container meeInputStyle class="readonly !flex flex-wrap gap-2" (click)="prevent($event)">
+    <ul
+      #container
+      meeInputStyle
+      class="readonly !flex w-full flex-wrap gap-2"
+      (click)="prevent($event)"
+    >
       <ng-content select="mee-chip" />
 
       <li class="flex min-w-8 flex-1 items-center" (click)="open()">
@@ -42,6 +47,9 @@ import { SelectBase } from '../select/select-base.component';
       <ng-content />
     </ng-template>
   `,
+  host: {
+    class: 'inline-flex',
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -63,9 +71,12 @@ export class Autocomplete<T> extends SelectBase<T> {
     //   },
     //   { allowSignalWrites: true },
     // );
-    effect(() => {
-      if (this.status() !== 'opened') this.updateInputValue();
-    });
+    effect(
+      () => {
+        if (this.status() !== 'opened') this.updateInputValue();
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   prevent(ev: MouseEvent) {

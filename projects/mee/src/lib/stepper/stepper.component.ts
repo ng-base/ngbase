@@ -38,8 +38,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
             >
               {{ $index + 1 }}
             </div>
-            @if (step.header()) {
-              <ng-container *ngTemplateOutlet="step.header()!"></ng-container>
+            @if (step.header(); as header) {
+              <ng-container *ngTemplateOutlet="header"></ng-container>
             } @else {
               {{ step.title() }}
             }
@@ -48,7 +48,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
             <div class="ml-12 min-h-4">
               @if (step.stepContainer() && step.active()) {
                 <div [@slide]>
-                  <ng-container *ngTemplateOutlet="step.stepContainer()!"></ng-container>
+                  <ng-container *ngTemplateOutlet="step.stepContainer()"></ng-container>
                 </div>
               }
             </div>
@@ -68,13 +68,13 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ],
 })
 export class Stepper {
-  steps = contentChildren(Step);
-  activeIndex = model(0);
-  direction = input<'horizontal' | 'vertical'>('horizontal');
+  readonly steps = contentChildren(Step);
+  readonly activeIndex = model(0);
+  readonly direction = input<'horizontal' | 'vertical'>('horizontal');
 
-  first = computed(() => this.activeIndex() === 0);
-  last = computed(() => this.activeIndex() === this.steps().length - 1);
-  completed = computed(() => this.activeIndex() === this.steps().length);
+  readonly first = computed(() => this.activeIndex() === 0);
+  readonly last = computed(() => this.activeIndex() === this.steps().length - 1);
+  readonly completed = computed(() => this.activeIndex() === this.steps().length);
 
   constructor() {
     effect(

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { generateId } from '../utils';
 import { RadioGroup } from './radio-group.component';
 
@@ -26,7 +33,7 @@ import { RadioGroup } from './radio-group.component';
 })
 export class Radio {
   value = input<any>();
-  disabled = input<boolean>(false);
+  disabled = input(false, { transform: booleanAttribute });
   radio = inject(RadioGroup);
   inputId = generateId();
   checked = computed(() => this.value() === this.radio.value());

@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   ViewContainerRef,
   afterNextRender,
   viewChild,
@@ -53,19 +54,18 @@ import { lucideX } from '@ng-icons/lucide';
     }
   `,
   host: {
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto z-150',
+    class: 'fixed block top-0 bottom-0 left-0 right-0  z-40',
     '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
   },
   styles: `
     .backdropColor {
-      // background: rgba(102, 102, 102, 0.32);
       background: rgb(0 0 0 / 50%);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [sideAnimation, fadeAnimation],
 })
-export class Sheet extends BaseDialog {
+export class Sheet extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;
@@ -74,6 +74,7 @@ export class Sheet extends BaseDialog {
 
   constructor() {
     super();
+    this.onOpen();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
     });
@@ -84,5 +85,9 @@ export class Sheet extends BaseDialog {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.isHideHeader || false;
     this.backdropColor = this.options.backdropColor || true;
+  }
+
+  ngOnDestroy(): void {
+    this.onClose();
   }
 }

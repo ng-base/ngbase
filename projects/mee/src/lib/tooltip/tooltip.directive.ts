@@ -50,37 +50,61 @@ export class Tooltip implements OnDestroy {
 
   constructor() {
     let active = false;
-    effect(() => {
-      const content = this.meeTooltip();
-      untracked(() => {
-        if (content) {
-          if (!active) {
-            this.el.nativeElement.addEventListener('mouseenter', this.show);
-            this.el.nativeElement.addEventListener('mouseleave', this.hide);
-            active = true;
+    effect(
+      () => {
+        const content = this.meeTooltip();
+        untracked(() => {
+          if (content) {
+            if (!active) {
+              this.el.nativeElement.addEventListener('mouseenter', this.show);
+              this.el.nativeElement.addEventListener('mouseleave', this.hide);
+              active = true;
+            }
+          } else if (active) {
+            this.remove();
+            active = false;
           }
-        } else if (active) {
-          this.remove();
-          active = false;
-        }
-      });
-    });
+        });
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   show = () => {
+    // listen when cursor is over and element is removed
     const options = this.options();
     if (options.showDelay === 0 || this.tooltipService.tooltipOpen) {
-      this.tooltipService.insert(this.el.nativeElement, this.meeTooltip()!, options.position!);
+      this.tooltipService.insert(
+        this.el.nativeElement,
+        this.meeTooltip()!,
+        options.position!,
+        this.quickHide,
+      );
       return;
     }
     this.timer = setTimeout(() => {
-      this.tooltipService.insert(this.el.nativeElement, this.meeTooltip()!, options.position!);
+      this.tooltipService.insert(
+        this.el.nativeElement,
+        this.meeTooltip()!,
+        options.position!,
+        this.hide,
+      );
     }, options.showDelay);
+  };
+
+  removed = () => {
+    this.tooltipService.delay = 0;
+    this.hide();
   };
 
   hide = () => {
     clearTimeout(this.timer);
     this.tooltipService.destroy();
+  };
+
+  quickHide = () => {
+    this.tooltipService.delay = 0;
+    this.hide();
   };
 
   private remove() {

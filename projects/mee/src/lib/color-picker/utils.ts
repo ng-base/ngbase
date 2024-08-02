@@ -1,52 +1,62 @@
-export function hslToHex(h: number, s: number, l: number): string {
-  l /= 100;
-  const a = (s * Math.min(l, 1 - l)) / 100;
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color)
-      .toString(16)
-      .padStart(2, '0'); // convert to Hex and prefix "0" if needed
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-}
+// colorConversion.ts
 
-export function hslToRgb(h: number, s: number, l: number): string {
-  l /= 100;
-  const a = (s * Math.min(l, 1 - l)) / 100;
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    return Math.round(255 * (l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)));
-  };
-  const [r, g, b] = [f(0), f(8), f(4)];
-  return `rgb(${r}, ${g}, ${b})`;
-}
+const MAX_RGB = 255;
+const MAX_HUE = 360;
+const MAX_PERCENTAGE = 100;
 
-export function hexToRgb(hex: string): [number, number, number] {
+export function hexToRgb(hex: string): [number, number, number, number] {
   // Remove the hash at the start if it's there
   hex = hex.replace(/^#/, '');
 
-  // Parse the r, g, b values
-  const bigint = parseInt(hex, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
+  // Check for valid hex formats
+  if (!/^([0-9A-Fa-f]{3}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex)) {
+    throw new Error('Invalid hex color format');
+  }
 
-  return [r, g, b];
+  let r: number,
+    g: number,
+    b: number,
+    a: number = 1;
+
+  if (hex.length === 3 || hex.length === 4) {
+    r = parseInt(hex[0] + hex[0], 16);
+    g = parseInt(hex[1] + hex[1], 16);
+    b = parseInt(hex[2] + hex[2], 16);
+    if (hex.length === 4) {
+      a = parseInt(hex[3] + hex[3], 16) / 255;
+    }
+  } else if (hex.length === 6 || hex.length === 8) {
+    r = parseInt(hex.slice(0, 2), 16);
+    g = parseInt(hex.slice(2, 4), 16);
+    b = parseInt(hex.slice(4, 6), 16);
+    if (hex.length === 8) {
+      a = parseInt(hex.slice(6, 8), 16) / 255;
+    }
+  } else {
+    throw new Error('Invalid hex color format');
+  }
+
+  return [r, g, b, roundTo2Decimals(a)];
 }
 
-export function rgbToHsb(r: number, g: number, b: number): [number, number, number] {
+export function rgbaToHsb(
+  r: number,
+  g: number,
+  b: number,
+  a: number = 1,
+): { h: number; s: number; b: number; a: number } {
+  validateRgba(r, g, b, a);
+
   r /= 255;
   g /= 255;
   b /= 255;
 
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  let h = 0; // achromatic
-  const b_: number = max;
-
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
   const d = max - min;
   const s = max === 0 ? 0 : d / max;
+  const v = max;
 
   if (max !== min) {
     switch (max) {
@@ -63,24 +73,33 @@ export function rgbToHsb(r: number, g: number, b: number): [number, number, numb
     h /= 6;
   }
 
-  return [h * 360, s * 100, b_ * 100];
+  return {
+    h: roundNum(h * 360),
+    s: roundNum(s * 100),
+    b: roundNum(v * 100),
+    a: roundTo2Decimals(a),
+  };
 }
 
-export function hexToHsb(hex: string): [number, number, number] {
-  const [r, g, b] = hexToRgb(hex);
-  return rgbToHsb(r, g, b);
+export function hexToHsb(hex: string): [number, number, number, number] {
+  const [r, g, b, a] = hexToRgb(hex);
+  const { h, s, b: brightness, a: alpha } = rgbaToHsb(r, g, b, a);
+  return [roundNum(h), roundNum(s), roundNum(brightness), roundTo2Decimals(alpha)];
 }
 
 export function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
-  r /= 255;
-  g /= 255;
-  b /= 255;
+  validateRgb(r, g, b);
+
+  r /= MAX_RGB;
+  g /= MAX_RGB;
+  b /= MAX_RGB;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   let h = 0;
   let s = 0;
   const l = (max + min) / 2;
   const d = max - min;
+
   if (d) {
     s = d / (1 - Math.abs(2 * l - 1));
     switch (max) {
@@ -95,102 +114,156 @@ export function rgbToHsl(r: number, g: number, b: number): { h: number; s: numbe
         break;
     }
   }
-  return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+
+  return {
+    h: roundNum(h * MAX_HUE),
+    s: roundNum(s * MAX_PERCENTAGE),
+    l: roundNum(l * MAX_PERCENTAGE),
+  };
 }
 
-export function hexToHsl(hex: string): { h: number; s: number; l: number } {
-  const [r, g, b] = hexToRgb(hex);
-  return rgbToHsl(r, g, b);
+export function parseRgba(rgba: string): [number, number, number, number] {
+  const matches = rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+  if (!matches) {
+    throw new Error('Invalid RGBA string format');
+  }
+  const [, r, g, b, a] = matches;
+  return [parseInt(r, 10), parseInt(g, 10), parseInt(b, 10), a ? parseFloat(a) : 1];
 }
 
-export function parseRgb(rgb: string): [number, number, number] {
-  const [r, g, b] = rgb.match(/\d+/g)!.map(Number);
-  return [r, g, b];
-}
-
-export function parseHsb(hsb: string): [number, number, number] {
-  const [h, s, b] = hsb.match(/\d+/g)!.map(Number);
-  return [h, s, b];
-}
-
-export function convertHsbToHsl(hsb: string): { h: number; s: number; l: number } {
-  const [h, s, b] = parseHsb(hsb);
-  return { h, s, l: b / 2 };
+export function parseHsba(hsb: string): [number, number, number, number] {
+  const matches = hsb.match(/^hsba?\((\d+),\s*(\d+)%,\s*(\d+)%(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+  if (!matches) {
+    throw new Error('Invalid HSBA string format');
+  }
+  const [, h, s, b, a] = matches;
+  return [parseInt(h, 10), parseInt(s, 10), parseInt(b, 10), a ? parseFloat(a) : 1];
 }
 
 export function hsbToHsl(h: number, s: number, b: number): [number, number, number] {
-  // Hue remains the same
-  const hue = h;
+  validateHsb(h, s, b);
 
-  // Convert s and b from percentages to fractions
-  const sat = s / 100;
-  const bri = b / 100;
+  s /= MAX_PERCENTAGE;
+  b /= MAX_PERCENTAGE;
 
-  // Calculate Lightness
-  const lightness = bri * (1 - sat / 2);
+  const l = b * (1 - s / 2);
+  const saturation = l === 0 || l === 1 ? 0 : (b - l) / Math.min(l, 1 - l);
 
-  // Calculate Saturation
-  let saturation: number;
-  if (lightness === 0 || lightness === 1) {
-    saturation = 0;
-  } else {
-    saturation = (bri - lightness) / Math.min(lightness, 1 - lightness);
-  }
-
-  // Convert saturation and lightness back to percentages
-  const v = [hue, saturation * 100, lightness * 100];
-  return v as [number, number, number];
+  return [roundNum(h), roundNum(saturation * MAX_PERCENTAGE), roundNum(l * MAX_PERCENTAGE)];
 }
 
-export function hslToHsb(h: number, s: number, l: number): [number, number, number] {
-  // Hue remains the same
-  const hue = h;
+export function hslaToHsba(
+  h: number,
+  s: number,
+  l: number,
+  a: number = 1,
+): [number, number, number, number] {
+  validateHsl(h, s, l);
+  validateAlpha(a);
 
-  // Convert s and l from percentages to fractions
-  const sat = s / 100;
-  const light = l / 100;
+  s /= MAX_PERCENTAGE;
+  l /= MAX_PERCENTAGE;
 
-  // Calculate Brightness
-  const brightness = light + sat * Math.min(light, 1 - light);
+  const brightness = l + s * Math.min(l, 1 - l);
+  const saturation = brightness === 0 ? 0 : 2 * (1 - l / brightness);
 
-  // Calculate Saturation
-  let saturation: number;
-  if (brightness === 0) {
-    saturation = 0;
-  } else {
-    saturation = 2 * (1 - light / brightness);
-  }
-
-  // Convert saturation and brightness back to percentages
-  return [hue, saturation * 100, brightness * 100];
+  return [
+    roundNum(h),
+    roundNum(saturation * MAX_PERCENTAGE),
+    roundNum(brightness * MAX_PERCENTAGE),
+    roundTo2Decimals(a),
+  ];
 }
 
-export function hsbToRgb(h: number, s: number, b: number): [number, number, number] {
-  s /= 100;
-  b /= 100;
+export function hsbaToRgba(
+  h: number,
+  s: number,
+  b: number,
+  a: number = 1,
+): [number, number, number, number] {
+  validateHsb(h, s, b);
+  validateAlpha(a);
+
+  s /= MAX_PERCENTAGE;
+  b /= MAX_PERCENTAGE;
 
   const k = (n: number) => (n + h / 60) % 6;
   const f = (n: number) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
 
-  const r = Math.round(255 * f(5));
-  const g = Math.round(255 * f(3));
-  const b_ = Math.round(255 * f(1));
-
-  return [r, g, b_];
+  return [
+    roundNum(f(5) * MAX_RGB),
+    roundNum(f(3) * MAX_RGB),
+    roundNum(f(1) * MAX_RGB),
+    roundTo2Decimals(a),
+  ];
 }
 
-function rgbToHex(r: number, g: number, b: number): string {
-  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+export function rgbToHsba(
+  r: number,
+  g: number,
+  b: number,
+  a: number = 1,
+): [number, number, number, number] {
+  const { h, s, b: br, a: alpha } = rgbaToHsb(r, g, b, a);
+  return [h, s, br, alpha];
 }
 
-export function hsbToHex(h: number, s: number, b: number): string {
-  const [r, g, b_] = hsbToRgb(h, s, b);
-  return rgbToHex(r, g, b_);
+export function hsbaToHex(h: number, s: number, b: number, a: number = 1): string {
+  const [r, g, b_, a_] = hsbaToRgba(h, s, b, a);
+  return rgbToHex(r, g, b_, a_);
 }
 
-// export function hsbToHsl(h: number, s: number, b: number): [number, number, number] {
-//   const lightness = b * (1 - s / 200);
-//   const saturation =
-//     lightness === 0 || lightness === 1 ? 0 : (b - lightness) / Math.min(lightness, 1 - lightness);
-//   return [h, saturation * 100, lightness * 100];
-// }
+export function rgbToHex(r: number, g: number, b: number, a: number = 1): string {
+  validateRgb(r, g, b);
+  validateAlpha(a);
+
+  let rgba = [r, g, b];
+  if (a < 1) {
+    rgba.push(Math.round(a * 255));
+  }
+
+  return (
+    '#' +
+    rgba
+      .map(x => Math.round(x).toString(16).padStart(2, '0'))
+      .join('')
+      .toUpperCase()
+  );
+}
+
+function validateRgb(r: number, g: number, b: number): void {
+  if (r < 0 || r > MAX_RGB || g < 0 || g > MAX_RGB || b < 0 || b > MAX_RGB) {
+    throw new Error('Invalid RGB values');
+  }
+}
+
+function validateRgba(r: number, g: number, b: number, a: number): void {
+  validateRgb(r, g, b);
+  validateAlpha(a);
+}
+
+function validateHsb(h: number, s: number, b: number): void {
+  if (h < 0 || h > MAX_HUE || s < 0 || s > MAX_PERCENTAGE || b < 0 || b > MAX_PERCENTAGE) {
+    throw new Error('Invalid HSB values');
+  }
+}
+
+function validateHsl(h: number, s: number, l: number): void {
+  if (h < 0 || h >= MAX_HUE || s < 0 || s > MAX_PERCENTAGE || l < 0 || l > MAX_PERCENTAGE) {
+    throw new Error('Invalid HSL values');
+  }
+}
+
+function validateAlpha(a: number): void {
+  if (a < 0 || a > 1) {
+    throw new Error('Invalid alpha value');
+  }
+}
+
+function roundNum(num: number): number {
+  return Math.round(num);
+}
+
+function roundTo2Decimals(num: number): number {
+  return Math.round(num * 100) / 100;
+}

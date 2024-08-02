@@ -35,13 +35,19 @@ import { Drag } from '../drag';
   },
 })
 export class Carousel {
-  private drag = viewChild(Drag);
-  private mainContainer = viewChild<ElementRef<HTMLElement>>('mainContainer');
-  private subContainer = viewChild<ElementRef<HTMLElement>>('subContainer');
+  private drag = viewChild.required(Drag);
+  private mainContainer = viewChild.required<ElementRef<HTMLElement>>('mainContainer');
+  private subContainer = viewChild.required<ElementRef<HTMLElement>>('subContainer');
   private items = contentChildren(CarouselItem);
-  current = signal(0);
+  readonly current = signal(0);
 
-  x = computed(() => {
+  private readonly totalWidth = computed(() => {
+    const _ = this.isReady();
+    const items = this.items();
+    return items.reduce((acc, item) => acc + item.width, 0);
+  });
+
+  readonly x = computed(() => {
     const current = this.current();
     const items = this.items();
     const totalWidth = this.totalWidth() - this.containerWidth;
@@ -50,32 +56,34 @@ export class Carousel {
     return x > totalWidth ? totalWidth : x;
   });
 
-  totalSteps = computed(() => {
+  readonly totalSteps = computed(() => {
     const containerWidth = this.containerWidth;
-    const totalWidth = this.totalWidth();
     const items = this.items();
+    const totalWidth = this.totalWidth();
     const lastItem = items[items.length - 1];
     return Math.ceil((totalWidth - containerWidth) / lastItem.width + 1);
   });
 
-  isFirst = computed(() => this.current() === 0);
-  isLast = computed(() => this.current() === this.totalSteps() - 1);
+  readonly isReady = signal(false);
+  readonly isFirst = computed(() => this.current() === 0);
+  readonly isLast = computed(() => this.current() === this.totalSteps() - 1);
 
   constructor() {
     afterNextRender(() => {
+      this.isReady.set(true);
       let x = 0;
-      const el = this.subContainer()!.nativeElement;
-      this.drag()!.events.subscribe(event => {
+      const el = this.subContainer().nativeElement;
+      this.drag().events.subscribe(event => {
         event.event?.preventDefault();
         requestAnimationFrame(() => {
           if (event.type === 'start') {
-            el.classList.remove('duration-500');
+            el.classList.remove('transition-transform', 'duration-500');
             x = -this.x();
+            el.style.transition = '';
           } else if (event.type === 'move') {
             x = -this.x() + event.x;
             el.style.transform = `translate3d(${x}px, 0, 0)`;
           } else if (event.type === 'end') {
-            el.classList.add('duration-500');
             const step = this.getStepBasedOnX(-x, event.direction!, event.velocity!);
             if (step === this.current()) {
               el.style.transform = `translate3d(-${this.x()}px, 0, 0)`;
@@ -89,13 +97,8 @@ export class Carousel {
     });
   }
 
-  get containerWidth() {
-    return this.mainContainer()!.nativeElement.clientWidth;
-  }
-
-  private totalWidth() {
-    const items = this.items();
-    return items.reduce((acc, item) => acc + item.width, 0);
+  private get containerWidth() {
+    return this.mainContainer().nativeElement.clientWidth;
   }
 
   next(step = 1) {
@@ -119,7 +122,7 @@ export class Carousel {
     this.current.set(index);
   }
 
-  getStepBasedOnX(x: number, direction: 'left' | 'right', velocity: number) {
+  private getStepBasedOnX(x: number, direction: 'left' | 'right', velocity: number) {
     const items = this.items();
     let stepItem = items[0];
     for (let item of items) {
@@ -142,7 +145,7 @@ export class Carousel {
     return newIndex;
   }
 
-  animateToX(velocity: number) {
+  private animateToX(velocity: number) {
     const el = this.subContainer()!.nativeElement;
     el.classList.remove('duration-500');
     const v = velocity > 1 ? 1 : 1.3 - velocity;
@@ -150,7 +153,7 @@ export class Carousel {
     duration = duration > 0.5 ? 0.5 : duration;
     el.style.transition = `transform ${duration}s ease-out`;
     el.addEventListener('transitionend', () => {
-      el.classList.add('duration-500');
+      el.classList.add('transition-transform', 'duration-500');
     });
   }
 }

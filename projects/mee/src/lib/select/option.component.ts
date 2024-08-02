@@ -52,4 +52,8 @@ export class Option<T> {
   unselect() {
     this.el.nativeElement.classList.remove('bg-muted-background');
   }
+
+  getValue() {
+    return this.value() || this.label();
+  }
 }

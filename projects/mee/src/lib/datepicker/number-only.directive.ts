@@ -32,7 +32,8 @@ export class NumberOnly {
 
     // Stop: Ctrl+V
     if (key === 'v' && ctrlKey) {
-      return e.preventDefault();
+      e.preventDefault();
+      return;
     }
 
     const isUp = key === 'ArrowUp';
@@ -83,12 +84,25 @@ export class NumberOnly {
     const value = Number(rawValue);
     const min = this.min();
     const max = this.max();
-    if (
-      (min !== undefined && value < min) || // for min
-      (max !== undefined && value > max) // for max
-    ) {
+
+    // For max, we can check directly
+    if (max !== undefined && value > max) {
       return false;
     }
+
+    // For min, we need to be more permissive
+    if (min !== undefined) {
+      // If the value is already >= min, it's valid
+      if (value >= min) return true;
+
+      // If the value is < min, it might still be valid if more digits could be added
+      // We'll check if adding a '9' to the end could potentially make it >= min
+      const potentialMax = Number(rawValue + '9'.repeat(len ? len - rawValue.length : 1));
+      if (potentialMax < min) {
+        return false;
+      }
+    }
+
     return true;
   }
 }

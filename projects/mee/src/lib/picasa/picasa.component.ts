@@ -40,14 +40,14 @@ export class PicasaContainer {
       imgEl.style.transform = transform;
       console.log(transform);
       setTimeout(() => {
-        imgEl.style.transition = '500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
+        imgEl.style.transition = '300ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
         imgEl.style.transform = `none`;
       });
     });
 
     this.dialogRef.afterClosed.subscribe(() => {
       const imgEl = this.imgEl()!.nativeElement;
-      imgEl.style.transition = '500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
+      imgEl.style.transition = '300ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
       imgEl.style.transform = transform;
       imgEl.addEventListener('transitionend', this.picasa.animationDone, {
         once: true,

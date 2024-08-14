@@ -18,8 +18,8 @@ class TestDatePicker {
 const mockDialogRef = { data: { value: [] as any[] } };
 
 describe('DatePicker', () => {
-  let component: DatePicker;
-  let fixture: ComponentFixture<DatePicker>;
+  let component: DatePicker<Date>;
+  let fixture: ComponentFixture<DatePicker<Date>>;
   let templateRef: TemplateRef<any>;
 
   beforeEach(async () => {
@@ -31,7 +31,7 @@ describe('DatePicker', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DatePicker);
+    fixture = TestBed.createComponent(DatePicker<Date>);
     component = fixture.componentInstance;
     fixture.detectChanges();
 

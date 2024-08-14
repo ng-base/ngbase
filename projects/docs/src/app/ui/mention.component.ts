@@ -23,9 +23,11 @@ import { DocCode } from './code.component';
         (search)="search.set($event)"
         key="@"
       ></textarea>
-      <mee-menu #myMenu (selected)="selected($event)">
+      <mee-menu #myMenu>
         @for (item of filteredItems(); track item) {
-          <div meeOption [value]="'Item ' + item">Item {{ item }}</div>
+          <div meeOption [value]="'Item ' + item" (selectedChange)="selected(item)">
+            Item {{ item }}
+          </div>
         }
       </mee-menu>
     </app-doc-code>
@@ -41,7 +43,8 @@ export class MentionComponent {
     return search ? items.filter(item => item.toLowerCase().includes(search)) : items;
   });
 
-  selected(ev: any) {
+  selected(ev: string) {
+    console.log(ev);
     this.value.update(v => v + ev);
   }
 

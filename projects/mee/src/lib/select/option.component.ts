@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Checkbox } from '../checkbox';
 import { ListStyle } from '../list';
+import { AccessibleItem } from '../a11y';
 
 @Component({
   standalone: true,
@@ -27,9 +28,17 @@ import { ListStyle } from '../list';
     '[class.bg-muted-background]': 'active() || checked()',
     tabindex: '-1',
   },
-  hostDirectives: [ListStyle],
+  hostDirectives: [
+    ListStyle,
+    {
+      directive: AccessibleItem,
+      inputs: ['role', 'disabled', 'ayId'],
+      outputs: ['selectedChange'],
+    },
+  ],
 })
 export class Option<T> {
+  readonly allyItem = inject(AccessibleItem);
   value = input<T>();
   readonly multiple = model(false);
   checked = signal(false);
@@ -37,8 +46,14 @@ export class Option<T> {
   disabled = input(false, { transform: booleanAttribute });
   onSelectionChange = output<T>();
   el = inject<ElementRef<HTMLElement>>(ElementRef);
+  ayId = '';
 
   selectOption() {}
+
+  setAyId(id: string) {
+    this.ayId = id;
+    this.allyItem.ayId.set(id);
+  }
 
   label() {
     return this.el.nativeElement.textContent || '';

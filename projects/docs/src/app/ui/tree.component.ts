@@ -6,19 +6,28 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
 import { Heading } from '@meeui/typography';
 import { Button } from '@meeui/button';
+import { FormsModule } from '@angular/forms';
 
-interface TreeItem {
-  id: number;
-  name: string;
-  level: number;
-  isExpanded: boolean;
-  children?: TreeItem[];
+class TreeItem {
+  currentNow = signal(Date.now());
+  constructor(
+    public id: number,
+    public name: string,
+    public level: number,
+    public isExpanded: boolean,
+    public children?: TreeItem[],
+  ) {
+    // setInterval(() => {
+    //   this.currentNow.set(Date.now());
+    // }, 500);
+  }
 }
 
 @Component({
   standalone: true,
   selector: 'app-tree',
   imports: [
+    FormsModule,
     Tree,
     TreeNode,
     TreeNodeDef,
@@ -38,21 +47,16 @@ interface TreeItem {
     @if (show()) {
       <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
       <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
-      <mee-tree
-        [dataSource]="items()"
-        [trackBy]="trackBy"
-        [children]="getChildren"
-        [expanded]="false"
-        #myTree
-      >
-        <mee-tree-node *meeTreeNodeDef="let item" #myNode>
+      <mee-tree [dataSource]="items()" [trackBy]="trackBy" [children]="getChildren" #myTree>
+        <mee-tree-node *meeTreeNodeDef="let item; level as l" #myNode>
           <button meeButton variant="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
             ></mee-icon>
+            <!-- {{ myNode.isOpen() ? '▼' : '►' }} -->
           </button>
-          {{ item.name }}
+          <input [(ngModel)]="item.name" /> {{ item.currentNow() }}
           <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>
           <button
             meeButton
@@ -89,35 +93,38 @@ export class TreeComponent {
     // generate complex tree structure using for loop
     const data = [];
     const items = [];
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 10; i++) {
       const children: TreeItem[] = [];
-      let item: TreeItem = {
-        id: i,
-        level: 0,
-        isExpanded: false,
-        name: `Item ${i}`,
-        children,
-      };
+      // let item: TreeItem = {
+      //   id: i,
+      //   level: 0,
+      //   isExpanded: false,
+      //   name: `Item ${i}`,
+      //   children,
+      // };
+      let item = new TreeItem(i, `Item ${i}`, 0, false, children);
       data.push(item);
       items.push(item);
-      for (let j = 1; j <= 3; j++) {
+      for (let j = 1; j <= 5; j++) {
         const subChildren: TreeItem[] = [];
-        item = {
-          id: j,
-          level: 1,
-          isExpanded: false,
-          name: `Child ${j}`,
-          children: subChildren,
-        };
+        // item = {
+        //   id: j,
+        //   level: 1,
+        //   isExpanded: false,
+        //   name: `Child ${j}`,
+        //   children: subChildren,
+        // };
+        item = new TreeItem(j, `Child ${j}`, 1, false, subChildren);
         children.push(item);
         data.push(item);
         for (let k = 1; k <= 2; k++) {
-          item = {
-            id: k,
-            level: 2,
-            isExpanded: false,
-            name: `Sub Child ${k}`,
-          };
+          // item = {
+          //   id: k,
+          //   level: 2,
+          //   isExpanded: false,
+          //   name: `Sub Child ${k}`,
+          // };
+          item = new TreeItem(k, `Sub Child ${k}`, 2, false);
           subChildren.push(item);
           data.push(item);
         }
@@ -129,12 +136,19 @@ export class TreeComponent {
 
   add(data: TreeItem) {
     data.children = data.children || [];
-    data.children.push({
-      id: data.children.length + 1,
-      level: data.level + 1,
-      isExpanded: false,
-      name: `Child ${data.children.length + 1}`,
-    });
+    const item = new TreeItem(
+      data.children.length + 1,
+      `Child ${data.children.length + 1}`,
+      data.level + 1,
+      false,
+    );
+    data.children.push(item);
+    //   {
+    //   id: data.children.length + 1,
+    //   level: data.level + 1,
+    //   isExpanded: false,
+    //   name: `Child ${data.children.length + 1}`,
+    // });
     this.items.update(items => [...items]);
   }
 

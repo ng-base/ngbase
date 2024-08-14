@@ -10,7 +10,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="spinnerPage">Spinner</h4>
     <app-doc-code [tsCode]="tsCode">
-      <mee-spinner></mee-spinner>
+      <mee-spinner />
     </app-doc-code>
   `,
 })

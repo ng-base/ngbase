@@ -51,6 +51,9 @@ module.exports = {
         bt: 'calc(var(--radius) * calc(2/3))',
         h: 'calc(var(--radius) / 2)',
       },
+      zIndex: {
+        p: 599,
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

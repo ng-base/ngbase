@@ -19,6 +19,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { popoverPortal } from '../popover';
 import { Subject } from 'rxjs';
 import { Option } from './option.component';
+import { generateId } from '../utils';
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
@@ -43,6 +44,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   popover = popoverPortal();
   private previousValue = '';
   events = new Subject<'open' | 'close'>();
+  readonly ayid = generateId();
   readonly cValue = computed(() => {
     if (!this.isSelect && this.status() === 'opened') {
       return this.previousValue;
@@ -77,6 +79,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
         const values = this.values();
         // console.log('options', options, this.multiple());
         options.forEach(option => {
+          option.setAyId(this.ayid);
           option.multiple.set(this.multiple());
           option.checked.set(values.includes(option.getValue()));
           option.selectOption = () => {
@@ -116,6 +119,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
         backdrop: this.isSelect,
         width: this.size(),
         maxHeight: '400px',
+        ayId: this.ayid,
       },
     );
     this.status.set('opened');

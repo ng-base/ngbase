@@ -1,10 +1,10 @@
-import { DefaultDateAdapter } from './date-adapter';
+import { NativeDateAdapter } from './date-adapter';
 
 describe('DefaultDateAdapter', () => {
-  let adapter: DefaultDateAdapter;
+  let adapter: NativeDateAdapter;
 
   beforeEach(() => {
-    adapter = new DefaultDateAdapter();
+    adapter = new NativeDateAdapter();
   });
 
   test('setLocale', () => {

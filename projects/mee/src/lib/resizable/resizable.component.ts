@@ -128,7 +128,7 @@ export class Resizable implements OnDestroy {
     requestAnimationFrame(() => this.handleDrag(data));
   }
 
-  handleDrag(event = { xx: 0, yy: 0 } as DragData, updateAuto = true) {
+  handleDrag(event = { dx: 0, dy: 0 } as DragData, updateAuto = true) {
     // if (event.clientX! - this.min < 0) {
     //   return;
     // }
@@ -137,7 +137,7 @@ export class Resizable implements OnDestroy {
 
     const first = panels[this.index];
     const second = panels[this.index + 1];
-    const x = isHorizontal ? event.xx : event.yy;
+    const x = isHorizontal ? event.dx : event.dy;
 
     first.updateSize(x);
     second?.updateSize(-x);

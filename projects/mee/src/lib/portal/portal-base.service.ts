@@ -68,7 +68,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
       vwRef = vcRef;
       createChild(component, vcRef);
 
-      diaRef.onDestroy.subscribe(() => child.destroy());
+      // diaRef.onDestroy.subscribe(() => child.destroy());
       diaRef.events.next('created');
       childSignal.set(child);
     });
@@ -83,9 +83,11 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     function createChild(component: DialogInput<any>, vcRef: ViewContainerRef) {
       // for template type
       if (component instanceof TemplateRef) {
-        child = vcRef.createEmbeddedView(component, undefined, {
-          injector: parent.injector,
-        });
+        child = vcRef.createEmbeddedView(
+          component,
+          { $implicit: options.data },
+          { injector: parent.injector },
+        );
         diaRef.events.next('created');
         return;
       }

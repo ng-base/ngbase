@@ -17,9 +17,10 @@ import { InputStyle } from '../input/input-style.directive';
   hostDirectives: [InputStyle],
   exportAs: 'meeSelectInput',
   host: {
-    class: 'w-full mb-b !ring-0 border-b rounded-none px-b2',
+    class: 'w-full mb-b !ring-0 border-b rounded-none px-b2 sticky top-0 z-10 !-m-b0.5',
     '(input)': 'updateSearch($event.target.value)',
     '[placeholder]': 'placeholder()',
+    '[tabindex]': '0',
   },
 })
 export class SelectInput<T> {

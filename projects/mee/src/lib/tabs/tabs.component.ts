@@ -3,11 +3,13 @@ import {
   Component,
   Directive,
   TemplateRef,
+  booleanAttribute,
   computed,
   contentChild,
   input,
   signal,
 } from '@angular/core';
+import { generateId } from '../utils';
 
 @Directive({
   standalone: true,
@@ -26,16 +28,17 @@ export class TabHeader {}
   host: {
     class: 'block overflow-auto',
     '[class]': `active() ? 'flex-1 h-full pt-b4' : 'hidden'`,
+    '[tabindex]': 'active() ? 0 : -1',
   },
 })
 export class Tab {
   readonly header = contentChild(TabHeader, { read: TemplateRef });
   readonly active = signal(false);
   readonly label = input('Tab');
-  readonly disabled = input(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
   readonly mode = input<'hidden'>();
-  activated = false;
-  index = 0;
+  private activated = false;
+  readonly id = generateId();
 
   activeMode = computed(() => {
     this.activated ||= this.active();

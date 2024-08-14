@@ -164,7 +164,7 @@ export class ColorPicker {
   ) {
     dragElement.events.subscribe(event => {
       if (event.type === 'start' || event.type === 'move') {
-        this.handleColorEvent(event.event!, dragElement.el, updateFunction);
+        this.handleColorEvent(event.event! as PointerEvent, dragElement.el, updateFunction);
       } else if (event.type === 'end') {
         this.valueChange.emit(this.localValue);
       }
@@ -172,7 +172,7 @@ export class ColorPicker {
   }
 
   private handleColorEvent(
-    event: MouseEvent,
+    event: PointerEvent,
     element: ElementRef,
     updateFunction: (x: number, y: number, width: number, height: number) => void,
   ) {
@@ -194,7 +194,7 @@ export class ColorPicker {
     const { s, b } = this.calculateSaturationAndLuminous(x, y!, width, height);
     this.saturation = s;
     this.brightness = b;
-    this.lastSpectrumEvent = { clientX: x, clientY: y } as MouseEvent;
+    this.lastSpectrumEvent = { clientX: x, clientY: y } as PointerEvent;
     const spectrumSelector = this.spectrumSelector()!.nativeElement;
     spectrumSelector.style.left = `${x - spectrumSelector.offsetWidth / 2}px`;
     spectrumSelector.style.top = `${y! - spectrumSelector.offsetHeight / 2}px`;

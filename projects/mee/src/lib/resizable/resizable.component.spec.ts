@@ -68,7 +68,7 @@ describe('Resizables', () => {
     const panel = components[0];
     fixture.detectChanges();
     jest.spyOn(panel.resizable, 'setAuto');
-    panel.handleDrag({ xx: -10, yy: 0 } as DragData);
+    panel.handleDrag({ dx: -10, dy: 0 } as DragData);
     expect(panel.resizable.setAuto).toHaveBeenCalled();
     expect(panel.reducedSize).toBe(10);
     expect(panel.str).toBe('calc(50% - 10px)');

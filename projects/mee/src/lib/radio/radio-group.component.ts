@@ -1,14 +1,7 @@
-import {
-  Component,
-  afterNextRender,
-  contentChildren,
-  effect,
-  forwardRef,
-  model,
-  signal,
-} from '@angular/core';
+import { Component, contentChildren, effect, forwardRef, inject, model } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Radio } from './radio.component';
+import { AccessibleGroup } from '../a11y';
 import { generateId } from '../utils';
 
 @Component({
@@ -18,7 +11,9 @@ import { generateId } from '../utils';
   template: `<ng-content></ng-content>`,
   host: {
     class: 'flex gap-b2',
+    role: 'radiogroup',
   },
+  hostDirectives: [AccessibleGroup],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -28,18 +23,21 @@ import { generateId } from '../utils';
   ],
 })
 export class RadioGroup implements ControlValueAccessor {
-  radios = contentChildren(Radio, { descendants: true });
-  value = model<any>('');
-  name = generateId();
-  onChange = (value: any) => {};
-  onTouched = () => {};
+  readonly allyGroup = inject(AccessibleGroup);
+  readonly radios = contentChildren(Radio, { descendants: true });
+  readonly value = model<any>('');
+  readonly ayId = generateId();
+  onChange?: (value: any) => {};
+  onTouched?: () => {};
 
   constructor() {
+    this.allyGroup.ayId.set(this.ayId);
+    this.allyGroup.clickable.set(true);
     effect(
       () => {
         const radios = this.radios();
         radios.forEach(radio => {
-          radio.name = this.name;
+          radio.ayId.set(this.ayId);
           radio.updateValue = ev => {
             this.updateValue(radio.value());
           };
@@ -51,8 +49,8 @@ export class RadioGroup implements ControlValueAccessor {
 
   updateValue(value: any) {
     this.value.set(value);
-    this.onChange(value);
-    this.onTouched();
+    this.onChange?.(value);
+    this.onTouched?.();
   }
 
   writeValue(value: any): void {

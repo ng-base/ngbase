@@ -30,15 +30,14 @@ import { fadeAnimation } from '../dialog/dialog.animation';
     <div
       #container
       class="pointer-events-auto fixed z-10 overflow-auto rounded-md border bg-foreground p-1 shadow-md"
-      [@slideInOutAnimation]="status() ? 1 : 0"
-      (@slideInOutAnimation.done)="animationDone()"
+      [@slideInOutAnimation]
     >
       <ng-container #myDialog></ng-container>
     </div>
     <div
       class="pointer-events-auto fixed top-0 h-full w-full bg-black/20"
       [style.clipPath]="clipPath()"
-      [@fadeAnimation]="status() ? 1 : 0"
+      [@fadeAnimation]
     ></div>
   `,
   animations: [
@@ -55,7 +54,6 @@ export class BaseTour extends BaseDialog implements OnDestroy {
   tourService = inject(TourService);
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
-  document = inject(DOCUMENT);
   options!: DialogOptions;
   tooltipOptions!: OverlayConfig;
   private lastPosition: DialogPosition = 'top';

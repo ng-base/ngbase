@@ -1,21 +1,34 @@
-import { InjectionToken, Injector, ViewContainerRef, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import {
+  ElementRef,
+  InjectionToken,
+  Injector,
+  ViewContainerRef,
+  inject,
+  signal,
+} from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
 export type DialogPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
 
 export abstract class BaseDialog {
   dialogRef = inject(DialogRef);
+  document = inject(DOCUMENT);
+  el = inject(ElementRef);
 
   _afterViewSource = new BehaviorSubject<ViewContainerRef | null>(null);
   afterView = this._afterViewSource.asObservable().pipe(filter(Boolean));
 
   target = signal<HTMLElement | null>(null);
 
-  status = this.dialogRef.status;
-
   // counter is required because we have start and end animation
   // so we need to wait for both to finish before destroying the dialog
   count = 0;
+  private isFirst = true;
+
+  constructor() {
+    this.onOpen();
+  }
 
   setOptions(options: DialogOptions): void {}
 
@@ -26,22 +39,27 @@ export abstract class BaseDialog {
   animationDone = () => {
     this.count++;
     if (this.count === 2) {
-      this.dialogRef.destroy();
+      this.onClose();
     }
   };
 
-  onOpen() {
+  private onOpen() {
     // make the body not scrollable and add padding to the right
     // calculate the padding based on the scrollbar width
-    const padding = window.innerWidth - document.body.clientWidth;
-    document.body.style.paddingRight = `${padding}px`;
-    document.body.style.overflow = 'hidden';
+    this.isFirst = this.document.body.style.overflow !== 'hidden';
+    if (this.isFirst) {
+      const padding = window.innerWidth - this.document.body.clientWidth;
+      this.document.body.style.paddingRight = `${padding}px`;
+      this.document.body.style.overflow = 'hidden';
+    }
   }
 
-  onClose() {
-    document.body.style.paddingRight = '';
-    document.body.style.overflow = '';
-  }
+  onClose = () => {
+    if (this.isFirst) {
+      this.document.body.style.paddingRight = '';
+      this.document.body.style.overflow = '';
+    }
+  };
 }
 
 export class DialogRef<T = any> {
@@ -56,8 +74,6 @@ export class DialogRef<T = any> {
 
   events = new Subject<'created'>();
 
-  status = signal(true);
-
   constructor(
     public options: DialogOptions<T>,
     private destroyParent: VoidFunction,
@@ -66,11 +82,10 @@ export class DialogRef<T = any> {
   ) {}
 
   close = (data?: any) => {
-    this.status.set(false);
     this.afterClosedSource.next(data);
-    if (!this.animation) {
-      this.destroy();
-    }
+    // if (!this.animation) {
+    this.destroy();
+    // }
   };
 
   closeAll() {
@@ -108,6 +123,7 @@ export class DialogOptions<T = any> {
   isHideHeader?: boolean;
   overrideLowerDialog?: boolean = false;
   disableClose? = false;
+  ayId?: string;
 }
 
 export const DIALOG_INJ = new InjectionToken('dialogInj');

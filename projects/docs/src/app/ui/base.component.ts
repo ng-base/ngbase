@@ -9,7 +9,7 @@ import { Avatar } from '@meeui/avatar';
 import { Menu, MenuTrigger } from '@meeui/menu';
 import { List } from '@meeui/list';
 import { provideIcons } from '@ng-icons/core';
-import { lucideMenu } from '@ng-icons/lucide';
+import { lucideMenu, lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { Icons } from '@meeui/icon';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
@@ -40,19 +40,19 @@ import { Heading } from '@meeui/typography';
     Heading,
   ],
   providers: [AppService],
-  viewProviders: [provideIcons({ lucideMenu })],
+  viewProviders: [provideIcons({ lucideMenu, lucideSun, lucideMoon })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="fixed top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
       <div class="flex h-full items-center justify-between">
         <div class="flex items-center gap-b2 text-lg">
-          <button meeButton variant="ghost" (click)="toggleShow()">
+          <button meeButton variant="ghost" (click)="toggleShow()" class="h-8 w-8">
             <mee-icon name="lucideMenu"></mee-icon>
           </button>
-          <img src="/logo.svg" alt="logo" class="h-8" />
+          <img src="/logo.svg" alt="logo" class="h-6" />
           <h4 meeHeader="xs">Mee UI</h4>
         </div>
-        <div class="flex h-full">
+        <div class="flex h-full items-center gap-b">
           <button
             meeButton
             variant="ghost"
@@ -64,15 +64,17 @@ import { Heading } from '@meeui/typography';
           </button>
           <button
             meeButton
-            variant="ghost"
-            (click)="themeService.toggle()"
+            variant="icon"
             meeTourStep="theme-toggle"
-            class="tour-mode"
+            class="tour-mode h-9 w-9"
+            (click)="themeService.toggle()"
           >
-            mode
+            <mee-icon
+              [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"
+            ></mee-icon>
           </button>
           <mee-avatar
-            class="h-full"
+            class="h-full w-7"
             src="https://avatars.dicebear.com/api/avataaars/1.svg"
             [meeMenuTrigger]="profileMenu"
           ></mee-avatar>
@@ -81,9 +83,9 @@ import { Heading } from '@meeui/typography';
     </nav>
 
     <mee-menu #profileMenu>
-      <button meeList routerLink="/ui" variant="ghost">Account</button>
-      <button meeList routerLink="/ui" variant="ghost">Preference</button>
-      <button meeList routerLink="/ui" variant="ghost">UI</button>
+      <button meeList variant="ghost">Account</button>
+      <button meeList variant="ghost">Preference</button>
+      <button meeList variant="ghost">UI</button>
     </mee-menu>
 
     <mee-scroll-area>

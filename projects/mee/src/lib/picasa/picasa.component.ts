@@ -49,7 +49,8 @@ export class PicasaContainer {
       const imgEl = this.imgEl()!.nativeElement;
       imgEl.style.transition = '300ms cubic-bezier(0.55, 0.31, 0.15, 0.93)';
       imgEl.style.transform = transform;
-      imgEl.addEventListener('transitionend', this.picasa.animationDone, {
+      console.log(transform);
+      imgEl.addEventListener('transitionend', this.picasa.onClose, {
         once: true,
       });
     });

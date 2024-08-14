@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
-import { Subject } from 'rxjs';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
+import { ToggleGroup } from './toggle-group.component';
+import { AccessibleItem } from '../a11y/accessiblity-item.directive';
 
 @Component({
   standalone: true,
@@ -8,17 +17,42 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70',
-    '(click)': 'clicked()',
+    '(click)': 'updateValue()',
     '[class.bg-background]': 'active()',
   },
+  hostDirectives: [
+    {
+      directive: AccessibleItem,
+      inputs: ['disabled'],
+    },
+  ],
 })
 export class ToggleItem {
-  value = input.required();
-  active = signal(false);
-  activeChange = new Subject<boolean>();
+  private accessibleItem = inject(AccessibleItem);
 
-  clicked() {
-    this.active.update(x => !x);
-    this.activeChange.next(this.active());
+  readonly toggleGroup = inject(ToggleGroup);
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  readonly value = input.required<any>();
+  readonly active = computed(() => {
+    if (this.toggleGroup.multiple()) {
+      return this.toggleGroup.value()?.includes(this.value());
+    }
+    return this.value() === this.toggleGroup.value();
+  });
+
+  constructor() {
+    this.accessibleItem.ayId.set(this.toggleGroup.ayId);
+    // effect(
+    //   () => {
+    //     this.accessibleItem.pressed.set(this.active());
+    //     this.accessibleItem.disabled.set(this.disabled() || this.toggleGroup.disabled());
+    //   },
+    //   { allowSignalWrites: true },
+    // );
+  }
+
+  updateValue() {
+    // override the method in the ToggleGroup component
   }
 }

@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  input,
+} from '@angular/core';
 import { ListStyle } from './list.directive';
+import { AccessibleItem } from '../a11y';
 
 @Component({
   selector: 'mee-list, [meeList]',
@@ -8,16 +16,29 @@ import { ListStyle } from './list.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host[disabled] {
-      @apply cursor-not-allowed text-gray-400;
+      @apply pointer-events-none cursor-not-allowed text-gray-400;
     }
   `,
   host: {
     role: 'list',
+    '[attr.aria-disabled]': 'disabled()',
   },
-  hostDirectives: [ListStyle],
+  hostDirectives: [
+    ListStyle,
+    {
+      directive: AccessibleItem,
+      inputs: ['role', 'disabled', 'ayId'],
+    },
+  ],
 })
 export class List {
-  el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly allyItem = inject(AccessibleItem);
+  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  setAyId(id: string) {
+    this.allyItem.ayId.set(id);
+  }
 
   select() {
     this.el.nativeElement.click();

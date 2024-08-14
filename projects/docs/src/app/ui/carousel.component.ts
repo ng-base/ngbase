@@ -15,9 +15,9 @@ import { DocCode } from './code.component';
     <h4 meeHeader class="mb-5">Carousel</h4>
 
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
-      <mee-carousel #myCarousel class="w-64 md:w-auto">
+      <mee-carousel #myCarousel class="w-72">
         @for (item of 6 | range; track item) {
-          <div meeCarouselItem class="h-56 w-[80%]" [class]="!$last ? 'pr-4' : ''">
+          <div meeCarouselItem class="aspect-square h-72" [class]="!$last ? 'pr-4' : ''">
             <mee-card class="grid h-full place-items-center" meeHeader="lg">
               {{ item }}
             </mee-card>

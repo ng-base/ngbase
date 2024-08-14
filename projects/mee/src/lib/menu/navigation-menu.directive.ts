@@ -1,8 +1,11 @@
-import { Directive, contentChildren, effect, input } from '@angular/core';
+import { Directive, contentChildren, effect, inject, input } from '@angular/core';
 import { MenuTrigger } from './menu-trigger.directive';
 import { basePopoverPortal } from '../popover/base-popover.service';
 import { Popover, PopoverOpen } from '../popover';
 import { merge, Subscription } from 'rxjs';
+import { generateId } from '../utils';
+import { AccessibleGroup } from '../a11y';
+import { DOCUMENT } from '@angular/common';
 
 @Directive({
   standalone: true,
@@ -18,8 +21,17 @@ export class NavigationMenu {
   private sub?: Subscription;
   private clicked = false;
   currentEl?: MenuTrigger;
+  private document = inject(DOCUMENT);
+  private ayId = generateId();
 
   constructor() {
+    this.document.addEventListener('click', () => {
+      if (this.close) {
+        this.clicked = false;
+        this.currentEl = undefined;
+        this.close();
+      }
+    });
     effect(
       cleanup => {
         cleanup(() => this.sub?.unsubscribe());
@@ -50,6 +62,7 @@ export class NavigationMenu {
       // console.log('navigation menu open existing', menu);
       this.popoverOpen?.replace?.(menu.container()!);
       this.popoverOpen?.parent.target?.set(target);
+      menu.diaRef = this.popoverOpen!.diaRef;
       return;
     }
     // console.log('navigation menu open');
@@ -57,7 +70,7 @@ export class NavigationMenu {
     this.popoverOpen = this.popover.open(
       menu.container()!,
       { target, position: 'bl', className: 'transition-all' },
-      { backdrop: false },
+      { ayId: this.ayId, backdrop: false },
     );
     menu.diaRef = this.popoverOpen.diaRef;
     if (this.hover()) {

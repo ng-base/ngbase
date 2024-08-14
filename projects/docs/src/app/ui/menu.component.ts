@@ -9,11 +9,23 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideCross, lucideDelete, lucideMenu, lucidePen, lucideTrash2 } from '@ng-icons/lucide';
 import { Option } from '@meeui/select';
 import { DocCode } from './code.component';
+import { PopoverTrigger } from '@meeui/popover';
 
 @Component({
   standalone: true,
   selector: 'app-menu',
-  imports: [Heading, Menu, Separator, MenuTrigger, Button, List, Icons, Option, DocCode],
+  imports: [
+    Heading,
+    Menu,
+    Separator,
+    MenuTrigger,
+    Button,
+    List,
+    Icons,
+    Option,
+    DocCode,
+    PopoverTrigger,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     provideIcons({
@@ -34,8 +46,15 @@ import { DocCode } from './code.component';
       <button meeButton [meeMenuTrigger]="menuContainer2" [options]="{ title: 'Header' }">
         Open menu
       </button>
-      <button meeButton [meeMenuTrigger]="menuContainer1">Open menu</button>
+      <button meeButton [meePopoverTrigger]="menuWithData" [meePopoverTriggerData]="[1, 2, 3]">
+        Open menu
+      </button>
     </div>
+
+    <ng-template #menuWithData let-data>
+      <!-- <button meeList *ngFor="let item of menuWithData.data">{{ item }}</button> -->
+      <div>{{ data }}</div>
+    </ng-template>
 
     <mee-menu #menuContainer1>
       <div class="flex gap-b4">

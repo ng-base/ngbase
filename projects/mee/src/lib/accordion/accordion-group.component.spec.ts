@@ -12,11 +12,11 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
   template: `
     <mee-accordion-group [multiple]="multiple()">
       <mee-accordion>
-        <div meeAccordionHeader id="header1">Header 1</div>
+        <div meeAccordionHeader class="header1">Header 1</div>
         <div>Content 1</div>
       </mee-accordion>
       <mee-accordion>
-        <div meeAccordionHeader id="header2">Header 2</div>
+        <div meeAccordionHeader class="header2">Header 2</div>
         <div>Content 2</div>
       </mee-accordion>
     </mee-accordion-group>
@@ -59,7 +59,7 @@ describe('AccordionGroup', () => {
   });
 
   it('should set the activeId when an accordion header is clicked', () => {
-    const header1 = fixture.nativeElement.querySelector('#header1');
+    const header1 = fixture.nativeElement.querySelector('.header1');
     header1.click();
     fixture.detectChanges();
     expect(component.activeId()).toBe(component.items()[0].id);
@@ -69,14 +69,14 @@ describe('AccordionGroup', () => {
     const items = component.items();
     const first = items[0];
     const second = items[1];
-    const header1 = fixture.nativeElement.querySelector('#header1');
+    const header1 = fixture.nativeElement.querySelector('.header1');
     header1.click();
     fixture.detectChanges();
     expect(component.activeId()).toBe(first.id);
     expect(first.expanded()).toBe(true);
     expect(second.expanded()).toBe(false);
 
-    const header2 = fixture.nativeElement.querySelector('#header2');
+    const header2 = fixture.nativeElement.querySelector('.header2');
     header2.click();
     fixture.detectChanges();
     expect(component.activeId()).toBe(second.id);
@@ -88,14 +88,14 @@ describe('AccordionGroup', () => {
     fixture.componentInstance.multiple.set(true);
     fixture.detectChanges();
 
-    const header1 = fixture.nativeElement.querySelector('#header1');
+    const header1 = fixture.nativeElement.querySelector('.header1');
     header1.click();
     fixture.detectChanges();
     expect(component.activeId()).toBe('');
     expect(component.items()[0].expanded()).toBe(true);
     expect(component.items()[1].expanded()).toBe(false);
 
-    const header2 = fixture.nativeElement.querySelector('#header2');
+    const header2 = fixture.nativeElement.querySelector('.header2');
     header2.click();
     fixture.detectChanges();
     expect(component.activeId()).toBe('');

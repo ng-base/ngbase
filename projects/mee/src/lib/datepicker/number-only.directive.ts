@@ -1,6 +1,5 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
 
-// allow only numbers in input field
 @Directive({
   standalone: true,
   selector: '[meeNumberOnly]',
@@ -9,104 +8,75 @@ import { Directive, ElementRef, inject, input, output } from '@angular/core';
   },
 })
 export class NumberOnly {
-  min = input<number>();
-  max = input<number>();
-  len = input<number>();
+  min = input<number | undefined>();
+  max = input<number | undefined>();
+  len = input<number | undefined>();
   el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   valueChanged = output<string>();
 
+  private readonly allowedKeys = new Set([
+    'Backspace',
+    'Delete',
+    'Tab',
+    'Escape',
+    'Enter',
+    'Home',
+    'End',
+    'ArrowLeft',
+    'ArrowRight',
+  ]);
+
   onKeyDown(e: KeyboardEvent) {
-    const key = e.key;
-    const ctrlKey = e.ctrlKey || e.metaKey;
-    if (
-      // Allow: backspace, delete, tab, escape, enter
-      ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(key) ||
-      // Allow: Ctrl+A, Ctrl+C, Ctrl+X
-      (['a', 'c', 'x'].includes(key) && ctrlKey) ||
-      // Allow: home, end, left, right
-      ['Home', 'End', 'ArrowLeft', 'ArrowRight'].includes(key)
-    ) {
-      // let it happen, don't do anything
-      return;
+    if (this.allowedKeys.has(e.key) || this.isCtrlKey(e)) return;
+    if (e.key === 'v' && (e.ctrlKey || e.metaKey)) return e.preventDefault();
+
+    if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+      return this.handleArrowUpDown(e);
     }
 
-    // Stop: Ctrl+V
-    if (key === 'v' && ctrlKey) {
-      e.preventDefault();
-      return;
-    }
-
-    const isUp = key === 'ArrowUp';
-    const isDown = key === 'ArrowDown';
-
-    // Ensure that it is a number and stop the keypress, except the up and down arrow
-    if (
-      (e.shiftKey || (!isUp && !isDown && (key < '0' || key > '9'))) &&
-      (key < '0' || key > '9')
-    ) {
-      return e.preventDefault();
-    }
-
-    const selection = document.getSelection();
-    // selected text
-    const selectedText = selection?.toString() || '';
-    let rawValue = this.el.nativeElement.value;
-    // cursor position
-    const cursor = this.el.nativeElement.selectionStart ?? rawValue.length;
-
-    // on arrow up and down increase and decrease the value
-    if (isUp || isDown) {
-      e.preventDefault();
-      let v = Number(this.el.nativeElement.value);
-      v += isUp ? 1 : -1;
-      if (this.validateValue(String(v))) {
-        this.valueChanged.emit(padString(v));
-      }
-      return;
-    } else {
-      if (selectedText) rawValue = rawValue.replace(selectedText, '');
-      // add the current key to the rawValue with the cursor position
-      rawValue = rawValue.slice(0, cursor) + e.key + rawValue.slice(cursor);
-    }
-
-    if (!this.validateValue(rawValue)) {
+    if (!/^\d$/.test(e.key) || !this.validateValue(this.getNewValue(e))) {
       e.preventDefault();
     }
   }
 
-  validateValue(rawValue: string) {
-    const len = this.len();
-    if (len !== undefined && rawValue.length > len) {
-      return false;
-    }
+  private isCtrlKey(e: KeyboardEvent): boolean {
+    return ['a', 'c', 'x'].includes(e.key) && (e.ctrlKey || e.metaKey);
+  }
 
-    // check for min and max
-    const value = Number(rawValue);
+  private handleArrowUpDown(e: KeyboardEvent) {
+    e.preventDefault();
+    const currentValue = this.el.nativeElement.value;
+    const newValue = +currentValue + (e.key === 'ArrowUp' ? 1 : -1);
+    if (this.validateValue(newValue.toString())) {
+      this.valueChanged.emit(newValue.toString().padStart(2, '0'));
+    }
+  }
+
+  private getNewValue(e: KeyboardEvent): string {
+    const { value, selectionStart, selectionEnd } = this.el.nativeElement;
+    const start = selectionStart ?? value.length;
+    const end = selectionEnd ?? value.length;
+    return value.slice(0, start) + e.key + value.slice(end);
+  }
+
+  private validateValue(rawValue: string): boolean {
+    const len = this.len();
+    const value = +rawValue;
     const min = this.min();
     const max = this.max();
 
-    // For max, we can check directly
-    if (max !== undefined && value > max) {
-      return false;
-    }
+    if (len !== undefined && rawValue.length > len) return false;
+    if (max !== undefined && value > max) return false;
 
-    // For min, we need to be more permissive
-    if (min !== undefined) {
-      // If the value is already >= min, it's valid
-      if (value >= min) return true;
-
-      // If the value is < min, it might still be valid if more digits could be added
-      // We'll check if adding a '9' to the end could potentially make it >= min
+    if (min !== undefined && value < min) {
       const potentialMax = Number(rawValue + '9'.repeat(len ? len - rawValue.length : 1));
-      if (potentialMax < min) {
-        return false;
-      }
+      if (potentialMax < min) return false;
     }
 
     return true;
   }
 }
 
-export function padString(num: number | string) {
+export function padString(num: number | string): string {
   return num.toString().padStart(2, '0');
 }

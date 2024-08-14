@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { Selectable } from './selectable.component';
+import { AccessibleItem } from '../a11y';
 
 @Component({
   standalone: true,
@@ -14,8 +15,10 @@ import { Selectable } from './selectable.component';
     role: 'tab',
     '[attr.aria-selected]': 'selected()',
   },
+  hostDirectives: [AccessibleItem],
 })
 export class SelectableItem<T> {
+  readonly allyItem = inject(AccessibleItem);
   selectable: Selectable<T> = inject(Selectable);
   selected = signal(false);
   value = input.required<T>();

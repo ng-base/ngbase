@@ -20,7 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'app-theme1-main',
+  selector: 'app-examples',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     Icons,
@@ -117,23 +117,23 @@ import { ActivatedRoute, Router } from '@angular/router';
         }
       </mee-tab>
     </mee-tabs>
-    <button
+    <!-- <button
       meeButton
       variant="ghost"
       class="absolute right-0 top-0.5 h-9 w-9"
       (click)="theme.toggle()"
     >
       <mee-icon [name]="theme.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"></mee-icon>
-    </button>
+    </button> -->
   `,
 })
-export class Theme1Component {
+export class ExamplesComponent {
   theme = inject(ThemeService);
   private activatedRoute = inject(ActivatedRoute);
   private route = inject(Router);
   tabIndex = signal(+this.activatedRoute.snapshot.params['id']);
 
   indexChange(index: number) {
-    this.route.navigate(['examples', index]);
+    this.route.navigate(['/examples', index]);
   }
 }

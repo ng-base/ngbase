@@ -2,7 +2,10 @@ import { Directive, ElementRef, TemplateRef, computed, effect, inject, input } f
 import { popoverPortal } from '../popover';
 import { DatePicker } from './datepicker.component';
 import { Input } from '../input';
-import { DefaultDateAdapter } from './date-adapter';
+import { injectMeeDateAdapter } from './native-date-adapter';
+
+const DEFAULT_FORMAT = 'M/d/yyyy';
+const DEFAULT_TIME_FORMAT = 'M/d/yyyy, HH:mm a';
 
 @Directive({
   standalone: true,
@@ -14,21 +17,21 @@ import { DefaultDateAdapter } from './date-adapter';
     '(click)': 'open()',
   },
 })
-export class DatepickerTrigger {
+export class DatepickerTrigger<D> {
   el = inject(ElementRef);
-  datepicker = input<DatePicker>();
+  datepicker = input<DatePicker<D>>();
   noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
   range = input(false);
   time = input(false);
   format = input<string>('');
   private fieldFormat = computed(() => {
-    return this.format() || `M/d/yyyy${this.time() ? ', HH:mm a' : ''}`;
+    return this.format() || (this.time() ? DEFAULT_TIME_FORMAT : DEFAULT_FORMAT);
   });
   inputS = inject(Input);
-  dateFilter = input<(date: Date) => boolean>(() => true);
+  dateFilter = input<(date: D) => boolean>(() => true);
   pickerType = input<'date' | 'month' | 'year'>('date');
   pickerTemplate = input<TemplateRef<any> | null>(null);
-  adapter = new DefaultDateAdapter();
+  adapter = injectMeeDateAdapter<D>();
   popover = popoverPortal();
   close?: VoidFunction;
 
@@ -52,7 +55,7 @@ export class DatepickerTrigger {
   }
 
   open() {
-    const data: DatePickerOptions = {
+    const data: DatePickerOptions<D> = {
       value: this.getInputValue(),
       pickerType: this.pickerType(),
       noOfCalendars: this.noOfCalendars(),
@@ -71,8 +74,8 @@ export class DatepickerTrigger {
     this.close = diaRef.close;
   }
 
-  updateInput(dates: (Date | null)[]) {
-    const filtered = dates.filter(x => x) as Date[];
+  updateInput(dates: (D | null)[]) {
+    const filtered = dates.filter(x => x) as D[];
     if (this.range()) {
       if (filtered.length === 1) {
         return;
@@ -84,7 +87,7 @@ export class DatepickerTrigger {
     this.updateField(filtered);
   }
 
-  updateField(filtered: Date[]) {
+  updateField(filtered: D[]) {
     console.log(this.fieldFormat());
     const d = filtered
       .map(x => this.adapter.format(x, this.fieldFormat()))
@@ -96,14 +99,14 @@ export class DatepickerTrigger {
   }
 }
 
-export interface DatePickerOptions {
-  value: Date[];
+export interface DatePickerOptions<D> {
+  value: D[];
   pickerType: 'date' | 'month' | 'year';
   noOfCalendars: number;
   range: boolean;
   format: string;
   target: any;
   template: TemplateRef<any> | null;
-  dateFilter: (date: Date) => boolean;
+  dateFilter: (date: D) => boolean;
   time: boolean;
 }

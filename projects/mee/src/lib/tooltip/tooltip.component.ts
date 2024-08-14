@@ -19,7 +19,7 @@ import { ThemeService } from '../theme';
   styles: ``,
   host: {
     class:
-      'fixed inline-block rounded-base bg-foreground px-b3 py-b border shadow-md z-40 whitespace-pre-line max-w-[15rem] text-text',
+      'fixed inline-block rounded-base bg-foreground px-b3 py-b border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',
     '[class]': `theme.mode() === 'dark' ? 'light' : 'dark'`,
     '[@slideInOutAnimation]': '1',
   },
@@ -69,19 +69,15 @@ export class TooltipComponent implements OnDestroy {
   }
 
   private listenTarget() {
-    this.observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'childList') {
-          mutation.removedNodes.forEach(node => {
-            if (node === this.target) {
-              this.onRemoved();
-            }
-          });
-        }
-      });
+    this.observer = new MutationObserver(() => {
+      if (this.target.isConnected) {
+        this.setPosition(this.target);
+      } else {
+        this.onRemoved();
+      }
     });
 
-    this.observer.observe(this.target.parentNode!, { childList: true });
+    this.observer.observe(document.body, { childList: true, subtree: true });
   }
 
   private onRemoved = () => {

@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   ViewContainerRef,
   afterNextRender,
   viewChild,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
-import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
+import { createHostAnimation, fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Button } from '../button';
 import { Icons } from '../icon';
 import { provideIcons } from '@ng-icons/core';
@@ -22,14 +21,13 @@ import { lucideX } from '@ng-icons/lucide';
   template: `
     <div class="pointer-events-none flex h-full justify-end">
       <div
-        class="pointer-events-auto m-b2 flex flex-col overflow-hidden rounded-base border-l bg-foreground shadow-2xl"
+        class="pointer-events-auto m-b2 flex flex-col overflow-hidden rounded-base border-l bg-foreground shadow-2xl will-change-transform"
+        [@sideAnimation]
         [ngStyle]="{
           width: options.width,
           minWidth: options.minWidth,
           maxWidth: options.maxWidth,
         }"
-        [@sideAnimation]="status() ? 1 : 0"
-        (@sideAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
           <div class="flex items-center border-b px-b4 py-b2">
@@ -46,26 +44,26 @@ import { lucideX } from '@ng-icons/lucide';
     </div>
     @if (backdropColor) {
       <div
-        class="backdropColor absolute top-0 -z-10 h-full w-full"
-        [class]="status() ? 'pointer-events-auto' : 'pointer-events-none'"
+        class="absolute top-0 -z-10 h-full w-full bg-black bg-opacity-30 will-change-transform"
+        [@fadeAnimation]
         (click)="close()"
-        [@fadeAnimation]="status() ? 1 : 0"
       ></div>
+      <!-- [class]="status() ? 'pointer-events-auto' : 'pointer-events-none'" -->
     }
   `,
   host: {
-    class: 'fixed block top-0 bottom-0 left-0 right-0  z-40',
-    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
+    class: 'fixed block top-0 bottom-0 left-0 right-0  z-p',
+    '[@parentAnimation]': '',
+    '(@parentAnimation.done)': 'animationDone()',
   },
-  styles: `
-    .backdropColor {
-      background: rgb(0 0 0 / 50%);
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [sideAnimation, fadeAnimation],
+  animations: [
+    createHostAnimation(['@fadeAnimation', '@sideAnimation']),
+    fadeAnimation('300ms'),
+    sideAnimation,
+  ],
 })
-export class Sheet extends BaseDialog implements OnDestroy {
+export class Sheet extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;
@@ -74,7 +72,6 @@ export class Sheet extends BaseDialog implements OnDestroy {
 
   constructor() {
     super();
-    this.onOpen();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
     });
@@ -85,9 +82,5 @@ export class Sheet extends BaseDialog implements OnDestroy {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.isHideHeader || false;
     this.backdropColor = this.options.backdropColor || true;
-  }
-
-  ngOnDestroy(): void {
-    this.onClose();
   }
 }

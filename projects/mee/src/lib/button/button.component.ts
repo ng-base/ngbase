@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'icon';
 
 @Component({
   standalone: true,
@@ -14,7 +14,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
           ? 'bg-primary text-foreground disabled:bg-background border-primary'
           : variant() === 'secondary'
           ? 'bg-muted-background disabled:bg-muted-background border-muted-background'
-          : variant() === 'ghost'
+          : variant() === 'ghost' || variant() === 'icon'
             ? '[&:not(:disabled)]:hover:bg-muted-background [&:not(:disabled)]:active:bg-muted-background/50 border-0'
               : ' text-primary [&:not(:disabled)]:hover:bg-background [&:not(:disabled)]:active:bg-background/50'`,
   },

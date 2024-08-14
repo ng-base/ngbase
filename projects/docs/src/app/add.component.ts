@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { Button } from '@meeui/button';
 import { DialogClose, DialogTitle, dialogPortal, DialogRef } from '@meeui/dialog';
 import { AppService } from './app.service';
@@ -43,7 +43,7 @@ import { AddService } from './add.service';
     }
   `,
 })
-export class AddComponent {
+export class AddComponent implements OnDestroy {
   dialogRef = inject(DialogRef);
   dialogPortal = dialogPortal();
   appService = inject(AppService);
@@ -58,5 +58,9 @@ export class AddComponent {
 
   closeAll() {
     this.dialogRef.closeAll();
+  }
+
+  ngOnDestroy(): void {
+    console.log('AddComponent destroyed');
   }
 }

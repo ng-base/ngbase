@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4555",
-    "build": "ng build",
+    "start": "ng serve docs --port 4555",
+    "build": "ng build docs",
     "build:lib": "ng build mee",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "format": "prettier --write \"src/**/*.ts\"",
-    "gh": "ng deploy --dir=dist/mee-ui/browser --base-href=/mee-ui/",
-    "serve:ssr:mee-ui": "node dist/mee-ui/server/server.mjs"
+    "gh": "ng deploy --dir=dist/docs/browser --base-href=/mee-ui/",
+    "serve:ssr:docs": "node dist/docs/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -24,10 +24,10 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
-    "@angular/ssr": "^18.0.0",
+    "@angular/ssr": "^18.1.1",
     "@katoid/angular-grid-layout": "^2.2.0",
-    "@ng-icons/core": "^27.3.1",
-    "@ng-icons/lucide": "^27.3.1",
+    "@ng-icons/core": "^29.0.0",
+    "@ng-icons/lucide": "^29.0.0",
     "@tailwindcss/typography": "^0.5.13",
     "echarts": "^5.5.0",
     "express": "^4.18.2",
@@ -54,6 +54,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "shiki": "^1.11.1",
     "tailwindcss": "^3.4.3",
     "typescript": "~5.4.2"
   }

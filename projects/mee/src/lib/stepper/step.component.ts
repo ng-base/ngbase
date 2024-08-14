@@ -27,11 +27,11 @@ import { Stepper } from './stepper.component';
     </ng-template> `,
 })
 export class Step {
-  stepper = inject(Stepper);
-  header = contentChild(StepHeader, { read: TemplateRef });
-  stepContainer = viewChild('stepContainer', { read: TemplateRef });
-  active = signal(false);
-  title = input<any>('Tab');
+  readonly stepper = inject(Stepper);
+  readonly header = contentChild(StepHeader, { read: TemplateRef });
+  readonly stepContainer = viewChild.required('stepContainer', { read: TemplateRef });
+  readonly active = signal(false);
+  readonly title = input<any>('Tab');
 }
 
 @Directive({

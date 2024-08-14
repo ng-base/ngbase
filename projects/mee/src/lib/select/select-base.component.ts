@@ -2,7 +2,6 @@ import {
   Directive,
   ElementRef,
   OnDestroy,
-  Signal,
   TemplateRef,
   computed,
   contentChildren,
@@ -28,12 +27,11 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   options = contentChildren(Option, { descendants: true });
   optionsTemplate = viewChild('options', { read: TemplateRef });
   container = viewChild('container', { read: ElementRef });
-  value = input<T>('' as any);
+  value = model<any>('' as any);
   multiple = input(false, { transform: booleanAttribute });
   placeholder = input<string>(' ');
   disabled = model<boolean>(false);
   size = input<'target' | 'free'>('target');
-  valueChange = output<any>();
   opened = output<boolean>();
   closed = output<boolean>();
   panelOpen = signal(false);
@@ -55,7 +53,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
 
     const values = filtered.length
       ? options.reduce((acc, option) => {
-          if (filtered.includes(option.value()!)) {
+          if (filtered.includes(option.getValue())) {
             acc.push(option.label());
           }
           return acc;
@@ -80,12 +78,12 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
         // console.log('options', options, this.multiple());
         options.forEach(option => {
           option.multiple.set(this.multiple());
-          option.checked.set(values.includes(option.value()!));
+          option.checked.set(values.includes(option.getValue()));
           option.selectOption = () => {
             untracked(() => {
-              this.setValue([option.value()!]);
+              this.setValue([option.getValue()]);
               option.checked.set(!option.checked);
-              if (!this.multiple) {
+              if (!this.multiple()) {
                 this.popClose();
               }
             });
@@ -99,6 +97,8 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       },
       { allowSignalWrites: true },
     );
+
+    effect(() => this.updateValues(this.value()), { allowSignalWrites: true });
   }
 
   open() {
@@ -114,7 +114,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       { target: el, position: 'bl' },
       {
         backdrop: this.isSelect,
-        width: this.size() === 'target' ? 'target' : '',
+        width: this.size(),
         maxHeight: '400px',
       },
     );
@@ -133,6 +133,8 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
         document.addEventListener('click', clickHandler);
         this.events.next('open');
       });
+    } else {
+      this.events.next('open');
     }
     diaRef.afterClosed.subscribe(() => {
       this.status.set('closed');
@@ -151,7 +153,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     this.panelOpen.set(true);
   }
 
-  setValue(values: T[], skip = false): void {
+  private setValue(values: T[], skip = false): void {
     let localValue = this.values();
     let setValue: any;
     if (this.multiple()) {
@@ -173,11 +175,15 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     if (!skip) {
       this.onChange(setValue);
       this.onTouched();
-      this.valueChange.emit(setValue);
+      this.value.set(setValue);
     }
   }
 
   writeValue(value: T[] | T): void {
+    this.updateValues(value);
+  }
+
+  private updateValues(value: T[] | T) {
     this.values.set(Array.isArray(value) ? value : [value]);
   }
 

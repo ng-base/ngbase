@@ -7,16 +7,17 @@ export class TooltipService {
   tooltip = tooltipPortal();
   tooltipOpen: TooltipOpen | undefined;
   timeoutId: any;
+  delay = 100;
 
-  insert(el: HTMLElement, content: string, position: DialogPosition) {
+  insert(el: HTMLElement, content: string, position: DialogPosition, hide: VoidFunction) {
     clearTimeout(this.timeoutId);
     if (this.tooltipOpen) {
-      this.tooltipOpen.parent.instance.update(content, el, position);
+      this.tooltipOpen.parent.instance.update(content, el, position, hide);
       // setTimeout(() => {
       //   this.tooltipOpen.parent.instance.setPosition(el);
       // });
     } else {
-      this.tooltipOpen = this.tooltip.open(content, el, position);
+      this.tooltipOpen = this.tooltip.open(content, el, position, hide);
     }
   }
 
@@ -24,7 +25,8 @@ export class TooltipService {
     this.timeoutId = setTimeout(() => {
       this.tooltipOpen?.destroy();
       this.tooltipOpen = undefined;
-    }, 100);
+      this.delay = 100;
+    }, this.delay ?? 100);
   };
 }
 
@@ -38,13 +40,16 @@ export function tooltipPortal() {
   const NAME = 'tooltip';
   const base = basePortal(NAME, TooltipComponent);
 
-  function open(content: string, target: HTMLElement, position?: DialogPosition) {
+  function open(
+    content: string,
+    target: HTMLElement,
+    position: DialogPosition,
+    hide: VoidFunction,
+  ) {
     const { diaRef, parent, replace } = base.open<TooltipComponent>(
       undefined,
       comp => {
-        comp.instance.content.set(content);
-        comp.instance.target = target;
-        comp.instance.position = position || 'top';
+        comp.instance.update(content, target, position || 'top', hide);
       },
       undefined,
       false,

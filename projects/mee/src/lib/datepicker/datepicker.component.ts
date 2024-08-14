@@ -23,7 +23,7 @@ import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger.direc
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, Button, Calendar, RangePipe, NgTemplateOutlet],
   template: `
-    <div class="flex flex-col">
+    <div class="flex">
       @for (no of noOfCalendar() | range; track no) {
         <mee-calendar [first]="$first" [last]="$last" [index]="$index"></mee-calendar>
       }
@@ -34,40 +34,47 @@ import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger.direc
       </div>
     }
   `,
+  host: {
+    class: 'inline-block',
+  },
 })
 export class DatePicker {
-  inputS = inject(DatepickerTrigger, { optional: true });
+  datepickerTrigger = inject(DatepickerTrigger, { optional: true });
   private dialogRef = inject<DialogRef<DatePickerOptions>>(DialogRef, {
     optional: true,
   });
-  noOfCalendar = signal(this.data?.noOfCalendars || 1);
-  range = signal<boolean>(this.data?.range || false);
-  time = signal<boolean>(this.data?.time || false);
-  format = signal<string>(this.data?.format || `MM-dd-yyyy${this.data?.time ? ' HH:mm a' : ''}`);
   adapter = new DefaultDateAdapter();
-  template = signal<TemplateRef<any> | null>(this.data?.template || null);
-  dateFilter = input<(date: Date) => boolean>(this.data?.dateFilter || (() => true));
-  pickerType = input<'date' | 'month' | 'year'>(this.data?.pickerType || 'date');
-  showType = signal<'date' | 'month' | 'year'>(this.pickerType());
-  selectedDates = signal<[Date | null, Date | null]>([null, null]);
-  times = signal<[string | null, string | null]>([null, null]);
+  readonly noOfCalendar = signal(this.data?.noOfCalendars || 1);
+  range = signal<boolean>(this.data?.range || false);
+  readonly time = signal<boolean>(this.data?.time || false);
+  readonly format = signal<string>(
+    this.data?.format || `MM-dd-yyyy${this.data?.time ? ' HH:mm a' : ''}`,
+  );
+  readonly template = signal<TemplateRef<any> | null>(this.data?.template || null);
+  readonly dateFilter = input<(date: Date) => boolean>(this.data?.dateFilter || (() => true));
+  readonly pickerType = input<'date' | 'month' | 'year'>(this.data?.pickerType || 'date');
+  readonly showType = signal<'date' | 'month' | 'year'>(this.pickerType());
+  readonly selectedDates = signal<[Date | null, Date | null]>([null, null]);
+  readonly times = signal<[string | null, string | null]>([null, null]);
   readonly startDate = computed<Date>(() => {
     const dates = this.selectedDates();
     return Array.isArray(dates) && dates[0] ? dates[0] : new Date();
   });
   readonly startMonth = signal(this.startDate().getMonth());
   readonly startYear = signal(this.startDate().getFullYear());
-  hoveredDate = signal<Date | null>(null);
-  hoveredCount = computed(() => {
+
+  readonly hoveredDate = signal<Date | null>(null);
+  readonly hoveredCount = computed(() => {
     const date = this.hoveredDate();
     return date ? date.getTime() : 0;
   });
-  startDateCount = computed(() => {
+
+  readonly startDateCount = computed(() => {
     const date = this.selectedDates()[0];
     return date?.getTime() || 0;
   });
 
-  dates = computed(() => {
+  readonly dates = computed(() => {
     const dates = this.selectedDates();
 
     const v = {
@@ -75,31 +82,29 @@ export class DatePicker {
       month: dates.map(x => (x ? `${x.getMonth()}-${x.getFullYear()}` : '')),
       day: dates.map(x => (x ? `${x.getDate()}-${x.getMonth()}-${x.getFullYear()}` : '')),
     };
-    // return this.getSelectedDayOfMonth(today);
     return v;
   });
 
   constructor() {
+    this.init();
+  }
+
+  private init() {
     const v = this.data?.value?.filter(x => x).map(x => this.adapter.parse(x));
-    if ((Array.isArray(v) && v.length === 2) || v instanceof Date) {
+    if (Array.isArray(v) && v.length) {
       let date: Date;
-      if (Array.isArray(v)) {
-        this.selectedDates.set(v as [Date, Date]);
-        date = v[0];
+      let dates: [Date, Date | null];
+      if (v.length === 2) {
+        dates = v as [Date, Date];
         this.hoveredDate.set(v[1]);
       } else {
-        date = v;
-        this.selectedDates.set([v, null] as [Date, null]);
+        dates = [v[0], null];
       }
+      date = dates[0];
+      this.selectedDates.set(dates);
       this.startYear.set(date.getFullYear());
       this.startMonth.set(date.getMonth());
     }
-    // effect(
-    //   () => {
-    //     this.showType.set(this.pickerTypeData);
-    //   },
-    //   { allowSignalWrites: true },
-    // );
   }
 
   get data() {
@@ -114,26 +119,25 @@ export class DatePicker {
   }
 
   selectDate(date: Date, index?: number) {
-    const dates = this.selectedDates();
+    let dates = this.selectedDates();
     if (index != undefined) {
       dates[index] = date;
     } else if (this.range()) {
       if ((dates[0] && dates[1]) || !dates[0] || dates[0].getTime() > date.getTime()) {
-        dates[0] = date;
-        dates[1] = null;
+        dates = [date, null];
         this.hoveredDate.set(null);
       } else if (dates[0]) {
         dates[1] = date;
-      } else {
-        dates[0] = date;
-        this.hoveredDate.set(null);
       }
+      // else {
+      //   dates[0] = date;
+      //   this.hoveredDate.set(null);
+      // }
     } else {
-      dates[0] = date;
+      dates = [date, null];
     }
     this.selectedDates.set([...dates]);
-    // this.currentDate$.next(date);
-    this.inputS?.updateInput(dates as Date[]);
+    this.datepickerTrigger?.updateInput(dates as Date[]);
   }
 
   selectYear(year: number) {
@@ -141,7 +145,6 @@ export class DatePicker {
     if (this.pickerType() !== 'year') {
       this.showType.set('month');
     } else {
-      // this.updateInput([new Date(year, this.startMonth())]);
       this.selectDate(new Date(year, this.startMonth()));
     }
   }
@@ -152,10 +155,7 @@ export class DatePicker {
     if (this.pickerType() === 'date') {
       this.showType.set('date');
     } else {
-      const date = new Date(year, month);
-      this.selectDate(date);
-      // this.selectedDates.set([date, null]);
-      // this.updateInput([date]);
+      this.selectDate(new Date(year, month));
     }
   }
 
@@ -172,10 +172,4 @@ export class DatePicker {
     }
     this.showType.set(type);
   }
-}
-
-class DateData {
-  readonly currentDate = signal(new Date());
-  readonly selectedMonth = signal(this.currentDate().getMonth());
-  readonly selectedYear = signal(this.currentDate().getFullYear());
 }

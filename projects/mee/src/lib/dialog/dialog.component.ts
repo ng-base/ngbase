@@ -5,6 +5,7 @@ import {
   viewChild,
   afterNextRender,
   signal,
+  OnDestroy,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgClass, NgStyle } from '@angular/common';
@@ -37,6 +38,7 @@ import { lucideX } from '@ng-icons/lucide';
           maxHeight: options.maxHeight || '96vh',
         }"
         [@viewAnimation]="status() ? 1 : 0"
+        (@viewAnimation.done)="animationDone()"
       >
         @if (!isHideHeader) {
           <div class="flex items-center justify-between border-b px-b4 py-b2">
@@ -57,32 +59,23 @@ import { lucideX } from '@ng-icons/lucide';
           class="backdropColor pointer-events-auto absolute top-0 -z-10 h-full w-full"
           (click)="!options.disableClose && close()"
           [@fadeAnimation]="status() ? 1 : 0"
-          (@fadeAnimation.done)="animationDone()"
         ></div>
+        <!-- (@fadeAnimation.done)="animationDone()" -->
       }
     </div>
   `,
   host: {
     '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none z-150',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none z-40',
   },
   styles: `
     .backdropColor {
       background: rgba(0, 0, 0, 0.32);
-      // background: rgba(102, 102, 102, 0.32);
     }
-
-    // .full-window {
-    //   width: 100vw !important;
-    //   height: 100vh;
-    //   max-width: initial;
-    //   top: 0;
-    //   border-radius: 0;
-    // }
   `,
   animations: [NguModalViewAnimation, fadeAnimation],
 })
-export class Dialog extends BaseDialog {
+export class Dialog extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
 
   backdropColor = true;
@@ -97,6 +90,7 @@ export class Dialog extends BaseDialog {
     super();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
+      this.onOpen();
 
       // setTimeout(() => {
       //   this.show.set(false);
@@ -112,5 +106,9 @@ export class Dialog extends BaseDialog {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.isHideHeader || false;
     this.backdropColor = this.options.backdropColor || true;
+  }
+
+  ngOnDestroy() {
+    this.onClose();
   }
 }

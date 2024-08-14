@@ -17,7 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
   host: {
-    class: 'inline-flex relative bg-muted-background rounded-base p-b',
+    class: 'inline-flex relative bg-muted-background rounded-bt p-b',
     role: 'tablist',
   },
   providers: [

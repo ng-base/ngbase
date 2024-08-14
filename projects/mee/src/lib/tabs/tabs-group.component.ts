@@ -104,8 +104,8 @@ export class Tabs {
   }
 
   private updateScrollDisplay(leftScroll: HTMLElement, el: HTMLElement, rightScroll: HTMLElement) {
-    leftScroll.style.display = el.scrollLeft > 0 ? 'block' : 'none';
-    rightScroll.style.display = el.scrollLeft + el.clientWidth < el.scrollWidth ? 'block' : 'none';
+    leftScroll.style.display = el.scrollLeft > 0 ? 'grid' : 'none';
+    rightScroll.style.display = el.scrollLeft + el.clientWidth < el.scrollWidth ? 'grid' : 'none';
   }
 
   scroll(direction: 'left' | 'right') {

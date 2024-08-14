@@ -1,48 +1,41 @@
 import {
   Injectable,
   Injector,
-  ComponentFactoryResolver,
-  EmbeddedViewRef,
   ApplicationRef,
   Type,
   ComponentRef,
   inject,
+  EnvironmentInjector,
+  createComponent,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Portal } from './portal.component';
 
 @Injectable({ providedIn: 'root' })
 export class PortalService {
-  private mainContainer: ComponentRef<Portal>;
+  private mainContainer?: ComponentRef<Portal>;
   private document = inject(DOCUMENT);
-  private componentFactoryResolver = inject(ComponentFactoryResolver);
-  private injector = inject(Injector);
   private appRef = inject(ApplicationRef);
+  private environmentInjector = inject(EnvironmentInjector);
 
   private trackElements = new Map<string, ComponentRef<any>[]>();
 
-  constructor() {
-    this.mainContainer = this.appendComponentToBody(Portal);
-  }
-
   private componentCreator() {
-    return this.mainContainer.instance.myDialog()!;
+    this.mainContainer ??= this.appendComponentToBody(Portal);
+    return this.mainContainer!.instance.myDialog()!;
   }
 
   appendComponentToBody<T>(component: Type<T>) {
     // 1. Create a component reference from the component
-    const componentRef = this.componentFactoryResolver
-      .resolveComponentFactory<T>(component)
-      .create(this.injector);
+    const componentRef = createComponent(component, {
+      environmentInjector: this.environmentInjector,
+    });
 
-    // 2. Attach component to the appRef so that it's inside the ng component tree
+    // 2. append the component to the body
+    this.document.body.appendChild(componentRef.location.nativeElement);
+
+    // 3. Attach component to the appRef so that it's inside the ng component tree
     this.appRef.attachView(componentRef.hostView);
-
-    // 3. Get DOM element from component
-    const domElem = (componentRef.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement;
-
-    // 4. Append DOM element to the body
-    this.document.body.appendChild(domElem);
     return componentRef;
   }
 
@@ -57,15 +50,17 @@ export class PortalService {
 
   deleteComponent<T>(container: string, component: ComponentRef<T>) {
     component.destroy();
-    const index = this.trackElements.get(container)!.indexOf(component);
-    this.trackElements.get(container)!.splice(index, 1);
+    const elements = this.trackElements.get(container);
+    if (elements) {
+      const index = elements.indexOf(component);
+      elements.splice(index, 1);
+    }
   }
 
   clear(container: string) {
     if (this.trackElements.has(container)) {
-      this.trackElements.get(container)!.forEach(c => {
-        c.destroy();
-      });
+      const elements = this.trackElements.get(container);
+      elements?.forEach(c => c.destroy());
       this.trackElements.delete(container);
     }
   }

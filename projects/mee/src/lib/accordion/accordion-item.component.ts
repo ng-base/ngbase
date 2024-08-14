@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, model } from '@angular/core';
 import { generateId } from '../utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AccordionGroup } from './accordion-group.component';
@@ -10,10 +10,8 @@ import { AccordionGroup } from './accordion-group.component';
   template: `
     <ng-content select="[meeAccordionHeader]"></ng-content>
     @if (expanded()) {
-      <div [@slide]>
-        <!-- <div class="pb-b2"> -->
+      <div [@slide] class="overflow-hidden">
         <ng-content></ng-content>
-        <!-- </div> -->
       </div>
     }
   `,
@@ -23,21 +21,24 @@ import { AccordionGroup } from './accordion-group.component';
   exportAs: 'meeAccordionItem',
   animations: [
     trigger('slide', [
-      state('void', style({ height: '0', overflow: 'hidden' })),
-      state('*', style({ height: '*' })),
-      transition('void => *', animate('200ms ease-in')),
-      transition('* => void', animate('200ms ease-out')),
+      state('void', style({ height: '0', opacity: 0 })),
+      state('*', style({ height: '*', opacity: 1 })),
+      transition('void => *', animate('300ms ease')),
+      transition('* => void', animate('300ms ease')),
     ]),
   ],
 })
 export class Accordion {
-  expanded = model(false);
-  id = generateId();
+  readonly expanded = model(false);
+  readonly id = generateId();
 
   accordionService = inject(AccordionGroup);
 
   toggle() {
     this.expanded.update(v => !v);
-    // this.accordionService.activeId.set(this.expanded() ? this.id : '');
+    if (this.accordionService.multiple()) {
+      return;
+    }
+    this.accordionService.activeId.set(this.expanded() ? this.id : '');
   }
 }

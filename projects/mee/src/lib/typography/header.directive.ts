@@ -11,7 +11,7 @@ import { Directive, input } from '@angular/core';
       : meeHeader() == 'lg' 
       ? 'text-4xl' 
       : meeHeader() == 'xs'
-        ? 'text-base' 
+        ? 'text-base font-semibold' 
         : '!font-medium')`,
   },
 })

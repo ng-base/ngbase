@@ -1,14 +1,10 @@
-import { Directive, input } from '@angular/core';
-
-type GetChildren<T> = (index: number, node: T) => T[];
+import { Directive } from '@angular/core';
 
 @Directive({
   standalone: true,
   selector: '[meeTreeNodeDef]',
 })
-export class TreeNodeDef<T> {
-  meeTreeNodeDefWhen = input<GetChildren<T>>();
-}
+export class TreeNodeDef<T> {}
 
 @Directive({
   standalone: true,

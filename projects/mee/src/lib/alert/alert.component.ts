@@ -19,10 +19,10 @@ export interface AlertOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Heading],
   template: `
-    <h4 class="mb-b2 text-base font-bold">{{ options.data?.title }}</h4>
-    <p class="text-muted-foreground pb-b3">{{ options.data?.description }}</p>
+    <h4 class="mb-b2 text-base font-bold">{{ data?.title }}</h4>
+    <p class="text-muted-foreground pb-b3">{{ data?.description }}</p>
     <div class="flex justify-end gap-4 pt-1">
-      @for (action of options.data?.actions; track action) {
+      @for (action of data?.actions; track action) {
         <button
           meeButton
           [variant]="action.type || 'primary'"
@@ -37,5 +37,5 @@ export interface AlertOptions {
 export class Alert {
   diaRef = inject<DialogRef<AlertOptions>>(DialogRef);
 
-  options = this.diaRef.options;
+  data = this.diaRef.options?.data;
 }

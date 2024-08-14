@@ -8,7 +8,9 @@ import { DefaultDateAdapter } from './date-adapter';
   standalone: true,
   selector: '[meeDatepickerTrigger]',
   exportAs: 'meeDatepickerTrigger',
+  hostDirectives: [Input],
   host: {
+    class: 'cursor-pointer hover:bg-muted-background',
     '(click)': 'open()',
   },
 })
@@ -31,14 +33,27 @@ export class DatepickerTrigger {
   close?: VoidFunction;
 
   constructor() {
-    effect(() => {
-      this.updateField(this.inputS.value() || []);
-    });
+    effect(
+      () => {
+        const value = this.getInputValue();
+        this.updateField(value);
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  private getInputValue() {
+    const v = this.inputS.value();
+    let value: string[] = [];
+    if (v) {
+      value = this.range() ? v : [v];
+    }
+    return value.map(x => this.adapter.parse(x));
   }
 
   open() {
     const data: DatePickerOptions = {
-      value: this.inputS.value(),
+      value: this.getInputValue(),
       pickerType: this.pickerType(),
       noOfCalendars: this.noOfCalendars(),
       range: this.range(),

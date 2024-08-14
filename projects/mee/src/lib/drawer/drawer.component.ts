@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   ViewContainerRef,
   afterNextRender,
   viewChild,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
-import { NgStyle } from '@angular/common';
 import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Drag } from '../drag';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -14,7 +14,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 @Component({
   selector: 'mee-drawer',
   standalone: true,
-  imports: [NgStyle, Drag],
+  imports: [Drag],
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
@@ -44,8 +44,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     }
   `,
   host: {
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto',
-    '[ngStyle]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto z-40',
+    // '[style]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
   },
   styles: `
     .backdropColor {
@@ -63,7 +63,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     fadeAnimation,
   ],
 })
-export class Drawer extends BaseDialog {
+export class Drawer extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;
@@ -72,6 +72,7 @@ export class Drawer extends BaseDialog {
 
   constructor() {
     super();
+    this.onOpen();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
     });
@@ -82,5 +83,9 @@ export class Drawer extends BaseDialog {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.isHideHeader || false;
     this.backdropColor = this.options.backdropColor || true;
+  }
+
+  ngOnDestroy(): void {
+    this.onClose();
   }
 }

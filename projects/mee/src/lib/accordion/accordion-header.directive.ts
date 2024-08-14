@@ -5,7 +5,7 @@ import { Accordion } from './accordion-item.component';
   standalone: true,
   selector: '[meeAccordionHeader]',
   host: {
-    class: 'flex items-center w-full cursor-pointer py-2 px-3',
+    class: 'flex items-center w-full cursor-pointer py-b3 px-b3',
     '(click)': 'accordion.toggle()',
   },
 })

@@ -9,6 +9,12 @@ import {
   signal,
 } from '@angular/core';
 
+@Directive({
+  standalone: true,
+  selector: '[meeTabHeader]',
+})
+export class TabHeader {}
+
 @Component({
   selector: 'mee-tab',
   standalone: true,
@@ -23,11 +29,11 @@ import {
   },
 })
 export class Tab {
-  header = contentChild(TabHeader, { read: TemplateRef });
-  active = signal(false);
-  label = input('Tab');
-  disabled = input(false);
-  mode = input<'hidden'>();
+  readonly header = contentChild(TabHeader, { read: TemplateRef });
+  readonly active = signal(false);
+  readonly label = input('Tab');
+  readonly disabled = input(false);
+  readonly mode = input<'hidden'>();
   activated = false;
   index = 0;
 
@@ -36,9 +42,3 @@ export class Tab {
     return this.mode() ? this.activated : this.active();
   });
 }
-
-@Directive({
-  standalone: true,
-  selector: '[meeTabHeader]',
-})
-export class TabHeader {}

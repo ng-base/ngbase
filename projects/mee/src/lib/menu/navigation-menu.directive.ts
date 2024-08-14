@@ -17,25 +17,23 @@ export class NavigationMenu {
   popoverOpen?: PopoverOpen<any>;
   private sub?: Subscription;
   private clicked = false;
+  currentEl?: MenuTrigger;
 
   constructor() {
-    let currentEl: HTMLElement;
-
     effect(
-      () => {
+      cleanup => {
+        cleanup(() => this.sub?.unsubscribe());
+
         const menus = this.menus();
-        this.sub?.unsubscribe();
         this.sub = merge(...menus.map(menu => menu.events)).subscribe(({ event, type, menu }) => {
-          // console.log(type, this.clicked && type === 'enter');
-          // if (
-          //   (this.clicked && type === 'enter') ||
-          //   (!this.clicked && type === 'click')
-          // ) {
-          if (type === 'enter') {
-            currentEl = event.target as HTMLElement;
+          if (
+            (type === 'enter' && (this.hover() || this.clicked)) ||
+            (type === 'click' && !this.hover() && this.currentEl !== menu)
+          ) {
             this.clicked = true;
+            this.currentEl = menu;
             this.open(menu);
-          } else if (currentEl === event.target) {
+          } else if (this.currentEl === menu && (this.hover() || type === 'click')) {
             this.scheduleClose();
           }
         });
@@ -59,16 +57,18 @@ export class NavigationMenu {
     this.popoverOpen = this.popover.open(
       menu.container()!,
       { target, position: 'bl', className: 'transition-all' },
-      { maxHeight: '400px', width: '200px', backdrop: false },
+      { backdrop: false },
     );
     menu.diaRef = this.popoverOpen.diaRef;
-    this.popoverOpen.events.subscribe(e => {
-      if (e.type === 'mouseenter') {
-        clearTimeout(this.timerId);
-      } else {
-        this.scheduleClose();
-      }
-    });
+    if (this.hover()) {
+      this.popoverOpen.events.subscribe(e => {
+        if (e.type === 'mouseenter') {
+          clearTimeout(this.timerId);
+        } else {
+          this.scheduleClose();
+        }
+      });
+    }
     menu.opened();
     this.close = () => {
       menu.close();
@@ -81,6 +81,7 @@ export class NavigationMenu {
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
       this.clicked = false;
+      this.currentEl = undefined;
       this.close?.();
     }, 200);
   }

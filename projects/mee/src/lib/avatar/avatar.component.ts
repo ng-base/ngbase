@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
         class="aspect-sqaure h-full max-h-full max-w-full rounded-full"
       />
     } @else if (name()) {
-      <div class="flex h-full w-full items-center justify-center rounded-full bg-background p-2">
+      <div class="flex h-full w-full items-center justify-center rounded-full bg-background p-b2">
         {{ nameChar() }}
       </div>
     } @else {

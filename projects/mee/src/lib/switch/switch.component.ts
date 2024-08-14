@@ -17,7 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     >
       <span
         class="block h-b4 w-b4 rounded-full bg-foreground transition-transform"
-        [class.translate-x-full]="checked()"
+        [class]="checked() ? 'translate-x-full' : ''"
       ></span>
     </button>
     <label [for]="id"><ng-content></ng-content></label>
@@ -44,8 +44,8 @@ export class Switch implements ControlValueAccessor {
   constructor() {}
 
   updateValue() {
-    const checked = !this.checked();
-    this.checked.set(checked);
+    this.checked.update(v => !v);
+    const checked = this.checked();
     this.onChange(checked);
     this.onTouched();
     this.change.emit(checked);

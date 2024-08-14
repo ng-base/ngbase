@@ -21,7 +21,7 @@ import { ColorFormat } from './color-picker.component';
       type="text"
       [ngModel]="value()"
       (ngModelChange)="updateValue($event)"
-      class="flex-1 outline-none"
+      class="w-full flex-1 bg-transparent outline-none"
     />
     <button
       #color
@@ -31,13 +31,13 @@ import { ColorFormat } from './color-picker.component';
       [format]="format()"
       [presetColors]="presetColors()"
       (valueChange)="updateValue($event)"
-      class="h-b5 w-b5 rounded-full border"
+      class="h-b5 w-b5 flex-none rounded-full border"
       [style.backgroundColor]="value()"
     ></button>
   `,
   hostDirectives: [InputStyle],
   host: {
-    class: 'inline-flex gap-2 items-center',
+    class: '!inline-flex gap-2 items-center',
   },
   providers: [
     {

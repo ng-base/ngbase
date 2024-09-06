@@ -49,6 +49,6 @@ jobs:
           pnpm install
           pnpm build:lib
           cd dist/mee
-          pnpm publish --access public
+          pnpm publish --access public --force
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

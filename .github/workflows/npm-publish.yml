@@ -20,8 +20,11 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-      - name: Install dependencies
-        run: pnpm install
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install
 
   publish-npm:
     needs: build
@@ -38,9 +41,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@meeui'
           cache: 'pnpm'
-      - name: Publish to NPM
+      - name: Build and Publish
         shell: bash
         run: |
+          pnpm install
+          pnpm build:lib
           cd dist/mee
           pnpm publish --access public
         env:

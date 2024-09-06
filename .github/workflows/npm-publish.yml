@@ -41,6 +41,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@meeui'
           cache: 'pnpm'
+      - name: Update .npmrc
+        run: echo "publish-branch=release/*|main" >> .npmrc
       - name: Build and Publish
         shell: bash
         run: |

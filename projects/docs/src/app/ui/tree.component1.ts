@@ -74,13 +74,7 @@ class TreeFlatNode<T> {
     @if (show()) {
       <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
       <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
-      <mee-tree
-        [dataSource]="items()"
-        [trackBy]="trackBy"
-        [children]="getChildren"
-        [expanded]="false"
-        #myTree
-      >
+      <mee-tree [dataSource]="items()" [trackBy]="trackBy" [children]="getChildren" #myTree>
         <mee-tree-node *meeTreeNodeDef="let item" #myNode>
           <button meeButton variant="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
             <mee-icon

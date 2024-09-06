@@ -1,0 +1,47 @@
+# This workflow will run tests and build the library on the main branch
+# It will then publish the library to the npm registry
+
+name: NPM Publish
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Install dependencies
+        run: pnpm install
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@meeui'
+          cache: 'pnpm'
+      - name: Publish to NPM
+        shell: bash
+        run: |
+          cd dist/mee
+          pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

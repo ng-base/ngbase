@@ -19,7 +19,11 @@ import { generateId } from '../utils';
     <div class="flex flex-1 items-center gap-b2" (click)="updateValue()">
       <button
         class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
-        [class]="disabled() ? 'border-muted bg-muted' : checked() ? 'bg-primary' : ''"
+        [class]="disabled() ? '!border-muted bg-muted' : checked() ? 'bg-primary' : ''"
+        [tabIndex]="disabled() ? -1 : 0"
+        [attr.aria-checked]="checked()"
+        [attr.aria-disabled]="disabled()"
+        role="checkbox"
       >
         @if (checked()) {
           <svg class="h-full w-full text-foreground" viewBox="0 0 24 24">

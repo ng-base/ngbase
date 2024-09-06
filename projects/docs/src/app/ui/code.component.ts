@@ -71,7 +71,7 @@ export class DocCode {
   constructor() {
     effect(
       () => {
-        this.genHtml();
+        // this.genHtml();
         this.genTs();
       },
       { allowSignalWrites: true },

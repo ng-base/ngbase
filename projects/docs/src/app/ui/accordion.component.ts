@@ -19,14 +19,14 @@ import { DocCode } from './code.component';
         class="w-full rounded-base border bg-foreground md:w-96"
       >
         <mee-accordion class="border-b">
-          <h4 meeAccordionHeader>Heading 1</h4>
+          <button meeAccordionHeader>Heading 1</button>
           <p class="px-b3 pb-b4 text-muted">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!
           </p>
         </mee-accordion>
         <mee-accordion>
-          <h4 meeAccordionHeader>Heading 2</h4>
+          <button meeAccordionHeader>Heading 2</button>
           <p class="px-b3 pb-b4 text-muted">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!
@@ -44,14 +44,14 @@ export class AccordionComponent {
         class="rounded-base border bg-foreground"
       >
         <mee-accordion class="border-b">
-          <h4 meeAccordionHeader>Heading 1</h4>
+          <button meeAccordionHeader>Heading 1</button>
           <p class="px-b3 pb-b4 text-muted">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!
           </p>
         </mee-accordion>
         <mee-accordion>
-          <h4 meeAccordionHeader>Heading 2</h4>
+          <button meeAccordionHeader>Heading 2</button>
           <p class="px-b3 pb-b4 text-muted">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!

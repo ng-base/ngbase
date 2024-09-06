@@ -6,12 +6,13 @@ import { lucideChevronsUpDown } from '@ng-icons/lucide';
 import { Icons } from '../icon';
 import { InputStyle } from '../input/input-style.directive';
 import { SelectBase } from './select-base.component';
+import { AccessibleGroup } from '../a11y';
 
 @Component({
   selector: 'mee-select',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, InputStyle, Icons],
+  imports: [NgTemplateOutlet, InputStyle, Icons, AccessibleGroup],
   template: `
     <button
       type="button"
@@ -19,6 +20,7 @@ import { SelectBase } from './select-base.component';
       class="flex min-h-b5 w-full items-center justify-between gap-b whitespace-nowrap"
       [disabled]="disabled()"
       [class.opacity-50]="disabled()"
+      tabindex="-1"
     >
       <ng-content select=".select-prefix"></ng-content>
       <span class="truncate" [class.text-muted]="!cValue()">
@@ -29,7 +31,12 @@ import { SelectBase } from './select-base.component';
       <mee-icon name="lucideChevronsUpDown" class="ml-b0.5 text-muted" />
     </button>
     <ng-template #options>
-      <ng-content />
+      <div meeAccessibleGroup [ayId]="ayid">
+        <ng-content select="[meeSelectInput]"></ng-content>
+        <div role="listbox" aria-label="Suggestions">
+          <ng-content />
+        </div>
+      </div>
     </ng-template>
   `,
   host: {
@@ -38,6 +45,7 @@ import { SelectBase } from './select-base.component';
     '[class.pointer-events-none]': 'disabled()',
     role: 'listbox',
     type: 'button',
+    '[tabindex]': 'disabled() ? -1 : 0',
   },
   hostDirectives: [InputStyle],
   viewProviders: [provideIcons({ lucideChevronsUpDown })],

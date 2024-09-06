@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { List } from '@meeui/list';
 import { Card } from '@meeui/card';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -8,8 +8,41 @@ import { Icons } from '@meeui/icon';
   standalone: true,
   selector: 'app-nav',
   imports: [List, Card, RouterLink, RouterLinkActive, Icons],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <mee-card>
+      <h4 class="p-b2 font-semibold">Getting Started</h4>
+      <a
+        meeList
+        (click)="scrollToTop()"
+        routerLinkActive="text-primary"
+        routerLink="introduction"
+        disabled
+      >
+        Introduction
+      </a>
+      <a
+        meeList
+        (click)="scrollToTop()"
+        routerLinkActive="text-primary"
+        routerLink="installation"
+        disabled
+      >
+        Installation
+      </a>
+      <a
+        meeList
+        (click)="scrollToTop()"
+        routerLinkActive="text-primary"
+        routerLink="theming disabled"
+        disabled
+        >Theming</a
+      >
+      <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="examples">
+        Examples
+      </a>
+
+      <h4 class="mt-b4 p-b2 font-semibold">Components</h4>
       <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="accordion">
         Accordion</a
       >
@@ -58,6 +91,7 @@ import { Icons } from '@meeui/icon';
       <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="drawer"
         >Drawer</a
       >
+      <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="drag">Drag</a>
       <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="forms"
         >Forms</a
       >
@@ -101,13 +135,7 @@ import { Icons } from '@meeui/icon';
       <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="popover">
         Popover
       </a>
-      <a
-        meeList
-        (click)="scrollToTop()"
-        routerLinkActive="text-primary"
-        routerLink="picasa"
-        disabled
-      >
+      <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="picasa">
         Picasa
       </a>
       <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="radio">

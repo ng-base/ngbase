@@ -6,6 +6,7 @@ import { ScrollArea } from '@meeui/scroll-area';
 import { Heading } from '@meeui/typography';
 import { Card } from '@meeui/card';
 import { Selectable, SelectableItem } from '@meeui/selectable';
+import { DocCode } from './code.component';
 
 interface Employee {
   Id: number;
@@ -20,7 +21,7 @@ interface Employee {
   standalone: true,
   selector: 'app-table',
   imports: [
-    // TableComponents,
+    TableComponents,
     RangePipe,
     Button,
     ScrollArea,
@@ -28,13 +29,14 @@ interface Employee {
     Card,
     Selectable,
     SelectableItem,
+    DocCode,
   ],
   template: `
     <h4 meeHeader class="mb-5">Table</h4>
     <!-- <button meeButton (click)="update()" class="mb-5">
       Click me {{ randomNum() }}
     </button> -->
-    <div class="mb-b2 flex gap-b2">
+    <!-- <div class="mb-b2 flex gap-b2">
       <mee-selectable
         [activeIndex]="1"
         (valueChanged)="$event === 0 ? startShuffle() : stopShuffle()"
@@ -44,10 +46,10 @@ interface Employee {
       </mee-selectable>
       <button meeButton (click)="deleteAddShuffleData()">Shuffle</button>
       <button meeButton (click)="reverse()">Reverse</button>
-    </div>
-    <mee-card class="!p-0">
-      <mee-scroll-area class="m-bb h-full max-w-4xl">
-        <!-- <table meeTable [data]="employees()" [trackBy]="trackByFn">
+    </div> -->
+    <app-doc-code class="!p-0">
+      <mee-scroll-area class="m-bb h-full max-h-[500px] max-w-4xl">
+        <table meeTable [data]="employees()" [trackBy]="trackByFn">
           @for (column of columns(); track column) {
             <ng-container [meeRow]="column">
               <th class="whitespace-nowrap" meeHead *meeHeadDef>
@@ -83,9 +85,9 @@ interface Employee {
             *meeBodyRowDef="let row; columns: ['expandables']"
             [class.hidden]="selected?.Id !== row.Id"
           ></tr>
-        </table> -->
+        </table>
       </mee-scroll-area>
-    </mee-card>
+    </app-doc-code>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [

@@ -29,11 +29,13 @@ import { DragMove } from '../drag';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { Icons } from '../icon';
+import { AccessibleGroup } from '../a11y';
+import { createHostAnimation } from '@meeui/dialog/dialog.animation';
 
 @Component({
   selector: 'mee-popover',
   standalone: true,
-  imports: [DragMove, Icons],
+  imports: [DragMove, Icons, AccessibleGroup],
   providers: [provideIcons({ lucideX })],
   template: ` <div
       #container
@@ -42,8 +44,7 @@ import { Icons } from '../icon';
         tooltipOptions.anchor ? 'popover-anchor' : 'overflow-auto',
         tooltipOptions.className,
       ]"
-      [@slideInOutAnimation]="status() ? 1 : 0"
-      (@slideInOutAnimation.done)="animationDone()"
+      [@slideInOutAnimation]
     >
       @if (options.title) {
         <div
@@ -70,7 +71,9 @@ import { Icons } from '../icon';
     }`,
   host: {
     class:
-      'fixed top-0 left-0 w-full h-full pointer-events-none z-40 flex items-center justify-center',
+      'fixed top-0 left-0 w-full h-full pointer-events-none z-p flex items-center justify-center',
+    '[@parentAnimation]': '',
+    '(@parentAnimation.done)': 'animationDone()',
   },
   styles: [
     `
@@ -97,6 +100,7 @@ import { Icons } from '../icon';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
+    createHostAnimation(['@slideInOutAnimation']),
     trigger('slideInOutAnimation', [
       state('1', style({ transform: 'none', opacity: 1 })),
       state('void', style({ transform: 'translateY(-10px) scale(0.95)', opacity: 0 })),
@@ -109,7 +113,6 @@ export class Popover extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
   backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
-  private document = inject(DOCUMENT);
   options!: DialogOptions;
   tooltipOptions!: OverlayConfig;
   private lastPosition: DialogPosition = 'top';
@@ -188,7 +191,7 @@ export class Popover extends BaseDialog implements OnDestroy {
   private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement) {
     this.tooltipOptions.target = target;
     if (this.options.backdrop) {
-      this.onOpen();
+      // this.onOpen();
     }
     if (this.options.width === 'target') {
       // update the width of the container to be the same as the target
@@ -292,7 +295,6 @@ export class Popover extends BaseDialog implements OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('wheel', this.scheduleUpdateDimension);
-    this.onClose();
   }
 }
 

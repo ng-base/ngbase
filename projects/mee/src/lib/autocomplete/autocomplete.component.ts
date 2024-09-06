@@ -1,35 +1,24 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  TemplateRef,
   contentChildren,
   contentChild,
   effect,
   forwardRef,
-  viewChild,
-  input,
-  signal,
-  computed,
-  afterNextRender,
-  untracked,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Option } from '../select';
-import { Input } from '../input';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
-import { popoverPortal } from '../popover';
-import { Subject } from 'rxjs';
 import { InputStyle } from '../input/input-style.directive';
 import { Chip } from '../chip';
 import { AutocompleteInput } from './autocomplete.directive';
 import { SelectBase } from '../select/select-base.component';
+import { AccessibleGroup } from '../a11y';
 
 @Component({
   selector: 'mee-autocomplete',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, InputStyle, Chip],
+  imports: [NgTemplateOutlet, InputStyle, Chip, AccessibleGroup],
   template: `
     <ul
       #container
@@ -44,7 +33,9 @@ import { SelectBase } from '../select/select-base.component';
       </li>
     </ul>
     <ng-template #options>
-      <ng-content />
+      <div meeAccessibleGroup [ayId]="ayid">
+        <ng-content />
+      </div>
     </ng-template>
   `,
   host: {
@@ -59,18 +50,11 @@ import { SelectBase } from '../select/select-base.component';
   ],
 })
 export class Autocomplete<T> extends SelectBase<T> {
-  // selectOptions = contentChildren(Option, { descendants: true });
   searchInput = contentChild(AutocompleteInput);
   chips = contentChildren(Chip);
 
   constructor() {
     super(false);
-    // effect(
-    //   () => {
-    //     this.options.set(this.selectOptions());
-    //   },
-    //   { allowSignalWrites: true },
-    // );
     effect(
       () => {
         if (this.status() !== 'opened') this.updateInputValue();

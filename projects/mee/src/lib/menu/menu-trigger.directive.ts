@@ -4,6 +4,7 @@ import { Menu } from './menu.component';
 import { NavigationMenu } from './navigation-menu.directive';
 import { Subject } from 'rxjs';
 import { DialogOptions } from '../portal';
+import { generateId } from '../utils';
 
 @Directive({
   standalone: true,
@@ -15,6 +16,7 @@ import { DialogOptions } from '../portal';
 })
 export class MenuTrigger {
   meeMenuTrigger = input.required<Menu>();
+  meeMenuTriggerData = input();
   hover = inject(NavigationMenu, { optional: true });
   options = input<DialogOptions>({});
   private parent = inject(Menu, { optional: true });
@@ -23,11 +25,13 @@ export class MenuTrigger {
   close: VoidFunction | null = null;
   private closeParent = true;
   private delayTimer: any = 0;
+  private menuOpen = signal<boolean>(false);
   events = new Subject<{
     event: MouseEvent;
     type: 'enter' | 'leave' | 'click';
     menu: MenuTrigger;
   }>();
+  ayId = generateId();
 
   constructor() {
     afterNextRender(() => {
@@ -55,11 +59,11 @@ export class MenuTrigger {
             if (this.hover) {
               this.delayTimer = setTimeout(() => {
                 this.closeParent = false;
-                this.close?.();
+                this.closeMenu();
               }, 300);
             } else {
               this.closeParent = false;
-              this.close?.();
+              this.closeMenu();
             }
           }
         });
@@ -74,13 +78,17 @@ export class MenuTrigger {
       this.events.next({ event: ev, type: 'click', menu: this });
       return;
     } else {
-      this.open(ev);
+      this.openMenu();
     }
   }
 
-  open(ev: MouseEvent) {
+  private open(ev: MouseEvent) {
     ev.preventDefault();
     ev.stopPropagation();
+    this.openMenu();
+  }
+
+  openMenu() {
     if (this.close) {
       return;
     }
@@ -93,8 +101,14 @@ export class MenuTrigger {
         position: this.parent ? 'right' : 'bl',
         offset: 4,
       },
-      { backdrop: !this.parent, ...this.options() },
+      {
+        data: this.meeMenuTriggerData(),
+        backdrop: !this.parent,
+        ...this.options(),
+        ayId: this.ayId,
+      },
     );
+    this.menuOpen.set(true);
     menu.diaRef = diaRef;
     menu.opened();
     this.close = () => {
@@ -106,7 +120,7 @@ export class MenuTrigger {
         if (ev.type === 'mouseleave') {
           this.delayTimer = setTimeout(() => {
             this.closeParent = false;
-            this.close?.();
+            this.closeMenu();
           }, 300);
         } else {
           clearTimeout(this.delayTimer);
@@ -121,12 +135,13 @@ export class MenuTrigger {
     });
     if (this.parent) {
       this.parent.diaRef?.afterClosed.subscribe(() => {
-        this.close?.();
+        this.closeMenu();
       });
     }
   }
 
   closeMenu() {
     this.close?.();
+    this.menuOpen.set(false);
   }
 }

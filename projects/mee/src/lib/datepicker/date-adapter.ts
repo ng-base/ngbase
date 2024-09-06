@@ -1,4 +1,4 @@
-export class DefaultDateAdapter {
+export class NativeDateAdapter {
   locale = 'en';
 
   setLocale(locale: string) {

@@ -49,6 +49,8 @@ import { SheetComponent } from './sheet.component';
 import { FormsComponent } from './forms.component';
 import { ListComponent } from './list.component';
 import { SelectableComponent } from './selectable.component';
+import { DragComponent } from './drag.component';
+import { ExamplesComponent } from '../examples/main.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -103,6 +105,11 @@ export const UI_ROUTES: Routes = [
       { path: 'forms', component: FormsComponent },
       { path: 'list', component: ListComponent },
       { path: 'selectable', component: SelectableComponent },
+      { path: 'drag', component: DragComponent },
+      {
+        path: 'examples',
+        loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),
+      },
       { path: '', redirectTo: 'accordion', pathMatch: 'full' },
     ],
   },

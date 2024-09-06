@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   OnDestroy,
   TemplateRef,
   contentChildren,
@@ -11,17 +10,23 @@ import {
 import { DialogRef } from '../portal';
 import { Keys } from '../keys';
 import { Option } from '../select';
-import { merge } from 'rxjs';
-import { Subscription } from 'rxjs';
-import { MenuItem } from './menu-item.directive';
+import { List } from '../list';
+import { AccessibleGroup } from '../a11y';
 
 @Component({
   selector: 'mee-menu',
   standalone: true,
   exportAs: 'meeMenu',
+  imports: [AccessibleGroup],
   template: `
     <ng-template #container>
-      <div (click)="close()" class="flex flex-col">
+      <div
+        (click)="close()"
+        class="flex flex-col"
+        meeAccessibleGroup
+        [ayId]="this.diaRef.options.ayId"
+        [isPopup]="true"
+      >
         <ng-content></ng-content>
       </div>
     </ng-template>
@@ -29,70 +34,20 @@ import { MenuItem } from './menu-item.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Menu implements OnDestroy {
-  container = viewChild('container', { read: TemplateRef });
-  lists = contentChildren(Option, { read: ElementRef });
-  manager = new Keys();
+  readonly container = viewChild.required('container', { read: TemplateRef });
+  readonly options = contentChildren(Option);
+  readonly lists = contentChildren(List);
+  readonly manager = new Keys();
+  readonly selected = output<string>();
   // this will be injected by the MenuTrigger directive
-  diaRef?: DialogRef;
-  sub?: Subscription;
-  selected = output<string>();
+  diaRef!: DialogRef;
 
   opened() {
-    this.sub = new Subscription();
-    let active = 0;
-    const list = this.lists() as ElementRef<HTMLDivElement>[];
-    if (!list.length) {
-      return;
-    }
-    // console.log(list);
-    list[0].nativeElement.focus();
-    this.sub.add(
-      merge(this.manager.event('ArrowDown'), this.manager.event('ArrowUp')).subscribe(
-        ([bo, ev]) => {
-          if (bo) {
-            ev.preventDefault();
-            ev.stopPropagation();
-            const prev = active;
-            if (ev.key === 'ArrowDown') {
-              active++;
-              active = active === list.length ? 0 : active;
-            } else {
-              active--;
-              active = active === -1 ? list.length - 1 : active;
-            }
-            console.log(ev.key, active, list[active].nativeElement);
-            const el = list[active].nativeElement;
-            list[prev].nativeElement.setAttribute('tabindex', '-1');
-            el.setAttribute('tabindex', '0');
-            el.focus();
-            // console.log(list[active].nativeElement);
-            // list.forEach((list, i) => {
-            //   // list.active.set(i === active);
-
-            // });
-          }
-        },
-      ),
-    );
-
-    this.sub.add(
-      this.manager.event('Enter').subscribe(([bo, ev]) => {
-        if (bo) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          this.selected.emit(list[active].nativeElement.textContent!);
-          // list.forEach((list, i) => {
-          //   // if (list.active()) {
-          //   // this.selected.emit(list.value());
-          //   // }
-          // });
-          this.close();
-        }
-      }),
-    );
-
-    this.diaRef!.afterClosed.subscribe(() => {
-      this.sub?.unsubscribe();
+    this.options().forEach((list, i) => {
+      list.setAyId(this.diaRef.options.ayId!);
+    });
+    this.lists().forEach((list, i) => {
+      list.setAyId(this.diaRef.options.ayId!);
     });
   }
 

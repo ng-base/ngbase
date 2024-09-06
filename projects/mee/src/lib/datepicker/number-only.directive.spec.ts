@@ -3,32 +3,32 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NumberOnly } from './number-only.directive';
 import { By } from '@angular/platform-browser';
 
-@Component({
-  standalone: true,
-  imports: [NumberOnly],
-  template: `<input
-    meeNumberOnly
-    [min]="min"
-    [max]="max"
-    [len]="len"
-    (valueChanged)="onValueChanged($event)"
-  />`,
-})
-class TestComponent {
-  min?: number;
-  max?: number;
-  len?: number;
-  value: string = '';
-
-  onValueChanged(value: string) {
-    this.value = value;
-  }
-}
-
 describe('NumberOnly Directive', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
   let inputElement: HTMLInputElement;
+
+  @Component({
+    standalone: true,
+    imports: [NumberOnly],
+    template: `<input
+      meeNumberOnly
+      [min]="min"
+      [max]="max"
+      [len]="len"
+      (valueChanged)="onValueChanged($event)"
+    />`,
+  })
+  class TestComponent {
+    min?: number;
+    max?: number;
+    len?: number;
+    value: string = '';
+
+    onValueChanged(value: string) {
+      this.value = value;
+    }
+  }
 
   function triggerKeyEvent(name: string, key: string, ctrlKey = false) {
     const event = new KeyboardEvent(name, { key, ctrlKey, cancelable: true });

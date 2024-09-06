@@ -10,7 +10,13 @@ import { AccordionGroup } from './accordion-group.component';
   template: `
     <ng-content select="[meeAccordionHeader]"></ng-content>
     @if (expanded()) {
-      <div [@slide] class="overflow-hidden">
+      <div
+        [@slide]
+        class="overflow-hidden"
+        role="region"
+        [id]="id"
+        [attr.aria-labelledby]="'accordion-' + id"
+      >
         <ng-content></ng-content>
       </div>
     }

@@ -7,14 +7,14 @@ export class DragData {
   constructor(
     public x = 0,
     public y = 0,
-    public xx = 0,
-    public yy = 0,
+    public dx = 0,
+    public dy = 0,
     public type: 'start' | 'move' | 'end' = 'start',
     public event?: PointerEvent,
     public clientX?: number,
     public clientY?: number,
     public direction?: 'left' | 'right',
-    public velocity = 0, // between 0 to 1
+    public velocity = 0, // pixels per millisecond
     public time = Date.now(),
   ) {}
 }
@@ -43,7 +43,6 @@ export class Drag implements OnDestroy {
           fromEvent<PointerEvent>(this.document, 'pointerup').pipe(
             tap(upEvent => {
               const value = this.getDragEvent(upEvent, 'end');
-              value.velocity = this.lastValue.velocity;
               this.events.next(value);
               this.lastValue = new DragData();
               this.toggleUserSelect(false);
@@ -85,23 +84,32 @@ export class Drag implements OnDestroy {
 
   private getDragEvent(ev: PointerEvent, type: 'start' | 'move' | 'end') {
     const now = Date.now();
-    const timeDifference = now - this.lastValue.time;
+    const dt = now - this.lastValue.time;
     const startClientX = this.startEvent.clientX;
     const startClientY = this.startEvent.clientY;
-    const velocityX = (ev.clientX - startClientX - this.lastValue.x) / timeDifference;
-    const velocityY = (ev.clientY - startClientY - this.lastValue.y) / timeDifference;
+    const dx = ev.clientX - (this.lastValue.clientX ?? startClientX);
+    const dy = ev.clientY - (this.lastValue.clientY ?? startClientY);
+
+    let velocity = 0;
+    if (type === 'move' && dt > 0) {
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      velocity = (distance / dt) * 0.6;
+    } else if (type === 'end') {
+      velocity = this.lastValue.velocity;
+    }
+    this.lastValue.time = now;
 
     return new DragData(
       ev.clientX - startClientX,
       ev.clientY - startClientY,
-      ev.clientX - startClientX - this.lastValue.x,
-      ev.clientY - startClientY - this.lastValue.y,
+      dx,
+      dy,
       type,
       ev,
       ev.clientX,
       ev.clientY,
       this.getDirection(ev),
-      Math.sqrt(velocityX * velocityX + velocityY * velocityY),
+      velocity,
       now,
     );
   }

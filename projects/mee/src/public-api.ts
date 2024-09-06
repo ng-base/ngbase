@@ -52,3 +52,4 @@ export * from './lib/tour';
 export * from './lib/tree';
 export * from './lib/typography';
 export * from './lib/utils';
+export * from './lib/a11y';

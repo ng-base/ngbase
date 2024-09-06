@@ -9,12 +9,12 @@ import {
   TemplateRef,
   ViewContainerRef,
   afterNextRender,
+  computed,
   contentChild,
   effect,
   inject,
   input,
   signal,
-  untracked,
   viewChild,
 } from '@angular/core';
 import { TreeNodeDef } from './tree-node.directive';
@@ -23,8 +23,67 @@ export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_D
 
 export type TreeAction = 'add' | 'addAll' | 'delete' | 'deleteAll';
 
+interface FlatNode {
+  expandable: boolean;
+  id: string;
+  level: number;
+  isExpanded?: boolean;
+  parentId?: string;
+  index: number;
+  childrenCount: number;
+}
+
+class TreeFlatNode<T> {
+  data: FlatNode[] = [];
+  readonly dataMap = new Map<string, T>();
+
+  constructor(
+    private children: (node: T) => T[],
+    private id: (node: T) => any,
+  ) {}
+
+  setDataSource(data: T[], opened: Set<string>, expanded: boolean) {
+    this.data = [];
+    this.dataMap.clear();
+    this.setChildren(data, 0, '0', opened, expanded);
+  }
+
+  private setChildren(
+    list: T[],
+    level: number,
+    parentId: any,
+    opened: Set<string>,
+    expanded: boolean,
+  ) {
+    if (expanded) {
+      opened.add(parentId);
+    } else if (level !== 0 && !opened.has(parentId)) {
+      return;
+    }
+    for (let index = 0; index < list.length; index++) {
+      const node = list[index];
+      const children = this.children(node);
+      const childrenId = parentId + '-' + this.id(node);
+      const value: FlatNode = {
+        level,
+        expandable: children.length > 0,
+        parentId,
+        id: childrenId,
+        index,
+        childrenCount: children.length,
+      };
+      this.dataMap.set(childrenId, node);
+      this.data.push(value);
+      if (children.length) {
+        this.setChildren(children, level + 1, childrenId, opened, expanded);
+      }
+    }
+  }
+}
+
 export interface TreeNodeData<T> {
   level: number;
+  details: FlatNode;
   data: T;
 }
 
@@ -43,71 +102,104 @@ export interface TreeNodeImplicit<T> {
   },
 })
 export class Tree<T> {
-  dataSource = input.required<T[]>();
+  // Dependencies
   injector = inject(Injector);
-  treeNodeDef = contentChild.required(TreeNodeDef, { read: TemplateRef });
-  container = viewChild.required('container', { read: ViewContainerRef });
-  opened = signal(new Set<T>());
-  trace = new Map<T, { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: T }>();
-  expanded = input<boolean>(false);
   differs = inject(IterableDiffers);
-  _dataDiffers?: IterableDiffer<T>;
-  trackBy = input.required<(index: number, item: T) => any>();
-  children = input.required<(node: T) => T[]>();
+
+  readonly treeNodeDef = contentChild.required(TreeNodeDef, { read: TemplateRef });
+  readonly container = viewChild.required('container', { read: ViewContainerRef });
+
+  // Inputs
+  readonly dataSource = input.required<T[]>();
+  readonly trackBy = input.required<(index: number, item: T) => any>();
+  readonly children = input.required<(node: T) => T[]>();
+
+  readonly opened = signal(new Set<string>());
+  readonly trace = new Map<
+    string,
+    { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: FlatNode }
+  >();
+  _dataDiffers?: IterableDiffer<FlatNode>;
+  private readonly flatner = computed(
+    () => new TreeFlatNode(this.children(), node => this.trackBy()(0, node)),
+  );
+  private expanded = false;
 
   constructor() {
     afterNextRender(() => {
-      this._dataDiffers = this.differs.find([]).create(this.trackBy);
+      this._dataDiffers = this.differs.find([]).create((index, item) => item.id);
     });
-    let firstLoad = true;
-    effect(() => {
-      const def = this.treeNodeDef();
-      const data = this.dataSource();
-      const container = this.container();
-      const opened = untracked(this.opened);
-      const expanded = untracked(this.expanded);
-      container.clear();
-      this.trace.clear();
-      console.log('effect called', data);
-      // console.log('effect called');
 
-      // const changes = this._dataDiffers?.diff(data);
+    effect(
+      () => {
+        const flatner = this.flatner();
+        const data = this.dataSource();
+        const opened = this.opened();
+        flatner.setDataSource(data, opened, this.expanded);
+        this.expanded = false;
 
-      // if (!changes) {
-      //   return;
-      // }
-      let index = 0;
-      for (const item of data) {
-        const i = this.renderNode(
-          item,
-          container,
-          def,
-          0,
-          opened,
-          expanded && firstLoad ? 'addAll' : 'toggle',
-          index,
-        );
-        // this is because the index is not updated in the renderNode function
-        // when expanded is false
-        if (i === index) {
-          index++;
+        const changes = this._dataDiffers?.diff(flatner.data);
+        if (!changes) {
+          return;
         }
-      }
-      firstLoad = false;
-    });
+
+        const container = this.container();
+        const def = this.treeNodeDef();
+        changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
+          if (item.previousIndex == null) {
+            // Item added
+            // const parent = this.flatner().tempData.get(item.item.parentId!);
+            this.renderNode(item.item, container, def, item.item.level, currentIndex!);
+          } else if (currentIndex == null) {
+            // Item removed
+            this.removeNode(item.item);
+          } else {
+            // Item moved
+            const viewRef = this.trace.get(item.item.id)?.ref;
+            if (viewRef) {
+              container.move(viewRef, currentIndex);
+            }
+          }
+        });
+
+        // update the opened nodes
+        let count = 0;
+        changes.forEachIdentityChange(item => {
+          count++;
+          const viewRef = this.trace.get(item.item.id)?.ref;
+          if (viewRef) {
+            viewRef.context.level = item.item.level;
+            viewRef.context.$implicit = this.flatner().dataMap.get(item.item.id)!;
+          }
+        });
+        console.log('count', count);
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  private removeNode(data: FlatNode) {
+    const ref = this.trace.get(data.id);
+    if (ref) {
+      ref.ref.destroy();
+      this.trace.delete(data.id);
+    }
+  }
+
+  getNode(id: string) {
+    return this.flatner().dataMap.get(id);
   }
 
   private renderNode(
-    data: T,
+    details: FlatNode,
     container: ViewContainerRef,
     def: TemplateRef<any>,
     level = 0,
-    opened: Set<T>,
-    type: 'add' | 'addAll' | 'delete' | 'toggle' = 'toggle',
     index: number,
-  ): number {
-    if (!this.trace.has(data)) {
-      const value: TreeNodeData<T> = { level, data };
+  ) {
+    if (!this.trace.has(details.id)) {
+      const data = this.flatner().dataMap.get(details.id)!;
+      const value: TreeNodeData<T> = { level, details: details, data };
       const injector = Injector.create({
         providers: [{ provide: TREE_NODE_DATA, useValue: value }],
         parent: this.injector,
@@ -117,96 +209,29 @@ export class Tree<T> {
         { $implicit: data, level },
         { injector, index },
       );
-      this.trace.set(data, { ref, parent: data });
+      this.trace.set(details.id, { ref, parent: details });
+      ref.detectChanges();
     }
-    const children = this.children()(data);
-    if (opened.has(data) || type === 'addAll') {
-      if (children) {
-        opened.add(data);
-        for (let i = 0; i < children.length; i++) {
-          const item = children[i];
-          index++;
-
-          index = this.renderNode(item, container, def, level + 1, opened, type, index);
-        }
-      }
-    }
-    return index;
   }
 
-  toggle(data: T) {
+  toggle(data: FlatNode) {
     const opened = this.opened();
-    const type = opened.has(data) ? 'delete' : 'add';
+    const type = opened.has(data.id) ? 'delete' : 'add';
     if (type === 'delete') {
-      opened.delete(data);
+      opened.delete(data.id);
+    } else {
+      opened.add(data.id);
     }
-    // type === 'add' || type === 'addAll' || (type === 'delete' ? false : !opened.has(data));
-    this.process(data, opened, type);
     this.opened.set(new Set(opened));
   }
 
-  process(data: T, opened: Set<T>, type: TreeAction) {
-    const isAdd = type === 'add' || type === 'addAll';
-    const ref = this.trace.get(data)!;
-    if (!ref) {
-      return;
-    }
-    let indexNumber = this.container().indexOf(ref.ref);
-    const container = this.container();
-    const def = this.treeNodeDef();
-
-    // render the tree
-    const children = this.children()(data);
-    for (let i = 0; i < children?.length; i++) {
-      const item = children[i];
-      if (isAdd) {
-        indexNumber = this.renderNode(
-          item,
-          container,
-          def,
-          ref.ref.context.level + 1,
-          opened,
-          type,
-          indexNumber + 1,
-        );
-      } else {
-        this.deleteNode(item, opened, type);
-      }
-    }
-    if (isAdd) {
-      opened.add(data);
-    } else if (type === 'deleteAll') {
-      opened.delete(data);
-    }
-  }
-
-  private deleteNode(item: T, opened: Set<T>, type: TreeAction) {
-    const ref = this.trace.get(item);
-    if (!ref) {
-      return;
-    }
-    if (this.children()(item)) {
-      this.process(item, opened, type);
-    }
-    ref.ref.destroy();
-    this.trace.delete(item);
-  }
-
   foldAll() {
-    const opened = this.opened();
-    while (opened.size) {
-      const data = opened.values().next().value;
-      this.process(data, opened, 'deleteAll');
-    }
+    this.expanded = false;
     this.opened.set(new Set());
   }
 
   expandAll() {
-    const opened = this.opened();
-    const data = this.dataSource();
-    for (const item of data) {
-      this.process(item, opened, 'addAll');
-    }
-    this.opened.set(new Set(opened));
+    this.expanded = true;
+    this.opened.set(new Set());
   }
 }

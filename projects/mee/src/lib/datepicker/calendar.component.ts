@@ -18,12 +18,13 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { Icons } from '../icon';
 import { TimePicker } from './time.component';
 import { FormsModule } from '@angular/forms';
+import { AccessibleItem } from '../a11y';
 
 @Component({
   standalone: true,
   selector: 'mee-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, Button, Icons, TimePicker, FormsModule],
+  imports: [NgClass, Button, Icons, TimePicker, FormsModule, AccessibleItem],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   template: `
     <div class="mb-b2 flex items-center justify-between">
@@ -34,10 +35,17 @@ import { FormsModule } from '@angular/forms';
         [class]="!first() ? 'invisible' : ''"
         (click)="navigate(-1)"
         [disabled]="leftBtn()"
+        [tabIndex]="leftBtn() ? -1 : 0"
       >
         <mee-icon name="lucideChevronLeft"></mee-icon>
       </button>
-      <button meeButton variant="ghost" class="small rounded-md" (click)="toggleView()">
+      <button
+        meeButton
+        variant="ghost"
+        class="small rounded-md"
+        (click)="toggleView()"
+        tabIndex="0"
+      >
         {{ title() }}
       </button>
       <button
@@ -47,6 +55,7 @@ import { FormsModule } from '@angular/forms';
         [class]="!last() ? 'invisible' : ''"
         (click)="navigate(1)"
         [disabled]="rightBtn()"
+        [tabIndex]="rightBtn() ? -1 : 0"
       >
         <mee-icon name="lucideChevronRight"></mee-icon>
       </button>
@@ -64,6 +73,9 @@ import { FormsModule } from '@angular/forms';
               todayDay() && cStartYear() === year.year ? 'border bg-muted-background' : '',
               cStartYear() === year.year ? '!bg-primary text-foreground' : '',
             ]"
+            meeAccessibleItem
+            [data]="year"
+            [ayId]="datePicker.ayId"
           >
             {{ year.year }}
           </button>
@@ -73,6 +85,9 @@ import { FormsModule } from '@angular/forms';
       <div class="months">
         @for (month of months(); track month.value) {
           <button
+            meeAccessibleItem
+            [data]="month"
+            [ayId]="datePicker.ayId"
             class="items-center justify-center rounded-md py-b2 {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -98,6 +113,9 @@ import { FormsModule } from '@angular/forms';
         @for (day of getDaysArray(); track $index) {
           <button
             #days
+            meeAccessibleItem
+            [data]="day"
+            [ayId]="datePicker.ayId"
             (click)="!day.disabled && selectDate(day.day, day.mon)"
             class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
@@ -148,9 +166,9 @@ import { FormsModule } from '@angular/forms';
     }
   `,
 })
-export class Calendar implements OnDestroy {
-  datePicker = inject(DatePicker);
-  days = viewChildren<ElementRef<HTMLElement>>('days');
+export class Calendar<D> implements OnDestroy {
+  readonly datePicker = inject<DatePicker<D>>(DatePicker);
+  readonly days = viewChildren<ElementRef<HTMLElement>>('days');
   readonly first = input(false);
   readonly last = input(false);
   readonly index = input(0);
@@ -177,8 +195,8 @@ export class Calendar implements OnDestroy {
   });
 
   readonly selectedMonthName = computed(() => {
-    const date = new Date(this.cStartYear(), this.cStartMonth());
-    return date.toLocaleString('default', { month: 'long' });
+    const date = this.adapter.create(this.cStartYear(), this.cStartMonth());
+    return this.adapter.longMonthNames(date);
   });
 
   readonly currentYear = signal(this.cStartYear());
@@ -187,15 +205,15 @@ export class Calendar implements OnDestroy {
     const filter = this.datePicker.dateFilter();
     return Array.from({ length: 24 }, (_, i) => {
       const y = year - (24 - 6) + i;
-      return { year: y, disabled: !filter?.(new Date(y, 0)) };
+      return { year: y, disabled: !filter?.(this.adapter.create(y, 0)) };
     });
   });
   readonly months = computed(() => {
     const filter = this.datePicker.dateFilter();
     return Array.from({ length: 12 }, (_, i) => {
-      const date = new Date(this.cStartYear(), i);
+      const date = this.adapter.create(this.cStartYear(), i);
       const isDisabled = !filter?.(date);
-      const name = date.toLocaleString('default', { month: 'long' });
+      const name = this.adapter.longMonthNames(date);
       return { name: name.substring(0, 3), value: i, disabled: isDisabled };
     });
   });
@@ -222,28 +240,28 @@ export class Calendar implements OnDestroy {
     const month = this.cStartMonth();
     const year = this.cStartYear();
     const dateFilter = this.datePicker.dateFilter();
-    const numDays = new Date(year, month + 1, 0).getDate();
+    const numDays = this.adapter.getDate(this.adapter.create(year, month + 1, 0));
     const daysArray = Array.from({ length: numDays }, (_, i) => {
-      const date = new Date(year, month, i + 1);
+      const date = this.adapter.create(year, month, i + 1);
       return {
         mon: month,
         day: i + 1,
         disabled: !dateFilter?.(date) || false,
         current: true,
-        count: date.getTime(),
+        count: this.adapter.getTime(date),
       };
     });
-    const startDay = new Date(year, month).getDay();
+    const startDay = this.adapter.getDay(this.adapter.create(year, month));
     // get the additional days from the previous month
-    const prevMonth = new Date(year, month, 0).getDate();
+    const prevMonth = this.adapter.getDate(this.adapter.create(year, month, 0));
     const daysArrayPrev = Array.from({ length: startDay }, (_, i) => {
-      const date = new Date(year, month - 1, prevMonth - startDay + i + 1);
+      const date = this.adapter.create(year, month - 1, prevMonth - startDay + i + 1);
       return {
         mon: month - 1,
         day: prevMonth - startDay + i + 1,
         disabled: !dateFilter?.(date) || false,
         current: false,
-        count: date.getTime(),
+        count: this.adapter.getTime(date),
       };
     });
     const t = daysArrayPrev.concat(daysArray); // Padding for start day alignment
@@ -251,13 +269,13 @@ export class Calendar implements OnDestroy {
     // we need to check whether it is divisible by 7 and we have to fill only the remaining days
     const remaining = t.length % 7 === 0 ? 0 : 7 - (t.length % 7);
     const daysArrayNext = Array.from({ length: remaining }, (_, i) => {
-      const date = new Date(year, month + 1, i + 1);
+      const date = this.adapter.create(year, month + 1, i + 1);
       return {
         mon: month + 1,
         day: i + 1,
         disabled: !dateFilter?.(date) || false,
         current: false,
-        count: date.getTime(),
+        count: this.adapter.getTime(date),
       };
     });
     t.push(...daysArrayNext);
@@ -271,11 +289,11 @@ export class Calendar implements OnDestroy {
     const year = this.cStartYear();
     const filter = this.datePicker.dateFilter();
     if (type === 'year') {
-      return !filter?.(new Date(this.years()[0].year - 1, 11, 31));
+      return !filter?.(this.adapter.create(this.years()[0].year - 1, 11, 31));
     } else if (type === 'month') {
-      return !filter?.(new Date(year - 1, 0));
+      return !filter?.(this.adapter.create(year - 1, 0));
     } else {
-      return !filter?.(new Date(year, this.cStartMonth() - 1));
+      return !filter?.(this.adapter.create(year, this.cStartMonth() - 1));
     }
   });
 
@@ -286,16 +304,16 @@ export class Calendar implements OnDestroy {
     const year = this.cStartYear();
     const filter = this.datePicker.dateFilter();
     if (type === 'year') {
-      return !filter?.(new Date(this.years()[this.years().length - 1].year + 1, 0));
+      return !filter?.(this.adapter.create(this.years()[this.years().length - 1].year + 1, 0));
     } else if (type === 'month') {
-      return !filter?.(new Date(year + 1, 0));
+      return !filter?.(this.adapter.create(year + 1, 0));
     } else {
-      return !filter?.(new Date(year, this.cStartMonth() + 1));
+      return !filter?.(this.adapter.create(year, this.cStartMonth() + 1));
     }
   });
 
   todayDay = computed(() => {
-    const today = new Date();
+    const today = this.adapter.now();
     return this.getSelectedDayOfMonth(today);
   });
 
@@ -303,9 +321,9 @@ export class Calendar implements OnDestroy {
 
   constructor() {
     if (this.datePicker.time() && this.datePicker.range()) {
-      const dates = this.datePicker.selectedDates();
-      this.time1.set(this.datePicker.adapter.format(dates[0]!, 'hh:mm a'));
-      this.time2.set(this.datePicker.adapter.format(dates[1]!, 'hh:mm a'));
+      const [first, second] = this.datePicker.selectedDates();
+      this.time1.set(first ? this.adapter.format(first, 'hh:mm a') : '');
+      this.time2.set(second ? this.adapter.format(second, 'hh:mm a') : '');
     }
     effect(
       () => {
@@ -331,10 +349,15 @@ export class Calendar implements OnDestroy {
     );
   }
 
-  private getSelectedDayOfMonth(date: Date) {
+  get adapter() {
+    return this.datePicker.adapter;
+  }
+
+  private getSelectedDayOfMonth(date: D) {
     const r =
-      this.cStartMonth() === date.getMonth() && this.cStartYear() === date.getFullYear()
-        ? date.getDate()
+      this.cStartMonth() === this.adapter.getMonth(date) &&
+      this.cStartYear() === this.adapter.getYear(date)
+        ? this.adapter.getDate(date)
         : 0;
     return r;
   }
@@ -346,21 +369,22 @@ export class Calendar implements OnDestroy {
   }
 
   hoverDate(day: number, month: number) {
-    this.datePicker.updateHoveredDate(new Date(this.cStartYear(), month, day));
+    this.datePicker.updateHoveredDate(this.adapter.create(this.cStartYear(), month, day));
   }
 
   timeChanged(index: number, timing: string) {
     const [time, period] = timing.split(' ');
     const [hours, min] = time.split(':').map(Number);
     const dates = this.datePicker.selectedDates();
-    const date = dates[index]!;
-    date.setHours(period === 'PM' ? hours + 12 : hours, min);
+    let date = dates[index]! as D;
+    date = this.adapter.set(date, period === 'PM' ? hours + 12 : hours, 'hour');
+    date = this.adapter.set(date, min, 'minute');
 
     this.datePicker.selectDate(date, index);
   }
 
   selectDate(day: number, month: number) {
-    const date = new Date(this.cStartYear(), month, day);
+    const date = this.adapter.create(this.cStartYear(), month, day);
     this.datePicker.selectDate(date);
   }
 

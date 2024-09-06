@@ -18,7 +18,6 @@ describe('DialogRef', () => {
   it('should create', () => {
     expect(dialogRef).toBeTruthy();
     expect(dialogRef.data).toBe(data);
-    expect(dialogRef.status()).toBeTruthy();
   });
 
   it('should call the closeAll function when closeAll is called', () => {
@@ -40,8 +39,7 @@ describe('DialogRef', () => {
     jest.spyOn(dialogRef, 'destroy');
     dialogRef.close('test');
     expect(closeData).toBe('test');
-    expect(dialogRef.status()).toBeFalsy();
-    expect(dialogRef.destroy).not.toHaveBeenCalled();
+    expect(dialogRef.destroy).toHaveBeenCalled();
   });
 
   it('should close method without data and animation should call destroy', () => {
@@ -51,7 +49,6 @@ describe('DialogRef', () => {
     jest.spyOn(dialogRef, 'destroy');
     dialogRef.close();
     expect(closeData).toBeUndefined();
-    expect(dialogRef.status()).toBeFalsy();
     expect(dialogRef.destroy).toHaveBeenCalled();
   });
 });

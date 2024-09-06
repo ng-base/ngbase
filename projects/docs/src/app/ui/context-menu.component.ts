@@ -13,19 +13,22 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="contextMenuPage">Context Menu</h4>
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
-      <mee-card class="grid h-44 w-96 place-items-center" [meeContextMenu]="menuContainer">
-        Right click to open context menu
+      <mee-card class="grid h-72 w-96 place-items-center" [meeContextMenu]="menuContainer1">
+        <mee-card class="grid h-32 w-52 place-items-center" [meeContextMenu]="menuContainer">
+          Right click to open context menu
+        </mee-card>
       </mee-card>
     </app-doc-code>
 
     <mee-menu #menuContainer>
-      <button meeList>Profile</button>
-      <button meeList>Billing</button>
-      <button meeList>Settings</button>
-      <button meeList>Keyboard shortcuts</button>
-      <mee-separator></mee-separator>
-      <button meeList>Team</button>
-      <button meeList>New Team</button>
+      <button meeList class="w-28">Cut</button>
+      <button meeList class="w-28">Copy</button>
+      <button meeList class="w-28">Paste</button>
+    </mee-menu>
+
+    <mee-menu #menuContainer1>
+      <button meeList class="w-28">Save</button>
+      <button meeList class="w-28">Exit</button>
     </mee-menu>
   `,
 })

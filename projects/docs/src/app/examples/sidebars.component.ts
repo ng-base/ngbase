@@ -115,11 +115,14 @@ import {
                 </div>
               </ng-template>
               <mee-accordion-group multiple>
-                <mee-accordion class="border-none" [expanded]="true">
+                <mee-accordion #ac1 class="border-none" [expanded]="true">
                   <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideSquareTerminal" />
                     Playground
-                    <mee-icon class="ml-auto" name="lucideChevronRight" />
+                    <mee-icon
+                      class="ml-auto"
+                      [name]="ac1.expanded() ? 'lucideChevronDown' : 'lucideChevronRight'"
+                    />
                   </h4>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>

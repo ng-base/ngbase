@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   ViewContainerRef,
   afterNextRender,
   viewChild,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
-import { fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
+import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
 import { Drag } from '../drag';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -19,7 +18,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
         class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground p-b4 shadow-2xl"
-        [@sideAnimation]="status() ? 1 : 0"
+        [@bottomAnimation]
       >
         <button class="mx-auto h-2 w-20 rounded-full bg-muted"></button>
         @if (!isHideHeader) {
@@ -35,35 +34,30 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     </div>
     @if (backdropColor) {
       <div
-        class="backdropColor absolute top-0 -z-10 h-full w-full"
+        class="absolute top-0 -z-10 h-full w-full bg-black bg-opacity-30"
+        [@fadeAnimation]
         (click)="close()"
-        [@fadeAnimation]="status() ? 1 : 0"
-        [class.pointer-events-none]="!status()"
-        (@fadeAnimation.done)="animationDone()"
       ></div>
     }
   `,
   host: {
-    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto z-40',
-    // '[style]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
+    class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-hidden z-p',
+    '[@parentAnimation]': '',
+    '(@parentAnimation.done)': 'animationDone()',
   },
-  styles: `
-    .backdropColor {
-      background: rgba(0, 0, 0, 0.6);
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('sideAnimation', [
+    createHostAnimation(['@bottomAnimation', '@fadeAnimation']),
+    trigger('bottomAnimation', [
       state('1', style({ transform: 'none' })),
       state('void', style({ transform: 'translate3d(0, 100%, 0)' })),
       state('0', style({ transform: 'translate3d(0, 100%, 0)' })),
       transition('* => *', animate('200ms ease')),
     ]),
-    fadeAnimation,
+    fadeAnimation('200ms'),
   ],
 })
-export class Drawer extends BaseDialog implements OnDestroy {
+export class Drawer extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
   options!: DialogOptions;
@@ -72,7 +66,6 @@ export class Drawer extends BaseDialog implements OnDestroy {
 
   constructor() {
     super();
-    this.onOpen();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
     });
@@ -83,9 +76,5 @@ export class Drawer extends BaseDialog implements OnDestroy {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.isHideHeader || false;
     this.backdropColor = this.options.backdropColor || true;
-  }
-
-  ngOnDestroy(): void {
-    this.onClose();
   }
 }

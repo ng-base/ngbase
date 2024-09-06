@@ -1,22 +1,33 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   contentChildren,
   effect,
   forwardRef,
   input,
+  model,
 } from '@angular/core';
 import { ToggleItem } from './toggle-item.component';
-import { Subscription } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AccessibleGroup } from '../a11y/accessiblity-group.directive';
+import { generateId } from '../utils';
 
 @Component({
   selector: 'mee-toggle-group',
   standalone: true,
-  imports: [],
-  template: ` <ng-content select="[meeToggleItem]"></ng-content> `,
+  imports: [AccessibleGroup],
+  template: `<div
+    class="flex gap-1"
+    meeAccessibleGroup
+    [ayId]="ayId"
+    [ariaLabel]="ariaLabel()"
+    [ariaLabelledby]="ariaLabelledby()"
+  >
+    <ng-content select="[meeToggleItem]"></ng-content>
+  </div>`,
   host: {
-    class: 'flex gap-1',
+    class: '',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -27,54 +38,54 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class ToggleGroup implements ControlValueAccessor {
-  multiple = input(true);
-  toggleItems = contentChildren(ToggleItem);
-  subscriptions = new Subscription();
-  value: any[] = [];
+export class ToggleGroup<T> implements ControlValueAccessor {
+  readonly multiple = input(true);
+  readonly toggleItems = contentChildren(ToggleItem);
+  readonly ayId = generateId();
+  // value can be array or single value
+  readonly value = model<T | T[]>();
   onChange = (value: any) => {};
   onTouched = () => {};
+
+  readonly disabled = model(false);
+  readonly ariaLabel = input('');
+  readonly ariaLabelledby = input('');
 
   constructor() {
     effect(
       () => {
-        const toggleItems = this.toggleItems();
-        this.subscriptions.unsubscribe();
-        this.subscriptions = new Subscription();
-        toggleItems.forEach(toggleItem => {
-          toggleItem.active.set(this.value.includes(toggleItem.value()));
-          this.subscriptions.add(
-            toggleItem.activeChange.subscribe(active => {
-              this.toggleValue(toggleItem.value());
-              if (!this.multiple() && active) {
-                toggleItems.forEach(item => {
-                  if (item !== toggleItem) {
-                    item.active.set(false);
-                  }
-                });
-              }
-            }),
-          );
+        const items = this.toggleItems();
+        items.forEach(radio => {
+          radio.updateValue = () => {
+            this.updateValue([radio.value()]);
+          };
         });
       },
       { allowSignalWrites: true },
     );
   }
 
-  toggleValue(value: any) {
-    // remove the value if it's already selected
-    if (this.value.includes(value)) {
-      this.value = this.value.filter(v => v !== value);
+  updateValue(value: T[]) {
+    let values = this.value();
+    if (this.multiple()) {
+      values = values as T[];
+      for (const val of value) {
+        if (values.includes(val)) {
+          values = values.filter(v => v !== val);
+        } else {
+          values = [...values, val];
+        }
+      }
     } else {
-      // add the value if it's not selected
-      this.value = this.multiple() ? [...this.value, value] : [value];
+      values = value;
     }
-    this.onChange(this.value);
+    this.value.set(values);
+    this.onChange(value);
     this.onTouched();
   }
 
   writeValue(value: any): void {
-    this.value = value || [];
+    this.value.set(value);
   }
 
   registerOnChange(fn: any): void {
@@ -85,7 +96,7 @@ export class ToggleGroup implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled.set(isDisabled);
   }
 }

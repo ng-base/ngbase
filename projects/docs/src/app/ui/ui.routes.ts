@@ -51,6 +51,8 @@ import { ListComponent } from './list.component';
 import { SelectableComponent } from './selectable.component';
 import { DragComponent } from './drag.component';
 import { ExamplesComponent } from '../examples/main.component';
+import { CardComponent } from './card.component';
+import { MaskComponent } from './mask.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -106,6 +108,8 @@ export const UI_ROUTES: Routes = [
       { path: 'list', component: ListComponent },
       { path: 'selectable', component: SelectableComponent },
       { path: 'drag', component: DragComponent },
+      { path: 'card', component: CardComponent },
+      { path: 'mask', component: MaskComponent },
       {
         path: 'examples',
         loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),

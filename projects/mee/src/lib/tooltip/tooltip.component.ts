@@ -59,7 +59,8 @@ export class TooltipComponent implements OnDestroy {
     this.el.nativeElement.style.right = '';
     this.el.nativeElement.style.transition = '.15s ease-out all';
     this.content.set(content);
-    this.setPosition(target);
+    // we need for the content to be set before setting the position
+    requestAnimationFrame(() => this.setPosition(target));
   }
 
   private setTarget(target: HTMLElement) {

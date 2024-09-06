@@ -91,7 +91,8 @@ export class PopoverPositioner {
       return { top: y, left: x, width: w, height: h };
     }
     const { top, left, width, height } = this.config.target.getBoundingClientRect();
-    return { top, left, width, height: Math.min(height, this.windowDimensions.height - top) };
+    // return { top, left, width, height: Math.min(height, this.windowDimensions.height - top) };
+    return { top, left, width, height };
   }
 
   private getElementRect(): Rect {
@@ -107,8 +108,8 @@ export class PopoverPositioner {
   private getInitialPosition(targetRect: Rect, elRect: Rect, position: Position): PositionResult {
     const offset = this.config.offset || 5;
     const coords = this.getCoordinatesForPosition(position, targetRect, elRect, offset);
-    coords.left = Math.max(0, coords.left);
-    coords.top = Math.max(0, coords.top);
+    // coords.left = Math.max(0, coords.left);
+    // coords.top = Math.max(0, coords.top);
     return { ...coords, position };
   }
 

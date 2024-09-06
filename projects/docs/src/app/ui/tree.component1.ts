@@ -1,6 +1,6 @@
 import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Tree, TreeNode, TreeNodeContent, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
@@ -61,7 +61,7 @@ class TreeFlatNode<T> {
     TreeNodeContent,
     Heading,
     Button,
-    Icons,
+    Icon,
     NgTemplateOutlet,
     JsonPipe,
     CdkTreeModule,

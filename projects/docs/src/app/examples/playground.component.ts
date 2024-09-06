@@ -14,7 +14,7 @@ import { Separator } from '@meeui/separator';
 import { Selectable, SelectableItem } from '@meeui/selectable';
 import { provideIcons } from '@ng-icons/core';
 import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Key } from '@meeui/keys';
 
 @Component({
@@ -43,7 +43,7 @@ import { Key } from '@meeui/keys';
     Separator,
     Selectable,
     SelectableItem,
-    Icons,
+    Icon,
     Key,
   ],
   viewProviders: [provideIcons({ lucideBookText, lucideDownload })],

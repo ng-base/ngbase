@@ -57,14 +57,7 @@ import { Heading } from '@meeui/typography';
       </div>
       <div class="flex flex-col">
         <label for="date" class="mb-1">Date</label>
-        <input
-          meeInput
-          formControlName="date"
-          id="date"
-          placeholder="Date"
-          meeDatepickerTrigger
-          readonly
-        />
+        <input formControlName="date" id="date" placeholder="Date" meeDatepickerTrigger readonly />
       </div>
       <div class="flex flex-col">
         <label for="users" class="mb-1">Users</label>

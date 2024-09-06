@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { generateId } from '../utils';
 import { RadioGroup } from './radio-group.component';
-import { AccessibleItem } from '@meeui/a11y';
+import { AccessibleItem } from '../a11y';
 
 @Component({
   standalone: true,

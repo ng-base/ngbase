@@ -18,12 +18,12 @@ import { DOCUMENT, NgClass } from '@angular/common';
 import { ResizableGroup } from './resizable-group.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 
 @Component({
   selector: 'mee-resizable',
   standalone: true,
-  imports: [Drag, Icons, NgClass],
+  imports: [Drag, Icon, NgClass],
   template: `<ng-content></ng-content>
     <ng-template #dragElement>
       @if (draggable()) {

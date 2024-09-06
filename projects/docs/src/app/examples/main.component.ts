@@ -11,7 +11,7 @@ import { SidebarsComponent } from './sidebars.component';
 import { ThemeService } from '@meeui/theme';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Button } from '@meeui/button';
 import { BlogsComponent } from './blogs.component';
 import { Spinner } from '@meeui/spinner';
@@ -23,7 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-examples',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    Icons,
+    Icon,
     Button,
     Sidenav,
     SidenavHeader,

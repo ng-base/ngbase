@@ -7,13 +7,13 @@ import {
   lucideChevronsLeft,
   lucideChevronsRight,
 } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { Option, Select } from '../select';
 
 @Component({
   selector: 'mee-pagination',
   standalone: true,
-  imports: [Button, Icons, Select, Option],
+  imports: [Button, Icon, Select, Option],
   viewProviders: [
     provideIcons({
       lucideChevronLeft,

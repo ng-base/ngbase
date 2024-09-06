@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Card } from '@meeui/card';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { ScrollArea } from '@meeui/scroll-area';
 import { Separator } from '@meeui/separator';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
@@ -59,7 +59,7 @@ import { TypographyComponent } from './typography.component';
     Separator,
     Card,
     Heading,
-    Icons,
+    Icon,
     ScrollArea,
     AccordionComponent,
     ResizableComponent,

@@ -13,16 +13,16 @@ import { viewAnimation, createHostAnimation, fadeAnimation } from './dialog.anim
 import { Separator } from '../separator';
 import { Button } from '../button';
 import { Subject } from 'rxjs';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { DragMove } from '../drag';
-import { FocusTrap } from '@meeui/utils/focus-trap.directive';
+import { FocusTrap } from '../utils';
 
 @Component({
   standalone: true,
   selector: 'mee-dialog',
-  imports: [NgStyle, Separator, Button, NgClass, Icons, DragMove, FocusTrap],
+  imports: [NgStyle, Separator, Button, NgClass, Icon, DragMove, FocusTrap],
   viewProviders: [provideIcons({ lucideX })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

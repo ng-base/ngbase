@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { InputStyle } from '../input/input-style.directive';
 import { SelectBase } from './select-base.component';
 import { AccessibleGroup } from '../a11y';
@@ -12,7 +12,7 @@ import { AccessibleGroup } from '../a11y';
   selector: 'mee-select',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, InputStyle, Icons, AccessibleGroup],
+  imports: [NgTemplateOutlet, InputStyle, Icon, AccessibleGroup],
   template: `
     <button
       type="button"

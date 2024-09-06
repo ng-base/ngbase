@@ -20,6 +20,7 @@ export class HoverCard {
   open() {
     if (this.outTimer) {
       this.resetOut();
+      // console.log('open outTimer');
       return;
     }
     this.inTimer = setTimeout(() => {
@@ -47,6 +48,7 @@ export class HoverCard {
   closePopup() {
     clearTimeout(this.inTimer);
     this.inTimer = null;
+    if (!this.close) return;
     this.outTimer = setTimeout(() => {
       this.close?.();
       this.close = null;

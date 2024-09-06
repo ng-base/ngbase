@@ -7,6 +7,7 @@ import { Drag, DragData } from './drag.directive';
 class MockPointerEvent extends Event {
   clientX: number;
   clientY: number;
+  button: number = 0;
 
   constructor(type: string, init?: { clientX?: number; clientY?: number }) {
     super(type);

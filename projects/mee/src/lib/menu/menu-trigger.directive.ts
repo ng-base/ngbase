@@ -5,6 +5,7 @@ import { NavigationMenu } from './navigation-menu.directive';
 import { Subject } from 'rxjs';
 import { DialogOptions } from '../portal';
 import { generateId } from '../utils';
+import { AccessibleItem } from '../a11y';
 
 @Directive({
   standalone: true,
@@ -12,34 +13,52 @@ import { generateId } from '../utils';
   exportAs: 'meeMenuTrigger',
   host: {
     '(click)': 'clickOpen($event)',
+    '[attr.aria-expanded]': 'menuOpen()',
+    '[attr.aria-haspopup]': 'true',
   },
 })
 export class MenuTrigger {
-  meeMenuTrigger = input.required<Menu>();
-  meeMenuTriggerData = input();
-  hover = inject(NavigationMenu, { optional: true });
-  options = input<DialogOptions>({});
-  private parent = inject(Menu, { optional: true });
-  el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private popover = popoverPortal();
-  close: VoidFunction | null = null;
-  private closeParent = true;
-  private delayTimer: any = 0;
-  private menuOpen = signal<boolean>(false);
-  events = new Subject<{
+  private readonly nav = inject(NavigationMenu, { optional: true });
+  private readonly parent = inject(Menu, { optional: true });
+  private readonly popover = popoverPortal();
+  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly a11y = inject(AccessibleItem, { optional: true });
+
+  readonly meeMenuTrigger = input.required<Menu>();
+  readonly meeMenuTriggerData = input();
+  readonly options = input<DialogOptions>({});
+
+  private readonly menuOpen = signal<boolean>(false);
+  readonly events = new Subject<{
     event: MouseEvent;
     type: 'enter' | 'leave' | 'click';
     menu: MenuTrigger;
   }>();
-  ayId = generateId();
+  readonly ayId = signal(generateId());
+  close: VoidFunction | null = null;
+  private closeParent = true;
+  private delayTimer: any = 0;
+  private isMouseOverTrigger = false;
 
   constructor() {
+    // if a11y is provided, then we should open on keyleft and keyright
+    this.a11y?.events.subscribe(ev => {
+      if (ev.type === 'key') {
+        if (!this.close) {
+          this.open();
+        } else {
+          this.closeParent = false;
+          this.closeMenu();
+        }
+      }
+    });
     afterNextRender(() => {
       // if parent is provided, then this is a sub-menu and we should open on mouseenter and close on mouseleave
-      if (this.parent || this.hover) {
+      if (this.parent || this.nav) {
         this.el.nativeElement.addEventListener('mouseenter', ev => {
           this.events.next({ event: ev, type: 'enter', menu: this });
-          if (this.hover) {
+          this.isMouseOverTrigger = true;
+          if (this.nav) {
             return;
           }
           clearTimeout(this.delayTimer);
@@ -48,15 +67,17 @@ export class MenuTrigger {
         });
         this.el.nativeElement.addEventListener('mouseleave', ev => {
           this.events.next({ event: ev, type: 'leave', menu: this });
-          if (this.hover) {
+          this.isMouseOverTrigger = false;
+          // console.log('mouseleave');
+          if (this.nav) {
             return;
           }
           // only close when x is not same for the el
           const el = this.el.nativeElement.getBoundingClientRect();
           const y = ev.clientY;
           console.log(y, el.top, el.height);
-          if (!(y > el.top && y < el.top + el.height) || this.hover) {
-            if (this.hover) {
+          if (!(y > el.top && y < el.top + el.height) || this.nav) {
+            if (this.nav) {
               this.delayTimer = setTimeout(() => {
                 this.closeParent = false;
                 this.closeMenu();
@@ -67,6 +88,16 @@ export class MenuTrigger {
             }
           }
         });
+        // console.log('parent', this.parent);
+        this.parent?.events.subscribe(ev => {
+          // console.log('parent event', ev);
+          if (ev.type === 'enter' && !this.isMouseOverTrigger) {
+            this.delayTimer = setTimeout(() => {
+              this.closeParent = false;
+              this.closeMenu();
+            }, 100);
+          }
+        });
       }
     });
   }
@@ -74,7 +105,7 @@ export class MenuTrigger {
   clickOpen(ev: MouseEvent) {
     ev.preventDefault();
     ev.stopPropagation();
-    if (this.hover) {
+    if (this.nav) {
       this.events.next({ event: ev, type: 'click', menu: this });
       return;
     } else {
@@ -82,9 +113,9 @@ export class MenuTrigger {
     }
   }
 
-  private open(ev: MouseEvent) {
-    ev.preventDefault();
-    ev.stopPropagation();
+  private open(ev?: MouseEvent) {
+    ev?.preventDefault();
+    ev?.stopPropagation();
     this.openMenu();
   }
 
@@ -105,7 +136,7 @@ export class MenuTrigger {
         data: this.meeMenuTriggerData(),
         backdrop: !this.parent,
         ...this.options(),
-        ayId: this.ayId,
+        ayId: this.ayId(),
       },
     );
     this.menuOpen.set(true);
@@ -115,7 +146,7 @@ export class MenuTrigger {
       menu.close();
       this.close = null;
     };
-    if (this.hover) {
+    if (this.nav) {
       events.subscribe(ev => {
         if (ev.type === 'mouseleave') {
           this.delayTimer = setTimeout(() => {
@@ -128,16 +159,15 @@ export class MenuTrigger {
       });
     }
     menu.diaRef?.afterClosed.subscribe(() => {
-      if (this.closeParent && this.parent) {
-        this.parent?.close();
-      }
+      if (this.closeParent) this.parent?.close();
+      this.closeParent = true;
+
       this.close = null;
     });
-    if (this.parent) {
-      this.parent.diaRef?.afterClosed.subscribe(() => {
-        this.closeMenu();
-      });
-    }
+
+    this.parent?.diaRef?.afterClosed.subscribe(() => {
+      this.closeMenu();
+    });
   }
 
   closeMenu() {

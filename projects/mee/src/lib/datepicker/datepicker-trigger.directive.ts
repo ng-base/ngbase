@@ -88,7 +88,7 @@ export class DatepickerTrigger<D> {
   }
 
   updateField(filtered: D[]) {
-    console.log(this.fieldFormat());
+    // console.log(this.fieldFormat());
     const d = filtered
       .map(x => this.adapter.format(x, this.fieldFormat()))
       .filter(x => x)

@@ -7,6 +7,8 @@ import {
   ChangeDetectionStrategy,
   inject,
   TemplateRef,
+  viewChild,
+  model,
 } from '@angular/core';
 import { Button } from '../button';
 import { DialogRef } from '../portal';
@@ -27,6 +29,7 @@ import { AccessibleGroup, AccessibleItem } from '../a11y';
       meeAccessibleGroup
       [ayId]="ayId"
       [columns]="7"
+      [initialFocus]="false"
       (focusChanged)="focusChanged($event)"
     >
       @for (no of noOfCalendar() | range; track no) {
@@ -49,15 +52,18 @@ export class DatePicker<D> {
     optional: true,
   });
   readonly adapter = injectMeeDateAdapter<D>();
-  readonly noOfCalendar = signal(this.data?.noOfCalendars || 1);
-  readonly range = signal<boolean>(this.data?.range || false);
+  readonly dateFilter = input(this.data?.dateFilter || (() => true));
+  readonly pickerType = input<'date' | 'month' | 'year'>(this.data?.pickerType || 'date');
+  readonly allyGroup = viewChild(AccessibleGroup);
+
+  readonly noOfCalendar = model(this.data?.noOfCalendars || 1);
+  readonly range = model<boolean>(this.data?.range || false);
   readonly time = signal<boolean>(this.data?.time || false);
   readonly format = signal<string>(
     this.data?.format || `MM-dd-yyyy${this.data?.time ? ' HH:mm a' : ''}`,
   );
   readonly template = signal<TemplateRef<any> | null>(this.data?.template || null);
-  readonly dateFilter = input(this.data?.dateFilter || (() => true));
-  readonly pickerType = input<'date' | 'month' | 'year'>(this.data?.pickerType || 'date');
+
   readonly showType = signal<'date' | 'month' | 'year'>(this.pickerType());
   readonly selectedDates = signal<[D | null, D | null]>([null, null]);
   readonly times = signal<[string | null, string | null]>([null, null]);
@@ -100,6 +106,7 @@ export class DatePicker<D> {
 
   constructor() {
     this.init();
+    // this.allyGroup.focusChanged.subscribe(item => this.focusChanged(item));
   }
 
   private init() {
@@ -124,9 +131,26 @@ export class DatePicker<D> {
     return this.dialogRef?.data;
   }
 
-  focusChanged(item: AccessibleItem) {
-    const data = item!.data();
-    if (data.day) {
+  focusChanged(item: { current: AccessibleItem; previous?: AccessibleItem }) {
+    const cData = item.current.data();
+    const pData = item.previous?.data();
+    // console.log('focusChanged', cData, pData);
+    // console.log(data);
+    if (cData.day) {
+      let add = 0;
+      // if (pData) {
+      //   const v = (cData.day - pData.day) / 7;
+      //   console.log(Math.abs(1));
+      //   if (1 === Math.abs(v)) {
+      //     add = 0;
+      //   } else if (v > 0) {
+      //     add = -1;
+      //   } else {
+      //     add = 1;
+      //   }
+      // }
+      // console.log(add);
+      // this.startMonth.set(cData.mon + add);
     }
   }
 

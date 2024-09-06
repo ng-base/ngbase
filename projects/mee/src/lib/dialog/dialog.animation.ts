@@ -37,7 +37,9 @@ export const viewAnimation: AnimationTriggerMetadata = trigger('viewAnimation', 
 
 export const createHostAnimation = function dialogHostAnimation(animationNames: string[]) {
   return trigger('parentAnimation', [
-    transition(':enter', [query(animationNames.join(', '), [animateChild()])]),
-    transition(':leave', [group(animationNames.map(x => query(x, [animateChild()])))]),
+    transition(':enter', [query(animationNames.join(', '), [animateChild()], { optional: true })]),
+    transition(':leave', [
+      group(animationNames.map(x => query(x, [animateChild()], { optional: true }))),
+    ]),
   ]);
 };

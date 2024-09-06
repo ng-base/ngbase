@@ -4,7 +4,7 @@ import { Avatar } from '@meeui/avatar';
 import { Badge } from '@meeui/badge';
 import { Button } from '@meeui/button';
 import { Card } from '@meeui/card';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Input } from '@meeui/input';
 import { List } from '@meeui/list';
 import { MentionTrigger, Menu, MenuTrigger } from '@meeui/menu';
@@ -56,7 +56,7 @@ import {
     ScrollArea,
     Badge,
     RangePipe,
-    Icons,
+    Icon,
     Button,
     Tooltip,
     Avatar,
@@ -163,7 +163,7 @@ import {
         </mee-resizable>
         <mee-resizable [size]="40" class="flex flex-col">
           <div class="flex justify-between">
-            <div class="py-b2.5 flex gap-b2 px-b3">
+            <div class="flex gap-b2 px-b3 py-b2.5">
               <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Archive">
                 <mee-icon name="lucideArchive" />
               </button>

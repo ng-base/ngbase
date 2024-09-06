@@ -26,13 +26,12 @@ import { DocCode } from './code.component';
     <div class="grid gap-b4">
       <label meeLabel class="flex w-52 flex-col">
         Time 24 -- {{ time24() }}
-        <mee-time [(ngModel)]="time24" [is24]="true"></mee-time>
+        <mee-time [(value)]="time24" [is24]="true"></mee-time>
       </label>
       <label meeLabel class="flex w-52 flex-col">
         Time -- {{ time() }}
         <mee-time [(ngModel)]="time"></mee-time>
       </label>
-      <!-- <button meeButton meeDatepickerTrigger>Open datepicker</button> -->
       <button meeButton (click)="toggle()">Toggle datepicker</button>
       <app-doc-code [tsCode]="tsCode">
         @if (show()) {
@@ -101,7 +100,7 @@ import { DocCode } from './code.component';
 export class DatepickerComponent {
   date = new FormControl();
   time24 = signal('');
-  time = signal('');
+  time = signal('10:12:02 AM');
   show = signal(true);
 
   tsCode = `

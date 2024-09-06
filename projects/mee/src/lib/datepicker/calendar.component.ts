@@ -15,16 +15,15 @@ import { Button } from '../button';
 import { DatePicker } from './datepicker.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { TimePicker } from './time.component';
-import { FormsModule } from '@angular/forms';
 import { AccessibleItem } from '../a11y';
 
 @Component({
   standalone: true,
   selector: 'mee-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, Button, Icons, TimePicker, FormsModule, AccessibleItem],
+  imports: [NgClass, Button, Icon, TimePicker, AccessibleItem],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   template: `
     <div class="mb-b2 flex items-center justify-between">
@@ -62,10 +61,10 @@ import { AccessibleItem } from '../a11y';
     </div>
 
     @if (datePicker.showType() === 'year') {
-      <div class="years">
+      <div class="grid grid-cols-3">
         @for (year of years(); track year.year) {
           <button
-            class="items-center justify-center rounded-md py-b2 {{
+            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             (click)="!year.disabled && selectYear(year.year)"
@@ -82,13 +81,13 @@ import { AccessibleItem } from '../a11y';
         }
       </div>
     } @else if (datePicker.showType() === 'month') {
-      <div class="months">
+      <div class="grid grid-cols-3">
         @for (month of months(); track month.value) {
           <button
             meeAccessibleItem
             [data]="month"
             [ayId]="datePicker.ayId"
-            class="items-center justify-center rounded-md py-b2 {{
+            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             (click)="!month.disabled && selectMonth(month)"
@@ -110,12 +109,14 @@ import { AccessibleItem } from '../a11y';
         }
       </div>
       <div class="grid grid-cols-7 gap-y-b2">
-        @for (day of getDaysArray(); track $index) {
+        @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
             #days
             meeAccessibleItem
+            [id]="day.day + '-' + day.mon"
             [data]="day"
             [ayId]="datePicker.ayId"
+            [skip]="!day.current"
             (click)="!day.disabled && selectDate(day.day, day.mon)"
             class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
@@ -126,7 +127,7 @@ import { AccessibleItem } from '../a11y';
                 (day.count <= datePicker.hoveredCount() &&
                   datePicker.startDateCount() &&
                   day.count >= datePicker.startDateCount()),
-              'text-slate-400': !day.current || day.disabled,
+              'opacity-40': !day.current || day.disabled,
               '!bg-primary text-foreground': datePicker
                 .dates()
                 .day.includes(day.day + '-' + day.mon + '-' + cStartYear()),
@@ -139,13 +140,13 @@ import { AccessibleItem } from '../a11y';
       @if (datePicker.time() && datePicker.range()) {
         <mee-time
           class="mt-b5 w-full"
-          [(ngModel)]="time1"
-          (ngModelChange)="timeChanged(0, time1()!)"
+          [(value)]="time1"
+          (valueChange)="timeChanged(0, time1()!)"
         ></mee-time>
         <mee-time
           class="mt-b5 w-full"
-          [(ngModel)]="time2"
-          (ngModelChange)="timeChanged(1, time2()!)"
+          [(value)]="time2"
+          (valueChange)="timeChanged(1, time2()!)"
         ></mee-time>
       }
     }
@@ -153,18 +154,6 @@ import { AccessibleItem } from '../a11y';
   host: {
     class: 'inline-flex flex-col min-h-[18.75rem] p-b2 w-full',
   },
-  styles: `
-    .years,
-    .months {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    .days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-    }
-  `,
 })
 export class Calendar<D> implements OnDestroy {
   readonly datePicker = inject<DatePicker<D>>(DatePicker);
@@ -203,8 +192,8 @@ export class Calendar<D> implements OnDestroy {
   readonly years = computed(() => {
     const year = this.currentYear();
     const filter = this.datePicker.dateFilter();
-    return Array.from({ length: 24 }, (_, i) => {
-      const y = year - (24 - 6) + i;
+    return Array.from({ length: 18 }, (_, i) => {
+      const y = year - (18 - 6) + i;
       return { year: y, disabled: !filter?.(this.adapter.create(y, 0)) };
     });
   });
@@ -246,6 +235,7 @@ export class Calendar<D> implements OnDestroy {
       return {
         mon: month,
         day: i + 1,
+        year: this.adapter.getYear(date),
         disabled: !dateFilter?.(date) || false,
         current: true,
         count: this.adapter.getTime(date),
@@ -257,8 +247,9 @@ export class Calendar<D> implements OnDestroy {
     const daysArrayPrev = Array.from({ length: startDay }, (_, i) => {
       const date = this.adapter.create(year, month - 1, prevMonth - startDay + i + 1);
       return {
-        mon: month - 1,
+        mon: this.adapter.getMonth(date),
         day: prevMonth - startDay + i + 1,
+        year: this.adapter.getYear(date),
         disabled: !dateFilter?.(date) || false,
         current: false,
         count: this.adapter.getTime(date),
@@ -271,8 +262,9 @@ export class Calendar<D> implements OnDestroy {
     const daysArrayNext = Array.from({ length: remaining }, (_, i) => {
       const date = this.adapter.create(year, month + 1, i + 1);
       return {
-        mon: month + 1,
+        mon: this.adapter.getMonth(date),
         day: i + 1,
+        year: this.adapter.getYear(date),
         disabled: !dateFilter?.(date) || false,
         current: false,
         count: this.adapter.getTime(date),

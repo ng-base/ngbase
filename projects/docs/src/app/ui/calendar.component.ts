@@ -11,7 +11,11 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="calendarPagePage">Calendar</h4>
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
-      <mee-date-picker class="w-72 rounded-base border bg-foreground shadow-sm"></mee-date-picker>
+      <mee-date-picker
+        [noOfCalendar]="1"
+        [range]="true"
+        class="rounded-base border bg-foreground shadow-sm"
+      ></mee-date-picker>
     </app-doc-code>
   `,
 })

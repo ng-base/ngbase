@@ -28,14 +28,15 @@ import { OverlayConfig } from '../portal/utils';
 import { DragMove } from '../drag';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { AccessibleGroup } from '../a11y';
-import { createHostAnimation } from '@meeui/dialog/dialog.animation';
+import { createHostAnimation } from '../dialog/dialog.animation';
+import { FocusTrap } from '../utils';
 
 @Component({
   selector: 'mee-popover',
   standalone: true,
-  imports: [DragMove, Icons, AccessibleGroup],
+  imports: [DragMove, Icon, AccessibleGroup],
   providers: [provideIcons({ lucideX })],
   template: ` <div
       #container
@@ -46,13 +47,13 @@ import { createHostAnimation } from '@meeui/dialog/dialog.animation';
       ]"
       [@slideInOutAnimation]
     >
-      @if (options.title) {
+      @if (options().title) {
         <div
           class="flex items-center justify-between border-b px-b3 py-b2"
           meeDragMove
           [target]="container"
         >
-          {{ options.title }}
+          {{ options().title }}
           <mee-icon name="lucideX" (click)="close()" class="cursor-pointer"></mee-icon>
         </div>
       }
@@ -60,13 +61,13 @@ import { createHostAnimation } from '@meeui/dialog/dialog.animation';
         <ng-container #myDialog></ng-container>
       </div>
     </div>
-    @if (options.backdrop) {
+    @if (options().backdrop) {
       <div
         #backdropElement
         class="pointer-events-auto fixed top-0 h-full w-full"
         [style.clipPath]="tooltipOptions.clipPath?.()"
         [class]="tooltipOptions.backdropClassName"
-        (click)="!options.disableClose && close()"
+        (click)="!options().disableClose && close()"
       ></div>
     }`,
   host: {
@@ -75,6 +76,7 @@ import { createHostAnimation } from '@meeui/dialog/dialog.animation';
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },
+  hostDirectives: [FocusTrap],
   styles: [
     `
       .popover-anchor {
@@ -88,10 +90,10 @@ import { createHostAnimation } from '@meeui/dialog/dialog.animation';
         width: 0;
         height: 0;
         border-style: solid;
-        border-top: 1rem solid;
+        border-top: 0.8rem solid;
         @apply border-foreground;
-        border-left: 1rem solid transparent;
-        border-right: 1rem solid transparent;
+        border-left: 0.5rem solid transparent;
+        border-right: 0.5rem solid transparent;
         top: var(--action-top);
         left: var(--action-left);
         transform: translateX(-50%) rotate(var(--action-angle, 180deg));
@@ -109,11 +111,11 @@ import { createHostAnimation } from '@meeui/dialog/dialog.animation';
     ]),
   ],
 })
-export class Popover extends BaseDialog implements OnDestroy {
+export class Popover extends BaseDialog {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
   backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
-  options!: DialogOptions;
+  options = signal<DialogOptions>({});
   tooltipOptions!: OverlayConfig;
   private lastPosition: DialogPosition = 'top';
   scrolled = signal(0);
@@ -142,9 +144,10 @@ export class Popover extends BaseDialog implements OnDestroy {
     });
 
     effect(
-      () => {
+      cleanup => {
         const el = this.container()!.nativeElement;
         const target = this.target() || this.tooltipOptions.target;
+        const options = this.options();
         if (this.tooltipOptions.anchor) {
           this.tooltipOptions.offset = 16;
         }
@@ -174,11 +177,24 @@ export class Popover extends BaseDialog implements OnDestroy {
           //   });
           scrollToElement(target).then(() => {
             this.scrolled.update(x => x + 1);
-            this.schedulePopoverUpdate(target, el);
+            this.schedulePopoverUpdate(target, el, options);
           });
         } else {
-          this.schedulePopoverUpdate(target, el);
+          this.schedulePopoverUpdate(target, el, options);
         }
+
+        if (!options.backdrop) {
+          window.addEventListener('scroll', this.scheduleUpdateDimension);
+          cleanup(() => window.removeEventListener('scroll', this.scheduleUpdateDimension));
+        }
+
+        // observe the target element position change
+        const resizeObserver = new ResizeObserver(() => {
+          // console.log('resizeObserver');
+          this.schedulePopoverUpdate(target, el, options);
+        });
+        resizeObserver.observe(target);
+        cleanup(() => resizeObserver.disconnect());
       },
       { allowSignalWrites: true },
     );
@@ -188,30 +204,27 @@ export class Popover extends BaseDialog implements OnDestroy {
     requestAnimationFrame(() => this.updateDimension());
   };
 
-  private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement) {
+  private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement, options: DialogOptions) {
     this.tooltipOptions.target = target;
-    if (this.options.backdrop) {
+    if (options.backdrop) {
       // this.onOpen();
     }
-    if (this.options.width === 'target') {
+    if (options.width === 'target') {
       // update the width of the container to be the same as the target
       el.style.width = `${target.offsetWidth}px`;
-    } else if (this.options.width === 'free') {
+    } else if (options.width === 'free') {
       el.style.minWidth = `${target.offsetWidth}px`;
-    } else if (this.options.width) {
-      el.style.width = this.options.width;
+    } else if (options.width) {
+      el.style.width = options.width;
     }
-    if (this.options.height) {
-      el.style.height = this.options.height;
+    if (options.height) {
+      el.style.height = options.height;
     }
-    if (this.options.maxHeight) {
-      el.style.maxHeight = this.options.maxHeight;
+    if (options.maxHeight) {
+      el.style.maxHeight = options.maxHeight;
     }
 
     this.scheduleUpdateDimension();
-    if (!this.options.backdrop) {
-      window.addEventListener('wheel', this.scheduleUpdateDimension);
-    }
   }
 
   private updateDimension() {
@@ -253,7 +266,7 @@ export class Popover extends BaseDialog implements OnDestroy {
     let deg = '0deg';
     let anchorTop = '50%';
     let anchorLeft = '50%';
-    const anchorWidth = 16;
+    const anchorWidth = 12.8;
 
     const thHeight = target.offsetHeight / 2;
     const thWidth = target.offsetWidth / 2;
@@ -290,16 +303,12 @@ export class Popover extends BaseDialog implements OnDestroy {
   }
 
   override setOptions(options: DialogOptions): void {
-    this.options = options;
-  }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('wheel', this.scheduleUpdateDimension);
+    this.options.set(options);
   }
 }
 
 function scrollToElement(target: HTMLElement) {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let lastPos: number;
     let currentPos = null;
     let samePosCount = 0;

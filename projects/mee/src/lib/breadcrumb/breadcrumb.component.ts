@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
 
@@ -7,7 +7,7 @@ import { lucideChevronRight } from '@ng-icons/lucide';
   standalone: true,
   selector: 'mee-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icons],
+  imports: [Icon],
   viewProviders: [provideIcons({ lucideChevronRight })],
   template: `
     <a class="hover:text-primary" [class.text-primary]="active()">

@@ -116,7 +116,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       this.optionsTemplate()!,
       { target: el, position: 'bl' },
       {
-        backdrop: this.isSelect,
+        backdrop: false,
         width: this.size(),
         maxHeight: '400px',
         ayId: this.ayid,

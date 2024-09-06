@@ -11,7 +11,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'ico
     class:
       'inline-flex items-center justify-center rounded-base px-b4 py-b2 border font-medium disabled:text-muted disabled:cursor-not-allowed',
     '[class]': `variant() === 'primary'
-          ? 'bg-primary text-foreground disabled:bg-background border-primary'
+          ? 'bg-primary text-foreground disabled:bg-background disabled:border-background border-primary'
           : variant() === 'secondary'
           ? 'bg-muted-background disabled:bg-muted-background border-muted-background'
           : variant() === 'ghost' || variant() === 'icon'

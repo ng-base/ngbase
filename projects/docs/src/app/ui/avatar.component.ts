@@ -11,6 +11,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-b5" id="avatarPage">Avatar</h4>
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+      <mee-avatar class="w-b12" name="Sheik Althaf"></mee-avatar>
       <mee-avatar class="w-b12" src="https://avatars.dicebear.com/api/avataaars/1.svg"></mee-avatar>
     </app-doc-code>
   `,

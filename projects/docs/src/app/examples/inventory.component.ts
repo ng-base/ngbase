@@ -3,7 +3,7 @@ import { Badge } from '@meeui/badge';
 import { Breadcrumb, Breadcrumbs } from '@meeui/breadcrumb';
 import { Button } from '@meeui/button';
 import { Card } from '@meeui/card';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Input } from '@meeui/input';
 import { List } from '@meeui/list';
 import { Menu, MenuTrigger } from '@meeui/menu';
@@ -37,7 +37,7 @@ import {
     Separator,
     Heading,
     Button,
-    Icons,
+    Icon,
     Menu,
     MenuTrigger,
     Breadcrumbs,

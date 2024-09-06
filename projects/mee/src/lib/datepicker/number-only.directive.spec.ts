@@ -11,23 +11,13 @@ describe('NumberOnly Directive', () => {
   @Component({
     standalone: true,
     imports: [NumberOnly],
-    template: `<input
-      meeNumberOnly
-      [min]="min"
-      [max]="max"
-      [len]="len"
-      (valueChanged)="onValueChanged($event)"
-    />`,
+    template: `<input meeNumberOnly [min]="min" [max]="max" [len]="len" [(value)]="value" />`,
   })
   class TestComponent {
     min?: number;
     max?: number;
     len?: number;
-    value: string = '';
-
-    onValueChanged(value: string) {
-      this.value = value;
-    }
+    value = '';
   }
 
   function triggerKeyEvent(name: string, key: string, ctrlKey = false) {
@@ -58,8 +48,9 @@ describe('NumberOnly Directive', () => {
   });
 
   it('should allow numeric input', () => {
-    inputElement.value = '123';
-    inputElement.dispatchEvent(new Event('input'));
+    triggerKeyEvent('keydown', '1');
+    triggerKeyEvent('keydown', '2');
+    triggerKeyEvent('keydown', '3');
     expect(inputElement.value).toBe('123');
   });
 

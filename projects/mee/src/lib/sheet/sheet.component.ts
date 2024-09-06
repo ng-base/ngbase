@@ -9,14 +9,14 @@ import { BaseDialog, DialogOptions } from '../portal';
 import { NgStyle } from '@angular/common';
 import { createHostAnimation, fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Button } from '../button';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-sheet',
   standalone: true,
-  imports: [NgStyle, Button, Icons],
+  imports: [NgStyle, Button, Icon],
   viewProviders: [provideIcons({ lucideX })],
   template: `
     <div class="pointer-events-none flex h-full justify-end">

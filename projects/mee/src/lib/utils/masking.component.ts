@@ -1,101 +1,189 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  model,
+  Pipe,
+  PipeTransform,
+  Signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
-@Component({
+@Pipe({
   standalone: true,
-  selector: 'mee-mask-input',
-  template: ` <input [type]="type" [value]="value" (input)="onInput($event)" (blur)="onBlur()" /> `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MaskInputComponent),
-      multi: true,
-    },
-  ],
+  name: 'mask',
 })
-export class MaskInputComponent implements ControlValueAccessor {
-  @Input() mask: string = '';
-  @Input() type: string = 'text';
+export class MaskPipe implements PipeTransform {
+  transform(value: string, mask: string): string {
+    return maskTransform(value, mask);
+  }
+}
 
-  value: string = '';
-  onChange: any = () => {};
-  onTouch: any = () => {};
+@Directive({
+  standalone: true,
+  selector: '[meeMask]',
+  host: {
+    '(input)': 'onInput($event)',
+    '(blur)': 'onTouched()',
+  },
+  // providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: MaskInput, multi: true }],
+})
+export class MaskInput {
+  readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  readonly meeMask = input<string>('');
+  readonly showMaskType = input(false);
+  readonly control = inject(NgControl, { optional: true });
 
-  onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let inputValue = input.value;
-    let maskedValue = this.applyMask(inputValue);
+  readonly value = model<string>('');
+  private actualValue: string = '';
+  onChange: (v: string) => void = () => {};
+  onTouched: () => void = () => {};
 
-    input.value = maskedValue;
-    this.value = maskedValue;
-    this.onChange(this.value);
+  constructor() {
+    this.control?.valueChanges?.subscribe(value => {
+      this.writeValue(value);
+    });
+    effect(
+      () => {
+        const mask = this.meeMask();
+        const value = this.value();
+        if (value != this.actualValue) this.updateView(value, mask);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
-  onBlur(): void {
-    this.onTouch();
+  onInput(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const input = event.target as HTMLInputElement;
+    // const selectionStart = input.selectionStart;
+    console.log('input', input.value);
+    this.handleValue(input.value);
+  }
+
+  handleValue(value: string) {
+    // Apply mask and update view
+    const maskedValue = this.updateView(value);
+
+    // Update actualValue
+    this.actualValue = this.unmask(maskedValue);
+    console.log('actualValue', maskedValue, this.actualValue);
+
+    // Determine what changed
+    // let insertedChar = '';
+    // if (newValue.length > this.actualValue.length) {
+    //   insertedChar = newValue.charAt(selectionStart! - 1);
+    // }
+
+    // Adjust cursor position
+    // this.setCursorPosition(input, selectionStart!, insertedChar);
+
+    this.onChange(this.actualValue);
+    this.value.set(this.actualValue);
   }
 
   writeValue(value: string): void {
-    if (value) {
-      this.value = this.applyMask(value);
-    } else {
-      this.value = '';
-    }
+    this.actualValue = value || '';
+    this.handleValue(this.actualValue);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (v: string) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
   }
 
-  applyMask(value: string): string {
-    let result = '';
-    let maskIndex = 0;
-    let valueIndex = 0;
+  private updateView(value: string, mask = this.meeMask()): string {
+    const maskedValue = maskTransform(value, mask);
+    console.log('maskedValue', maskedValue);
+    // we have to use microtask to update the value after the ngModel updates the value
+    requestAnimationFrame(() => {
+      this.el.nativeElement.value = maskedValue;
+    });
+    return maskedValue;
+  }
 
-    while (maskIndex < this.mask.length && valueIndex < value.length) {
-      const maskChar = this.mask[maskIndex];
-      const valueChar = value[valueIndex];
+  private unmask(value: string): string {
+    return value.replace(/[^0-9a-zA-Z]/g, '');
+  }
 
-      switch (maskChar) {
-        case '#':
-          if (/\d/.test(valueChar)) {
-            result += valueChar;
-            valueIndex++;
-          } else {
-            return result;
-          }
-          break;
-        case 'a':
-          if (/[a-zA-Z]/.test(valueChar)) {
-            result += valueChar;
-            valueIndex++;
-          } else {
-            return result;
-          }
-          break;
-        case '*':
-          if (/[a-zA-Z0-9]/.test(valueChar)) {
-            result += valueChar;
-            valueIndex++;
-          } else {
-            return result;
-          }
-          break;
-        default:
-          if (valueChar === maskChar) {
-            result += maskChar;
-            valueIndex++;
-          } else {
-            result += maskChar;
-          }
+  private setCursorPosition(
+    input: HTMLInputElement,
+    selectionStart: number,
+    insertedChar: string,
+  ): void {
+    const mask = this.meeMask();
+    let adjustedPosition = selectionStart;
+
+    if (insertedChar) {
+      // Move cursor past any fixed mask characters
+      while (adjustedPosition < mask.length && !'#a*'.includes(mask[adjustedPosition])) {
+        adjustedPosition++;
       }
-      maskIndex++;
+    } else {
+      // Handle backspace: move cursor to previous input position
+      while (adjustedPosition > 0 && !'#a*'.includes(mask[adjustedPosition - 1])) {
+        adjustedPosition--;
+      }
     }
 
-    return result;
+    input.setSelectionRange(adjustedPosition, adjustedPosition);
   }
+}
+
+function maskTransform(value: string, mask: string, showMaskType = false): string {
+  console.count('maskTransform');
+  let result = '';
+  let valueIndex = 0;
+
+  for (let maskIndex = 0; maskIndex < mask.length && valueIndex < value.length; maskIndex++) {
+    const maskChar = mask[maskIndex];
+    const valueChar = value[valueIndex];
+
+    switch (maskChar) {
+      case '#':
+        if (/\d/.test(valueChar)) {
+          result += valueChar;
+          valueIndex++;
+        } else if (showMaskType) {
+          result += '_';
+        } else {
+          return result;
+        }
+        break;
+      case 'a':
+        if (/[a-zA-Z]/.test(valueChar)) {
+          result += valueChar;
+          valueIndex++;
+        } else if (showMaskType) {
+          result += '_';
+        } else {
+          return result;
+        }
+        break;
+      case '*':
+        if (/[a-zA-Z0-9]/.test(valueChar)) {
+          result += valueChar;
+          valueIndex++;
+        } else if (showMaskType) {
+          result += '_';
+        } else {
+          return result;
+        }
+        break;
+      default:
+        result += maskChar;
+        if (maskChar === valueChar && valueIndex === maskIndex) {
+          valueIndex++;
+        }
+    }
+  }
+
+  return result;
 }

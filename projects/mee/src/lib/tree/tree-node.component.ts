@@ -6,14 +6,14 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { TREE_NODE_DATA, Tree, TreeNodeData } from './tree.component';
 import { TreeNodeDef } from './tree-node.directive';
 
 @Component({
   standalone: true,
   selector: 'mee-tree-node',
-  imports: [Icons],
+  imports: [Icon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [style.paddingLeft.px]="data.level * 32">

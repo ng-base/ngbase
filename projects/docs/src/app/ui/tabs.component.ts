@@ -6,7 +6,7 @@ import { Selectable, SelectableItem } from '@meeui/selectable';
 import { DocCode } from './code.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideX } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Button } from '@meeui/button';
 
 @Component({
@@ -21,7 +21,7 @@ import { Button } from '@meeui/button';
     Selectable,
     SelectableItem,
     DocCode,
-    Icons,
+    Icon,
     Button,
   ],
   viewProviders: [provideIcons({ lucidePlus, lucideX })],
@@ -48,7 +48,13 @@ import { Button } from '@meeui/button';
             <div *meeTabHeader class="flex h-full items-center whitespace-nowrap px-4">
               {{ n.name }}
 
-              <button meeButton variant="ghost" class="ml-2 h-7 w-7 !p-b" (click)="deleteTab(n.id)">
+              <button
+                meeButton
+                variant="ghost"
+                tabindex="-1"
+                class="ml-2 h-7 w-7 !p-b"
+                (click)="deleteTab(n.id)"
+              >
                 <mee-icon name="lucideX" />
               </button>
             </div>

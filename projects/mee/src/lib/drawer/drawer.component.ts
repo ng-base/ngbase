@@ -9,11 +9,12 @@ import { BaseDialog, DialogOptions } from '../portal';
 import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
 import { Drag } from '../drag';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { FocusTrap } from '../utils/focus-trap.directive';
 
 @Component({
   selector: 'mee-drawer',
   standalone: true,
-  imports: [Drag],
+  imports: [Drag, FocusTrap],
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
@@ -24,7 +25,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         @if (!isHideHeader) {
           <div class="flex h-8 items-center">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton (click)="close()" class="mr-1"></button>
+            <!-- <button meeButton (click)="close()" class="mr-1"></button> -->
           </div>
         }
         <div class="h-full overflow-auto">
@@ -45,6 +46,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },
+  hostDirectives: [FocusTrap],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     createHostAnimation(['@bottomAnimation', '@fadeAnimation']),

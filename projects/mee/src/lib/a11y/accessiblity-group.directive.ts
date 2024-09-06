@@ -16,6 +16,8 @@ import { AccessibleItem } from './accessiblity-item.directive';
 import { AccessiblityService } from './accessiblity.service';
 import { DOCUMENT } from '@angular/common';
 
+type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
+
 @Directive({
   standalone: true,
   selector: '[meeAccessibleGroup]',
@@ -39,12 +41,15 @@ export class AccessibleGroup implements OnDestroy {
   readonly isPopup = input(false);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly clickable = model(false);
+  readonly initialFocus = input(true);
 
   private focusedItem?: WeakRef<AccessibleItem>;
   private isOn = signal(false);
 
   readonly items = computed(() => {
-    const items = this.allyService.items(this.ayId() || '');
+    const key = this.ayId() || '';
+    const els = this.allyService.elements();
+    const items = els.get(key) || [];
     // Sort items based on their position in the DOM
     items.sort((a, b) => {
       return a.host.nativeElement.compareDocumentPosition(b.host.nativeElement) ===
@@ -55,15 +60,16 @@ export class AccessibleGroup implements OnDestroy {
     return items;
   });
 
-  readonly focusChanged = output<AccessibleItem>();
+  readonly focusChanged = output<{ current: AccessibleItem; previous?: AccessibleItem }>();
 
   constructor() {
     this.el.nativeElement.style.outline = 'none';
     effect(
-      () => {
+      cleanup => {
         const id = this.ayId();
         if (id) {
           this.allyService.addGroup(id, this);
+          cleanup(() => this.allyService.removeGroup(id));
         }
       },
       { allowSignalWrites: true },
@@ -74,8 +80,8 @@ export class AccessibleGroup implements OnDestroy {
         const isOn = this.isOn();
         untracked(() => {
           items.forEach(item => item.blur());
-          if (items.length && isOn) {
-            let item = this.focusedItem?.deref();
+          if (items.length && isOn && this.initialFocus()) {
+            let item = this.focusedItem?.deref() || items[0];
             this.focusItem(item);
           }
         });
@@ -106,13 +112,14 @@ export class AccessibleGroup implements OnDestroy {
 
   handleFocusOut = (event: FocusEvent) => {
     if (!this.el.nativeElement.contains(event.relatedTarget as Node)) {
-      console.count(`focus out ${this.ayId()}`);
+      // console.count(`focus out ${this.ayId()}`);
       this.off();
     }
   };
 
   on = () => {
-    console.count(`focus in ${this.ayId()}`);
+    this.allyService.setActiveGroup(this.ayId()!);
+    // console.count(`focus in ${this.ayId()}`);
     if (this.isPopup()) {
       this.document.querySelectorAll('body > *').forEach(el => {
         if (el.tagName !== 'MEE-PORTAL') {
@@ -133,7 +140,7 @@ export class AccessibleGroup implements OnDestroy {
         el.removeAttribute('aria-hidden');
       });
     }
-    console.count(`off ${this.ayId()}`);
+    // console.count(`off ${this.ayId()}`);
     this.document.removeEventListener('keydown', this.onKeyDown);
     this.isOn.set(false);
     this.el.nativeElement.tabIndex = 0;
@@ -141,9 +148,12 @@ export class AccessibleGroup implements OnDestroy {
 
   onKeyDown = (event: KeyboardEvent) => {
     const items = this.items();
-    if (!items.length) return;
+    // console.log('key down', this.ayId(), event.key, items.length);
+    if (!items.length || !this.allyService.isActive(this.ayId()!)) return;
 
     let item = this.focusedItem?.deref();
+    // If there is no focused item, then wait for the first key press to focus the item
+    if (!item) return;
     const currentIndex = item ? items.indexOf(item) : -1;
     let nextIndex: number | null = null;
 
@@ -151,19 +161,33 @@ export class AccessibleGroup implements OnDestroy {
     // const gridRect = this.el.nativeElement.getBoundingClientRect();
     // const itemWidth = items[0].host.nativeElement.offsetWidth;
     const columns = this.columns() || 1;
+    let direction: Direction = 'next';
 
     switch (event.key) {
       case 'ArrowRight':
+        if (item.hasPopup()) {
+          item.events.next({ event, type: 'key', item });
+          return;
+        }
         nextIndex = (currentIndex + 1) % items.length;
+        direction = 'next';
         break;
       case 'ArrowLeft':
+        const prevGroup = this.allyService.getPreviousGroup();
+        let prevItem = prevGroup?.focusedItem?.deref();
+        if (prevGroup?.isOn() && prevItem) {
+          prevItem.events.next({ event, type: 'key', item });
+          return;
+        }
         nextIndex = (currentIndex - 1 + items.length) % items.length;
+        direction = 'previous';
         break;
       case 'ArrowDown':
         nextIndex = currentIndex + columns;
         if (nextIndex >= items.length) {
           nextIndex = nextIndex % columns; // Wrap to top
         }
+        direction = 'down';
         break;
       case 'ArrowUp':
         nextIndex = currentIndex - columns;
@@ -171,12 +195,23 @@ export class AccessibleGroup implements OnDestroy {
           nextIndex = items.length - (columns - (currentIndex % columns)); // Wrap to bottom
           if (nextIndex >= items.length) nextIndex -= columns;
         }
+        direction = 'up';
         break;
       case 'Home':
-        nextIndex = 0;
+        nextIndex = this.findNextEnabledItem(
+          Math.floor(currentIndex / columns) * columns,
+          'next',
+          items,
+        );
+        direction = 'first';
         break;
       case 'End':
-        nextIndex = items.length - 1;
+        nextIndex = this.findNextEnabledItem(
+          Math.min(Math.floor(currentIndex / columns) * columns + columns - 1, items.length - 1),
+          'previous',
+          items,
+        );
+        direction = 'last';
         break;
       case 'Tab':
         if (this.isPopup()) {
@@ -197,55 +232,80 @@ export class AccessibleGroup implements OnDestroy {
 
     event.preventDefault();
     event.stopPropagation();
-    // event.stopImmediatePropagation();
+    event.stopImmediatePropagation();
     item?.blur();
-    this.focusIndex(nextIndex);
+    this.focusIndex(nextIndex, direction);
   };
 
   focusItem(item?: AccessibleItem) {
     const previosItem = this.focusedItem?.deref();
     previosItem?.blur();
     const items = this.items();
-    item = item ?? items.find(item => !item.disabled?.());
+    item = item ?? items.find(item => !item.disabled() && !item.skip());
     if (!item) return;
     this.focusIndex(items.indexOf(item));
   }
 
-  private focusIndex(nextIndex = 0, direction: 'next' | 'previous' = 'next') {
+  private focusIndex(nextIndex = 0, direction: Direction = 'next') {
     const items = this.items();
     if (nextIndex !== null && nextIndex >= 0 && nextIndex < items.length) {
       let nextItem = items[nextIndex];
-      if (nextItem.disabled?.()) {
+      if (nextItem.disabled() || nextItem.skip()) {
         nextIndex = this.getNextItem(nextIndex, items, direction);
         nextItem = items[nextIndex];
       }
+      const previosItem = this.focusedItem?.deref();
       this.focusedItem = new WeakRef(nextItem);
       nextItem.focus(this.isPopup());
       if (this.clickable()) nextItem.click();
-      this.focusChanged.emit(nextItem);
+      this.focusChanged.emit({ current: nextItem, previous: previosItem });
     }
   }
 
   // it should start from the current index and move to the next item based on the direction
   // if the current index is the last item, it should move to the first item
   // we should also consider the disabled items
-  private getNextItem(
-    currentIndex: number,
-    items: AccessibleItem[],
-    direction: 'next' | 'previous',
-  ): number {
+  private getNextItem(currentIndex: number, items: AccessibleItem[], direction: Direction): number {
     const totalItems = items.length;
-    const step = direction === 'next' ? 1 : -1;
+    const step =
+      direction === 'next'
+        ? 1
+        : direction === 'previous'
+          ? -1
+          : direction === 'up'
+            ? -(this.columns() || 1)
+            : this.columns() || 1;
 
     for (let i = 0; i < totalItems; i++) {
       const nextIndex = (currentIndex + i * step + totalItems) % totalItems;
       // console.log(totalItems, currentIndex, step, nextIndex);
-      if (!items[nextIndex].disabled?.()) {
+      const item = items[nextIndex];
+      if (!item.disabled() && !item.skip()) {
+        // console.log({ currentIndex, items, direction });
         return nextIndex;
       }
     }
-
     return currentIndex;
+  }
+
+  private findNextEnabledItem(
+    startIndex: number,
+    direction: 'next' | 'previous',
+    items: AccessibleItem[],
+  ): number {
+    const step = direction === 'next' ? 1 : -1;
+    const endIndex = direction === 'next' ? items.length : -1;
+
+    for (let i = startIndex; i !== endIndex; i += step) {
+      if (!items[i].disabled() && !items[i].skip()) {
+        return i;
+      }
+    }
+    return startIndex; // If no enabled item found, return the starting index
+  }
+
+  log(...args: any[]) {
+    console.log(...args);
   }
 
   ngOnDestroy() {

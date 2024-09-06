@@ -1,10 +1,11 @@
-import { Directive, ElementRef, inject, input, output } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input, model } from '@angular/core';
 
 @Directive({
   standalone: true,
   selector: '[meeNumberOnly]',
   host: {
-    '(keydown)': 'onKeyDown($event)',
+    '(input)': 'value.set($event.target.value)',
+    '[value]': 'value()',
   },
 })
 export class NumberOnly {
@@ -12,7 +13,15 @@ export class NumberOnly {
   max = input<number | undefined>();
   len = input<number | undefined>();
   el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  valueChanged = output<string>();
+  value = model<string>('');
+
+  constructor() {
+    effect(cleanup => {
+      const el = this.el.nativeElement;
+      el.addEventListener('keydown', this.onKeyDown);
+      cleanup(() => el.removeEventListener('keydown', this.onKeyDown));
+    });
+  }
 
   private readonly allowedKeys = new Set([
     'Backspace',
@@ -26,7 +35,7 @@ export class NumberOnly {
     'ArrowRight',
   ]);
 
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown = (e: KeyboardEvent) => {
     if (this.allowedKeys.has(e.key) || this.isCtrlKey(e)) return;
     if (e.key === 'v' && (e.ctrlKey || e.metaKey)) return e.preventDefault();
 
@@ -37,7 +46,7 @@ export class NumberOnly {
     if (!/^\d$/.test(e.key) || !this.validateValue(this.getNewValue(e))) {
       e.preventDefault();
     }
-  }
+  };
 
   private isCtrlKey(e: KeyboardEvent): boolean {
     return ['a', 'c', 'x'].includes(e.key) && (e.ctrlKey || e.metaKey);
@@ -48,7 +57,7 @@ export class NumberOnly {
     const currentValue = this.el.nativeElement.value;
     const newValue = +currentValue + (e.key === 'ArrowUp' ? 1 : -1);
     if (this.validateValue(newValue.toString())) {
-      this.valueChanged.emit(newValue.toString().padStart(2, '0'));
+      this.value.set(newValue.toString().padStart(2, '0'));
     }
   }
 

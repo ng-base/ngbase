@@ -1,7 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, NgZone, OnDestroy, inject } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  NgZone,
+  computed,
+  contentChild,
+  effect,
+  inject,
+} from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Subscription, fromEvent, map, Subject, takeUntil, tap, switchMap } from 'rxjs';
+import { Subscription, fromEvent, map, Subject, takeUntil, tap, switchMap, filter } from 'rxjs';
 
 export class DragData {
   constructor(
@@ -20,51 +28,77 @@ export class DragData {
 }
 
 @Directive({
-  selector: '[meeDrag]',
   standalone: true,
+  selector: '[meeDragHandle]',
+  exportAs: 'meeDragHandle',
+  host: {
+    class: 'cursor-move',
+  },
+})
+export class DragHandle {}
+
+@Directive({
+  standalone: true,
+  selector: '[meeDrag]',
   exportAs: 'meeDrag',
 })
-export class Drag implements OnDestroy {
-  el = inject(ElementRef);
-  zone = inject(NgZone);
-  document = inject(DOCUMENT);
-  events = new Subject<DragData>();
-  meeDrag = outputFromObservable(this.events);
+export class Drag {
+  readonly el = inject(ElementRef);
+  readonly handle = contentChild(DragHandle, { read: ElementRef, descendants: true });
+  readonly zone = inject(NgZone);
+  readonly document = inject(DOCUMENT);
+  readonly events = new Subject<DragData>();
+  readonly meeDrag = outputFromObservable(this.events);
   startEvent!: PointerEvent;
   lastValue = new DragData();
-  private dragEvent = fromEvent<PointerEvent>(this.el.nativeElement, 'pointerdown').pipe(
-    switchMap(event => {
-      this.startEvent = event;
-      this.lastValue = this.getDragEvent(event, 'start');
-      this.events.next(this.lastValue);
-      this.toggleUserSelect();
-      return fromEvent<PointerEvent>(this.document, 'pointermove').pipe(
-        takeUntil(
-          fromEvent<PointerEvent>(this.document, 'pointerup').pipe(
-            tap(upEvent => {
-              const value = this.getDragEvent(upEvent, 'end');
-              this.events.next(value);
-              this.lastValue = new DragData();
-              this.toggleUserSelect(false);
-            }),
-          ),
-        ),
-        map(e => {
-          this.lastValue = this.getDragEvent(e, 'move');
-          return this.lastValue;
-        }),
-      );
-    }),
-  );
-  subscription!: Subscription;
+  private dragEvent = computed(() => {
+    const handle = this.handle();
+    console.log(handle);
+    if (handle) {
+      return this.setupDragEvent(handle.nativeElement);
+    }
+    return this.setupDragEvent(this.el.nativeElement);
+  });
 
   constructor() {
-    this.zone.runOutsideAngular(() => {
-      this.subscription = this.dragEvent.subscribe(event => {
-        this.events.next(event);
+    effect(cleanup => {
+      const dragEvent = this.dragEvent();
+      this.zone.runOutsideAngular(() => {
+        const subscription = dragEvent.subscribe(event => {
+          this.events.next(event);
+        });
+        cleanup(() => subscription.unsubscribe());
       });
     });
     this.el.nativeElement.style.touchAction = 'none';
+  }
+
+  private setupDragEvent(el: HTMLElement) {
+    return fromEvent<PointerEvent>(el, 'pointerdown').pipe(
+      filter(event => event.button === 0), // Only trigger on left click
+      switchMap(event => {
+        this.startEvent = event;
+        this.lastValue = this.getDragEvent(event, 'start');
+        this.events.next(this.lastValue);
+        this.toggleUserSelect();
+        return fromEvent<PointerEvent>(this.document, 'pointermove').pipe(
+          takeUntil(
+            fromEvent<PointerEvent>(this.document, 'pointerup').pipe(
+              tap(upEvent => {
+                const value = this.getDragEvent(upEvent, 'end');
+                this.events.next(value);
+                this.lastValue = new DragData();
+                this.toggleUserSelect(false);
+              }),
+            ),
+          ),
+          map(e => {
+            this.lastValue = this.getDragEvent(e, 'move');
+            return this.lastValue;
+          }),
+        );
+      }),
+    );
   }
 
   private toggleUserSelect(active = true) {
@@ -112,9 +146,5 @@ export class Drag implements OnDestroy {
       velocity,
       now,
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

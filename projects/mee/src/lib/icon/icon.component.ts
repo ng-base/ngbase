@@ -11,7 +11,7 @@ import { IconType, NgIconComponent } from '@ng-icons/core';
     class: 'inline-flex items-center justify-center',
   },
 })
-export class Icons {
+export class Icon {
   name = input.required<IconType>();
   size = input<string>('1rem');
 }

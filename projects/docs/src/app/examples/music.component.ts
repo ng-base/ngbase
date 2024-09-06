@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Button } from '@meeui/button';
 import { Card } from '@meeui/card';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { Key } from '@meeui/keys';
 import { List } from '@meeui/list';
 import { Menu, MenuTrigger, NavigationMenu } from '@meeui/menu';
@@ -37,7 +37,7 @@ import {
     List,
     Separator,
     Option,
-    Icons,
+    Icon,
     Selectable,
     SelectableItem,
     ScrollArea,

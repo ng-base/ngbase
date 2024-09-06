@@ -4,9 +4,16 @@ import { Menu, MenuTrigger } from '@meeui/menu';
 import { Separator } from '@meeui/separator';
 import { Button } from '@meeui/button';
 import { List } from '@meeui/list';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { provideIcons } from '@ng-icons/core';
-import { lucideCross, lucideDelete, lucideMenu, lucidePen, lucideTrash2 } from '@ng-icons/lucide';
+import {
+  lucideChevronRight,
+  lucideCross,
+  lucideDelete,
+  lucideMenu,
+  lucidePen,
+  lucideTrash2,
+} from '@ng-icons/lucide';
 import { Option } from '@meeui/select';
 import { DocCode } from './code.component';
 import { PopoverTrigger } from '@meeui/popover';
@@ -21,7 +28,7 @@ import { PopoverTrigger } from '@meeui/popover';
     MenuTrigger,
     Button,
     List,
-    Icons,
+    Icon,
     Option,
     DocCode,
     PopoverTrigger,
@@ -34,6 +41,7 @@ import { PopoverTrigger } from '@meeui/popover';
       lucideDelete,
       lucidePen,
       lucideTrash2,
+      lucideChevronRight,
     }),
   ],
   template: `
@@ -42,7 +50,7 @@ import { PopoverTrigger } from '@meeui/popover';
       <button meeButton [meeMenuTrigger]="menuContainer11">Open menu</button>
     </app-doc-code>
     <div class="flex justify-between">
-      <button meeButton [meeMenuTrigger]="menuContainer">Open menu</button>
+      <button meeButton [meeMenuTrigger]="animals">Open menu</button>
       <button meeButton [meeMenuTrigger]="menuContainer2" [options]="{ title: 'Header' }">
         Open menu
       </button>
@@ -124,10 +132,102 @@ import { PopoverTrigger } from '@meeui/popover';
       </div>
     </mee-menu>
 
+    <!-- mat menu -->
+    <mee-menu #animals="meeMenu">
+      <button meeList [meeMenuTrigger]="vertebrates">
+        Vertebrates
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList [meeMenuTrigger]="invertebrates">
+        Invertebrates
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+    </mee-menu>
+
+    <mee-menu #vertebrates="meeMenu">
+      <button meeList [meeMenuTrigger]="fish">
+        Fishes
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList [meeMenuTrigger]="amphibians">
+        Amphibians
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList [meeMenuTrigger]="reptiles">
+        Reptiles
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList>Birds</button>
+      <button meeList>Mammals</button>
+    </mee-menu>
+
+    <mee-menu #invertebrates="meeMenu">
+      <button meeList>Insects</button>
+      <button meeList>Molluscs</button>
+      <button meeList>Crustaceans</button>
+      <button meeList>Corals</button>
+      <button meeList>Arachnids</button>
+      <button meeList>Velvet worms</button>
+      <button meeList>Horseshoe crabs</button>
+    </mee-menu>
+
+    <mee-menu #fish="meeMenu">
+      <button meeList>Baikal oilfish</button>
+      <button meeList>Bala shark</button>
+      <button meeList>Ballan wrasse</button>
+      <button meeList>Bamboo shark</button>
+      <button meeList>Banded killifish</button>
+    </mee-menu>
+
+    <mee-menu #amphibians="meeMenu">
+      <button meeList>Sonoran desert toad</button>
+      <button meeList>Western toad</button>
+      <button meeList>Arroyo toad</button>
+      <button meeList>Yosemite toad</button>
+    </mee-menu>
+
+    <mee-menu #reptiles="meeMenu">
+      <button meeList>Banded Day Gecko</button>
+      <button meeList>Banded Gila Monster</button>
+      <button meeList>Black Tree Monitor</button>
+      <button meeList>Blue Spiny Lizard</button>
+      <button meeList disabled>Velociraptor</button>
+    </mee-menu>
+    <!-- End mat menu -->
+
     <mee-menu #menuContainer>
       <button meeList>Profile</button>
       <button meeList>Billing</button>
-      <button meeList [meeMenuTrigger]="menuContainer1">Settings</button>
+      <button meeList [meeMenuTrigger]="subMenuContainer">
+        Settings
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList>Keyboard shortcuts</button>
+      <mee-separator></mee-separator>
+      <button meeList>Team</button>
+      <button meeList>New Team</button>
+    </mee-menu>
+
+    <mee-menu #subMenuContainer>
+      <button meeList>Profile</button>
+      <button meeList>Billing</button>
+      <button meeList [meeMenuTrigger]="subSubMenuContainer">
+        Settings
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button>
+      <button meeList>Keyboard shortcuts</button>
+      <mee-separator></mee-separator>
+      <button meeList>Team</button>
+      <button meeList>New Team</button>
+    </mee-menu>
+
+    <mee-menu #subSubMenuContainer>
+      <button meeList>Profile</button>
+      <button meeList>Billing</button>
+      <!-- <button meeList [meeMenuTrigger]="menuContainer2">
+        Settings
+        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+      </button> -->
       <button meeList>Keyboard shortcuts</button>
       <mee-separator></mee-separator>
       <button meeList>Team</button>

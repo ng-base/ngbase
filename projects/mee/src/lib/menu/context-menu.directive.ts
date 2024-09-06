@@ -2,7 +2,7 @@ import { Directive, inject, input } from '@angular/core';
 import { Menu } from './menu.component';
 import { popoverPortal } from '../popover';
 import { generateId } from '../utils';
-import { Keys } from '@meeui/keys';
+import { Keys } from '../keys';
 import { DOCUMENT } from '@angular/common';
 
 @Directive({

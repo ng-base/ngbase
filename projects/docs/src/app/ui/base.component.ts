@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
-import { ThemeService } from '@meeui/theme';
+import { ThemeService, ThemeButton } from '@meeui/theme';
 import { ScrollArea } from '@meeui/scroll-area';
 import { UiComponent } from './ui.component';
 import { TourStep } from '@meeui/tour';
@@ -9,8 +9,8 @@ import { Avatar } from '@meeui/avatar';
 import { Menu, MenuTrigger } from '@meeui/menu';
 import { List } from '@meeui/list';
 import { provideIcons } from '@ng-icons/core';
-import { lucideMenu, lucideMoon, lucideSun } from '@ng-icons/lucide';
-import { Icons } from '@meeui/icon';
+import { lucideMenu } from '@ng-icons/lucide';
+import { Icon } from '@meeui/icon';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
 import { NavComponent } from './nav-header.component';
@@ -31,16 +31,17 @@ import { Heading } from '@meeui/typography';
     MenuTrigger,
     Menu,
     List,
-    Icons,
+    Icon,
     Sidenav,
     SidenavHeader,
     SidenavContent,
     Card,
     NavComponent,
     Heading,
+    ThemeButton,
   ],
   providers: [AppService],
-  viewProviders: [provideIcons({ lucideMenu, lucideSun, lucideMoon })],
+  viewProviders: [provideIcons({ lucideMenu })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="fixed top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
@@ -62,17 +63,7 @@ import { Heading } from '@meeui/typography';
           >
             Theme
           </button>
-          <button
-            meeButton
-            variant="icon"
-            meeTourStep="theme-toggle"
-            class="tour-mode h-9 w-9"
-            (click)="themeService.toggle()"
-          >
-            <mee-icon
-              [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"
-            ></mee-icon>
-          </button>
+          <mee-theme-button meeTourStep="theme-toggle"></mee-theme-button>
           <mee-avatar
             class="h-full w-7"
             src="https://avatars.dicebear.com/api/avataaars/1.svg"
@@ -89,14 +80,14 @@ import { Heading } from '@meeui/typography';
     </mee-menu>
 
     <mee-scroll-area>
-      <mee-sidenav class="mt-b4" [show]="showSideMenu()">
+      <mee-sidenav [show]="showSideMenu()">
         <mee-sidenav-header class="w-56">
           <app-nav class="tour-nav block w-56" meeTourStep></app-nav>
         </mee-sidenav-header>
-        <div class="flex-1 overflow-x-hidden px-b4">
-          <mee-card class="mb-b4">
+        <div class="flex-1 overflow-x-hidden">
+          <div class="p-b4">
             <router-outlet></router-outlet>
-          </mee-card>
+          </div>
 
           <!-- <mee-ui [show]="showSideMenu()"></mee-ui> -->
         </div>

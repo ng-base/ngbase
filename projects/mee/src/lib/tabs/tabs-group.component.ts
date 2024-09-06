@@ -14,14 +14,14 @@ import { Tab } from './tabs.component';
 import { NgClass, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 import { AccessibleGroup, AccessibleItem } from '../a11y';
 import { generateId } from '../utils';
 
 @Component({
   selector: 'mee-tabs',
   standalone: true,
-  imports: [NgComponentOutlet, NgTemplateOutlet, Icons, NgClass, AccessibleGroup, AccessibleItem],
+  imports: [NgComponentOutlet, NgTemplateOutlet, Icon, NgClass, AccessibleGroup, AccessibleItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="flex border-b">
@@ -34,19 +34,25 @@ import { generateId } from '../utils';
         >
           <mee-icon name="lucideChevronLeft"></mee-icon>
         </button>
-        <nav role="tablist" #tabList class="tabList overflow-auto" meeAccessibleGroup [ayId]="ayId">
+        <nav
+          role="tablist"
+          #tabList
+          class="tabList overflow-auto"
+          meeAccessibleGroup
+          [ayId]="ayId"
+          [initialFocus]="false"
+        >
           <div #tabListContainer class="flex h-full w-max">
             @for (tab of tabs(); track tab.id) {
               <button
-                #tab
+                #tabEl
                 class="whitespace-nowrap border-b-2 border-transparent"
                 [ngClass]="{
                   'cursor-not-allowed text-muted text-opacity-80': tab.disabled(),
                   '!border-primary !text-text': $index === selectedIndex(),
                 }"
-                (click)="setActive($index)"
+                (click)="!tab.disabled() && setActive($index)"
                 role="tab"
-                [tabindex]="$index === selectedIndex() ? 0 : -1"
                 [attr.aria-selected]="selectedIndex() === $index"
                 [id]="tab.id"
                 [disabled]="tab.disabled()"
@@ -85,7 +91,7 @@ import { generateId } from '../utils';
 export class Tabs {
   readonly tabList = viewChild.required<ElementRef<HTMLElement>>('tabList');
   readonly tabListContainer = viewChild.required<ElementRef<HTMLElement>>('tabListContainer');
-  readonly tab = viewChildren<ElementRef<HTMLElement>>('tab');
+  readonly tab = viewChildren<ElementRef<HTMLElement>>('tabEl');
   readonly leftScroll = viewChild<ElementRef<HTMLElement>>('leftScroll');
   readonly rightScroll = viewChild<ElementRef<HTMLElement>>('rightScroll');
   readonly tabs = contentChildren(Tab);

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/accordion';
 import { Avatar } from '@meeui/avatar';
 import { Card } from '@meeui/card';
-import { Icons } from '@meeui/icon';
+import { Icon } from '@meeui/icon';
 import { List } from '@meeui/list';
 import { Menu, MenuTrigger } from '@meeui/menu';
 import { Progress } from '@meeui/progress';
@@ -47,7 +47,7 @@ import {
     AccordionGroup,
     AccordionHeader,
     Accordion,
-    Icons,
+    Icon,
     Separator,
     Sidenav,
     SidenavHeader,

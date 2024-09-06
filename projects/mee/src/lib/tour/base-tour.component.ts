@@ -19,7 +19,7 @@ import { DialogOptions } from '../dialog';
 import { DOCUMENT } from '@angular/common';
 import { fromEvent, debounce, debounceTime, delay, startWith, take } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { fadeAnimation } from '../dialog/dialog.animation';
+import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
 
 @Component({
   standalone: true,
@@ -34,20 +34,21 @@ import { fadeAnimation } from '../dialog/dialog.animation';
     >
       <ng-container #myDialog></ng-container>
     </div>
-    <div
-      class="pointer-events-auto fixed top-0 h-full w-full bg-black/20"
-      [style.clipPath]="clipPath()"
-      [@fadeAnimation]
-    ></div>
+    <div class="pointer-events-auto fixed top-0 h-full w-full bg-black/20" [@fadeAnimation]></div>
   `,
+  host: {
+    '[@parentAnimation]': '',
+    '(@parentAnimation.done)': 'animationDone()',
+  },
   animations: [
+    createHostAnimation(['@slideInOutAnimation', '@fadeAnimation']),
     trigger('slideInOutAnimation', [
       state('1', style({ transform: 'none', opacity: 1 })),
       state('void', style({ transform: 'translateY(-20px)', opacity: 0 })),
       state('0', style({ transform: 'translateY(-20px)', opacity: 0 })),
       transition('* => *', animate('100ms ease-out')),
     ]),
-    fadeAnimation,
+    fadeAnimation('200ms'),
   ],
 })
 export class BaseTour extends BaseDialog implements OnDestroy {

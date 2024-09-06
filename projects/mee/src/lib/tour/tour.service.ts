@@ -6,9 +6,9 @@ import { PopoverOpen, popoverPortal } from '../popover';
 @Injectable({ providedIn: 'root' })
 export class TourService {
   private popover = popoverPortal();
-  steps = signal<TourStep[]>([]);
-  step = signal(-1);
-  private ids = signal<string[]>([]);
+  readonly steps = signal<TourStep[]>([]);
+  readonly step = signal(-1);
+  private readonly ids = signal<string[]>([]);
   currentStep = computed(() => {
     const id = this.ids()[this.step()];
     const steps = this.steps();
@@ -17,10 +17,10 @@ export class TourService {
   private diaRef?: PopoverOpen<any>;
   private id = 0;
   private template!: DialogInput<any>;
-  showPrev = computed(() => this.step() > 0);
-  showNext = computed(() => this.step() < this.ids().length - 1);
-  isLast = computed(() => this.step() === this.ids().length - 1);
-  totalSteps = computed(() => this.ids().length);
+  readonly showPrev = computed(() => this.step() > 0);
+  readonly showNext = computed(() => this.step() < this.ids().length - 1);
+  readonly isLast = computed(() => this.step() === this.ids().length - 1);
+  readonly totalSteps = computed(() => this.ids().length);
   scrolled = signal(0);
   private clipPath = computed(() => {
     const _ = this.scrolled();
@@ -58,7 +58,7 @@ export class TourService {
   }
 
   prev() {
-    const steps = this.ids;
+    const steps = this.ids();
     const prevStep = this.step();
     if (steps.length) {
       const step = (prevStep - 1 + steps.length) % steps.length;

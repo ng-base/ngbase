@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { Button } from '../button';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Icons } from '../icon';
+import { Icon } from '../icon';
 
 @Component({
   standalone: true,
   selector: 'mee-chip, [meeChip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Icons],
+  imports: [Button, Icon],
   viewProviders: [provideIcons({ lucideX })],
   template: `<ng-content></ng-content>
     @if (removable()) {

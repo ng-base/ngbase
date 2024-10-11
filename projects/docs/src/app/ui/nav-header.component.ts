@@ -3,11 +3,24 @@ import { List } from '@meeui/list';
 import { Card } from '@meeui/card';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Icon } from '@meeui/icon';
+import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/accordion';
+import { dialogPortal } from '@meeui/dialog';
+import { keyMap } from '@meeui/keys';
+import { Command } from '@meeui/command';
 
 @Component({
   standalone: true,
   selector: 'app-nav',
-  imports: [List, Card, RouterLink, RouterLinkActive, Icon],
+  imports: [
+    List,
+    Card,
+    RouterLink,
+    RouterLinkActive,
+    Icon,
+    Accordion,
+    AccordionGroup,
+    AccordionHeader,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 class="p-b2 font-semibold">Getting Started</h4>
@@ -35,164 +48,142 @@ import { Icon } from '@meeui/icon';
       routerLinkActive="text-primary"
       routerLink="theming disabled"
       disabled
-      >Theming</a
     >
+      Theming
+    </a>
     <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="examples">
       Examples
     </a>
 
-    <h4 class="mt-b4 p-b2 font-semibold">Components</h4>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="accordion">
-      Accordion</a
-    >
-    <a meeList href="#autocompletePage" disabled>Alert</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="alert-dialog">
-      Alert Dialog
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="avatar"
-      >Avatar</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="autocomplete">
-      Autocomplete
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="badge">Badge</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="buttons"
-      >Buttons</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="breadcrumbs">
-      Breadcrumbs
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="card">Card</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="color-picker">
-      Color Picker
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="calendar"
-      >Calendar</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="carousel"
-      >Carousel</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="checkbox"
-      >Checkbox</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="chip">Chip</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="context-menu">
-      Context Menu
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="datepicker"
-      >Datepicker</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="dialog"
-      >Dialog</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="drawer"
-      >Drawer</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="drag">Drag</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="forms">Forms</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="hover-card"
-      >Hover Card</a
-    >
-    <a meeList href="#iconPage" disabled>Icon</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="input">Input</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="otp"
-      >Input OTP</a
-    >
-    <a
-      meeList
-      (click)="scrollToTop()"
-      routerLinkActive="text-primary"
-      routerLink="keyboard-shortcuts"
-    >
-      Keyboard Shortcuts
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="list">List</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="mask">Mask</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="mention">
-      Mention
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="menu">Menu</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="navigation-menu">
-      Navigation Menu
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="pagination">
-      Pagination
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="progress">
-      Progress
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="popover">
-      Popover
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="picasa">
-      Picasa
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="radio">
-      Radio
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="resizable">
-      Resizable
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="scroll-area">
-      Scroll Area
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="select">
-      Select
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="selectable">
-      Selectable
-    </a>
-    <a meeList href="#separatorPage">Separator</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="sheet">
-      Sheet
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="slider">
-      Slider
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="sonner">
-      Sonner
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="spinner">
-      Spinner
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="stepper">
-      Stepper
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="sidenav">
-      Sidenav
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="switch">
-      Switch
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="table">
-      Table
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="tabs">Tabs</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="toggle"
-      >Toggle</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="toggle-group">
-      Toggle Group
-    </a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="tooltip"
-      >Tooltip</a
-    >
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="tour">Tour</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="tree">Tree</a>
-    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="typography"
-      >Typography</a
-    >
+    <mee-accordion-group multiple class="mt-b4">
+      <mee-accordion [expanded]="true">
+        <button meeAccordionHeader class="!px-b2 font-semibold">Components</button>
+        @for (item of sortComponentList; track item.name) {
+          <a
+            meeList
+            (click)="scrollToTop()"
+            routerLinkActive="text-primary"
+            [routerLink]="item.link || null"
+            [disabled]="item.link === ''"
+            class="text-muted"
+          >
+            {{ item.name }}
+          </a>
+        }
+      </mee-accordion>
+      <mee-accordion [expanded]="true">
+        <button meeAccordionHeader class="!px-b2 font-semibold">ADK</button>
+        @for (item of sortList; track item.name) {
+          <a
+            meeList
+            (click)="scrollToTop()"
+            routerLinkActive="text-primary"
+            [routerLink]="item.link"
+            class="text-muted"
+          >
+            {{ item.name }}
+          </a>
+        }
+      </mee-accordion>
+    </mee-accordion-group>
   `,
   host: {
     class: 'block p-b4',
   },
 })
 export class NavComponent implements OnInit {
-  constructor() {}
+  dialog = dialogPortal();
+
+  private adkList: { name: string; link: string }[] = [
+    { name: 'Cookies', link: 'cookies' },
+    { name: 'JWT', link: 'jwt' },
+    { name: 'Auto Focus', link: 'auto-focus' },
+    { name: 'Focus Trap', link: 'focus-trap' },
+    { name: 'Copy To Clipboard', link: 'copy-to-clipboard' },
+    { name: 'Shortcuts', link: 'shortcuts' },
+    { name: 'Directionality', link: 'directionality' },
+    { name: 'Test', link: 'test' },
+  ];
+
+  sortList = this.adkList.sort((a, b) => a.name.localeCompare(b.name));
+
+  private componentList: { name: string; link: string }[] = [
+    { name: 'Accordion', link: 'accordion' },
+    { name: 'Alert', link: '' },
+    { name: 'Alert Dialog', link: 'alert-dialog' },
+    { name: 'Avatar', link: 'avatar' },
+    { name: 'Autocomplete', link: 'autocomplete' },
+    { name: 'Badge', link: 'badge' },
+    { name: 'Buttons', link: 'buttons' },
+    { name: 'Breadcrumbs', link: 'breadcrumbs' },
+    { name: 'Card', link: 'card' },
+    { name: 'Color Picker', link: 'color-picker' },
+    { name: 'Calendar', link: 'calendar' },
+    { name: 'Carousel', link: 'carousel' },
+    { name: 'Checkbox', link: 'checkbox' },
+    { name: 'Chip', link: 'chip' },
+    { name: 'Context Menu', link: 'context-menu' },
+    { name: 'Command', link: 'command' },
+    { name: 'Datepicker', link: 'datepicker' },
+    { name: 'Dialog', link: 'dialog' },
+    { name: 'Drawer', link: 'drawer' },
+    { name: 'Drag', link: 'drag' },
+    { name: 'Forms', link: 'forms' },
+    { name: 'Hover Card', link: 'hover-card' },
+    { name: 'Icon', link: '' },
+    { name: 'Input', link: 'input' },
+    { name: 'Input OTP', link: 'otp' },
+    { name: 'List', link: 'list' },
+    { name: 'Mask', link: 'mask' },
+    { name: 'Mention', link: 'mention' },
+    { name: 'Menu', link: 'menu' },
+    { name: 'Navigation Menu', link: 'navigation-menu' },
+    { name: 'Pagination', link: 'pagination' },
+    { name: 'Progress', link: 'progress' },
+    { name: 'Popover', link: 'popover' },
+    { name: 'Picasa', link: 'picasa' },
+    { name: 'Radio', link: 'radio' },
+    { name: 'Resizable', link: 'resizable' },
+    { name: 'Scroll Area', link: 'scroll-area' },
+    { name: 'Select', link: 'select' },
+    { name: 'Selectable', link: 'selectable' },
+    { name: 'Separator', link: '' },
+    { name: 'Sheet', link: 'sheet' },
+    { name: 'Slider', link: 'slider' },
+    { name: 'Sonner', link: 'sonner' },
+    { name: 'Spinner', link: 'spinner' },
+    { name: 'Stepper', link: 'stepper' },
+    { name: 'Skeleton', link: 'skeleton' },
+    { name: 'Sidenav', link: 'sidenav' },
+    { name: 'Switch', link: 'switch' },
+    { name: 'Table', link: 'table' },
+    { name: 'Tabs', link: 'tabs' },
+    { name: 'Toggle', link: 'toggle' },
+    { name: 'Toggle Group', link: 'toggle-group' },
+    { name: 'Tooltip', link: 'tooltip' },
+    { name: 'Tour', link: 'tour' },
+    { name: 'Tree', link: 'tree' },
+    { name: 'Typography', link: 'typography' },
+  ];
+
+  sortComponentList = this.componentList.sort((a, b) => a.name.localeCompare(b.name));
+
+  constructor() {
+    keyMap('ctrl+k', () => this.open());
+  }
 
   ngOnInit() {}
 
   scrollToTop() {
     window.scrollTo(0, 0);
+  }
+
+  open() {
+    this.dialog.open(Command, {
+      header: true,
+      width: '600px',
+      minHeight: '400px',
+      maxHeight: '500px',
+    });
   }
 }

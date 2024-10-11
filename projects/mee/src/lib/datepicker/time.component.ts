@@ -19,6 +19,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   imports: [InputStyle, NumberOnly, Button],
   template: `
     <input
+      type="tel"
+      readonly
       meeInputStyle
       meeNumberOnly
       [value]="hours"
@@ -26,10 +28,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       [min]="0"
       [max]="is24() ? 23 : 11"
       [len]="2"
-      class="w-10 px-b text-center font-semibold"
+      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
+      type="tel"
+      readonly
       meeInputStyle
       meeNumberOnly
       [value]="minutes"
@@ -37,10 +41,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       [min]="0"
       [max]="59"
       [len]="2"
-      class="w-10 px-b text-center font-semibold"
+      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
+      type="tel"
+      readonly
       meeInputStyle
       meeNumberOnly
       [value]="seconds"
@@ -48,7 +54,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       [min]="0"
       [max]="59"
       [len]="2"
-      class="w-10 px-b text-center font-semibold"
+      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
     />
     @if (!is24()) {
       <div class="ml-b flex gap-b2">

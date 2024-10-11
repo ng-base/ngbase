@@ -38,6 +38,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
         ></div>
         <button
           #spectrumSelector
+          type="button"
           class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
         ></button>
       </div>
@@ -53,6 +54,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
             ></div>
             <button
               #hueSelector
+              type="button"
               class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
@@ -66,6 +68,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
             ></div>
             <button
               #alphaSelector
+              type="button"
               class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
@@ -75,6 +78,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
         <div class="flex flex-wrap gap-2 border-t p-b2 pt-b3">
           @for (color of presetColors(); track color) {
             <button
+              type="button"
               class="aspect-square w-b4 rounded-h border"
               [style.backgroundColor]="color"
               (click)="setValue(color, true)"

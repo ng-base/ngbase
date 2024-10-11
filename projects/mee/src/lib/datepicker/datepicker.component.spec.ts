@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DatePicker } from './datepicker.component';
 import { Component, TemplateRef, viewChild } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { DialogRef } from '../portal';
+import { render, RenderResult } from '../test';
 import { DatepickerTrigger } from './datepicker-trigger.directive';
-import { DialogRef } from '@meeui/portal';
+import { DatePicker } from './datepicker.component';
 
 @Component({
   standalone: true,
@@ -19,25 +18,19 @@ const mockDialogRef = { data: { value: [] as any[] } };
 
 describe('DatePicker', () => {
   let component: DatePicker<Date>;
-  let fixture: ComponentFixture<DatePicker<Date>>;
+  let view: RenderResult<DatePicker<Date>>;
   let templateRef: TemplateRef<any>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DatePicker, TestDatePicker],
-      providers: [
-        { provide: DialogRef, useValue: mockDialogRef },
-        { provide: DatepickerTrigger, useValue: { updateInput: jest.fn() } },
-      ],
-    }).compileComponents();
+    view = await render(DatePicker<Date>, [
+      { provide: DialogRef, useValue: mockDialogRef },
+      { provide: DatepickerTrigger, useValue: { updateInput: jest.fn() } },
+    ]);
+    component = view.host;
+    view.detectChanges();
 
-    fixture = TestBed.createComponent(DatePicker<Date>);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const compFixture = TestBed.createComponent(TestDatePicker);
-    fixture.detectChanges();
-    templateRef = compFixture.componentInstance.templateRef();
+    const compFixture = await render(TestDatePicker);
+    templateRef = compFixture.host.templateRef();
   });
 
   it('should create', () => {
@@ -78,6 +71,18 @@ describe('DatePicker', () => {
     let date = new Date();
     component.hoveredDate.set(date);
     expect(component.hoveredCount()).toBe(date.getTime());
+  });
+
+  it('should set the hovered date for range mode when second date is selected', () => {
+    component.range.set(true);
+    component.selectedDates.set([null, null]);
+
+    let date = new Date(2024, 6, 5);
+    component.selectDate(date);
+
+    date = new Date(2024, 6, 16);
+    component.selectDate(date);
+    expect(component.hoveredDate()).toBe(date);
   });
 
   it('should return the startDateCount value based on startDate', () => {
@@ -124,8 +129,8 @@ describe('DatePicker', () => {
     expect(component.startYear()).toBe(year);
     expect(component.showType()).toBe('month');
 
-    fixture.componentRef.setInput('pickerType', 'year');
-    fixture.detectChanges();
+    view.setInput('pickerType', 'year');
+    view.detectChanges();
     jest.spyOn(component, 'selectDate');
     year = 2022;
     let month = component.startMonth();
@@ -139,7 +144,7 @@ describe('DatePicker', () => {
     let year = 2023;
     component.selectMonth(month, year);
     component.showType.set('year');
-    fixture.componentRef.setInput('pickerType', 'month');
+    view.setInput('pickerType', 'month');
     expect(component.startMonth()).toBe(month);
     expect(component.startYear()).toBe(year);
     expect(component.showType()).toBe('year');
@@ -153,8 +158,8 @@ describe('DatePicker', () => {
     expect(component.selectDate).toHaveBeenCalledWith(new Date(year, month));
     expect(component.showType()).toBe('year');
 
-    fixture.componentRef.setInput('pickerType', 'date');
-    fixture.detectChanges();
+    view.setInput('pickerType', 'date');
+    view.detectChanges();
     component.selectMonth(month, year);
     expect(component.showType()).toBe('date');
   });
@@ -179,7 +184,7 @@ describe('DatePicker', () => {
     ];
 
     toggleExpectations.forEach(({ pickerType, expected }) => {
-      fixture.componentRef.setInput('pickerType', pickerType);
+      view.setInput('pickerType', pickerType);
       expected.forEach(exp => {
         component.toggleView();
         expect(component.showType()).toBe(exp);
@@ -189,22 +194,22 @@ describe('DatePicker', () => {
 
   it('should render the correct number of calendars', () => {
     component.noOfCalendar.set(3);
-    fixture.detectChanges();
-    const calendars = fixture.debugElement.queryAll(By.css('mee-calendar'));
+    view.detectChanges();
+    const calendars = view.$$('mee-calendar');
     expect(calendars.length).toBe(3);
   });
 
   it('should render the template if provided', () => {
     component.template.set(templateRef);
-    fixture.detectChanges();
-    const templateContainer = fixture.nativeElement.querySelector('#templateDiv');
+    view.detectChanges();
+    const templateContainer = view.$('#templateDiv');
     expect(templateContainer).toBeTruthy();
   });
 
   it('should not render the template if not provided', () => {
     component.template.set(null);
-    fixture.detectChanges();
-    const templateContainer = fixture.nativeElement.querySelector('#templateDiv');
+    view.detectChanges();
+    const templateContainer = view.$('#templateDiv');
     expect(templateContainer).toBeFalsy();
   });
 });

@@ -1,19 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, RenderResult } from '../test';
 import { Toggle } from './toggle.component';
 
 describe('ToggleComponent', () => {
   let component: Toggle;
-  let fixture: ComponentFixture<Toggle>;
+  let view: RenderResult<Toggle>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Toggle],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Toggle);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(Toggle);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

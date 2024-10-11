@@ -18,6 +18,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { TreeNodeDef } from './tree-node.directive';
+import { AccessibleGroup } from '../a11y';
+import { generateId } from '../utils';
 
 export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');
 
@@ -96,15 +98,20 @@ export interface TreeNodeImplicit<T> {
   standalone: true,
   selector: 'mee-tree',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-container #container></ng-container>`,
+  imports: [AccessibleGroup],
+  template: `<div class="block" meeAccessibleGroup [ayId]="ayId">
+    <ng-container #container></ng-container>
+  </div>`,
   host: {
     class: 'block',
+    role: 'tree',
   },
 })
 export class Tree<T> {
   // Dependencies
   injector = inject(Injector);
   differs = inject(IterableDiffers);
+  ayId = generateId();
 
   readonly treeNodeDef = contentChild.required(TreeNodeDef, { read: TemplateRef });
   readonly container = viewChild.required('container', { read: ViewContainerRef });

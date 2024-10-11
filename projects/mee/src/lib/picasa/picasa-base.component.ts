@@ -80,7 +80,7 @@ export class PicasaBase extends BaseDialog {
   override setOptions(options: DialogOptions) {
     this.options = options;
     this.classNames = this.options.classNames?.join(' ') || '';
-    this.isHideHeader = this.options.isHideHeader || false;
+    this.isHideHeader = this.options.header || false;
     this.backdropColor = this.options.backdropColor || true;
   }
 }

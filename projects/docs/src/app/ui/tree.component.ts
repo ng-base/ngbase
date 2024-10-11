@@ -56,7 +56,7 @@ class TreeItem {
             ></mee-icon>
             <!-- {{ myNode.isOpen() ? '▼' : '►' }} -->
           </button>
-          <input [(ngModel)]="item.name" /> {{ item.currentNow() }}
+          <input [(ngModel)]="item.name" class="bg-transparent" /> {{ item.currentNow() }}
           <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>
           <button
             meeButton

@@ -1,19 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, RenderResult } from '../test';
 import { Separator } from './separator.component';
 
 describe('SeparatorComponent', () => {
   let component: Separator;
-  let fixture: ComponentFixture<Separator>;
+  let view: RenderResult<Separator>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Separator],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Separator);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(Separator);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

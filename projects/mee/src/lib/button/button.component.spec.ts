@@ -1,19 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, RenderResult } from '../test';
 import { Button } from './button.component';
 
 describe('ButtonComponent', () => {
   let component: Button;
-  let fixture: ComponentFixture<Button>;
+  let view: RenderResult<Button>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Button],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Button);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(Button);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

@@ -1,17 +1,18 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { render, RenderResult } from '../test';
 import { RadioGroup } from './radio-group.component';
 import { Radio } from './radio.component';
-import { By } from '@angular/platform-browser';
 
 describe('RadioGroup and Radio', () => {
   let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+  let view: RenderResult<TestComponent>;
   let radioGroupElement: DebugElement[];
   let radioElements: DebugElement[];
 
   @Component({
+    standalone: true,
+    imports: [RadioGroup, Radio, FormsModule, ReactiveFormsModule],
     template: `
       <form [formGroup]="form">
         <mee-radio-group formControlName="option">
@@ -34,28 +35,22 @@ describe('RadioGroup and Radio', () => {
     `,
   })
   class TestComponent {
+    private fb = inject(FormBuilder);
     form = this.fb.group({
       option: ['', Validators.required],
     });
     isDisabled = true;
     selectedValue: string = '';
     value = 'option1';
-
-    constructor(private fb: FormBuilder) {}
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [FormsModule, ReactiveFormsModule, RadioGroup, Radio],
-    }).compileComponents();
+    view = await render(TestComponent);
+    component = view.host;
+    view.detectChanges();
 
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    radioGroupElement = fixture.debugElement.queryAll(By.directive(RadioGroup));
-    radioElements = fixture.debugElement.queryAll(By.directive(Radio));
+    radioGroupElement = view.viewChildrenDebug(RadioGroup);
+    radioElements = view.viewChildrenDebug(Radio);
   });
 
   it('should create the radio group', () => {
@@ -64,157 +59,139 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should have six radio buttons in total', () => {
-    const allRadioButtons = fixture.nativeElement.querySelectorAll('mee-radio');
+    const allRadioButtons = view.$$('mee-radio');
     expect(allRadioButtons.length).toBe(9);
   });
 
-  it('should update the form control when a radio button is clicked', fakeAsync(() => {
+  it('should update the form control when a radio button is clicked', () => {
     radioElements[1].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(component.form.get('option')?.value).toBe('option2');
-  }));
+  });
 
   it('should update the ngModel when a radio button is clicked', () => {
-    const ngModelRadios = fixture.nativeElement
-      .querySelectorAll('mee-radio-group')[1]
-      .querySelectorAll('mee-radio');
+    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
     ngModelRadios[1].click();
-    fixture.detectChanges();
+    view.detectChanges();
     expect(component.selectedValue).toBe('option2');
   });
 
-  it('should update the UI when the form control changes', fakeAsync(() => {
+  it('should update the UI when the form control changes', () => {
     component.form.patchValue({ option: 'option1' });
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(radioElements[0].nativeElement.querySelector('button > div')).toBeTruthy();
     expect(radioElements[1].nativeElement.querySelector('button > div')).toBeFalsy();
-  }));
+  });
 
   it('should update the UI when the ngModel changes', async () => {
     component.selectedValue = 'option1';
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const ngModelRadios = fixture.nativeElement
-      .querySelectorAll('mee-radio-group')[1]
-      .querySelectorAll('mee-radio');
+    await view.formStable();
+    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
     expect(ngModelRadios[0].querySelector('button > div')).toBeTruthy();
     expect(ngModelRadios[1].querySelector('button > div')).toBeFalsy();
   });
 
-  it('should not allow clicking a disabled radio button', fakeAsync(() => {
+  it('should not allow clicking a disabled radio button', () => {
     radioElements[2].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(component.form.get('option')?.value).not.toBe('option3');
 
-    const ngModelRadios = fixture.nativeElement
-      .querySelectorAll('mee-radio-group')[1]
-      .querySelectorAll('mee-radio');
+    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
     ngModelRadios[2].click();
-    fixture.detectChanges();
+    view.detectChanges();
     expect(component.selectedValue).not.toBe('option3');
-  }));
+  });
 
   it('should apply correct classes for disabled state', () => {
     expect(radioElements[2].nativeElement.classList.contains('opacity-60')).toBeTruthy();
     expect(radioElements[2].nativeElement.classList.contains('cursor-not-allowed')).toBeTruthy();
   });
 
-  it('should mark the form control as touched when a radio is clicked', fakeAsync(() => {
+  it('should mark the form control as touched when a radio is clicked', () => {
     expect(component.form.get('option')?.touched).toBeFalsy();
     radioElements[0].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(component.form.get('option')?.touched).toBeTruthy();
-  }));
+  });
 
-  it('should respect the required validator', fakeAsync(() => {
+  it('should respect the required validator', () => {
     expect(component.form.get('option')?.valid).toBeFalsy();
     radioElements[0].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(component.form.get('option')?.valid).toBeTruthy();
-  }));
+  });
 
-  it('should handle dynamic enabling/disabling of radio buttons', fakeAsync(() => {
+  it('should handle dynamic enabling/disabling of radio buttons', () => {
     component.isDisabled = false;
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
+
     radioElements[2].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(component.form.get('option')?.value).toBe('option3');
-  }));
+  });
 
-  it('should handle programmatic value changes', fakeAsync(() => {
+  it('should handle programmatic value changes', () => {
     component.form.patchValue({ option: 'option2' });
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(radioElements[1].nativeElement.querySelector('button > div')).toBeTruthy();
-  }));
+  });
 
-  it('should not change value when clicking an already selected radio', fakeAsync(() => {
+  it('should not change value when clicking an already selected radio', () => {
     radioElements[0].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
+
     const initialValue = component.form.get('option')?.value;
     radioElements[0].nativeElement.click();
-    fixture.detectChanges();
-    tick();
-    expect(component.form.get('option')?.value).toBe(initialValue);
-  }));
+    view.detectChanges();
 
-  it('should handle rapid clicking between options', fakeAsync(() => {
+    expect(component.form.get('option')?.value).toBe(initialValue);
+  });
+
+  it('should handle rapid clicking between options', () => {
     radioElements[0].nativeElement.click();
     radioElements[1].nativeElement.click();
     radioElements[2].nativeElement.click();
-    fixture.detectChanges();
-    tick();
-    expect(component.form.get('option')?.value).toBe('option2'); // The last enabled option
-  }));
+    view.detectChanges();
 
-  it('should emit value change on clicking', fakeAsync(() => {
+    expect(component.form.get('option')?.value).toBe('option2'); // The last enabled option
+  });
+
+  it('should emit value change on clicking', () => {
     const radioGroup = radioGroupElement[1].componentInstance as RadioGroup;
     jest.spyOn(radioGroup, 'onChange');
     radioElements[4].nativeElement.click();
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(radioGroup.onChange).toHaveBeenCalledWith('option2');
-  }));
+  });
 
   describe('with value binding', () => {
-    it('should update the value binding when a radio button is clicked', fakeAsync(() => {
+    it('should update the value binding when a radio button is clicked', () => {
       radioElements[7].nativeElement.click();
-      fixture.detectChanges();
-      tick();
-      expect(component.value).toBe('option2');
-    }));
+      view.detectChanges();
 
-    it('should update the UI when the value binding changes', fakeAsync(() => {
+      expect(component.value).toBe('option2');
+    });
+
+    it('should update the UI when the value binding changes', () => {
       component.value = 'option1';
-      fixture.detectChanges();
-      tick();
+      view.detectChanges();
+
       expect(radioElements[6].nativeElement.querySelector('button > div')).toBeTruthy();
       expect(radioElements[7].nativeElement.querySelector('button > div')).toBeFalsy();
-    }));
+    });
 
-    it('should handle programmatic value changes', fakeAsync(() => {
+    it('should handle programmatic value changes', () => {
       component.value = 'option2';
-      fixture.detectChanges();
-      tick();
+      view.detectChanges();
       expect(radioElements[7].nativeElement.querySelector('button > div')).toBeTruthy();
-    }));
+    });
 
-    it('should handle rapid clicking between options', fakeAsync(() => {
+    it('should handle rapid clicking between options', () => {
       radioElements[6].nativeElement.click();
       radioElements[7].nativeElement.click();
       radioElements[8].nativeElement.click();
-      fixture.detectChanges();
-      tick();
+      view.detectChanges();
       expect(component.value).toBe('option3'); // The last enabled option
-    }));
+    });
   });
 });

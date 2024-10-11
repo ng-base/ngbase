@@ -19,9 +19,9 @@ import { Accordion } from './accordion-item.component';
   },
 })
 export class AccordionGroup {
-  items = contentChildren(Accordion);
-  multiple = input(false, { transform: booleanAttribute });
-  activeId = signal('');
+  readonly items = contentChildren(Accordion);
+  readonly multiple = input(false, { transform: booleanAttribute });
+  readonly activeId = signal('');
 
   constructor() {
     effect(

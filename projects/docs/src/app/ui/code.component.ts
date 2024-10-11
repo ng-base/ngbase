@@ -1,22 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Button } from '@meeui/button';
+import { Icon } from '@meeui/icon';
 import { Selectable, SelectableItem } from '@meeui/selectable';
 import { Tab, Tabs } from '@meeui/tabs';
+import { CopyToClipboard } from '@meeui/utils';
+import { provideIcons } from '@ng-icons/core';
+import { lucideCopy } from '@ng-icons/lucide';
 import { createHighlighter } from 'shiki';
 
 @Component({
   standalone: true,
   selector: 'app-doc-code',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Selectable, SelectableItem, Tabs, Tab],
+  imports: [Selectable, SelectableItem, Tabs, Tab, CopyToClipboard, Button, Icon],
+  providers: [provideIcons({ lucideCopy })],
   template: `
     <mee-selectable [(activeIndex)]="selected" class="mb-b2 text-xs">
       <button meeSelectableItem [value]="1">Preview</button>
@@ -30,7 +28,17 @@ import { createHighlighter } from 'shiki';
         </div>
       </div>
     } @else {
-      <div [innerHTML]="ts()" class="overflow-hidden rounded-base border font-body"></div>
+      <div class="relative overflow-hidden rounded-base border font-body">
+        <button
+          meeButton
+          variant="outline"
+          class="dark absolute right-0 top-0 h-8 w-8"
+          [meeCopyToClipboard]="tsCode()"
+        >
+          <mee-icon name="lucideCopy"></mee-icon>
+        </button>
+        <div [innerHTML]="ts()"></div>
+      </div>
       <!-- <mee-tabs
         [(selectedIndex)]="activeTab"
         class="small dark overflow-hidden rounded-base border bg-black font-body text-xs"

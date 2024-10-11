@@ -1,19 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Component, signal } from '@angular/core';
+import { render, RenderResult } from '../test';
 import { Switch } from './switch.component';
+import { FormsModule } from '@angular/forms';
 
 describe('SwitchComponent', () => {
   let component: Switch;
-  let fixture: ComponentFixture<Switch>;
+  let view: RenderResult<TestComponent>;
+
+  @Component({
+    standalone: true,
+    imports: [Switch, FormsModule],
+    template: `<mee-switch [(ngModel)]="value"></mee-switch>`,
+  })
+  class TestComponent {
+    value = signal(false);
+  }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Switch],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Switch);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(TestComponent);
+    component = view.viewChild(Switch);
+    view.detectChanges();
   });
 
   it('should create', () => {
@@ -34,29 +40,29 @@ describe('SwitchComponent', () => {
 
   it('should render content when checked', () => {
     component.checked.set(true);
-    fixture.detectChanges();
-    const content = fixture.nativeElement.querySelector('span') as HTMLSpanElement;
-    expect(content.classList).toContain('translate-x-full');
+    view.detectChanges();
+    expect(view.$('span').classList).toContain('translate-x-full');
 
     component.checked.set(false);
-    fixture.detectChanges();
-    expect(content.classList).not.toContain('translate-x-full');
+    view.detectChanges();
+    expect(view.$('span').classList).not.toContain('translate-x-full');
   });
 
   it('should call updateValue when clicked', () => {
     const spy = jest.spyOn(component, 'updateValue');
     const changeSpy = jest.spyOn(component.change, 'emit');
-    const button = fixture.nativeElement.querySelector('button');
-    button.click();
+    view.$('button').click();
     expect(spy).toHaveBeenCalled();
     expect(changeSpy).toHaveBeenCalledWith(true);
   });
 
-  it('should not call updateValue when writeValue is called', () => {
+  it('should not call updateValue when writeValue is called', async () => {
     const spy = jest.spyOn(component, 'updateValue');
-    const onChangeSpy = jest.spyOn(component, 'onChange');
-    component.writeValue(true);
+    const changeSpy = jest.spyOn(component.change, 'emit');
+    view.host.value.set(true);
+    await view.whenStable();
     expect(spy).not.toHaveBeenCalled();
-    expect(onChangeSpy).not.toHaveBeenCalled();
+    expect(component.checked()).toBeTruthy();
+    expect(changeSpy).not.toHaveBeenCalled();
   });
 });

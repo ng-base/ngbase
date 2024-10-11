@@ -14,14 +14,9 @@ import { AccessibleItem } from '../a11y';
   standalone: true,
   template: ` <ng-content></ng-content> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    :host[disabled] {
-      @apply pointer-events-none cursor-not-allowed text-gray-400;
-    }
-  `,
   host: {
     role: 'list',
-    '[attr.aria-disabled]': 'disabled()',
+    '[class]': 'disabled() ? "pointer-events-none cursor-not-allowed opacity-50" : ""',
   },
   hostDirectives: [
     ListStyle,
@@ -32,8 +27,11 @@ import { AccessibleItem } from '../a11y';
   ],
 })
 export class List {
+  // Dependencies
   readonly allyItem = inject(AccessibleItem);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  // Inputs
   readonly disabled = input(false, { transform: booleanAttribute });
 
   setAyId(id: string) {

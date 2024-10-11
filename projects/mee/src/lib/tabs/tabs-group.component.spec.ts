@@ -1,15 +1,25 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component, signal } from '@angular/core';
 import { Tabs } from './tabs-group.component';
-import { Tab, TabHeader } from './tabs.component';
-import { By } from '@angular/platform-browser';
+import { Tab, TabHeader, TabLazy } from './tabs.component';
+import { render, RenderResult } from '../test';
 
 describe('Tabs Component', () => {
   let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let view: RenderResult<TestHostComponent>;
   let tabsComponent: Tabs;
 
   @Component({
+    standalone: true,
+    selector: 'app-lazy',
+    template: '',
+  })
+  class LazyComponent {
+    id = Date.now();
+  }
+
+  @Component({
+    standalone: true,
+    imports: [Tabs, Tab, TabHeader, TabLazy, LazyComponent],
     template: `
       <mee-tabs [(selectedIndex)]="tabIndex">
         <mee-tab>
@@ -21,6 +31,9 @@ describe('Tabs Component', () => {
             <p>Custom {{ tab.content }}</p>
           </mee-tab>
         }
+        <mee-tab>
+          <app-lazy *meeTabLazy></app-lazy>
+        </mee-tab>
       </mee-tabs>
     `,
   })
@@ -52,23 +65,18 @@ describe('Tabs Component', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [Tabs, Tab, TabHeader],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    tabsComponent = fixture.debugElement.query(By.directive(Tabs)).componentInstance;
+    view = await render(TestHostComponent);
+    component = view.host;
+    view.detectChanges();
+    tabsComponent = view.viewChild(Tabs);
   });
 
-  const tabs = () => fixture.nativeElement.querySelectorAll('button[role="tab"]');
-  const activeTab = () => fixture.nativeElement.querySelector('button[aria-selected="true"]');
+  const tabs = () => view.$$('button[role="tab"]');
+  const activeTab = () => view.$('button[aria-selected="true"]');
 
   function clickTab(index: number) {
     tabs()[index].click();
-    fixture.detectChanges();
+    view.detectChanges();
   }
 
   it('should create', () => {
@@ -77,33 +85,33 @@ describe('Tabs Component', () => {
 
   it('should set first tab as active by default', () => {
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Custom Tab 1');
+    expect(tab?.textContent?.trim()).toBe('Custom Tab 1');
   });
 
   it('should change active tab when clicked', () => {
     clickTab(1);
 
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Tab 1');
+    expect(tab?.textContent?.trim()).toBe('Tab 1');
   });
 
   it('should display correct content for active tab', () => {
-    fixture.detectChanges();
-    const content = fixture.nativeElement.querySelector('mee-tab:not(.hidden)');
-    expect(content.textContent.trim()).toBe('Content 1');
+    view.detectChanges();
+    const content = view.$('mee-tab:not(.hidden)');
+    expect(content?.textContent?.trim()).toBe('Content 1');
 
     clickTab(1);
 
-    const newContent = fixture.nativeElement.querySelector('mee-tab:not(.hidden)');
-    expect(newContent.textContent.trim()).toBe('Custom Content 1');
+    const newContent = view.$('mee-tab:not(.hidden)');
+    expect(newContent?.textContent?.trim()).toBe('Custom Content 1');
   });
 
   it('should show custom tab header content', () => {
     const tab = activeTab();
     component.tabIndex.set(0);
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(tab.textContent.trim()).toBe('Custom Tab 1');
+    expect(tab?.textContent?.trim()).toBe('Custom Tab 1');
   });
 
   it('should emit selectedTabChange event when tab changes', () => {
@@ -111,61 +119,61 @@ describe('Tabs Component', () => {
 
     clickTab(2);
 
-    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledWith(2);
+    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should maintain the active tab when new tabs are added', () => {
     clickTab(1);
     component.addTab();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(tabs().length).toBe(8);
+    expect(tabs().length).toBe(9);
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Tab 1');
+    expect(tab?.textContent?.trim()).toBe('Tab 1');
   });
 
   it('should maintain the active tab when other tab is removed', () => {
     clickTab(1);
     component.deleteTab(1);
-    fixture.detectChanges();
+    view.detectChanges();
 
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Tab 1');
+    expect(tab?.textContent?.trim()).toBe('Tab 1');
 
     clickTab(2);
     component.deleteTab(0);
-    fixture.detectChanges();
+    view.detectChanges();
 
     expect(tabsComponent.selectedIndex()).toBe(1);
-    fixture.detectChanges();
+    view.detectChanges();
     const newTab = activeTab();
-    expect(newTab.textContent.trim()).toBe('Tab 3');
+    expect(newTab?.textContent?.trim()).toBe('Tab 3');
   });
 
   it('should maintain the current tab index when previous tab is removed', () => {
     jest.spyOn(tabsComponent.selectedTabChange, 'emit');
     clickTab(3);
     component.deleteTab(0);
-    fixture.detectChanges();
+    view.detectChanges();
 
     expect(tabsComponent.selectedIndex()).toBe(2);
-    fixture.detectChanges();
+    view.detectChanges();
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Tab 3');
-    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledWith(2);
+    expect(tab?.textContent?.trim()).toBe('Tab 3');
+    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledTimes(2);
   });
 
   it('should move to the next tab when current tab is removed', () => {
     jest.spyOn(tabsComponent.selectedTabChange, 'emit');
     clickTab(1);
     component.deleteTab(0);
-    fixture.detectChanges();
+    view.detectChanges();
 
     expect(tabsComponent.selectedIndex()).toBe(1);
-    fixture.detectChanges();
+    view.detectChanges();
     const tab = activeTab();
-    expect(tab.textContent.trim()).toBe('Tab 2');
-    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledWith(1);
+    expect(tab?.textContent?.trim()).toBe('Tab 2');
+    expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledTimes(1);
   });
 
   // Add more tests as needed

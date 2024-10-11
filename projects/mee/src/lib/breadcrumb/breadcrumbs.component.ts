@@ -1,5 +1,19 @@
-import { ChangeDetectionStrategy, Component, contentChildren, effect } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  contentChild,
+  contentChildren,
+  Directive,
+  effect,
+  TemplateRef,
+} from '@angular/core';
 import { Breadcrumb } from './breadcrumb.component';
+
+@Directive({
+  standalone: true,
+  selector: '[meeBreadcrumbsSeparator]',
+})
+export class BreadcrumbsSeparator {}
 
 @Component({
   standalone: true,
@@ -7,12 +21,13 @@ import { Breadcrumb } from './breadcrumb.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'flex items-center space-x-b2',
+    class: 'flex items-center gap-b2',
     'aria-label': 'breadcrumb',
   },
 })
 export class Breadcrumbs {
   items = contentChildren(Breadcrumb);
+  separator = contentChild(BreadcrumbsSeparator, { read: TemplateRef });
 
   constructor() {
     effect(

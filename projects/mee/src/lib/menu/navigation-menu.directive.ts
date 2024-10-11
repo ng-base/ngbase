@@ -72,11 +72,13 @@ export class NavigationMenu {
     }
     // console.log('navigation menu open');
 
-    this.popoverOpen = this.popover.open(
-      menu.container()!,
-      { target, position: 'bl', className: 'transition-all' },
-      { ayId: this.ayId, backdrop: false },
-    );
+    this.popoverOpen = this.popover.open(menu.container()!, {
+      target,
+      position: 'bl',
+      className: 'transition-all',
+      ayId: this.ayId,
+      backdrop: false,
+    });
     menu.diaRef = this.popoverOpen.diaRef;
     if (this.hover()) {
       this.popoverOpen.events.subscribe(e => {

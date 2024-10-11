@@ -22,14 +22,14 @@ import { Avatar } from '@meeui/avatar';
         <div class="w-96 p-4">
           <div class="flex flex-col gap-b2">
             <mee-avatar
-              src="https://pbs.twimg.com/profile_images/1337055608613253126/r_eiMp2H_400x400.png"
+              src="https://pbs.twimg.com/profile_images/1238875353457635328/VKdeKwcq_200x200.jpg"
               alt="Radix UI"
               class="w-b12"
             />
             <div class="flex flex-col gap-b4">
               <div>
-                <div class="Text font-bold">Radix</div>
-                <div class="text-muted">&#64;radix_ui</div>
+                <div class="Text font-bold">Mee</div>
+                <div class="text-muted">&#64;mee_ui</div>
               </div>
               <div class="Text">
                 Components, icons, colors, and templates for building high-quality, accessible UI.

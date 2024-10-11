@@ -1,10 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DialogRef } from '@meeui/portal';
+import { DialogRef } from '../portal';
+import { render, RenderResult } from '../test';
 import { Popover } from './popover.component';
 
-const options = { title: 'Drawer' };
+const options = {
+  title: 'Drawer',
+  anchor: true,
+  target: { offsetWidth: 200, offsetHeight: 100 } as HTMLElement,
+};
 const mockDialogRef = new DialogRef(
   options,
   () => jest.fn(),
@@ -14,22 +17,16 @@ const mockDialogRef = new DialogRef(
 
 describe('DrawerComponent', () => {
   let component: Popover;
-  let fixture: ComponentFixture<Popover>;
+  let view: RenderResult<Popover>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Popover],
-      providers: [provideNoopAnimations(), { provide: DialogRef, useValue: mockDialogRef }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Popover);
-    component = fixture.componentInstance;
+    view = await render(Popover, [
+      provideNoopAnimations(),
+      { provide: DialogRef, useValue: mockDialogRef },
+    ]);
+    component = view.host;
     component.setOptions(options);
-    component.tooltipOptions = {
-      anchor: true,
-      target: { offsetWidth: 200, offsetHeight: 100 } as HTMLElement,
-    };
-    fixture.detectChanges();
+    view.detectChanges();
   });
 
   it('should create', () => {

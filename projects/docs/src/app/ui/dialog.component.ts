@@ -52,6 +52,7 @@ export class DialogComponent {
       width: '600px',
       maxHeight: '80vh',
       title: 'Add',
+      fullWindow: true,
     });
   }
 }

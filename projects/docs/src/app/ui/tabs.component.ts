@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { Tab, Tabs, TabHeader } from '@meeui/tabs';
+import { Component, signal } from '@angular/core';
+import { Tab, Tabs, TabHeader, TabLazy } from '@meeui/tabs';
 import { RangePipe } from '@meeui/utils';
 import { Heading } from '@meeui/typography';
 import { Selectable, SelectableItem } from '@meeui/selectable';
@@ -11,10 +11,22 @@ import { Button } from '@meeui/button';
 
 @Component({
   standalone: true,
+  selector: 'app-tab-lazy',
+  template: `<p>Lazy tab</p>`,
+})
+export class TabLazyComponent {
+  constructor() {
+    console.log('lazy tab');
+  }
+}
+
+@Component({
+  standalone: true,
   selector: 'app-tabs',
   imports: [
     Tabs,
     Tab,
+    TabLazy,
     TabHeader,
     Heading,
     RangePipe,
@@ -23,6 +35,7 @@ import { Button } from '@meeui/button';
     DocCode,
     Icon,
     Button,
+    TabLazyComponent,
   ],
   viewProviders: [provideIcons({ lucidePlus, lucideX })],
   template: `
@@ -31,6 +44,7 @@ import { Button } from '@meeui/button';
     <app-doc-code [tsCode]="tsCode">
       <mee-tabs
         [(selectedIndex)]="tabIndex"
+        (selectedIndexChange)="tabIndexChange($event)"
         class="w-[40rem] overflow-hidden rounded-base border shadow-sm"
       >
         <div
@@ -45,10 +59,10 @@ import { Button } from '@meeui/button';
         </div>
         @for (n of tabs(); track n.id) {
           <mee-tab [title]="n.name" class="p-b4" [disabled]="n.disabled">
-            <div *meeTabHeader class="flex h-full items-center whitespace-nowrap px-4">
+            <div *meeTabHeader class="flex h-full items-center whitespace-nowrap">
               {{ n.name }}
 
-              <button
+              <div
                 meeButton
                 variant="ghost"
                 tabindex="-1"
@@ -56,7 +70,7 @@ import { Button } from '@meeui/button';
                 (click)="deleteTab(n.id)"
               >
                 <mee-icon name="lucideX" />
-              </button>
+              </div>
             </div>
             <p>
               Tab {{ $index }} <br />
@@ -66,6 +80,9 @@ import { Button } from '@meeui/button';
             </p>
           </mee-tab>
         }
+        <mee-tab mode="lazy">
+          <app-tab-lazy *meeTabLazy></app-tab-lazy>
+        </mee-tab>
       </mee-tabs>
     </app-doc-code>
   `,
@@ -75,7 +92,7 @@ export class TabsComponent {
     { id: 0, name: 'Tab 1' },
     { id: 1, name: 'Tab with long name 2', disabled: true },
   ]);
-  tabIndex = signal(0);
+  tabIndex = signal<number>(undefined as any);
   tsCode = `
   import { Component } from '@angular/core';
   import { Tabs, Tab, TabHeader } from '@meeui/tabs';
@@ -109,5 +126,9 @@ export class TabsComponent {
 
   deleteTab(id: number) {
     this.tabs.update(tabs => tabs.filter(tab => tab.id !== id));
+  }
+
+  tabIndexChange(index: number) {
+    console.log(index);
   }
 }

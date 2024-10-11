@@ -18,8 +18,8 @@ import { Subject } from 'rxjs';
   selector: '[meeAccessibleItem]',
   host: {
     '[attr.aria-pressed]': 'pressed()',
-    // '[attr.disabled]': 'disabled()',
-    '[tabindex]': '0',
+    '[attr.aria-disabled]': 'disabled()',
+    '[tabindex]': 'disabled() ? -1 : 0',
     '(click)': 'onFocus()',
   },
 })
@@ -32,7 +32,10 @@ export class AccessibleItem<T = any> {
   readonly role = input('button');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly data = input<T>();
-  readonly skip = input(false);
+  readonly skip = input(false, { transform: booleanAttribute });
+  readonly level = input(0);
+  readonly expandable = input(false);
+  readonly expanded = input(false);
   readonly selectedChange = output<number>();
 
   readonly group = computed(() => this.allyService.getGroup(this.ayId() || ''));
@@ -48,10 +51,10 @@ export class AccessibleItem<T = any> {
   constructor() {
     effect(
       cleanUp => {
-        const id = this.ayId();
-        if (id) {
-          this.allyService.register(id, this);
-          cleanUp(() => this.allyService.unregister(id, this));
+        const group = this.group();
+        if (group) {
+          group.register(this);
+          cleanUp(() => group.unregister(this));
         }
       },
       { allowSignalWrites: true },
@@ -73,25 +76,35 @@ export class AccessibleItem<T = any> {
   }
 
   private onFocus = () => {
-    this.group()?.focusItem(this);
+    if (this.allyService.usingMouse) {
+      // console.log('using mouse');
+      this.group()?.focusItem(this);
+    }
   };
 
-  focus(popup: boolean) {
-    if (!popup) this.el.focus();
-    this.el.classList.add('bg-muted-background');
-    this.el.scrollIntoView({ block: 'nearest' });
+  focus(focus: boolean, isKeyboard: boolean) {
+    // console.log('focus', focus);
+    console.log('scrollIntoView', isKeyboard);
+    if (focus) this.el.focus();
+    // this.el.classList.add('bg-muted-background');
+    this.el.setAttribute('data-focus', 'true');
+    if (isKeyboard) this.el.scrollIntoView({ block: 'nearest' });
     this.el.tabIndex = 0;
     // console.log('focus', this.el);
   }
 
   blur = () => {
-    this.el.classList.remove('bg-muted-background');
+    // this.el.classList.remove('bg-muted-background');
     this.el.tabIndex = -1;
+    this.el.setAttribute('data-focus', 'false');
     // console.log('blur', this.el);
   };
 
   click() {
+    this.el.tabIndex = 0;
     this.el.click();
+    this.el.focus();
     this.selectedChange.emit(this.count++);
+    this.events.next({ event: new KeyboardEvent('click'), type: 'click', item: this });
   }
 }

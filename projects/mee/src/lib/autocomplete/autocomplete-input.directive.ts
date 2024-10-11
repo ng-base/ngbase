@@ -25,14 +25,17 @@ import { Autocomplete } from './autocomplete.component';
   },
 })
 export class AutocompleteInput<T> {
+  // Dependencies
   readonly autoComplete = inject(Autocomplete);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  readonly focus = signal(false);
-  readonly blur = signal(false);
+
+  // Inputs
   readonly meeAutocompleteInput = output<string>();
-  readonly search = signal('');
   readonly options = input<T[]>([]);
   readonly filterFn = input<(query: string, value: T, values: T[]) => boolean>();
+
+  // State
+  readonly search = signal('');
   readonly filteredOptions = computed(() => {
     const fn = this.filterFn();
     const options = this.options();

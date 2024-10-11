@@ -13,7 +13,8 @@ export function alertPortal() {
       width: '32rem',
       maxWidth: '95vw',
       disableClose: true,
-      isHideHeader: true,
+      header: true,
+      focusTrap: true,
     };
 
     const diaRef = base.open(comp || Alert, options);

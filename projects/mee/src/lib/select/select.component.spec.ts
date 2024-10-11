@@ -1,27 +1,35 @@
-import { Component, DebugElement, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { Select } from './select.component';
-import { Option } from './option.component';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Component, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { render, RenderResult } from '../test';
+import { Option } from './option.component';
+import { Select } from './select.component';
 
 // Test host component
 @Component({
   standalone: true,
-  imports: [Select, Option, FormsModule],
+  imports: [Select, Option, ReactiveFormsModule],
   template: `
-    <mee-select [(ngModel)]="selectedValue" [multiple]="multiple" [placeholder]="placeholder()">
-      @for (option of options; track option.value) {
-        <mee-option [value]="option.value">
-          {{ option.label }}
-        </mee-option>
-      }
-    </mee-select>
+    <form [formGroup]="form">
+      <mee-select
+        id="select1"
+        formControlName="selectedValue"
+        [multiple]="multiple"
+        [placeholder]="placeholder()"
+      >
+        @for (option of options; track option.value) {
+          <mee-option [value]="option.value">
+            {{ option.label }}
+          </mee-option>
+        }
+      </mee-select>
+    </form>
   `,
 })
 class TestHostComponent {
-  selectedValue = signal<string | string[]>('');
+  form = new FormGroup({
+    selectedValue: new FormControl<string | string[]>('1'),
+  });
   multiple = false;
   placeholder = signal('');
   options = [
@@ -29,35 +37,32 @@ class TestHostComponent {
     { value: '2', label: 'Option 2' },
     { value: '3', label: 'Option 3' },
   ];
+
+  setSelectedValue(value: string | string[]) {
+    this.form.get('selectedValue')?.setValue(value);
+  }
 }
 
 describe('Select', () => {
   let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
-  let selectElement: DebugElement;
+  let view: RenderResult<TestHostComponent>;
   let selectComponent: Select<string>;
 
+  beforeEach(async () => {
+    view = await render(TestHostComponent, [provideNoopAnimations()]);
+    component = view.host;
+    selectComponent = view.viewChild(Select<string>, '#select1');
+    view.detectChanges();
+  });
+
   function selectInput() {
-    return selectElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+    return view.$<HTMLButtonElement>('#select1 button');
   }
 
   function selectOptions() {
     selectInput().click();
     return document.querySelectorAll('mee-option') as NodeListOf<HTMLElement>;
   }
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
-      providers: [provideNoopAnimations()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    selectElement = fixture.debugElement.query(By.directive(Select));
-    selectComponent = selectElement.componentInstance;
-    fixture.detectChanges();
-  });
 
   it('should create', () => {
     expect(selectComponent).toBeTruthy();
@@ -67,25 +72,30 @@ describe('Select', () => {
     expect(selectComponent.options().length).toBe(3);
   });
 
-  it('should render placeholder when no value is selected', () => {
+  it('should render the current value', async () => {
+    await view.formStable();
+    const buttonElement = selectInput();
+    expect(buttonElement.textContent?.trim()).toBe('Option 1');
+  });
+
+  it('should render placeholder when no value is selected', async () => {
     component.placeholder.set('Select an option');
-    fixture.detectChanges();
+    component.setSelectedValue('');
+    await view.formStable();
     const buttonElement = selectInput();
     expect(buttonElement.textContent?.trim()).toBe('Select an option');
   });
 
   it('should render selected value', async () => {
-    component.selectedValue.set('1');
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    component.setSelectedValue('1');
+    await view.formStable();
     const buttonElement = selectInput();
     expect(buttonElement.textContent?.trim()).toBe('Option 1');
   });
 
   it('should disable select when disabled is set', () => {
     selectComponent.disabled.set(true);
-    fixture.detectChanges();
+    view.detectChanges();
     const buttonElement = selectInput();
     expect(buttonElement.disabled).toBe(true);
   });
@@ -100,38 +110,38 @@ describe('Select', () => {
   it('should handle single selection', () => {
     const buttonElement = selectInput();
     buttonElement.click();
-    fixture.detectChanges();
+    view.detectChanges();
 
     // Simulate option selection
     const options = selectOptions();
     options[0].click();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(component.selectedValue()).toBe('1');
+    expect(component.form.value.selectedValue).toBe('1');
     expect(buttonElement.textContent?.trim()).toBe('Option 1');
   });
 
   it('should handle multiple selection', async () => {
     component.multiple = true;
-    component.selectedValue.set(['1', '2']);
-    fixture.detectChanges();
+    component.setSelectedValue(['1', '2']);
+    view.detectChanges();
 
     const options = selectOptions();
-    fixture.detectChanges();
+    view.detectChanges();
 
     // Simulate multiple option selection
     const buttonElement = selectInput();
     options[2].click();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(component.selectedValue()).toEqual(['1', '2', '3']);
+    expect(component.form.value.selectedValue).toEqual(['1', '2', '3']);
     expect(buttonElement.textContent?.trim()).toBe('Option 1  (+2)');
 
     // Simulate multiple option deselection
     options[2].click();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(component.selectedValue()).toEqual(['1', '2']);
+    expect(component.form.value.selectedValue).toEqual(['1', '2']);
   });
 
   it('should emit opened event when options are opened', done => {
@@ -148,13 +158,13 @@ describe('Select', () => {
       done();
     });
     selectComponent.open();
-    selectComponent['popClose']();
+    selectComponent['close']();
   });
 
   it('should update panelOpen signal when options are opened/closed', () => {
     selectComponent.open();
     expect(selectComponent.panelOpen()).toBe(true);
-    selectComponent['popClose']();
+    selectComponent['close']();
     expect(selectComponent.panelOpen()).toBe(false);
   });
 

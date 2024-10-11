@@ -1,17 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   ViewContainerRef,
   afterNextRender,
+  inject,
+  signal,
   viewChild,
 } from '@angular/core';
-import { BaseDialog, DialogOptions } from '../portal';
+import { BaseDialog, DialogRef } from '../portal';
 import { NgStyle } from '@angular/common';
 import { createHostAnimation, fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
+import { SheetOptions } from './sheet.service';
 
 @Component({
   selector: 'mee-sheet',
@@ -19,10 +23,13 @@ import { lucideX } from '@ng-icons/lucide';
   imports: [NgStyle, Button, Icon],
   viewProviders: [provideIcons({ lucideX })],
   template: `
-    <div class="pointer-events-none flex h-full justify-end">
+    <div
+      class="pointer-events-none flex h-full"
+      [class]="options.position === 'left' ? 'justify-start' : 'justify-end'"
+    >
       <div
         class="pointer-events-auto m-b2 flex flex-col overflow-hidden rounded-base border-l bg-foreground shadow-2xl will-change-transform"
-        [@sideAnimation]
+        [@sideAnimation]="position()"
         [ngStyle]="{
           width: options.width,
           minWidth: options.minWidth,
@@ -32,7 +39,7 @@ import { lucideX } from '@ng-icons/lucide';
         @if (!isHideHeader) {
           <div class="flex items-center border-b px-b4 py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
+            <button type="button" meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
               <mee-icon name="lucideX"></mee-icon>
             </button>
           </div>
@@ -63,24 +70,39 @@ import { lucideX } from '@ng-icons/lucide';
     sideAnimation,
   ],
 })
-export class Sheet extends BaseDialog {
+export class Sheet extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   backdropColor = true;
-  options!: DialogOptions;
+  options!: SheetOptions;
   classNames = '';
   isHideHeader = false;
+  position = signal<'left' | 'right' | 'center'>('left');
 
   constructor() {
     super();
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
+      this.position.set('center');
+      console.log('afterNextRender', 'center');
+    });
+    const ref = inject(DialogRef);
+    ref.afterClosed.subscribe(() => {
+      console.log('afterClosed', this.options.position);
+      this.position.set(this.options.position as 'left' | 'right' | 'center');
     });
   }
 
-  override setOptions(options: DialogOptions): void {
+  override setOptions(options: SheetOptions): void {
     this.options = options;
     this.classNames = this.options.classNames?.join(' ') || '';
-    this.isHideHeader = this.options.isHideHeader || false;
+    this.isHideHeader = this.options.header || false;
     this.backdropColor = this.options.backdropColor || true;
+    console.log('setOptions', this.options.position);
+    this.position.set(this.options.position as 'left' | 'right' | 'center');
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy', this.options.position);
+    // this.position.set(this.options.position as 'left' | 'right' | 'center');
   }
 }

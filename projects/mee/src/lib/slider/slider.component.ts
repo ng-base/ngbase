@@ -9,27 +9,41 @@ import {
   effect,
   afterNextRender,
   model,
+  booleanAttribute,
+  numberAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Drag, DragData } from '../drag';
+import { FocusStyle } from '../checkbox/focus-style.directive';
 
 @Component({
   selector: 'mee-slider',
   standalone: true,
-  imports: [Drag],
+  imports: [Drag, FocusStyle],
   template: `
-    <div meeDrag class="h-full overflow-hidden rounded-full bg-muted-background">
-      <div class="h-full bg-primary" #track></div>
+    <div
+      meeDrag
+      [disabled]="disabled()"
+      class="h-full overflow-hidden rounded-full bg-muted-background"
+      [class]="disabled() ? 'bg-opacity-30' : ''"
+    >
+      <div class="h-full" [class]="disabled() ? 'bg-muted-background' : 'bg-primary'" #track></div>
     </div>
-    <span
-      class="pointer-events-none absolute -top-b inline-block h-b4 w-b4 -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
+    <button
+      type="button"
+      meeFocusStyle
+      class="pointer-events-none absolute -top-b inline-block h-b4 w-b4 -translate-x-1/2 rounded-full border bg-foreground shadow-md"
+      [class]="disabled() ? 'bg-muted-background' : 'border-primary'"
       #sliderMin
-    ></span>
+    ></button>
     @if (range()) {
-      <span
+      <button
+        type="button"
+        meeFocusStyle
         class="pointer-events-none absolute -top-b inline-block h-b4 w-b4 -translate-x-1/2 rounded-full border border-primary bg-foreground shadow-md"
+        [class]="disabled() ? 'bg-muted-background' : 'border-primary'"
         #sliderMax
-      ></span>
+      ></button>
     }
   `,
   host: {
@@ -50,17 +64,18 @@ import { Drag, DragData } from '../drag';
 })
 export class Slider implements ControlValueAccessor {
   private el = inject(ElementRef);
+  private drag = viewChild.required(Drag);
   private track = viewChild.required<ElementRef<HTMLElement>>('track');
   private sliderMin = viewChild.required<ElementRef<HTMLElement>>('sliderMin');
   private sliderMax = viewChild<ElementRef<HTMLElement>>('sliderMax');
-  private drag = viewChild.required(Drag);
 
-  readonly step = input(1);
-  readonly min = input(0);
-  readonly max = input(100);
-  readonly range = input(false);
   readonly value = model<number | number[]>();
-  readonly immediateUpdate = input(true);
+  readonly step = input(1, { transform: numberAttribute });
+  readonly min = input(0, { transform: numberAttribute });
+  readonly max = input(100, { transform: numberAttribute });
+  readonly range = input(false, { transform: booleanAttribute });
+  readonly disabled = input(false, { transform: booleanAttribute });
+  readonly immediateUpdate = input(true, { transform: booleanAttribute });
 
   onChange?: (value: number | number[]) => {};
   onTouched?: () => {};
@@ -92,7 +107,7 @@ export class Slider implements ControlValueAccessor {
   }
 
   private updateElement() {
-    const [minPosition, maxPosition] = this.values.map(x => this.getPercentage(x));
+    const [minPosition, maxPosition] = this.values.map(x => this.toPercentage(x));
     this.sliderMin().nativeElement.style.left = minPosition + '%';
     const track = this.track().nativeElement;
     const sliderMax = this.sliderMax();
@@ -122,8 +137,21 @@ export class Slider implements ControlValueAccessor {
     return this.el.nativeElement.clientWidth;
   }
 
-  private getPercentage(value: number) {
-    return (value / this.max()) * 100;
+  // We need to consider the min value also because the slider can be negative
+  private toPercentage(value: number) {
+    const min = this.min();
+    const max = this.max();
+    const range = max - min;
+    const percentage = ((value - min) / range) * 100;
+    return percentage;
+  }
+
+  private fromPercentage(percentage: number) {
+    const min = this.min();
+    const max = this.max();
+    const range = max - min;
+    const value = (percentage / 100) * range + min;
+    return value;
   }
 
   private move(data: DragData) {
@@ -141,7 +169,7 @@ export class Slider implements ControlValueAccessor {
     // the new percentage of the slider
     const percentage = (x / width) * 100;
     // convert percentage to value
-    return (percentage / 100) * this.max();
+    return this.fromPercentage(percentage);
   }
 
   private fixStep(value = this.min()) {
@@ -157,7 +185,7 @@ export class Slider implements ControlValueAccessor {
     if (data.type === 'start') {
       this.clicked(data.clientX!);
       this.startValue = this.clicked(data.clientX!);
-      const valuePercentage = this.getPercentage(this.startValue);
+      const valuePercentage = this.toPercentage(this.startValue);
       // total width of the slider
       this.totalWidth = this.width;
       // the width of the slider using current percentage
@@ -167,8 +195,8 @@ export class Slider implements ControlValueAccessor {
       this.activeIndex = 0;
       if (this.range()) {
         const [min, max] = this.values;
-        const minPercentage = this.getPercentage(min || 0);
-        const maxPercentage = this.getPercentage(max || 0);
+        const minPercentage = this.toPercentage(min || 0);
+        const maxPercentage = this.toPercentage(max || 0);
         const minDiff = Math.abs(minPercentage - valuePercentage);
         const maxDiff = Math.abs(maxPercentage - valuePercentage);
         this.activeIndex = minDiff < maxDiff ? 0 : 1;

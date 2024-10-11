@@ -25,8 +25,15 @@ import { DocCode } from './code.component';
             minima quis, accusamus vero voluptatem cumque. Impedit!
           </p>
         </mee-accordion>
-        <mee-accordion>
+        <mee-accordion class="border-b">
           <button meeAccordionHeader>Heading 2</button>
+          <p class="px-b3 pb-b4 text-muted">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
+            minima quis, accusamus vero voluptatem cumque. Impedit!
+          </p>
+        </mee-accordion>
+        <mee-accordion disabled>
+          <button meeAccordionHeader>Heading 3</button>
           <p class="px-b3 pb-b4 text-muted">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!

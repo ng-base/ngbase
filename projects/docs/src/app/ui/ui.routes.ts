@@ -53,6 +53,10 @@ import { DragComponent } from './drag.component';
 import { ExamplesComponent } from '../examples/main.component';
 import { CardComponent } from './card.component';
 import { MaskComponent } from './mask.component';
+import { SkeletonComponent } from './skeletion.component';
+import { ShortcutsComponent } from './shortcuts.component';
+import { CommandComponent } from './command.component';
+import { DirectionalityComponent } from './directionality.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -110,6 +114,10 @@ export const UI_ROUTES: Routes = [
       { path: 'drag', component: DragComponent },
       { path: 'card', component: CardComponent },
       { path: 'mask', component: MaskComponent },
+      { path: 'skeleton', component: SkeletonComponent },
+      { path: 'shortcuts', component: ShortcutsComponent },
+      { path: 'command', component: CommandComponent },
+      { path: 'directionality', component: DirectionalityComponent },
       {
         path: 'examples',
         loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),

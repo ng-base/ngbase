@@ -1,13 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
+import { injectService } from '../test';
 import { TooltipService } from './tooltip.service';
 
 describe('TooltipService', () => {
   let service: TooltipService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(TooltipService);
+    service = injectService(TooltipService);
   });
 
   it('should be created', () => {

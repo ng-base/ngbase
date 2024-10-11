@@ -1,19 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, RenderResult } from '../test';
 import { DragComponent } from './drag.component';
 
 describe('DragComponent', () => {
   let component: DragComponent;
-  let fixture: ComponentFixture<DragComponent>;
+  let view: RenderResult<DragComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DragComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DragComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(DragComponent);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'flex flex-col font-medium mb-b2',
+    class: 'flex flex-col font-medium mb-b2 gap-b',
   },
 })
 export class Label {}

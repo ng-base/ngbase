@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, forwardRef, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { generateId } from '../utils';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -14,9 +22,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       [id]="id"
       class="relative h-b5 w-b9 rounded-full border-b0.5 border-transparent bg-muted-background transition-colors"
       [class.bg-primary]="checked()"
+      [disabled]="disabled()"
     >
       <span
-        class="block h-b4 w-b4 rounded-full bg-foreground transition-transform"
+        class="block h-b4 w-b4 rounded-full bg-foreground shadow-sm transition-transform"
         [class]="checked() ? 'translate-x-full' : ''"
       ></span>
     </button>
@@ -34,14 +43,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class Switch implements ControlValueAccessor {
-  id = generateId();
-  change = output<boolean>();
-  checked = model(false);
+  readonly id = generateId();
+  readonly change = output<boolean>();
+  readonly checked = model(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
-  onChange = (value: any) => {};
-  onTouched = () => {};
-
-  constructor() {}
+  private onChange = (value: any) => {};
+  private onTouched = () => {};
 
   updateValue() {
     this.checked.update(v => !v);

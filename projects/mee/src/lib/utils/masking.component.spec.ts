@@ -1,7 +1,7 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { MaskInput } from './masking.component';
 import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '../test';
+import { MaskInput } from './masking.component';
 
 @Component({
   standalone: true,
@@ -15,7 +15,7 @@ class TestComponent {
 
 describe('MaskInput', () => {
   let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+  let view: RenderResult<TestComponent>;
   let inputElement: HTMLInputElement;
   let animationFrameRequests: Function[] = [];
 
@@ -28,13 +28,9 @@ describe('MaskInput', () => {
         return 0;
       });
 
-    await TestBed.configureTestingModule({
-      imports: [TestComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    inputElement = fixture.nativeElement.querySelector('input');
+    view = await render(TestComponent);
+    component = view.host;
+    inputElement = view.$('input');
   });
 
   afterEach(() => {
@@ -53,14 +49,13 @@ describe('MaskInput', () => {
   function simulateInput(value: string): void {
     inputElement.value = value;
     inputElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    view.detectChanges();
     flushAnimationFrames();
   }
 
   async function setMask(mask: string) {
     component.mask = mask;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await view.whenStable();
   }
 
   it('should create', () => {
@@ -145,14 +140,12 @@ describe('MaskInput', () => {
     await setMask('###-###-####');
 
     component.value = '1234567890';
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await view.whenStable();
     flushAnimationFrames();
     expect(inputElement.value).toBe('123-456-7890');
 
     component.value = '';
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await view.whenStable();
     flushAnimationFrames();
     expect(inputElement.value).toBe('');
   });

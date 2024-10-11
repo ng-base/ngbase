@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { popoverPortal } from '../popover';
+import { PopoverOptions, popoverPortal } from '../popover';
 import { Menu } from './menu.component';
 import { DialogOptions } from '../dialog';
 import { generateId } from '../utils';
@@ -47,15 +47,17 @@ export class MentionTrigger {
 
     // open the menu at the cursor position
     const menu = this.meeMentionTrigger();
-    const diaOptions: DialogOptions = { maxHeight: '400px', ayId: this.ayId };
+    const diaOptions: PopoverOptions = {
+      maxHeight: '400px',
+      ayId: this.ayId,
+      target: this.el.nativeElement,
+      position: 'bl',
+      client,
+    };
     if (this.options()?.width === 'full') {
       diaOptions.width = 'target';
     }
-    const { diaRef } = this.popover.open(
-      menu.container()!,
-      { target: this.el.nativeElement, position: 'bl', client },
-      diaOptions,
-    );
+    const { diaRef } = this.popover.open(menu.container()!, diaOptions);
     menu.diaRef = diaRef;
     menu.opened();
     this.close = menu.close;

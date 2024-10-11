@@ -1,47 +1,48 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
   contentChild,
+  input,
   model,
 } from '@angular/core';
 import { SidenavHeader } from './sidenav-header.component';
+import { fadeAnimation } from '../dialog/dialog.animation';
 
 @Component({
   standalone: true,
   selector: 'mee-sidenav',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- <div [@slide]="show()" class="absolute h-full"> -->
+    @if (mode() === 'over' && show()) {
+      <div
+        [@fadeAnimation]
+        class="absolute left-0 top-0 z-p h-full w-full bg-black/40"
+        (click)="toggle()"
+      ></div>
+    }
     <ng-content select="mee-sidenav-header" />
-    <!-- </div> -->
-    <!-- <div
-      [style.paddingLeft.px]="left()"
-      [class.transition-all]="this.headerWidth()"
-      class="h-full w-full"
-    > -->
     <ng-content />
-    <!-- </div> -->
   `,
   host: {
     class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
   },
-  animations: [],
+  animations: [fadeAnimation('500ms')],
 })
 export class Sidenav {
-  show = model(true);
-  header = contentChild(SidenavHeader, { read: ElementRef });
-  headerWidth = computed(() => this.header()?.nativeElement.offsetWidth || 0);
-  left = computed(() => (this.show() ? this.headerWidth() : 0));
+  // Dependencies
+  readonly header = contentChild(SidenavHeader, { read: ElementRef });
 
-  constructor() {
-    // console.log(this.headerWidth());
-    // effect(() => {
-    //   console.log(this.headerWidth());
-    // });
-  }
+  // Inputs
+  readonly show = model(true);
+  readonly mode = input<'side' | 'over'>('side');
+
+  // State
+  readonly headerWidth = computed(() => this.header()?.nativeElement.offsetWidth || 0);
+  readonly left = computed(() => (this.show() ? this.headerWidth() : 0));
+
+  constructor() {}
 
   toggle() {
     this.show.update(show => !show);

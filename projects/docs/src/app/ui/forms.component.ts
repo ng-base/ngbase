@@ -7,6 +7,7 @@ import { DatePicker, DatepickerTrigger } from '@meeui/datepicker';
 import { Input } from '@meeui/input';
 import { Select, Option } from '@meeui/select';
 import { Heading } from '@meeui/typography';
+import { Autofocus } from '@meeui/utils';
 
 @Component({
   standalone: true,
@@ -24,13 +25,14 @@ import { Heading } from '@meeui/typography';
     AutocompleteInput,
     DatePicker,
     DatepickerTrigger,
+    Autofocus,
   ],
   template: `
     <h4 meeHeader class="mb-5 ">Forms</h4>
     <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
       <div class="flex flex-col">
         <label for="name" class="mb-1">Name</label>
-        <input meeInput formControlName="name" id="name" placeholder="Name" />
+        <input meeInput meeAutofocus formControlName="name" id="name" placeholder="Name" />
       </div>
       <div class="flex flex-col">
         <label for="email" class="mb-1">Email</label>

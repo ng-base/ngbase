@@ -1,12 +1,11 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DropDirective, moveItemInArray } from './drop.directive';
+import { render, RenderResult } from '../test';
 import { Drag, DragData } from './drag.directive';
+import { DragDrop, moveItemInArray } from './drop.directive';
 
 @Component({
   standalone: true,
-  imports: [DropDirective, Drag],
+  imports: [DragDrop, Drag],
   template: `
     <div meeDrop (orderChanged)="onOrderChanged($event)">
       @for (item of items; track item) {
@@ -22,23 +21,17 @@ class TestComponent {
 
 describe('DropDirective', () => {
   let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
-  let dropDirective: DropDirective;
+  let view: RenderResult<TestComponent>;
+  let dropDirective: DragDrop;
   let dragItems: DebugElement[];
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestComponent],
-    }).compileComponents();
+    view = await render(TestComponent);
+    component = view.host;
+    view.detectChanges();
 
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    dropDirective = fixture.debugElement
-      .query(By.directive(DropDirective))
-      .injector.get(DropDirective);
-    dragItems = fixture.debugElement.queryAll(By.directive(Drag));
+    dropDirective = view.viewChild(DragDrop);
+    dragItems = view.viewChildrenDebug(Drag);
   });
 
   function drag(data: Partial<DragData>, index: number) {
@@ -53,12 +46,11 @@ describe('DropDirective', () => {
     expect(dropDirective['sortableElements'].length).toBe(4);
   });
 
-  it('should update sortableElements when items change', fakeAsync(() => {
+  it('should update sortableElements when items change', () => {
     component.items.push('Item 5');
-    fixture.detectChanges();
-    tick();
+    view.detectChanges();
     expect(dropDirective['sortableElements'].length).toBe(5);
-  }));
+  });
 
   it('should set correct styles on drag start', () => {
     drag({ type: 'start', x: 0, y: 0 }, 0);
@@ -70,7 +62,7 @@ describe('DropDirective', () => {
   it('should update element position on drag move', () => {
     drag({ type: 'start', x: 0, y: 0 }, 0);
     drag({ type: 'move', x: 0, y: 50 }, 0);
-    expect(dragItems[0].nativeElement.style.transform).toBe('translateY(50px)');
+    expect(dragItems[0].nativeElement.style.transform).toBe('translate(0px, 50px)');
   });
 
   it('should rearrange items when dragged to a new position', () => {

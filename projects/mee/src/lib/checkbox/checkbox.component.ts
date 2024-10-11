@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
   forwardRef,
   input,
   model,
@@ -9,34 +9,36 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { generateId } from '../utils';
+import { FocusStyle } from './focus-style.directive';
 
 @Component({
   standalone: true,
   selector: 'mee-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, FocusStyle],
   template: `
-    <div class="flex flex-1 items-center gap-b2" (click)="updateValue()">
-      <button
-        class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
-        [class]="disabled() ? '!border-muted bg-muted' : checked() ? 'bg-primary' : ''"
-        [tabIndex]="disabled() ? -1 : 0"
-        [attr.aria-checked]="checked()"
-        [attr.aria-disabled]="disabled()"
-        role="checkbox"
-      >
-        @if (checked()) {
-          <svg class="h-full w-full text-foreground" viewBox="0 0 24 24">
-            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" fill="none" />
-          </svg>
-        }
-      </button>
-      <ng-content></ng-content>
-    </div>
+    <button
+      meeFocusStyle
+      type="button"
+      class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
+      [class]="disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
+      [tabIndex]="disabled() ? -1 : 0"
+      [attr.aria-checked]="checked()"
+      [attr.aria-disabled]="disabled()"
+      role="checkbox"
+    >
+      @if (path()) {
+        <svg class="h-full w-full text-foreground" viewBox="0 0 24 24" aria-hidden="true">
+          <path [attr.d]="path()" stroke="currentColor" stroke-width="2" fill="none" />
+        </svg>
+      }
+    </button>
+    <ng-content></ng-content>
   `,
   host: {
-    class: 'inline-flex items-center gap-2 py-1',
+    class: 'inline-flex items-center gap-b2 py-1',
     '[class]': `disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
+    '(click)': 'updateValue()',
   },
   providers: [
     {
@@ -47,15 +49,16 @@ import { generateId } from '../utils';
   ],
 })
 export class Checkbox implements ControlValueAccessor {
-  id = generateId();
-  disabled = input(false);
-  checked = model(false);
-  change = output<boolean>();
-  indeterminate = input(false);
+  readonly id = generateId();
+  readonly disabled = input(false);
+  readonly checked = model(false);
+  readonly change = output<boolean>();
+  readonly indeterminate = input(false);
+  readonly path = computed(() =>
+    this.indeterminate() ? 'M6 12L18 12' : this.checked() ? 'M20 6L9 17L4 12' : '',
+  );
   onChange = (value: any) => {};
   onTouched = () => {};
-
-  constructor() {}
 
   updateValue() {
     if (this.disabled()) {

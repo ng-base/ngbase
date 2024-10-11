@@ -1,27 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ColorPicker, ColorFormat } from './color-picker.component';
-import { By } from '@angular/platform-browser';
-import { DialogRef } from '../portal';
 import { signal } from '@angular/core';
+import { DialogRef } from '../portal';
+import { render, RenderResult } from '../test';
+import { ColorFormat, ColorPicker } from './color-picker.component';
 
 describe('ColorPicker', () => {
   let component: ColorPicker;
-  let fixture: ComponentFixture<ColorPicker>;
+  let view: RenderResult<ColorPicker>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ColorPicker],
-      providers: [
-        {
-          provide: DialogRef,
-          useValue: { data: { format: 'hex' as ColorFormat, presetColors: [] } },
-        },
-      ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ColorPicker);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    const dialogRefMock = { data: { format: 'hex' as ColorFormat, presetColors: [] } };
+    view = await render(ColorPicker, [{ provide: DialogRef, useValue: dialogRefMock }]);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {
@@ -45,14 +35,14 @@ describe('ColorPicker', () => {
   });
 
   it('should convert colors correctly', () => {
-    fixture.componentRef.setInput('format', 'rgb');
+    view.setInput('format', 'rgb');
     component.setValue('rgb(255, 0, 0)');
     expect(component.toString()).toBe('rgb(255, 0, 0)');
 
-    fixture.componentRef.setInput('format', 'hsl');
+    view.setInput('format', 'hsl');
     expect(component.toString()).toBe('hsla(0, 100%, 50%, 1)');
 
-    fixture.componentRef.setInput('format', 'hex');
+    view.setInput('format', 'hex');
     expect(component.toString()).toBe('#FF0000');
   });
 
@@ -103,15 +93,15 @@ describe('ColorPicker', () => {
   // });
 
   it('should handle preset colors', () => {
-    fixture.componentRef.setInput('presetColors', ['#ff0000', '#00ff00', '#0000ff']);
-    fixture.detectChanges();
+    view.setInput('presetColors', ['#ff0000', '#00ff00', '#0000ff']);
+    view.detectChanges();
 
-    const presetButtons = fixture.debugElement.queryAll(By.css('.flex.flex-wrap button'));
+    const presetButtons = view.$$('.flex.flex-wrap button');
     expect(presetButtons.length).toBe(3);
 
     jest.spyOn(component, 'setValue').mockImplementation();
-    presetButtons[1].nativeElement.click();
-    fixture.detectChanges();
+    presetButtons[1].click();
+    view.detectChanges();
 
     expect(component.setValue).toHaveBeenCalledWith('#00ff00', true);
   });

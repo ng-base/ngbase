@@ -1,6 +1,7 @@
 import { TooltipComponent } from './tooltip.component';
-import { DialogInput, DialogPosition, basePortal } from '../portal';
+import { DialogInput, basePortal } from '../portal';
 import { ComponentRef, Injectable } from '@angular/core';
+import { PopoverPosition } from '../popover';
 
 @Injectable({ providedIn: 'root' })
 export class TooltipService {
@@ -9,7 +10,7 @@ export class TooltipService {
   timeoutId: any;
   delay = 100;
 
-  insert(el: HTMLElement, content: string, position: DialogPosition, hide: VoidFunction) {
+  insert(el: HTMLElement, content: string, position: PopoverPosition, hide: VoidFunction) {
     clearTimeout(this.timeoutId);
     if (this.tooltipOpen) {
       this.tooltipOpen.parent.instance.update(content, el, position, hide);
@@ -43,7 +44,7 @@ export function tooltipPortal() {
   function open(
     content: string,
     target: HTMLElement,
-    position: DialogPosition,
+    position: PopoverPosition,
     hide: VoidFunction,
   ) {
     const { diaRef, parent, replace } = base.open<TooltipComponent>(

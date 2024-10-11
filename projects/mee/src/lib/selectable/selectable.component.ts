@@ -21,7 +21,7 @@ import { generateId } from '../utils';
   imports: [AccessibleGroup],
   template: `<ng-content />`,
   host: {
-    class: 'inline-flex relative bg-muted-background rounded-bt p-b',
+    class: 'inline-flex relative bg-muted-background rounded-bt p-b0.5',
     role: 'tablist',
   },
   hostDirectives: [AccessibleGroup],

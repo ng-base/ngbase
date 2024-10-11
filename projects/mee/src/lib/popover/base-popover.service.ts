@@ -1,21 +1,20 @@
 import { Type } from '@angular/core';
-import { DialogInput, DialogOptions, basePortal } from '../portal';
-import { OverlayConfig } from '../portal/utils';
+import { DialogInput, basePortal } from '../portal';
 import { Popover } from './popover.component';
+import { PopoverOptions } from './popover.service';
 
 export function basePopoverPortal<T>(component: Type<T>) {
   const NAME = 'popover';
   const base = basePortal(NAME, component);
 
-  function open<T>(component: DialogInput<T>, tooltipOptions: OverlayConfig, opt?: DialogOptions) {
+  function open<T>(component: DialogInput<T>, options: PopoverOptions) {
     const { diaRef, parent, replace, childSignal } = base.open(
       component,
-      (comp, options) => {
+      (comp, opt) => {
         const compInst = comp.instance as Popover;
-        compInst.setOptions(options);
-        compInst.tooltipOptions = tooltipOptions;
+        compInst.setOptions(opt as PopoverOptions);
       },
-      opt,
+      options,
     );
 
     return {

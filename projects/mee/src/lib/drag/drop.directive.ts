@@ -5,7 +5,7 @@ import { Drag, DragData } from './drag.directive';
   standalone: true,
   selector: '[meeDrop]',
 })
-export class DropDirective {
+export class DragDrop {
   readonly dragItems = contentChildren(Drag);
   readonly orderChanged = output<{ previousIndex: number; currentIndex: number }>();
 
@@ -48,8 +48,9 @@ export class DropDirective {
   }
 
   private onDragMove(element: HTMLElement, dragData: DragData, drag: Drag, index: number) {
+    const deltaX = dragData.x;
     const deltaY = dragData.y;
-    element.style.transform = `translateY(${deltaY}px)`;
+    element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
     let newIndex = index + Math.round(deltaY / this.height);
     newIndex = Math.max(0, Math.min(newIndex, this.sortableElements.length - 1));
@@ -114,7 +115,12 @@ export class DropDirective {
   }
 
   private emitNewOrder() {
-    this.orderChanged.emit({ previousIndex: this.previousIndex, currentIndex: this.currentIndex });
+    if (this.currentIndex !== this.previousIndex) {
+      this.orderChanged.emit({
+        previousIndex: this.previousIndex,
+        currentIndex: this.currentIndex,
+      });
+    }
   }
 }
 

@@ -32,7 +32,7 @@ export class ResizableGroup {
     effect(
       () => {
         const panels = this.panels();
-        const _ = this.direction();
+        // const _ = this.direction();
 
         untracked(() => {
           panels.forEach((panel, index) => {

@@ -16,7 +16,7 @@ import { DOCUMENT } from '@angular/common';
   selector: '[meeListStyle]',
   host: {
     class:
-      'flex items-center gap-b2 w-full py-b2 px-b2 hover:bg-muted-background cursor-pointer rounded-md focus:bg-muted-background outline-none text-sm text-left',
+      'flex items-center gap-b2 py-b2 px-b2 hover:bg-muted-background cursor-pointer rounded-md text-left data-[focus="true"]:bg-muted-background',
   },
 })
 export class ListStyle {}
@@ -26,10 +26,11 @@ export class ListStyle {}
   selector: '[meeActionGroup]',
 })
 export class ListActionGroup implements OnDestroy {
-  private activeIndex = signal<List | undefined>(undefined);
-  document = inject(DOCUMENT);
-  options = contentChildren(List, { descendants: true });
-  optionsMap = new WeakMap<List, number>();
+  private readonly document = inject(DOCUMENT);
+  readonly options = contentChildren(List, { descendants: true });
+
+  private readonly activeIndex = signal<List | undefined>(undefined);
+  private readonly optionsMap = new WeakMap<List, number>();
 
   constructor() {
     afterNextRender(() => {
@@ -51,7 +52,7 @@ export class ListActionGroup implements OnDestroy {
     );
   }
 
-  handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (event: KeyboardEvent) => {
     const options = this.options();
     const lastIndex = this.activeIndex();
     const i = this.optionsMap.get(this.activeIndex() || options[0])!;

@@ -9,6 +9,22 @@ import { Input, Label } from '@meeui/input';
 import { Select, Option, SelectInput } from '@meeui/select';
 import { Heading } from '@meeui/typography';
 
+export function selectFilter<T>(value: (value: T) => string, initialItems: T[] = []) {
+  const search = signal('');
+  const items = signal<T[]>(initialItems);
+
+  const filteredItems = computed(() => {
+    const text = search().toLowerCase();
+    return items().filter(skill => value(skill).toLowerCase().includes(text));
+  });
+
+  return {
+    search,
+    items,
+    filteredItems,
+  };
+}
+
 @Component({
   standalone: true,
   selector: 'app-forms',
@@ -47,14 +63,11 @@ import { Heading } from '@meeui/typography';
       </label>
       <label meeLabel>
         Location
-        <mee-select placeholder="Location" [multiple]="true">
-          <input meeSelectInput placeholder="Search location" />
-          <mee-option value="Bangalore">Bangalore</mee-option>
-          <mee-option value="Chennai">Chennai</mee-option>
-          <mee-option value="Delhi">Delhi</mee-option>
-          <mee-option value="Hyderabad">Hyderabad</mee-option>
-          <mee-option value="Mumbai">Mumbai</mee-option>
-          <mee-option value="Pune">Pune</mee-option>
+        <mee-select placeholder="Location" [multiple]="true" [(ngModel)]="location">
+          <input meeSelectInput placeholder="Search location" [(ngModel)]="locationList.search" />
+          @for (loc of locationList.filteredItems(); track loc) {
+            <mee-option [value]="loc">{{ loc }}</mee-option>
+          }
         </mee-select>
       </label>
       <label meeLabel>
@@ -72,7 +85,7 @@ import { Heading } from '@meeui/typography';
         My Technical Skills
         <mee-autocomplete placeholder="My Technical Skills" [multiple]="true" [(ngModel)]="skills">
           <input
-            [(ngModel)]="skillSearch"
+            [(ngModel)]="skillList.search"
             meeAutocompleteInput
             id="skills"
             placeholder="Angular, NodeJs"
@@ -80,7 +93,7 @@ import { Heading } from '@meeui/typography';
           @for (value of skills(); track value) {
             <mee-chip>{{ value }}</mee-chip>
           }
-          @for (skill of filteredSkills(); track skill) {
+          @for (skill of skillList.filteredItems(); track skill) {
             <mee-option [value]="skill">{{ skill }}</mee-option>
           }
         </mee-autocomplete>
@@ -102,18 +115,13 @@ import { Heading } from '@meeui/typography';
 })
 export class FormsComponent {
   skills = signal<string[]>([]);
-  skillSearch = signal('');
-  filteredSkills = computed(() => {
-    const search = this.skillSearch().toLowerCase();
-    return SKILLS.filter(skill => skill.toLowerCase().includes(search));
-  });
+  skillList = selectFilter<(typeof SKILLS)[0]>(value => value, SKILLS);
 
-  constructor() {
-    effect(() => {
-      console.log(this.skills());
-    });
-  }
+  location = signal<string>('');
+  locationList = selectFilter<string>(value => value, LOCATIONS);
 }
+
+const LOCATIONS = ['Bangalore', 'Chennai', 'Delhi', 'Hyderabad', 'Mumbai', 'Pune'];
 
 const SKILLS = [
   'AI/ML',

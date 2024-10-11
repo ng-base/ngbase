@@ -1,20 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, RenderResult } from '../test';
 import { TimePicker } from './time.component';
 
 describe('TimeComponent', () => {
   let component: TimePicker;
-  let fixture: ComponentFixture<TimePicker>;
+  let view: RenderResult<TimePicker>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [TimePicker],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TimePicker);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async () => {
+    view = await render(TimePicker);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {
@@ -52,7 +46,7 @@ describe('TimeComponent', () => {
     component['parseValue']('12:30:00 AM');
     expect(component.valueChange.emit).toHaveBeenCalledWith('12:30:00 AM');
 
-    fixture.componentRef.setInput('value', '12:30:00 AM');
+    view.setInput('value', '12:30:00 AM');
     expect(component.valueChange.emit).toHaveBeenCalledTimes(1);
   });
 
@@ -66,5 +60,13 @@ describe('TimeComponent', () => {
     const fn = () => jest.fn();
     component.registerOnTouched(fn);
     expect(component['onTouched']).toBe(fn);
+  });
+
+  it('should update time based on the value input', async () => {
+    view.setInput('value', '12:30:00 AM');
+    await view.whenStable();
+    expect(component.hours).toBe('12');
+    expect(component.minutes).toBe('30');
+    expect(component.am).toBe(true);
   });
 });

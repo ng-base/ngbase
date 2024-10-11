@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Drawer } from './drawer.component';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DialogRef } from '@meeui/portal';
+import { DialogRef } from '../portal';
+import { render, RenderResult } from '../test';
+import { Drawer } from './drawer.component';
 
 const options = { title: 'Drawer' };
 const mockDialogRef = new DialogRef(
@@ -14,18 +13,16 @@ const mockDialogRef = new DialogRef(
 
 describe('DrawerComponent', () => {
   let component: Drawer;
-  let fixture: ComponentFixture<Drawer>;
+  let view: RenderResult<Drawer>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Drawer],
-      providers: [provideNoopAnimations(), { provide: DialogRef, useValue: mockDialogRef }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Drawer);
-    component = fixture.componentInstance;
+    view = await render(Drawer, [
+      provideNoopAnimations(),
+      { provide: DialogRef, useValue: mockDialogRef },
+    ]);
+    component = view.host;
     component.setOptions(options);
-    fixture.detectChanges();
+    view.detectChanges();
   });
 
   it('should create', () => {

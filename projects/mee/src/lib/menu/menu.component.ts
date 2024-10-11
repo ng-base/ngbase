@@ -26,7 +26,7 @@ import { Subject } from 'rxjs';
       <div
         #menu
         (click)="close()"
-        class="flex flex-col"
+        class="flex flex-col p-b"
         meeAccessibleGroup
         [ayId]="this.diaRef.options.ayId"
         [isPopup]="true"

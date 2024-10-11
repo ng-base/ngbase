@@ -11,7 +11,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5">Chip</h4>
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
-      <button meeChip>Chip</button>
+      <div meeChip>Chip</div>
     </app-doc-code>
   `,
 })

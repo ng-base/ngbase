@@ -39,7 +39,7 @@ export class PortalService {
     return componentRef;
   }
 
-  createComponent<T>(component: Type<T>, injector: Injector, container: string) {
+  create<T>(component: Type<T>, injector: Injector, container: string) {
     const d = this.componentCreator().createComponent(component, { injector });
     if (!this.trackElements.has(container)) {
       this.trackElements.set(container, []);
@@ -48,7 +48,7 @@ export class PortalService {
     return d;
   }
 
-  deleteComponent<T>(container: string, component: ComponentRef<T>) {
+  delete<T>(container: string, component: ComponentRef<T>) {
     component.destroy();
     const elements = this.trackElements.get(container);
     if (elements) {

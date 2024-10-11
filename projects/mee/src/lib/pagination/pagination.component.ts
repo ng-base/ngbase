@@ -36,6 +36,7 @@ import { Option, Select } from '../select';
     <div>Page {{ active() }} of {{ _totalSize() }}</div>
     <div class="flex items-center gap-b2">
       <button
+        type="button"
         meeButton
         variant="outline"
         [disabled]="!prev()"
@@ -45,6 +46,7 @@ import { Option, Select } from '../select';
         <mee-icon name="lucideChevronsLeft"></mee-icon>
       </button>
       <button
+        type="button"
         meeButton
         variant="outline"
         (click)="jump(-1)"
@@ -57,6 +59,7 @@ import { Option, Select } from '../select';
       @if (showPage()) {
         @for (item of items(); track item) {
           <button
+            type="button"
             meeButton
             variant="ghost"
             [class]="active() === item ? 'bg-muted-background text-primary' : ''"
@@ -69,6 +72,7 @@ import { Option, Select } from '../select';
         }
       }
       <button
+        type="button"
         meeButton
         variant="outline"
         (click)="jump(1)"
@@ -79,6 +83,7 @@ import { Option, Select } from '../select';
         <mee-icon name="lucideChevronRight"></mee-icon>
       </button>
       <button
+        type="button"
         meeButton
         variant="outline"
         [disabled]="!next()"

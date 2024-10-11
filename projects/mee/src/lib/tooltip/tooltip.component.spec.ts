@@ -1,21 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { TooltipComponent } from './tooltip.component';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { render, RenderResult } from '../test';
+import { TooltipComponent } from './tooltip.component';
 
 describe('TooltipComponent', () => {
   let component: TooltipComponent;
-  let fixture: ComponentFixture<TooltipComponent>;
+  let view: RenderResult<TooltipComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TooltipComponent],
-      providers: [provideNoopAnimations()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TooltipComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(TooltipComponent, [provideNoopAnimations()]);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

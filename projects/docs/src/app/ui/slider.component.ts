@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { Slider } from '@meeui/slider';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
+import { Checkbox } from '@meeui/checkbox';
 
 @Component({
   standalone: true,
   selector: 'app-slider',
-  imports: [Heading, Slider, FormsModule, DocCode],
+  imports: [Heading, Slider, FormsModule, DocCode, Checkbox],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="sliderPage">Slider</h4>
@@ -21,12 +22,23 @@ import { DocCode } from './code.component';
         class="w-64 md:w-96"
       ></mee-slider>
 
-      <mee-slider [value]="10" [step]="10" [max]="200" class="!mt-10 w-64 md:w-96"></mee-slider>
+      <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
+      {{ test() }}
+      <mee-slider
+        [(value)]="test"
+        [step]="0.1"
+        [min]="-2"
+        [max]="2"
+        class="!mt-10 w-64 md:w-96"
+        [disabled]="disabled()"
+      ></mee-slider>
     </app-doc-code>
   `,
 })
 export class SliderComponent {
   slider = [50, 100];
+  test = signal(-1);
+  disabled = signal(false);
 
   tsCode = `
   import { Component } from '@angular/core';

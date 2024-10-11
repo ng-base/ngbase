@@ -25,6 +25,7 @@ export interface AlertOptions {
       @for (action of data?.actions; track action) {
         <button
           meeButton
+          type="button"
           [variant]="action.type || 'primary'"
           (click)="action.handler(diaRef.close)"
         >

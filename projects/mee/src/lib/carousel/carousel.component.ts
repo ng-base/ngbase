@@ -5,11 +5,13 @@ import {
   afterNextRender,
   computed,
   contentChildren,
+  inject,
   signal,
   viewChild,
 } from '@angular/core';
 import { CarouselItem } from './carousel-item.directive';
 import { Drag } from '../drag';
+import { Directionality } from '../utils';
 
 const DEFAULT_VELOCITY = 0.7;
 
@@ -33,6 +35,7 @@ const DEFAULT_VELOCITY = 0.7;
   },
 })
 export class Carousel {
+  private dir = inject(Directionality);
   private drag = viewChild.required(Drag);
   private mainContainer = viewChild.required<ElementRef<HTMLElement>>('mainContainer');
   private subContainer = viewChild.required<ElementRef<HTMLElement>>('subContainer');
@@ -70,7 +73,7 @@ export class Carousel {
             this.currentScroll = this.x();
           } else if (event.type === 'move') {
             this.currentScroll = this.x() - event.x;
-            this.updateScrollPosition();
+            this.updateScrollPosition(-this.currentScroll);
           } else if (event.type === 'end') {
             const step = this.getStepBasedOnX(
               this.currentScroll,
@@ -147,9 +150,13 @@ export class Carousel {
     return newIndex;
   }
 
-  private updateScrollPosition() {
+  private updateScrollPosition(x = this.currentScroll) {
     const el = this.subContainer().nativeElement;
-    el.style.transform = `translate3d(${-this.currentScroll}px, 0, 0)`;
+    if (this.dir.isRtl()) {
+      el.style.transform = `translate3d(${x}px, 0, 0)`;
+    } else {
+      el.style.transform = `translate3d(${-x}px, 0, 0)`;
+    }
   }
 
   private animateToX(velocity: number) {

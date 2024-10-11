@@ -10,7 +10,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
 import { InputStyle } from '../input/input-style.directive';
 import { Chip } from '../chip';
-import { AutocompleteInput } from './autocomplete.directive';
+import { AutocompleteInput } from './autocomplete-input.directive';
 import { SelectBase } from '../select/select-base.component';
 import { AccessibleGroup } from '../a11y';
 
@@ -26,14 +26,14 @@ import { AccessibleGroup } from '../a11y';
       class="readonly !flex w-full flex-wrap gap-2"
       (click)="prevent($event)"
     >
-      <ng-content select="mee-chip" />
+      <ng-content select="mee-chip, mee-chip-group" />
 
       <li class="flex min-w-8 flex-1 items-center" (click)="open()">
         <ng-content select="input" />
       </li>
     </ul>
     <ng-template #options>
-      <div meeAccessibleGroup [ayId]="ayid">
+      <div #optionsGroup meeAccessibleGroup [ayId]="ayid" [isPopup]="true" class="p-b">
         <ng-content />
       </div>
     </ng-template>
@@ -68,9 +68,10 @@ export class Autocomplete<T> extends SelectBase<T> {
   }
 
   private updateInputValue() {
-    if (!this.chips()?.length) {
-      this.searchInput()?.meeAutocompleteInput.emit('');
-      this.searchInput()?.updateValue(this.cValue());
+    const searchInput = this.searchInput();
+    if (!this.chips()?.length && searchInput) {
+      searchInput.meeAutocompleteInput.emit('');
+      searchInput.updateValue(this.cValue());
     }
   }
 }

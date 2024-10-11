@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { Checkbox } from '@meeui/checkbox';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,12 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="checkboxPage">Checkbox</h4>
     <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
-      <mee-checkbox class="w-full" [(ngModel)]="checkBox"> Check the UI </mee-checkbox>
+      <div>
+        <mee-checkbox class="w-full" [(ngModel)]="checkBox" [indeterminate]="indeterminate()">
+          Check the UI
+        </mee-checkbox>
+        <mee-checkbox [(ngModel)]="indeterminate"></mee-checkbox>
+      </div>
       <mee-checkbox class="w-full">Check the UI</mee-checkbox>
       <mee-checkbox class="w-full" [checked]="true" [disabled]="true">Check the UI</mee-checkbox>
     </app-doc-code>
@@ -20,6 +25,7 @@ import { DocCode } from './code.component';
 })
 export class CheckboxComponent {
   checkBox = false;
+  indeterminate = signal(false);
 
   htmlCode = `
       <mee-checkbox [(ngModel)]="checkBox">Check the UI</mee-checkbox>

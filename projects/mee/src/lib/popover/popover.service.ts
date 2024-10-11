@@ -1,9 +1,23 @@
 import { Observable } from 'rxjs';
 import { DialogInput, DialogOptions, DialogRef } from '../portal';
-import { OverlayConfig } from '../portal/utils';
 import { basePopoverPortal } from './base-popover.service';
 import { Popover } from './popover.component';
-import { WritableSignal } from '@angular/core';
+import { Signal, WritableSignal } from '@angular/core';
+
+export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
+
+export class PopoverOptions extends DialogOptions {
+  target!: HTMLElement;
+  el?: HTMLElement;
+  position?: PopoverPosition;
+  offset?: number;
+  client?: { x: number; y: number; w: number; h: number } | null;
+  className?: string;
+  backdropClassName?: string;
+  clipPath?: Signal<string>;
+  anchor?: boolean;
+  smoothScroll?: boolean;
+}
 
 export interface PopoverOpen<T> {
   diaRef: DialogRef<any>;
@@ -18,12 +32,8 @@ export type PopoverType = ReturnType<typeof popoverPortal>;
 export function popoverPortal() {
   const base = basePopoverPortal(Popover);
 
-  function open<T>(
-    component: DialogInput<T>,
-    tooltipOptions: OverlayConfig,
-    opt?: DialogOptions,
-  ): PopoverOpen<T> {
-    return base.open(component, tooltipOptions, opt);
+  function open<T>(component: DialogInput<T>, options: PopoverOptions): PopoverOpen<T> {
+    return base.open(component, options);
   }
 
   return { open, closeAll: base.closeAll };

@@ -109,19 +109,18 @@ export class TourService {
   private showOverlay(el: HTMLElement) {
     this.diaRef?.diaRef.close();
 
-    this.diaRef = this.popover.open(
-      this.template,
-      {
-        target: el,
-        position: 'right',
-        className: 'transition-all',
-        backdropClassName: 'bg-black/20',
-        clipPath: this.clipPath,
-        smoothScroll: true,
-        anchor: true,
-      },
-      { backdropColor: true, width: '400px', disableClose: true },
-    );
+    this.diaRef = this.popover.open(this.template, {
+      target: el,
+      position: 'right',
+      className: 'transition-all',
+      backdropClassName: 'bg-black/20',
+      clipPath: this.clipPath,
+      smoothScroll: true,
+      anchor: true,
+      backdropColor: true,
+      width: '400px',
+      disableClose: true,
+    });
     this.scrolled = this.diaRef.parent.scrolled;
   }
 

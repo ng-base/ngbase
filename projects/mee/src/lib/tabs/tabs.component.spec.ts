@@ -1,14 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, signal, TemplateRef, ViewChild } from '@angular/core';
+import { Component, signal, TemplateRef } from '@angular/core';
 import { Tab, TabHeader } from './tabs.component';
-import { By } from '@angular/platform-browser';
+import { render, RenderResult } from '../test';
 
 describe('Tab Component', () => {
   let tab: Tab;
   let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let view: RenderResult<TestHostComponent>;
 
   @Component({
+    standalone: true,
+    imports: [Tab, TabHeader],
     template: `<mee-tab [label]="label()" [disabled]="disabled()" [mode]="mode()">
       Tab Content
     </mee-tab>`,
@@ -20,15 +21,10 @@ describe('Tab Component', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Tab, TabHeader],
-      declarations: [TestHostComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    tab = fixture.debugElement.query(By.directive(Tab)).componentInstance;
+    view = await render(TestHostComponent);
+    component = view.host;
+    tab = view.viewChild(Tab);
+    view.detectChanges();
   });
 
   it('should create', () => {
@@ -37,7 +33,7 @@ describe('Tab Component', () => {
 
   it('should set custom label', () => {
     component.label.set('Custom Tab');
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.label()).toBe('Custom Tab');
   });
 
@@ -51,7 +47,7 @@ describe('Tab Component', () => {
 
   it('should set disabled state', () => {
     component.disabled.set(true);
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.disabled()).toBeTruthy();
   });
 
@@ -61,7 +57,7 @@ describe('Tab Component', () => {
 
   it('should set mode', () => {
     component.mode.set('hidden');
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.mode()).toBe('hidden');
   });
 
@@ -78,48 +74,50 @@ describe('Tab Component', () => {
   it('should keep activeMode true once activated for hidden mode', () => {
     component.mode.set('hidden');
     tab.active.set(true);
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
 
     tab.active.set(false);
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
   });
 
   it('should render content when active', () => {
     tab.active.set(true);
-    fixture.detectChanges();
+    view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
-    const tabEl = fixture.nativeElement.querySelector('mee-tab');
-    expect(tabEl.textContent).not.toBe('');
+    const tabEl = view.$('mee-tab');
+    expect(tabEl?.textContent).not.toBe('');
   });
 
   it('should not render content when inactive', () => {
     tab.active.set(false);
-    fixture.detectChanges();
-    const tabEl = fixture.nativeElement.querySelector('mee-tab');
-    expect(tabEl.textContent).toBe('');
+    view.detectChanges();
+    const tabEl = view.$('mee-tab');
+    expect(tabEl?.textContent).toBe('');
   });
 
   it('should have correct host classes when active', () => {
     tab.active.set(true);
-    fixture.detectChanges();
-    const tabEl = fixture.nativeElement.querySelector('mee-tab');
-    expect(tabEl.classList.contains('flex-1')).toBeTruthy();
-    expect(tabEl.classList.contains('h-full')).toBeTruthy();
-    expect(tabEl.classList.contains('pt-b4')).toBeTruthy();
+    view.detectChanges();
+    const tabEl = view.$('mee-tab');
+    expect(tabEl?.classList.contains('flex-1')).toBeTruthy();
+    expect(tabEl?.classList.contains('h-full')).toBeTruthy();
+    expect(tabEl?.classList.contains('pt-b4')).toBeTruthy();
   });
 
   it('should have correct host classes when inactive', () => {
     tab.active.set(false);
-    fixture.detectChanges();
-    const tabEl = fixture.nativeElement.querySelector('mee-tab');
-    expect(tabEl.classList.contains('hidden')).toBeTruthy();
+    view.detectChanges();
+    const tabEl = view.$('mee-tab');
+    expect(tabEl?.classList.contains('hidden')).toBeTruthy();
   });
 });
 
 describe('with custom header', () => {
   @Component({
+    standalone: true,
+    imports: [Tab, TabHeader],
     template: `
       <mee-tab>
         <ng-template meeTabHeader>
@@ -131,22 +129,15 @@ describe('with custom header', () => {
   })
   class TestHostComponent {}
 
-  let hostFixture: ComponentFixture<TestHostComponent>;
-  let hostComponent: TestHostComponent;
+  let hostView: RenderResult<TestHostComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [Tab, TabHeader],
-    }).compileComponents();
-
-    hostFixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = hostFixture.componentInstance;
-    hostFixture.detectChanges();
+    hostView = await render(TestHostComponent);
+    hostView.detectChanges();
   });
 
   it('should have custom header', () => {
-    const tabComponent = hostFixture.debugElement.query(By.directive(Tab)).componentInstance;
+    const tabComponent = hostView.viewChild(Tab);
     expect(tabComponent.header()).toBeInstanceOf(TemplateRef);
   });
 });

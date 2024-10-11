@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Subscription, first } from 'rxjs';
-import { Keys } from '../keys';
+import { keyMap, Keys } from '../keys';
 import { DialogOptions, DialogRef, createInj, BaseDialog } from './dialog-ref';
 import { PortalService } from './portal.service';
 
@@ -30,13 +30,13 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     const options = { ...new DialogOptions(), ...opt };
     const diaRef = new DialogRef(options, destroy, closeAll, animation);
     const childInjector = createInj(injector, options.data, diaRef);
-    const parent = portal.createComponent(baseComponent, childInjector, NAME);
+    const parent = portal.create(baseComponent, childInjector, NAME);
 
     // set options
     callback?.(parent, options);
 
     // close on backdrop click
-    let sub: Subscription | undefined;
+    let sub: () => void | undefined;
     const childSignal = signal<any>(undefined);
 
     if (component === undefined) {
@@ -45,19 +45,14 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
 
     // close on esc
     if (!options.disableClose) {
-      sub = keyManager.event('esc').subscribe(([_, ev]) => {
-        // console.log('esc clicked');
-        ev.preventDefault();
-        ev.stopPropagation();
-
-        diaRef.close();
-      });
+      console.log('register esc');
+      sub = keyMap('esc', () => diaRef.close(), { injector, stop: true });
     }
 
     function destroy() {
-      portal.deleteComponent(NAME, parent);
+      portal.delete(NAME, parent);
       // console.log('destroyed');
-      sub?.unsubscribe();
+      sub?.();
     }
 
     let vwRef: ViewContainerRef;

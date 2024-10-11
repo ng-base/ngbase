@@ -1,2 +1,2 @@
-export * from './selectable.component';
-export * from './selectable-item.component';
+export * from './selectable';
+export * from './selectable-item';

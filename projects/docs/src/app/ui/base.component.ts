@@ -17,8 +17,8 @@ import { NavComponent } from './nav-header.component';
 import { AppService } from '../app.service';
 import { Heading } from '@meeui/typography';
 import { Directionality } from '@meeui/utils';
-import { Switch } from '../../../../mee/src/lib/switch/switch.component';
-import { Spinner } from '../../../../mee/src/lib/spinner/spinner.component';
+import { Spinner } from '@meeui/spinner';
+import { Switch } from '@meeui/switch';
 
 @Component({
   selector: 'mee-base',

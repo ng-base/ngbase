@@ -2,5 +2,5 @@
  * Public API Surface of toggle-group
  */
 
-export * from './toggle-group.component';
-export * from './toggle-item.component';
+export * from './toggle-group';
+export * from './toggle-item';

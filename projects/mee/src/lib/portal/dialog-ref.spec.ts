@@ -1,4 +1,4 @@
-import { DialogOptions, DialogRef } from './dialog-ref';
+import { DialogRef } from './dialog-ref';
 
 describe('DialogRef', () => {
   let dialogRef: DialogRef<any>;

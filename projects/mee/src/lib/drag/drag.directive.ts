@@ -3,13 +3,15 @@ import {
   Directive,
   ElementRef,
   NgZone,
+  booleanAttribute,
   computed,
   contentChild,
   effect,
   inject,
+  input,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Subscription, fromEvent, map, Subject, takeUntil, tap, switchMap, filter } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export class DragData {
   constructor(
@@ -44,76 +46,111 @@ export class DragHandle {}
 })
 export class Drag {
   readonly el = inject(ElementRef);
-  readonly handle = contentChild(DragHandle, { read: ElementRef, descendants: true });
   readonly zone = inject(NgZone);
   readonly document = inject(DOCUMENT);
+
+  readonly handle = contentChild(DragHandle, { read: ElementRef, descendants: true });
   readonly events = new Subject<DragData>();
   readonly meeDrag = outputFromObservable(this.events);
+
+  readonly disabled = input(false, { transform: booleanAttribute });
+  readonly lockAxis = input<'x' | 'y'>();
+  readonly dragBoundary = input<string>();
+  private readonly dragBoundaryElement = computed(() => {
+    const id = this.dragBoundary();
+    console.log(id);
+    return id ? this.document.querySelector(id) : null;
+  });
+  private boundaryRect: { left: number; top: number; right: number; bottom: number } | undefined;
   startEvent!: PointerEvent;
   lastValue = new DragData();
-  private dragEvent = computed(() => {
-    const handle = this.handle();
-    console.log(handle);
-    if (handle) {
-      return this.setupDragEvent(handle.nativeElement);
-    }
-    return this.setupDragEvent(this.el.nativeElement);
-  });
+  isDragging = false;
 
   constructor() {
     effect(cleanup => {
-      const dragEvent = this.dragEvent();
-      this.zone.runOutsideAngular(() => {
-        const subscription = dragEvent.subscribe(event => {
-          this.events.next(event);
-        });
-        cleanup(() => subscription.unsubscribe());
-      });
+      if (!this.disabled()) {
+        const handle = this.handle() || this.el;
+        handle.nativeElement.addEventListener('pointerdown', this.onPointerDown);
+        cleanup(() => handle.nativeElement.removeEventListener('pointerdown', this.onPointerDown));
+      }
     });
     this.el.nativeElement.style.touchAction = 'none';
   }
 
-  private setupDragEvent(el: HTMLElement) {
-    return fromEvent<PointerEvent>(el, 'pointerdown').pipe(
-      filter(event => event.button === 0), // Only trigger on left click
-      switchMap(event => {
-        this.startEvent = event;
-        this.lastValue = this.getDragEvent(event, 'start');
-        this.events.next(this.lastValue);
-        this.toggleUserSelect();
-        return fromEvent<PointerEvent>(this.document, 'pointermove').pipe(
-          takeUntil(
-            fromEvent<PointerEvent>(this.document, 'pointerup').pipe(
-              tap(upEvent => {
-                const value = this.getDragEvent(upEvent, 'end');
-                this.events.next(value);
-                this.lastValue = new DragData();
-                this.toggleUserSelect(false);
-              }),
-            ),
-          ),
-          map(e => {
-            this.lastValue = this.getDragEvent(e, 'move');
-            return this.lastValue;
-          }),
-        );
-      }),
-    );
+  private onPointerDown = (event: PointerEvent) => {
+    if (event.button !== 0) return; // Only trigger on left click
+
+    this.startDrag(event);
+    this.document.addEventListener('pointermove', this.onPointerMove);
+    this.document.addEventListener('pointerup', this.onPointerUp);
+  };
+
+  private onPointerMove = (event: PointerEvent) => {
+    if (this.isDragging) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.moveDrag(event);
+    }
+  };
+
+  private onPointerUp = (event: PointerEvent) => {
+    this.endDrag(event);
+    this.document.removeEventListener('pointermove', this.onPointerMove);
+    this.document.removeEventListener('pointerup', this.onPointerUp);
+  };
+
+  private startDrag(event: PointerEvent) {
+    this.startEvent = event;
+    this.isDragging = true;
+    const rect = this.el.nativeElement.getBoundingClientRect();
+    const parentRect = this.dragBoundaryElement()?.getBoundingClientRect();
+    if (parentRect) {
+      const left = rect.left - parentRect.left;
+      const top = rect.top - parentRect.top;
+      this.boundaryRect = {
+        left,
+        top,
+        right: parentRect.width - rect.width - left,
+        bottom: parentRect.height - rect.height - top,
+      };
+      console.log(this.boundaryRect);
+    }
+    this.lastValue = this.getDragEvent(event, 'start');
+    this.events.next(this.lastValue);
+    this.toggleUserSelect();
+  }
+
+  private moveDrag(event: PointerEvent) {
+    this.lastValue = this.getDragEvent(event, 'move');
+    // prevent unnecessary events when the drag is outside the boundary
+    if (this.lastValue.dx !== 0 || this.lastValue.dy !== 0) {
+      this.events.next(this.lastValue);
+    }
+  }
+
+  private endDrag(event: PointerEvent) {
+    this.isDragging = false;
+    const value = this.getDragEvent(event, 'end');
+    this.events.next(value);
+    this.lastValue = new DragData();
+    this.toggleUserSelect(false);
   }
 
   private toggleUserSelect(active = true) {
     const value = active ? 'none' : '';
     this.document.body.style.userSelect = value;
     this.document.body.style.webkitUserSelect = value;
+    this.document.body.style.pointerEvents = value;
   }
 
   private getDirection(ev: PointerEvent) {
+    let dir = this.lastValue.direction || 'left';
     if (ev.clientX > this.lastValue.clientX!) {
-      return 'right';
+      dir = 'right';
     } else if (ev.clientX < this.lastValue.clientX!) {
-      return 'left';
+      dir = 'left';
     }
-    return this.lastValue.direction || 'left';
+    return dir;
   }
 
   private getDragEvent(ev: PointerEvent, type: 'start' | 'move' | 'end') {
@@ -121,8 +158,24 @@ export class Drag {
     const dt = now - this.lastValue.time;
     const startClientX = this.startEvent.clientX;
     const startClientY = this.startEvent.clientY;
-    const dx = ev.clientX - (this.lastValue.clientX ?? startClientX);
-    const dy = ev.clientY - (this.lastValue.clientY ?? startClientY);
+
+    let x = ev.clientX - startClientX;
+    let y = ev.clientY - startClientY;
+
+    if (this.boundaryRect) {
+      const { left, top, right, bottom } = this.boundaryRect;
+      x = Math.max(-left, Math.min(x, right));
+      y = Math.max(-top, Math.min(y, bottom));
+    }
+
+    if (this.lockAxis() === 'x') {
+      y = 0;
+    } else if (this.lockAxis() === 'y') {
+      x = 0;
+    }
+
+    const dx = x - (this.lastValue.x ?? 0);
+    const dy = y - (this.lastValue.y ?? 0);
 
     let velocity = 0;
     if (type === 'move' && dt > 0) {
@@ -134,8 +187,8 @@ export class Drag {
     this.lastValue.time = now;
 
     return new DragData(
-      ev.clientX - startClientX,
-      ev.clientY - startClientY,
+      x,
+      y,
       dx,
       dy,
       type,

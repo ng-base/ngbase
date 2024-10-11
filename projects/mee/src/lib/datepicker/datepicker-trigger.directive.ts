@@ -1,4 +1,16 @@
-import { Directive, ElementRef, TemplateRef, computed, effect, inject, input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Injector,
+  TemplateRef,
+  afterNextRender,
+  afterRender,
+  booleanAttribute,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { popoverPortal } from '../popover';
 import { DatePicker } from './datepicker.component';
 import { Input } from '../input';
@@ -15,24 +27,27 @@ const DEFAULT_TIME_FORMAT = 'M/d/yyyy, HH:mm a';
   host: {
     class: 'cursor-pointer hover:bg-muted-background',
     '(click)': 'open()',
+    readonly: 'true',
   },
 })
 export class DatepickerTrigger<D> {
-  el = inject(ElementRef);
-  datepicker = input<DatePicker<D>>();
-  noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
-  range = input(false);
-  time = input(false);
-  format = input<string>('');
+  readonly el = inject(ElementRef);
+  readonly inputS = inject(Input);
+  private readonly injector = inject(Injector);
+  readonly adapter = injectMeeDateAdapter<D>();
+  readonly popover = popoverPortal();
+
+  readonly datepicker = input<DatePicker<D>>();
+  readonly noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
+  readonly range = input(false, { transform: booleanAttribute });
+  readonly time = input(false, { transform: booleanAttribute });
+  readonly format = input<string>('');
   private fieldFormat = computed(() => {
     return this.format() || (this.time() ? DEFAULT_TIME_FORMAT : DEFAULT_FORMAT);
   });
-  inputS = inject(Input);
-  dateFilter = input<(date: D) => boolean>(() => true);
-  pickerType = input<'date' | 'month' | 'year'>('date');
-  pickerTemplate = input<TemplateRef<any> | null>(null);
-  adapter = injectMeeDateAdapter<D>();
-  popover = popoverPortal();
+  readonly dateFilter = input<(date: D) => boolean>(() => true);
+  readonly pickerType = input<'date' | 'month' | 'year'>('date');
+  readonly pickerTemplate = input<TemplateRef<any> | null>(null);
   close?: VoidFunction;
 
   constructor() {
@@ -66,11 +81,12 @@ export class DatepickerTrigger<D> {
       dateFilter: this.dateFilter(),
       time: this.time(),
     };
-    const { diaRef } = this.popover.open(
-      DatePicker,
-      { target: this.el.nativeElement, position: 'bl' },
-      { data, width: 'none' },
-    );
+    const { diaRef } = this.popover.open(DatePicker, {
+      target: this.el.nativeElement,
+      position: 'bl',
+      data,
+      width: 'none',
+    });
     this.close = diaRef.close;
   }
 
@@ -80,6 +96,7 @@ export class DatepickerTrigger<D> {
       if (filtered.length === 1) {
         return;
       }
+      console.log(dates);
       this.inputS?.setValue(dates);
     } else if (filtered.length) {
       this.inputS?.setValue(dates[0]);
@@ -93,9 +110,7 @@ export class DatepickerTrigger<D> {
       .map(x => this.adapter.format(x, this.fieldFormat()))
       .filter(x => x)
       .join(' - ');
-    requestAnimationFrame(() => {
-      this.el.nativeElement.value = d;
-    });
+    afterNextRender(() => (this.el.nativeElement.value = d), { injector: this.injector });
   }
 }
 

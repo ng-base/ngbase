@@ -15,7 +15,11 @@ import { DocCode } from './code.component';
     <h4 meeHeader class="mb-5" id="sonnerPage">Sonner</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <button meeButton (click)="addMessage()" class="mr-2">Sonner</button>
+      <button meeButton (click)="addMessage()" class="mr-2">Default</button>
+      <button meeButton (click)="addMessage('info')" class="mr-2">Info</button>
+      <button meeButton (click)="addMessage('success')" class="mr-2">Success</button>
+      <button meeButton (click)="addMessage('error')" class="mr-2">Error</button>
+      <button meeButton (click)="addMessage('warning')" class="mr-2">Warning</button>
       <button meeButton (click)="clearMessage()">Clear Message</button>
     </app-doc-code>
   `,
@@ -48,8 +52,8 @@ export class SonnerComponent {
   }
   `;
 
-  addMessage() {
-    this.sonner.add('Event has been created', 'Sunday, December 03, 2023 at 9:00 AM');
+  addMessage(type: 'success' | 'error' | 'warning' | 'info' | 'message' = 'message') {
+    this.sonner[type]('Event has been created');
   }
 
   clearMessage() {

@@ -3,12 +3,11 @@ import { Button } from '@meeui/button';
 import { TourService } from '@meeui/tour';
 import { TourDemoComponent } from './tour-demo.component';
 import { Heading } from '@meeui/typography';
-import { Shortcuts } from '@meeui/shortcuts';
 
 @Component({
   standalone: true,
   selector: 'app-tour',
-  imports: [Button, Heading, Shortcuts],
+  imports: [Button, Heading],
   template: `
     <h4 meeHeader class="mb-5">Tour</h4>
 

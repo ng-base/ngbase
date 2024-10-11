@@ -34,7 +34,12 @@
               }
             ],
             "styles": ["projects/docs/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "server": "projects/docs/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "projects/docs/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -55,7 +60,8 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "ssr": false
             }
           },
           "defaultConfiguration": "production"

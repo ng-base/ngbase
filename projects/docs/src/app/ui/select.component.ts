@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Tooltip } from '@meeui/tooltip';
+import { DocCode } from './code.component';
+import { filterFunction } from '@meeui/utils';
 
 @Component({
   standalone: true,
@@ -17,60 +19,68 @@ import { Tooltip } from '@meeui/tooltip';
     Option,
     OptionGroup,
     Tooltip,
+    DocCode,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="selectPage">Select</h4>
-    <mee-select [(ngModel)]="selectValue" (ngModelChange)="valueChanged()" class="w-full">
-      <input meeSelectInput placeholder="Search options" [formControl]="search" />
-      @for (item of optionsFilter(); track item) {
-        <mee-option [value]="item" [meeTooltip]="item">{{ item }}</mee-option>
-      }
-    </mee-select>
-
-    <h4 meeHeader class="my-5">Select with group</h4>
-    <mee-select [(ngModel)]="groupValue" class="w-[196px]" placeholder="Select label" size="free">
-      <span class="select-prefix text-muted">Select:</span>
-      <input meeSelectInput placeholder="Search options" [formControl]="groupSearch" />
-      @for (item of groupOptionsFilter(); track item.label) {
-        <mee-option-group [label]="item.label">
-          @for (item of item.children; track item) {
-            <mee-option [value]="item">{{ item }}</mee-option>
+    <app-doc-code>
+      <form [formGroup]="form">
+        <mee-select
+          formControlName="select"
+          (ngModelChange)="valueChanged()"
+          class="w-full"
+          id="select-test"
+        >
+          <input
+            meeSelectInput
+            placeholder="Search options"
+            [(ngModel)]="optionsFilter.search"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          @for (item of optionsFilter.filteredList(); track item) {
+            <mee-option [value]="item" [meeTooltip]="item">{{ item }}</mee-option>
           }
-        </mee-option-group>
-      }
-    </mee-select>
+        </mee-select>
+      </form>
 
-    <h4 meeHeader>Small select</h4>
-    <mee-select class="w-30" size="free">
-      <mee-option>Option 1</mee-option>
-      <mee-option>Option 2</mee-option>
-      <mee-option>Option 3</mee-option>
-    </mee-select>
+      <h4 meeHeader class="my-5">Select with group</h4>
+      <mee-select [(ngModel)]="groupValue" class="w-[196px]" placeholder="Select label" size="free">
+        <span class="select-prefix text-muted">Select:</span>
+        <input meeSelectInput placeholder="Search options" [(ngModel)]="groupSearch" />
+        @for (item of groupOptionsFilter(); track item.label) {
+          <mee-option-group [label]="item.label">
+            @for (item of item.children; track item) {
+              <mee-option [value]="item">{{ item }}</mee-option>
+            }
+          </mee-option-group>
+        }
+      </mee-select>
+
+      <h4 meeHeader>Small select</h4>
+      <mee-select class="w-30" size="free">
+        <mee-option>Option 1</mee-option>
+        <mee-option>Option 2</mee-option>
+        <mee-option>Option 3</mee-option>
+      </mee-select>
+    </app-doc-code>
   `,
 })
 export class SelectComponent {
   selectValue = 'Option 1';
-  search = new FormControl('');
-  searchChange = toSignal(this.search.valueChanges);
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
+  optionsFilter = filterFunction(this.options, { filter: option => option });
 
-  optionsFilter = computed(() => {
-    const search = (this.searchChange() || '').toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(search));
+  form = new FormGroup({
+    select: new FormControl('Option 2'),
   });
 
   groupValue = '';
-  groupSearch = new FormControl('');
-  groupSearchChange = toSignal(this.groupSearch.valueChanges);
-  // groupOptions = Array.from({ length: 3 }, (_, i) => {
-  //   const children = Array.from({ length: 6 }, (_, j) => `Option ${j + 1}`);
-  //   return { label: `Group ${i + 1}`, children };
-  // });
   groupOptions = LARGE_DATA;
 
+  groupSearch = signal('');
   groupOptionsFilter = computed(() => {
-    const search = (this.groupSearchChange() || '').toLowerCase();
+    const search = (this.groupSearch() || '').toLowerCase();
     return this.groupOptions.reduce(
       (acc, group) => {
         const filteredChildren = group.children.filter(option =>
@@ -86,7 +96,7 @@ export class SelectComponent {
   });
 
   valueChanged() {
-    this.search.setValue('');
+    this.optionsFilter.search.set('');
   }
 }
 // prettier-ignore

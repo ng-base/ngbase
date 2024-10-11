@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CookieService {
   private readonly sameSite: 'Lax' | 'Strict' | 'None' = 'Lax';
 
   constructor() {}
 
-  setCookie(
+  set(
     name: string,
     value: string,
     options: {
@@ -45,7 +45,7 @@ export class CookieService {
     document.cookie = cookieString;
   }
 
-  getCookie(name: string): string | null {
+  get(name: string): string | null {
     const decodedName = decodeURIComponent(name);
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
@@ -57,11 +57,11 @@ export class CookieService {
     return null;
   }
 
-  deleteCookie(name: string, options: { path?: string; domain?: string } = {}): void {
-    this.setCookie(name, '', { ...options, expires: new Date(0) });
+  delete(name: string, options: { path?: string; domain?: string } = {}): void {
+    this.set(name, '', { ...options, expires: new Date(0) });
   }
 
-  getAllCookies(): { [key: string]: string } {
+  getAll(): { [key: string]: string } {
     return document.cookie.split(';').reduce(
       (cookies, cookie) => {
         const [name, value] = cookie.split('=').map(c => c.trim());
@@ -72,18 +72,18 @@ export class CookieService {
     );
   }
 
-  clearAllCookies(): void {
-    const cookies = this.getAllCookies();
+  clearAll(): void {
+    const cookies = this.getAll();
     for (const name in cookies) {
-      this.deleteCookie(name);
+      this.delete(name);
     }
   }
 
-  hasCookie(name: string): boolean {
-    return this.getCookie(name) !== null;
+  has(name: string): boolean {
+    return this.get(name) !== null;
   }
 
-  updateCookie(
+  update(
     name: string,
     newValue: string,
     options: {
@@ -94,8 +94,8 @@ export class CookieService {
       sameSite?: 'Lax' | 'Strict' | 'None';
     } = {},
   ): boolean {
-    if (this.hasCookie(name)) {
-      this.setCookie(name, newValue, options);
+    if (this.has(name)) {
+      this.set(name, newValue, options);
       return true;
     }
     return false;

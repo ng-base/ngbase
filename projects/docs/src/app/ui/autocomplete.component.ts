@@ -5,8 +5,9 @@ import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { JsonPipe } from '@angular/common';
-import { Chip } from '@meeui/chip';
+import { Chip, ChipGroup } from '@meeui/chip';
 import { DocCode } from './code.component';
+import { Autofocus, filterFunction } from '@meeui/utils';
 
 @Component({
   standalone: true,
@@ -20,7 +21,9 @@ import { DocCode } from './code.component';
     Option,
     JsonPipe,
     Chip,
+    ChipGroup,
     DocCode,
+    Autofocus,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -32,10 +35,11 @@ import { DocCode } from './code.component';
       <mee-autocomplete [(ngModel)]="selectValue2.value" class="w-72 md:w-96">
         <input
           placeholder="Search options"
-          [(ngModel)]="selectValue2.search"
+          [(ngModel)]="selectValue2.optionsFilter.search"
           meeAutocompleteInput
+          meeAutofocus
         />
-        @for (item of selectValue2.optionsFilter(); track item) {
+        @for (item of selectValue2.optionsFilter.filteredList(); track item) {
           <mee-option [value]="item">{{ item }}</mee-option>
         }
       </mee-autocomplete>
@@ -43,11 +47,17 @@ import { DocCode } from './code.component';
       <h4 meeHeader class="mb-b2 mt-5" id="autocompletePage">Autocomplete Chip</h4>
       <!-- Value: {{ selectValue.value() | json }} -->
       <mee-autocomplete [(ngModel)]="selectValue.value" class="w-72 md:w-96" [multiple]="true">
-        @for (value of selectValue.value(); track value) {
-          <mee-chip>{{ value }}</mee-chip>
-        }
-        <input placeholder="Search options" meeAutocompleteInput [(ngModel)]="selectValue.search" />
-        @for (item of selectValue.optionsFilter(); track item) {
+        <mee-chip-group>
+          @for (value of selectValue.value(); track value) {
+            <mee-chip [value]="value">{{ value }}</mee-chip>
+          }
+        </mee-chip-group>
+        <input
+          placeholder="Search options"
+          meeAutocompleteInput
+          [(ngModel)]="selectValue.optionsFilter.search"
+        />
+        @for (item of selectValue.optionsFilter.filteredList(); track item) {
           <mee-option [value]="item">{{ item }}</mee-option>
         }
       </mee-autocomplete>
@@ -56,10 +66,10 @@ import { DocCode } from './code.component';
       <mee-autocomplete [(ngModel)]="selectValue1.value" class="w-72 md:w-96" [multiple]="true">
         <input
           placeholder="Search options"
-          [(ngModel)]="selectValue1.search"
+          [(ngModel)]="selectValue1.optionsFilter.search"
           meeAutocompleteInput
         />
-        @for (item of selectValue1.optionsFilter(); track item) {
+        @for (item of selectValue1.optionsFilter.filteredList(); track item) {
           <mee-option [value]="item">{{ item }}</mee-option>
         }
       </mee-autocomplete>
@@ -110,13 +120,8 @@ export class AutocompleteComponent {
 
 class AutocompleteForm<T> {
   value!: Signal<T>;
-  search = signal('');
-  // searchChange = toSignal(this.search.valueChanges);
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
-  optionsFilter = computed(() => {
-    const search = this.search().toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(search));
-  });
+  optionsFilter = filterFunction(this.options, { filter: option => option });
 
   constructor(value: T) {
     this.value = signal(value);

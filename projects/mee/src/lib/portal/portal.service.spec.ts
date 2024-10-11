@@ -1,13 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
+import { injectService } from '../test';
 import { PortalService } from './portal.service';
 
 describe('PortalService', () => {
   let service: PortalService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(PortalService);
+    service = injectService(PortalService, [PortalService]);
   });
 
   it('should be created', () => {

@@ -1,16 +1,17 @@
 import {
+  afterNextRender,
   Directive,
   effect,
   ElementRef,
   inject,
+  Injector,
   input,
   model,
   Pipe,
   PipeTransform,
-  Signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { isClient } from './ssr';
 
 @Pipe({
   standalone: true,
@@ -36,11 +37,13 @@ export class MaskInput {
   readonly meeMask = input<string>('');
   readonly showMaskType = input(false);
   readonly control = inject(NgControl, { optional: true });
+  private injector = inject(Injector);
 
   readonly value = model<string>('');
   private actualValue: string = '';
   onChange: (v: string) => void = () => {};
   onTouched: () => void = () => {};
+  private isClient = isClient();
 
   constructor() {
     this.control?.valueChanges?.subscribe(value => {
@@ -61,7 +64,6 @@ export class MaskInput {
     event.stopPropagation();
     const input = event.target as HTMLInputElement;
     // const selectionStart = input.selectionStart;
-    console.log('input', input.value);
     this.handleValue(input.value);
   }
 
@@ -71,7 +73,6 @@ export class MaskInput {
 
     // Update actualValue
     this.actualValue = this.unmask(maskedValue);
-    console.log('actualValue', maskedValue, this.actualValue);
 
     // Determine what changed
     // let insertedChar = '';
@@ -101,11 +102,12 @@ export class MaskInput {
 
   private updateView(value: string, mask = this.meeMask()): string {
     const maskedValue = maskTransform(value, mask);
-    console.log('maskedValue', maskedValue);
     // we have to use microtask to update the value after the ngModel updates the value
-    requestAnimationFrame(() => {
-      this.el.nativeElement.value = maskedValue;
-    });
+    if (this.isClient) {
+      afterNextRender(() => (this.el.nativeElement.value = maskedValue), {
+        injector: this.injector,
+      });
+    }
     return maskedValue;
   }
 
@@ -138,7 +140,6 @@ export class MaskInput {
 }
 
 function maskTransform(value: string, mask: string, showMaskType = false): string {
-  console.count('maskTransform');
   let result = '';
   let valueIndex = 0;
 

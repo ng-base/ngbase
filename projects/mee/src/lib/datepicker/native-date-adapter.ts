@@ -90,9 +90,14 @@ export class MeeNativeDateAdapter implements MeeAdpterInterface<Date> {
     return value.toString().padStart(length, '0');
   }
 
+  // We have to parse the date string like '2024-10-01T00:00:00.000Z'
+
   parse(value: Date | string, parseFormat?: string): Date {
     if (value instanceof Date) return new Date(value.setHours(0, 0, 0, 0));
     if (typeof value !== 'string') return new Date(NaN);
+    if (value.includes('T')) {
+      return new Date(value);
+    }
 
     const parts = value.split(/\D+/).map(Number);
     if (parts.length !== 3) return new Date(NaN);

@@ -12,16 +12,22 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="progressPage">Progress</h4>
     <app-doc-code [tsCode]="tsCode">
-      <button meeButton meeTooltip="increment" class="mr-2" (click)="percentage = percentage + 10">
-        +
-      </button>
-      <button meeButton meeTooltip="decrement" (click)="percentage = percentage - 10">-</button>
+      <button meeButton meeTooltip="increment" class="mr-2" (click)="increment()">+</button>
+      <button meeButton meeTooltip="decrement" (click)="decrement()">-</button>
       <mee-progress [value]="percentage" class="w-96"></mee-progress>
     </app-doc-code>
   `,
 })
 export class ProgressComponent {
   percentage = 50;
+
+  increment() {
+    this.percentage = Math.min(this.percentage + 10, 100);
+  }
+
+  decrement() {
+    this.percentage = Math.max(this.percentage - 10, 0);
+  }
 
   tsCode = `
   import { Component } from '@angular/core';

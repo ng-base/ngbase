@@ -1,16 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectableItem } from './selectable-item.component';
 import { Selectable } from './selectable.component';
 import { Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
-
-// Mock Selectable class
-class MockSelectable<T> {
-  select = jest.fn();
-}
+import { render, RenderResult } from '../test';
 
 // Test host component
 @Component({
+  standalone: true,
+  imports: [SelectableItem],
   template: '<button meeSelectableItem [value]="testValue"></button>',
 })
 class TestHostComponent {
@@ -18,28 +14,24 @@ class TestHostComponent {
 }
 
 describe('SelectableItem', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let view: RenderResult<TestHostComponent>;
   let selectableItem: SelectableItem<string>;
-  let mockSelectable: MockSelectable<string>;
+  let selectable: Selectable<string>;
 
   beforeEach(async () => {
-    mockSelectable = new MockSelectable<string>();
-
-    await TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [SelectableItem],
-      providers: [{ provide: Selectable, useValue: mockSelectable }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    selectableItem = fixture.debugElement.query(By.directive(SelectableItem)).componentInstance;
-    fixture.detectChanges();
+    view = await render(TestHostComponent, [
+      { provide: Selectable, useValue: { select: jest.fn() } },
+    ]);
+    selectable = view.inject(Selectable<string>);
+    selectableItem = view.viewChild(SelectableItem<string>);
+    view.detectChanges();
   });
 
+  function getSelectableItem() {
+    return view.$(SelectableItem<string>);
+  }
+
   it('should create', () => {
-    expect(component).toBeTruthy();
     expect(selectableItem).toBeTruthy();
   });
 
@@ -52,7 +44,7 @@ describe('SelectableItem', () => {
   });
 
   it('should have the correct CSS classes when not selected', () => {
-    const element = fixture.debugElement.query(By.directive(SelectableItem)).nativeElement;
+    const element = getSelectableItem();
     expect(element.classList.contains('opacity-60')).toBeTruthy();
     expect(element.classList.contains('bg-foreground')).toBeFalsy();
     expect(element.classList.contains('shadow-md')).toBeFalsy();
@@ -62,9 +54,9 @@ describe('SelectableItem', () => {
 
   it('should have the correct CSS classes when selected', () => {
     selectableItem.selected.set(true);
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const element = fixture.debugElement.query(By.directive(SelectableItem)).nativeElement;
+    const element = getSelectableItem();
     expect(element.classList.contains('opacity-60')).toBeFalsy();
     expect(element.classList.contains('bg-foreground')).toBeTruthy();
     expect(element.classList.contains('shadow-md')).toBeTruthy();
@@ -74,13 +66,13 @@ describe('SelectableItem', () => {
 
   it('should call select method when clicked', () => {
     const selectSpy = jest.spyOn(selectableItem, 'select');
-    const element = fixture.debugElement.query(By.directive(SelectableItem)).nativeElement;
+    const element = getSelectableItem();
     element.click();
     expect(selectSpy).toHaveBeenCalled();
   });
 
   it('should have the correct attributes', () => {
-    const element = fixture.debugElement.query(By.directive(SelectableItem)).nativeElement;
+    const element = getSelectableItem();
     expect(element.getAttribute('role')).toBe('tab');
   });
 });

@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Tree } from './tree.component';
-import { TreeNodeDef } from './tree-node.directive';
 import { Component, signal } from '@angular/core';
+import { render, RenderResult } from '../test';
+import { TreeNodeDef } from './tree-node.directive';
+import { Tree } from './tree.component';
 
 // Mock data
 interface TestNode {
@@ -26,6 +26,8 @@ const mockData: TestNode[] = [
 ];
 
 @Component({
+  standalone: true,
+  imports: [Tree, TreeNodeDef],
   template: `
     <mee-tree [dataSource]="data()" [trackBy]="trackBy" [children]="getChildren">
       <ng-template meeTreeNodeDef let-node>
@@ -61,20 +63,19 @@ class TestHostComponent {
 
 describe('Tree', () => {
   let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let view: RenderResult<TestHostComponent>;
   let treeComponent: Tree<TestNode>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [Tree, TreeNodeDef],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    treeComponent = fixture.debugElement.children[0].componentInstance;
+    view = await render(TestHostComponent);
+    component = view.host;
+    view.detectChanges();
+    treeComponent = view.viewChild(Tree<TestNode>);
   });
+
+  function textContent() {
+    return view.fixture.nativeElement.textContent as string;
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -82,63 +83,57 @@ describe('Tree', () => {
   });
 
   it('should render root node', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Root');
+    expect(textContent()).toContain('Root');
   });
 
   it('should expand node on toggle', () => {
     const rootNode = treeComponent['flatner']().data[0];
     treeComponent.toggle(rootNode);
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Child 1');
-    expect(compiled.textContent).toContain('Child 2');
+    expect(textContent()).toContain('Child 1');
+    expect(textContent()).toContain('Child 2');
   });
 
   it('should collapse expanded node on toggle', () => {
     const rootNode = treeComponent['flatner']().data[0];
     treeComponent.toggle(rootNode); // Expand
-    fixture.detectChanges();
+    view.detectChanges();
     treeComponent.toggle(rootNode); // Collapse
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).not.toContain('Child 1');
-    expect(compiled.textContent).not.toContain('Child 2');
+    expect(textContent()).not.toContain('Child 1');
+    expect(textContent()).not.toContain('Child 2');
   });
 
   it('should expand all nodes', () => {
     treeComponent.expandAll();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Root');
-    expect(compiled.textContent).toContain('Child 1');
-    expect(compiled.textContent).toContain('Child 2');
-    expect(compiled.textContent).toContain('Grandchild 1');
+    expect(textContent()).toContain('Root');
+    expect(textContent()).toContain('Child 1');
+    expect(textContent()).toContain('Child 2');
+    expect(textContent()).toContain('Grandchild 1');
   });
 
   it('should collapse all nodes', () => {
     treeComponent.expandAll();
-    fixture.detectChanges();
+    view.detectChanges();
     treeComponent.foldAll();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Root');
-    expect(compiled.textContent).not.toContain('Child 1');
-    expect(compiled.textContent).not.toContain('Child 2');
-    expect(compiled.textContent).not.toContain('Grandchild 1');
+    expect(textContent()).toContain('Root');
+    expect(textContent()).not.toContain('Child 1');
+    expect(textContent()).not.toContain('Child 2');
+    expect(textContent()).not.toContain('Grandchild 1');
   });
 
   it('should update when data source changes', () => {
     component.data.set([{ id: '5', name: 'New Root', children: [] }]);
-    fixture.detectChanges();
+    view.detectChanges();
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent.trim()).toContain('New Root');
-    expect(compiled.textContent.trim()).not.toBe('Root');
+    expect(textContent().trim()).toContain('New Root');
+    expect(textContent().trim()).not.toBe('Root');
   });
 
   describe('Children Shuffling', () => {
@@ -146,17 +141,17 @@ describe('Tree', () => {
       // First, expand the root node
       const rootNode = treeComponent['flatner']().data[0];
       treeComponent.toggle(rootNode);
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Get the initial order of children
-      const initialOrder = fixture.nativeElement.textContent;
+      const initialOrder = textContent();
 
       // Shuffle the children of the root node
       component.deterministicShuffle('1');
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Get the new order of children
-      const newOrder = fixture.nativeElement.textContent;
+      const newOrder = textContent();
 
       // The content should be different (note: there's a small chance this could fail if the shuffle doesn't change the order)
       expect(newOrder).not.toBe(initialOrder);
@@ -170,34 +165,34 @@ describe('Tree', () => {
       // Expand root and Child 2
       const rootNode = treeComponent['flatner']().data[0];
       treeComponent.toggle(rootNode);
-      fixture.detectChanges();
+      view.detectChanges();
 
       const child2Node = treeComponent['flatner']().data.find(node => node.id.endsWith('-3'));
       treeComponent.toggle(child2Node!);
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Verify initial state
-      expect(fixture.nativeElement.textContent).toContain('Grandchild 1');
+      expect(textContent()).toContain('Grandchild 1');
 
       // Shuffle children
       component.deterministicShuffle('1');
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Verify that Child 2 is still expanded
-      expect(fixture.nativeElement.textContent).toContain('Grandchild 1');
+      expect(textContent()).toContain('Grandchild 1');
     });
 
     it('should handle shuffling of deeply nested children', () => {
       // Expand all nodes
       treeComponent.expandAll();
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Shuffle the children of Child 2
       component.deterministicShuffle('3');
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Verify that the tree still contains all nodes
-      const content = fixture.nativeElement.textContent;
+      const content = textContent();
       expect(content).toContain('Root');
       expect(content).toContain('Child 1');
       expect(content).toContain('Child 2');
@@ -208,7 +203,7 @@ describe('Tree', () => {
       // Expand root
       const rootNode = treeComponent['flatner']().data[0];
       treeComponent.toggle(rootNode);
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Shuffle children
       component.deterministicShuffle('1');
@@ -218,10 +213,10 @@ describe('Tree', () => {
         x[0].children.push({ id: '5', name: 'New Child', children: [] });
         return [...x];
       });
-      fixture.detectChanges();
+      view.detectChanges();
 
       // Verify that the new child is rendered
-      expect(fixture.nativeElement.textContent).toContain('New Child');
+      expect(textContent()).toContain('New Child');
     });
   });
 });

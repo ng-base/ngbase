@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Input } from './input.directive';
 import { Component } from '@angular/core';
+import { render, RenderResult } from '../test';
+import { Input } from './input.directive';
 
 @Component({
   standalone: true,
@@ -12,21 +11,18 @@ class TestInput {}
 
 describe('InputComponent', () => {
   let component: TestInput;
-  let fixture: ComponentFixture<TestInput>;
+  let view: RenderResult<TestInput>;
   let input: Input;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestInput],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestInput);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    input = fixture.debugElement.children[0].injector.get(Input);
+    view = await render(TestInput);
+    component = view.host;
+    input = view.viewChild(Input);
+    view.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(input).toBeTruthy();
   });
 });

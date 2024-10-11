@@ -1,15 +1,19 @@
 import { DialogInput, DialogOptions, basePortal } from '../portal';
 import { Sheet } from './sheet.component';
 
+export class SheetOptions extends DialogOptions {
+  position?: 'left' | 'right' = 'right';
+}
+
 export function sheetPortal() {
   const NAME = 'sheet';
   const base = basePortal(NAME, Sheet);
 
-  function open<T>(component: DialogInput, opt?: DialogOptions) {
+  function open<T>(component: DialogInput, opt?: SheetOptions) {
     const { diaRef } = base.open(
       component,
       comp => {
-        const options = { ...new DialogOptions(), ...opt };
+        const options = { ...new SheetOptions(), ...opt };
         comp.instance.setOptions(options);
       },
       opt,

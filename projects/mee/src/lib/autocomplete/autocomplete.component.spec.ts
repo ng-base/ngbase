@@ -1,11 +1,10 @@
-import { Component, DebugElement, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Autocomplete } from './autocomplete.component';
-import { AutocompleteInput } from './autocomplete.directive';
+import { AutocompleteInput } from './autocomplete-input.directive';
 import { Option } from '../select';
+import { render, RenderResult } from '../test';
 
 // Test host component
 @Component({
@@ -39,12 +38,11 @@ class TestAutocompleteComponent {
 
 describe('Autocomplete', () => {
   let component: TestAutocompleteComponent;
-  let fixture: ComponentFixture<TestAutocompleteComponent>;
-  let selectElement: DebugElement;
+  let view: RenderResult<TestAutocompleteComponent>;
   let selectComponent: Autocomplete<string>;
 
   function selectInput() {
-    return fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    return view.$<HTMLInputElement>('input');
   }
 
   function selectOptions() {
@@ -53,16 +51,10 @@ describe('Autocomplete', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestAutocompleteComponent],
-      providers: [provideNoopAnimations()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestAutocompleteComponent);
-    component = fixture.componentInstance;
-    selectElement = fixture.debugElement.query(By.directive(Autocomplete));
-    selectComponent = selectElement.componentInstance;
-    fixture.detectChanges();
+    view = await render(TestAutocompleteComponent, [provideNoopAnimations()]);
+    component = view.host;
+    selectComponent = view.viewChild(Autocomplete<string>);
+    view.detectChanges();
   });
 
   it('should create', () => {
@@ -84,9 +76,8 @@ describe('Autocomplete', () => {
 
   it('should render selected value', async () => {
     component.selectedValue.set('1');
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    await view.whenStable();
+    // view.detectChanges();
     const buttonElement = selectInput();
     expect(buttonElement.value?.trim()).toBe('Option 1');
   });
@@ -108,12 +99,12 @@ describe('Autocomplete', () => {
   it('should handle single selection', () => {
     const buttonElement = selectInput();
     buttonElement.click();
-    fixture.detectChanges();
+    view.detectChanges();
 
     // Simulate option selection
     const options = selectOptions();
     options[0].click();
-    fixture.detectChanges();
+    view.detectChanges();
 
     expect(component.selectedValue()).toBe('1');
     expect(buttonElement.value?.trim()).toBe('Option 1');
@@ -122,22 +113,25 @@ describe('Autocomplete', () => {
   it('should handle multiple selection', async () => {
     component.multiple = true;
     component.selectedValue.set(['1', '2']);
-    fixture.detectChanges();
+    view.detectChanges();
 
     const options = selectOptions();
-    fixture.detectChanges();
+    view.detectChanges();
 
     // Simulate multiple option selection
     const buttonElement = selectInput();
     options[2].click();
-    fixture.detectChanges();
+    view.detectChanges();
+    // we have to close the panel, so that the value is updated
+    selectComponent['close']();
+    await view.whenStable();
 
     expect(component.selectedValue()).toEqual(['1', '2', '3']);
     expect(buttonElement.value?.trim()).toBe('Option 1  (+2)');
 
     // Simulate multiple option deselection
     options[2].click();
-    fixture.detectChanges();
+    view.detectChanges();
 
     expect(component.selectedValue()).toEqual(['1', '2']);
   });
@@ -156,13 +150,13 @@ describe('Autocomplete', () => {
       done();
     });
     selectComponent.open();
-    selectComponent['popClose']();
+    selectComponent['close']();
   });
 
   it('should update panelOpen signal when options are opened/closed', () => {
     selectComponent.open();
     expect(selectComponent.panelOpen()).toBe(true);
-    selectComponent['popClose']();
+    selectComponent['close']();
     expect(selectComponent.panelOpen()).toBe(false);
   });
 

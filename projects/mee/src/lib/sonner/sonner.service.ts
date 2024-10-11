@@ -1,24 +1,52 @@
-import { basePortal } from '../portal';
-import { Sonner } from './sonner.component';
+import { ComponentRef, inject, Injectable } from '@angular/core';
+import { basePortal, DialogRef } from '../portal';
+import { Sonner, SonnerData, SonnerType } from './sonner.component';
+
+@Injectable({ providedIn: 'root' })
+export class SonnerService {
+  private NAME = 'sonner';
+  private base = basePortal(this.NAME, Sonner);
+  private sonner: { parent: ComponentRef<Sonner>; diaRef: DialogRef<Sonner> } | undefined;
+
+  addMessage(message: string, type: SonnerType, data?: SonnerData) {
+    if (!this.sonner) {
+      const { parent, diaRef } = this.base.open();
+      this.sonner = { parent, diaRef };
+    }
+    this.sonner.parent.instance.addMessage(message, type, data);
+  }
+
+  closeAll() {
+    this.sonner?.parent.instance.clear();
+  }
+}
 
 export function sonnerPortal() {
-  const NAME = 'sonner';
-  const base = basePortal(NAME, Sonner);
-
-  function open<T>() {
-    const { parent } = base.open();
-    return parent.instance;
-  }
-
-  const sonner = open();
+  const sonnerService = inject(SonnerService);
 
   function closeAll() {
-    sonner.clear();
+    sonnerService.closeAll();
   }
 
-  function add(name: string, message: string) {
-    sonner.addMessage({ name, message });
+  function message(message: string, data?: SonnerData) {
+    sonnerService.addMessage(message, 'default', data);
   }
 
-  return { add, closeAll };
+  function success(message: string, data?: SonnerData) {
+    sonnerService.addMessage(message, 'success', data);
+  }
+
+  function error(message: string, data?: SonnerData) {
+    sonnerService.addMessage(message, 'error', data);
+  }
+
+  function warning(message: string, data?: SonnerData) {
+    sonnerService.addMessage(message, 'warning', data);
+  }
+
+  function info(message: string, data?: SonnerData) {
+    sonnerService.addMessage(message, 'info', data);
+  }
+
+  return { message, success, error, warning, info, closeAll };
 }

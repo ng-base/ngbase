@@ -1,7 +1,6 @@
-import { Signal } from '@angular/core';
-import { DialogPosition } from './dialog-ref';
+import { PopoverPosition, PopoverOptions } from '../popover';
 
-const positionSwap: Record<DialogPosition, DialogPosition> = {
+const positionSwap: Record<PopoverPosition, PopoverPosition> = {
   top: 'bottom',
   bottom: 'top',
   left: 'right',
@@ -17,19 +16,6 @@ export interface Rect {
   left: number;
   width: number;
   height: number;
-}
-
-export interface OverlayConfig {
-  target: HTMLElement;
-  el?: HTMLElement;
-  position?: DialogPosition;
-  offset?: number;
-  client?: { x: number; y: number; w: number; h: number } | null;
-  className?: string;
-  backdropClassName?: string;
-  clipPath?: Signal<string>;
-  anchor?: boolean;
-  smoothScroll?: boolean;
 }
 
 export enum Position {
@@ -50,8 +36,8 @@ export interface ConfigObj {
   elWidth: number;
   elHeight: number;
   offset: number;
-  priority: DialogPosition;
-  position: DialogPosition;
+  priority: PopoverPosition;
+  position: PopoverPosition;
   windowWidth: number;
   windowHeight: number;
   scrollWidth: number;
@@ -68,7 +54,7 @@ export interface PositionResult {
 
 export class PopoverPositioner {
   constructor(
-    private config: OverlayConfig,
+    private config: PopoverOptions,
     private windowDimensions: { width: number; height: number },
     private scrollWidth: number,
   ) {}
@@ -247,7 +233,7 @@ export class PopoverPositioner {
 
 // Main function to use the class
 export function tooltipPosition(
-  config: OverlayConfig,
+  config: PopoverOptions,
   windowDimensions = {
     width: window.innerWidth,
     height: window.innerHeight,

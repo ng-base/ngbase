@@ -9,8 +9,6 @@ import {
 } from '@angular/core';
 import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
 
-export type DialogPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
-
 export abstract class BaseDialog {
   dialogRef = inject(DialogRef);
   document = inject(DOCUMENT);
@@ -25,6 +23,7 @@ export abstract class BaseDialog {
   // so we need to wait for both to finish before destroying the dialog
   count = 0;
   private isFirst = true;
+  private currentActiveElement = new WeakRef(this.document.activeElement as HTMLElement);
 
   constructor() {
     this.onOpen();
@@ -54,11 +53,17 @@ export abstract class BaseDialog {
     }
   }
 
+  getTarget(): HTMLElement {
+    return this.target()!;
+  }
+
   onClose = () => {
     if (this.isFirst) {
       this.document.body.style.paddingRight = '';
       this.document.body.style.overflow = '';
     }
+    const target = this.getTarget() || this.currentActiveElement.deref();
+    target?.focus();
   };
 }
 
@@ -120,10 +125,11 @@ export class DialogOptions<T = any> {
   maxWidth?: string;
   maxHeight?: string;
   classNames?: string[] = [];
-  isHideHeader?: boolean;
+  header?: boolean;
   overrideLowerDialog?: boolean = false;
   disableClose? = false;
   ayId?: string;
+  focusTrap? = true;
 }
 
 export const DIALOG_INJ = new InjectionToken('dialogInj');

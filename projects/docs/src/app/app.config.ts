@@ -9,6 +9,8 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideTooltipDefaultOptions } from '@meeui/tooltip';
+import { provideInternetAvailabilityInterceptor, provideJwt } from '@meeui/utils';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +24,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideExperimentalZonelessChangeDetection(),
     provideHttpClient(),
-    // provideClientHydration(),
+    provideClientHydration(),
+    provideTooltipDefaultOptions({ showDelay: 1000 }),
+    provideInternetAvailabilityInterceptor(),
+    provideJwt(() => ({ tokenGetter: () => localStorage.getItem('auth_token') })),
   ],
 };

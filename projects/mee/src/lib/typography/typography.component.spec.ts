@@ -1,19 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, RenderResult } from '../test';
 import { TypographyComponent } from './typography.component';
 
 describe('TypographyComponent', () => {
   let component: TypographyComponent;
-  let fixture: ComponentFixture<TypographyComponent>;
+  let view: RenderResult<TypographyComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TypographyComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TypographyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(TypographyComponent);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create', () => {

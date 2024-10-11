@@ -1,4 +1,4 @@
-import { Component, contentChildren, effect, forwardRef, inject, model } from '@angular/core';
+import { Component, contentChildren, forwardRef, inject, model } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Radio } from './radio.component';
 import { AccessibleGroup } from '../a11y';
@@ -33,18 +33,6 @@ export class RadioGroup implements ControlValueAccessor {
   constructor() {
     this.allyGroup.ayId.set(this.ayId);
     this.allyGroup.clickable.set(true);
-    effect(
-      () => {
-        const radios = this.radios();
-        radios.forEach(radio => {
-          radio.ayId.set(this.ayId);
-          radio.updateValue = ev => {
-            this.updateValue(radio.value());
-          };
-        });
-      },
-      { allowSignalWrites: true },
-    );
   }
 
   updateValue(value: any) {

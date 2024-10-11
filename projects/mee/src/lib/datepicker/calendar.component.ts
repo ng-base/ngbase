@@ -18,6 +18,7 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { Icon } from '../icon';
 import { TimePicker } from './time.component';
 import { AccessibleItem } from '../a11y';
+import { Directionality } from '../utils';
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ import { AccessibleItem } from '../a11y';
     <div class="mb-b2 flex items-center justify-between">
       <button
         meeButton
+        type="button"
         variant="outline"
         class="h-b6 w-b6 rounded-md !px-0"
         [class]="!first() ? 'invisible' : ''"
@@ -36,10 +38,11 @@ import { AccessibleItem } from '../a11y';
         [disabled]="leftBtn()"
         [tabIndex]="leftBtn() ? -1 : 0"
       >
-        <mee-icon name="lucideChevronLeft"></mee-icon>
+        <mee-icon [name]="dir.isRtl() ? 'lucideChevronRight' : 'lucideChevronLeft'"></mee-icon>
       </button>
       <button
         meeButton
+        type="button"
         variant="ghost"
         class="small rounded-md"
         (click)="toggleView()"
@@ -49,6 +52,7 @@ import { AccessibleItem } from '../a11y';
       </button>
       <button
         meeButton
+        type="button"
         variant="outline"
         class="h-b6 w-b6 rounded-md !px-0"
         [class]="!last() ? 'invisible' : ''"
@@ -56,7 +60,7 @@ import { AccessibleItem } from '../a11y';
         [disabled]="rightBtn()"
         [tabIndex]="rightBtn() ? -1 : 0"
       >
-        <mee-icon name="lucideChevronRight"></mee-icon>
+        <mee-icon [name]="dir.isRtl() ? 'lucideChevronLeft' : 'lucideChevronRight'"></mee-icon>
       </button>
     </div>
 
@@ -64,6 +68,7 @@ import { AccessibleItem } from '../a11y';
       <div class="grid grid-cols-3">
         @for (year of years(); track year.year) {
           <button
+            type="button"
             class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -84,6 +89,7 @@ import { AccessibleItem } from '../a11y';
       <div class="grid grid-cols-3">
         @for (month of months(); track month.value) {
           <button
+            type="button"
             meeAccessibleItem
             [data]="month"
             [ayId]="datePicker.ayId"
@@ -112,6 +118,7 @@ import { AccessibleItem } from '../a11y';
         @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
             #days
+            type="button"
             meeAccessibleItem
             [id]="day.day + '-' + day.mon"
             [data]="day"
@@ -156,6 +163,7 @@ import { AccessibleItem } from '../a11y';
   },
 })
 export class Calendar<D> implements OnDestroy {
+  readonly dir = inject(Directionality);
   readonly datePicker = inject<DatePicker<D>>(DatePicker);
   readonly days = viewChildren<ElementRef<HTMLElement>>('days');
   readonly first = input(false);

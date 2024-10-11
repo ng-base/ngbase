@@ -1,7 +1,8 @@
-import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, signal } from '@angular/core';
 import { dialogPortal } from '../dialog';
 import { ThemeComponent } from './theme.component';
+import { isClient } from '../utils';
+import { keyMap } from '../keys';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -9,9 +10,11 @@ export class ThemeService {
   mode = signal<'light' | 'dark' | ''>('light');
 
   constructor() {
-    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+    if (isClient()) {
       const theme = localStorage.getItem('theme');
       this._update((theme as 'light' | 'dark') || 'light');
+
+      // registerShortcut('ctrl+h', () => this.open());
     }
   }
 

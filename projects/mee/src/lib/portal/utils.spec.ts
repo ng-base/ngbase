@@ -1,11 +1,5 @@
-import {
-  ConfigObj,
-  OverlayConfig,
-  PopoverPositioner,
-  Position,
-  PositionResult,
-  Rect,
-} from './utils';
+import { PopoverOptions } from '../popover';
+import { PopoverPositioner, Position, PositionResult, Rect } from './utils';
 
 const createMockElement = (rect: Partial<DOMRect>): HTMLElement =>
   ({
@@ -35,7 +29,7 @@ describe('utils', () => {
     ];
 
     for (const [position, target, el, expected] of values) {
-      const config: OverlayConfig = {
+      const config: PopoverOptions = {
         offset: 4,
         position: position as Position,
         target: createMockElement(target as any),
@@ -63,7 +57,7 @@ describe('utils', () => {
   it('should return proper dimensions if the width is overflowing the right', () => {
     const target = createMockElement({ top: 489, left: 1139.71875, width: 111.28125, height: 38 });
     const el = createMockElement({ width: 153, height: 225 });
-    const config: OverlayConfig = { offset: 4, position: 'bl', target, el };
+    const config: PopoverOptions = { offset: 4, position: 'bl', target, el };
     const positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
     const output = positioner.calculatePosition();
 
@@ -82,7 +76,7 @@ describe('utils', () => {
     beforeEach(() => {
       const target = createMockElement({ top: 489, left: 257, width: 111.28125, height: 38 });
       const el = createMockElement({ width: 153, height: 225 });
-      const config: OverlayConfig = { offset: 4, position: 'bl', target, el };
+      const config: PopoverOptions = { offset: 4, position: 'bl', target, el };
       positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
     });
 

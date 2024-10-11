@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Accordion } from './accordion-item.component';
 import { AccordionGroup } from './accordion-group.component';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { signal } from '@angular/core';
+import { render, RenderResult } from '../test';
 
 const accordionGroupStub = {
   multiple: signal(false),
@@ -10,65 +10,55 @@ const accordionGroupStub = {
 };
 
 describe('Accordion', () => {
-  let component: Accordion;
-  let fixture: ComponentFixture<Accordion>;
+  let view: RenderResult<Accordion>;
 
   beforeEach(async () => {
     accordionGroupStub.multiple.set(false);
     accordionGroupStub.activeId.set('');
-    await TestBed.configureTestingModule({
-      imports: [Accordion],
-      providers: [
-        provideNoopAnimations(),
-        { provide: AccordionGroup, useValue: accordionGroupStub },
-      ],
-    }).compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(Accordion);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(Accordion, [
+      provideNoopAnimations(),
+      { provide: AccordionGroup, useValue: accordionGroupStub },
+    ]);
+    view.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(view.host).toBeTruthy();
   });
 
   it('should have a unique id', () => {
-    expect(component.id).toBeTruthy();
+    expect(view.host.id).toBeTruthy();
   });
 
   it('should toggle expanded state', () => {
-    expect(component.expanded()).toBeFalsy();
-    component.toggle();
-    expect(component.expanded()).toBeTruthy();
-    component.toggle();
-    expect(component.expanded()).toBeFalsy();
+    expect(view.host.expanded()).toBeFalsy();
+    view.host.toggle();
+    expect(view.host.expanded()).toBeTruthy();
+    view.host.toggle();
+    expect(view.host.expanded()).toBeFalsy();
   });
 
   it('should render content when expanded', () => {
-    component.expanded.set(true);
-    fixture.detectChanges();
-    const content = fixture.nativeElement.querySelector('div');
-    expect(content).toBeTruthy();
+    view.host.expanded.set(true);
+    view.detectChanges();
+    expect(view.$('div')).toBeTruthy();
   });
 
   it('should not render content when collapsed', () => {
-    component.expanded.set(false);
-    fixture.detectChanges();
-    const content = fixture.nativeElement.querySelector('div');
-    expect(content).toBeNull();
+    view.host.expanded.set(false);
+    view.detectChanges();
+    expect(view.$('div')).toBeFalsy();
   });
 
   it('should update activeId when expanded', () => {
-    component.toggle();
-    expect(component.accordionService.activeId()).toBe(component.id);
+    view.host.toggle();
+    expect(accordionGroupStub.activeId()).toBe(view.host.id);
   });
 
   it('should not call activeId when multiple is true', () => {
     accordionGroupStub.multiple.set(true);
-    component.toggle();
-    expect(component.accordionService.activeId()).toBe('');
+    view.host.toggle();
+    expect(accordionGroupStub.activeId()).toBe('');
   });
 });

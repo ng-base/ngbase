@@ -4,7 +4,12 @@ import { Drag } from './drag.directive';
 @Directive({
   standalone: true,
   selector: '[meeDragMove]',
-  hostDirectives: [Drag],
+  hostDirectives: [
+    {
+      directive: Drag,
+      inputs: ['dragBoundary'],
+    },
+  ],
 })
 export class DragMove {
   private drag = inject(Drag);

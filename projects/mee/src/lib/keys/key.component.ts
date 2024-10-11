@@ -1,16 +1,36 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+} from '@angular/core';
+import { keyMap } from './shortcuts.service';
 
 @Component({
   standalone: true,
   selector: 'mee-key, [meeKey]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `{{ content() }}`,
   host: {
     class: 'ml-auto text-xs tracking-widest opacity-60 text-muted',
   },
 })
-export class Key implements OnInit {
-  constructor() {}
+export class Key {
+  readonly el = inject<ElementRef<HTMLButtonElement>>(ElementRef);
 
-  ngOnInit() {}
+  readonly meeKey = input.required<string>();
+  readonly content = computed(() => {
+    return this.meeKey().replace(/\+/g, ' ');
+  });
+
+  constructor() {
+    const injector = inject(Injector);
+    effect(cleanup => {
+      keyMap(this.meeKey(), () => this.el.nativeElement.click(), { cleanup, injector });
+    });
+  }
 }

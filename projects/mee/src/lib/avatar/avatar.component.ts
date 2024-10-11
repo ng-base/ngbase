@@ -2,34 +2,29 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 @Component({
   standalone: true,
-  selector: 'mee-avatar',
+  selector: 'mee-avatar, [meeAvatar]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (src()) {
-      <img
-        [src]="src()"
-        alt="avatar"
-        class="aspect-sqaure h-full max-h-full max-w-full rounded-full"
-      />
-    } @else if (name()) {
-      <div
-        class="aspect-sqaure flex h-full max-h-full max-w-full items-center justify-center rounded-full bg-background p-b2"
-      >
-        {{ nameChar() }}
-      </div>
+      <img [src]="src()" alt="avatar" class="h-full max-h-full max-w-full" />
     } @else {
-      <ng-content />
+      <ng-content>{{ nameChar() }}</ng-content>
     }
   `,
   host: {
-    class: 'inline-flex aspect-sqaure rounded-base',
+    class: 'inline-flex aspect-square rounded-full overflow-hidden border-2 border-foreground',
+    '[class]': `!src() && nameChar() ? 'bg-background text-muted items-center justify-center' : ''`,
   },
 })
 export class Avatar {
-  src = input<string>();
-  name = input<string>();
+  readonly src = input<string>();
+  readonly name = input<string>();
+  readonly text = input<string>();
 
-  nameChar = computed(() => {
+  readonly nameChar = computed(() => {
+    // if text is present, return it
+    if (this.text()) return this.text();
+
     const name = this.name() || '';
     // split the name into words and get the first character of each word
     return name

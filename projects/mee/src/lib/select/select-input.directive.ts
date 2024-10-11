@@ -1,37 +1,34 @@
-import {
-  Directive,
-  ElementRef,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Directive, ElementRef, computed, inject, input, output, signal } from '@angular/core';
 import { Select } from './select.component';
 import { InputStyle } from '../input/input-style.directive';
+import { Autofocus } from '../utils';
 
 @Directive({
   standalone: true,
   selector: '[meeSelectInput]',
-  hostDirectives: [InputStyle],
+  hostDirectives: [InputStyle, Autofocus],
   exportAs: 'meeSelectInput',
   host: {
-    class: 'w-full mb-b !ring-0 border-b rounded-none px-b2 sticky top-0 z-10 !-m-b0.5',
+    class: 'w-full !m-0 mb-b !ring-0 !border-0 !border-b rounded-none px-b3 z-10',
     '(input)': 'updateSearch($event.target.value)',
     '[placeholder]': 'placeholder()',
     '[tabindex]': '0',
   },
 })
 export class SelectInput<T> {
-  el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  select = inject(Select, { optional: true });
-  search = signal<string>('');
-  placeholder = input('Search here');
-  meeSelectInput = output<string>();
-  options = input<T[]>([]);
-  filterFn = input<(query: string, value: T, values: T[]) => boolean>();
-  filteredOptions = computed(() => {
+  // Dependencies
+  readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  readonly select = inject(Select, { optional: true });
+
+  // Inputs
+  readonly placeholder = input('Search here');
+  readonly meeSelectInput = output<string>();
+  readonly options = input<T[]>([]);
+  readonly filterFn = input<(query: string, value: T, values: T[]) => boolean>();
+
+  // State
+  readonly search = signal<string>('');
+  readonly filteredOptions = computed(() => {
     const fn = this.filterFn();
     const options = this.options();
     const search = this.search();
@@ -43,6 +40,7 @@ export class SelectInput<T> {
   constructor() {
     this.select?.events.subscribe(event => {
       if (event === 'open') {
+        this.search.set('');
         this.el.nativeElement.focus();
       }
     });

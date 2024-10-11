@@ -8,12 +8,14 @@ import {
   query,
   animateChild,
   group,
+  stagger,
 } from '@angular/animations';
 
 export const sideAnimation: AnimationTriggerMetadata = trigger('sideAnimation', [
-  state('1', style({ transform: 'none' })),
-  state('void', style({ transform: 'translate3d(100%, 0, 0)' })),
-  state('0', style({ transform: 'translate3d(100%, 0, 0)' })),
+  state('left', style({ transform: 'translate3d(-100%, 0, 0)' })),
+  state('right', style({ transform: 'translate3d(100%, 0, 0)' })),
+  state('center', style({ transform: 'none' })),
+  transition('void => *', animate('0ms')),
   transition('* => *', animate('300ms cubic-bezier(0.55, 0.31, 0.15, 0.93)')),
 ]);
 

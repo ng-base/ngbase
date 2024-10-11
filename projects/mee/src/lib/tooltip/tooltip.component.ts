@@ -3,13 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Injector,
   OnDestroy,
-  afterRender,
+  afterNextRender,
   inject,
   signal,
 } from '@angular/core';
-import { DialogPosition, tooltipPosition } from '../portal';
+import { tooltipPosition } from '../portal';
 import { ThemeService } from '../theme';
+import { PopoverPosition } from '../popover';
 
 @Component({
   selector: 'mee-tooltip',
@@ -34,11 +36,12 @@ import { ThemeService } from '../theme';
   ],
 })
 export class TooltipComponent implements OnDestroy {
+  private injector = inject(Injector);
   content = signal('Tooltip');
   theme = inject(ThemeService);
   target!: HTMLElement;
   el = inject<ElementRef<HTMLElement>>(ElementRef);
-  position: DialogPosition = 'top';
+  position: PopoverPosition = 'top';
   hide!: VoidFunction;
   private removed = false;
   observer?: MutationObserver;
@@ -52,7 +55,7 @@ export class TooltipComponent implements OnDestroy {
     // });
   }
 
-  update(content: string, target: HTMLElement, position: DialogPosition, hide: VoidFunction) {
+  update(content: string, target: HTMLElement, position: PopoverPosition, hide: VoidFunction) {
     this.setTarget(target);
     this.hide = hide;
     this.position = position;
@@ -60,7 +63,7 @@ export class TooltipComponent implements OnDestroy {
     this.el.nativeElement.style.transition = '.15s ease-out all';
     this.content.set(content);
     // we need for the content to be set before setting the position
-    requestAnimationFrame(() => this.setPosition(target));
+    afterNextRender(() => this.setPosition(target), { injector: this.injector });
   }
 
   private setTarget(target: HTMLElement) {

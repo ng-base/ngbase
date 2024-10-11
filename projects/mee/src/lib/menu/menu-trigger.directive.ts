@@ -15,6 +15,7 @@ import { AccessibleItem } from '../a11y';
     '(click)': 'clickOpen($event)',
     '[attr.aria-expanded]': 'menuOpen()',
     '[attr.aria-haspopup]': 'true',
+    tabindex: '0',
   },
 })
 export class MenuTrigger {
@@ -28,7 +29,8 @@ export class MenuTrigger {
   readonly meeMenuTriggerData = input();
   readonly options = input<DialogOptions>({});
 
-  private readonly menuOpen = signal<boolean>(false);
+  private readonly _menuOpen = signal<boolean>(false);
+  readonly menuOpen = this._menuOpen.asReadonly();
   readonly events = new Subject<{
     event: MouseEvent;
     type: 'enter' | 'leave' | 'click';
@@ -125,21 +127,16 @@ export class MenuTrigger {
     }
     console.log('open menu', this.parent);
     const menu = this.meeMenuTrigger();
-    const { diaRef, events } = this.popover.open(
-      menu.container()!,
-      {
-        target: this.el.nativeElement,
-        position: this.parent ? 'right' : 'bl',
-        offset: 4,
-      },
-      {
-        data: this.meeMenuTriggerData(),
-        backdrop: !this.parent,
-        ...this.options(),
-        ayId: this.ayId(),
-      },
-    );
-    this.menuOpen.set(true);
+    const { diaRef, events } = this.popover.open(menu.container()!, {
+      ...this.options(),
+      data: this.meeMenuTriggerData(),
+      backdrop: !this.parent,
+      target: this.el.nativeElement,
+      position: this.parent ? 'right' : 'bl',
+      offset: 4,
+      ayId: this.ayId(),
+    });
+    this._menuOpen.set(true);
     menu.diaRef = diaRef;
     menu.opened();
     this.close = () => {
@@ -162,7 +159,7 @@ export class MenuTrigger {
       if (this.closeParent) this.parent?.close();
       this.closeParent = true;
 
-      this.close = null;
+      this.closeMenu();
     });
 
     this.parent?.diaRef?.afterClosed.subscribe(() => {
@@ -172,6 +169,7 @@ export class MenuTrigger {
 
   closeMenu() {
     this.close?.();
-    this.menuOpen.set(false);
+    this.close = null;
+    this._menuOpen.set(false);
   }
 }

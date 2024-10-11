@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { Selectable } from './selectable.component';
 import { SelectableItem } from './selectable-item.component';
-import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '../test';
 
 @Component({
+  standalone: true,
+  imports: [Selectable, SelectableItem, FormsModule],
   template: `
     <mee-selectable [(ngModel)]="selectedValue">
       <mee-selectable-item [value]="1">Item 1</mee-selectable-item>
@@ -19,24 +20,16 @@ class TestHostComponent {
 }
 
 describe('Selectable', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let view: RenderResult<TestHostComponent>;
   let selectable: Selectable<number>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [Selectable, SelectableItem, FormsModule],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    selectable = fixture.debugElement.query(By.directive(Selectable)).componentInstance;
+    view = await render(TestHostComponent);
+    selectable = view.viewChild(Selectable<number>);
+    view.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
     expect(selectable).toBeTruthy();
   });
 
@@ -51,7 +44,7 @@ describe('Selectable', () => {
 
   it('should update selected state of items when active index changes', () => {
     selectable.writeValue(2);
-    fixture.detectChanges();
+    view.detectChanges();
 
     const items = selectable.items();
     expect(items[0].selected()).toBeFalsy();
@@ -73,9 +66,9 @@ describe('Selectable', () => {
   it('should update model value when an item is selected', () => {
     const items = selectable.items();
     items[1].select();
-    fixture.detectChanges();
+    view.detectChanges();
 
-    expect(component.selectedValue).toBe(2);
+    expect(view.host.selectedValue).toBe(2);
   });
 
   it('should call onTouched when setValue is called', () => {

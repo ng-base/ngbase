@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, RenderResult } from '../test';
 import { NumberOnly } from './number-only.directive';
-import { By } from '@angular/platform-browser';
 
 describe('NumberOnly Directive', () => {
   let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+  let view: RenderResult<TestComponent>;
   let inputElement: HTMLInputElement;
 
   @Component({
@@ -32,18 +31,14 @@ describe('NumberOnly Directive', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+    view = await render(TestComponent);
+    component = view.host;
+    view.detectChanges();
+    inputElement = view.$('input');
   });
 
   it('should create an instance', () => {
-    const directive = fixture.debugElement.query(By.directive(NumberOnly));
+    const directive = view.viewChild(NumberOnly);
     expect(directive).toBeTruthy();
   });
 
@@ -86,7 +81,7 @@ describe('NumberOnly Directive', () => {
 
   it('should respect min value', () => {
     component.min = 10;
-    fixture.detectChanges();
+    view.detectChanges();
 
     // Now try to type a value that would go below min
     triggerKeyEvent('keydown', '0');
@@ -103,7 +98,7 @@ describe('NumberOnly Directive', () => {
 
   it('should respect max value', () => {
     component.max = 100;
-    fixture.detectChanges();
+    view.detectChanges();
 
     triggerKeyEvent('keydown', '9');
     triggerKeyEvent('keydown', '9');

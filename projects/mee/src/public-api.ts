@@ -35,7 +35,6 @@ export * from './lib/select';
 export * from './lib/selectable';
 export * from './lib/separator';
 export * from './lib/sheet';
-export * from './lib/shortcuts';
 export * from './lib/sidenav';
 export * from './lib/slider';
 export * from './lib/sonner';

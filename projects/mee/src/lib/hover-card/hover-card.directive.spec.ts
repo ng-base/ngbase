@@ -1,14 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HoverCard } from './hover-card.directive';
 import { Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { render, RenderResult } from '../test';
+import { HoverCard } from './hover-card.directive';
 
 jest.useFakeTimers();
 
 describe('HoverCard Directive', () => {
   let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+  let view: RenderResult<TestComponent>;
   let element: HTMLElement;
   let directive: HoverCard;
 
@@ -25,25 +24,21 @@ describe('HoverCard Directive', () => {
   class TestComponent {}
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestComponent],
-      providers: [provideNoopAnimations()],
-    }).compileComponents();
+    view = await render(TestComponent, [provideNoopAnimations()]);
+    component = view.host;
 
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    element = fixture.nativeElement.querySelector('button');
-    directive = fixture.debugElement.query(By.directive(HoverCard)).injector.get(HoverCard);
+    element = view.$('button');
+    directive = view.viewChild(HoverCard);
   });
 
   function mouseEnter(skipTimer = false) {
     element.dispatchEvent(new Event('mouseenter'));
-    fixture.detectChanges();
+    view.detectChanges();
     if (skipTimer) return;
     // run the intimer
     jest.runOnlyPendingTimers();
     // used to trigger CD in popover
-    fixture.detectChanges();
+    view.detectChanges();
   }
 
   function mouseLeave(skipTimer = false) {
@@ -53,7 +48,7 @@ describe('HoverCard Directive', () => {
     jest.runOnlyPendingTimers();
     // used to trigger CD in popover to close (reason unknown)
     jest.runOnlyPendingTimers();
-    fixture.detectChanges();
+    view.detectChanges();
   }
 
   it('should create an instance', () => {
@@ -71,7 +66,7 @@ describe('HoverCard Directive', () => {
   it('should not open the popup if the mouse leaves before the delay', () => {
     mouseEnter(true);
     mouseLeave();
-    expect(directive.outTimer).toBeFalsy();
+    expect(directive['outTimer']).toBeFalsy();
     expect(document.body.textContent).not.toContain('Hover Card');
     mouseEnter();
     expect(document.body.textContent).toContain('Hover Card');
@@ -80,10 +75,10 @@ describe('HoverCard Directive', () => {
   it('should not close the popup if the mouse enters before the delay', () => {
     mouseEnter();
     mouseLeave(true);
-    expect(directive.outTimer).toBeTruthy();
+    expect(directive['outTimer']).toBeTruthy();
     mouseEnter();
-    expect(directive.inTimer).toBeFalsy();
-    expect(directive.outTimer).toBeFalsy();
+    expect(directive['inTimer']).toBeFalsy();
+    expect(directive['outTimer']).toBeFalsy();
     expect(document.body.textContent).toContain('Hover Card');
   });
 });

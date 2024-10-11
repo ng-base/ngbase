@@ -7,6 +7,7 @@ import { TreeNode } from './tree-node.component';
   host: {
     '(click)': 'toggle()',
     '[class.invisible]': '!treeNode.hasChildren()',
+    tabIndex: '-1',
   },
 })
 export class TreeNodeToggle {

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
 import { Tab, Tabs } from '@meeui/tabs';
@@ -17,6 +25,13 @@ import { BlogsComponent } from './blogs.component';
 import { Spinner } from '@meeui/spinner';
 import { TermorComponent } from './termor.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+export function injectParams() {
+  const activatedRoute = inject(ActivatedRoute);
+  const params = toSignal(activatedRoute.params);
+  return params;
+}
 
 @Component({
   standalone: true,
@@ -129,9 +144,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ExamplesComponent {
   theme = inject(ThemeService);
-  private activatedRoute = inject(ActivatedRoute);
+  private params = injectParams();
   private route = inject(Router);
-  tabIndex = signal(+this.activatedRoute.snapshot.params['id']);
+  tabIndex = signal(+this.params()!['id']);
+
+  constructor() {
+    effect(
+      () => {
+        this.tabIndex.set(+this.params()!['id']);
+      },
+      { allowSignalWrites: true },
+    );
+  }
 
   indexChange(index: number) {
     this.route.navigate(['/examples', index]);

@@ -12,6 +12,6 @@ import { IconType, NgIconComponent } from '@ng-icons/core';
   },
 })
 export class Icon {
-  name = input.required<IconType>();
-  size = input<string>('1rem');
+  readonly name = input.required<IconType>();
+  readonly size = input<string>('1rem');
 }

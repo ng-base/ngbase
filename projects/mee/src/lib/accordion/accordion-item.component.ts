@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, input, model } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 import { generateId } from '../utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AccordionGroup } from './accordion-group.component';
@@ -35,10 +42,15 @@ import { AccordionGroup } from './accordion-group.component';
   ],
 })
 export class Accordion {
-  readonly expanded = model(false);
-  readonly id = generateId();
+  // Dependencies
+  private accordionService = inject(AccordionGroup);
 
-  accordionService = inject(AccordionGroup);
+  // Inputs
+  readonly expanded = model(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  // locals
+  readonly id = generateId();
 
   toggle() {
     this.expanded.update(v => !v);

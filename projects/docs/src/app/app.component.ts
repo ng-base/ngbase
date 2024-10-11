@@ -1,44 +1,39 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService } from '@meeui/theme';
 import { ScrollArea } from '@meeui/scroll-area';
-import { Keys } from '@meeui/keys';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Directionality, InternetAvailabilityService, isClient } from '@meeui/utils';
+import { sonnerPortal } from '@meeui/sonner';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, Button, ScrollArea],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [Keys],
+  imports: [RouterOutlet, RouterLink, Button, ScrollArea],
+  template: `<router-outlet />`,
 })
 export class AppComponent {
   themeService = inject(ThemeService);
-  keys = inject(Keys);
-  num = signal(1);
-  readonly value = input<number>();
+  direction = inject(Directionality);
+  internetAvailabilityService = inject(InternetAvailabilityService);
+  sonner = sonnerPortal();
+  isClient = isClient();
 
   constructor() {
-    this.num.set(2);
-    this.num.set(3);
+    let initialStatus = this.internetAvailabilityService.isCurrentlyOnline();
 
-    const numbers$ = toObservable(this.num);
-    numbers$.subscribe(value => {
-      console.log(value);
-    });
-
-    this.num.set(4);
-    this.num.set(5);
-
-    // change the theme when the user presses ctrl+d
-    this.keys.event('ctrl+d').subscribe(([active, event]) => {
-      if (active) {
-        event.preventDefault();
-        this.themeService.toggle();
-      }
-    });
+    if (this.isClient) {
+      this.internetAvailabilityService.addListener(status => {
+        console.log('Internet availability changed:', status);
+        if (status === initialStatus) return;
+        initialStatus = status;
+        if (status) {
+          this.sonner.message('Internet', { description: 'Internet connection restored' });
+        } else {
+          this.sonner.error('Internet', { description: 'Internet connection lost' });
+        }
+      });
+    }
   }
 }

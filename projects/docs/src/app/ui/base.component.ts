@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService, ThemeButton } from '@meeui/theme';
@@ -16,6 +16,9 @@ import { Card } from '@meeui/card';
 import { NavComponent } from './nav-header.component';
 import { AppService } from '../app.service';
 import { Heading } from '@meeui/typography';
+import { Directionality } from '@meeui/utils';
+import { Switch } from '../../../../mee/src/lib/switch/switch.component';
+import { Spinner } from '../../../../mee/src/lib/spinner/spinner.component';
 
 @Component({
   selector: 'mee-base',
@@ -39,12 +42,14 @@ import { Heading } from '@meeui/typography';
     NavComponent,
     Heading,
     ThemeButton,
+    Switch,
+    Spinner,
   ],
   providers: [AppService],
   viewProviders: [provideIcons({ lucideMenu })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="fixed top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
+    <nav class="sticky top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
       <div class="flex h-full items-center justify-between">
         <div class="flex items-center gap-b2 text-lg">
           <button meeButton variant="ghost" (click)="toggleShow()" class="h-8 w-8">
@@ -64,11 +69,15 @@ import { Heading } from '@meeui/typography';
             Theme
           </button>
           <mee-theme-button meeTourStep="theme-toggle"></mee-theme-button>
-          <mee-avatar
+          <button meeButton variant="ghost" (click)="dir.toggleDirection()">
+            {{ dir.isRtl() ? 'RTL' : 'LTR' }}
+          </button>
+          <button
+            meeAvatar
             class="h-full w-7"
             src="https://avatars.dicebear.com/api/avataaars/1.svg"
             [meeMenuTrigger]="profileMenu"
-          ></mee-avatar>
+          ></button>
         </div>
       </div>
     </nav>
@@ -80,7 +89,7 @@ import { Heading } from '@meeui/typography';
     </mee-menu>
 
     <mee-scroll-area>
-      <mee-sidenav [show]="showSideMenu()">
+      <mee-sidenav>
         <mee-sidenav-header class="w-56">
           <app-nav class="tour-nav block w-56" meeTourStep></app-nav>
         </mee-sidenav-header>
@@ -88,21 +97,24 @@ import { Heading } from '@meeui/typography';
           <div class="p-b4">
             <router-outlet></router-outlet>
           </div>
-
-          <!-- <mee-ui [show]="showSideMenu()"></mee-ui> -->
+          <!-- <div class="flex h-full h-screen w-full items-center justify-center">
+            <mee-spinner></mee-spinner>
+          </div> -->
         </div>
       </mee-sidenav>
     </mee-scroll-area>
+    <!-- <mee-ui [show]="showSideMenu()"></mee-ui> -->
   `,
   host: {
-    class: 'block pt-b13',
+    class: 'block',
   },
 })
 export class BaseComponent {
   themeService = inject(ThemeService);
-  showSideMenu = signal(true);
+  dir = inject(Directionality);
+  sideNav = viewChild.required(Sidenav);
 
   toggleShow() {
-    this.showSideMenu.update(x => !x);
+    this.sideNav().toggle();
   }
 }

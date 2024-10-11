@@ -3,10 +3,16 @@ import { Button } from '@meeui/button';
 import { DialogClose, DialogTitle, dialogPortal, DialogRef } from '@meeui/dialog';
 import { AppService } from './app.service';
 import { AddService } from './add.service';
+import { Option, Select } from '@meeui/select';
 
 @Component({
   selector: 'app-add',
   template: `
+    <mee-select>
+      <mee-option value="1">1</mee-option>
+      <mee-option value="2">2</mee-option>
+      <mee-option value="3">3</mee-option>
+    </mee-select>
     <p class="text-muted-foreground">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime velit eveniet animi odio
       laboriosam ad ea nulla sunt dolorem iure quod dolores nesciunt, delectus consequatur a
@@ -35,7 +41,7 @@ import { AddService } from './add.service';
   standalone: true,
   providers: [AddService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DialogClose, DialogTitle],
+  imports: [Button, DialogClose, DialogTitle, Select, Option],
   styles: `
     :host {
       display: block;

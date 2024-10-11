@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
+  Injector,
   ViewContainerRef,
   afterNextRender,
   effect,
@@ -10,21 +10,9 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { BaseDialog, DialogOptions, DialogPosition, tooltipPosition } from '../portal';
+import { BaseDialog, tooltipPosition } from '../portal';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import {
-  EMPTY,
-  Observable,
-  debounceTime,
-  fromEvent,
-  map,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { DOCUMENT } from '@angular/common';
-import { OverlayConfig } from '../portal/utils';
+import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { DragMove } from '../drag';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
@@ -32,19 +20,18 @@ import { Icon } from '../icon';
 import { AccessibleGroup } from '../a11y';
 import { createHostAnimation } from '../dialog/dialog.animation';
 import { FocusTrap } from '../utils';
+import { PopoverPosition, PopoverOptions } from './popover.service';
 
 @Component({
   selector: 'mee-popover',
   standalone: true,
-  imports: [DragMove, Icon, AccessibleGroup],
+  imports: [DragMove, Icon, AccessibleGroup, FocusTrap],
   providers: [provideIcons({ lucideX })],
   template: ` <div
       #container
-      class="menu-container pointer-events-auto fixed z-10 rounded-base border bg-foreground shadow-md"
-      [class]="[
-        tooltipOptions.anchor ? 'popover-anchor' : 'overflow-auto',
-        tooltipOptions.className,
-      ]"
+      [meeFocusTrap]="options().focusTrap"
+      class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md"
+      [class]="[options().anchor ? 'popover-anchor' : 'overflow-auto', options().className]"
       [@slideInOutAnimation]
     >
       @if (options().title) {
@@ -57,7 +44,7 @@ import { FocusTrap } from '../utils';
           <mee-icon name="lucideX" (click)="close()" class="cursor-pointer"></mee-icon>
         </div>
       }
-      <div class="p-b">
+      <div class="flex flex-1 flex-col overflow-auto">
         <ng-container #myDialog></ng-container>
       </div>
     </div>
@@ -65,8 +52,8 @@ import { FocusTrap } from '../utils';
       <div
         #backdropElement
         class="pointer-events-auto fixed top-0 h-full w-full"
-        [style.clipPath]="tooltipOptions.clipPath?.()"
-        [class]="tooltipOptions.backdropClassName"
+        [style.clipPath]="options().clipPath?.()"
+        [class]="options().backdropClassName"
         (click)="!options().disableClose && close()"
       ></div>
     }`,
@@ -76,7 +63,6 @@ import { FocusTrap } from '../utils';
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },
-  hostDirectives: [FocusTrap],
   styles: [
     `
       .popover-anchor {
@@ -112,12 +98,12 @@ import { FocusTrap } from '../utils';
   ],
 })
 export class Popover extends BaseDialog {
+  private injector = inject(Injector);
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
   backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
-  options = signal<DialogOptions>({});
-  tooltipOptions!: OverlayConfig;
-  private lastPosition: DialogPosition = 'top';
+  options = signal<PopoverOptions>({} as PopoverOptions);
+  private lastPosition: PopoverPosition = 'top';
   scrolled = signal(0);
 
   events: Observable<{ type: string; value: any }> = this._afterViewSource.pipe(
@@ -146,14 +132,15 @@ export class Popover extends BaseDialog {
     effect(
       cleanup => {
         const el = this.container()!.nativeElement;
-        const target = this.target() || this.tooltipOptions.target;
         const options = this.options();
-        if (this.tooltipOptions.anchor) {
-          this.tooltipOptions.offset = 16;
+        const target = this.getTarget();
+        console.log('target', target);
+        if (options.anchor) {
+          options.offset = 16;
         }
-        this.lastPosition = this.tooltipOptions.position || 'bottom';
+        this.lastPosition = options.position || 'bottom';
         // this.schedulePopoverUpdate(target, el);
-        if (this.tooltipOptions.smoothScroll) {
+        if (options.smoothScroll) {
           // target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
           // fromEvent(window, 'scroll')
@@ -200,15 +187,19 @@ export class Popover extends BaseDialog {
     );
   }
 
+  override getTarget(): HTMLElement {
+    return this.target() || this.options().target;
+  }
+
   private scheduleUpdateDimension = () => {
-    requestAnimationFrame(() => this.updateDimension());
+    afterNextRender(() => this.updateDimension(), { injector: this.injector });
   };
 
-  private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement, options: DialogOptions) {
-    this.tooltipOptions.target = target;
-    if (options.backdrop) {
-      // this.onOpen();
-    }
+  private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement, options: PopoverOptions) {
+    // this.options().target = target;
+    // if (options.backdrop) {
+    //   this.onOpen();
+    // }
     if (options.width === 'target') {
       // update the width of the container to be the same as the target
       el.style.width = `${target.offsetWidth}px`;
@@ -229,7 +220,7 @@ export class Popover extends BaseDialog {
 
   private updateDimension() {
     const el = this.container()!.nativeElement;
-    const target = this.tooltipOptions.target;
+    const target = this.getTarget();
     if (!target) {
       return;
     }
@@ -237,11 +228,11 @@ export class Popover extends BaseDialog {
       target,
       el,
       position: this.lastPosition,
-      client: this.tooltipOptions.client,
-      offset: this.tooltipOptions.offset,
+      client: this.options().client,
+      offset: this.options().offset,
     });
     // change the anchor position
-    if (this.tooltipOptions.anchor) {
+    if (this.options().anchor) {
       this.updateAnchorPosition(position, el, target);
     }
     this.lastPosition = position;
@@ -262,7 +253,7 @@ export class Popover extends BaseDialog {
     }
   }
 
-  private updateAnchorPosition(position: DialogPosition, el: HTMLElement, target: HTMLElement) {
+  private updateAnchorPosition(position: PopoverPosition, el: HTMLElement, target: HTMLElement) {
     let deg = '0deg';
     let anchorTop = '50%';
     let anchorLeft = '50%';
@@ -302,7 +293,8 @@ export class Popover extends BaseDialog {
     // console.log('updateAnchorPosition', position, deg);
   }
 
-  override setOptions(options: DialogOptions): void {
+  override setOptions(options: PopoverOptions): void {
+    // console.log('setOptions', options);
     this.options.set(options);
   }
 }

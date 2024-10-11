@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DragMove, Drag, DropDirective, DragHandle } from '@meeui/drag';
+import { DragMove, Drag, DragDrop, DragHandle } from '@meeui/drag';
 import { moveItemInArray } from '@meeui/drag/drop.directive';
 import { Icon } from '@meeui/icon';
 import { Heading } from '@meeui/typography';
@@ -9,18 +9,67 @@ import { lucideGripVertical } from '@ng-icons/lucide';
 @Component({
   standalone: true,
   selector: 'app-drag',
-  imports: [DragMove, DropDirective, Drag, Heading, DragHandle, Icon],
+  imports: [DragMove, DragDrop, Drag, Heading, DragHandle, Icon],
   providers: [provideIcons({ lucideGripVertical })],
   template: `
     <h4 meeHeader="sm" class="mb-b5">Drag and Drop</h4>
-    <div class="flex h-96 w-96 items-center justify-center overflow-hidden bg-background">
-      <div meeDragMove class="grid h-20 w-20 place-items-center border bg-foreground">Drag me</div>
+    <div class="parent flex h-96 w-96 items-center justify-center border bg-background">
+      <div
+        meeDragMove
+        dragBoundary=".parent"
+        class="grid h-20 w-20 place-items-center border bg-foreground"
+      >
+        Drag me
+      </div>
     </div>
 
-    <div meeDrop (orderChanged)="drop($event)" class="w-96 overflow-hidden rounded-base border">
-      @for (item of todo; track item) {
-        <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
-          <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-b" />
+    <div class="flex gap-b4">
+      <div meeDrop (orderChanged)="drop($event)" class="drop-list mt-10 w-96 rounded-base border">
+        @for (item of todo; track item) {
+          <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
+            <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-b" />
+            {{ item }}
+          </div>
+        }
+      </div>
+      <div meeDrop (orderChanged)="drop($event)" class="drop-list mt-10 w-96 rounded-base border">
+        @for (item of todo; track item) {
+          <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
+            <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-b" />
+            {{ item }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- horizontal drag -->
+    <div
+      meeDrop
+      (orderChanged)="gridDrop($event)"
+      class="drop-parent mt-10 inline-flex rounded-base border"
+    >
+      @for (item of grid; track item) {
+        <div
+          class="flex h-9 w-9 items-center justify-center border-r bg-foreground p-b2"
+          meeDrag
+          dragBoundary=".drop-parent"
+        >
+          {{ item }}
+        </div>
+      }
+    </div>
+
+    <div
+      meeDrop
+      (orderChanged)="gridDrop($event)"
+      class="drop-parent-1 mt-10 grid w-96 grid-cols-3 rounded-base border"
+    >
+      @for (item of grid; track item) {
+        <div
+          class="flex items-center border-b bg-foreground p-b2"
+          meeDrag
+          dragBoundary=".drop-parent-1"
+        >
           {{ item }}
         </div>
       }
@@ -40,7 +89,15 @@ export class DragComponent {
     'Episode IX – The Rise of Skywalker',
   ];
 
+  grid = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   drop(event: { previousIndex: number; currentIndex: number }) {
+    console.log(event);
     moveItemInArray(this.todo, event.previousIndex, event.currentIndex);
+  }
+
+  gridDrop(event: { previousIndex: number; currentIndex: number }) {
+    console.log(event);
+    moveItemInArray(this.grid, event.previousIndex, event.currentIndex);
   }
 }

@@ -1,25 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { render, RenderResult } from '@meeui/test';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
+  let view: RenderResult<AppComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    view = await render(AppComponent);
+    component = view.host;
+    view.detectChanges();
   });
 
   it('should create the app', () => {
     expect(component).toBeTruthy();
-    fixture.componentRef.setInput('value', 5);
-    expect(component.value()).toBe(5);
   });
 });

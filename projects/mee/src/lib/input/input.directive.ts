@@ -23,7 +23,7 @@ import { InputStyle } from './input-style.directive';
   hostDirectives: [InputStyle],
 })
 export class Input implements ControlValueAccessor {
-  value = signal<any>('');
+  readonly value = signal<any>('');
   onChange = (value: string) => {};
   onTouched = () => {};
 

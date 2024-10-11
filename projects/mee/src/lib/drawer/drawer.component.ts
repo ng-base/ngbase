@@ -76,7 +76,7 @@ export class Drawer extends BaseDialog {
   override setOptions(options: DialogOptions): void {
     this.options = options;
     this.classNames = this.options.classNames?.join(' ') || '';
-    this.isHideHeader = this.options.isHideHeader || false;
+    this.isHideHeader = this.options.header || false;
     this.backdropColor = this.options.backdropColor || true;
   }
 }

@@ -52,7 +52,7 @@ import { DocCode } from './code.component';
         <label meeLable class="flex w-52 flex-col">
           Date 2 calendars
           <input
-            [formControl]="date"
+            [(ngModel)]="dateRange"
             placeholder="Date"
             meeDatepickerTrigger
             [noOfCalendars]="2"
@@ -99,9 +99,11 @@ import { DocCode } from './code.component';
 })
 export class DatepickerComponent {
   date = new FormControl();
+  rangeDate: Date[] = [];
   time24 = signal('');
   time = signal('10:12:02 AM');
   show = signal(true);
+  dateRange = signal(['2024-10-01T00:00:00.000Z', '2024-10-31T23:59:59.999Z']);
 
   tsCode = `
   import { Component } from '@angular/core';

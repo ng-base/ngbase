@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Spinner } from '@meeui/spinner';
 import { Heading } from '@meeui/typography';
 import { DocCode } from './code.component';
@@ -10,8 +10,13 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="spinnerPage">Spinner</h4>
     <app-doc-code [tsCode]="tsCode">
-      <mee-spinner />
+      @if (showRoot()) {
+        <mee-spinner>Loading...</mee-spinner>
+      }
     </app-doc-code>
+    <!-- @if (showRoot()) {
+      <mee-spinner [root]="true" />
+    } -->
   `,
 })
 export class SpinnerComponent {
@@ -29,4 +34,13 @@ export class SpinnerComponent {
   })
   export class AppComponent { }
   `;
+
+  showRoot = signal(true);
+
+  constructor() {
+    // toggle root mode every 2 seconds
+    // setInterval(() => {
+    //   this.showRoot.update(showRoot => !showRoot);
+    // }, 2000);
+  }
 }

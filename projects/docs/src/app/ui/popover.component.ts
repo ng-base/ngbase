@@ -73,10 +73,12 @@ export class PopoverComponent {
   `;
 
   openPopover(event: MouseEvent) {
-    this.popoverPortal.open(
-      AddComponent,
-      { target: event.target as HTMLElement },
-      { width: '25rem', maxHeight: '30vh', title: 'Add', backdrop: false },
-    );
+    this.popoverPortal.open(AddComponent, {
+      target: event.target as HTMLElement,
+      width: '25rem',
+      maxHeight: '30vh',
+      title: 'Add',
+      backdrop: false,
+    });
   }
 }

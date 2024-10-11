@@ -171,11 +171,8 @@ export class DatePicker<D> {
         this.hoveredDate.set(null);
       } else if (dates[0]) {
         dates[1] = date;
+        this.hoveredDate.set(date);
       }
-      // else {
-      //   dates[0] = date;
-      //   this.hoveredDate.set(null);
-      // }
     } else {
       dates = [date, null];
     }

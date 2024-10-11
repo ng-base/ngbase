@@ -69,21 +69,21 @@ import {
       </div>
       <mee-menu #music>
         <button meeOption>About Music</button>
-        <button meeOption>Preferences <mee-key>⇧⌘P</mee-key></button>
+        <button meeOption>Preferences <mee-key meeKey="⇧⌘P" /></button>
         <button meeOption>Hide Music</button>
         <button meeOption>Hide Others</button>
       </mee-menu>
 
       <mee-menu #file>
         <button meeOption>New</button>
-        <button meeOption>Open Stream URL <mee-key>⇧⌘P</mee-key></button>
+        <button meeOption>Open Stream URL <mee-key meeKey="⇧⌘P" /></button>
         <button meeOption>Close Window</button>
         <button meeOption>LibraryImport</button>
         <button meeOption>Burn Playlist to Disc</button>
-        <button meeOption>Show in Finder <mee-key>⇧⌘P</mee-key></button>
+        <button meeOption>Show in Finder <mee-key meeKey="⇧⌘P" /></button>
         <mee-separator class="my-b" />
         <button meeOption>Convert</button>
-        <button meeOption>Page Setup <mee-key>⇧⌘P</mee-key></button>
+        <button meeOption>Page Setup <mee-key meeKey="⇧⌘P" /></button>
         <button meeOption>Print</button>
       </mee-menu>
 
@@ -125,7 +125,7 @@ import {
       <div class="flex">
         <div class="w-52 flex-none p-b4">
           <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Discover</h4>
-          <div class="py-2">
+          <div class="flex flex-col py-2">
             <button meeList class="bg-muted-background font-medium">
               <mee-icon name="lucideCirclePlay" />Listen Now
             </button>
@@ -134,7 +134,7 @@ import {
           </div>
 
           <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Library</h4>
-          <div class="py-2">
+          <div class="flex flex-col py-2">
             <button meeList class="font-medium"><mee-icon name="lucideListMusic" />Playlist</button>
             <button meeList class="font-medium"><mee-icon name="lucideMusic2" /> Songs</button>
             <button meeList class="font-medium"><mee-icon name="lucideUser" /> Made for You</button>

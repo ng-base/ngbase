@@ -30,16 +30,20 @@ import { FocusTrap } from '../utils';
       <div
         #myDialog
         [@viewAnimation]
-        class="pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden rounded-base border bg-foreground shadow-lg"
+        class="pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg"
         [ngClass]="[
-          options.fullWindow ? 'h-screen w-screen border-none' : 'max-w-[calc(100vw-30px)]',
+          options.fullWindow
+            ? 'h-screen w-screen border-none'
+            : 'max-w-[calc(100vw-30px)] rounded-base',
           classNames,
         ]"
         [ngStyle]="{
-          width: options.width,
-          height: options.height,
-          maxWidth: options.maxWidth,
-          maxHeight: options.maxHeight || '96vh',
+          width: options.fullWindow ? '100vw' : options.width,
+          height: options.fullWindow ? '100vh' : options.height,
+          maxWidth: options.fullWindow ? '100vw' : options.maxWidth,
+          maxHeight: options.fullWindow ? '100vh' : options.maxHeight || '96vh',
+          minHeight: options.minHeight,
+          minWidth: options.minWidth,
         }"
       >
         @if (!isHideHeader) {
@@ -50,7 +54,13 @@ import { FocusTrap } from '../utils';
           >
             <h2 class="flex-1 text-base font-bold">{{ options.title }}</h2>
             @if (!options.disableClose) {
-              <button meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
+              <button
+                type="button"
+                meeButton
+                variant="ghost"
+                class="-mr-b2 !p-b2"
+                (click)="close()"
+              >
                 <mee-icon name="lucideX"></mee-icon>
               </button>
             }
@@ -103,7 +113,7 @@ export class Dialog extends BaseDialog {
   override setOptions(options: DialogOptions) {
     this.options = options;
     this.classNames = this.options.classNames?.join(' ') || '';
-    this.isHideHeader = this.options.isHideHeader || false;
+    this.isHideHeader = this.options.header || false;
     this.backdropColor = this.options.backdropColor || true;
   }
 }

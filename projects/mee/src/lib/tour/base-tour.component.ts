@@ -13,13 +13,13 @@ import {
 } from '@angular/core';
 import { TourService } from './tour.service';
 import { Button } from '../button';
-import { BaseDialog, DialogPosition } from '../portal';
-import { OverlayConfig, tooltipPosition } from '../portal/utils';
+import { BaseDialog } from '../portal';
+import { tooltipPosition } from '../portal/utils';
 import { DialogOptions } from '../dialog';
-import { DOCUMENT } from '@angular/common';
 import { fromEvent, debounce, debounceTime, delay, startWith, take } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
+import { PopoverOptions, PopoverPosition } from '../popover';
 
 @Component({
   standalone: true,
@@ -56,8 +56,8 @@ export class BaseTour extends BaseDialog implements OnDestroy {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });
   container = viewChild<ElementRef<HTMLElement>>('container');
   options!: DialogOptions;
-  tooltipOptions!: OverlayConfig;
-  private lastPosition: DialogPosition = 'top';
+  tooltipOptions!: PopoverOptions;
+  private lastPosition: PopoverPosition = 'top';
   scrolled = signal(0);
 
   clipPath = computed(() => {

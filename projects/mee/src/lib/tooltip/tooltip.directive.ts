@@ -9,8 +9,12 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { TooltipService, tooltipPortal } from './tooltip.service';
-import { DialogPosition } from '../portal';
+import { TooltipService } from './tooltip.service';
+import { PopoverPosition } from '../popover';
+
+export function provideTooltipDefaultOptions(options: TooltipDefaultOptions) {
+  return { provide: TOOLTIP_DEFAULT_OPTIONS, useValue: options };
+}
 
 export const TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<TooltipDefaultOptions>(
   'TOOLTIP_DEFAULT_OPTIONS',
@@ -19,25 +23,26 @@ export const TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<TooltipDefaultOptions>
 export interface TooltipDefaultOptions {
   showDelay?: number;
   hideDelay?: number;
-  position?: DialogPosition;
+  position?: PopoverPosition;
 }
 
 @Directive({
   standalone: true,
   selector: '[meeTooltip]',
-  // host: {
-  //   '(mouseenter)': 'show()',
-  //   '(mouseleave)': 'hide()',
-  // },
 })
 export class Tooltip implements OnDestroy {
+  // Dependencies
   private defaultOptions = inject(TOOLTIP_DEFAULT_OPTIONS, { optional: true });
-  el = inject(ElementRef);
-  tooltipService = inject(TooltipService);
-  meeTooltip = input<string>();
-  meeTooltipPosition = input<DialogPosition>();
-  delay = input(0);
-  options = computed(() => {
+  private el = inject(ElementRef);
+  private tooltipService = inject(TooltipService);
+
+  // Inputs
+  readonly meeTooltip = input<string>();
+  readonly meeTooltipPosition = input<PopoverPosition>();
+  readonly delay = input(0);
+
+  // State
+  readonly options = computed(() => {
     const o = this.defaultOptions || {};
     const options: TooltipDefaultOptions = {
       showDelay: this.delay() || o.showDelay || 0,

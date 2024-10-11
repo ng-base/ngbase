@@ -34,6 +34,7 @@ import {
   lucideReplyAll,
   lucideForward,
   lucideSquareDot,
+  lucideEllipsisVertical,
 } from '@ng-icons/lucide';
 
 @Component({
@@ -81,6 +82,7 @@ import {
       lucideReplyAll,
       lucideForward,
       lucideSquareDot,
+      lucideEllipsisVertical,
     }),
   ],
   template: `
@@ -210,7 +212,7 @@ import {
                 class="h-9 w-9 flex-none !p-0"
                 [meeMenuTrigger]="mailOptions"
               >
-                <mee-icon name="lucideSquareDot" />
+                <mee-icon name="lucideEllipsisVertical" />
               </button>
 
               <mee-menu #mailOptions>

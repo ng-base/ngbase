@@ -32,15 +32,13 @@ export class ColorPickerTrigger {
   effectRef?: EffectRef;
 
   open() {
-    const { diaRef, childSignal } = this.popover.open(
-      ColorPicker,
-      {
-        target: this.el.nativeElement,
-        position: 'bl',
-        offset: 0,
-      },
-      { data: { format: this.format(), presetColors: this.presetColors() }, width: '255px' },
-    );
+    const { diaRef, childSignal } = this.popover.open(ColorPicker, {
+      target: this.el.nativeElement,
+      position: 'bl',
+      offset: 0,
+      data: { format: this.format(), presetColors: this.presetColors() },
+      width: '255px',
+    });
     this.effectRef?.destroy();
 
     this.effectRef = effect(

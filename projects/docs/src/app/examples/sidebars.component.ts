@@ -93,7 +93,7 @@ import {
       <mee-sidenav>
         <mee-sidenav-header class="w-64 border-r bg-foreground">
           <div class="flex h-full w-64 flex-col">
-            <mee-select placeholder="Acme corp" class="m-b2 !ring-0" [(ngModel)]="user">
+            <mee-select placeholder="Acme corp" class="m-b2" [(ngModel)]="user">
               <div meeSelectTrigger class="flex items-center gap-1">
                 <mee-icon name="lucideEclipse" class="rounded bg-text p-1 text-foreground" />
                 <span>{{ user }}</span>
@@ -108,7 +108,7 @@ import {
                 Search
               </button>
               <ng-template #subMenu>
-                <div class="ml-2 border-l pl-2">
+                <div class="ml-2 flex flex-col border-l pl-2">
                   <button meeList class="text-muted hover:bg-transparent">History</button>
                   <button meeList class="text-muted hover:bg-transparent">Starred</button>
                   <button meeList class="text-muted hover:bg-transparent">Settings</button>
@@ -116,46 +116,66 @@ import {
               </ng-template>
               <mee-accordion-group multiple>
                 <mee-accordion #ac1 class="border-none" [expanded]="true">
-                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
+                  <button meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideSquareTerminal" />
                     Playground
                     <mee-icon
-                      class="ml-auto"
-                      [name]="ac1.expanded() ? 'lucideChevronDown' : 'lucideChevronRight'"
+                      class="ml-auto transition-transform"
+                      [class.rotate-90]="ac1.expanded()"
+                      name="lucideChevronRight"
                     />
-                  </h4>
+                  </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion class="border-none">
-                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
+                <mee-accordion #ac2 class="border-none">
+                  <button meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideBot" />
                     Models
-                    <mee-icon class="ml-auto" name="lucideChevronRight" />
-                  </h4>
+                    <mee-icon
+                      class="ml-auto transition-transform"
+                      [class.rotate-90]="ac2.expanded()"
+                      name="lucideChevronRight"
+                    />
+                  </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion class="border-none">
-                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
+                <mee-accordion #ac3 class="border-none">
+                  <button meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideBook" />
                     Documentation
-                    <mee-icon class="ml-auto" name="lucideChevronRight" />
-                  </h4>
+                    <mee-icon
+                      class="ml-auto transition-transform"
+                      [class.rotate-90]="ac3.expanded()"
+                      name="lucideChevronRight"
+                    />
+                  </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion class="border-none">
-                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
+                <mee-accordion #ac4 class="border-none">
+                  <button
+                    meeAccordionHeader
+                    class="flex items-center gap-b2 !px-0 focus:ring-offset-2"
+                  >
                     <mee-icon name="lucideCode" />
                     API
-                    <mee-icon class="ml-auto" name="lucideChevronRight" />
-                  </h4>
+                    <mee-icon
+                      class="ml-auto transition-transform"
+                      [class.rotate-90]="ac4.expanded()"
+                      name="lucideChevronRight"
+                    />
+                  </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion class="border-none">
-                  <h4 meeAccordionHeader class="flex items-center gap-b2 !px-0">
+                <mee-accordion #ac5 class="border-none">
+                  <button meeAccordionHeader class="flex items-center gap-b2 !px-0">
                     <mee-icon name="lucideSettings2" />
                     Settings
-                    <mee-icon class="ml-auto" name="lucideChevronRight" />
-                  </h4>
+                    <mee-icon
+                      class="ml-auto transition-transform"
+                      [class.rotate-90]="ac5.expanded()"
+                      name="lucideChevronRight"
+                    />
+                  </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
               </mee-accordion-group>

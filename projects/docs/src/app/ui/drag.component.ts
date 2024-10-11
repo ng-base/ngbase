@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { DragMove, Drag, DragDrop, DragHandle } from '@meeui/drag';
-import { moveItemInArray } from '@meeui/drag/drop.directive';
+import { DragMove, Drag, DragDrop, DragHandle, moveItemInArray } from '@meeui/drag';
 import { Icon } from '@meeui/icon';
 import { Heading } from '@meeui/typography';
 import { provideIcons } from '@ng-icons/core';

@@ -2,7 +2,6 @@
  * Public API Surface of drag
  */
 
-export * from './drag.component';
-export * from './drag.directive';
-export * from './drag-move.directive';
-export * from './drop.directive';
+export * from './drag';
+export * from './drag-move';
+export * from './drag-drop';

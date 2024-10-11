@@ -1,3 +1,3 @@
-export * from './sidenav.component';
-export * from './sidenav-content.component';
-export * from './sidenav-header.component';
+export * from './sidenav';
+export * from './sidenav-content';
+export * from './sidenav-header';

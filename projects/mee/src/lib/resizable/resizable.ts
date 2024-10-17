@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { DragData, Drag } from '../drag';
 import { Subscription } from 'rxjs';
-import { DOCUMENT, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ResizableGroup } from './resizable-group';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
@@ -52,14 +52,14 @@ import { Icon } from '../icon';
   viewProviders: [provideIcons({ lucideGripVertical })],
 })
 export class Resizable implements OnDestroy {
-  el = inject<ElementRef<HTMLElement>>(ElementRef);
-  resizable = inject(ResizableGroup);
-  containerRef = inject(ViewContainerRef);
-  drag = viewChild(Drag);
-  size = model<number | string>('auto');
-  dragElement = viewChild('dragElement', { read: TemplateRef });
+  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly resizable = inject(ResizableGroup);
+  readonly containerRef = inject(ViewContainerRef);
+  readonly drag = viewChild(Drag);
+  readonly size = model<number | string>('auto');
+  readonly dragElement = viewChild('dragElement', { read: TemplateRef });
+  readonly draggable = signal(false);
   reducedSize = 0;
-  draggable = signal(false);
   index = 0;
   sub?: Subscription;
   str = '';

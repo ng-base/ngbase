@@ -1,4 +1,4 @@
-import { TooltipComponent } from './tooltip.component';
+import { TooltipComponent } from './tooltip';
 import { DialogInput, basePortal } from '../portal';
 import { ComponentRef, Injectable } from '@angular/core';
 import { PopoverPosition } from '../popover';

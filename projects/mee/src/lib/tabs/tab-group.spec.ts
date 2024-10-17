@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { Tabs } from './tab-group';
 import { Tab, TabHeader, TabLazy } from './tab';
 import { render, RenderResult } from '../test';
@@ -13,8 +13,12 @@ describe('Tabs Component', () => {
     selector: 'app-lazy',
     template: '',
   })
-  class LazyComponent {
-    id = Date.now();
+  class LazyComponent implements OnDestroy {
+    id? = Date.now();
+
+    ngOnDestroy() {
+      this.id = undefined;
+    }
   }
 
   @Component({
@@ -31,7 +35,7 @@ describe('Tabs Component', () => {
             <p>Custom {{ tab.content }}</p>
           </mee-tab>
         }
-        <mee-tab>
+        <mee-tab mode="lazy">
           <app-lazy *meeTabLazy></app-lazy>
         </mee-tab>
       </mee-tabs>
@@ -174,6 +178,14 @@ describe('Tabs Component', () => {
     const tab = activeTab();
     expect(tab?.textContent?.trim()).toBe('Tab 2');
     expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle the lazy mode', () => {
+    clickTab(tabs().length - 1);
+    const lazyComponent = view.viewChild(LazyComponent);
+    expect(lazyComponent.id).toBeDefined();
+    clickTab(0);
+    expect(lazyComponent.id).toBeUndefined();
   });
 
   // Add more tests as needed

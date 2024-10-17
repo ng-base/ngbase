@@ -142,7 +142,7 @@ import {
             <button meeList class="font-medium"><mee-icon name="lucideLibrary" /> Albums</button>
           </div>
         </div>
-        <mee-separator orientation="vertical" />
+        <mee-separator vertical />
         <div class="flex-1 overflow-hidden p-b4">
           <div class="flex justify-between">
             <mee-selectable [activeIndex]="0">

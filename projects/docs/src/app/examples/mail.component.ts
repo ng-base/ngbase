@@ -185,7 +185,7 @@ import {
               >
                 <mee-icon name="lucideTrash2" />
               </button>
-              <mee-separator orientation="vertical" />
+              <mee-separator vertical />
               <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Snooze">
                 <mee-icon name="lucideClock" />
               </button>
@@ -205,7 +205,7 @@ import {
               <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Forward">
                 <mee-icon name="lucideForward" />
               </button>
-              <mee-separator orientation="vertical" />
+              <mee-separator vertical />
               <button
                 meeButton
                 variant="ghost"

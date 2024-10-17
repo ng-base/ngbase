@@ -1,15 +1,13 @@
 import {
   Directive,
-  OnDestroy,
   afterNextRender,
   contentChildren,
   effect,
-  inject,
   signal,
   untracked,
 } from '@angular/core';
-import { List } from './list.component';
-import { DOCUMENT } from '@angular/common';
+import { List } from './list';
+import { documentListener } from '@meeui/utils';
 
 @Directive({
   standalone: true,
@@ -25,18 +23,15 @@ export class ListStyle {}
   standalone: true,
   selector: '[meeActionGroup]',
 })
-export class ListActionGroup implements OnDestroy {
-  private readonly document = inject(DOCUMENT);
+export class ListActionGroup {
   readonly options = contentChildren(List, { descendants: true });
 
   private readonly activeIndex = signal<List | undefined>(undefined);
   private readonly optionsMap = new WeakMap<List, number>();
 
   constructor() {
-    afterNextRender(() => {
-      this.document.addEventListener('keydown', this.handleKeyDown);
-      this.afterAction();
-    });
+    documentListener('keydown', this.handleKeyDown);
+    afterNextRender(() => this.afterAction());
 
     effect(
       () => {
@@ -72,12 +67,6 @@ export class ListActionGroup implements OnDestroy {
   private afterAction(lastIndex?: List) {
     const option = this.activeIndex();
     lastIndex?.unselect();
-    if (option) {
-      option.focus();
-    }
-  }
-
-  ngOnDestroy() {
-    this.document.removeEventListener('keydown', this.handleKeyDown);
+    option?.focus();
   }
 }

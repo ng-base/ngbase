@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  forwardRef,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, input, model } from '@angular/core';
 import { ColorPickerTrigger } from './color-picker-trigger';
 import { InputStyle } from '../input';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -52,7 +45,7 @@ export class ColorInput implements ControlValueAccessor {
   // value = signal('hsb(215, 91%, 100%)');
   format = input<ColorFormat>('hex');
   presetColors = input<string[]>();
-  value = signal('');
+  value = model<string>('');
 
   onChange = (value: string) => {};
   onTouched = () => {};

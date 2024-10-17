@@ -1,7 +1,46 @@
-import { computed, signal } from '@angular/core';
-
+import {
+  computed,
+  DestroyRef,
+  inject,
+  Injector,
+  runInInjectionContext,
+  signal,
+} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 export function generateId() {
   return Math.random().toString(36).substring(7);
+}
+
+export function cleanup(fn: () => void) {
+  inject(DestroyRef).onDestroy(fn);
+}
+
+export function documentListener<T extends Event>(
+  ev: string,
+  fn: (e: T) => void,
+  data: Partial<AddEventListenerOptions & { injector?: Injector; lazy?: boolean }> = {},
+) {
+  const { injector = inject(Injector), lazy = false, ...listenerOptions } = data;
+  let active = false;
+  const controller = { on: () => {}, off: () => {} };
+
+  controller.on = () => {
+    if (active) return;
+    active = true;
+    runInInjectionContext(injector, () => {
+      const document = inject(DOCUMENT);
+      document.addEventListener(ev, fn as any, listenerOptions);
+
+      controller.off = () => {
+        active = false;
+        document.removeEventListener(ev, fn as any);
+      };
+      cleanup(controller.off);
+    });
+  };
+
+  if (!lazy) controller.on();
+  return controller;
 }
 
 export function filterFunction<T, V = T>(

@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AccessiblityService } from './accessiblity.service';
-import { AccessibleGroup } from './accessiblity-group.directive';
+import { AccessibleGroup } from './accessiblity-group';
 import { injectService } from '../test';
 
 describe('AccessibilityService', () => {

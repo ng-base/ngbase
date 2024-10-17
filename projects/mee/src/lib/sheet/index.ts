@@ -3,4 +3,4 @@
  */
 
 export * from './sheet.service';
-export * from './sheet.component';
+export * from './sheet';

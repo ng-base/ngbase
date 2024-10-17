@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { TourStep } from './tour-step.directive';
+import { TourStep } from './tour-step';
 import { DialogInput } from '../portal';
 import { PopoverOpen, popoverPortal } from '../popover';
 

@@ -2,4 +2,4 @@
  * Public API Surface of separator
  */
 
-export * from './separator.component';
+export * from './separator';

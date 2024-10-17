@@ -27,12 +27,28 @@ import { DocCode } from './code.component';
     <app-doc-code [tsCode]="tsCode">
       <label meeLabel>
         Hex color
-        <mee-color-input [(ngModel)]="hexColor" [presetColors]="['#ffffff', '#2889e9']" />
+        <mee-color-input
+          [(ngModel)]="hexColor"
+          [presetColors]="[
+            '#000000',
+            '#93c5fd',
+            '#86efac',
+            '#fde68a',
+            '#fca5a5',
+            '#c4b5fd',
+            '#fbcfe8',
+            '#5eead4',
+            '#fdba74',
+            '#a5b4fc',
+            '#d6b4a7',
+            '#cbd5e1',
+          ]"
+        />
       </label>
 
       <label meeLabel>
         RGB color
-        <mee-color-input [format]="'rgb'" [(ngModel)]="rgbColor" />
+        <mee-color-input [format]="'rgb'" [(value)]="rgbColor" />
       </label>
     </app-doc-code>
   `,

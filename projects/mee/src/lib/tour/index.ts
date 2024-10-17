@@ -1,3 +1,3 @@
-export * from './tour-step.directive';
-export * from './tour.component';
+export * from './tour-step';
+export * from './tour';
 export * from './tour.service';

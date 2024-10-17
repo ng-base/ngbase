@@ -1,6 +1,6 @@
 import { ComponentRef, inject, Injectable } from '@angular/core';
 import { basePortal, DialogRef } from '../portal';
-import { Sonner, SonnerData, SonnerType } from './sonner.component';
+import { Sonner, SonnerData, SonnerType } from './sonner';
 
 @Injectable({ providedIn: 'root' })
 export class SonnerService {

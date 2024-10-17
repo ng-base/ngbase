@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ToggleItem } from './toggle-item';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AccessibleGroup } from '../a11y/accessiblity-group.directive';
+import { AccessibleGroup } from '../a11y/accessiblity-group';
 import { generateId } from '../utils';
 
 @Component({

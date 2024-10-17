@@ -1,48 +1,18 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { AccessibleItem } from './accessiblity-item.directive';
-import { AccessibleGroup } from './accessiblity-group.directive';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, signal } from '@angular/core';
+import { AccessibleGroup } from './accessiblity-group';
+import { documentListener } from '@meeui/utils';
 
 @Injectable({ providedIn: 'root' })
 export class AccessiblityService {
-  private readonly document = inject(DOCUMENT);
-  // readonly elements = signal(new Map<string, AccessibleItem[]>());
   readonly groups = signal(new Map<string, AccessibleGroup>());
   private activeGroupOrder: string[] = [];
   usingMouse = false;
 
   constructor() {
-    this.document.addEventListener(
-      'keydown',
-      () => {
-        this.usingMouse = false;
-      },
-      { capture: true },
-    );
-
-    this.document.addEventListener(
-      'mousedown',
-      () => {
-        this.usingMouse = true;
-      },
-      { capture: true },
-    );
-
-    this.document.addEventListener(
-      'mousemove',
-      () => {
-        this.usingMouse = true;
-      },
-      { capture: true },
-    );
+    documentListener('keydown', () => (this.usingMouse = false), { capture: true });
+    documentListener('mousedown', () => (this.usingMouse = true), { capture: true });
+    documentListener('mousemove', () => (this.usingMouse = true), { capture: true });
   }
-
-  // register(key: string, element: AccessibleItem) {
-  //   this.elements.update(x => {
-  //     const elements = x.get(key) || [];
-  //     return new Map([...x, [key, [...elements, element]]]);
-  //   });
-  // }
 
   setActiveGroup(id: string) {
     // remove id from activeGroupOrder
@@ -65,18 +35,6 @@ export class AccessiblityService {
     const id = this.activeGroupOrder[this.activeGroupOrder.length - 2];
     return this.groups().get(id);
   }
-
-  // unregister(key: string, element: AccessibleItem) {
-  //   this.elements.update(x => {
-  //     const elements = x.get(key) || [];
-  //     return new Map([...x, [key, elements.filter(el => el !== element)]]);
-  //   });
-  // }
-
-  // items(key: string) {
-  //   const els = this.elements();
-  //   return els.get(key) || [];
-  // }
 
   getGroup(key: string) {
     return this.groups().get(key);

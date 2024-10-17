@@ -3,5 +3,5 @@
  */
 
 export * from './popover.service';
-export * from './popover.component';
-export * from './popover-trigger.directive';
+export * from './popover';
+export * from './popover-trigger';

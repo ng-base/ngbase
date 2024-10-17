@@ -24,7 +24,7 @@ export class FocusTrap {
 
         if (!initialFocus && this.focusInitial()) {
           initialFocus = true;
-          console.log('focusInitial', this.el.nativeElement);
+          // console.log('focusInitial', this.el.nativeElement);
           this.firstFocusableElement?.focus();
         }
 

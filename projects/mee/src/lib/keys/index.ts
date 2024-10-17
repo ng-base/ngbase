@@ -3,5 +3,5 @@
  */
 
 export * from './keys.service';
-export * from './key.component';
+export * from './key';
 export * from './shortcuts.service';

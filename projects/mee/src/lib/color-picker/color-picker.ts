@@ -28,7 +28,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Drag],
   template: `
-    <div class="flex w-full flex-col gap-b">
+    <div class="flex w-full flex-col">
       <div class="relative overflow-hidden">
         <div
           meeDrag
@@ -42,14 +42,14 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
           class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
         ></button>
       </div>
-      <div class="flex gap-b4 p-b2">
+      <div class="flex gap-b4 p-b3">
         <div #selectedColor class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
         <div class="flex flex-1 flex-col gap-b4">
           <div class="relative">
             <div
               meeDrag
               #hueDiv="meeDrag"
-              class="hue-div h-[12px] w-full"
+              class="hue-div h-b3 w-full"
               style="inset: 0px; background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 255, 255), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 0, 0));"
             ></div>
             <button
@@ -63,7 +63,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
             <div
               meeDrag
               #alphaDiv="meeDrag"
-              class="alpha-div h-[12px] w-full"
+              class="alpha-div h-b3 w-full"
               style="inset: 0px; background: linear-gradient(to right, rgba(255, 0, 4, 0), var(--spectrum-color));"
             ></div>
             <button
@@ -75,7 +75,7 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
         </div>
       </div>
       @if (presetColors().length) {
-        <div class="flex flex-wrap gap-2 border-t p-b2 pt-b3">
+        <div class="flex flex-wrap gap-b2 border-t p-b2 pt-b3">
           @for (color of presetColors(); track color) {
             <button
               type="button"
@@ -169,7 +169,8 @@ export class ColorPicker {
     dragElement.events.subscribe(event => {
       if (event.type === 'start' || event.type === 'move') {
         this.handleColorEvent(event.event! as PointerEvent, dragElement.el, updateFunction);
-      } else if (event.type === 'end') {
+        // If we want to avoid emitting the value on every move,
+        // we can add a flag to emit only when the event is 'end'
         this.valueChange.emit(this.localValue);
       }
     });

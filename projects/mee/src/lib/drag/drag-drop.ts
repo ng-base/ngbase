@@ -71,9 +71,7 @@ export class DragDrop {
       'transitionend',
       () => {
         element.style.zIndex = '';
-      },
-      { once: true },
-    );
+    element.style.position = '';
   }
 
   private rearrangeItems(dragger: Drag, newIndex: number) {
@@ -143,4 +141,15 @@ export function moveItemInArray<T>(array: T[], fromIndex: number, toIndex: numbe
   }
 
   array[toIndex] = item;
+}
+
+export function transferArrayItem<T>(
+  fromArray: T[],
+  toArray: T[],
+  fromIndex: number,
+  toIndex: number,
+): void {
+  const item = fromArray[fromIndex];
+  fromArray.splice(fromIndex, 1);
+  toArray.splice(toIndex, 0, item);
 }

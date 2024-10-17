@@ -1,9 +1,9 @@
-import { Dialog } from './dialog.component';
+import { DialogContainer } from './dialog';
 import { DialogInput, DialogOptions, basePortal } from '../portal';
 
 export function dialogPortal() {
   const NAME = 'dialog';
-  const base = basePortal(NAME, Dialog);
+  const base = basePortal(NAME, DialogContainer);
 
   function open<T>(component: DialogInput, opt?: DialogOptions) {
     const { diaRef } = base.open(
@@ -22,3 +22,5 @@ export function dialogPortal() {
   }
   return { open, closeAll };
 }
+
+export type Dialog = ReturnType<typeof dialogPortal>;

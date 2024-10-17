@@ -8,14 +8,14 @@ const internetAvailabilityInterceptor: HttpInterceptorFn = (req, next) => {
   const internetAvailabilityService = inject(InternetAvailabilityService);
   const isBrowser = isClient();
 
-  if (isBrowser && !internetAvailabilityService.isCurrentlyOnline()) {
+  if (isBrowser && !internetAvailabilityService.isOnline()) {
     console.error('No internet connection');
     throw 'No internet connection';
   }
 
   return next(req).pipe(
     catchError(error => {
-      if (isBrowser && !internetAvailabilityService.isCurrentlyOnline()) {
+      if (isBrowser && !internetAvailabilityService.isOnline()) {
         console.error('Lost internet connection during request');
         // You can implement custom error handling here
       }

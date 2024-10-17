@@ -1,3 +1,3 @@
-export * from './carousel.component';
-export * from './carousel-item.directive';
-export * from './carousel-next.directive';
+export * from './carousel';
+export * from './carousel-item';
+export * from './carousel-next';

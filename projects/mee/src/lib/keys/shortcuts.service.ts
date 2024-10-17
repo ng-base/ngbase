@@ -1,6 +1,5 @@
 import { DestroyRef, inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
-import { generateId, isClient } from '../utils';
-import { DOCUMENT } from '@angular/common';
+import { documentListener, generateId, isClient } from '../utils';
 
 const IGNORED_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const SHORTCUT_MAP: Record<string, string> = {
@@ -35,7 +34,6 @@ export class Shortcuts {
   private readonly shortcuts = new Map<string, Shortcut[]>();
   private isActive = false;
   private isClient = isClient();
-  private document = inject(DOCUMENT);
 
   on(keyCombination: string, data: Shortcut): void {
     const parsedKey = this.getParsedKey(keyCombination);
@@ -112,6 +110,7 @@ export class Shortcuts {
       }
     }
   };
+  private keydown = documentListener('keydown', this.handleKeyEvent, { lazy: true });
 
   private shouldIgnoreEvent(event: KeyboardEvent): boolean {
     const target = event.target as HTMLElement;
@@ -137,14 +136,14 @@ export class Shortcuts {
   private turnOff() {
     if (this.isClient && this.shortcuts.size === 0 && this.isActive) {
       this.isActive = false;
-      this.document.removeEventListener('keydown', this.handleKeyEvent);
+      this.keydown.off();
     }
   }
 
   private turnOn() {
     if (this.isClient && this.shortcuts.size > 0 && !this.isActive) {
       this.isActive = true;
-      this.document.addEventListener('keydown', this.handleKeyEvent);
+      this.keydown.on();
     }
   }
 }

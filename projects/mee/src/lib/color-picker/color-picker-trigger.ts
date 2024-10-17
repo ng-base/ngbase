@@ -10,9 +10,7 @@ import {
   untracked,
 } from '@angular/core';
 import { ColorFormat, ColorPicker } from './color-picker';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { popoverPortal } from '../popover';
-import { Subscription } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -25,10 +23,10 @@ export class ColorPickerTrigger {
   private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private popover = popoverPortal();
   private injector = inject(Injector);
+
   readonly format = input<ColorFormat>('hex');
   readonly presetColors = input<string[]>();
-  value = model<string>();
-  sub?: Subscription;
+  readonly value = model<string>();
   effectRef?: EffectRef;
 
   open() {
@@ -42,11 +40,7 @@ export class ColorPickerTrigger {
     this.effectRef?.destroy();
 
     this.effectRef = effect(
-      cleanup => {
-        cleanup(() => {
-          this.sub?.unsubscribe();
-          this.sub = undefined;
-        });
+      () => {
         const colorPicker = childSignal()?.instance as ColorPicker;
         if (colorPicker) {
           untracked(() => {

@@ -4,7 +4,7 @@ import { Card } from '@meeui/card';
 import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
 import { Button } from '@meeui/button';
 import { Heading } from '@meeui/typography';
-import { Growable, Input } from '@meeui/input';
+import { AutoHeight, Input } from '@meeui/input';
 import { Menu, MenuTrigger } from '@meeui/menu';
 import { List } from '@meeui/list';
 import { ToggleGroup } from '@meeui/toggle-group';
@@ -34,7 +34,7 @@ import { Key } from '@meeui/keys';
     Button,
     Heading,
     Input,
-    Growable,
+    AutoHeight,
     Menu,
     MenuTrigger,
     List,
@@ -71,7 +71,7 @@ import { Key } from '@meeui/keys';
       <div class="flex p-b4">
         <textarea
           meeInput
-          growable
+          meeAutoHeight
           [(ngModel)]="prompt"
           class="min-h-[500px] flex-1"
           placeholder="Write a tagline for an ice cream shop"

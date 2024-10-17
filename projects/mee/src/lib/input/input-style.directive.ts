@@ -7,6 +7,6 @@ import { FocusStyle } from '../checkbox/focus-style.directive';
   host: {
     class: 'inline-block text-left rounded-base bg-foreground px-3 py-b2 border m-b0.5 font-normal',
   },
-  hostDirectives: [FocusStyle],
+  hostDirectives: [{ directive: FocusStyle, inputs: ['unfocus'] }],
 })
 export class InputStyle {}

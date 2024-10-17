@@ -29,7 +29,7 @@ import { AccordionGroup } from './accordion-group';
     }
   `,
   host: {
-    class: 'block',
+    class: 'block will-change-auto',
   },
   exportAs: 'meeAccordionItem',
   animations: [

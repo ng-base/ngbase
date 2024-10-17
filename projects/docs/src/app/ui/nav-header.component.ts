@@ -164,6 +164,7 @@ export class NavComponent implements OnInit {
     { name: 'Tour', link: 'tour' },
     { name: 'Tree', link: 'tree' },
     { name: 'Typography', link: 'typography' },
+    { name: 'Inline Edit', link: 'inline-edit' },
   ];
 
   sortComponentList = this.componentList.sort((a, b) => a.name.localeCompare(b.name));

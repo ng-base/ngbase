@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService } from '@meeui/theme';
@@ -21,7 +21,7 @@ export class AppComponent {
   isClient = isClient();
 
   constructor() {
-    let initialStatus = this.internetAvailabilityService.isCurrentlyOnline();
+    let initialStatus = this.internetAvailabilityService.isOnline();
 
     if (this.isClient) {
       this.internetAvailabilityService.addListener(status => {

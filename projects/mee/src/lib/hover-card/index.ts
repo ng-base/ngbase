@@ -2,4 +2,4 @@
  * Public API Surface of hover-card
  */
 
-export * from './hover-card.directive';
+export * from './hover-card';

@@ -6,7 +6,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Growable, Input, TextareaGrowableComponent } from '@meeui/input';
+import { AutoHeight, Input } from '@meeui/input';
 import { Card } from '@meeui/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/button';
@@ -43,8 +43,7 @@ interface Health {
   imports: [
     Input,
     Card,
-    Growable,
-    TextareaGrowableComponent,
+    AutoHeight,
     FormsModule,
     ReactiveFormsModule,
     Button,
@@ -81,22 +80,13 @@ interface Health {
               @switch (item.id) {
                 @case ('0') {
                   <h4 meeHeader class="pb-b4">Health</h4>
-                  <table
-                    meeTable
-                    [data]="healthList()"
-                    [trackBy]="trackByFn"
-                    class="overflow-auto"
-                  >
+                  <table meeTable [data]="healthList()" [trackBy]="trackByFn" class="overflow-auto">
                     @for (column of columns(); track column) {
                       <ng-container [meeRow]="column">
                         <th class="whitespace-nowrap" meeHead *meeHeadDef>
                           {{ column }}
                         </th>
-                        <td
-                          class="whitespace-nowrap"
-                          meeCell
-                          *meeCellDef="let element"
-                        >
+                        <td class="whitespace-nowrap" meeCell *meeCellDef="let element">
                           {{ element[column] }}
                         </td>
                       </ng-container>

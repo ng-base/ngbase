@@ -13,9 +13,9 @@ import { DocCode } from './code.component';
     <h4 meeHeading class="mb-b5">Simple List</h4>
 
     <app-doc-code [tsCode]="code">
-      <mee-list>Option 1</mee-list>
-      <mee-list>Option 2</mee-list>
-      <mee-list>Option 3</mee-list>
+      <button meeList>Option 1</button>
+      <button meeList>Option 2</button>
+      <button meeList>Option 3</button>
 
       <h4 meeHeading class="my-b5">Multi List</h4>
       <mee-list-selection multiple>
@@ -37,9 +37,9 @@ export class ListComponent {
     selector: 'app-root',
     imports: [List, Option, ListSelection],
     template: \`
-      <mee-list>Option 1</mee-list>
-      <mee-list>Option 2</mee-list>
-      <mee-list>Option 3</mee-list>
+      <button meeList>Option 1</button>
+      <button meeList>Option 2</button>
+      <button meeList>Option 3</button>
 
       <mee-list-selection multiple>
         <mee-option [value]="1">Option 1</mee-option>

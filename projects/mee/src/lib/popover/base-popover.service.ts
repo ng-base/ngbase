@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { DialogInput, basePortal } from '../portal';
-import { Popover } from './popover.component';
+import { Popover } from './popover';
 import { PopoverOptions } from './popover.service';
 
 export function basePopoverPortal<T>(component: Type<T>) {

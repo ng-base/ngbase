@@ -78,7 +78,7 @@ import { PopoverTrigger } from '@meeui/popover';
             <mee-icon name="lucidePen" class="mr-b2"></mee-icon> Disable Document Set Edit
           </button>
         </div>
-        <mee-separator orientation="vertical"></mee-separator>
+        <mee-separator vertical></mee-separator>
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Document</h4>
           <button meeOption>
@@ -92,7 +92,7 @@ import { PopoverTrigger } from '@meeui/popover';
             <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View as
           </button>
         </div>
-        <mee-separator orientation="vertical"></mee-separator>
+        <mee-separator vertical></mee-separator>
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Actions</h4>
           <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Export</button>
@@ -110,7 +110,7 @@ import { PopoverTrigger } from '@meeui/popover';
           </button>
           <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Rescore</button>
         </div>
-        <mee-separator orientation="vertical"></mee-separator>
+        <mee-separator vertical></mee-separator>
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Settings</h4>
           <button meeOption>

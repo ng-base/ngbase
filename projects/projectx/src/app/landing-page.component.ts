@@ -1,18 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  signal,
-  inject,
-} from '@angular/core';
-import { Growable, Input, TextareaGrowableComponent } from '@meeui/input';
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { AutoHeight, Input } from '@meeui/input';
 import { Card } from '@meeui/card';
-import {
-  FormBuilder,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/button';
 import { Spinner } from '@meeui/spinner';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,39 +10,16 @@ import { Heading } from '@meeui/typography';
 @Component({
   standalone: true,
   selector: 'mee-landing-page',
-  imports: [
-    Input,
-    Card,
-    Growable,
-    Heading,
-    TextareaGrowableComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    Button,
-    Spinner,
-  ],
+  imports: [Input, Card, AutoHeight, Heading, FormsModule, ReactiveFormsModule, Button, Spinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <mee-card class="m-4">
       <p class="mb-b4 text-center" meeHeader="md">Welcome to Sikkim AI</p>
-      <form
-        [formGroup]="form"
-        class="mx-auto flex max-w-96 flex-col justify-center"
-      >
+      <form [formGroup]="form" class="mx-auto flex max-w-96 flex-col justify-center">
         <label for="name" class="mb-1">Name</label>
-        <input
-          meeInput
-          formControlName="name"
-          class="mb-4"
-          placeholder="Enter your name"
-        />
+        <input meeInput formControlName="name" class="mb-4" placeholder="Enter your name" />
         <label for="phone" class="mb-1">Phone</label>
-        <input
-          meeInput
-          formControlName="phone"
-          class="mb-4"
-          placeholder="Enter phone no"
-        />
+        <input meeInput formControlName="phone" class="mb-4" placeholder="Enter phone no" />
         <label for="address" class="mb-1">Address</label>
         <textarea
           meeInput

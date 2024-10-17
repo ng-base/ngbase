@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { ToggleGroup } from './toggle-group';
-import { AccessibleItem } from '../a11y/accessiblity-item.directive';
+import { AccessibleItem } from '../a11y/accessiblity-item';
 
 @Component({
   standalone: true,

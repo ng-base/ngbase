@@ -1,4 +1,4 @@
-import { Alert, AlertOptions } from './alert.component';
+import { Alert, AlertOptions } from './alert';
 import { DialogInput, DialogOptions } from '../portal';
 import { dialogPortal } from '../dialog';
 

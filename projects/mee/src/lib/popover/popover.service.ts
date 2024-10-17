@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { DialogInput, DialogOptions, DialogRef } from '../portal';
 import { basePopoverPortal } from './base-popover.service';
-import { Popover } from './popover.component';
+import { Popover } from './popover';
 import { Signal, WritableSignal } from '@angular/core';
 
 export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';

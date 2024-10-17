@@ -12,15 +12,13 @@ import {
 import { TooltipService } from './tooltip.service';
 import { PopoverPosition } from '../popover';
 
-export function provideTooltipDefaultOptions(options: TooltipDefaultOptions) {
-  return { provide: TOOLTIP_DEFAULT_OPTIONS, useValue: options };
+export function provideTooltipOptions(options: TooltipOptions) {
+  return { provide: TOOLTIP_OPTIONS, useValue: options };
 }
 
-export const TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<TooltipDefaultOptions>(
-  'TOOLTIP_DEFAULT_OPTIONS',
-);
+export const TOOLTIP_OPTIONS = new InjectionToken<TooltipOptions>('TOOLTIP_OPTIONS');
 
-export interface TooltipDefaultOptions {
+export interface TooltipOptions {
   showDelay?: number;
   hideDelay?: number;
   position?: PopoverPosition;
@@ -32,7 +30,7 @@ export interface TooltipDefaultOptions {
 })
 export class Tooltip implements OnDestroy {
   // Dependencies
-  private defaultOptions = inject(TOOLTIP_DEFAULT_OPTIONS, { optional: true });
+  private defaultOptions = inject(TOOLTIP_OPTIONS, { optional: true });
   private el = inject(ElementRef);
   private tooltipService = inject(TooltipService);
 
@@ -44,7 +42,7 @@ export class Tooltip implements OnDestroy {
   // State
   readonly options = computed(() => {
     const o = this.defaultOptions || {};
-    const options: TooltipDefaultOptions = {
+    const options: TooltipOptions = {
       showDelay: this.delay() || o.showDelay || 0,
       hideDelay: o.hideDelay || 0,
       position: this.meeTooltipPosition() || o.position || 'top',

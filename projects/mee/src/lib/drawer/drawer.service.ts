@@ -1,9 +1,9 @@
 import { DialogInput, DialogOptions, basePortal } from '../portal';
-import { Drawer } from './drawer.component';
+import { DrawerContainer } from './drawer';
 
 export function drawerPortal() {
   const NAME = 'sheet';
-  const base = basePortal(NAME, Drawer);
+  const base = basePortal(NAME, DrawerContainer);
 
   function open<T>(component: DialogInput, opt?: DialogOptions) {
     const { diaRef } = base.open(
@@ -23,3 +23,5 @@ export function drawerPortal() {
   }
   return { open, closeAll };
 }
+
+export type Drawer = ReturnType<typeof drawerPortal>;

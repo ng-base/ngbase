@@ -79,10 +79,11 @@ export class MeeNativeDateAdapter implements MeeAdpterInterface<Date> {
       mm: () => this.pad(d.getMinutes()),
       ss: () => this.pad(d.getSeconds()),
       SSS: () => this.pad(d.getMilliseconds(), 3),
+      ISO: () => d.toISOString(),
       a: () => (d.getHours() < 12 ? 'AM' : 'PM'),
     };
 
-    const regex = /\b(?:yyyy|YYYY|yy|MMM|MM|M|DD|dd|d|HH|H|hh|h|mm|ss|SSS|a)\b/g;
+    const regex = /\b(?:yyyy|YYYY|yy|MMM|MM|M|DD|dd|d|HH|H|hh|h|mm|ss|SSS|a|ISO)\b/g;
     return format.replace(regex, match => formatters[match]?.() ?? match);
   }
 

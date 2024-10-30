@@ -80,7 +80,7 @@ class TreeFlatNode<T> {
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
-            ></mee-icon>
+            />
           </button>
           {{ item.name }}
           <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>

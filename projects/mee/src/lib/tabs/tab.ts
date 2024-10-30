@@ -9,7 +9,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 import { NgTemplateOutlet } from '@angular/common';
 
 @Directive({
@@ -25,14 +25,14 @@ export class TabHeader {}
 export class TabLazy {}
 
 @Component({
-  selector: 'mee-tab',
   standalone: true,
+  selector: 'mee-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   template: `@if (active() && lazy()) {
-      <ng-container *ngTemplateOutlet="lazy()!"></ng-container>
+      <ng-container *ngTemplateOutlet="lazy()!" />
     } @else if (activeMode()) {
-      <ng-content></ng-content>
+      <ng-content />
     }`,
   exportAs: 'meeTab',
   host: {
@@ -54,7 +54,7 @@ export class Tab {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly mode = input<'hidden' | 'lazy'>();
   readonly value = input<string | number>();
-  readonly id = generateId();
+  readonly id = uniqueId();
   readonly index = signal(0);
   readonly tabId = computed(() => this.value() ?? this.index());
 

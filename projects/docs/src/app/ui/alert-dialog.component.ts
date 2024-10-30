@@ -1,9 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
 import { alertPortal } from '@meeui/alert';
 import { Button } from '@meeui/button';
-import { createHighlighter } from 'shiki';
 import { DocCode } from './code.component';
 
 @Component({
@@ -13,7 +12,7 @@ import { DocCode } from './code.component';
   template: `
     <!-- <p>Components</p> -->
     <h4 meeHeader="sm" class="mb-5" id="alertDialogPage">Alert Dialog</h4>
-    <app-doc-code [tsCode]="tsCode" [htmlCode]="htmlCode">
+    <app-doc-code [tsCode]="tsCode">
       <button meeButton (click)="openAlert()">Open alert</button>
     </app-doc-code>
     <!-- <mee-selectable [(activeIndex)]="selected" class="mb-b2 text-xs">
@@ -39,17 +38,13 @@ import { DocCode } from './code.component';
 })
 export class AlertDialogComponent {
   alert = alertPortal();
-  htmlCode = `
-      <button (click)="openAlert()">Open alert</button>
-    `;
-
   tsCode = `
   import { alertPortal } from '@meeui/alert';
 
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`<button (click)="openAlert()">Open alert</button>\`,
   })
   export class AppComponent {
     alert = alertPortal();

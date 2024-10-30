@@ -11,7 +11,7 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="breadcrumbPage">Breadcrumbs</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <mee-breadcrumbs>
         <ng-template meeBreadcrumbsSeparator>/</ng-template>
         <mee-breadcrumb>Home</mee-breadcrumb>
@@ -22,7 +22,15 @@ import { DocCode } from './code.component';
   `,
 })
 export class BreadcrumbComponent {
-  htmlCode = `
+  tsCode = `
+  import { Component } from '@angular/core';
+  import { Breadcrumbs, Breadcrumb } from '@meeui/breadcrumb';
+
+  @Component({
+    standalone: true,
+    selector: 'app-root',
+    imports: [Breadcrumbs, Breadcrumb],
+    template: \`
       <mee-breadcrumbs>
         <mee-breadcrumb>
           <a>Home</a>
@@ -34,17 +42,7 @@ export class BreadcrumbComponent {
           <a>Items</a>
         </mee-breadcrumb>
       </mee-breadcrumbs>
-    `;
-
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { Breadcrumbs, Breadcrumb } from '@meeui/breadcrumb';
-
-  @Component({
-    standalone: true,
-    selector: 'app-root',
-    imports: [Breadcrumbs, Breadcrumb],
-    template: \`${this.htmlCode}\`,
+    \`,
   })
   export class AppComponent { }
   `;

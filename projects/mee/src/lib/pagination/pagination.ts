@@ -11,8 +11,8 @@ import { Icon } from '../icon';
 import { Option, Select } from '../select';
 
 @Component({
-  selector: 'mee-pagination',
   standalone: true,
+  selector: 'mee-pagination',
   imports: [Button, Icon, Select, Option],
   viewProviders: [
     provideIcons({
@@ -43,7 +43,7 @@ import { Option, Select } from '../select';
         (click)="goto(0)"
         class="h-b8 w-b8 !p-b2"
       >
-        <mee-icon name="lucideChevronsLeft"></mee-icon>
+        <mee-icon name="lucideChevronsLeft" />
       </button>
       <button
         type="button"
@@ -54,7 +54,7 @@ import { Option, Select } from '../select';
         aria-label="Go to previous page"
         class="h-b8 w-b8 !p-b2"
       >
-        <mee-icon name="lucideChevronLeft"></mee-icon>
+        <mee-icon name="lucideChevronLeft" />
       </button>
       @if (showPage()) {
         @for (item of items(); track item) {
@@ -80,7 +80,7 @@ import { Option, Select } from '../select';
         aria-label="Go to next page"
         class="h-b8 w-b8 !p-b2"
       >
-        <mee-icon name="lucideChevronRight"></mee-icon>
+        <mee-icon name="lucideChevronRight" />
       </button>
       <button
         type="button"
@@ -90,7 +90,7 @@ import { Option, Select } from '../select';
         (click)="jump(total() - 1)"
         class="h-b8 w-b8 !p-b2"
       >
-        <mee-icon name="lucideChevronsRight"></mee-icon>
+        <mee-icon name="lucideChevronsRight" />
       </button>
     </div>
   `,

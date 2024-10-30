@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
@@ -83,7 +83,7 @@ export class Sonner {
   messages = signal<SonnerMessage[]>([]);
 
   addMessage(message: string, type: SonnerType, data?: SonnerData) {
-    const id = generateId();
+    const id = uniqueId();
     const { timeout = 3000 } = data ?? {};
 
     // push the new message to the top of the list

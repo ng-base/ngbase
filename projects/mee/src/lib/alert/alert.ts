@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Button, ButtonVariant } from '../button';
 import { DialogRef } from '../portal';
-import { Heading } from '../typography';
 
 export interface AlertOptions {
   title?: string;
@@ -17,7 +16,7 @@ export interface AlertOptions {
   standalone: true,
   selector: 'mee-alert',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Heading],
+  imports: [Button],
   template: `
     <h4 class="mb-b2 text-base font-bold">{{ data?.title }}</h4>
     <p class="text-muted-foreground pb-b3">{{ data?.description }}</p>

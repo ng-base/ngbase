@@ -1,8 +1,7 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
 import { PopoverOptions, popoverPortal } from '../popover';
 import { Menu } from './menu';
-import { DialogOptions } from '../dialog';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 
 @Directive({
   standalone: true,
@@ -19,7 +18,7 @@ export class MentionTrigger {
   el = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
   private popover = popoverPortal();
   private close?: VoidFunction;
-  private ayId = generateId();
+  private ayId = uniqueId();
 
   open() {
     // open the menu in a position where the cursor is at '@' character

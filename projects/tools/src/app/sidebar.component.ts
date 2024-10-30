@@ -15,4 +15,4 @@ import { List } from '@meeui/list';
     </mee-card>
   `,
 })
-export class SidebarComponent { }
+export class SidebarComponent {}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { Selectable } from './selectable';
 import { AccessibleItem } from '../a11y';
 
@@ -18,12 +18,16 @@ import { AccessibleItem } from '../a11y';
   hostDirectives: [AccessibleItem],
 })
 export class SelectableItem<T> {
-  readonly allyItem = inject(AccessibleItem);
-  selectable: Selectable<T> = inject(Selectable);
-  selected = signal(false);
-  value = input.required<T>();
+  readonly selectable: Selectable<T> = inject(Selectable);
+  readonly value = input.required<T>();
+
+  readonly selected = computed(() => this.value() === this.selectable.activeIndex());
+
+  constructor() {
+    inject(AccessibleItem).ayId.set(this.selectable.ayId);
+  }
 
   select() {
-    // ...implemented in Selectable
+    this.selectable.setValue(this.value());
   }
 }

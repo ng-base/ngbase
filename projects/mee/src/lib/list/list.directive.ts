@@ -33,18 +33,15 @@ export class ListActionGroup {
     documentListener('keydown', this.handleKeyDown);
     afterNextRender(() => this.afterAction());
 
-    effect(
-      () => {
-        const _ = this.options();
-        _.forEach((x, i) => this.optionsMap.set(x, i));
-        untracked(() => {
-          const lastIndex = this.activeIndex();
-          this.activeIndex.set(_[0]);
-          this.afterAction(lastIndex);
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const options = this.options();
+      options.forEach((x, i) => this.optionsMap.set(x, i));
+      untracked(() => {
+        const lastIndex = this.activeIndex();
+        this.activeIndex.set(options[0]);
+        this.afterAction(lastIndex);
+      });
+    });
   }
 
   private handleKeyDown = (event: KeyboardEvent) => {

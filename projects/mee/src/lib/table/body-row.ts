@@ -17,7 +17,7 @@ import { Row } from './column';
 @Component({
   standalone: true,
   selector: '[meeBodyRow]',
-  template: `<ng-container #container></ng-container>`,
+  template: `<ng-container #container />`,
   host: {
     class: '[&:not(:last-child)]:border-b hover:bg-muted-background h-b12',
   },
@@ -31,45 +31,42 @@ export class BodyRow implements OnDestroy {
   rowDef = inject(BodyRowDef);
 
   constructor() {
-    effect(
-      () => {
-        const data = this.def;
-        const rows = this.table.rows();
-        // Remove rows that are no longer in the definition
-        this.ref.forEach((ref, row) => {
-          if (!rows.includes(row)) {
-            ref.destroy();
-            this.ref.delete(row);
-          }
-        });
+    effect(() => {
+      const data = this.def;
+      const rows = this.table.rows();
+      // Remove rows that are no longer in the definition
+      this.ref.forEach((ref, row) => {
+        if (!rows.includes(row)) {
+          ref.destroy();
+          this.ref.delete(row);
+        }
+      });
 
-        const cols = this.rowDef.meeBodyRowDefColumns();
-        rows.forEach(row => {
-          if (!cols?.includes(row.meeRow())) {
-            if (this.ref.has(row)) {
-              const ref = this.ref.get(row);
-              ref!.destroy();
-              this.ref.delete(row);
-            }
-            return;
-          }
+      const cols = this.rowDef.meeBodyRowDefColumns();
+      rows.forEach(row => {
+        if (!cols?.includes(row.meeRow())) {
           if (this.ref.has(row)) {
             const ref = this.ref.get(row);
-            ref!.context.$implicit = data;
-            ref!.markForCheck();
-            return;
+            ref!.destroy();
+            this.ref.delete(row);
           }
+          return;
+        }
+        if (this.ref.has(row)) {
+          const ref = this.ref.get(row);
+          ref!.context.$implicit = data;
+          ref!.markForCheck();
+          return;
+        }
 
-          const ref = untracked(() => {
-            return this.container()!.createEmbeddedView(row.cells()!, {
-              $implicit: data,
-            });
+        const ref = untracked(() => {
+          return this.container()!.createEmbeddedView(row.cells()!, {
+            $implicit: data,
           });
-          this.ref.set(row, ref);
         });
-      },
-      { allowSignalWrites: true },
-    );
+        this.ref.set(row, ref);
+      });
+    });
   }
 
   ngOnDestroy(): void {

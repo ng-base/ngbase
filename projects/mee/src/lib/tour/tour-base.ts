@@ -32,7 +32,7 @@ import { PopoverOptions, PopoverPosition } from '../popover';
       class="pointer-events-auto fixed z-10 overflow-auto rounded-md border bg-foreground p-1 shadow-md"
       [@slideInOutAnimation]
     >
-      <ng-container #myDialog></ng-container>
+      <ng-container #myDialog />
     </div>
     <div class="pointer-events-auto fixed top-0 h-full w-full bg-black/20" [@fadeAnimation]></div>
   `,
@@ -91,41 +91,38 @@ export class BaseTour extends BaseDialog implements OnDestroy {
     //   // }, 1000);
     // });
 
-    effect(
-      () => {
-        const target = this.target() || this.tooltipOptions.target;
-        this.tooltipOptions.target = target;
-        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    effect(() => {
+      const target = this.target() || this.tooltipOptions.target;
+      this.tooltipOptions.target = target;
+      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        fromEvent(window, 'scroll')
-          .pipe(startWith(1), debounceTime(50), take(1))
-          .subscribe(() => {
-            this.lastPosition = this.tooltipOptions.position || 'bottom';
-            const el = this.container()!.nativeElement;
-            if (this.options.backdrop) {
-              this.document.body.style.overflow = 'hidden';
-            }
-            if (this.options.width === 'target') {
-              // update the width of the container to be the same as the target
-              el.style.width = `${this.tooltipOptions.target.offsetWidth}px`;
-            } else if (this.options.width) {
-              el.style.width = this.options.width;
-            }
-            if (this.options.height) {
-              el.style.height = this.options.height;
-            }
-            if (this.options.maxHeight) {
-              el.style.maxHeight = this.options.maxHeight;
-            }
-            this.scrolled.update(x => x + 1);
-            this.updateDimension();
-          });
-        // if (!this.options.backdrop) {
-        //   // window.addEventListener('wheel', this.updateDimension);
-        // }
-      },
-      { allowSignalWrites: true },
-    );
+      fromEvent(window, 'scroll')
+        .pipe(startWith(1), debounceTime(50), take(1))
+        .subscribe(() => {
+          this.lastPosition = this.tooltipOptions.position || 'bottom';
+          const el = this.container()!.nativeElement;
+          if (this.options.backdrop) {
+            this.document.body.style.overflow = 'hidden';
+          }
+          if (this.options.width === 'target') {
+            // update the width of the container to be the same as the target
+            el.style.width = `${this.tooltipOptions.target.offsetWidth}px`;
+          } else if (this.options.width) {
+            el.style.width = this.options.width;
+          }
+          if (this.options.height) {
+            el.style.height = this.options.height;
+          }
+          if (this.options.maxHeight) {
+            el.style.maxHeight = this.options.maxHeight;
+          }
+          this.scrolled.update(x => x + 1);
+          this.updateDimension();
+        });
+      // if (!this.options.backdrop) {
+      //   // window.addEventListener('wheel', this.updateDimension);
+      // }
+    });
   }
 
   private updateDimension = () => {

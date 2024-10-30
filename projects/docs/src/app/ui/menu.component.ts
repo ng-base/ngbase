@@ -68,65 +68,49 @@ import { PopoverTrigger } from '@meeui/popover';
       <div class="flex gap-b4">
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Document Set</h4>
+          <button meeOption><mee-icon name="lucideCross" class="mr-b2" /> Document Set</button>
           <button meeOption>
-            <mee-icon name="lucideCross" class="mr-b2"></mee-icon> Document Set
+            <mee-icon name="lucideTrash2" class="mr-b2" /> Remove Document Set
           </button>
           <button meeOption>
-            <mee-icon name="lucideTrash2" class="mr-b2"></mee-icon> Remove Document Set
-          </button>
-          <button meeOption>
-            <mee-icon name="lucidePen" class="mr-b2"></mee-icon> Disable Document Set Edit
+            <mee-icon name="lucidePen" class="mr-b2" /> Disable Document Set Edit
           </button>
         </div>
-        <mee-separator vertical></mee-separator>
+        <mee-separator vertical />
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Document</h4>
-          <button meeOption>
-            <mee-icon name="lucidePen" class="mr-b2"></mee-icon> Edit Columns
-          </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Edit Query
-          </button>
-          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View</button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Save View as
-          </button>
+          <button meeOption><mee-icon name="lucidePen" class="mr-b2" /> Edit Columns</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Edit Query</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Save View</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Save View as</button>
         </div>
-        <mee-separator vertical></mee-separator>
+        <mee-separator vertical />
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Actions</h4>
-          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Export</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Export</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Assign user</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Assign stage</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Change Priority</button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Assign user
+            <mee-icon name="lucideMenu" class="mr-b2" /> Update Lookup Values
           </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Assign stage
-          </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Change Priority
-          </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Update Lookup Values
-          </button>
-          <button meeOption><mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Rescore</button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Rescore</button>
         </div>
-        <mee-separator vertical></mee-separator>
+        <mee-separator vertical />
         <div>
           <h4 meeHeader="xs" class="text-muted-foreground p-b2">Settings</h4>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Disable Document Grouping
+            <mee-icon name="lucideMenu" class="mr-b2" /> Disable Document Grouping
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Training Mode
+            <mee-icon name="lucideMenu" class="mr-b2" /> Enable Training Mode
           </button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Auto Complete
+            <mee-icon name="lucideMenu" class="mr-b2" /> Enable Auto Complete
           </button>
+          <button meeOption><mee-icon name="lucideMenu" class="mr-b2" /> Hide Filter Pane</button>
           <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Hide Filter Pane
-          </button>
-          <button meeOption>
-            <mee-icon name="lucideMenu" class="mr-b2"></mee-icon> Enable Document Download
+            <mee-icon name="lucideMenu" class="mr-b2" /> Enable Document Download
           </button>
         </div>
       </div>
@@ -136,26 +120,26 @@ import { PopoverTrigger } from '@meeui/popover';
     <mee-menu #animals="meeMenu">
       <button meeList [meeMenuTrigger]="vertebrates">
         Vertebrates
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList [meeMenuTrigger]="invertebrates">
         Invertebrates
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
     </mee-menu>
 
     <mee-menu #vertebrates="meeMenu">
       <button meeList [meeMenuTrigger]="fish">
         Fishes
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList [meeMenuTrigger]="amphibians">
         Amphibians
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList [meeMenuTrigger]="reptiles">
         Reptiles
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList>Birds</button>
       <button meeList>Mammals</button>
@@ -200,10 +184,10 @@ import { PopoverTrigger } from '@meeui/popover';
       <button meeList>Billing</button>
       <button meeList [meeMenuTrigger]="subMenuContainer">
         Settings
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList>Keyboard shortcuts</button>
-      <mee-separator></mee-separator>
+      <mee-separator />
       <button meeList>Team</button>
       <button meeList>New Team</button>
     </mee-menu>
@@ -213,10 +197,10 @@ import { PopoverTrigger } from '@meeui/popover';
       <button meeList>Billing</button>
       <button meeList [meeMenuTrigger]="subSubMenuContainer">
         Settings
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button>
       <button meeList>Keyboard shortcuts</button>
-      <mee-separator></mee-separator>
+      <mee-separator />
       <button meeList>Team</button>
       <button meeList>New Team</button>
     </mee-menu>
@@ -226,10 +210,10 @@ import { PopoverTrigger } from '@meeui/popover';
       <button meeList>Billing</button>
       <!-- <button meeList [meeMenuTrigger]="menuContainer2">
         Settings
-        <mee-icon name="lucideChevronRight" class="ml-auto"></mee-icon>
+        <mee-icon name="lucideChevronRight" class="ml-auto" />
       </button> -->
       <button meeList>Keyboard shortcuts</button>
-      <mee-separator></mee-separator>
+      <mee-separator />
       <button meeList>Team</button>
       <button meeList>New Team</button>
     </mee-menu>
@@ -239,7 +223,7 @@ import { PopoverTrigger } from '@meeui/popover';
       <button meeList>Billing</button>
       <button meeList>Settings</button>
       <button meeList>Keyboard shortcuts</button>
-      <mee-separator></mee-separator>
+      <mee-separator />
       <button meeList>Team</button>
       <button meeList>New Team</button>
     </mee-menu>
@@ -287,7 +271,7 @@ export class MenuComponent {
         <button meeList>Billing</button>
         <button meeList>Settings</button>
         <button meeList>Keyboard shortcuts</button>
-        <mee-separator></mee-separator>
+        <mee-separator />
         <button meeList>Team</button>
         <button meeList>New Team</button>
       </mee-menu>

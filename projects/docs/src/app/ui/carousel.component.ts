@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5">Carousel</h4>
 
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <mee-carousel #myCarousel class="w-72">
         @for (item of 6 | range; track item) {
           <div meeCarouselItem class="aspect-square h-72" [class]="!$last ? 'pr-4' : ''">
@@ -57,7 +57,14 @@ import { DocCode } from './code.component';
   `,
 })
 export class CarouselComponent {
-  htmlCode = `
+  tsCode = `
+  import { Component } from '@angular/core';
+  import { Carousel, CarouselButton, CarouselItem } from '@meeui/carousel';
+
+  @Component({
+    standalone: true,
+    selector: 'app-root',
+    template: \`
       <mee-carousel #myCarousel>
         @for (item of 6 | range; track item) {
           <div meeCarouselItem class="h-56 w-[80%]" [class.pr-4]="!$last">
@@ -96,16 +103,7 @@ export class CarouselComponent {
           </button>
         </div>
       </mee-carousel>
-    `;
-
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { Carousel, CarouselButton, CarouselItem } from '@meeui/carousel';
-
-  @Component({
-    standalone: true,
-    selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    \`,
     imports: [Carousel, CarouselItem, CarouselButton],
   })
   export class AppComponent { }

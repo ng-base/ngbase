@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   selector: 'mee-card, [meeCard]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
     class: 'block rounded-base border bg-foreground p-b4',
   },

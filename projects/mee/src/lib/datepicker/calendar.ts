@@ -38,7 +38,7 @@ import { Directionality } from '../utils';
         [disabled]="leftBtn()"
         [tabIndex]="leftBtn() ? -1 : 0"
       >
-        <mee-icon [name]="dir.isRtl() ? 'lucideChevronRight' : 'lucideChevronLeft'"></mee-icon>
+        <mee-icon [name]="dir.isRtl() ? 'lucideChevronRight' : 'lucideChevronLeft'" />
       </button>
       <button
         meeButton
@@ -60,7 +60,7 @@ import { Directionality } from '../utils';
         [disabled]="rightBtn()"
         [tabIndex]="rightBtn() ? -1 : 0"
       >
-        <mee-icon [name]="dir.isRtl() ? 'lucideChevronLeft' : 'lucideChevronRight'"></mee-icon>
+        <mee-icon [name]="dir.isRtl() ? 'lucideChevronLeft' : 'lucideChevronRight'" />
       </button>
     </div>
 
@@ -145,16 +145,8 @@ import { Directionality } from '../utils';
         }
       </div>
       @if (datePicker.time() && datePicker.range()) {
-        <mee-time
-          class="mt-b5 w-full"
-          [(value)]="time1"
-          (valueChange)="timeChanged(0, time1()!)"
-        ></mee-time>
-        <mee-time
-          class="mt-b5 w-full"
-          [(value)]="time2"
-          (valueChange)="timeChanged(1, time2()!)"
-        ></mee-time>
+        <mee-time class="mt-b5 w-full" [(value)]="time1" (valueChange)="timeChanged(0, time1()!)" />
+        <mee-time class="mt-b5 w-full" [(value)]="time2" (valueChange)="timeChanged(1, time2()!)" />
       }
     }
   `,
@@ -325,28 +317,25 @@ export class Calendar<D> implements OnDestroy {
       this.time1.set(first ? this.adapter.format(first, 'hh:mm a') : '');
       this.time2.set(second ? this.adapter.format(second, 'hh:mm a') : '');
     }
-    effect(
-      () => {
-        const days = this.days();
-        const range = this.datePicker.range();
-        const dates = this.datePicker.selectedDates();
-        this.clearListeners();
+    effect(() => {
+      const days = this.days();
+      const range = this.datePicker.range();
+      const dates = this.datePicker.selectedDates();
+      this.clearListeners();
 
-        if (days.length && range && dates[0] && !dates[1]) {
-          const arr = this.getDaysArray();
+      if (days.length && range && dates[0] && !dates[1]) {
+        const arr = this.getDaysArray();
 
-          days.forEach((day, i) => {
-            const listener = () => {
-              this.hoverDate(arr[i].day, arr[i].mon);
-            };
+        days.forEach((day, i) => {
+          const listener = () => {
+            this.hoverDate(arr[i].day, arr[i].mon);
+          };
 
-            day.nativeElement.addEventListener('mouseover', listener);
-            this.eventListeners.push({ element: day.nativeElement, listener });
-          });
-        }
-      },
-      { allowSignalWrites: true },
-    );
+          day.nativeElement.addEventListener('mouseover', listener);
+          this.eventListeners.push({ element: day.nativeElement, listener });
+        });
+      }
+    });
   }
 
   get adapter() {

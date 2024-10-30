@@ -1,9 +1,8 @@
 import {
-  afterNextRender,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
   inject,
   input,
@@ -82,12 +81,14 @@ import { ThemeService } from '@meeui/theme';
   ],
 })
 export class MarkdownComponent {
-  theme = inject(ThemeService);
+  readonly el = inject(ElementRef);
+  readonly theme = inject(ThemeService);
   private sanitizer = inject(DomSanitizer);
   private renderer = inject(Renderer2);
-  markdownContent = model('');
-  isStreaming = input(false);
-  htmlContent = computed(() => {
+
+  readonly markdownContent = model('');
+  readonly isStreaming = input(false);
+  readonly htmlContent = computed(() => {
     let unsafeHtmlContent = '';
     if (this.markdownContent() || this.isStreaming()) {
       if (this.isStreaming()) {
@@ -104,8 +105,6 @@ export class MarkdownComponent {
     }
     return this.sanitizer.bypassSecurityTrustHtml(unsafeHtmlContent);
   });
-  private listeners: (() => void)[] = [];
-  el = inject(ElementRef);
 
   constructor() {
     // Configure the marked renderer
@@ -120,12 +119,21 @@ export class MarkdownComponent {
       highlight: this.highlightCode,
     });
 
-    effect(() => {
-      setTimeout(() => this.attachCopyButtonClickListeners(), 0);
-    });
+    afterRenderEffect(cleanup => {
+      const copyButtons = this.el.nativeElement.querySelectorAll('.copy-button');
+      copyButtons.forEach((button: HTMLElement) => {
+        const listener = this.renderer.listen(button, 'click', () => {
+          const base64Code = button.getAttribute('data-code')!;
+          const code = atob(base64Code);
+          this.copyToClipboard(code);
+          const text = button.textContent;
+          button.textContent = 'Copied!';
+          setTimeout(() => (button.textContent = text), 2000);
+        });
 
-    afterNextRender(() => {
-      this.attachCopyButtonClickListeners();
+        // Add the new listener to the listeners array
+        cleanup(() => listener());
+      });
     });
   }
 
@@ -167,28 +175,6 @@ export class MarkdownComponent {
     document.body.removeChild(textarea);
   }
 
-  private attachCopyButtonClickListeners(): void {
-    // Remove previous listeners
-    this.listeners.forEach(listener => listener());
-
-    // Reset the listeners array
-    this.listeners = [];
-
-    const copyButtons = this.el.nativeElement.querySelectorAll('.copy-button');
-    copyButtons.forEach((button: HTMLElement) => {
-      const listener = this.renderer.listen(button, 'click', () => {
-        const base64Code = button.getAttribute('data-code')!;
-        const code = atob(base64Code);
-        this.copyToClipboard(code);
-        const text = button.textContent;
-        button.textContent = 'Copied!';
-        setTimeout(() => (button.textContent = text), 2000);
-      });
-
-      // Add the new listener to the listeners array
-      this.listeners.push(listener);
-    });
-  }
   private markdownToPlainText(markdown: string): string {
     const plainText = markdown
       .replace(/[_*`~]/g, '') // Remove basic formatting characters

@@ -12,17 +12,13 @@ import { DocCode } from './code.component';
   imports: [FormsModule, Heading, Button, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="dialogPage">Dialog</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <button meeButton (click)="open()">submit</button>
     </app-doc-code>
   `,
 })
 export class DialogComponent {
   dialogPortal = dialogPortal();
-
-  htmlCode = `
-      <button (click)="open()">submit</button>
-    `;
 
   tsCode = `
   import { Component } from '@angular/core';
@@ -32,7 +28,7 @@ export class DialogComponent {
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`<button (click)="open()">submit</button>\`,
   })
   export class AppComponent {
     dialogPortal = dialogPortal();

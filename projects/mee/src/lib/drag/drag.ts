@@ -113,7 +113,7 @@ export class Drag {
         right: parentRect.width - rect.width - left,
         bottom: parentRect.height - rect.height - top,
       };
-      console.log(this.boundaryRect);
+      // console.log(this.boundaryRect);
     }
     this.lastValue = this.getDragEvent(event, 'start');
     this.events.next(this.lastValue);
@@ -162,6 +162,7 @@ export class Drag {
     let x = ev.clientX - startClientX;
     let y = ev.clientY - startClientY;
 
+    // it is to make sure that the drag is always in the drag point
     if (this.boundaryRect) {
       const { left, top, right, bottom } = this.boundaryRect;
       x = Math.max(-left, Math.min(x, right));

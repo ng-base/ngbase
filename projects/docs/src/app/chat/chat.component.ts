@@ -20,7 +20,7 @@ import { Separator } from '@meeui/separator';
               {{ chat.message }}
             </div>
           </div>
-          <mee-separator></mee-separator>
+          <mee-separator />
         }
       </mee-card>
     </div>

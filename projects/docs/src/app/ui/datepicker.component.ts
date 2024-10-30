@@ -26,11 +26,11 @@ import { DocCode } from './code.component';
     <div class="grid gap-b4">
       <label meeLabel class="flex w-52 flex-col">
         Time 24 -- {{ time24() }}
-        <mee-time [(value)]="time24" [is24]="true"></mee-time>
+        <mee-time [(value)]="time24" [is24]="true" />
       </label>
       <label meeLabel class="flex w-52 flex-col">
         Time -- {{ time() }}
-        <mee-time [(ngModel)]="time"></mee-time>
+        <mee-time [(ngModel)]="time" />
       </label>
       <button meeButton (click)="toggle()">Toggle datepicker</button>
       <app-doc-code [tsCode]="tsCode">

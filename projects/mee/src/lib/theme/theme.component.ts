@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Input } from '../input';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '../button';
@@ -41,27 +41,27 @@ interface ThemeData {
         </tr>
         <tr>
           <td>Background:</td>
-          <td><mee-color-input class="w-48" formControlName="background"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="background" /></td>
         </tr>
         <tr>
           <td>Foreground:</td>
-          <td><mee-color-input class="w-48" formControlName="foreground"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="foreground" /></td>
         </tr>
         <tr>
           <td>Primary:</td>
-          <td><mee-color-input class="w-48" formControlName="primary"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="primary" /></td>
         </tr>
         <tr>
           <td>Muted:</td>
-          <td><mee-color-input class="w-48" formControlName="muted"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="muted" /></td>
         </tr>
         <tr>
           <td>Border:</td>
-          <td><mee-color-input class="w-48" formControlName="border"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="border" /></td>
         </tr>
         <tr>
           <td>Text:</td>
-          <td><mee-color-input class="w-48" formControlName="text"></mee-color-input></td>
+          <td><mee-color-input class="w-48" formControlName="text" /></td>
         </tr>
       </table>
     </form>

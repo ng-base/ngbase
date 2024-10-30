@@ -10,10 +10,9 @@ import {
   viewChild,
   model,
 } from '@angular/core';
-import { Button } from '../button';
 import { DialogRef } from '../portal';
 import { Calendar } from './calendar';
-import { generateId, RangePipe } from '../utils';
+import { uniqueId, RangePipe } from '../utils';
 import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger';
 import { injectMeeDateAdapter } from './native-date-adapter';
 import { AccessibleGroup, AccessibleItem } from '../a11y';
@@ -22,7 +21,7 @@ import { AccessibleGroup, AccessibleItem } from '../a11y';
   standalone: true,
   selector: 'mee-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, Button, Calendar, RangePipe, NgTemplateOutlet, AccessibleGroup],
+  imports: [Calendar, RangePipe, NgTemplateOutlet, AccessibleGroup],
   template: `
     <div
       class="flex"
@@ -33,12 +32,12 @@ import { AccessibleGroup, AccessibleItem } from '../a11y';
       (focusChanged)="focusChanged($event)"
     >
       @for (no of noOfCalendar() | range; track no) {
-        <mee-calendar [first]="$first" [last]="$last" [index]="$index"></mee-calendar>
+        <mee-calendar [first]="$first" [last]="$last" [index]="$index" />
       }
     </div>
     @if (template()) {
       <div class="px-b2 pb-b2">
-        <ng-container *ngTemplateOutlet="template()"></ng-container>
+        <ng-container *ngTemplateOutlet="template()" />
       </div>
     }
   `,
@@ -102,7 +101,7 @@ export class DatePicker<D> {
     return v;
   });
 
-  readonly ayId = generateId();
+  readonly ayId = uniqueId();
 
   constructor() {
     this.init();

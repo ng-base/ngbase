@@ -16,7 +16,7 @@ import { Row } from './column';
 @Component({
   standalone: true,
   selector: '[meeHeadRow]',
-  template: `<ng-container #container></ng-container>`,
+  template: `<ng-container #container />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'h-b10',
@@ -31,34 +31,31 @@ export class HeadRow implements OnDestroy {
   headDef = inject(HeadRowDef);
 
   constructor() {
-    effect(
-      () => {
-        const rows = this.table.rows();
-        this.ref.forEach((ref, row) => {
-          if (!rows.includes(row)) {
-            ref.destroy();
+    effect(() => {
+      const rows = this.table.rows();
+      this.ref.forEach((ref, row) => {
+        if (!rows.includes(row)) {
+          ref.destroy();
+          this.ref.delete(row);
+          return;
+        }
+      });
+      const cols = this.headDef.meeHeadRowDef();
+      rows.forEach(row => {
+        if (!cols?.includes(row.meeRow())) {
+          if (this.ref.has(row)) {
+            const ref = this.ref.get(row);
+            ref!.destroy();
             this.ref.delete(row);
-            return;
           }
-        });
-        const cols = this.headDef.meeHeadRowDef();
-        rows.forEach(row => {
-          if (!cols?.includes(row.meeRow())) {
-            if (this.ref.has(row)) {
-              const ref = this.ref.get(row);
-              ref!.destroy();
-              this.ref.delete(row);
-            }
-            return;
-          }
-          if (!this.ref.has(row)) {
-            const ref = this.container()!.createEmbeddedView(row.heads()!);
-            this.ref.set(row, ref);
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+          return;
+        }
+        if (!this.ref.has(row)) {
+          const ref = this.container()!.createEmbeddedView(row.heads()!);
+          this.ref.set(row, ref);
+        }
+      });
+    });
   }
 
   ngOnDestroy(): void {

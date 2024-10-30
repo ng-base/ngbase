@@ -6,7 +6,6 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { Icon } from '../icon';
 import { TREE_NODE_DATA, Tree, TreeNodeData } from './tree';
 import { AccessibleItem } from '../a11y';
 import { TreeNodeDef } from './tree-toggle';
@@ -14,7 +13,7 @@ import { TreeNodeDef } from './tree-toggle';
 @Component({
   standalone: true,
   selector: 'mee-tree-node',
-  imports: [Icon, AccessibleItem],
+  imports: [AccessibleItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -29,10 +28,10 @@ import { TreeNodeDef } from './tree-toggle';
       [attr.aria-expanded]="isOpen()"
     >
       <div class="flex items-start">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
-      <ng-content select="[meeTreeNodeContent]"></ng-content>
-      <ng-container #container></ng-container>
+      <ng-content select="[meeTreeNodeContent]" />
+      <ng-container #container />
     </div>
   `,
   host: {

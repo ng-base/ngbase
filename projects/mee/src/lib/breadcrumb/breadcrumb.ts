@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
@@ -20,7 +20,7 @@ import { NgTemplateOutlet } from '@angular/common';
       [attr.aria-disabled]="active()"
       role="link"
     >
-      <ng-content></ng-content>
+      <ng-content />
     </a>
     @if (!active()) {
       @if (separator()) {
@@ -33,7 +33,7 @@ import { NgTemplateOutlet } from '@angular/common';
           class="text-muted"
           role="presentation"
           aria-hidden="true"
-        ></mee-icon>
+        />
       }
     }
   `,
@@ -42,7 +42,10 @@ import { NgTemplateOutlet } from '@angular/common';
   },
 })
 export class Breadcrumb {
-  readonly active = signal<boolean>(false);
   private breadcrumbs = inject(Breadcrumbs);
+  readonly active = computed(() => {
+    const items = this.breadcrumbs.items();
+    return items.indexOf(this) === items.length - 1;
+  });
   readonly separator = this.breadcrumbs.separator;
 }

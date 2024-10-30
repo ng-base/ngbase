@@ -13,17 +13,13 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="drawerPage">Drawer</h4>
 
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <button meeButton (click)="open()">Open drawer</button>
     </app-doc-code>
   `,
 })
 export class DrawerComponent {
   drawerPortal = drawerPortal();
-
-  htmlCode = `
-      <button (click)="open()">Open drawer</button>
-    `;
 
   tsCode = `
   import { Component } from '@angular/core';
@@ -33,7 +29,7 @@ export class DrawerComponent {
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`<button (click)="open()">Open drawer</button>\`,
   })
   export class AppComponent {
     drawerPortal = drawerPortal();

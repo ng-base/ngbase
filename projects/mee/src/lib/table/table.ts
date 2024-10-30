@@ -17,7 +17,6 @@ import {
   EmbeddedViewRef,
 } from '@angular/core';
 import { Row } from './column';
-import { NgFor, NgTemplateOutlet } from '@angular/common';
 
 import { BodyRowDef } from './body-row';
 import { HeadRowDef } from './head-row';
@@ -30,14 +29,13 @@ export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
 
 @Component({
   standalone: true,
-  imports: [NgFor, NgTemplateOutlet],
   selector: 'table[meeTable]',
   template: `
     <thead>
-      <ng-container #thead></ng-container>
+      <ng-container #thead />
     </thead>
     <tbody>
-      <ng-container #tbody></ng-container>
+      <ng-container #tbody />
     </tbody>
   `,
   host: {
@@ -60,82 +58,76 @@ export class Table<T> {
   private readonly valuesTracker = new Map<string, any>();
 
   constructor() {
-    afterNextRender(() => {
-      this._dataDiffers = this.differs.find([]).create(this.trackBy());
-    });
-
     let headerRendered = false;
-    effect(
-      () => {
-        const thead = this.thead()!;
-        const tbody = this.tbody()!;
-        const headRowDef = this.headRowDef()!;
-        const bodyRowDefs = this.bodyRowDef()!;
-        const data = this.data();
+    effect(() => {
+      const thead = this.thead()!;
+      const tbody = this.tbody()!;
+      const headRowDef = this.headRowDef()!;
+      const bodyRowDefs = this.bodyRowDef()!;
+      const data = this.data();
 
-        const changes = this._dataDiffers?.diff(data);
+      this._dataDiffers ??= this.differs.find([]).create(this.trackBy());
+      const changes = this._dataDiffers?.diff(data);
 
-        if (!changes) {
-          return;
-        }
+      if (!changes) {
+        return;
+      }
 
-        // append head row
-        if (!headerRendered) {
-          const value = null;
+      // append head row
+      if (!headerRendered) {
+        const value = null;
+        const injector = Injector.create({
+          providers: [{ provide: ROW_TOKEN, useValue: value }],
+          parent: this.injector,
+        });
+        thead.createEmbeddedView(headRowDef, { $implicit: value }, { injector });
+        headerRendered = true;
+      }
+
+      const len = bodyRowDefs.length;
+
+      changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
+        const id = (item.item as any).Id;
+        if (item.previousIndex == null) {
+          const value = item.item;
+          this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);
           const injector = Injector.create({
             providers: [{ provide: ROW_TOKEN, useValue: value }],
             parent: this.injector,
           });
-          thead.createEmbeddedView(headRowDef, { $implicit: value }, { injector });
-          headerRendered = true;
-        }
-
-        const len = bodyRowDefs.length;
-
-        changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
-          const id = (item.item as any).Id;
-          if (item.previousIndex == null) {
-            const value = item.item;
-            this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);
-            const injector = Injector.create({
-              providers: [{ provide: ROW_TOKEN, useValue: value }],
-              parent: this.injector,
-            });
-            const i = currentIndex! * len;
-            for (let j = 0; j < len; j++) {
-              const ref = tbody.createEmbeddedView(
-                bodyRowDefs[j],
-                { $implicit: value },
-                { injector, index: i + j },
-              );
-              this._values.set(ref, item.item);
-            }
-          } else if (currentIndex == null) {
-            for (let i = 0; i < len; i++) {
-              const ref = tbody.get(adjustedPreviousIndex! * len);
-              ref?.destroy();
-            }
-            // tbody.remove(adjustedPreviousIndex!);
-          } else {
-            // based on current and previous index we need to check whether we need to do 1 or -1
-            for (let i = 0; i < len; i++) {
-              const ref = tbody.get(adjustedPreviousIndex! * len + i);
-              tbody.move(ref!, currentIndex! * len + i);
-            }
+          const i = currentIndex! * len;
+          for (let j = 0; j < len; j++) {
+            const ref = tbody.createEmbeddedView(
+              bodyRowDefs[j],
+              { $implicit: value },
+              { injector, index: i + j },
+            );
+            this._values.set(ref, item.item);
           }
-        });
+        } else if (currentIndex == null) {
+          for (let i = 0; i < len; i++) {
+            const ref = tbody.get(adjustedPreviousIndex! * len);
+            ref?.destroy();
+          }
+          // tbody.remove(adjustedPreviousIndex!);
+        } else {
+          // based on current and previous index we need to check whether we need to do 1 or -1
+          for (let i = 0; i < len; i++) {
+            const ref = tbody.get(adjustedPreviousIndex! * len + i);
+            tbody.move(ref!, currentIndex! * len + i);
+          }
+        }
+      });
 
-        // update rows
-        changes.forEachIdentityChange(record => {
-          const id = this.trackBy()(record.currentIndex!, record.item);
-          const value = this.valuesTracker.get(id)!;
-          value?.data.set(record.item);
-        });
+      // update rows
+      changes.forEachIdentityChange(record => {
+        const id = this.trackBy()(record.currentIndex!, record.item);
+        const value = this.valuesTracker.get(id)!;
+        value?.data.set(record.item);
+      });
 
-        this._updateItemIndexContext();
-      },
-      { allowSignalWrites: true },
-    );
+      this._updateItemIndexContext();
+    });
   }
 
   private _updateItemIndexContext() {

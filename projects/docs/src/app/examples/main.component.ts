@@ -1,31 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  OnInit,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
-import { Card } from '@meeui/card';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Spinner } from '@meeui/spinner';
 import { Tab, Tabs } from '@meeui/tabs';
-import { PlaygroundComponent } from './playground.component';
-import { MailComponent } from './mail.component';
-import { MusicComponent } from './music.component';
-import { FormsComponent } from './forms.component';
-import { InventoryComponent } from './inventory.component';
-import { SidebarsComponent } from './sidebars.component';
 import { ThemeService } from '@meeui/theme';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
-import { Icon } from '@meeui/icon';
-import { Button } from '@meeui/button';
 import { BlogsComponent } from './blogs.component';
-import { Spinner } from '@meeui/spinner';
+import { FormsComponent } from './forms.component';
+import { InventoryComponent } from './inventory.component';
+import { MailComponent } from './mail.component';
+import { MusicComponent } from './music.component';
+import { PlaygroundComponent } from './playground.component';
+import { SidebarsComponent } from './sidebars.component';
 import { TermorComponent } from './termor.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 export function injectParams() {
   const activatedRoute = inject(ActivatedRoute);
@@ -38,12 +26,6 @@ export function injectParams() {
   selector: 'app-examples',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    Icon,
-    Button,
-    Sidenav,
-    SidenavHeader,
-    SidenavContent,
-    Card,
     Tabs,
     Tab,
     Spinner,
@@ -138,7 +120,7 @@ export function injectParams() {
       class="absolute right-0 top-0.5 h-9 w-9"
       (click)="theme.toggle()"
     >
-      <mee-icon [name]="theme.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"></mee-icon>
+      <mee-icon [name]="theme.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'" />
     </button> -->
   `,
 })
@@ -149,12 +131,9 @@ export class ExamplesComponent {
   tabIndex = signal(+this.params()!['id']);
 
   constructor() {
-    effect(
-      () => {
-        this.tabIndex.set(+this.params()!['id']);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.tabIndex.set(+this.params()!['id']);
+    });
   }
 
   indexChange(index: number) {

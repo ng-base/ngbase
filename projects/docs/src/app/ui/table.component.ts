@@ -1,11 +1,7 @@
-import { Component, signal, ChangeDetectionStrategy, input, OnDestroy } from '@angular/core';
-import { TableComponents } from '@meeui/table';
-import { RangePipe } from '@meeui/utils';
-import { Button } from '@meeui/button';
+import { ChangeDetectionStrategy, Component, input, OnDestroy, signal } from '@angular/core';
 import { ScrollArea } from '@meeui/scroll-area';
+import { TableComponents } from '@meeui/table';
 import { Heading } from '@meeui/typography';
-import { Card } from '@meeui/card';
-import { Selectable, SelectableItem } from '@meeui/selectable';
 import { DocCode } from './code.component';
 
 interface Employee {
@@ -20,17 +16,7 @@ interface Employee {
 @Component({
   standalone: true,
   selector: 'app-table',
-  imports: [
-    TableComponents,
-    RangePipe,
-    Button,
-    ScrollArea,
-    Heading,
-    Card,
-    Selectable,
-    SelectableItem,
-    DocCode,
-  ],
+  imports: [TableComponents, ScrollArea, Heading, DocCode],
   template: `
     <h4 meeHeader class="mb-5">Table</h4>
     <!-- <button meeButton (click)="update()" class="mb-5">

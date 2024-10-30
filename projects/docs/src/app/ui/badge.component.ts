@@ -10,16 +10,12 @@ import { DocCode } from './code.component';
   imports: [Heading, Badge, DocCode],
   template: `
     <h4 meeHeader class="mb-5">Badge</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <button meeBadge>Badge</button>
     </app-doc-code>
   `,
 })
 export class BadgeComponent {
-  htmlCode = `
-      <button meeBadge>Badge</button>
-    `;
-
   tsCode = `
   import { Component } from '@angular/core';
   import { Badge } from '@meeui/badge';
@@ -27,7 +23,7 @@ export class BadgeComponent {
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`<button meeBadge>Badge</button>\`,
     imports: [Badge],
   })
   export class AppComponent { }

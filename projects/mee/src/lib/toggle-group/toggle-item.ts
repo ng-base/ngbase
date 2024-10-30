@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   input,
 } from '@angular/core';
@@ -13,7 +12,7 @@ import { AccessibleItem } from '../a11y/accessiblity-item';
 @Component({
   standalone: true,
   selector: 'button[meeToggleItem]',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70',
@@ -43,16 +42,9 @@ export class ToggleItem {
 
   constructor() {
     this.accessibleItem.ayId.set(this.toggleGroup.ayId);
-    // effect(
-    //   () => {
-    //     this.accessibleItem.pressed.set(this.active());
-    //     this.accessibleItem.disabled.set(this.disabled() || this.toggleGroup.disabled());
-    //   },
-    //   { allowSignalWrites: true },
-    // );
   }
 
   updateValue() {
-    // override the method in the ToggleGroup component
+    this.toggleGroup.updateValue([this.value()]);
   }
 }

@@ -10,19 +10,18 @@ import {
 import { Sidenav } from './sidenav';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Directionality } from '../utils';
-import { NgClass } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'mee-sidenav-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass],
   template: `
     <div
       [@slide]="{ value: sidenav.show(), params: { x: dir.isRtl() ? '100%' : '-100%' } }"
       (@slide.done)="animationDone()"
       (@slide.start)="animationStart()"
-      class="h-full w-64 overflow-auto"
+      class="h-full overflow-auto"
+      [style.width]="width()"
       [attr.data-mode]="sidenav.mode()"
     >
       <ng-content />
@@ -32,8 +31,7 @@ import { NgClass } from '@angular/common';
     class: 'block h-full overflow-hidden bg-foreground',
     '[class.invisible]': 'show()',
     '[class]': `headerClasses()`,
-    // '[@slide]': 'sidenav.show()',
-    '[style.width.px]': `sidenav.show() ? '' : 0`,
+    '[style.width]': `sidenav.show() ? width() : 0`,
     '[style.transition]': "'500ms cubic-bezier(0.55, 0.31, 0.15, 0.93) width'",
     '[attr.aria-hidden]': '!sidenav.show()',
   },
@@ -49,6 +47,7 @@ export class SidenavHeader {
   readonly sidenav = inject(Sidenav);
   readonly el = inject(ElementRef);
   readonly dir = inject(Directionality);
+  readonly width = input('250px');
   readonly headerClasses = computed(() => {
     let klass = '';
     if (this.sidenav.mode() === 'over') {

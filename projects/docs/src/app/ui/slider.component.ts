@@ -14,13 +14,7 @@ import { Checkbox } from '@meeui/checkbox';
     <h4 meeHeader class="mb-5" id="sliderPage">Slider</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <mee-slider
-        [value]="slider"
-        [step]="10"
-        [max]="200"
-        [range]="true"
-        class="w-64 md:w-96"
-      ></mee-slider>
+      <mee-slider [value]="slider" [step]="10" [max]="200" [range]="true" class="w-64 md:w-96" />
 
       <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
       {{ test() }}
@@ -31,7 +25,7 @@ import { Checkbox } from '@meeui/checkbox';
         [max]="2"
         class="!mt-10 w-64 md:w-96"
         [disabled]="disabled()"
-      ></mee-slider>
+      />
     </app-doc-code>
   `,
 })

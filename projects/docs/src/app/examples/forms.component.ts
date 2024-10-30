@@ -45,7 +45,7 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
     Label,
   ],
   template: `
-    <mee-card class="w-[28rem]">
+    <mee-card class="flex w-[28rem] flex-col gap-b2">
       <h4 meeHeader="sm" class="mb-b4">Let’s get you hired!</h4>
       <div class="flex gap-b4">
         <label meeLabel>
@@ -61,7 +61,7 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
         Email ID
         <input meeInput id="emailId" placeholder="Email id" />
       </label>
-      <label meeLabel>
+      <label meeLabel class="w-full">
         Location
         <mee-select placeholder="Location" [multiple]="true" [(ngModel)]="location">
           <input meeSelectInput placeholder="Search location" [(ngModel)]="locationList.search" />

@@ -20,7 +20,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { popoverPortal } from '../popover';
 import { Subject } from 'rxjs';
 import { Option } from './option';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
@@ -50,7 +50,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   readonly popover = popoverPortal();
   private previousValue = '';
   events = new Subject<'open' | 'close'>();
-  readonly ayid = generateId();
+  readonly ayid = uniqueId();
   readonly cValue = computed(() => {
     if (!this.isSelect && this.status() === 'opened') {
       return this.previousValue;
@@ -82,48 +82,42 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   valueRef: EffectRef;
 
   constructor(private isSelect: boolean) {
-    effect(
-      () => {
-        const options = this.options();
-        options.forEach(option => {
-          option.setAyId(this.ayid);
-          option.multiple.set(this.multiple());
-          option.selectOption = () => {
-            untracked(() => {
-              this.setValue([option.getValue()]);
-              option.checked.set(!option.checked());
-              option.onSelectionChange.emit(option.getValue());
-              if (!this.multiple()) {
-                this.close();
-              }
-            });
-          };
-        });
-        untracked(() => {
-          if (this.status() === 'opening') {
-            this.open();
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const options = this.options();
+      options.forEach(option => {
+        option.setAyId(this.ayid);
+        option.multiple.set(this.multiple());
+        option.selectOption = () => {
+          untracked(() => {
+            this.setValue([option.getValue()]);
+            option.checked.set(!option.checked());
+            option.onSelectionChange.emit(option.getValue());
+            if (!this.multiple()) {
+              this.close();
+            }
+          });
+        };
+      });
+      untracked(() => {
+        if (this.status() === 'opening') {
+          this.open();
+        }
+      });
+    });
 
-    effect(
-      () => {
-        const values = this.values();
-        const options = this.options();
-        // console.log('values', this.values());
+    effect(() => {
+      const values = this.values();
+      const options = this.options();
+      // console.log('values', this.values());
 
-        options.forEach(option => {
-          option.checked.set(values.includes(option.getValue()));
-        });
-      },
-      { allowSignalWrites: true },
-    );
+      options.forEach(option => {
+        option.checked.set(values.includes(option.getValue()));
+      });
+    });
 
     // valueRef is required to destroy the effect when formControl is registered
     // so that it does not override the form value
-    this.valueRef = effect(() => this.updateValues(this.value()), { allowSignalWrites: true });
+    this.valueRef = effect(() => this.updateValues(this.value()));
   }
 
   open() {

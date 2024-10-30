@@ -3,14 +3,13 @@ import { Menu, MentionTrigger } from '@meeui/menu';
 import { Input } from '@meeui/input';
 import { Option } from '@meeui/select';
 import { FormsModule } from '@angular/forms';
-import { RangePipe } from '@meeui/utils';
 import { Heading } from '@meeui/typography';
 import { DocCode } from './code.component';
 
 @Component({
   standalone: true,
   selector: 'app-placeholder',
-  imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, RangePipe, DocCode],
+  imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="mentionPage">Mention</h4>
     <app-doc-code [tsCode]="code">

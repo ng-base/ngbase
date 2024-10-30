@@ -47,7 +47,7 @@ import {
     Selectable,
     SelectableItem,
     List,
-    // TableComponents,
+    TableComponents,
     Badge,
     Tooltip,
   ],
@@ -211,7 +211,7 @@ import {
                 <h4 meeHeader="sm" class="mb-b4">Orders</h4>
                 <p class="text-muted-foreground mb-b4">Recent orders from your store.</p>
 
-                <!-- <table meeTable [data]="tableData" [trackBy]="trackByFn">
+                <table meeTable [data]="tableData" [trackBy]="trackByFn">
                   <ng-container meeRow="customer">
                     <th meeHead *meeHeadDef>Customer</th>
                     <td meeCell *meeCellDef="let element">
@@ -247,7 +247,7 @@ import {
                   </ng-container>
                   <tr meeHeadRow *meeHeadRowDef="displayedColumns"></tr>
                   <tr meeBodyRow *meeBodyRowDef="let row; columns: displayedColumns"></tr>
-                </table> -->
+                </table>
               </mee-card>
             </div>
           </div>

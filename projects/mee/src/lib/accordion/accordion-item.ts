@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -6,8 +7,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { generateId } from '../utils';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { uniqueId } from '../utils';
 import { AccordionGroup } from './accordion-group';
 
 @Component({
@@ -15,7 +15,7 @@ import { AccordionGroup } from './accordion-group';
   selector: 'mee-accordion',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-content select="[meeAccordionHeader]"></ng-content>
+    <ng-content select="[meeAccordionHeader]" />
     @if (expanded()) {
       <div
         [@slide]
@@ -24,7 +24,7 @@ import { AccordionGroup } from './accordion-group';
         [id]="id"
         [attr.aria-labelledby]="'accordion-' + id"
       >
-        <ng-content></ng-content>
+        <ng-content />
       </div>
     }
   `,
@@ -50,7 +50,7 @@ export class Accordion {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   // locals
-  readonly id = generateId();
+  readonly id = uniqueId();
 
   toggle() {
     this.expanded.update(v => !v);

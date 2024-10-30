@@ -4,24 +4,19 @@ import {
   ChangeDetectionStrategy,
   viewChild,
   afterNextRender,
-  signal,
 } from '@angular/core';
 import { BaseDialog, DialogOptions } from '../portal';
-import { NgStyle } from '@angular/common';
-import { viewAnimation, createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
-import { Separator } from '../separator';
-import { Button } from '../button';
+import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
 import { Subject } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [NgStyle, Separator, Button],
   selector: 'mee-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
       <div class="pointer-events-auto">
-        <ng-container #myDialog></ng-container>
+        <ng-container #myDialog />
       </div>
       <div
         class="backdropColor pointer-events-auto absolute top-0 -z-10 h-full w-full"

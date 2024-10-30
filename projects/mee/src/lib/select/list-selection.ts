@@ -1,19 +1,13 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SelectBase } from './select-base';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
   standalone: true,
   selector: 'mee-list-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ListSelection),
-      multi: true,
-    },
-  ],
+  template: `<ng-content />`,
+  providers: [provideValueAccessor(ListSelection)],
 })
 export class ListSelection<T> extends SelectBase<T> {
   constructor() {

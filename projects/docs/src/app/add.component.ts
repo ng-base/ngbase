@@ -1,13 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { Button } from '@meeui/button';
-import { DialogClose, DialogTitle, dialogPortal, DialogRef } from '@meeui/dialog';
-import { AppService } from './app.service';
-import { AddService } from './add.service';
+import { DialogClose, dialogPortal, DialogRef } from '@meeui/dialog';
+import { Input } from '@meeui/input';
 import { Option, Select } from '@meeui/select';
+import { Autofocus } from '@meeui/utils';
+import { AddService } from './add.service';
+import { AppService } from './app.service';
 
 @Component({
+  standalone: true,
   selector: 'app-add',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, DialogClose, Select, Option, Input, Autofocus],
+  providers: [AddService],
   template: `
+    <input meeInput meeAutofocus />
     <mee-select>
       <mee-option value="1">1</mee-option>
       <mee-option value="2">2</mee-option>
@@ -38,10 +45,6 @@ import { Option, Select } from '@meeui/select';
       <button meeButton (click)="closeAll()">Close all</button>
     </div>
   `,
-  standalone: true,
-  providers: [AddService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DialogClose, DialogTitle, Select, Option],
   styles: `
     :host {
       display: block;

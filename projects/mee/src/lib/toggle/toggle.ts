@@ -1,24 +1,18 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  selector: 'button[meeToggle]',
   standalone: true,
-  imports: [],
-  template: `<ng-content></ng-content>`,
+  selector: 'button[meeToggle]',
+  template: `<ng-content />`,
   host: {
     class: 'block w-9 h-9 rounded relative',
     '[class.bg-background]': 'value',
     '(click)': 'toggle()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Toggle),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Toggle)],
 })
 export class Toggle implements ControlValueAccessor {
   value = false;

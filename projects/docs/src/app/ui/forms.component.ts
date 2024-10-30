@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
-import { Button } from '@meeui/button';
-import { Card } from '@meeui/card';
-import { DatePicker, DatepickerTrigger } from '@meeui/datepicker';
+import { DatepickerTrigger } from '@meeui/datepicker';
 import { Input } from '@meeui/input';
 import { Select, Option } from '@meeui/select';
 import { Heading } from '@meeui/typography';
@@ -16,14 +14,11 @@ import { Autofocus } from '@meeui/utils';
   imports: [
     ReactiveFormsModule,
     Heading,
-    Card,
-    Button,
     Input,
     Select,
     Option,
     Autocomplete,
     AutocompleteInput,
-    DatePicker,
     DatepickerTrigger,
     Autofocus,
   ],

@@ -18,7 +18,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { AccessibleGroup } from '../a11y';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 import { TreeNodeDef } from './tree-toggle';
 
 export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');
@@ -100,7 +100,7 @@ export interface TreeNodeImplicit<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AccessibleGroup],
   template: `<div class="block" meeAccessibleGroup [ayId]="ayId">
-    <ng-container #container></ng-container>
+    <ng-container #container />
   </div>`,
   host: {
     class: 'block',
@@ -109,9 +109,9 @@ export interface TreeNodeImplicit<T> {
 })
 export class Tree<T> {
   // Dependencies
-  injector = inject(Injector);
-  differs = inject(IterableDiffers);
-  ayId = generateId();
+  private readonly injector = inject(Injector);
+  private readonly differs = inject(IterableDiffers);
+  readonly ayId = uniqueId();
 
   readonly treeNodeDef = contentChild.required(TreeNodeDef, { read: TemplateRef });
   readonly container = viewChild.required('container', { read: ViewContainerRef });
@@ -126,63 +126,56 @@ export class Tree<T> {
     string,
     { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: FlatNode }
   >();
-  _dataDiffers?: IterableDiffer<FlatNode>;
+  private readonly _dataDiffers = this.differs.find([]).create<FlatNode>((index, item) => item.id);
   private readonly flatner = computed(
     () => new TreeFlatNode(this.children(), node => this.trackBy()(0, node)),
   );
   private expanded = false;
 
   constructor() {
-    afterNextRender(() => {
-      this._dataDiffers = this.differs.find([]).create((index, item) => item.id);
-    });
+    effect(() => {
+      const flatner = this.flatner();
+      const data = this.dataSource();
+      const opened = this.opened();
+      flatner.setDataSource(data, opened, this.expanded);
+      this.expanded = false;
 
-    effect(
-      () => {
-        const flatner = this.flatner();
-        const data = this.dataSource();
-        const opened = this.opened();
-        flatner.setDataSource(data, opened, this.expanded);
-        this.expanded = false;
+      const changes = this._dataDiffers.diff(flatner.data);
+      if (!changes) {
+        return;
+      }
 
-        const changes = this._dataDiffers?.diff(flatner.data);
-        if (!changes) {
-          return;
-        }
-
-        const container = this.container();
-        const def = this.treeNodeDef();
-        changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
-          if (item.previousIndex == null) {
-            // Item added
-            // const parent = this.flatner().tempData.get(item.item.parentId!);
-            this.renderNode(item.item, container, def, item.item.level, currentIndex!);
-          } else if (currentIndex == null) {
-            // Item removed
-            this.removeNode(item.item);
-          } else {
-            // Item moved
-            const viewRef = this.trace.get(item.item.id)?.ref;
-            if (viewRef) {
-              container.move(viewRef, currentIndex);
-            }
-          }
-        });
-
-        // update the opened nodes
-        let count = 0;
-        changes.forEachIdentityChange(item => {
-          count++;
+      const container = this.container();
+      const def = this.treeNodeDef();
+      changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
+        if (item.previousIndex == null) {
+          // Item added
+          // const parent = this.flatner().tempData.get(item.item.parentId!);
+          this.renderNode(item.item, container, def, item.item.level, currentIndex!);
+        } else if (currentIndex == null) {
+          // Item removed
+          this.removeNode(item.item);
+        } else {
+          // Item moved
           const viewRef = this.trace.get(item.item.id)?.ref;
           if (viewRef) {
-            viewRef.context.level = item.item.level;
-            viewRef.context.$implicit = this.flatner().dataMap.get(item.item.id)!;
+            container.move(viewRef, currentIndex);
           }
-        });
-        console.log('count', count);
-      },
-      { allowSignalWrites: true },
-    );
+        }
+      });
+
+      // update the opened nodes
+      let count = 0;
+      changes.forEachIdentityChange(item => {
+        count++;
+        const viewRef = this.trace.get(item.item.id)?.ref;
+        if (viewRef) {
+          viewRef.context.level = item.item.level;
+          viewRef.context.$implicit = this.flatner().dataMap.get(item.item.id)!;
+        }
+      });
+      console.log('count', count);
+    });
   }
 
   private removeNode(data: FlatNode) {

@@ -10,13 +10,13 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-b5" id="avatarPage">Avatar</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <div class="flex items-center gap-b2">
-        <mee-avatar class="w-9" name="Sheik Althaf"></mee-avatar>
+        <mee-avatar class="w-9" name="Sheik Althaf" />
         <mee-avatar
           class="shadow-outline-red w-9"
           src="https://avatars.dicebear.com/api/avataaars/1.svg"
-        ></mee-avatar>
+        />
 
         <mee-avatar-group>
           <button
@@ -34,7 +34,7 @@ import { DocCode } from './code.component';
             class="h-full w-7 border-red-200"
             src="https://avatars.dicebear.com/api/avataaars/1.svg"
           ></button>
-          <mee-avatar class="h-full w-7 border-red-200 text-[10px]" text="+2"></mee-avatar>
+          <mee-avatar class="h-full w-7 border-red-200 text-[10px]" text="+2" />
         </mee-avatar-group>
       </div>
     </app-doc-code>
@@ -42,13 +42,6 @@ import { DocCode } from './code.component';
 })
 export class AvatarComponent {
   otp = '';
-  htmlCode = `
-      <mee-avatar
-        class="w-b12"
-        src="...your image url..."
-      />
-    `;
-
   tsCode = `
   import { Component } from '@angular/core';
   import { Avatar } from '@meeui/avatar';
@@ -56,7 +49,12 @@ export class AvatarComponent {
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`
+      <mee-avatar
+        class="w-b12"
+        src="...your image url..."
+      />
+    \`,
     imports: [Avatar],
   })
   export class AppComponent { }

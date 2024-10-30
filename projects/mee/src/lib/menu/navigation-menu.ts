@@ -2,7 +2,7 @@ import { Directive, contentChildren, effect, input } from '@angular/core';
 import { MenuTrigger } from './menu-trigger';
 import { basePopoverPortal } from '../popover/base-popover.service';
 import { Popover, PopoverOpen } from '../popover';
-import { documentListener, generateId } from '../utils';
+import { documentListener, uniqueId } from '../utils';
 
 @Directive({
   standalone: true,
@@ -14,7 +14,7 @@ export class NavigationMenu {
 
   readonly hover = input<boolean>(false);
 
-  private ayId = generateId();
+  private ayId = uniqueId();
   close?: VoidFunction;
   private timerId: any = 0;
   private popoverOpen?: PopoverOpen<any>;
@@ -29,29 +29,26 @@ export class NavigationMenu {
         this.close();
       }
     });
-    effect(
-      cleanup => {
-        const menus = this.menus();
-        const hover = this.hover();
-        const sub = menus.map(menu =>
-          menu.events.subscribe(({ type, menu }) => {
-            const isSame = this.currentEl === menu;
-            if (
-              (type === 'enter' && (hover || this.clicked)) ||
-              (type === 'click' && !hover && !isSame)
-            ) {
-              this.clicked = true;
-              this.currentEl = menu;
-              this.open(menu);
-            } else if (isSame && (hover || type === 'click')) {
-              this.scheduleClose();
-            }
-          }),
-        );
-        cleanup(() => sub.forEach(x => x.unsubscribe()));
-      },
-      { allowSignalWrites: true },
-    );
+    effect(cleanup => {
+      const menus = this.menus();
+      const hover = this.hover();
+      const sub = menus.map(menu =>
+        menu.events.subscribe(({ type, menu }) => {
+          const isSame = this.currentEl === menu;
+          if (
+            (type === 'enter' && (hover || this.clicked)) ||
+            (type === 'click' && !hover && !isSame)
+          ) {
+            this.clicked = true;
+            this.currentEl = menu;
+            this.open(menu);
+          } else if (isSame && (hover || type === 'click')) {
+            this.scheduleClose();
+          }
+        }),
+      );
+      cleanup(() => sub.forEach(x => x.unsubscribe()));
+    });
   }
 
   open(menuTrigger: MenuTrigger) {
@@ -64,7 +61,7 @@ export class NavigationMenu {
       this.popoverOpen?.parent.target?.set(target);
       menu.diaRef = this.popoverOpen!.diaRef;
       // We need to change the id so that new menu items gets registered for a11y
-      menu.diaRef.options.ayId = generateId();
+      menu.diaRef.options.ayId = uniqueId();
       menu.opened();
       return;
     }

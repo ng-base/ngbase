@@ -10,7 +10,7 @@ describe('SwitchComponent', () => {
   @Component({
     standalone: true,
     imports: [Switch, FormsModule],
-    template: `<mee-switch [(ngModel)]="value"></mee-switch>`,
+    template: `<mee-switch [(ngModel)]="value" />`,
   })
   class TestComponent {
     value = signal(false);

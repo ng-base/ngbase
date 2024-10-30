@@ -16,7 +16,7 @@ import { DocCode } from './code.component';
         [size]="10"
         [total]="400"
         class="rounded-base border bg-foreground p-b4 shadow-sm"
-      ></mee-pagination>
+      />
     </app-doc-code>
   `,
 })
@@ -32,7 +32,7 @@ export class PaginationComponent {
     selector: 'app-root',
     imports: [Pagination],
     template: \`
-      <mee-pagination [active]="2" [size]="10" [total]="400"></mee-pagination>
+      <mee-pagination [active]="2" [size]="10" [total]="400" />
     \`
   })
   export class AppComponent {

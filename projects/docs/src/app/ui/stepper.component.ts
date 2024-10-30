@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Step, Stepper } from '@meeui/stepper';
 import { Button } from '@meeui/button';
-import { RangePipe } from '@meeui/utils';
 import { Heading } from '@meeui/typography';
 import { DocCode } from './code.component';
 
@@ -9,7 +8,7 @@ import { DocCode } from './code.component';
   standalone: true,
   selector: 'app-stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Stepper, Step, Button, RangePipe, Heading, DocCode],
+  imports: [Stepper, Step, Button, Heading, DocCode],
   template: `
     <h4 meeHeader class="mb-5">Stepper</h4>
 

@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
-  forwardRef,
   input,
   output,
   untracked,
@@ -10,7 +9,8 @@ import {
 import { InputStyle } from '../input/input-style.directive';
 import { NumberOnly, padString } from './number-only';
 import { Button } from '../button';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
   standalone: true,
@@ -79,13 +79,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   host: {
     class: 'inline-flex gap-b items-center justify-center',
   },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TimePicker),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(TimePicker)],
 })
 export class TimePicker implements ControlValueAccessor {
   readonly is24 = input(false);
@@ -101,16 +95,13 @@ export class TimePicker implements ControlValueAccessor {
   private onTouched = () => {};
 
   constructor() {
-    effect(
-      () => {
-        const value = this.value();
-        untracked(() => {
-          console.log('value', value);
-          this.parseValue(value);
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const value = this.value();
+      untracked(() => {
+        console.log('value', value);
+        this.parseValue(value);
+      });
+    });
   }
 
   private parseValue(value: string | null | undefined) {

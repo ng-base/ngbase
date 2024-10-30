@@ -11,7 +11,7 @@ import { RangePipe } from '@meeui/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader="sm">Heading 1</h4>
-    <mee-separator class="my-2"></mee-separator>
+    <mee-separator class="my-2" />
     <p class="text-muted-foreground text-base">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis maiores in aspernatur
       rerum, eligendi, pariatur ipsum eaque non, similique veritatis delectus earum magni nemo sunt

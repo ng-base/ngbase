@@ -1,32 +1,26 @@
-import { Component, contentChildren, forwardRef, inject, model } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, contentChildren, inject, model } from '@angular/core';
+import { ControlValueAccessor, FormsModule } from '@angular/forms';
 import { Radio } from './radio';
 import { AccessibleGroup } from '../a11y';
-import { generateId } from '../utils';
+import { provideValueAccessor, uniqueId } from '../utils';
 
 @Component({
   standalone: true,
   selector: 'mee-radio-group',
   imports: [FormsModule],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
     class: 'flex gap-b2',
     role: 'radiogroup',
   },
   hostDirectives: [AccessibleGroup],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RadioGroup),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(RadioGroup)],
 })
 export class RadioGroup implements ControlValueAccessor {
   readonly allyGroup = inject(AccessibleGroup);
   readonly radios = contentChildren(Radio, { descendants: true });
   readonly value = model<any>('');
-  readonly ayId = generateId();
+  readonly ayId = uniqueId();
   onChange?: (value: any) => {};
   onTouched?: () => {};
 

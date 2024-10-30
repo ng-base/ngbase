@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
-import { documentListener, generateId, isClient } from '../utils';
+import { documentListener, uniqueId, isClient } from '../utils';
 
 const IGNORED_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const SHORTCUT_MAP: Record<string, string> = {
@@ -163,7 +163,7 @@ export function keyMap(
   return runInInjectionContext(injector || inject(Injector), () => {
     const shortcuts = inject(Shortcuts);
     const onDestroy = inject(DestroyRef);
-    const id = generateId();
+    const id = uniqueId();
 
     shortcuts.on(key, { callback, prevent, stop, global, id });
 

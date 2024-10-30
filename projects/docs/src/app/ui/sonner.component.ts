@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Heading } from '@meeui/typography';
-import { HoverCard } from '@meeui/hover-card';
 import { Button } from '@meeui/button';
-import { DialogClose } from '@meeui/dialog';
 import { sonnerPortal } from '@meeui/sonner';
 import { DocCode } from './code.component';
 
 @Component({
   standalone: true,
   selector: 'app-sonner',
-  imports: [Heading, Button, DialogClose, HoverCard, DocCode],
+  imports: [Heading, Button, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="sonnerPage">Sonner</h4>

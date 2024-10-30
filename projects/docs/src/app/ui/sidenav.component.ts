@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
+import { Sidenav, SidenavHeader } from '@meeui/sidenav';
 import { Button } from '@meeui/button';
 import { DocCode } from './code.component';
 
 @Component({
   standalone: true,
   selector: 'app-sidenav',
-  imports: [Sidenav, SidenavHeader, SidenavContent, Button, DocCode],
+  imports: [Sidenav, SidenavHeader, Button, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="sidenavPage">Sidenav</h4>
 
@@ -15,10 +15,10 @@ import { DocCode } from './code.component';
         <mee-sidenav-header class="h-full w-40">
           <div class="p-2">This is the header</div>
         </mee-sidenav-header>
-        <mee-sidenav-content class="h-full border p-2">
+        <div class="h-full border p-2">
           <p>This is the content</p>
           <button meeButton (click)="toggle()">Toggle</button>
-        </mee-sidenav-content>
+        </div>
       </mee-sidenav>
     </app-doc-code>
   `,

@@ -117,10 +117,10 @@ describe('DatePicker', () => {
     component.selectDate(date, 0);
     expect(component.selectedDates()).toEqual([date, null]);
 
-    jest.spyOn(component.datepickerTrigger!, 'updateInput');
+    jest.spyOn(component['datepickerTrigger']!, 'updateInput');
     component.selectDate(date, 1);
     expect(component.selectedDates()).toEqual([date, date]);
-    expect(component.datepickerTrigger!.updateInput).toHaveBeenCalledWith([date, date]);
+    expect(component['datepickerTrigger']!.updateInput).toHaveBeenCalledWith([date, date]);
   });
 
   it('should select a year', () => {

@@ -7,16 +7,9 @@ import { SidebarComponent } from './sidebar.component';
 import { Card } from '@meeui/card';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    Button,
-    ScrollArea,
-    Card,
-    SidebarComponent,
-  ],
+  selector: 'app-root',
+  imports: [RouterOutlet, RouterLink, Button, ScrollArea, Card, SidebarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="fixed left-0 top-0 w-full border-b  bg-foreground p-b2">
@@ -25,9 +18,7 @@ import { Card } from '@meeui/card';
           <p>Tools</p>
         </a>
         <div>
-          <a meeButton variant="ghost" (click)="themeService.toggle()">
-            Theme
-          </a>
+          <a meeButton variant="ghost" (click)="themeService.toggle()"> Theme </a>
         </div>
       </div>
     </nav>

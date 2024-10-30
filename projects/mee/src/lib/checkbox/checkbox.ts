@@ -1,18 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  forwardRef,
-  input,
-  model,
-  output,
-} from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { generateId } from '../utils';
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { provideValueAccessor, uniqueId } from '../utils';
 import { FocusStyle } from './focus-style.directive';
 
 @Component({
-  standalone: true,
   selector: 'mee-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, FocusStyle],
@@ -33,23 +24,18 @@ import { FocusStyle } from './focus-style.directive';
         </svg>
       }
     </button>
-    <ng-content></ng-content>
+    <ng-content />
   `,
   host: {
     class: 'inline-flex items-center gap-b2 py-1',
     '[class]': `disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
     '(click)': 'updateValue()',
   },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Checkbox),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Checkbox)],
+  standalone: true,
 })
 export class Checkbox implements ControlValueAccessor {
-  readonly id = generateId();
+  readonly id = uniqueId();
   readonly disabled = input(false);
   readonly checked = model(false);
   readonly change = output<boolean>();

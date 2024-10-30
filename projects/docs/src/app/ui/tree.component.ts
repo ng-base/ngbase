@@ -1,12 +1,12 @@
-import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Button } from '@meeui/button';
 import { Icon } from '@meeui/icon';
-import { Tree, TreeNode, TreeNodeContent, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
+import { InlineEdit } from '@meeui/inline-edit';
+import { Tree, TreeNode, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
+import { Heading } from '@meeui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
-import { Heading } from '@meeui/typography';
-import { Button } from '@meeui/button';
-import { FormsModule } from '@angular/forms';
 
 class TreeItem {
   currentNow = signal(Date.now());
@@ -32,12 +32,10 @@ class TreeItem {
     TreeNode,
     TreeNodeDef,
     TreeNodeToggle,
-    TreeNodeContent,
     Heading,
     Button,
     Icon,
-    NgTemplateOutlet,
-    JsonPipe,
+    InlineEdit,
   ],
   viewProviders: [provideIcons({ lucideChevronDown, lucideChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,10 +51,10 @@ class TreeItem {
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
-            ></mee-icon>
+            />
             <!-- {{ myNode.isOpen() ? '▼' : '►' }} -->
           </button>
-          <input [(ngModel)]="item.name" class="bg-transparent" /> {{ item.currentNow() }}
+          <mee-inline-edit [(ngModel)]="item.name" class="bg-transparent" /> {{ item.currentNow() }}
           <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>
           <button
             meeButton

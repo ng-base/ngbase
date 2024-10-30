@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ResizableGroup, Resizable } from '@meeui/resizable';
 import { Heading } from '@meeui/typography';
 import { Button } from '@meeui/button';

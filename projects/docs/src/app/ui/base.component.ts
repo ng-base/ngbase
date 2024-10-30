@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  linkedSignal,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Button } from '@meeui/button';
 import { ThemeService, ThemeButton } from '@meeui/theme';
 import { ScrollArea } from '@meeui/scroll-area';
-import { UiComponent } from './ui.component';
 import { TourStep } from '@meeui/tour';
 import { Avatar } from '@meeui/avatar';
 import { Menu, MenuTrigger } from '@meeui/menu';
@@ -11,24 +17,19 @@ import { List } from '@meeui/list';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMenu } from '@ng-icons/lucide';
 import { Icon } from '@meeui/icon';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
-import { Card } from '@meeui/card';
+import { Sidenav, SidenavHeader } from '@meeui/sidenav';
 import { NavComponent } from './nav-header.component';
 import { AppService } from '../app.service';
 import { Heading } from '@meeui/typography';
-import { Directionality } from '@meeui/utils';
-import { Spinner } from '@meeui/spinner';
-import { Switch } from '@meeui/switch';
+import { breakpointObserver, Directionality } from '@meeui/utils';
 
 @Component({
-  selector: 'mee-base',
   standalone: true,
+  selector: 'mee-base',
   imports: [
     RouterOutlet,
-    RouterLink,
     Button,
     ScrollArea,
-    UiComponent,
     TourStep,
     Avatar,
     MenuTrigger,
@@ -37,13 +38,9 @@ import { Switch } from '@meeui/switch';
     Icon,
     Sidenav,
     SidenavHeader,
-    SidenavContent,
-    Card,
     NavComponent,
     Heading,
     ThemeButton,
-    Switch,
-    Spinner,
   ],
   providers: [AppService],
   viewProviders: [provideIcons({ lucideMenu })],
@@ -53,7 +50,7 @@ import { Switch } from '@meeui/switch';
       <div class="flex h-full items-center justify-between">
         <div class="flex items-center gap-b2 text-lg">
           <button meeButton variant="ghost" (click)="toggleShow()" class="h-8 w-8">
-            <mee-icon name="lucideMenu"></mee-icon>
+            <mee-icon name="lucideMenu" />
           </button>
           <img src="/logo.svg" alt="logo" class="h-6" />
           <h4 meeHeader="xs">Mee UI</h4>
@@ -68,7 +65,7 @@ import { Switch } from '@meeui/switch';
           >
             Theme
           </button>
-          <mee-theme-button meeTourStep="theme-toggle"></mee-theme-button>
+          <mee-theme-button meeTourStep="theme-toggle" />
           <button meeButton variant="ghost" (click)="dir.toggleDirection()">
             {{ dir.isRtl() ? 'RTL' : 'LTR' }}
           </button>
@@ -83,38 +80,56 @@ import { Switch } from '@meeui/switch';
     </nav>
 
     <mee-menu #profileMenu>
-      <button meeList variant="ghost">Account</button>
-      <button meeList variant="ghost">Preference</button>
-      <button meeList variant="ghost">UI</button>
+      <button meeList>Account</button>
+      <button meeList>Preference</button>
+      <button meeList>UI</button>
     </mee-menu>
 
     <mee-scroll-area>
-      <mee-sidenav>
-        <mee-sidenav-header class="w-56">
-          <app-nav class="tour-nav block w-56" meeTourStep></app-nav>
+      <mee-sidenav [mode]="mode()" [(show)]="show">
+        <mee-sidenav-header width="250px">
+          <app-nav class="tour-nav block" meeTourStep></app-nav>
         </mee-sidenav-header>
         <div class="flex-1 overflow-x-hidden">
           <div class="p-b4">
-            <router-outlet></router-outlet>
+            <router-outlet />
           </div>
           <!-- <div class="flex h-full h-screen w-full items-center justify-center">
-            <mee-spinner></mee-spinner>
+            <mee-spinner />
           </div> -->
         </div>
       </mee-sidenav>
     </mee-scroll-area>
-    <!-- <mee-ui [show]="showSideMenu()"></mee-ui> -->
   `,
   host: {
     class: 'block',
   },
 })
 export class BaseComponent {
-  themeService = inject(ThemeService);
-  dir = inject(Directionality);
-  sideNav = viewChild.required(Sidenav);
+  readonly themeService = inject(ThemeService);
+  readonly dir = inject(Directionality);
+  readonly sideNav = viewChild.required(Sidenav);
+  readonly breakpoints = breakpointObserver();
+
+  readonly md = this.breakpoints.observe({ md: '(max-width: 768px)' });
+  readonly mode = linkedSignal({
+    source: this.md,
+    computation: value => (value.get('md') ? 'over' : 'side'),
+  });
+
+  readonly show = signal(true);
+
+  constructor() {
+    if (this.breakpoints.matches('(max-width: 768px)')) {
+      this.show.set(false);
+    }
+  }
 
   toggleShow() {
     this.sideNav().toggle();
+  }
+
+  toggleMode() {
+    this.mode.update(mode => (mode === 'side' ? 'over' : 'side'));
   }
 }

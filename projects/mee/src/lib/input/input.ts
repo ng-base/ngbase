@@ -1,17 +1,12 @@
-import { Directive, forwardRef, model } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Directive, model } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { InputStyle } from './input-style.directive';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Directive({
-  selector: '[meeInput]',
   standalone: true,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Input),
-      multi: true,
-    },
-  ],
+  selector: '[meeInput]',
+  providers: [provideValueAccessor(Input)],
   host: {
     role: 'textbox',
     '[attr.aria-label]': 'ariaLabel',
@@ -22,8 +17,8 @@ import { InputStyle } from './input-style.directive';
   },
   hostDirectives: [InputStyle],
 })
-export class Input implements ControlValueAccessor {
-  readonly value = model<any>('');
+export class Input<T = unknown> implements ControlValueAccessor {
+  readonly value = model<T>('' as any);
   onChange = (value: string) => {};
   onTouched = () => {};
 

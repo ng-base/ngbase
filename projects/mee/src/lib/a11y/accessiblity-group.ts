@@ -68,49 +68,40 @@ export class AccessibleGroup implements OnDestroy {
 
   constructor() {
     this.el.nativeElement.style.outline = 'none';
-    effect(
-      cleanup => {
-        const id = this.ayId();
-        if (id) {
-          this.allyService.addGroup(id, this);
-          cleanup(() => this.allyService.removeGroup(id));
+    effect(cleanup => {
+      const id = this.ayId();
+      if (id) {
+        this.allyService.addGroup(id, this);
+        cleanup(() => this.allyService.removeGroup(id));
+      }
+    });
+    effect(() => {
+      const items = this.items();
+      const isOn = this.isOn();
+      // this.log('group', items);
+      untracked(() => {
+        items.forEach(item => item.blur());
+        this.log('focus', items.length, isOn, this.initialFocus());
+        let item = this.focusedItem?.deref();
+        if (items.length && isOn && this.initialFocus()) {
+          if (!item || !items.includes(item)) {
+            item = items[0];
+          }
+          this.focusItem(item);
         }
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const items = this.items();
-        const isOn = this.isOn();
-        // this.log('group', items);
-        untracked(() => {
-          items.forEach(item => item.blur());
-          this.log('focus', items.length, isOn, this.initialFocus());
-          let item = this.focusedItem?.deref();
-          if (items.length && isOn && this.initialFocus()) {
-            if (!item || !items.includes(item)) {
-              item = items[0];
-            }
-            this.focusItem(item);
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const isPopup = this.isPopup();
-        untracked(() => {
-          if (isPopup) {
-            this.on();
-          } else {
-            this.el.nativeElement.addEventListener('focusin', this.handleFocusIn);
-            this.el.nativeElement.addEventListener('focusout', this.handleFocusOut);
-          }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+      });
+    });
+    effect(() => {
+      const isPopup = this.isPopup();
+      untracked(() => {
+        if (isPopup) {
+          this.on();
+        } else {
+          this.el.nativeElement.addEventListener('focusin', this.handleFocusIn);
+          this.el.nativeElement.addEventListener('focusout', this.handleFocusOut);
+        }
+      });
+    });
   }
 
   handleFocusIn = (event: FocusEvent) => {

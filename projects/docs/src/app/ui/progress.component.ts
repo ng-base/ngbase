@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
     <app-doc-code [tsCode]="tsCode">
       <button meeButton meeTooltip="increment" class="mr-2" (click)="increment()">+</button>
       <button meeButton meeTooltip="decrement" (click)="decrement()">-</button>
-      <mee-progress [value]="percentage" class="w-96"></mee-progress>
+      <mee-progress [value]="percentage" class="w-96" />
     </app-doc-code>
   `,
 })
@@ -38,7 +38,7 @@ export class ProgressComponent {
     selector: 'app-root',
     imports: [Progress],
     template: \`
-      <mee-progress [value]="percentage"></mee-progress>
+      <mee-progress [value]="percentage" />
     \`
   })
   export class AppComponent {

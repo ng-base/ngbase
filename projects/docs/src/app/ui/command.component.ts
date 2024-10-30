@@ -5,7 +5,6 @@ import { keyMap } from '@meeui/keys';
 
 @Component({
   standalone: true,
-  imports: [],
   selector: 'app-command',
   template: ``,
 })

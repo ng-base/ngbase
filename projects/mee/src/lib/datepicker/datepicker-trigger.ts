@@ -52,17 +52,14 @@ export class DatepickerTrigger<D> {
   close?: VoidFunction;
 
   constructor() {
-    effect(
-      () => {
-        const value = this.getInputValue();
-        this.updateField(value);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const value = this.getInputValue();
+      this.updateField(value);
+    });
   }
 
   private getInputValue() {
-    const v = this.inputS.value();
+    const v = this.inputS.value() as never;
     let value: string[] = [];
     if (v) {
       value = this.range() ? v : [v];

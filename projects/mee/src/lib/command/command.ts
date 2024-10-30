@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { List } from '../list';
 import { AccessibleGroup, AccessibleItem } from '../a11y';
-import { Autofocus, filterFunction, generateId } from '../utils';
+import { Autofocus, filterFunction, uniqueId } from '../utils';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DialogRef } from '../portal';
@@ -56,7 +56,7 @@ import { DialogRef } from '../portal';
 })
 export class Command {
   private dialogRef = inject(DialogRef);
-  ayId = generateId();
+  ayId = uniqueId();
 
   private componentList: { name: string; link: string }[] = [
     { name: 'Accordion', link: '/accordion' },

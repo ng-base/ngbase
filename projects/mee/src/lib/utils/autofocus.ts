@@ -4,25 +4,25 @@ import {
   ApplicationRef,
   inject,
   input,
-  effect,
   afterRender,
   PLATFORM_ID,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { generateId } from './utils';
+import { uniqueId } from './utils';
 import { isPlatformBrowser } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, take } from 'rxjs';
 
 @Directive({
-  standalone: true,
   selector: '[meeAutofocus]',
+  standalone: true,
 })
 export class Autofocus {
   private el = inject(ElementRef);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private applicationRef = inject(ApplicationRef);
-  private id = generateId();
+  private id = uniqueId();
 
-  readonly focusDelay = input<number>(30);
+  readonly focusDelay = input<number>(300);
   isFocused = false;
 
   constructor() {
@@ -61,14 +61,19 @@ export class Autofocus {
   private focusElement() {
     // Use requestAnimationFrame to ensure the browser has painted the DOM
 
-    return setTimeout(
-      () =>
-        requestAnimationFrame(() => {
-          console.log('focusing', this.el.nativeElement);
+    this.applicationRef.isStable.pipe(take(1), debounceTime(400)).subscribe(() => {
+      setTimeout(
+        () => {
+          // requestAnimationFrame(() => {
+          //   console.log('focusing', this.el.nativeElement);
+          //   this.el.nativeElement.focus();
+          // });
+          console.log('isStable', this.id);
           this.el.nativeElement.focus();
-        }),
-      // () => this.el.nativeElement.focus(),
-      this.focusDelay(),
-    );
+        },
+        // () => this.el.nativeElement.focus(),
+        this.focusDelay(),
+      );
+    });
   }
 }

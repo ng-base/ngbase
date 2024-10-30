@@ -26,10 +26,10 @@ const spinnerAnimation = trigger('enterLeave', [
 ]);
 
 @Component({
-  selector: 'mee-spinner',
   standalone: true,
+  selector: 'mee-spinner',
   template: `
-    <ng-content></ng-content>
+    <ng-content />
     <!-- <div
       class="aspect-square w-full animate-spin rounded-full border-primary border-l-transparent"
       [class]="mode()"

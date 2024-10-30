@@ -1,3 +1,5 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,17 +8,14 @@ import {
   effect,
   input,
   model,
-  signal,
 } from '@angular/core';
 import { Step } from './step';
-import { NgTemplateOutlet, NgStyle, NgClass } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   standalone: true,
   selector: 'mee-stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgStyle, NgClass],
+  imports: [NgTemplateOutlet, NgClass],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
       @for (step of steps(); track step) {
@@ -39,7 +38,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
               {{ $index + 1 }}
             </div>
             @if (step.header(); as header) {
-              <ng-container *ngTemplateOutlet="header"></ng-container>
+              <ng-container *ngTemplateOutlet="header" />
             } @else {
               {{ step.title() }}
             }
@@ -48,7 +47,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
             <div class="ml-12 min-h-4">
               @if (step.stepContainer() && step.active()) {
                 <div [@slide]>
-                  <ng-container *ngTemplateOutlet="step.stepContainer()"></ng-container>
+                  <ng-container *ngTemplateOutlet="step.stepContainer()" />
                 </div>
               }
             </div>
@@ -56,7 +55,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         </div>
       }
     </div>
-    <ng-content></ng-content>
+    <ng-content />
   `,
   animations: [
     trigger('slide', [
@@ -77,17 +76,14 @@ export class Stepper {
   readonly completed = computed(() => this.activeIndex() === this.steps().length);
 
   constructor() {
-    effect(
-      () => {
-        const steps = this.steps();
-        const activeIndex = this.activeIndex();
+    effect(() => {
+      const steps = this.steps();
+      const activeIndex = this.activeIndex();
 
-        steps.forEach((step, index) => {
-          step.active.set(activeIndex === index);
-        });
-      },
-      { allowSignalWrites: true },
-    );
+      steps.forEach((step, index) => {
+        step.active.set(activeIndex === index);
+      });
+    });
   }
 
   next() {

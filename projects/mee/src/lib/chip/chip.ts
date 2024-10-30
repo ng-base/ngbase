@@ -18,7 +18,7 @@ import { Icon } from '../icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Icon],
   viewProviders: [provideIcons({ lucideX })],
-  template: `<ng-content></ng-content>
+  template: `<ng-content />
     @if (removable()) {
       <button
         meeButton
@@ -28,7 +28,7 @@ import { Icon } from '../icon';
         [class]="dir.isRtl() ? '-ml-b4' : '-mr-b4'"
         (click)="close.emit()"
       >
-        <mee-icon name="lucideX"></mee-icon>
+        <mee-icon name="lucideX" />
       </button>
     }`,
   host: {
@@ -43,13 +43,3 @@ export class Chip<T = any> {
   readonly value = input<T>();
   readonly close = output();
 }
-
-// @Component({
-//   standalone: true,
-//   selector: 'mee-badge, [meeBadge]',
-//   template: `<ng-content></ng-content>`,
-//   host: {
-//     class: 'inline-block bg-background rounded-base px-2 py-1 text-xs',
-//   },
-// })
-// export class Badge {}

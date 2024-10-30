@@ -1,12 +1,12 @@
 import { Directive, input } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[meeCopyToClipboard]',
   host: {
     class: 'cursor-pointer',
     '(click)': 'onClick($event)',
   },
+  standalone: true,
 })
 export class CopyToClipboard {
   readonly meeCopyToClipboard = input<string>();

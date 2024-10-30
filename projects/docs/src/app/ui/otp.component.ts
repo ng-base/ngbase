@@ -3,12 +3,11 @@ import { Heading } from '@meeui/typography';
 import { Input, InputOtp, Label } from '@meeui/input';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
-import { MaskInput } from '@meeui/utils';
 
 @Component({
   standalone: true,
   selector: 'app-otp',
-  imports: [FormsModule, Heading, InputOtp, DocCode, MaskInput, Input, Label],
+  imports: [FormsModule, Heading, InputOtp, DocCode, Label],
   template: `
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
@@ -39,9 +38,9 @@ export class OtpComponent {
     selector: 'app-root',
     imports: [InputOtp, FormsModule],
     template: \`
-      <mee-input-otp [size]="[4]" [(ngModel)]="otp"></mee-input-otp>
+      <mee-input-otp [size]="[4]" [(ngModel)]="otp" />
 
-      <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1"></mee-input-otp>
+      <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
     \`,
   })
   export class AppComponent {

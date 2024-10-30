@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
 import { Card } from '@meeui/card';
 import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
 import { Button } from '@meeui/button';
 import { Heading } from '@meeui/typography';
 import { AutoHeight, Input } from '@meeui/input';
 import { Menu, MenuTrigger } from '@meeui/menu';
-import { List } from '@meeui/list';
-import { ToggleGroup } from '@meeui/toggle-group';
 import { Slider } from '@meeui/slider';
 import { FormsModule } from '@angular/forms';
 import { Separator } from '@meeui/separator';
@@ -15,7 +12,6 @@ import { Selectable, SelectableItem } from '@meeui/selectable';
 import { provideIcons } from '@ng-icons/core';
 import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
 import { Icon } from '@meeui/icon';
-import { Key } from '@meeui/keys';
 
 @Component({
   standalone: true,
@@ -23,9 +19,6 @@ import { Key } from '@meeui/keys';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    Sidenav,
-    SidenavHeader,
-    SidenavContent,
     Card,
     SelectInput,
     Select,
@@ -37,14 +30,11 @@ import { Key } from '@meeui/keys';
     AutoHeight,
     Menu,
     MenuTrigger,
-    List,
-    ToggleGroup,
     Slider,
     Separator,
     Selectable,
     SelectableItem,
     Icon,
-    Key,
   ],
   viewProviders: [provideIcons({ lucideBookText, lucideDownload })],
   template: `

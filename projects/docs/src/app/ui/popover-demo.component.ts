@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Drag, DragMove } from '@meeui/drag';
 import { Button } from '@meeui/button';
 import { DialogClose } from '@meeui/portal';
 import { PopoverTrigger } from '@meeui/popover';
@@ -7,7 +6,7 @@ import { PopoverTrigger } from '@meeui/popover';
 @Component({
   standalone: true,
   selector: 'app-popover-demo',
-  imports: [Drag, DragMove, Button, DialogClose, PopoverTrigger],
+  imports: [Button, DialogClose, PopoverTrigger],
   template: `
     <div
       class="absolute left-0 top-0 aspect-square w-40 border bg-slate-100"

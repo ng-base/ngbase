@@ -1,21 +1,12 @@
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  contentChildren,
-  effect,
-  forwardRef,
-  input,
-  model,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, contentChildren, input, model } from '@angular/core';
 import { ToggleItem } from './toggle-item';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { AccessibleGroup } from '../a11y/accessiblity-group';
-import { generateId } from '../utils';
+import { provideValueAccessor, uniqueId } from '../utils';
 
 @Component({
-  selector: 'mee-toggle-group',
   standalone: true,
+  selector: 'mee-toggle-group',
   imports: [AccessibleGroup],
   template: `<div
     class="flex gap-1"
@@ -24,24 +15,18 @@ import { generateId } from '../utils';
     [ariaLabel]="ariaLabel()"
     [ariaLabelledby]="ariaLabelledby()"
   >
-    <ng-content select="[meeToggleItem]"></ng-content>
+    <ng-content select="[meeToggleItem]" />
   </div>`,
   host: {
     class: '',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ToggleGroup),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(ToggleGroup)],
 })
 export class ToggleGroup<T> implements ControlValueAccessor {
   readonly multiple = input(true);
   readonly toggleItems = contentChildren(ToggleItem);
-  readonly ayId = generateId();
+  readonly ayId = uniqueId();
   // value can be array or single value
   readonly value = model<T | T[]>();
   onChange = (value: any) => {};
@@ -50,20 +35,6 @@ export class ToggleGroup<T> implements ControlValueAccessor {
   readonly disabled = model(false);
   readonly ariaLabel = input('');
   readonly ariaLabelledby = input('');
-
-  constructor() {
-    effect(
-      () => {
-        const items = this.toggleItems();
-        items.forEach(radio => {
-          radio.updateValue = () => {
-            this.updateValue([radio.value()]);
-          };
-        });
-      },
-      { allowSignalWrites: true },
-    );
-  }
 
   updateValue(value: T[]) {
     let values = this.value();

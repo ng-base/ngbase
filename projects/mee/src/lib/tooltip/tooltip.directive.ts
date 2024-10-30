@@ -53,24 +53,21 @@ export class Tooltip implements OnDestroy {
 
   constructor() {
     let active = false;
-    effect(
-      () => {
-        const content = this.meeTooltip();
-        untracked(() => {
-          if (content) {
-            if (!active) {
-              this.el.nativeElement.addEventListener('mouseenter', this.show);
-              this.el.nativeElement.addEventListener('mouseleave', this.hide);
-              active = true;
-            }
-          } else if (active) {
-            this.remove();
-            active = false;
+    effect(() => {
+      const content = this.meeTooltip();
+      untracked(() => {
+        if (content) {
+          if (!active) {
+            this.el.nativeElement.addEventListener('mouseenter', this.show);
+            this.el.nativeElement.addEventListener('mouseleave', this.hide);
+            active = true;
           }
-        });
-      },
-      { allowSignalWrites: true },
-    );
+        } else if (active) {
+          this.remove();
+          active = false;
+        }
+      });
+    });
   }
 
   show = () => {

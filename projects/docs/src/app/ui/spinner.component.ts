@@ -29,7 +29,7 @@ export class SpinnerComponent {
     selector: 'app-root',
     imports: [Spinner],
     template: \`
-      <mee-spinner></mee-spinner>
+      <mee-spinner />
     \`
   })
   export class AppComponent { }

@@ -1,7 +1,7 @@
 import { Directive, inject, Injectable, input, output } from '@angular/core';
 import { Menu } from './menu';
 import { popoverPortal } from '../popover';
-import { documentListener, generateId } from '../utils';
+import { documentListener, uniqueId } from '../utils';
 import { DialogRef } from '../portal';
 
 @Injectable({ providedIn: 'root' })
@@ -33,7 +33,7 @@ export class ContextMenu {
   readonly ctxOpen = output<boolean>();
   readonly ctxClose = output<boolean>();
 
-  readonly ayId = generateId();
+  readonly ayId = uniqueId();
 
   private docListner = documentListener('pointerup', () => this.menuService.close(), {
     once: true,

@@ -56,7 +56,6 @@ import {
     Input,
     ScrollArea,
     Badge,
-    RangePipe,
     Icon,
     Button,
     Tooltip,

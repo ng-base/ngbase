@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { render, RenderResult, injectService } from '../test';
 import { Shortcuts, keyMap } from './shortcuts.service';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 
 describe('Shortcuts', () => {
   let service: Shortcuts;
@@ -33,7 +33,7 @@ describe('Shortcuts', () => {
   }
 
   function createCallback() {
-    return { id: generateId(), stop: false, global: false, prevent: true, callback: jest.fn() };
+    return { id: uniqueId(), stop: false, global: false, prevent: true, callback: jest.fn() };
   }
 
   it('should be created', () => {

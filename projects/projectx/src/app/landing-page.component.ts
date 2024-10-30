@@ -37,7 +37,7 @@ import { Heading } from '@meeui/typography';
         ></textarea>
         <button meeButton (click)="submit()" [disabled]="loading">
           @if (loading) {
-            <mee-spinner class="mr-4 w-4" mode></mee-spinner>
+            <mee-spinner class="mr-4 w-4" mode />
           }
           {{ loading ? 'Sending the response...' : 'Submit' }}
         </button>

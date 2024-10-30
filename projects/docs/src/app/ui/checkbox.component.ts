@@ -11,12 +11,12 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="checkboxPage">Checkbox</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <div>
         <mee-checkbox class="w-full" [(ngModel)]="checkBox" [indeterminate]="indeterminate()">
           Check the UI
         </mee-checkbox>
-        <mee-checkbox [(ngModel)]="indeterminate"></mee-checkbox>
+        <mee-checkbox [(ngModel)]="indeterminate" />
       </div>
       <mee-checkbox class="w-full">Check the UI</mee-checkbox>
       <mee-checkbox class="w-full" [checked]="true" [disabled]="true">Check the UI</mee-checkbox>
@@ -27,10 +27,6 @@ export class CheckboxComponent {
   checkBox = false;
   indeterminate = signal(false);
 
-  htmlCode = `
-      <mee-checkbox [(ngModel)]="checkBox">Check the UI</mee-checkbox>
-    `;
-
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
@@ -39,7 +35,7 @@ export class CheckboxComponent {
   @Component({
     standalone: true,
     selector: 'app-root',
-    template: \`${this.htmlCode}\`,
+    template: \`<mee-checkbox [(ngModel)]="checkBox">Check the UI</mee-checkbox>\`,
     imports: [Checkbox, FormsModule],
   })
   export class AppComponent {

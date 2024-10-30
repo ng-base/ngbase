@@ -8,7 +8,6 @@ import {
 import { BaseDialog, DialogOptions } from '../portal';
 import { NgClass, NgStyle } from '@angular/common';
 import { viewAnimation, createHostAnimation, fadeAnimation } from './dialog.animation';
-import { Separator } from '../separator';
 import { Button } from '../button';
 import { Subject } from 'rxjs';
 import { Icon } from '../icon';
@@ -20,7 +19,7 @@ import { FocusTrap } from '../utils';
 @Component({
   standalone: true,
   selector: 'mee-dialog',
-  imports: [NgStyle, Separator, Button, NgClass, Icon, DragMove, FocusTrap],
+  imports: [NgStyle, Button, NgClass, Icon, DragMove],
   viewProviders: [provideIcons({ lucideX })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -59,13 +58,13 @@ import { FocusTrap } from '../utils';
                 class="-mr-b2 !p-b2"
                 (click)="close()"
               >
-                <mee-icon name="lucideX"></mee-icon>
+                <mee-icon name="lucideX" />
               </button>
             }
           </div>
         }
         <div class="h-full overflow-auto p-b4">
-          <ng-container #contentContainer></ng-container>
+          <ng-container #contentContainer />
         </div>
       </div>
       @if (!options.fullWindow && options.backdrop) {

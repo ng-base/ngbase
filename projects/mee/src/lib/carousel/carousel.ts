@@ -23,11 +23,11 @@ const DEFAULT_VELOCITY = 0.7;
   template: `
     <div class="touch-none overflow-hidden" meeDrag #mainContainer>
       <div #subContainer class="relative flex">
-        <ng-content select="[meeCarouselItem]"></ng-content>
+        <ng-content select="[meeCarouselItem]" />
       </div>
     </div>
     <div>
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
   host: {

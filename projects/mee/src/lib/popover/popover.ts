@@ -1,31 +1,28 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Injector,
   ViewContainerRef,
   afterNextRender,
   effect,
-  inject,
   signal,
   viewChild,
 } from '@angular/core';
-import { BaseDialog, tooltipPosition } from '../portal';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
-import { DragMove } from '../drag';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Icon } from '../icon';
-import { AccessibleGroup } from '../a11y';
+import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { createHostAnimation } from '../dialog/dialog.animation';
-import { FocusTrap } from '../utils';
-import { PopoverPosition, PopoverOptions } from './popover.service';
+import { DragMove } from '../drag';
+import { Icon } from '../icon';
+import { BaseDialog, tooltipPosition } from '../portal';
+import { FocusTrap, disposals } from '../utils';
+import { PopoverOptions, PopoverPosition } from './popover.service';
 
 @Component({
-  selector: 'mee-popover',
   standalone: true,
-  imports: [DragMove, Icon, AccessibleGroup, FocusTrap],
+  selector: 'mee-popover',
+  imports: [DragMove, Icon, FocusTrap],
   providers: [provideIcons({ lucideX })],
   template: ` <div
       #container
@@ -41,11 +38,11 @@ import { PopoverPosition, PopoverOptions } from './popover.service';
           [target]="container"
         >
           {{ options().title }}
-          <mee-icon name="lucideX" (click)="close()" class="cursor-pointer"></mee-icon>
+          <mee-icon name="lucideX" (click)="close()" class="cursor-pointer" />
         </div>
       }
       <div class="flex flex-1 flex-col overflow-auto">
-        <ng-container #myDialog></ng-container>
+        <ng-container #myDialog />
       </div>
     </div>
     @if (options().backdrop) {
@@ -98,15 +95,17 @@ import { PopoverPosition, PopoverOptions } from './popover.service';
   ],
 })
 export class Popover extends BaseDialog {
-  private injector = inject(Injector);
-  myDialog = viewChild('myDialog', { read: ViewContainerRef });
-  container = viewChild<ElementRef<HTMLElement>>('container');
-  backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
-  options = signal<PopoverOptions>({} as PopoverOptions);
-  private lastPosition: PopoverPosition = 'top';
-  scrolled = signal(0);
+  private readonly disposals = disposals();
 
-  events: Observable<{ type: string; value: any }> = this._afterViewSource.pipe(
+  readonly myDialog = viewChild.required('myDialog', { read: ViewContainerRef });
+  readonly container = viewChild.required<ElementRef<HTMLElement>>('container');
+  readonly backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
+
+  readonly options = signal<PopoverOptions>({} as PopoverOptions);
+  private lastPosition: PopoverPosition = 'top';
+  readonly scrolled = signal(0);
+
+  readonly events: Observable<{ type: string; value: any }> = this._afterViewSource.pipe(
     switchMap(e => {
       const el = this.container()!.nativeElement;
       const mouseenter = fromEvent(el, 'mouseenter');
@@ -125,70 +124,65 @@ export class Popover extends BaseDialog {
 
   constructor() {
     super();
-    afterNextRender(() => {
-      this._afterViewSource.next(this.myDialog()!);
+    afterNextRender({
+      write: () => {
+        this._afterViewSource.next(this.myDialog()!);
+      },
     });
 
-    effect(
-      cleanup => {
-        const el = this.container()!.nativeElement;
-        const options = this.options();
-        const target = this.getTarget();
-        if (options.anchor) {
-          options.offset = 16;
-        }
-        this.lastPosition = options.position || 'bottom';
-        // this.schedulePopoverUpdate(target, el);
-        if (options.smoothScroll) {
-          // target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    effect(cleanup => {
+      const el = this.container()!.nativeElement;
+      const options = this.options();
+      const target = this.getTarget();
+      if (options.anchor) {
+        options.offset = 16;
+      }
+      this.lastPosition = options.position || 'bottom';
+      // this.schedulePopoverUpdate(target, el);
+      if (options.smoothScroll) {
+        // target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-          // fromEvent(window, 'scroll')
-          //   .pipe(
-          //     startWith(1),
-          //     tap((x) => console.count('scroll 50')),
-          //     debounceTime(50),
-          //     take(1),
-          //   )
-          //   .subscribe(() => {});
-          // fromEvent(window, 'scroll')
-          //   .pipe(
-          //     startWith(1),
-          //     tap((x) => console.count('scroll 10')),
-          //     debounceTime(10),
-          //     take(1),
-          //   )
-          //   .subscribe(() => {
-          //     this.scrolled.update((x) => x + 1);
-          //     this.schedulePopoverUpdate(target, el);
-          //   });
-          scrollToElement(target).then(() => {
-            this.scrolled.update(x => x + 1);
-            this.schedulePopoverUpdate(target, el, options);
-          });
-        } else {
-          this.schedulePopoverUpdate(target, el, options);
-        }
-
-        // TODO: remove this once we have multi cleanup support
-        const localCleanup: VoidFunction[] = [];
-        if (!options.backdrop) {
-          window.addEventListener('scroll', this.scheduleUpdateDimension);
-          localCleanup.push(() =>
-            window.removeEventListener('scroll', this.scheduleUpdateDimension),
-          );
-        }
-
-        // observe the target element position change
-        const resizeObserver = new ResizeObserver(() => {
-          // console.log('resizeObserver');
+        // fromEvent(window, 'scroll')
+        //   .pipe(
+        //     startWith(1),
+        //     tap((x) => console.count('scroll 50')),
+        //     debounceTime(50),
+        //     take(1),
+        //   )
+        //   .subscribe(() => {});
+        // fromEvent(window, 'scroll')
+        //   .pipe(
+        //     startWith(1),
+        //     tap((x) => console.count('scroll 10')),
+        //     debounceTime(10),
+        //     take(1),
+        //   )
+        //   .subscribe(() => {
+        //     this.scrolled.update((x) => x + 1);
+        //     this.schedulePopoverUpdate(target, el);
+        //   });
+        scrollToElement(target).then(() => {
+          this.scrolled.update(x => x + 1);
           this.schedulePopoverUpdate(target, el, options);
         });
-        resizeObserver.observe(target);
-        localCleanup.push(() => resizeObserver.disconnect());
-        cleanup(() => localCleanup.forEach(x => x()));
-      },
-      { allowSignalWrites: true },
-    );
+      } else {
+        this.schedulePopoverUpdate(target, el, options);
+      }
+
+      // TODO: remove this once we have multi cleanup support
+      if (!options.backdrop) {
+        window.addEventListener('scroll', this.scheduleUpdateDimension);
+        cleanup(() => window.removeEventListener('scroll', this.scheduleUpdateDimension));
+      }
+
+      // observe the target element position change
+      const resizeObserver = new ResizeObserver(() => {
+        // console.log('resizeObserver');
+        this.schedulePopoverUpdate(target, el, options);
+      });
+      resizeObserver.observe(target);
+      cleanup(() => resizeObserver.disconnect());
+    });
   }
 
   override getTarget(): HTMLElement {
@@ -196,7 +190,7 @@ export class Popover extends BaseDialog {
   }
 
   private scheduleUpdateDimension = () => {
-    afterNextRender(() => this.updateDimension(), { injector: this.injector });
+    this.disposals.afterNextRender(() => this.updateDimension());
   };
 
   private schedulePopoverUpdate(target: HTMLElement, el: HTMLElement, options: PopoverOptions) {

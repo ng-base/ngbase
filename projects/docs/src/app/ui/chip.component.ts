@@ -10,16 +10,12 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5">Chip</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <div meeChip>Chip</div>
     </app-doc-code>
   `,
 })
 export class ChipComponent {
-  htmlCode = `
-      <button meeChip>Chip</button>
-    `;
-
   tsCode = `
   import { Component } from '@angular/core';
   import { Chip } from '@meeui/chip';
@@ -28,7 +24,7 @@ export class ChipComponent {
     standalone: true,
     selector: 'app-root',
     imports: [Chip],
-    template: \`${this.htmlCode}\`,
+    template: \`<button meeChip>Chip</button>\`,
   })
   export class AppComponent { }
   `;

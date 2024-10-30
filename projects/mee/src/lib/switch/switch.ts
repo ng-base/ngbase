@@ -2,17 +2,16 @@ import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  forwardRef,
   input,
   model,
   output,
 } from '@angular/core';
-import { generateId } from '../utils';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { provideValueAccessor, uniqueId } from '../utils';
+import { ControlValueAccessor } from '@angular/forms';
 
 @Component({
-  selector: 'mee-switch',
   standalone: true,
+  selector: 'mee-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -29,21 +28,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         [class]="checked() ? 'translate-x-full' : ''"
       ></span>
     </button>
-    <label [for]="id"><ng-content></ng-content></label>
+    <label [for]="id"><ng-content /></label>
   `,
   host: {
     class: 'inline-flex items-center gap-b2 py-b',
   },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Switch),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Switch)],
 })
 export class Switch implements ControlValueAccessor {
-  readonly id = generateId();
+  readonly id = uniqueId();
   readonly change = output<boolean>();
   readonly checked = model(false);
   readonly disabled = input(false, { transform: booleanAttribute });

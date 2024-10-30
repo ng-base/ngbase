@@ -1,13 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { Tab, Tabs, TabHeader, TabLazy } from '@meeui/tabs';
-import { RangePipe } from '@meeui/utils';
+import { Button } from '@meeui/button';
+import { Icon } from '@meeui/icon';
+import { Tab, TabHeader, TabLazy, Tabs } from '@meeui/tabs';
 import { Heading } from '@meeui/typography';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { DocCode } from './code.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideX } from '@ng-icons/lucide';
-import { Icon } from '@meeui/icon';
-import { Button } from '@meeui/button';
+import { DocCode } from './code.component';
 
 @Component({
   standalone: true,
@@ -23,20 +21,7 @@ export class TabLazyComponent {
 @Component({
   standalone: true,
   selector: 'app-tabs',
-  imports: [
-    Tabs,
-    Tab,
-    TabLazy,
-    TabHeader,
-    Heading,
-    RangePipe,
-    Selectable,
-    SelectableItem,
-    DocCode,
-    Icon,
-    Button,
-    TabLazyComponent,
-  ],
+  imports: [Tabs, Tab, TabLazy, TabHeader, Heading, DocCode, Icon, Button, TabLazyComponent],
   viewProviders: [provideIcons({ lucidePlus, lucideX })],
   template: `
     <h4 meeHeader class="mb-5" id="tabsPage">Tabs</h4>
@@ -45,7 +30,7 @@ export class TabLazyComponent {
       <mee-tabs
         [(selectedIndex)]="tabIndex"
         (selectedIndexChange)="tabIndexChange($event)"
-        class="w-[40rem] overflow-hidden rounded-base border shadow-sm"
+        class="w-[40rem] max-w-full overflow-hidden rounded-base border shadow-sm"
       >
         <div
           class="tab-start-header-content flex items-center justify-center whitespace-nowrap px-b4"
@@ -54,7 +39,7 @@ export class TabLazyComponent {
         </div>
         <div class="tab-header-content flex items-center justify-center">
           <button meeButton variant="ghost" class="mr-2 h-8 w-8" (click)="addTab()">
-            <mee-icon name="lucidePlus"></mee-icon>
+            <mee-icon name="lucidePlus" />
           </button>
         </div>
         @for (n of tabs(); track n.id) {

@@ -18,8 +18,8 @@ import { lucideX } from '@ng-icons/lucide';
 import { SheetOptions } from './sheet.service';
 
 @Component({
-  selector: 'mee-sheet',
   standalone: true,
+  selector: 'mee-sheet',
   imports: [NgStyle, Button, Icon],
   viewProviders: [provideIcons({ lucideX })],
   template: `
@@ -40,12 +40,12 @@ import { SheetOptions } from './sheet.service';
           <div class="flex items-center border-b px-b4 py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
             <button type="button" meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
-              <mee-icon name="lucideX"></mee-icon>
+              <mee-icon name="lucideX" />
             </button>
           </div>
         }
         <div class="h-full overflow-auto p-b4">
-          <ng-container #myDialog></ng-container>
+          <ng-container #myDialog />
         </div>
       </div>
     </div>

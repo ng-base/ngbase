@@ -3,9 +3,8 @@ import { ChangeDetectionStrategy, Component, ViewContainerRef, viewChild } from 
 @Component({
   standalone: true,
   selector: 'mee-portal',
-  template: `<ng-container #myDialog></ng-container>`,
+  template: `<ng-container #myDialog />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {},
 })
 export class Portal {
   myDialog = viewChild('myDialog', { read: ViewContainerRef });

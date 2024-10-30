@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { render, RenderResult } from '../test';
-import { MaskInput } from './masking.component';
+import { MaskInput } from './masking';
 
 @Component({
   standalone: true,

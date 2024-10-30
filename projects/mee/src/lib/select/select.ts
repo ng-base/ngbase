@@ -1,18 +1,17 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
 import { Icon } from '../icon';
 import { InputStyle } from '../input/input-style.directive';
 import { SelectBase } from './select-base';
 import { AccessibleGroup } from '../a11y';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  selector: 'mee-select',
   standalone: true,
+  selector: 'mee-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, InputStyle, Icon, AccessibleGroup],
+  imports: [Icon, AccessibleGroup],
   template: `
     <button
       type="button"
@@ -23,7 +22,7 @@ import { AccessibleGroup } from '../a11y';
       tabindex="-1"
     >
       <!-- Prefix template -->
-      <ng-content select=".select-prefix"></ng-content>
+      <ng-content select=".select-prefix" />
 
       <span class="truncate" [class.text-muted]="!cValue()">
         <ng-content select="[meeSelectTrigger]">
@@ -36,7 +35,7 @@ import { AccessibleGroup } from '../a11y';
     <!-- Options template -->
     <ng-template #options>
       <div class="flex h-full flex-col overflow-hidden">
-        <ng-content select="[meeSelectInput]"></ng-content>
+        <ng-content select="[meeSelectInput]" />
         <div
           #optionsGroup
           meeAccessibleGroup
@@ -65,13 +64,7 @@ import { AccessibleGroup } from '../a11y';
   },
   hostDirectives: [InputStyle],
   viewProviders: [provideIcons({ lucideChevronsUpDown })],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Select),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Select)],
 })
 export class Select<T> extends SelectBase<T> {
   constructor() {

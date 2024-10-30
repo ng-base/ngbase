@@ -5,8 +5,8 @@ import { ThemeService } from '@meeui/theme';
 import { ScrollArea } from '@meeui/scroll-area';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
+  selector: 'app-root',
   imports: [RouterOutlet, RouterLink, Button, ScrollArea],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -18,9 +18,7 @@ import { ScrollArea } from '@meeui/scroll-area';
         </a>
         <div>
           <a meeButton variant="ghost" routerLink="/admin">Admin</a>
-          <a meeButton variant="ghost" (click)="themeService.toggle()">
-            Theme
-          </a>
+          <a meeButton variant="ghost" (click)="themeService.toggle()"> Theme </a>
         </div>
       </div>
     </nav>

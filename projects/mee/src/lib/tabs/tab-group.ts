@@ -13,12 +13,12 @@ import {
   viewChildren,
 } from '@angular/core';
 import { Tab } from './tab';
-import { NgClass, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { Icon } from '../icon';
 import { AccessibleGroup, AccessibleItem } from '../a11y';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 
 export interface TabChangeEvent {
   tab: Tab;
@@ -26,13 +26,13 @@ export interface TabChangeEvent {
 }
 
 @Component({
-  selector: 'mee-tabs',
   standalone: true,
-  imports: [NgComponentOutlet, NgTemplateOutlet, Icon, NgClass, AccessibleGroup, AccessibleItem],
+  selector: 'mee-tabs',
+  imports: [NgTemplateOutlet, Icon, NgClass, AccessibleGroup, AccessibleItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="flex items-center border-b">
-      <ng-content select=".tab-start-header-content"></ng-content>
+      <ng-content select=".tab-start-header-content" />
       <div class="relative flex overflow-hidden" role="tabList">
         <button
           #leftScroll
@@ -41,7 +41,7 @@ export interface TabChangeEvent {
           class="absolute left-0 z-10 hidden h-full place-items-center bg-foreground px-2"
           tabindex="-1"
         >
-          <mee-icon name="lucideChevronLeft"></mee-icon>
+          <mee-icon name="lucideChevronLeft" />
         </button>
         <nav role="tablist" #tabList class="tabList overflow-auto" meeAccessibleGroup [ayId]="ayId">
           <div #tabListContainer class="flex h-full w-max">
@@ -69,7 +69,7 @@ export interface TabChangeEvent {
                   }"
                 >
                   @if (tab.header()) {
-                    <ng-container *ngTemplateOutlet="tab.header()!"></ng-container>
+                    <ng-container *ngTemplateOutlet="tab.header()!" />
                   } @else {
                     {{ tab.label() }}
                   }
@@ -85,12 +85,12 @@ export interface TabChangeEvent {
           class="absolute right-0 z-10 hidden h-full place-items-center bg-foreground px-2"
           tabindex="-1"
         >
-          <mee-icon name="lucideChevronRight"></mee-icon>
+          <mee-icon name="lucideChevronRight" />
         </button>
       </div>
-      <ng-content select=".tab-header-content"></ng-content>
+      <ng-content select=".tab-header-content" />
     </div>
-    <ng-content></ng-content> `,
+    <ng-content /> `,
   styles: `
     .tabList {
       scrollbar-width: none;
@@ -114,7 +114,7 @@ export class Tabs {
 
   private selectedId?: number;
   private readonly tabMap = new Map<number, string>();
-  readonly ayId = generateId();
+  readonly ayId = uniqueId();
 
   constructor() {
     effect(cleanup => {
@@ -129,59 +129,53 @@ export class Tabs {
       }
     });
 
-    effect(
-      () => {
-        const tabs = this.tabs();
-        tabs.forEach((tab, index) => tab.index.set(index));
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const tabs = this.tabs();
+      tabs.forEach((tab, index) => tab.index.set(index));
+    });
 
-    effect(
-      () => {
-        const tabs = this.tabs();
-        let activeIndex = this.selectedIndex();
-        if (activeIndex === undefined || activeIndex === null) {
-          this.setActive(tabs[0]);
+    effect(() => {
+      const tabs = this.tabs();
+      let activeIndex = this.selectedIndex();
+      if (activeIndex === undefined || activeIndex === null) {
+        this.setActive(tabs[0]);
+        return;
+      }
+      if (this.selectedId !== undefined && activeIndex === this.selectedId) {
+        const id = this.tabMap.get(this.selectedId);
+        const tab = tabs.find(tab => tab.id === id);
+        if (tab && activeIndex !== tab.index()) {
+          this.setActive(tab);
+          this.selectedId = undefined;
           return;
         }
-        if (this.selectedId !== undefined && activeIndex === this.selectedId) {
-          const id = this.tabMap.get(this.selectedId);
-          const tab = tabs.find(tab => tab.id === id);
-          if (tab && activeIndex !== tab.index()) {
-            this.setActive(tab);
-            this.selectedId = undefined;
-            return;
-          }
+      }
+
+      // make sure the index is not a disabled tab
+      // if (tabs[activeIndex]?.disabled()) {
+      //   const nextIndex = tabs.findIndex((tab, index) => !tab.disabled() && index > activeIndex);
+      //   activeIndex = nextIndex === -1 ? tabs.length - 1 : nextIndex;
+      //   this.selectedIndex.set(activeIndex);
+      //   this.selectedId = activeIndex;
+      //   return;
+      // }
+
+      // tabMap is used to keep track of the tab headers
+      this.tabMap.clear();
+      let activeTab: Tab;
+      tabs.forEach((tab, index) => {
+        tab.active.set(activeIndex === tab.tabId());
+        if (activeIndex === tab.tabId()) {
+          activeTab = tab;
         }
+        this.tabMap.set(index, tab.id);
+      });
 
-        // make sure the index is not a disabled tab
-        // if (tabs[activeIndex]?.disabled()) {
-        //   const nextIndex = tabs.findIndex((tab, index) => !tab.disabled() && index > activeIndex);
-        //   activeIndex = nextIndex === -1 ? tabs.length - 1 : nextIndex;
-        //   this.selectedIndex.set(activeIndex);
-        //   this.selectedId = activeIndex;
-        //   return;
-        // }
+      this.selectedId = activeIndex;
 
-        // tabMap is used to keep track of the tab headers
-        this.tabMap.clear();
-        let activeTab: Tab;
-        tabs.forEach((tab, index) => {
-          tab.active.set(activeIndex === tab.tabId());
-          if (activeIndex === tab.tabId()) {
-            activeTab = tab;
-          }
-          this.tabMap.set(index, tab.id);
-        });
-
-        this.selectedId = activeIndex;
-
-        // scroll to the active tab
-        this.scrollToActive(activeTab!.index());
-      },
-      { allowSignalWrites: true },
-    );
+      // scroll to the active tab
+      this.scrollToActive(activeTab!.index());
+    });
 
     afterNextRender(() => {
       const el = this.tabList().nativeElement;

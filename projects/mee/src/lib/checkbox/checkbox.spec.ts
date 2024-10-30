@@ -8,13 +8,12 @@ describe('CheckboxComponent', () => {
   let view: RenderResult<TestComponent>;
 
   @Component({
-    standalone: true,
     imports: [Checkbox, FormsModule],
     template: `<mee-checkbox
       [(ngModel)]="checked"
       [disabled]="disabled()"
       [indeterminate]="indeterminate()"
-    ></mee-checkbox>`,
+    />`,
   })
   class TestComponent {
     checked = signal(false);

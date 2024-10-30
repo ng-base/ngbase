@@ -7,7 +7,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'ico
   standalone: true,
   selector: '[meeButton], [meeButton]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   hostDirectives: [FocusStyle],
   host: {
     class:

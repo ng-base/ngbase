@@ -49,26 +49,20 @@ export class AccessibleItem<T = any> {
   private count = 1;
 
   constructor() {
-    effect(
-      cleanUp => {
-        const group = this.group();
-        if (group) {
-          group.register(this);
-          cleanUp(() => group.unregister(this));
-        }
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      cleanUp => {
-        const el = this.host.nativeElement;
-        if (this.group()?.isPopup()) {
-          el.addEventListener('mouseenter', this.onFocus);
-          cleanUp(() => el.removeEventListener('mouseenter', this.onFocus));
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(cleanUp => {
+      const group = this.group();
+      if (group) {
+        group.register(this);
+        cleanUp(() => group.unregister(this));
+      }
+    });
+    effect(cleanUp => {
+      const el = this.host.nativeElement;
+      if (this.group()?.isPopup()) {
+        el.addEventListener('mouseenter', this.onFocus);
+        cleanUp(() => el.removeEventListener('mouseenter', this.onFocus));
+      }
+    });
   }
 
   get el() {
@@ -84,7 +78,7 @@ export class AccessibleItem<T = any> {
 
   focus(focus: boolean, isKeyboard: boolean) {
     // console.log('focus', focus);
-    console.log('scrollIntoView', isKeyboard);
+    // console.log('scrollIntoView', isKeyboard);
     if (focus) this.el.focus();
     // this.el.classList.add('bg-muted-background');
     this.el.setAttribute('data-focus', 'true');

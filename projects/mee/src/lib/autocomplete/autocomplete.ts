@@ -4,21 +4,19 @@ import {
   contentChildren,
   contentChild,
   effect,
-  forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
 import { InputStyle } from '../input/input-style.directive';
 import { Chip } from '../chip';
 import { AutocompleteInput } from './autocomplete-input';
 import { SelectBase } from '../select/select-base';
 import { AccessibleGroup } from '../a11y';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  selector: 'mee-autocomplete',
   standalone: true,
+  selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, InputStyle, Chip, AccessibleGroup],
+  imports: [InputStyle, AccessibleGroup],
   template: `
     <ul
       #container
@@ -41,13 +39,7 @@ import { AccessibleGroup } from '../a11y';
   host: {
     class: 'inline-flex',
   },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Autocomplete),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Autocomplete)],
 })
 export class Autocomplete<T> extends SelectBase<T> {
   searchInput = contentChild(AutocompleteInput);
@@ -55,12 +47,9 @@ export class Autocomplete<T> extends SelectBase<T> {
 
   constructor() {
     super(false);
-    effect(
-      () => {
-        if (this.status() !== 'opened') this.updateInputValue();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.status() !== 'opened') this.updateInputValue();
+    });
   }
 
   prevent(ev: MouseEvent) {

@@ -1,18 +1,28 @@
 import {
   computed,
-  DestroyRef,
+  forwardRef,
   inject,
   Injector,
   runInInjectionContext,
   signal,
+  Type,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-export function generateId() {
-  return Math.random().toString(36).substring(7);
+import { cleanup } from './ng/internals';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+export function uniqueId(length: number = 7) {
+  return Array.from({ length }, () =>
+    String.fromCharCode(97 + Math.floor(Math.random() * 26)),
+  ).join('');
 }
 
-export function cleanup(fn: () => void) {
-  inject(DestroyRef).onDestroy(fn);
+export function provideValueAccessor<T>(valueAccessor: Type<T>) {
+  return {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => valueAccessor),
+    multi: true,
+  };
 }
 
 export function documentListener<T extends Event>(

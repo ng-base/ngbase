@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { List } from '@meeui/list';
-import { Card } from '@meeui/card';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Icon } from '@meeui/icon';
 import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/accordion';
 import { dialogPortal } from '@meeui/dialog';
 import { keyMap } from '@meeui/keys';
@@ -11,16 +9,7 @@ import { Command } from '@meeui/command';
 @Component({
   standalone: true,
   selector: 'app-nav',
-  imports: [
-    List,
-    Card,
-    RouterLink,
-    RouterLinkActive,
-    Icon,
-    Accordion,
-    AccordionGroup,
-    AccordionHeader,
-  ],
+  imports: [List, RouterLink, RouterLinkActive, Accordion, AccordionGroup, AccordionHeader],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 class="p-b2 font-semibold">Getting Started</h4>

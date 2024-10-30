@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   selector: '[meeLabel]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
     class: 'inline-flex flex-col font-medium mb-b2 gap-b text-left',
   },

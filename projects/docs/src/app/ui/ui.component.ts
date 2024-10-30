@@ -1,14 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
 import { Card } from '@meeui/card';
-import { Icon } from '@meeui/icon';
-import { ScrollArea } from '@meeui/scroll-area';
-import { Separator } from '@meeui/separator';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
-import { Tour, TourStep } from '@meeui/tour';
-import { Heading } from '@meeui/typography';
+import { TourStep } from '@meeui/tour';
 import { timer } from 'rxjs';
 import { AccordionComponent } from './accordion.component';
 import { AlertDialogComponent } from './alert-dialog.component';
@@ -27,7 +21,6 @@ import { HoverCardComponent } from './hover-card.component';
 import { InputComponent } from './input.component';
 import { MentionComponent } from './mention.component';
 import { MenuComponent } from './menu.component';
-import { NavComponent } from './nav-header.component';
 import { OtpComponent } from './otp.component';
 import { PaginationComponent } from './pagination.component';
 import { PopoverComponent } from './popover.component';
@@ -38,7 +31,6 @@ import { SelectComponent } from './select.component';
 import { SheetComponent } from './sheet.component';
 import { SliderComponent } from './slider.component';
 import { SonnerComponent } from './sonner.component';
-import { SpinnerComponent } from './spinner.component';
 import { SwitchComponent } from './switch.component';
 import { TabsComponent } from './tabs.component';
 import { ToggleGroupComponent } from './toggle-group.component';
@@ -53,21 +45,14 @@ import { TypographyComponent } from './typography.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    RouterOutlet,
     ReactiveFormsModule,
-    NavComponent,
-    Separator,
     Card,
-    Heading,
-    Icon,
-    ScrollArea,
     AccordionComponent,
     ResizableComponent,
     ContextMenuComponent,
     TabsComponent,
     OtpComponent,
     ProgressComponent,
-    SpinnerComponent,
     ButtonsComponent,
     AvatarComponent,
     MenuComponent,
@@ -96,10 +81,6 @@ import { TypographyComponent } from './typography.component';
     InputComponent,
     MentionComponent,
     TourStep,
-    Tour,
-    Sidenav,
-    SidenavHeader,
-    SidenavContent,
   ],
 })
 export class UiComponent {

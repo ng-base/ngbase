@@ -22,7 +22,7 @@ class TestComponent {
 describe('DropDirective', () => {
   let component: TestComponent;
   let view: RenderResult<TestComponent>;
-  let dropDirective: DragDrop;
+  let dropDirective: DragDrop<string[]>;
   let dragItems: DebugElement[];
 
   beforeEach(async () => {
@@ -30,12 +30,12 @@ describe('DropDirective', () => {
     component = view.host;
     view.detectChanges();
 
-    dropDirective = view.viewChild(DragDrop);
+    dropDirective = view.viewChild(DragDrop<string[]>);
     dragItems = view.viewChildrenDebug(Drag);
   });
 
   function drag(data: Partial<DragData>, index: number) {
-    dropDirective['onDrag'](data as DragData, dragItems[index].injector.get(Drag), index);
+    dropDirective['onDrag'](data as DragData, dragItems[index].injector.get(Drag));
   }
 
   it('should create an instance', () => {
@@ -57,6 +57,20 @@ describe('DropDirective', () => {
     expect(dragItems[0].nativeElement.style.zIndex).toBe('1000');
     expect(dragItems[0].nativeElement.style.transition).toBe('none');
     expect(dragItems[0].nativeElement.style.position).toBe('relative');
+  });
+
+  it('should not change the order when start and end are the same', () => {
+    // First move the first item to the second position
+    jest.spyOn(component, 'onOrderChanged');
+    drag({ type: 'start', x: 0, y: 0 }, 0);
+    drag({ type: 'move', x: 0, y: 100 }, 0);
+    drag({ type: 'end', x: 0, y: 100 }, 0);
+    expect(component.onOrderChanged).toHaveBeenCalledTimes(1);
+
+    // Now only trigger start and end
+    drag({ type: 'start', x: 0, y: 0 }, 0);
+    drag({ type: 'end', x: 0, y: 0 }, 0);
+    expect(component.onOrderChanged).toHaveBeenCalledTimes(1);
   });
 
   it('should update element position on drag move', () => {

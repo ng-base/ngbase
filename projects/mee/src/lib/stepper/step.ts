@@ -18,11 +18,11 @@ import { Stepper } from './stepper';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   template: `@if (active() && stepper.direction() === 'horizontal') {
-      <ng-container *ngTemplateOutlet="stepContainer"></ng-container>
+      <ng-container *ngTemplateOutlet="stepContainer" />
     }
     <ng-template #stepContainer>
       <div class="py-b4">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
     </ng-template> `,
 })

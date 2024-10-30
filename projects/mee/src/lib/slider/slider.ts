@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  forwardRef,
   inject,
   input,
   viewChild,
@@ -12,13 +11,14 @@ import {
   booleanAttribute,
   numberAttribute,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { Drag, DragData } from '../drag';
 import { FocusStyle } from '../checkbox/focus-style.directive';
+import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  selector: 'mee-slider',
   standalone: true,
+  selector: 'mee-slider',
   imports: [Drag, FocusStyle],
   template: `
     <div
@@ -54,13 +54,7 @@ import { FocusStyle } from '../checkbox/focus-style.directive';
     '[attr.aria-valuenow]': 'value()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Slider),
-      multi: true,
-    },
-  ],
+  providers: [provideValueAccessor(Slider)],
 })
 export class Slider implements ControlValueAccessor {
   private el = inject(ElementRef);

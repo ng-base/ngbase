@@ -57,6 +57,7 @@ import { SkeletonComponent } from './skeletion.component';
 import { ShortcutsComponent } from './shortcuts.component';
 import { CommandComponent } from './command.component';
 import { DirectionalityComponent } from './directionality.component';
+import { InlineEditComponent } from './inline-edit.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -118,6 +119,7 @@ export const UI_ROUTES: Routes = [
       { path: 'shortcuts', component: ShortcutsComponent },
       { path: 'command', component: CommandComponent },
       { path: 'directionality', component: DirectionalityComponent },
+      { path: 'inline-edit', component: InlineEditComponent },
       {
         path: 'examples',
         loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),

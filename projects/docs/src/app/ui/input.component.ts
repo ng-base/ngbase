@@ -10,7 +10,7 @@ import { DocCode } from './code.component';
   imports: [FormsModule, Heading, Input, Label, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="inputPage">Input</h4>
-    <app-doc-code [htmlCode]="htmlCode" [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode">
       <div class="flex flex-col gap-b4">
         <label meeLabel>
           Input
@@ -29,9 +29,7 @@ export class InputComponent {
   inputValue = '';
 
   htmlCode = `
-      <input meeInput [(ngModel)]="inputValue" placeholder="Input" />
       
-      <textarea meeInput></textarea>
     `;
 
   tsCode = `
@@ -43,7 +41,11 @@ export class InputComponent {
     standalone: true,
     selector: 'app-root',
     imports: [FormsModule, Input],
-    template: \`${this.htmlCode}\`,
+    template: \`
+      <input meeInput [(ngModel)]="inputValue" placeholder="Input" />
+      
+      <textarea meeInput></textarea>
+    \`,
   })
   export class AppComponent {
     inputValue = '';

@@ -10,14 +10,14 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [List, Option, ListSelection, Heading, DocCode],
   template: `
-    <h4 meeHeading class="mb-b5">Simple List</h4>
+    <h4 meeHeader class="mb-b5">Simple List</h4>
 
     <app-doc-code [tsCode]="code">
       <button meeList>Option 1</button>
       <button meeList>Option 2</button>
       <button meeList>Option 3</button>
 
-      <h4 meeHeading class="my-b5">Multi List</h4>
+      <h4 meeHeader class="my-b5">Multi List</h4>
       <mee-list-selection multiple>
         <mee-option [value]="1">Option 1</mee-option>
         <mee-option [value]="2">Option 2</mee-option>

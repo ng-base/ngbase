@@ -10,7 +10,7 @@ import { Menu, MenuTrigger } from '@meeui/menu';
 import { Progress } from '@meeui/progress';
 import { Option, Select, SelectTrigger } from '@meeui/select';
 import { Separator } from '@meeui/separator';
-import { Sidenav, SidenavContent, SidenavHeader } from '@meeui/sidenav';
+import { Sidenav, SidenavHeader } from '@meeui/sidenav';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideBadgeCheck,
@@ -51,7 +51,6 @@ import {
     Separator,
     Sidenav,
     SidenavHeader,
-    SidenavContent,
     Select,
     SelectTrigger,
     Option,
@@ -274,7 +273,6 @@ import {
             </div>
           </div>
         </mee-sidenav-header>
-        <mee-sidenav-content />
       </mee-sidenav>
     </mee-card>
   `,

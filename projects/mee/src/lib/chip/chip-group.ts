@@ -4,9 +4,8 @@ import { Autocomplete } from '../autocomplete';
 
 @Component({
   standalone: true,
-  imports: [],
   selector: 'mee-chip-group',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 export class ChipGroup<T> {
   readonly chips = contentChildren(Chip<T>);

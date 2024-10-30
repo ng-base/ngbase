@@ -4,7 +4,7 @@ import { Menu } from './menu';
 import { NavigationMenu } from './navigation-menu';
 import { Subject } from 'rxjs';
 import { DialogOptions } from '../portal';
-import { generateId } from '../utils';
+import { uniqueId } from '../utils';
 import { AccessibleItem } from '../a11y';
 
 @Directive({
@@ -36,7 +36,7 @@ export class MenuTrigger {
     type: 'enter' | 'leave' | 'click';
     menu: MenuTrigger;
   }>();
-  readonly ayId = signal(generateId());
+  readonly ayId = signal(uniqueId());
   close: VoidFunction | null = null;
   private closeParent = true;
   private delayTimer: any = 0;

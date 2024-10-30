@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   selector: '[meeDialogTitle]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   host: {
     class: 'text-lg font-semibold',
   },

@@ -17,8 +17,8 @@ import { AccessibleGroup } from '../a11y';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'mee-menu',
   standalone: true,
+  selector: 'mee-menu',
   exportAs: 'meeMenu',
   imports: [AccessibleGroup],
   template: `
@@ -31,7 +31,7 @@ import { Subject } from 'rxjs';
         [ayId]="this.diaRef.options.ayId"
         [isPopup]="true"
       >
-        <ng-content></ng-content>
+        <ng-content />
       </div>
     </ng-template>
   `,

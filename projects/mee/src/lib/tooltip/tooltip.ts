@@ -6,6 +6,7 @@ import {
   Injector,
   OnDestroy,
   afterNextRender,
+  afterRenderEffect,
   inject,
   signal,
 } from '@angular/core';
@@ -14,9 +15,8 @@ import { ThemeService } from '../theme';
 import { PopoverPosition } from '../popover';
 
 @Component({
-  selector: 'mee-tooltip',
   standalone: true,
-  imports: [],
+  selector: 'mee-tooltip',
   template: `{{ content() }}`,
   styles: ``,
   host: {
@@ -53,6 +53,11 @@ export class TooltipComponent implements OnDestroy {
     //     this.setPosition(this.target);
     //   }
     // });
+    afterRenderEffect(() => {
+      const content = this.content();
+      // we need for the content to be set before setting the position
+      this.setPosition(this.target);
+    });
   }
 
   update(content: string, target: HTMLElement, position: PopoverPosition, hide: VoidFunction) {
@@ -62,8 +67,6 @@ export class TooltipComponent implements OnDestroy {
     this.el.nativeElement.style.right = '';
     this.el.nativeElement.style.transition = '.15s ease-out all';
     this.content.set(content);
-    // we need for the content to be set before setting the position
-    afterNextRender(() => this.setPosition(target), { injector: this.injector });
   }
 
   private setTarget(target: HTMLElement) {

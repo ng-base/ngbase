@@ -19,7 +19,6 @@ import { Autofocus, filterFunction } from '@meeui/utils';
     Autocomplete,
     AutocompleteInput,
     Option,
-    JsonPipe,
     Chip,
     ChipGroup,
     DocCode,

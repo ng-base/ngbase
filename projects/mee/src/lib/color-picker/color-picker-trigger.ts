@@ -51,7 +51,7 @@ export class ColorPickerTrigger {
           });
         }
       },
-      { injector: this.injector, allowSignalWrites: true },
+      { injector: this.injector },
     );
   }
 }

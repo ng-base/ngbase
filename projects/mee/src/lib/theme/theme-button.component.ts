@@ -4,7 +4,6 @@ import { Icon } from '../icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { Button } from '../button';
-import { keyMap } from '../keys';
 
 @Component({
   standalone: true,
@@ -14,7 +13,7 @@ import { keyMap } from '../keys';
   viewProviders: [provideIcons({ lucideMoon, lucideSun })],
   template: `
     <button meeButton variant="icon" class="tour-mode h-9 w-9" (click)="themeService.toggle()">
-      <mee-icon [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'"></mee-icon>
+      <mee-icon [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'" />
       <span class="sr-only">Toggle theme</span>
     </button>
   `,

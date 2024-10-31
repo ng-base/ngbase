@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   TemplateRef,
   ViewContainerRef,
   effect,
@@ -13,7 +12,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { DragData, Drag } from '../drag';
-import { Subscription } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { ResizableGroup } from './resizable-group';
 import { provideIcons } from '@ng-icons/core';
@@ -21,14 +19,15 @@ import { lucideGripVertical } from '@ng-icons/lucide';
 import { Icon } from '../icon';
 
 @Component({
-  selector: 'mee-resizable',
   standalone: true,
+  selector: 'mee-resizable',
   imports: [Drag, Icon, NgClass],
-  template: `<ng-content></ng-content>
+  template: `<ng-content />
     <ng-template #dragElement>
       @if (draggable()) {
         <div
           meeDrag
+          [dragBoundary]="'#' + resizable.id"
           class="dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0"
           [ngClass]="
             resizable.direction() === 'vertical'
@@ -41,7 +40,7 @@ import { Icon } from '../icon';
             class="z-30 rounded-base border bg-muted-background py-0.5"
             size=".75rem"
             [class]="resizable.direction() === 'vertical' ? 'rotate-90' : ''"
-          ></mee-icon>
+          />
         </div>
       }
     </ng-template>`,
@@ -51,68 +50,69 @@ import { Icon } from '../icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [provideIcons({ lucideGripVertical })],
 })
-export class Resizable implements OnDestroy {
+export class Resizable {
+  // Dependencies
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly resizable = inject(ResizableGroup);
   readonly containerRef = inject(ViewContainerRef);
-  readonly drag = viewChild(Drag);
-  readonly size = model<number | string>('auto');
   readonly dragElement = viewChild('dragElement', { read: TemplateRef });
+  readonly drag = viewChild(Drag);
+
+  // inputs
+  readonly size = model<number | string>('auto');
+
   readonly draggable = signal(false);
-  reducedSize = 0;
+  private reducedSize = 0;
   index = 0;
-  sub?: Subscription;
   str = '';
-  parentRect!: DOMRect;
-  min = 0;
-  max = 0;
+  private parentRect?: DOMRect;
+  private parentWidth = 0;
+  private min = 0;
+  private start = 0;
 
   constructor() {
-    effect(
-      () => {
-        const _ = this.size();
-        untracked(() => this.handleDrag());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const _ = this.size();
+      untracked(() => this.handleDrag());
+    });
 
-    effect(
-      () => {
-        const cf = this.containerRef;
-        if (this.draggable() && this.size()) {
-          if (cf.length === 0) {
-            untracked(() => cf.createEmbeddedView(this.dragElement()!));
-          }
-        } else {
-          cf.clear();
+    // This effect is responsible for creating the gutter element
+    effect(() => {
+      const cf = this.containerRef;
+      if (this.draggable() && this.size()) {
+        if (cf.length === 0) {
+          untracked(() => cf.createEmbeddedView(this.dragElement()!));
         }
-      },
-      { allowSignalWrites: true },
-    );
+      } else {
+        cf.clear();
+      }
+    });
 
-    effect(
-      cleanup => {
-        cleanup(() => this.sub?.unsubscribe());
-        const drag = this.drag();
+    // This effect is responsible for handling the drag events
+    effect(cleanup => {
+      const drag = this.drag();
 
-        untracked(() => {
-          if (drag) {
-            this.sub = drag.events.subscribe((data: DragData) => {
-              if (data.type === 'start') {
-                this.resizable.start();
-                this.parentRect = this.el.nativeElement.getBoundingClientRect();
-                this.min = this.parentRect.left;
-                this.max = this.parentRect.left + this.parentRect.width;
-              } else if (data.type === 'end') {
-                this.resizable.end();
-              }
-              this.onDrag(data);
-            });
+      if (!drag) return;
+
+      untracked(() => {
+        const sub = drag.events.subscribe((data: DragData) => {
+          if (data.type === 'start') {
+            this.resizable.start();
+            this.parentRect = this.el.nativeElement.getBoundingClientRect();
+            this.parentWidth = this.parentRect.width + this.reducedSize;
+            this.min = this.parentRect.left;
+            this.start = this.parentRect.left + this.parentRect.width;
+          } else if (data.type === 'end') {
+            this.resizable.end();
+            this.parentRect = undefined;
+            this.min = 0;
+            this.start = 0;
           }
+          this.onDrag(data);
         });
-      },
-      { allowSignalWrites: true },
-    );
+        cleanup(() => sub.unsubscribe());
+      });
+    });
   }
 
   get w() {
@@ -139,16 +139,28 @@ export class Resizable implements OnDestroy {
     const second = panels[this.index + 1];
     const x = isHorizontal ? event.dx : event.dy;
 
-    first.updateSize(x);
-    second?.updateSize(-x);
+    if (first.updateSize(x)) {
+      second?.updateSize(-x);
+    }
     if (updateAuto) {
       this.resizable.setAuto();
     }
   }
 
   updateSize(px: number) {
-    this.reducedSize -= px;
+    // this.reducedSize -= px;
+    // console.log({
+    //   width: this.parentRect?.width ?? Infinity,
+    //   rSize: this.reducedSize - px,
+    //   index: this.index,
+    // });
+    const size = Math.min(this.parentWidth ?? Infinity, this.reducedSize - px);
+    console.log({ size, rs: this.reducedSize, pw: this.parentWidth, i: this.index });
+    if (size && size === this.reducedSize) return false;
+    this.reducedSize = size;
+    // console.log(this.reducedSize, this.min, this.start, this.parentRect?.width);
     this.updateFlex();
+    return true;
   }
 
   updateFlex() {
@@ -170,9 +182,5 @@ export class Resizable implements OnDestroy {
     } else {
       this.el.nativeElement.style.height = this.str;
     }
-  }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
   }
 }

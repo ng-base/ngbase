@@ -10,8 +10,8 @@ import { render, RenderResult } from '../test';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <mee-resizable-group #resizableGroup>
-      <mee-resizable [size]="show() ? 50 : 0"></mee-resizable>
-      <mee-resizable size="auto"></mee-resizable>
+      <mee-resizable [size]="show() ? 50 : 0" />
+      <mee-resizable size="auto" />
     </mee-resizable-group>
   `,
 })
@@ -64,7 +64,7 @@ describe('Resizables', () => {
     jest.spyOn(panel.resizable, 'setAuto');
     panel.handleDrag({ dx: -10, dy: 0 } as DragData);
     expect(panel.resizable.setAuto).toHaveBeenCalled();
-    expect(panel.reducedSize).toBe(10);
+    expect(panel['reducedSize']).toBe(10);
     expect(panel.str).toBe('calc(50% - 10px)');
     expect(components[1].str).toBe('calc(100% - calc(50% - 10px))');
   });

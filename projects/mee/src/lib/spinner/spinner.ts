@@ -1,6 +1,5 @@
 import { Component, input } from '@angular/core';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
-import { NgStyle } from '@angular/common';
 
 const spinnerAnimation = trigger('enterLeave', [
   transition(':enter', [

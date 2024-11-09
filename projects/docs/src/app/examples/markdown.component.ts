@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ThemeService } from '@meeui/theme';
 
 @Component({

@@ -5,7 +5,7 @@ export function drawerPortal() {
   const NAME = 'sheet';
   const base = basePortal(NAME, DrawerContainer);
 
-  function open<T>(component: DialogInput, opt?: DialogOptions) {
+  function open<T>(component: DialogInput<T>, opt?: DialogOptions) {
     const { diaRef } = base.open(
       component,
       (comp, options) => {

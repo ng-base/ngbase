@@ -51,7 +51,7 @@ export class AccessibleGroup implements OnDestroy {
   readonly elements = signal<AccessibleItem[]>([]);
 
   readonly items = computed(() => {
-    const key = this.ayId() || '';
+    const _ = this.ayId() || '';
     const items = this.elements();
     // console.count(`items changed ${this.ayId()}`);
     // Sort items based on their position in the DOM
@@ -104,7 +104,7 @@ export class AccessibleGroup implements OnDestroy {
     });
   }
 
-  handleFocusIn = (event: FocusEvent) => {
+  handleFocusIn = (_: FocusEvent) => {
     if (!this.isOn()) {
       this.on();
     }

@@ -19,7 +19,7 @@ import { provideValueAccessor } from '@meeui/utils';
 })
 export class Input<T = unknown> implements ControlValueAccessor {
   readonly value = model<T>('' as any);
-  onChange = (value: string) => {};
+  onChange = (_: string) => {};
   onTouched = () => {};
 
   setValue(value: any): void {

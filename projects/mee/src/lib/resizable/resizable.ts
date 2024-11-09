@@ -6,7 +6,8 @@ import {
   ViewContainerRef,
   effect,
   inject,
-  model,
+  input,
+  linkedSignal,
   signal,
   untracked,
   viewChild,
@@ -27,7 +28,11 @@ import { Icon } from '../icon';
       @if (draggable()) {
         <div
           meeDrag
+          role="separator"
+          [attr.aria-valuemin]="min()"
+          [attr.aria-valuemax]="max()"
           [dragBoundary]="'#' + resizable.id"
+          [lockAxis]="resizable.direction() === 'horizontal' ? 'x' : 'y'"
           class="dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0"
           [ngClass]="
             resizable.direction() === 'vertical'
@@ -59,21 +64,31 @@ export class Resizable {
   readonly drag = viewChild(Drag);
 
   // inputs
-  readonly size = model<number | string>('auto');
+  readonly size = input<number | string>('auto');
+  readonly min = input<number | string>(0);
+  readonly max = input<number | string>();
 
+  // State
+  readonly lSize = linkedSignal({
+    source: this.size,
+    computation: size => (size !== 'auto' ? size : ''),
+  });
   readonly draggable = signal(false);
   private reducedSize = 0;
+  private localMinSize = Infinity;
+  private localMaxSize = -Infinity;
+  private lastReducedSize = 0;
   index = 0;
   str = '';
-  private parentRect?: DOMRect;
-  private parentWidth = 0;
-  private min = 0;
-  private start = 0;
 
   constructor() {
     effect(() => {
-      const _ = this.size();
-      untracked(() => this.handleDrag());
+      const size = this.size();
+      untracked(() => {
+        if (size !== 'auto') this.handleDrag();
+
+        this.resizable.setAuto();
+      });
     });
 
     // This effect is responsible for creating the gutter element
@@ -96,87 +111,165 @@ export class Resizable {
 
       untracked(() => {
         const sub = drag.events.subscribe((data: DragData) => {
-          if (data.type === 'start') {
-            this.resizable.start();
-            this.parentRect = this.el.nativeElement.getBoundingClientRect();
-            this.parentWidth = this.parentRect.width + this.reducedSize;
-            this.min = this.parentRect.left;
-            this.start = this.parentRect.left + this.parentRect.width;
-          } else if (data.type === 'end') {
-            this.resizable.end();
-            this.parentRect = undefined;
-            this.min = 0;
-            this.start = 0;
-          }
-          this.onDrag(data);
+          data.event?.preventDefault();
+
+          requestAnimationFrame(() => this.onDrag(data));
         });
         cleanup(() => sub.unsubscribe());
       });
     });
   }
 
-  get w() {
-    return this.el.nativeElement.clientWidth;
+  // get w() {
+  //   return this.el.nativeElement.clientWidth;
+  // }
+
+  // get h() {
+  //   return this.el.nativeElement.clientHeight;
+  // }
+
+  cSize() {
+    return this.resizable.direction() === 'horizontal'
+      ? this.el.nativeElement.offsetWidth
+      : this.el.nativeElement.offsetHeight;
   }
 
-  get h() {
-    return this.el.nativeElement.clientHeight;
+  onStart() {
+    const cSize = this.cSize();
+    const minSize = this.getSize(this.min());
+    this.localMinSize = cSize + this.reducedSize - minSize;
+    if (this.max()) {
+      const maxSize = this.getSize(this.max());
+      this.localMaxSize = cSize + this.reducedSize - maxSize;
+    }
+    // console.log(`onStart ${this.index}`, this.min(), this.localMinSize, this.localMaxSize);
   }
 
-  onDrag(data: DragData) {
-    data.event?.preventDefault();
-    requestAnimationFrame(() => this.handleDrag(data));
+  onEnd() {
+    this.localMinSize = Infinity;
+    this.localMaxSize = -Infinity;
+    this.lastReducedSize = this.reducedSize;
   }
 
-  handleDrag(event = { dx: 0, dy: 0 } as DragData, updateAuto = true) {
-    // if (event.clientX! - this.min < 0) {
-    //   return;
-    // }
-    const panels = this.resizable.panels();
+  private getSize(size?: number | string): number {
+    if (!size) return 0;
+
+    const minValue = size;
+    if (typeof minValue === 'number') {
+      // If number, treat as percentage
+      return (
+        (this.resizable.direction() === 'horizontal' ? this.resizable.w : this.resizable.h) *
+        (minValue / 100)
+      );
+    }
+
+    // Handle pixel values
+    const pixelMatch = minValue?.toString().match(/(\d+)px/);
+    if (pixelMatch) {
+      return parseInt(pixelMatch[1], 10);
+    }
+
+    // Handle percentage values provided as string
+    const percentMatch = minValue?.toString().match(/(\d+)%/);
+    if (percentMatch) {
+      return (
+        (this.resizable.direction() === 'horizontal' ? this.resizable.w : this.resizable.h) *
+        (parseInt(percentMatch[1], 10) / 100)
+      );
+    }
+
+    return 0;
+  }
+
+  onDrag(data: DragData): void {
+    if (data.type === 'start') {
+      this.resizable.start();
+    }
+
+    // We have to call end method without calling handleDrag to avoid layout thrashing
+    if (data.type === 'end') {
+      this.resizable.end();
+    } else {
+      this.handleDrag(data);
+    }
+  }
+
+  handleDrag(event = { x: 0, y: 0 } as DragData) {
     const isHorizontal = this.resizable.direction() === 'horizontal';
 
-    const first = panels[this.index];
-    const second = panels[this.index + 1];
-    const x = isHorizontal ? event.dx : event.dy;
+    let delta = isHorizontal ? event.x : event.y;
+    delta -= this.lastReducedSize;
 
-    if (first.updateSize(x)) {
-      second?.updateSize(-x);
+    const panels = this.resizable.panels();
+
+    let remaining = -delta;
+    for (let i = this.index; i >= 0; i--) {
+      const panel = panels[i];
+      remaining = panel.getUpdatedSize(remaining).remaining;
+      if (remaining === 0) {
+        break;
+      }
     }
-    if (updateAuto) {
-      this.resizable.setAuto();
+    delta = delta + remaining;
+    remaining = delta;
+    for (let i = this.index + 1; i < panels.length; i++) {
+      const panel = panels[i];
+      remaining = panel.getUpdatedSize(remaining).remaining;
+      if (remaining === 0) {
+        break;
+      }
     }
+    delta = delta - remaining;
+
+    const current = panels[this.index];
+    current.updateSize(delta, 'both');
   }
 
-  updateSize(px: number) {
-    // this.reducedSize -= px;
-    // console.log({
-    //   width: this.parentRect?.width ?? Infinity,
-    //   rSize: this.reducedSize - px,
-    //   index: this.index,
-    // });
-    const size = Math.min(this.parentWidth ?? Infinity, this.reducedSize - px);
-    console.log({ size, rs: this.reducedSize, pw: this.parentWidth, i: this.index });
-    if (size && size === this.reducedSize) return false;
-    this.reducedSize = size;
-    // console.log(this.reducedSize, this.min, this.start, this.parentRect?.width);
+  private getUpdatedSize(px: number): { remaining: number; value: number } {
+    const v = Math.max(Math.min(px, this.localMinSize), this.localMaxSize);
+    return { remaining: px - v, value: v };
+  }
+
+  updateSize(px: number, direct: 'both' | 'prev' | 'next') {
+    const prevSize = -px;
+    const { remaining, value } = this.getUpdatedSize(prevSize);
+    this.reducedSize = value;
+
     this.updateFlex();
-    return true;
+    const isSame = prevSize !== this.reducedSize;
+
+    const v = direct === 'both' ? px : remaining;
+
+    if ((isSame && direct === 'next') || direct === 'both') {
+      // console.log(`updateSize ${this.index}`, this.reducedSize, px, value, v);
+      const next = this.resizable.panels()[this.index + 1];
+      next?.updateSize(-v, 'next');
+    }
+    if (isSame && (direct === 'prev' || direct === 'both')) {
+      const prev = this.resizable.panels()[this.index - 1];
+      prev?.updateSize(v, 'prev');
+    }
   }
 
-  updateFlex() {
-    let size = '';
-    if (this.size() && typeof this.size() === 'number') {
-      size = `${this.size()}%`;
-    } else if (this.size() !== 'auto') {
-      size = this.size() as string;
+  private calculateSize(): string {
+    const size = this.lSize();
+
+    const baseSize = typeof size === 'number' ? `${size}%` : size;
+
+    if (this.reducedSize === 0) {
+      return baseSize;
     }
-    this.updateElementSize(
-      size ? (this.reducedSize ? `calc(${size} - ${this.reducedSize}px)` : size) : '',
-    );
+
+    return `calc(${baseSize} - ${this.reducedSize}px)`;
+  }
+
+  private updateFlex() {
+    const size = this.calculateSize();
+    this.updateElementSize(size || '0px');
   }
 
   updateElementSize(str: string) {
-    this.str = str || '0px';
+    this.str = str;
     if (this.resizable.direction() === 'horizontal') {
       this.el.nativeElement.style.width = this.str;
     } else {

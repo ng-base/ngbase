@@ -29,7 +29,7 @@ export abstract class BaseDialog {
     this.onOpen();
   }
 
-  setOptions(options: DialogOptions): void {}
+  setOptions(_: DialogOptions): void {}
 
   close() {
     this.dialogRef.close();

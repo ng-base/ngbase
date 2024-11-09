@@ -1,5 +1,5 @@
 import { CookieService } from './cookie.service';
-import { injectService } from '../test';
+import { injectService } from '../../test';
 
 describe('CookieService', () => {
   let service: CookieService;

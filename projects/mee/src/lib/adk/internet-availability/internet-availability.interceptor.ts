@@ -1,11 +1,11 @@
 import { HTTP_INTERCEPTORS, HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
-import { InternetAvailabilityService } from './internet-availability.service';
+import { InternetAvailability } from './internet-availability.service';
 import { inject } from '@angular/core';
-import { isClient } from '../ssr';
+import { isClient } from '../../utils/ssr';
 
 const internetAvailabilityInterceptor: HttpInterceptorFn = (req, next) => {
-  const internetAvailabilityService = inject(InternetAvailabilityService);
+  const internetAvailabilityService = inject(InternetAvailability);
   const isBrowser = isClient();
 
   if (isBrowser && !internetAvailabilityService.isOnline()) {

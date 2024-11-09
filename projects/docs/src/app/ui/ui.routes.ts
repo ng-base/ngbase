@@ -1,4 +1,4 @@
-import { Route, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { BaseComponent } from './base.component';
 import { AccordionComponent } from './accordion.component';
 import { TableComponent } from './table.component';
@@ -50,7 +50,6 @@ import { FormsComponent } from './forms.component';
 import { ListComponent } from './list.component';
 import { SelectableComponent } from './selectable.component';
 import { DragComponent } from './drag.component';
-import { ExamplesComponent } from '../examples/main.component';
 import { CardComponent } from './card.component';
 import { MaskComponent } from './mask.component';
 import { SkeletonComponent } from './skeletion.component';
@@ -58,6 +57,7 @@ import { ShortcutsComponent } from './shortcuts.component';
 import { CommandComponent } from './command.component';
 import { DirectionalityComponent } from './directionality.component';
 import { InlineEditComponent } from './inline-edit.component';
+import { VirtualizerComponent } from './virutalizer.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -120,6 +120,7 @@ export const UI_ROUTES: Routes = [
       { path: 'command', component: CommandComponent },
       { path: 'directionality', component: DirectionalityComponent },
       { path: 'inline-edit', component: InlineEditComponent },
+      { path: 'virtualizer', component: VirtualizerComponent },
       {
         path: 'examples',
         loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Progress } from '@meeui/progress';
 import { Button } from '@meeui/button';
 import { Tooltip } from '@meeui/tooltip';

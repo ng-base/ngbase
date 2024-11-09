@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output, signal } from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { Button } from '../button';
 import { provideIcons } from '@ng-icons/core';
 import {

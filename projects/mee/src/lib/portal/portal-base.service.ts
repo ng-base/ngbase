@@ -8,8 +8,8 @@ import {
   EmbeddedViewRef,
   signal,
 } from '@angular/core';
-import { Subscription, first } from 'rxjs';
-import { keyMap, Keys } from '../keys';
+import { first } from 'rxjs';
+import { keyMap } from '../keys';
 import { DialogOptions, DialogRef, createInj, BaseDialog } from './dialog-ref';
 import { PortalService } from './portal.service';
 
@@ -19,7 +19,6 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
   const NAME = name;
   const portal = inject(PortalService);
   const injector = inject(Injector);
-  const keyManager = new Keys();
 
   function open<T>(
     component?: DialogInput<T>,

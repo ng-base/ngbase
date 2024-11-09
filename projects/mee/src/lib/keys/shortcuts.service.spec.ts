@@ -89,31 +89,32 @@ describe('Shortcuts', () => {
   });
 
   it('should listen only to one keydown event and handle isActive', () => {
-    jest.spyOn(service['document'], 'addEventListener');
-    jest.spyOn(service['document'], 'removeEventListener');
+    jest.spyOn(service['keydown'], 'on');
 
     expect(service['isActive']).toBeFalsy();
 
     const aCallback = createCallback();
     service.on('ctrl+a', aCallback);
+    // we have to spy on off because it's called after `on` fn
+    jest.spyOn(service['keydown'], 'off');
     expect(service['isActive']).toBeTruthy();
-    expect(service['document'].addEventListener).toHaveBeenCalledTimes(1);
+    expect(service['keydown'].on).toHaveBeenCalledTimes(1);
 
     const bCallback = createCallback();
     service.on('ctrl+b', bCallback);
     expect(service['isActive']).toBeTruthy();
-    expect(service['document'].addEventListener).toHaveBeenCalledTimes(1);
-    expect(service['document'].removeEventListener).not.toHaveBeenCalled();
+    expect(service['keydown'].on).toHaveBeenCalledTimes(1);
+    expect(service['keydown'].off).not.toHaveBeenCalled();
 
     service.off('ctrl+a', aCallback.id);
     expect(service['isActive']).toBeTruthy();
-    expect(service['document'].addEventListener).toHaveBeenCalledTimes(1);
-    expect(service['document'].removeEventListener).not.toHaveBeenCalled();
+    expect(service['keydown'].on).toHaveBeenCalledTimes(1);
+    expect(service['keydown'].off).not.toHaveBeenCalled();
 
     service.off('ctrl+b', bCallback.id);
     expect(service['isActive']).toBeFalsy();
-    expect(service['document'].addEventListener).toHaveBeenCalledTimes(1);
-    expect(service['document'].removeEventListener).toHaveBeenCalledTimes(1);
+    expect(service['keydown'].on).toHaveBeenCalledTimes(1);
+    expect(service['keydown'].off).toHaveBeenCalledTimes(1);
   });
 });
 

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { Heading } from '@meeui/typography';
 import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Tooltip } from '@meeui/tooltip';
 import { DocCode } from './code.component';
 import { filterFunction } from '@meeui/utils';

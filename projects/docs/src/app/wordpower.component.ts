@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RangePipe } from '@meeui/utils';
 
 const TRIPLE_WORD_SCORE = {

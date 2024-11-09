@@ -1,5 +1,5 @@
 import { DialogClose } from './dialog-close.directive';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DialogRef } from './dialog-ref';
 import { render, RenderResult } from '../test';
 
@@ -7,10 +7,10 @@ import { render, RenderResult } from '../test';
   standalone: true,
   selector: 'mee-test-dialog',
   imports: [DialogClose],
-  template: `<button [meeDialogClose]="value">Close</button>`,
+  template: `<button [meeDialogClose]="value()">Close</button>`,
 })
 class TestComponent {
-  value: any = undefined;
+  readonly value = signal<any>(undefined);
 }
 
 describe('DialogCloseDirective', () => {
@@ -37,7 +37,7 @@ describe('DialogCloseDirective', () => {
 
   it('should close the dialog with the value', () => {
     jest.spyOn(directive.dialogRef, 'close');
-    component.value = 'test';
+    component.value.set('test');
     view.detectChanges();
     view.$('button').click();
     expect(directive.dialogRef.close).toHaveBeenCalledWith('test');

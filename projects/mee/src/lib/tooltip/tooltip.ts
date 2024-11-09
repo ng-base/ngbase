@@ -3,9 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Injector,
   OnDestroy,
-  afterNextRender,
   afterRenderEffect,
   inject,
   signal,
@@ -36,25 +34,17 @@ import { PopoverPosition } from '../popover';
   ],
 })
 export class TooltipComponent implements OnDestroy {
-  private injector = inject(Injector);
   content = signal('Tooltip');
   theme = inject(ThemeService);
   target!: HTMLElement;
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   position: PopoverPosition = 'top';
   hide!: VoidFunction;
-  private removed = false;
   observer?: MutationObserver;
 
   constructor() {
-    // afterRender(() => {
-    //   console.log('after render ', this.removed);
-    //   if (!this.removed) {
-    //     this.setPosition(this.target);
-    //   }
-    // });
     afterRenderEffect(() => {
-      const content = this.content();
+      const _ = this.content();
       // we need for the content to be set before setting the position
       this.setPosition(this.target);
     });
@@ -88,7 +78,6 @@ export class TooltipComponent implements OnDestroy {
   }
 
   private onRemoved = () => {
-    this.removed = true;
     this.hide();
   };
 

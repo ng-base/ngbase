@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, signal } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   standalone: true,

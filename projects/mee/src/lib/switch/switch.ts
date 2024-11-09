@@ -41,14 +41,14 @@ export class Switch implements ControlValueAccessor {
   readonly checked = model(false);
   readonly disabled = input(false, { transform: booleanAttribute });
 
-  private onChange = (value: any) => {};
-  private onTouched = () => {};
+  private onChange?: (value: any) => {};
+  private onTouched?: () => {};
 
   updateValue() {
     this.checked.update(v => !v);
     const checked = this.checked();
-    this.onChange(checked);
-    this.onTouched();
+    this.onChange?.(checked);
+    this.onTouched?.();
     this.change.emit(checked);
   }
 

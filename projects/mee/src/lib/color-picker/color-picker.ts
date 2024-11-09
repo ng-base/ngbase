@@ -159,7 +159,7 @@ export class ColorPicker {
   private setupEventListeners() {
     this.setupDragListener(this.hueDiv(), (x, y, w, h) => this.updateHue(x, 0, w, h));
     this.setupDragListener(this.spectrumDiv(), this.updateSpectrum.bind(this));
-    this.setupDragListener(this.alphaDiv(), (x, y, w, h) => this.updateAlpha(x, 0, w, h));
+    this.setupDragListener(this.alphaDiv(), (x, y, w) => this.updateAlpha(x, 0, w));
   }
 
   private setupDragListener(
@@ -205,7 +205,7 @@ export class ColorPicker {
     spectrumSelector.style.top = `${y! - spectrumSelector.offsetHeight / 2}px`;
   }
 
-  private updateAlpha(x: number, y: number, width: number, height: number) {
+  private updateAlpha(x: number, y: number, width: number) {
     this.alpha = Math.round((x / width) * 100);
     const alphaSelector = this.alphaSelector()!.nativeElement;
     alphaSelector.style.left = `${x}px`;

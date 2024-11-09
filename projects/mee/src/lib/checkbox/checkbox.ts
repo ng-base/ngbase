@@ -43,7 +43,7 @@ export class Checkbox implements ControlValueAccessor {
   readonly path = computed(() =>
     this.indeterminate() ? 'M6 12L18 12' : this.checked() ? 'M20 6L9 17L4 12' : '',
   );
-  onChange = (value: any) => {};
+  onChange = (_: any) => {};
   onTouched = () => {};
 
   updateValue() {

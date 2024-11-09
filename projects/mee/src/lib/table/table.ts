@@ -3,7 +3,6 @@ import {
   contentChildren,
   contentChild,
   TemplateRef,
-  afterNextRender,
   input,
   viewChild,
   ChangeDetectionStrategy,
@@ -87,7 +86,6 @@ export class Table<T> {
       const len = bodyRowDefs.length;
 
       changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
-        const id = (item.item as any).Id;
         if (item.previousIndex == null) {
           const value = item.item;
           this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);

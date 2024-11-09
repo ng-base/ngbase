@@ -19,7 +19,7 @@ export class Selectable<T> implements ControlValueAccessor {
   readonly allyGroup = inject(AccessibleGroup);
   activeIndex = model<T>();
   valueChanged = output<T>();
-  onChange = (value: T) => {};
+  onChange = (_: T) => {};
   onTouched = () => {};
   readonly ayId = uniqueId();
 

@@ -29,7 +29,7 @@ export class ToggleGroup<T> implements ControlValueAccessor {
   readonly ayId = uniqueId();
   // value can be array or single value
   readonly value = model<T | T[]>();
-  onChange = (value: any) => {};
+  onChange = (_: any) => {};
   onTouched = () => {};
 
   readonly disabled = model(false);

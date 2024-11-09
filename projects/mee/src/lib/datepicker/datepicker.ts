@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   signal,
@@ -130,27 +130,27 @@ export class DatePicker<D> {
     return this.dialogRef?.data;
   }
 
-  focusChanged(item: { current: AccessibleItem; previous?: AccessibleItem }) {
-    const cData = item.current.data();
-    const pData = item.previous?.data();
+  focusChanged(_: { current: AccessibleItem; previous?: AccessibleItem }) {
+    // const cData = item.current.data();
+    // const pData = item.previous?.data();
     // console.log('focusChanged', cData, pData);
     // console.log(data);
-    if (cData.day) {
-      let add = 0;
-      // if (pData) {
-      //   const v = (cData.day - pData.day) / 7;
-      //   console.log(Math.abs(1));
-      //   if (1 === Math.abs(v)) {
-      //     add = 0;
-      //   } else if (v > 0) {
-      //     add = -1;
-      //   } else {
-      //     add = 1;
-      //   }
-      // }
-      // console.log(add);
-      // this.startMonth.set(cData.mon + add);
-    }
+    // if (cData.day) {
+    // let add = 0;
+    // if (pData) {
+    //   const v = (cData.day - pData.day) / 7;
+    //   console.log(Math.abs(1));
+    //   if (1 === Math.abs(v)) {
+    //     add = 0;
+    //   } else if (v > 0) {
+    //     add = -1;
+    //   } else {
+    //     add = 1;
+    //   }
+    // }
+    // console.log(add);
+    // this.startMonth.set(cData.mon + add);
+    // }
   }
 
   updateHoveredDate(date: D) {

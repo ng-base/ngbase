@@ -5,7 +5,7 @@ import {
   input,
   computed,
   ChangeDetectionStrategy,
-  effect,
+  afterRenderEffect,
 } from '@angular/core';
 import { InputStyle } from './input-style.directive';
 import { ControlValueAccessor } from '@angular/forms';
@@ -52,7 +52,7 @@ export class InputOtp implements ControlValueAccessor {
   lastValue = '';
 
   constructor() {
-    effect(cleanup => {
+    afterRenderEffect(cleanup => {
       const values = Array.from({ length: this.no() }, () => '');
       const inputs = this.inputs();
       this.updateTabIndex(values);
@@ -86,8 +86,15 @@ export class InputOtp implements ControlValueAccessor {
         const focusListener = () => {
           let index = values.findIndex(v => !v);
           index = index === -1 ? values.length - 1 : index;
-          inputs[index].nativeElement.focus();
-          inputs[index].nativeElement.style.position = 'relative';
+          const el = inputs[index].nativeElement;
+          el.focus();
+          el.style.position = 'relative';
+
+          // move the cursor to the end of the input
+          // wait for the next frame to set the cursor position
+          requestAnimationFrame(() => {
+            el.selectionStart = el.selectionEnd = el.value.length;
+          });
         };
 
         const keydownListener = (e: KeyboardEvent) => {

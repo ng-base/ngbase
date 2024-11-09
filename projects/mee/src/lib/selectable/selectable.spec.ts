@@ -33,8 +33,12 @@ describe('Selectable', () => {
     expect(selectable).toBeTruthy();
   });
 
+  function selectableItems() {
+    return view.viewChildren(SelectableItem);
+  }
+
   it('should have three selectable items', () => {
-    expect(selectable.items().length).toBe(3);
+    expect(selectableItems().length).toBe(3);
   });
 
   it('should set active index when a value is written', () => {
@@ -46,7 +50,7 @@ describe('Selectable', () => {
     selectable.writeValue(2);
     view.detectChanges();
 
-    const items = selectable.items();
+    const items = selectableItems();
     expect(items[0].selected()).toBeFalsy();
     expect(items[1].selected()).toBeTruthy();
     expect(items[2].selected()).toBeFalsy();
@@ -64,7 +68,7 @@ describe('Selectable', () => {
   });
 
   it('should update model value when an item is selected', () => {
-    const items = selectable.items();
+    const items = selectableItems();
     items[1].select();
     view.detectChanges();
 

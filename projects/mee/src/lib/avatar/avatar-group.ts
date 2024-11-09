@@ -1,8 +1,8 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   contentChildren,
-  effect,
   ElementRef,
   input,
 } from '@angular/core';
@@ -28,7 +28,7 @@ export class AvatarGroup {
   readonly avatars = contentChildren(Avatar, { descendants: true, read: ElementRef });
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       const avatars = this.avatars();
 
       let i = 0;

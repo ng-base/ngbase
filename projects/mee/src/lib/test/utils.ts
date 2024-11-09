@@ -1,4 +1,4 @@
-import { Provider, Type } from '@angular/core';
+import { provideExperimentalZonelessChangeDetection, Provider, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -75,7 +75,7 @@ export async function render<T>(component: Type<T>, providers: Provider[] = []) 
   if (providers.length) {
     await TestBed.configureTestingModule({
       imports: [component],
-      providers,
+      providers: [provideExperimentalZonelessChangeDetection(), ...providers],
     }).compileComponents();
   }
   const fixture = TestBed.createComponent(component);

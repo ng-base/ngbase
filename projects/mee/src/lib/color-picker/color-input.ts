@@ -42,7 +42,7 @@ export class ColorInput implements ControlValueAccessor {
   presetColors = input<string[]>();
   value = model<string>('');
 
-  onChange = (value: string) => {};
+  onChange = (_: string) => {};
   onTouched = () => {};
 
   updateValue(value = ''): void {

@@ -16,7 +16,7 @@ import { provideValueAccessor } from '@meeui/utils';
 })
 export class Toggle implements ControlValueAccessor {
   value = false;
-  onChange = (value: boolean) => {};
+  onChange = (_: boolean) => {};
   onTouched = () => {};
 
   writeValue(value: boolean): void {

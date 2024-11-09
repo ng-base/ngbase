@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'range',
 })
 export class RangePipe implements PipeTransform {
-  transform(value: number, ...args: any[]) {
+  transform(value: number) {
     return Array.from({ length: value }, (v, k) => k + 1);
   }
 }

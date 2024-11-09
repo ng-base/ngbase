@@ -1,6 +1,6 @@
 import { SelectableItem } from './selectable-item';
 import { Selectable } from './selectable';
-import { Component } from '@angular/core';
+import { Component, ModelSignal, signal } from '@angular/core';
 import { render, RenderResult } from '../test';
 
 // Test host component
@@ -13,15 +13,18 @@ class TestHostComponent {
   testValue = 'test';
 }
 
+const SelectableStub: Partial<Selectable<string>> = {
+  activeIndex: signal(0) as unknown as ModelSignal<string | undefined>,
+  setValue: jest.fn(),
+};
+
 describe('SelectableItem', () => {
   let view: RenderResult<TestHostComponent>;
   let selectableItem: SelectableItem<string>;
   let selectable: Selectable<string>;
 
   beforeEach(async () => {
-    view = await render(TestHostComponent, [
-      { provide: Selectable, useValue: { select: jest.fn() } },
-    ]);
+    view = await render(TestHostComponent, [{ provide: Selectable, useValue: SelectableStub }]);
     selectable = view.inject(Selectable<string>);
     selectableItem = view.viewChild(SelectableItem<string>);
     view.detectChanges();
@@ -53,7 +56,7 @@ describe('SelectableItem', () => {
   });
 
   it('should have the correct CSS classes when selected', () => {
-    selectableItem.selected.set(true);
+    selectable.activeIndex.set('test');
     view.detectChanges();
 
     const element = getSelectableItem();

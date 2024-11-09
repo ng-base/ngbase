@@ -8,7 +8,6 @@ import {
   query,
   animateChild,
   group,
-  stagger,
 } from '@angular/animations';
 
 export const sideAnimation: AnimationTriggerMetadata = trigger('sideAnimation', [

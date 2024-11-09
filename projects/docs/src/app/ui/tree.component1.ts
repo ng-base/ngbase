@@ -6,8 +6,7 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
 import { Heading } from '@meeui/typography';
 import { Button } from '@meeui/button';
-import { CdkTreeModule, FlatTreeControl } from '@angular/cdk/tree';
-import { ArrayDataSource } from '@angular/cdk/collections';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { Labels, TREE_DATA } from './tree-data';
 
 interface TreeItem {
@@ -19,36 +18,36 @@ interface TreeItem {
 }
 
 /** Flat node with expandable and level information */
-interface FlatNode<T> {
-  expandable: boolean;
-  data: T;
-  level: number;
-  isExpanded?: boolean;
-}
+// interface FlatNode<T> {
+//   expandable: boolean;
+//   data: T;
+//   level: number;
+//   isExpanded?: boolean;
+// }
 
-class TreeFlatNode<T> {
-  data: FlatNode<T>[] = [];
-  private levelData = new Map<number, WeakSet<FlatNode<T>>>();
-  constructor(private children: (node: T) => T[]) {}
+// class TreeFlatNode<T> {
+//   data: FlatNode<T>[] = [];
+//   private levelData = new Map<number, WeakSet<FlatNode<T>>>();
+//   constructor(private children: (node: T) => T[]) {}
 
-  setDataSource(data: T[]) {
-    this.setChildren(data, 0);
-  }
+//   setDataSource(data: T[]) {
+//     this.setChildren(data, 0);
+//   }
 
-  private setChildren(children: T[], level: number) {
-    const val = this.levelData.get(level) || new WeakSet<FlatNode<T>>();
-    children.forEach((node, index) => {
-      const children = this.children(node);
-      const value: FlatNode<T> = { data: node, level, expandable: children.length > 0 };
-      this.data.push(value);
-      val.add(value);
-      if (children.length) {
-        this.setChildren(children, level + 1);
-      }
-    });
-    this.levelData.set(level, val);
-  }
-}
+//   private setChildren(children: T[], level: number) {
+//     const val = this.levelData.get(level) || new WeakSet<FlatNode<T>>();
+//     children.forEach((node, index) => {
+//       const children = this.children(node);
+//       const value: FlatNode<T> = { data: node, level, expandable: children.length > 0 };
+//       this.data.push(value);
+//       val.add(value);
+//       if (children.length) {
+//         this.setChildren(children, level + 1);
+//       }
+//     });
+//     this.levelData.set(level, val);
+//   }
+// }
 
 @Component({
   standalone: true,

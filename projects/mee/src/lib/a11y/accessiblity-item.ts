@@ -9,6 +9,7 @@ import {
   booleanAttribute,
   output,
   computed,
+  OnDestroy,
 } from '@angular/core';
 import { AccessiblityService } from './accessiblity.service';
 import { Subject } from 'rxjs';
@@ -23,7 +24,7 @@ import { Subject } from 'rxjs';
     '(click)': 'onFocus()',
   },
 })
-export class AccessibleItem<T = any> {
+export class AccessibleItem<T = any> implements OnDestroy {
   readonly allyService = inject(AccessiblityService);
   readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -47,6 +48,10 @@ export class AccessibleItem<T = any> {
     item: AccessibleItem;
   }>();
   private count = 1;
+  /**
+   * @internal when component is destroyed, we don't want to emit events
+   */
+  private isDestroyed = false;
 
   constructor() {
     effect(cleanUp => {
@@ -98,7 +103,14 @@ export class AccessibleItem<T = any> {
     this.el.tabIndex = 0;
     this.el.click();
     this.el.focus();
-    this.selectedChange.emit(this.count++);
-    this.events.next({ event: new KeyboardEvent('click'), type: 'click', item: this });
+    // sometimes the click event detroyes the component
+    if (!this.isDestroyed) {
+      this.selectedChange.emit(this.count++);
+      this.events.next({ event: new KeyboardEvent('click'), type: 'click', item: this });
+    }
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
   }
 }

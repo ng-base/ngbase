@@ -5,7 +5,6 @@ import {
   computed,
   inject,
   OnDestroy,
-  afterNextRender,
   viewChild,
   ViewContainerRef,
   effect,
@@ -16,7 +15,7 @@ import { Button } from '../button';
 import { BaseDialog } from '../portal';
 import { tooltipPosition } from '../portal/utils';
 import { DialogOptions } from '../dialog';
-import { fromEvent, debounce, debounceTime, delay, startWith, take } from 'rxjs';
+import { fromEvent, debounceTime, startWith, take } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
 import { PopoverOptions, PopoverPosition } from '../popover';

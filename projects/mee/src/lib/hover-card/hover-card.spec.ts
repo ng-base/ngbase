@@ -6,7 +6,6 @@ import { HoverCard } from './hover-card';
 jest.useFakeTimers();
 
 describe('HoverCard Directive', () => {
-  let component: TestComponent;
   let view: RenderResult<TestComponent>;
   let element: HTMLElement;
   let directive: HoverCard;
@@ -25,7 +24,6 @@ describe('HoverCard Directive', () => {
 
   beforeEach(async () => {
     view = await render(TestComponent, [provideNoopAnimations()]);
-    component = view.host;
 
     element = view.$('button');
     directive = view.viewChild(HoverCard);

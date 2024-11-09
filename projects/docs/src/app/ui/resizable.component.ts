@@ -14,24 +14,55 @@ import { DocCode } from './code.component';
       <button meeButton (click)="toggle()" class="mb-5">Toggle</button>
       <button meeButton (click)="toggleThird()" class="mb-5">Toggle Third</button>
 
-      <mee-resizable-group class="!w-96 rounded-lg border bg-foreground">
-        <mee-resizable [size]="show() ? '140px' : 0">
-          <div class="flex h-[200px] w-full items-center justify-center">Resizable 1</div>
+      <mee-resizable-group class="!w-[600px] rounded-lg border bg-foreground">
+        <mee-resizable [size]="show() ? '200px' : 0" min="50px">
+          <div class="flex h-[200px] w-full items-center justify-center">1</div>
+        </mee-resizable>
+        @if (showThird()) {
+          <mee-resizable size="150px" min="50px" max="200px">
+            <div class="flex h-[200px] w-full items-center justify-center">2</div>
+          </mee-resizable>
+        }
+        <mee-resizable>
+          <div class="flex h-[200px] w-full items-center justify-center">3</div>
+        </mee-resizable>
+        <mee-resizable min="50px" max="150px">
+          <div class="flex h-[200px] w-full items-center justify-center">4</div>
+        </mee-resizable>
+      </mee-resizable-group>
+      <mee-resizable-group class="!w-[700px] rounded-lg border bg-foreground">
+        <mee-resizable [size]="show() ? '100px' : 0">
+          <div class="flex h-[200px] w-full items-center justify-center">1</div>
+        </mee-resizable>
+        <mee-resizable [size]="show() ? '80px' : 0" [min]="10" [max]="'160px'">
+          <div class="flex h-[200px] w-full items-center justify-center">2</div>
+        </mee-resizable>
+        <mee-resizable [size]="show() ? '80px' : 0" [min]="10" [max]="'160px'">
+          <div class="flex h-[200px] w-full items-center justify-center">3</div>
+        </mee-resizable>
+        <mee-resizable [size]="show() ? '80px' : 0" [min]="10" [max]="'160px'">
+          <div class="flex h-[200px] w-full items-center justify-center">4</div>
         </mee-resizable>
         <mee-resizable>
-          <!-- <div class="flex h-[200px] w-full items-center justify-center">Resizable 2</div> -->
           <mee-resizable-group class="h-full" direction="vertical">
             <mee-resizable [size]="50">
-              <div class="flex h-full w-full items-center justify-center">Resizable 2</div>
+              <div class="flex h-full w-full items-center justify-center">5</div>
             </mee-resizable>
             <mee-resizable [size]="50">
-              <div class="flex h-full w-full items-center justify-center">Resizable 3</div>
+              <mee-resizable-group class="h-full">
+                <mee-resizable [size]="50" [min]="'25px'">
+                  <div class="flex h-full w-full items-center justify-center">1</div>
+                </mee-resizable>
+                <mee-resizable [size]="50" [min]="'25px'">
+                  <div class="flex h-full w-full items-center justify-center">2</div>
+                </mee-resizable>
+              </mee-resizable-group>
             </mee-resizable>
           </mee-resizable-group>
         </mee-resizable>
         @if (showThird()) {
           <mee-resizable [size]="30">
-            <div class="flex h-[200px] w-full items-center justify-center">Resizable 4</div>
+            <div class="flex h-[200px] w-full items-center justify-center">6</div>
           </mee-resizable>
         }
       </mee-resizable-group>

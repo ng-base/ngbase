@@ -67,10 +67,10 @@ export class Menu implements OnDestroy {
   }
 
   opened() {
-    this.options().forEach((list, i) => {
+    this.options().forEach(list => {
       list.setAyId(this.diaRef.options.ayId!);
     });
-    this.lists().forEach((list, i) => {
+    this.lists().forEach(list => {
       list.setAyId(this.diaRef.options.ayId!);
     });
   }

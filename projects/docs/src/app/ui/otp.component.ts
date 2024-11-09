@@ -12,14 +12,16 @@ import { DocCode } from './code.component';
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <label meeLabel>
-        OTP: {{ otp }}
-        <mee-input-otp placeholder="_" [size]="[4]" [(ngModel)]="otp" />
-      </label>
-      <label meeLabel class="mt-b4">
-        Card: {{ otp1 }}
-        <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
-      </label>
+      <div class="flex flex-col items-start gap-b4">
+        <label meeLabel>
+          OTP: {{ otp }}
+          <mee-input-otp placeholder="_" [size]="[4]" [(ngModel)]="otp" />
+        </label>
+        <label meeLabel class="mt-b4">
+          Card: {{ otp1 }}
+          <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
+        </label>
+      </div>
     </app-doc-code>
   `,
 })

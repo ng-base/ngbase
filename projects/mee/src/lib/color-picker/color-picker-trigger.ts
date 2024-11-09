@@ -30,7 +30,7 @@ export class ColorPickerTrigger {
   effectRef?: EffectRef;
 
   open() {
-    const { diaRef, childSignal } = this.popover.open(ColorPicker, {
+    const { childSignal } = this.popover.open(ColorPicker, {
       target: this.el.nativeElement,
       position: 'bl',
       offset: 0,

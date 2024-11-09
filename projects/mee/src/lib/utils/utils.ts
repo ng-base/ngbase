@@ -25,25 +25,36 @@ export function provideValueAccessor<T>(valueAccessor: Type<T>) {
   };
 }
 
+export interface ListnerOut {
+  on: () => void;
+  off: () => void;
+}
+
 export function documentListener<T extends Event>(
   ev: string,
   fn: (e: T) => void,
-  data: Partial<AddEventListenerOptions & { injector?: Injector; lazy?: boolean }> = {},
-) {
-  const { injector = inject(Injector), lazy = false, ...listenerOptions } = data;
+  data: Partial<
+    AddEventListenerOptions & {
+      injector?: Injector;
+      lazy?: boolean;
+      element?: HTMLElement | Document | Window;
+    }
+  > = {},
+): ListnerOut {
+  const { injector = inject(Injector), lazy = false, element, ...listenerOptions } = data;
   let active = false;
-  const controller = { on: () => {}, off: () => {} };
+  const controller: ListnerOut = { on: () => {}, off: () => {} };
 
   controller.on = () => {
     if (active) return;
     active = true;
     runInInjectionContext(injector, () => {
-      const document = inject(DOCUMENT);
-      document.addEventListener(ev, fn as any, listenerOptions);
+      const el = element || inject(DOCUMENT);
+      el.addEventListener(ev, fn as any, listenerOptions);
 
       controller.off = () => {
         active = false;
-        document.removeEventListener(ev, fn as any);
+        el.removeEventListener(ev, fn as any);
       };
       cleanup(controller.off);
     });

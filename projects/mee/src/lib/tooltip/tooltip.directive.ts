@@ -3,8 +3,8 @@ import {
   ElementRef,
   InjectionToken,
   OnDestroy,
+  afterRenderEffect,
   computed,
-  effect,
   inject,
   input,
   untracked,
@@ -53,7 +53,7 @@ export class Tooltip implements OnDestroy {
 
   constructor() {
     let active = false;
-    effect(() => {
+    afterRenderEffect(() => {
       const content = this.meeTooltip();
       untracked(() => {
         if (content) {

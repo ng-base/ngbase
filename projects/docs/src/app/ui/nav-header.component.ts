@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/accordion';
 import { dialogPortal } from '@meeui/dialog';
 import { keyMap } from '@meeui/keys';
-import { Command } from '@meeui/command';
+import { Command, CommandItem } from '@meeui/command';
 
 @Component({
   standalone: true,
@@ -96,7 +96,7 @@ export class NavComponent implements OnInit {
 
   sortList = this.adkList.sort((a, b) => a.name.localeCompare(b.name));
 
-  private componentList: { name: string; link: string }[] = [
+  private componentList: CommandItem[] = [
     { name: 'Accordion', link: 'accordion' },
     { name: 'Alert', link: '' },
     { name: 'Alert Dialog', link: 'alert-dialog' },
@@ -154,6 +154,7 @@ export class NavComponent implements OnInit {
     { name: 'Tree', link: 'tree' },
     { name: 'Typography', link: 'typography' },
     { name: 'Inline Edit', link: 'inline-edit' },
+    { name: 'Virtualizer', link: 'virtualizer' },
   ];
 
   sortComponentList = this.componentList.sort((a, b) => a.name.localeCompare(b.name));
@@ -170,6 +171,7 @@ export class NavComponent implements OnInit {
 
   open() {
     this.dialog.open(Command, {
+      data: this.sortComponentList,
       header: true,
       width: '600px',
       minHeight: '400px',

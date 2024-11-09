@@ -35,18 +35,21 @@ export class ResizableGroup {
   constructor() {
     effect(() => {
       const panels = this.panels();
-      // const _ = this.direction();
 
       untracked(() => {
+        // set the index of each panel first before initializing the drag
         panels.forEach((panel, index) => {
           panel.index = index;
-          // hide the last panel's drag handle
-          panel.draggable.set(true);
-          if (index === panels.length - 1) {
-            panel.draggable.set(false);
-          }
-          panel.handleDrag(undefined, false);
         });
+        panels.forEach((panel, index) => {
+          // hide the last panel's drag handle
+          panel.draggable.set(index !== panels.length - 1);
+          if (panel.size() !== 'auto') {
+            panel.handleDrag();
+          }
+        });
+        // we need to called setAuto after all panels have been initialized
+        // because the number of panels could have changed
         this.setAuto();
       });
     });
@@ -76,7 +79,8 @@ export class ResizableGroup {
       str = `calc(${str} / ${autos.length})`;
     }
     for (const auto of autos) {
-      auto.updateElementSize(str);
+      auto.lSize.set(str);
+      auto.handleDrag();
     }
   }
 
@@ -91,9 +95,16 @@ export class ResizableGroup {
     div.style.cursor = 'ew-resize';
     this.document.body.appendChild(div);
     this.overlayDiv = div;
+
+    this.panels().forEach(panel => {
+      panel.onStart();
+    });
   }
 
   end() {
     this.overlayDiv?.remove();
+    this.panels().forEach(panel => {
+      panel.onEnd();
+    });
   }
 }

@@ -1,15 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  afterNextRender,
-  computed,
-  effect,
-  inject,
-  input,
-  model,
-  output,
-  signal,
-} from '@angular/core';
+import { Directive, ElementRef, computed, inject, input, output, signal } from '@angular/core';
 import { Autocomplete } from './autocomplete';
 
 @Directive({

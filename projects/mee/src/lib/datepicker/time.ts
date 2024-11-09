@@ -91,7 +91,7 @@ export class TimePicker implements ControlValueAccessor {
   seconds = '00';
   am = true;
 
-  private onChange = (value: any) => {};
+  private onChange = (_: any) => {};
   private onTouched = () => {};
 
   constructor() {

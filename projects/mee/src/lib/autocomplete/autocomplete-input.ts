@@ -2,7 +2,6 @@ import { Directive, ElementRef, computed, inject, input, output, signal } from '
 import { Autocomplete } from './autocomplete';
 
 @Directive({
-  standalone: true,
   selector: '[meeAutocompleteInput]',
   exportAs: 'meeAutocompleteInput',
   host: {

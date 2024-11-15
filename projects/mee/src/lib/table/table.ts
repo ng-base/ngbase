@@ -27,7 +27,6 @@ import { HeadRowDef } from './head-row';
 export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
 
 @Component({
-  standalone: true,
   selector: 'table[meeTable]',
   template: `
     <thead>

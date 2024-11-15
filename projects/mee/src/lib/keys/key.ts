@@ -11,7 +11,6 @@ import {
 import { keyMap } from './shortcuts.service';
 
 @Component({
-  standalone: true,
   selector: 'mee-key, [meeKey]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `{{ content() }}`,

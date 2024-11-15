@@ -6,7 +6,6 @@ import { Button } from '@meeui/button';
 import { Spinner } from '@meeui/spinner';
 
 @Component({
-  standalone: true,
   selector: 'app-summary',
   imports: [Card, Input, Heading, Button, Spinner],
   changeDetection: ChangeDetectionStrategy.OnPush,

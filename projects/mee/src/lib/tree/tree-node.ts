@@ -6,12 +6,11 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
+import { AccessibleItem } from '@meeui/ui/a11y';
 import { TREE_NODE_DATA, Tree, TreeNodeData } from './tree';
-import { AccessibleItem } from '../a11y';
 import { TreeNodeDef } from './tree-toggle';
 
 @Component({
-  standalone: true,
   selector: 'mee-tree-node',
   imports: [AccessibleItem],
   changeDetection: ChangeDetectionStrategy.OnPush,

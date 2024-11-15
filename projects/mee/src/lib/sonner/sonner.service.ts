@@ -1,5 +1,5 @@
 import { ComponentRef, inject, Injectable } from '@angular/core';
-import { basePortal, DialogRef } from '../portal';
+import { basePortal, DialogRef } from '@meeui/ui/portal';
 import { Sonner, SonnerData, SonnerType } from './sonner';
 
 @Injectable({ providedIn: 'root' })

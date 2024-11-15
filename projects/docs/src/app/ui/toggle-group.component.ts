@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { ToggleGroup, ToggleItem } from '@meeui/toggle-group';
+import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-toggle-group',
   imports: [FormsModule, Heading, ToggleGroup, ToggleItem, DocCode],
   template: `
@@ -25,7 +24,7 @@ export class ToggleGroupComponent {
   code = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { ToggleGroup, ToggleItem } from '@meeui/toggle-group';
+  import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
 
   @Component({
     selector: 'app-toggle-group',

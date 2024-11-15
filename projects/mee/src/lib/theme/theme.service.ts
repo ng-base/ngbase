@@ -1,8 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { dialogPortal } from '../dialog';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { isClient } from '../utils/ssr';
 import { ThemeComponent } from './theme.component';
-import { isClient } from '../utils';
-import { keyMap } from '../keys';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {

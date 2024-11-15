@@ -1,8 +1,8 @@
-import { fakeAsync } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
+import { fakeAsync } from '@angular/core/testing';
+import { render, RenderResult } from '@meeui/ui/test';
 import { AccessibleGroup } from './accessiblity-group';
 import { AccessibleItem } from './accessiblity-item';
-import { render, RenderResult } from '../test';
 
 Element.prototype.scrollIntoView = jest.fn();
 
@@ -25,7 +25,6 @@ Element.prototype.scrollIntoView = jest.fn();
       <button class="outside">Outside</button>
     </div>
   `,
-  standalone: true,
   imports: [AccessibleGroup, AccessibleItem],
 })
 class TestComponent {

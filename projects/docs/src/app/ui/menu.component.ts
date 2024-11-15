@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Menu, MenuTrigger } from '@meeui/menu';
-import { Separator } from '@meeui/separator';
-import { Button } from '@meeui/button';
-import { List } from '@meeui/list';
-import { Icon } from '@meeui/icon';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { PopoverTrigger } from '@meeui/ui/popover';
+import { Option } from '@meeui/ui/select';
+import { Separator } from '@meeui/ui/separator';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideChevronRight,
@@ -14,12 +16,9 @@ import {
   lucidePen,
   lucideTrash2,
 } from '@ng-icons/lucide';
-import { Option } from '@meeui/select';
 import { DocCode } from './code.component';
-import { PopoverTrigger } from '@meeui/popover';
 
 @Component({
-  standalone: true,
   selector: 'app-menu',
   imports: [
     Heading,
@@ -255,9 +254,9 @@ import { PopoverTrigger } from '@meeui/popover';
 export class MenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Menu, MenuTrigger } from '@meeui/menu';
-  import { Separator } from '@meeui/separator';
-  import { List } from '@meeui/list';
+  import { Menu, MenuTrigger } from '@meeui/ui/menu';
+  import { Separator } from '@meeui/ui/separator';
+  import { List } from '@meeui/ui/list';
 
   @Component({
     standalone: true,

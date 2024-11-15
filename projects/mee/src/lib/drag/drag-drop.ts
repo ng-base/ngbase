@@ -17,7 +17,6 @@ export interface DropEvent<T> {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeDrop]',
 })
 export class DragDrop<T> {

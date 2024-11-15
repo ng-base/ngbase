@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { List } from '@meeui/list';
+import { List } from '@meeui/ui/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/accordion';
-import { dialogPortal } from '@meeui/dialog';
-import { keyMap } from '@meeui/keys';
-import { Command, CommandItem } from '@meeui/command';
+import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { keyMap } from '@meeui/ui/keys';
+import { Command, CommandItem } from '@meeui/ui/command';
 
 @Component({
-  standalone: true,
   selector: 'app-nav',
   imports: [List, RouterLink, RouterLinkActive, Accordion, AccordionGroup, AccordionHeader],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,6 +91,7 @@ export class NavComponent implements OnInit {
     { name: 'Shortcuts', link: 'shortcuts' },
     { name: 'Directionality', link: 'directionality' },
     { name: 'Test', link: 'test' },
+    { name: 'Translation', link: 'translation' },
   ];
 
   sortList = this.adkList.sort((a, b) => a.name.localeCompare(b.name));
@@ -160,7 +160,7 @@ export class NavComponent implements OnInit {
   sortComponentList = this.componentList.sort((a, b) => a.name.localeCompare(b.name));
 
   constructor() {
-    keyMap('ctrl+k', () => this.open());
+    keyMap('ctrl+k|meta+k', () => this.open());
   }
 
   ngOnInit() {}

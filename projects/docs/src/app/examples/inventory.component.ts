@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Badge } from '@meeui/badge';
-import { Breadcrumb, Breadcrumbs } from '@meeui/breadcrumb';
-import { Button } from '@meeui/button';
-import { Card } from '@meeui/card';
-import { Icon } from '@meeui/icon';
-import { Input } from '@meeui/input';
-import { List } from '@meeui/list';
-import { Menu, MenuTrigger } from '@meeui/menu';
-import { Progress } from '@meeui/progress';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { Separator } from '@meeui/separator';
-import { TableComponents } from '@meeui/table';
-import { Tooltip } from '@meeui/tooltip';
-import { Heading } from '@meeui/typography';
+import { Badge } from '@meeui/ui/badge';
+import { Breadcrumb, Breadcrumbs } from '@meeui/ui/breadcrumb';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Icon } from '@meeui/ui/icon';
+import { Input } from '@meeui/ui/input';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { Progress } from '@meeui/ui/progress';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { Separator } from '@meeui/ui/separator';
+import { TableComponents } from '@meeui/ui/table';
+import { Tooltip } from '@meeui/ui/tooltip';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideChevronLeft,
@@ -29,7 +29,6 @@ import {
 } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-inventory',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

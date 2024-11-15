@@ -1,23 +1,22 @@
-import {
-  Component,
-  ViewContainerRef,
-  ChangeDetectionStrategy,
-  viewChild,
-  afterNextRender,
-} from '@angular/core';
-import { BaseDialog, DialogOptions } from '../portal';
 import { NgClass, NgStyle } from '@angular/common';
-import { viewAnimation, createHostAnimation, fadeAnimation } from './dialog.animation';
-import { Button } from '../button';
-import { Subject } from 'rxjs';
-import { Icon } from '../icon';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  viewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { Button } from '@meeui/ui/button';
+import { DragMove } from '@meeui/ui/drag';
+import { Icon } from '@meeui/ui/icon';
+import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
+import { FocusTrap } from '@meeui/ui/adk';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { DragMove } from '../drag';
-import { FocusTrap } from '../utils';
+import { Subject } from 'rxjs';
+import { createHostAnimation, fadeAnimation, viewAnimation } from './dialog.animation';
 
 @Component({
-  standalone: true,
   selector: 'mee-dialog',
   imports: [NgStyle, Button, NgClass, Icon, DragMove],
   viewProviders: [provideIcons({ lucideX })],

@@ -1,19 +1,19 @@
+import { NgClass } from '@angular/common';
 import {
+  afterRenderEffect,
+  booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
-  viewChildren,
+  computed,
   ElementRef,
   input,
-  computed,
-  ChangeDetectionStrategy,
-  afterRenderEffect,
+  viewChildren,
 } from '@angular/core';
-import { InputStyle } from './input-style.directive';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, RangePipe } from '../utils';
-import { NgClass } from '@angular/common';
+import { provideValueAccessor, RangePipe } from '@meeui/ui/utils';
+import { InputStyle } from './input-style.directive';
 
 @Component({
-  standalone: true,
   selector: 'mee-input-otp',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [InputStyle, RangePipe, NgClass],
@@ -24,7 +24,7 @@ import { NgClass } from '@angular/common';
           #input
           meeInputStyle
           [placeholder]="placeholder()"
-          type="text"
+          [type]="mask() ? 'password' : 'text'"
           [ngClass]="{ '!rounded-l-lg': i === 0, '!rounded-r-lg': ll }"
           class="mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold"
         />
@@ -45,6 +45,7 @@ export class InputOtp implements ControlValueAccessor {
   readonly size = input<number[]>([4]);
   readonly placeholder = input('·');
   readonly separator = input('-');
+  readonly mask = input(false, { transform: booleanAttribute });
 
   readonly no = computed(() => this.size().reduce((a, b) => a + b, 0));
   onChange?: (value: string) => void;

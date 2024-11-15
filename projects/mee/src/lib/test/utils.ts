@@ -75,7 +75,8 @@ export async function render<T>(component: Type<T>, providers: Provider[] = []) 
   if (providers.length) {
     await TestBed.configureTestingModule({
       imports: [component],
-      providers: [provideExperimentalZonelessChangeDetection(), ...providers],
+      // providers: [provideExperimentalZonelessChangeDetection(), ...providers],
+      providers,
     }).compileComponents();
   }
   const fixture = TestBed.createComponent(component);

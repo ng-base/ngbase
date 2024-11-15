@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Spinner } from '@meeui/spinner';
-import { Tab, Tabs } from '@meeui/tabs';
-import { ThemeService } from '@meeui/theme';
+import { Spinner } from '@meeui/ui/spinner';
+import { Tab, Tabs } from '@meeui/ui/tabs';
+import { ThemeService } from '@meeui/ui/theme';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { BlogsComponent } from './blogs.component';
@@ -22,7 +22,6 @@ export function injectParams() {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-examples',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

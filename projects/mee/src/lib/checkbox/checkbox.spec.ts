@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '../test';
-import { Checkbox } from './checkbox';
 import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '@meeui/ui/test';
+import { Checkbox } from './checkbox';
 
 describe('CheckboxComponent', () => {
   let component: Checkbox;

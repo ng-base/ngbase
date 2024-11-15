@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Carousel, CarouselButton, CarouselItem } from '@meeui/carousel';
-import { RangePipe } from '@meeui/utils';
-import { Card } from '@meeui/card';
-import { Heading } from '@meeui/typography';
-import { Button } from '@meeui/button';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Carousel, CarouselItem, CarouselButton, RangePipe, Card, Heading, Button, DocCode],
@@ -59,7 +58,7 @@ import { DocCode } from './code.component';
 export class CarouselComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Carousel, CarouselButton, CarouselItem } from '@meeui/carousel';
+  import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';
 
   @Component({
     standalone: true,

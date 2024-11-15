@@ -7,7 +7,6 @@ import { SidebarComponent } from './sidebar.component';
 import { Card } from '@meeui/card';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, Button, ScrollArea, Card, SidebarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

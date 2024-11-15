@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { NumberOnly } from './number-only';
 
 describe('NumberOnly Directive', () => {
@@ -8,7 +8,6 @@ describe('NumberOnly Directive', () => {
   let inputElement: HTMLInputElement;
 
   @Component({
-    standalone: true,
     imports: [NumberOnly],
     template: `<input meeNumberOnly [min]="min" [max]="max" [len]="len" [(value)]="value" />`,
   })

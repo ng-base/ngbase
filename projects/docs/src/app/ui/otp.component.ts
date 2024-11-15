@@ -1,26 +1,25 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Input, InputOtp, Label } from '@meeui/input';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
+import { Heading } from '@meeui/ui/typography';
+import { FormField, InputOtp, Label } from '@meeui/ui/input';
 
 @Component({
-  standalone: true,
   selector: 'app-otp',
-  imports: [FormsModule, Heading, InputOtp, DocCode, Label],
+  imports: [FormsModule, Heading, InputOtp, DocCode, FormField, Label],
   template: `
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
     <app-doc-code [tsCode]="tsCode">
       <div class="flex flex-col items-start gap-b4">
-        <label meeLabel>
-          OTP: {{ otp }}
-          <mee-input-otp placeholder="_" [size]="[4]" [(ngModel)]="otp" />
-        </label>
-        <label meeLabel class="mt-b4">
-          Card: {{ otp1 }}
+        <div meeFormField>
+          <label meeLabel>OTP: {{ otp }}</label>
+          <mee-input-otp placeholder="_" [size]="[4]" [(ngModel)]="otp" mask />
+        </div>
+        <div meeFormField>
+          <label meeLabel>Card: {{ otp1 }}</label>
           <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
-        </label>
+        </div>
       </div>
     </app-doc-code>
   `,
@@ -33,7 +32,7 @@ export class OtpComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { InputOtp } from '@meeui/input';
+  import { InputOtp } from '@meeui/ui/input';
 
   @Component({
     standalone: true,

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { ColorPickerTrigger } from './color-picker-trigger';
-import { InputStyle } from '../input';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { InputStyle } from '@meeui/ui/input';
+import { provideValueAccessor } from '@meeui/ui/utils';
 import { ColorFormat } from './color-picker';
-import { provideValueAccessor } from '@meeui/utils';
+import { ColorPickerTrigger } from './color-picker-trigger';
 
 @Component({
   selector: 'mee-color-input',
@@ -33,7 +33,6 @@ import { provideValueAccessor } from '@meeui/utils';
     class: '!inline-flex gap-2 items-center',
   },
   providers: [provideValueAccessor(ColorInput)],
-  standalone: true,
 })
 export class ColorInput implements ControlValueAccessor {
   // value = signal('#0E16D7');

@@ -1,11 +1,10 @@
-import { ResizableGroup } from './resizable-group';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DragData } from '@meeui/ui/drag';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Resizable } from './resizable';
-import { DragData } from '../drag';
-import { render, RenderResult } from '../test';
+import { ResizableGroup } from './resizable-group';
 
 @Component({
-  standalone: true,
   imports: [ResizableGroup, Resizable],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

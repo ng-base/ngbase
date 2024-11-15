@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { List } from '@meeui/list';
-import { Heading } from '@meeui/typography';
-import { Option, ListSelection } from '@meeui/select';
+import { List } from '@meeui/ui/list';
+import { ListSelection, Option } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [List, Option, ListSelection, Heading, DocCode],
@@ -29,8 +28,8 @@ import { DocCode } from './code.component';
 export class ListComponent {
   code = `
   import { Component } from '@angular/core';
-  import { List } from '@meeui/list';
-  import { Option, ListSelection } from '@meeui/select';
+  import { List } from '@meeui/ui/list';
+  import { Option, ListSelection } from '@meeui/ui/select';
 
   @Component({
     standalone: true,

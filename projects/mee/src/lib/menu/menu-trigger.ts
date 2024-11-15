@@ -1,14 +1,13 @@
 import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
-import { popoverPortal } from '../popover';
+import { AccessibleItem } from '@meeui/ui/a11y';
+import { popoverPortal } from '@meeui/ui/popover';
+import { DialogOptions } from '@meeui/ui/portal';
+import { uniqueId } from '@meeui/ui/utils';
+import { Subject } from 'rxjs';
 import { Menu } from './menu';
 import { NavigationMenu } from './navigation-menu';
-import { Subject } from 'rxjs';
-import { DialogOptions } from '../portal';
-import { uniqueId } from '../utils';
-import { AccessibleItem } from '../a11y';
 
 @Directive({
-  standalone: true,
   selector: '[meeMenuTrigger]',
   exportAs: 'meeMenuTrigger',
   host: {

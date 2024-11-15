@@ -13,7 +13,6 @@ import {
 import { Stepper } from './stepper';
 
 @Component({
-  standalone: true,
   selector: 'mee-step',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
@@ -35,7 +34,6 @@ export class Step {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeStepHeader]',
 })
 export class StepHeader {}

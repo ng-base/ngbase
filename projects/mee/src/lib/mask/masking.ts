@@ -9,10 +9,9 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { Input } from '@meeui/input';
+import { Input } from '@meeui/ui/input';
 
 @Pipe({
-  standalone: true,
   name: 'mask',
 })
 export class MaskPipe implements PipeTransform {
@@ -22,7 +21,6 @@ export class MaskPipe implements PipeTransform {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeMask]',
   hostDirectives: [Input],
   host: {

@@ -1,18 +1,17 @@
 import {
   Component,
-  signal,
   ElementRef,
-  input,
-  output,
-  viewChild,
   inject,
+  input,
   linkedSignal,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
-import { disposals, documentListener, provideValueAccessor } from '../utils';
+import { disposals, documentListener, provideValueAccessor } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-inline-edit',
   imports: [FormsModule],
   providers: [provideValueAccessor(InlineEdit)],

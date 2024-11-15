@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Button } from '@meeui/button';
-import { Icon } from '@meeui/icon';
-import { InlineEdit } from '@meeui/inline-edit';
-import { Tree, TreeNode, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
-import { Heading } from '@meeui/typography';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { InlineEdit } from '@meeui/ui/inline-edit';
+import { Tree, TreeNode, TreeNodeDef, TreeNodeToggle } from '@meeui/ui/tree';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
 
@@ -24,7 +24,6 @@ class TreeItem {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-tree',
   imports: [
     FormsModule,

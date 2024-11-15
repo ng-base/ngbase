@@ -1,5 +1,5 @@
+import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
 import { PicasaBase } from './picasa-base.component';
-import { DialogInput, DialogOptions, basePortal } from '../portal';
 
 export function picasaPortal() {
   const NAME = 'picasa';

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Button } from '@meeui/button';
-import { Heading } from '@meeui/typography';
+import { Button } from '@meeui/ui/button';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
-  standalone: true,
   selector: 'app-buttons',
   imports: [Button, Heading],
   template: `

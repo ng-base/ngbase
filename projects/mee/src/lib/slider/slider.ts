@@ -1,23 +1,22 @@
 import {
+  afterNextRender,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   input,
-  viewChild,
-  effect,
-  afterNextRender,
   model,
-  booleanAttribute,
   numberAttribute,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Drag, DragData } from '../drag';
-import { FocusStyle } from '../checkbox/focus-style.directive';
-import { provideValueAccessor } from '@meeui/utils';
+import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
+import { Drag, DragData } from '@meeui/ui/drag';
+import { provideValueAccessor } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-slider',
   imports: [Drag, FocusStyle],
   template: `

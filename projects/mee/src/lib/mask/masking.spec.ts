@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { MaskInput } from './masking';
 
 @Component({
-  standalone: true,
   imports: [MaskInput, FormsModule],
   template: `<input [meeMask]="mask" [(ngModel)]="value" />`,
 })

@@ -1,12 +1,12 @@
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Icon } from '@meeui/icon';
-import { Tree, TreeNode, TreeNodeContent, TreeNodeDef, TreeNodeToggle } from '@meeui/tree';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { Tree, TreeNode, TreeNodeContent, TreeNodeDef, TreeNodeToggle } from '@meeui/ui/tree';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
-import { Heading } from '@meeui/typography';
-import { Button } from '@meeui/button';
-import { CdkTreeModule } from '@angular/cdk/tree';
 import { Labels, TREE_DATA } from './tree-data';
 
 interface TreeItem {

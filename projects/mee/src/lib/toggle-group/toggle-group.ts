@@ -1,13 +1,21 @@
-import { ChangeDetectionStrategy, Component, contentChildren, input, model } from '@angular/core';
-import { ToggleItem } from './toggle-item';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  contentChildren,
+  input,
+  model,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '../a11y/accessiblity-group';
-import { provideValueAccessor, uniqueId } from '../utils';
+import { AccessibleGroup } from '@meeui/ui/a11y';
+import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
+import { ToggleItem } from './toggle-item';
 
 @Component({
-  standalone: true,
   selector: 'mee-toggle-group',
   imports: [AccessibleGroup],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideValueAccessor(ToggleGroup)],
   template: `<div
     class="flex gap-1"
     meeAccessibleGroup
@@ -17,14 +25,9 @@ import { provideValueAccessor, uniqueId } from '../utils';
   >
     <ng-content select="[meeToggleItem]" />
   </div>`,
-  host: {
-    class: '',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideValueAccessor(ToggleGroup)],
 })
 export class ToggleGroup<T> implements ControlValueAccessor {
-  readonly multiple = input(true);
+  readonly multiple = input(true, { transform: booleanAttribute });
   readonly toggleItems = contentChildren(ToggleItem);
   readonly ayId = uniqueId();
   // value can be array or single value

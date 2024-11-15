@@ -2,7 +2,6 @@ import { contentChildren, Directive } from '@angular/core';
 import { DragDrop } from './drag-drop';
 
 @Directive({
-  standalone: true,
   selector: '[meeDropGroup]',
   host: {
     class: 'drop-group',

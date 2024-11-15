@@ -1,8 +1,8 @@
-import { Accordion } from './accordion-item';
-import { AccordionGroup } from './accordion-group';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { signal } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { render, RenderResult } from '@meeui/ui/test';
+import { AccordionGroup } from './accordion-group';
+import { Accordion } from './accordion-item';
 
 const accordionGroupStub = {
   multiple: signal(false),

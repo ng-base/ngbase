@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,23 +10,19 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { uniqueId } from '../utils';
-import { NgTemplateOutlet } from '@angular/common';
+import { uniqueId } from '@meeui/ui/utils';
 
 @Directive({
-  standalone: true,
   selector: '[meeTabHeader]',
 })
 export class TabHeader {}
 
 @Directive({
-  standalone: true,
   selector: '[meeTabLazy]',
 })
 export class TabLazy {}
 
 @Component({
-  standalone: true,
   selector: 'mee-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],

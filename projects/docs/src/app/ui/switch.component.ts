@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { Switch } from '@meeui/switch';
+import { Switch } from '@meeui/ui/switch';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-switch',
   imports: [FormsModule, Heading, Switch, DocCode],
   template: `
@@ -21,7 +20,7 @@ export class SwitchComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { Switch } from '@meeui/switch';
+  import { Switch } from '@meeui/ui/switch';
 
   @Component({
     standalone: true,

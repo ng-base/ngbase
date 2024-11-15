@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { Button } from '@meeui/button';
-import { Icon } from '@meeui/icon';
-import { Tab, TabHeader, TabLazy, Tabs } from '@meeui/tabs';
-import { Heading } from '@meeui/typography';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { Tab, TabHeader, TabLazy, Tabs } from '@meeui/ui/tabs';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideX } from '@ng-icons/lucide';
 import { DocCode } from './code.component';
@@ -19,7 +19,6 @@ export class TabLazyComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-tabs',
   imports: [Tabs, Tab, TabLazy, TabHeader, Heading, DocCode, Icon, Button, TabLazyComponent],
   viewProviders: [provideIcons({ lucidePlus, lucideX })],
@@ -80,7 +79,7 @@ export class TabsComponent {
   tabIndex = signal<number>(undefined as any);
   tsCode = `
   import { Component } from '@angular/core';
-  import { Tabs, Tab, TabHeader } from '@meeui/tabs';
+  import { Tabs, Tab, TabHeader } from '@meeui/ui/tabs';
 
   @Component({
     standalone: true,

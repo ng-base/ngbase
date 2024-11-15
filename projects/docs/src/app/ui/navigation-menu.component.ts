@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Button } from '@meeui/button';
-import { Menu, MenuTrigger, NavigationMenu } from '@meeui/menu';
-import { List } from '@meeui/list';
-import { RangePipe } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger, NavigationMenu } from '@meeui/ui/menu';
+import { RangePipe } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-navigation-menu',
   imports: [Button, Menu, List, NavigationMenu, MenuTrigger, RangePipe, DocCode],
   template: `
@@ -56,9 +55,9 @@ import { DocCode } from './code.component';
 export class NavigationMenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Button } from '@meeui/button';
-  import { Menu, MenuTrigger, NavigationMenu } from '@meeui/menu';
-  import { List } from '@meeui/list';
+  import { Button } from '@meeui/ui/button';
+  import { Menu, MenuTrigger, NavigationMenu } from '@meeui/ui/menu';
+  import { List } from '@meeui/ui/list';
 
   @Component({
     standalone: true,

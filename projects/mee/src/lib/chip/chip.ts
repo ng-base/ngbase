@@ -6,14 +6,13 @@ import {
   input,
   output,
 } from '@angular/core';
-import { Button } from '../button';
+import { Button } from '@meeui/ui/button';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Directionality } from '../utils/direction.service';
-import { Icon } from '../icon';
+import { Directionality } from '@meeui/ui/adk';
+import { Icon } from '@meeui/ui/icon';
 
 @Component({
-  standalone: true,
   selector: 'mee-chip, [meeChip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Icon],

@@ -1,7 +1,6 @@
 import { Directive, input } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[meeHeader]',
   host: {
     '[class]': `'font-semibold ' + (meeHeader() == 'sm' 

@@ -1,12 +1,11 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Icon } from '../icon';
+import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
 import { Breadcrumbs } from './breadcrumbs';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  standalone: true,
   selector: 'mee-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, NgTemplateOutlet],

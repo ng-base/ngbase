@@ -1,7 +1,6 @@
 import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: '[meeHead]',
   template: `<ng-content />`,
   host: {
@@ -14,7 +13,6 @@ export class Head {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeHeadDef]',
 })
 export class HeadDef {}

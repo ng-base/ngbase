@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Button, ButtonVariant } from '../button';
-import { DialogRef } from '../portal';
+import { Button, ButtonVariant } from '@meeui/ui/button';
+import { DialogRef } from '@meeui/ui/portal';
 
 export interface AlertOptions {
   title?: string;
@@ -13,7 +13,6 @@ export interface AlertOptions {
 }
 
 @Component({
-  standalone: true,
   selector: 'mee-alert',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button],

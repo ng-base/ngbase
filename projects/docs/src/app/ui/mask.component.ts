@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { DocCode } from './code.component';
-import { MaskInput, MaskPipe } from '@meeui/mask';
-import { Heading } from '@meeui/typography';
-import { Input } from '@meeui/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Input } from '@meeui/ui/input';
+import { MaskInput, MaskPipe } from '@meeui/ui/mask';
+import { Heading } from '@meeui/ui/typography';
+import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-mask',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocCode, Input, MaskInput, MaskPipe, Heading, FormsModule, ReactiveFormsModule],

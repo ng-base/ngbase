@@ -1,7 +1,7 @@
-import { TooltipComponent } from './tooltip';
-import { DialogInput, basePortal } from '../portal';
 import { ComponentRef, Injectable } from '@angular/core';
-import { PopoverPosition } from '../popover';
+import { PopoverPosition } from '@meeui/ui/popover';
+import { basePortal, DialogInput } from '@meeui/ui/portal';
+import { TooltipComponent } from './tooltip';
 
 @Injectable({ providedIn: 'root' })
 export class TooltipService {

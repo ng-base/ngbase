@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
-import { provideValueAccessor, uniqueId } from '../utils';
+import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
 import { FocusStyle } from './focus-style.directive';
 
 @Component({
@@ -32,7 +32,6 @@ import { FocusStyle } from './focus-style.directive';
     '(click)': 'updateValue()',
   },
   providers: [provideValueAccessor(Checkbox)],
-  standalone: true,
 })
 export class Checkbox implements ControlValueAccessor {
   readonly id = uniqueId();

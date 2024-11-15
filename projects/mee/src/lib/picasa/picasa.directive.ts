@@ -3,7 +3,6 @@ import { PicasaContainer } from './picasa.component';
 import { picasaPortal } from './picase.service';
 
 @Directive({
-  standalone: true,
   selector: '[meePicasa]',
 })
 export class Picasa {
@@ -20,7 +19,6 @@ export class Picasa {
 }
 
 @Directive({
-  standalone: true,
   selector: 'img[meePicasaItem]',
   host: {
     '(click)': 'open()',

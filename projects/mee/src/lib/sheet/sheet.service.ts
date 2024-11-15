@@ -1,4 +1,4 @@
-import { DialogInput, DialogOptions, basePortal } from '../portal';
+import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
 import { SheetContainer } from './sheet';
 
 export class SheetOptions extends DialogOptions {

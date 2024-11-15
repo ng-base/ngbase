@@ -1,7 +1,7 @@
 import { Component, OnDestroy, signal } from '@angular/core';
-import { Tabs } from './tab-group';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Tab, TabHeader, TabLazy } from './tab';
-import { render, RenderResult } from '../test';
+import { Tabs } from './tab-group';
 
 describe('Tabs Component', () => {
   let component: TestHostComponent;
@@ -9,7 +9,6 @@ describe('Tabs Component', () => {
   let tabsComponent: Tabs;
 
   @Component({
-    standalone: true,
     selector: 'app-lazy',
     template: '',
   })
@@ -22,7 +21,6 @@ describe('Tabs Component', () => {
   }
 
   @Component({
-    standalone: true,
     imports: [Tabs, Tab, TabHeader, TabLazy, LazyComponent],
     template: `
       <mee-tabs [(selectedIndex)]="tabIndex">

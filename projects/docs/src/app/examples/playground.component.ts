@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { Card } from '@meeui/card';
-import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
-import { Button } from '@meeui/button';
-import { Heading } from '@meeui/typography';
-import { AutoHeight, Input } from '@meeui/input';
-import { Menu, MenuTrigger } from '@meeui/menu';
-import { Slider } from '@meeui/slider';
 import { FormsModule } from '@angular/forms';
-import { Separator } from '@meeui/separator';
-import { Selectable, SelectableItem } from '@meeui/selectable';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Icon } from '@meeui/ui/icon';
+import { AutoHeight, Input } from '@meeui/ui/input';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { Separator } from '@meeui/ui/separator';
+import { Slider } from '@meeui/ui/slider';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
-import { Icon } from '@meeui/icon';
 
 @Component({
-  standalone: true,
   selector: 'app-playground',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

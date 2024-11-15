@@ -7,13 +7,12 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { uniqueId } from '../utils';
+import { AccessibleItem } from '@meeui/ui/a11y';
+import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
+import { uniqueId } from '@meeui/ui/utils';
 import { RadioGroup } from './radio-group';
-import { AccessibleItem } from '../a11y';
-import { FocusStyle } from '../checkbox/focus-style.directive';
 
 @Component({
-  standalone: true,
   selector: 'mee-radio, [meeRadio]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AccessibleItem, FocusStyle],

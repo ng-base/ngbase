@@ -9,8 +9,8 @@ import {
   input,
   untracked,
 } from '@angular/core';
+import { PopoverPosition } from '@meeui/ui/popover';
 import { TooltipService } from './tooltip.service';
-import { PopoverPosition } from '../popover';
 
 export function provideTooltipOptions(options: TooltipOptions) {
   return { provide: TOOLTIP_OPTIONS, useValue: options };
@@ -25,7 +25,6 @@ export interface TooltipOptions {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeTooltip]',
 })
 export class Tooltip implements OnDestroy {

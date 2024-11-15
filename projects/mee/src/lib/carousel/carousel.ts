@@ -9,14 +9,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { Drag } from '@meeui/ui/drag';
+import { Directionality } from '@meeui/ui/adk';
 import { CarouselItem } from './carousel-item';
-import { Drag } from '../drag';
-import { Directionality } from '../utils';
 
 const DEFAULT_VELOCITY = 0.7;
 
 @Component({
-  standalone: true,
   selector: 'mee-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Drag],

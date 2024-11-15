@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { IconType, NgIconComponent } from '@ng-icons/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-icon',
   imports: [NgIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Pagination } from '@meeui/pagination';
+import { Pagination } from '@meeui/ui/pagination';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-pagination',
   imports: [Heading, Pagination, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +24,7 @@ export class PaginationComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Pagination } from '@meeui/pagination';
+  import { Pagination } from '@meeui/ui/pagination';
 
   @Component({
     standalone: true,

@@ -1,19 +1,22 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Select, SelectInput, Option, OptionGroup } from '@meeui/select';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Tooltip } from '@meeui/tooltip';
+import { Option, OptionGroup, Select, SelectInput, SelectOption } from '@meeui/ui/select';
+import { Tooltip } from '@meeui/ui/tooltip';
+import { Heading } from '@meeui/ui/typography';
+import { filterFunction } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
-import { filterFunction } from '@meeui/utils';
+import { FormField, Label } from '@meeui/ui/input';
 
 @Component({
-  standalone: true,
   selector: 'app-select',
   imports: [
     FormsModule,
     ReactiveFormsModule,
     Heading,
+    FormField,
+    Label,
     Select,
+    SelectOption,
     SelectInput,
     Option,
     OptionGroup,
@@ -28,40 +31,53 @@ import { filterFunction } from '@meeui/utils';
         <mee-select
           formControlName="select"
           (ngModelChange)="valueChanged()"
+          [optionss]="options"
           class="w-full"
           id="select-test"
-        >
-          <input
+        />
+        <!-- <input
             meeSelectInput
             placeholder="Search options"
             [(ngModel)]="optionsFilter.search"
             [ngModelOptions]="{ standalone: true }"
-          />
-          @for (item of optionsFilter.filteredList(); track item) {
+          /> -->
+        <!-- @for (item of optionsFilter.filteredList(); track item) {
             <mee-option [value]="item" [meeTooltip]="item">{{ item }}</mee-option>
-          }
-        </mee-select>
+            } -->
+        <!-- <ng-template meeSelectOption let-item let-index>
+            <mee-option [value]="item" [meeTooltip]="item">{{ item }}</mee-option>
+          </ng-template> -->
+        <!-- </mee-select> -->
       </form>
 
-      <h4 meeHeader class="my-5">Select with group</h4>
-      <mee-select [(ngModel)]="groupValue" class="w-[196px]" placeholder="Select label" size="free">
-        <span class="select-prefix text-muted">Select:</span>
-        <input meeSelectInput placeholder="Search options" [(ngModel)]="groupSearch" />
-        @for (item of groupOptionsFilter(); track item.label) {
-          <mee-option-group [label]="item.label">
-            @for (item of item.children; track item) {
-              <mee-option [value]="item">{{ item }}</mee-option>
-            }
-          </mee-option-group>
-        }
-      </mee-select>
+      <div meeFormField class="mt-5 min-w-52">
+        <label meeLabel>Select with group</label>
+        <mee-select
+          [(ngModel)]="groupValue"
+          class="w-[196px]"
+          placeholder="Select label"
+          size="free"
+        >
+          <span class="select-prefix text-muted">Select:</span>
+          <input meeSelectInput placeholder="Search options" [(ngModel)]="groupSearch" />
+          @for (item of groupOptionsFilter(); track item.label) {
+            <mee-option-group [label]="item.label">
+              @for (item of item.children; track item) {
+                <mee-option [value]="item">{{ item }}</mee-option>
+              }
+            </mee-option-group>
+          }
+        </mee-select>
+      </div>
 
-      <h4 meeHeader>Small select</h4>
-      <mee-select class="w-30" size="free">
-        <mee-option>Option 1</mee-option>
-        <mee-option>Option 2</mee-option>
-        <mee-option>Option 3</mee-option>
-      </mee-select>
+      <div meeFormField class="min-w-52">
+        <label meeLabel>Small select</label>
+        <mee-select class="w-30" size="free">
+          <mee-option>Option 1</mee-option>
+          <mee-option>Option 2</mee-option>
+          <mee-option>Option 3</mee-option>
+        </mee-select>
+      </div>
     </app-doc-code>
   `,
 })

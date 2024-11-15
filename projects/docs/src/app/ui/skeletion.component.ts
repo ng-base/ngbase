@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Card } from '@meeui/card';
-import { Skeleton } from '@meeui/skeleton';
-import { RangePipe } from '@meeui/utils';
+import { Card } from '@meeui/ui/card';
+import { Skeleton } from '@meeui/ui/skeleton';
+import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   imports: [Skeleton, Card, RangePipe],
   selector: 'app-skeleton',
   template: ` <h4 meeHeader class="mb-5" id="colorPickerPage">Card</h4>

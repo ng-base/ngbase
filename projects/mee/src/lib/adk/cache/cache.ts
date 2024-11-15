@@ -10,6 +10,7 @@ interface CacheEntry<T = unknown> {
   url: string;
   response: T;
   lastUpdated: number;
+  config: CacheConfig;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -26,9 +27,8 @@ export class Cache {
     this.defaultConfig = { ...this.defaultConfig, ...config };
   }
 
-  get<T>(url: string, config?: Partial<CacheConfig>): T {
-    const cacheConfig = { ...this.defaultConfig, ...config };
-    const cachedResponse = this.getFromCache(url, cacheConfig.timeToLive);
+  get<T>(url: string): T {
+    const cachedResponse = this.getFromCache(url);
     return cachedResponse as T;
   }
 
@@ -44,11 +44,11 @@ export class Cache {
     return this.cache.has(url);
   }
 
-  private getFromCache<T>(url: string, timeToLive: number): T | null {
+  private getFromCache<T>(url: string): T | null {
     const cached = this.cache.get(url) as CacheEntry<T> | undefined;
     if (!cached) return null;
 
-    const isExpired = Date.now() - cached.lastUpdated > timeToLive;
+    const isExpired = Date.now() - cached.lastUpdated > cached.config.timeToLive;
     if (isExpired) {
       this.cache.delete(url);
       return null;
@@ -57,7 +57,7 @@ export class Cache {
     return cached.response;
   }
 
-  addToCache(url: string, response: any) {
+  addToCache(url: string, response: any, config: CacheConfig) {
     // if (this.cache.size >= config.maxSize) {
     //   const oldestUrl = this.cache.keys().next().value;
     //   this.cache.delete(oldestUrl);
@@ -67,6 +67,7 @@ export class Cache {
       url,
       response,
       lastUpdated: Date.now(),
+      config,
     });
   }
 }

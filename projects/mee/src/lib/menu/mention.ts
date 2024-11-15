@@ -1,10 +1,9 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { PopoverOptions, popoverPortal } from '../popover';
+import { PopoverOptions, popoverPortal } from '@meeui/ui/popover';
+import { uniqueId } from '@meeui/ui/utils';
 import { Menu } from './menu';
-import { uniqueId } from '../utils';
 
 @Directive({
-  standalone: true,
   selector: '[meeMentionTrigger]',
   host: {
     '(input)': 'open()',

@@ -1,5 +1,5 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { TooltipComponent } from './tooltip';
 
 describe('TooltipComponent', () => {

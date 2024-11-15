@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Spinner } from '@meeui/spinner';
-import { Heading } from '@meeui/typography';
+import { Spinner } from '@meeui/ui/spinner';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-spinner',
   imports: [Spinner, Heading, DocCode],
   template: `
@@ -22,7 +21,7 @@ import { DocCode } from './code.component';
 export class SpinnerComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Spinner } from '@meeui/spinner';
+  import { Spinner } from '@meeui/ui/spinner';
 
   @Component({
     standalone: true,

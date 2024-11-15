@@ -9,10 +9,10 @@ import {
   model,
   Renderer2,
 } from '@angular/core';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ThemeService } from '@meeui/theme';
+import { ThemeService } from '@meeui/ui/theme';
+import hljs from 'highlight.js';
+import { marked } from 'marked';
 
 @Component({
   standalone: true,

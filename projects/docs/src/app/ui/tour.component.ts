@@ -1,11 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Button } from '@meeui/button';
-import { TourService } from '@meeui/tour';
+import { Button } from '@meeui/ui/button';
+import { TourService } from '@meeui/ui/tour';
+import { Heading } from '@meeui/ui/typography';
 import { TourDemoComponent } from './tour-demo.component';
-import { Heading } from '@meeui/typography';
 
 @Component({
-  standalone: true,
   selector: 'app-tour',
   imports: [Button, Heading],
   template: `

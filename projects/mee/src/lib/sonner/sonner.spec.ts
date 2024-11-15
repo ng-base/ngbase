@@ -1,7 +1,7 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { Sonner, SonnerMessage } from './sonner';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
+import { Sonner } from './sonner';
 
 describe('Sonner', () => {
   let component: Sonner;

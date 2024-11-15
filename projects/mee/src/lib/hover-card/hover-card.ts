@@ -1,8 +1,7 @@
 import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core';
-import { PopoverOptions, popoverPortal } from '../popover';
+import { PopoverOptions, popoverPortal } from '@meeui/ui/popover';
 
 @Directive({
-  standalone: true,
   selector: '[meeHoverCard]',
   host: {
     '(mouseenter)': 'open()',

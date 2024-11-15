@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Avatar } from '@meeui/avatar';
-import { Card } from '@meeui/card';
-import { Heading } from '@meeui/typography';
-import { RangePipe } from '@meeui/utils';
+import { Avatar } from '@meeui/ui/avatar';
+import { Card } from '@meeui/ui/card';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Card, Heading, RangePipe, Avatar, DocCode],
@@ -85,8 +84,8 @@ export class CardComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Card } from '@meeui/card';
-  import { Avatar } from '@meeui/avatar';
+  import { Card } from '@meeui/ui/card';
+  import { Avatar } from '@meeui/ui/avatar';
 
   @Component({
     standalone: true,

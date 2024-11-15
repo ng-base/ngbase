@@ -1,9 +1,8 @@
 import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
+import { AccessibleItem } from '@meeui/ui/a11y';
 import { ListStyle } from './list.directive';
-import { AccessibleItem } from '../a11y';
 
 @Directive({
-  standalone: true,
   selector: '[meeList]',
   host: {
     role: 'list',

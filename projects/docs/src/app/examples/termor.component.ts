@@ -1,22 +1,21 @@
 // restaurant-list.component.ts
-import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Icon } from '@meeui/icon';
-import { Input } from '@meeui/input';
-import { Button } from '@meeui/button';
-import { Checkbox } from '@meeui/checkbox';
-import { Pagination } from '@meeui/pagination';
-import { TableComponents } from '@meeui/table';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Button } from '@meeui/ui/button';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { Icon } from '@meeui/ui/icon';
+import { Input } from '@meeui/ui/input';
+import { Pagination } from '@meeui/ui/pagination';
+import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
+import { TableComponents } from '@meeui/ui/table';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideArrowUpDown,
   lucideCircleUserRound,
   lucideGlobe,
-  lucideMessageCircle,
   lucideRatio,
   lucideSearch,
 } from '@ng-icons/lucide';
-import { Sidenav, SidenavHeader } from '@meeui/sidenav';
 
 interface Restaurant {
   name: string;
@@ -28,7 +27,6 @@ interface Restaurant {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-termor',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, Input, Button, Checkbox, Pagination, TableComponents, Sidenav, SidenavHeader],

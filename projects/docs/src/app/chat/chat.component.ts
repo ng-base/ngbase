@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { Heading } from '@meeui/typography';
+import { Heading } from '@meeui/ui/typography';
 import { ChatService } from './chat.service';
-import { Card } from '@meeui/card';
-import { Separator } from '@meeui/separator';
+import { Card } from '@meeui/ui/card';
+import { Separator } from '@meeui/ui/separator';
 
 @Component({
   standalone: true,

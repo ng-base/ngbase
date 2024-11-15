@@ -1,7 +1,6 @@
 import { booleanAttribute, Directive, input } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[meeFocusStyle]',
   host: {
     class: 'outline-none',

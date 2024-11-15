@@ -30,7 +30,6 @@ export class DragData {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeDragHandle]',
   exportAs: 'meeDragHandle',
   host: {
@@ -40,7 +39,6 @@ export class DragData {
 export class DragHandle {}
 
 @Directive({
-  standalone: true,
   selector: '[meeDrag]',
   exportAs: 'meeDrag',
 })

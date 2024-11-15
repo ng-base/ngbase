@@ -2,7 +2,6 @@ import { Directive, ElementRef, inject, effect, afterNextRender, Injector } from
 import { NgControl } from '@angular/forms';
 
 @Directive({
-  standalone: true,
   selector: 'textarea[meeAutoHeight]',
 })
 export class AutoHeight {

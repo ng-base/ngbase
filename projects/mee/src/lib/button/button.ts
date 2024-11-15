@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FocusStyle } from '../checkbox/focus-style.directive';
+import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'icon';
 
 @Component({
-  standalone: true,
   selector: '[meeButton], [meeButton]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

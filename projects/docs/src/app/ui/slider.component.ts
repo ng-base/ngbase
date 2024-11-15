@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Slider } from '@meeui/slider';
 import { FormsModule } from '@angular/forms';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { Slider } from '@meeui/ui/slider';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
-import { Checkbox } from '@meeui/checkbox';
 
 @Component({
-  standalone: true,
   selector: 'app-slider',
   imports: [Heading, Slider, FormsModule, DocCode, Checkbox],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +36,7 @@ export class SliderComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { Slider } from '@meeui/slider';
+  import { Slider } from '@meeui/ui/slider';
 
   @Component({
     standalone: true,

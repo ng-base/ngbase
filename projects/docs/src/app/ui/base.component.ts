@@ -7,24 +7,24 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Button } from '@meeui/button';
-import { ThemeService, ThemeButton } from '@meeui/theme';
-import { ScrollArea } from '@meeui/scroll-area';
-import { TourStep } from '@meeui/tour';
-import { Avatar } from '@meeui/avatar';
-import { Menu, MenuTrigger } from '@meeui/menu';
-import { List } from '@meeui/list';
+import { Avatar } from '@meeui/ui/avatar';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
+import { ThemeButton, ThemeService } from '@meeui/ui/theme';
+import { TourStep } from '@meeui/ui/tour';
+import { Heading } from '@meeui/ui/typography';
+import { breakpointObserver } from '@meeui/ui/utils';
+import { Directionality } from '@meeui/ui/adk';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMenu } from '@ng-icons/lucide';
-import { Icon } from '@meeui/icon';
-import { Sidenav, SidenavHeader } from '@meeui/sidenav';
-import { NavComponent } from './nav-header.component';
 import { AppService } from '../app.service';
-import { Heading } from '@meeui/typography';
-import { breakpointObserver, Directionality } from '@meeui/utils';
+import { NavComponent } from './nav-header.component';
 
 @Component({
-  standalone: true,
   selector: 'mee-base',
   imports: [
     RouterOutlet,

@@ -1,7 +1,15 @@
 import { Component } from '@angular/core';
-import { render, RenderResult, injectService } from '../test';
+import { RenderResult, injectService, render } from '@meeui/ui/test';
+import { uniqueId } from '@meeui/ui/utils';
 import { Shortcuts, keyMap } from './shortcuts.service';
-import { uniqueId } from '../utils';
+
+interface ComboOptions {
+  ctrl?: boolean;
+  alt?: boolean;
+  shift?: boolean;
+  meta?: boolean;
+  element?: HTMLElement;
+}
 
 describe('Shortcuts', () => {
   let service: Shortcuts;
@@ -16,14 +24,16 @@ describe('Shortcuts', () => {
       ctrl = false,
       alt = false,
       shift = false,
+      meta = false,
       element = document.createElement('div'),
-    }: { ctrl?: boolean; alt?: boolean; shift?: boolean; element?: HTMLElement },
+    }: ComboOptions,
   ) {
     const event = new KeyboardEvent('keydown', {
       key,
       ctrlKey: ctrl,
       altKey: alt,
       shiftKey: shift,
+      metaKey: meta,
       bubbles: true,
       cancelable: true,
     });
@@ -53,12 +63,19 @@ describe('Shortcuts', () => {
   });
 
   it('should handle key events', () => {
-    const callback = createCallback();
-    service.on('ctrl+c', callback);
+    const combos: [string, string, ComboOptions][] = [
+      ['ctrl+c', 'c', { ctrl: true }],
+      ['⌘+c', 'c', { meta: true }],
+      ['meta+c', 'c', { meta: true }],
+    ];
+    for (const [combo, key, options] of combos) {
+      const callback = createCallback();
+      service.on(combo, callback);
 
-    const event = simulateKeyPress('c', { ctrl: true });
+      const event = simulateKeyPress(key, options);
 
-    expect(callback.callback).toHaveBeenCalledWith(event);
+      expect(callback.callback).toHaveBeenCalledWith(event);
+    }
   });
 
   it('should ignore events from specified tags', () => {
@@ -75,16 +92,18 @@ describe('Shortcuts', () => {
   });
 
   it('should parse keys', () => {
-    const keyCombo = [
-      ['ctrl+k', 'ctrl+k'],
-      ['⇧+⌘+P', 'shift+meta+p'],
-      ['⌥+⌘+P', 'alt+meta+p'],
-      ['⌥+ArrowLeft', 'alt+ArrowLeft'],
+    const keyCombo: [string, string[]][] = [
+      ['ctrl+k', ['ctrl+k']],
+      ['⌘+k', ['meta+k']],
+      ['ctrl+k|meta+k', ['ctrl+k', 'meta+k']],
+      ['⇧+⌘+P', ['shift+meta+p']],
+      ['⌥+⌘+P', ['alt+meta+p']],
+      ['⌥+ArrowLeft', ['alt+ArrowLeft']],
     ];
 
     for (const [key, combo] of keyCombo) {
       const output = service['getParsedKey'](key);
-      expect(output).toBe(combo);
+      expect(output).toEqual(combo);
     }
   });
 
@@ -123,7 +142,6 @@ describe('keyMap', () => {
   let view: RenderResult<TestComponent>;
 
   @Component({
-    standalone: true,
     template: '',
   })
   class TestComponent {

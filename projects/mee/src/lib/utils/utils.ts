@@ -1,15 +1,17 @@
+import { DOCUMENT } from '@angular/common';
 import {
   computed,
   forwardRef,
   inject,
   Injector,
+  isSignal,
   runInInjectionContext,
+  Signal,
   signal,
   Type,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { cleanup } from './ng/internals';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cleanup } from './ng/internals';
 
 export function uniqueId(length: number = 7) {
   return Array.from({ length }, () =>
@@ -65,7 +67,7 @@ export function documentListener<T extends Event>(
 }
 
 export function filterFunction<T, V = T>(
-  data: T[],
+  data: Signal<T[]> | T[],
   options: {
     filter?: (v: V) => string;
     childrenFilter?: (v: T) => V[];
@@ -73,13 +75,12 @@ export function filterFunction<T, V = T>(
   },
 ) {
   const search = signal('');
-  const list = signal(data || []);
+  const list = isSignal(data) ? data : signal(data || []);
 
   const filteredList = computed(() => {
     const text = search().toLowerCase();
     const lists = list();
 
-    console.log(text, options);
     const query =
       options.query ?? ((v: V, t: string) => options.filter!(v).toLowerCase().includes(t));
     return lists.reduce((acc, item) => {

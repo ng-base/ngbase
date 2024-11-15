@@ -6,11 +6,10 @@ import {
   model,
   output,
 } from '@angular/core';
-import { provideValueAccessor, uniqueId } from '../utils';
 import { ControlValueAccessor } from '@angular/forms';
+import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-avatar, [meeAvatar]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

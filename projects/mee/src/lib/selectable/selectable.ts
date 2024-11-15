@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, model, output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '../a11y';
-import { provideValueAccessor, uniqueId } from '../utils';
+import { AccessibleGroup } from '@meeui/ui/a11y';
+import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-selectable',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

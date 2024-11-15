@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Button } from '@meeui/button';
-import { DialogClose } from '@meeui/portal';
-import { PopoverTrigger } from '@meeui/popover';
+import { Button } from '@meeui/ui/button';
+import { PopoverTrigger } from '@meeui/ui/popover';
+import { DialogClose } from '@meeui/ui/portal';
 
 @Component({
-  standalone: true,
   selector: 'app-popover-demo',
   imports: [Button, DialogClose, PopoverTrigger],
   template: `

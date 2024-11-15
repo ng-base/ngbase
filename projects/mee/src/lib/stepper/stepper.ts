@@ -12,7 +12,6 @@ import {
 import { Step } from './step';
 
 @Component({
-  standalone: true,
   selector: 'mee-stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, NgClass],

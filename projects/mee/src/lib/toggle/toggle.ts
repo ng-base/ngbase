@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/utils';
+import { provideValueAccessor } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'button[meeToggle]',
   template: `<ng-content />`,
   host: {

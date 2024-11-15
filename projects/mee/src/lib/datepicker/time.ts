@@ -6,14 +6,13 @@ import {
   output,
   untracked,
 } from '@angular/core';
-import { InputStyle } from '../input/input-style.directive';
-import { NumberOnly, padString } from './number-only';
-import { Button } from '../button';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { InputStyle } from '@meeui/ui/input';
+import { provideValueAccessor } from '@meeui/ui/utils';
+import { NumberOnly, padString } from './number-only';
 
 @Component({
-  standalone: true,
   selector: 'mee-time',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [InputStyle, NumberOnly, Button],

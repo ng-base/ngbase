@@ -1,3 +1,4 @@
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,13 +13,12 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { Tab } from './tab';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { Icon } from '@meeui/ui/icon';
+import { uniqueId } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
-import { Icon } from '../icon';
-import { AccessibleGroup, AccessibleItem } from '../a11y';
-import { uniqueId } from '../utils';
+import { Tab } from './tab';
 
 export interface TabChangeEvent {
   tab: Tab;
@@ -26,7 +26,6 @@ export interface TabChangeEvent {
 }
 
 @Component({
-  standalone: true,
   selector: 'mee-tabs',
   imports: [NgTemplateOutlet, Icon, NgClass, AccessibleGroup, AccessibleItem],
   changeDetection: ChangeDetectionStrategy.OnPush,

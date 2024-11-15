@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { AccessiblityService } from './accessiblity.service';
+import { injectService } from '@meeui/ui/test';
 import { AccessibleGroup } from './accessiblity-group';
-import { injectService } from '../test';
+import { AccessiblityService } from './accessiblity.service';
 
 describe('AccessibilityService', () => {
   let service: AccessiblityService;

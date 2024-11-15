@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { dialogPortal } from '@meeui/dialog';
+import { Button } from '@meeui/ui/button';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
-import { Button } from '@meeui/button';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-dialog',
   imports: [FormsModule, Heading, Button, DocCode],
   template: `
@@ -22,7 +21,7 @@ export class DialogComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { dialogPortal } from '@meeui/dialog';
+  import { dialogPortal } from '@meeui/ui/dialog';
   import { AddComponent } from '../add.component';
 
   @Component({

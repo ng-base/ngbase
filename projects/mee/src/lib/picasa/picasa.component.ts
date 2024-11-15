@@ -1,9 +1,8 @@
 import { Component, ElementRef, afterNextRender, inject, viewChild } from '@angular/core';
-import { DialogRef } from '../dialog';
+import { DialogRef } from '@meeui/ui/portal';
 import { PicasaBase } from './picasa-base.component';
 
 @Component({
-  standalone: true,
   selector: 'mee-picasa',
   template: `
     <img

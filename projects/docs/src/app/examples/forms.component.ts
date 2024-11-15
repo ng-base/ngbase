@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
-import { Button } from '@meeui/button';
-import { Card } from '@meeui/card';
-import { Checkbox } from '@meeui/checkbox';
-import { Chip } from '@meeui/chip';
-import { Input, Label } from '@meeui/input';
-import { Select, Option, SelectInput } from '@meeui/select';
-import { Heading } from '@meeui/typography';
+import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { Chip } from '@meeui/ui/chip';
+import { Input, Label } from '@meeui/ui/input';
+import { Option, Select, SelectInput } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
 
 export function selectFilter<T>(value: (value: T) => string, initialItems: T[] = []) {
   const search = signal('');
@@ -26,7 +26,6 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
 }
 
 @Component({
-  standalone: true,
   selector: 'app-forms',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

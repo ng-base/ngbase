@@ -1,24 +1,23 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  Component,
-  signal,
-  computed,
-  input,
   ChangeDetectionStrategy,
+  Component,
+  computed,
   inject,
+  input,
+  model,
+  signal,
   TemplateRef,
   viewChild,
-  model,
 } from '@angular/core';
-import { DialogRef } from '../portal';
+import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { DialogRef } from '@meeui/ui/portal';
+import { RangePipe, uniqueId } from '@meeui/ui/utils';
 import { Calendar } from './calendar';
-import { uniqueId, RangePipe } from '../utils';
 import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger';
 import { injectMeeDateAdapter } from './native-date-adapter';
-import { AccessibleGroup, AccessibleItem } from '../a11y';
 
 @Component({
-  standalone: true,
   selector: 'mee-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Calendar, RangePipe, NgTemplateOutlet, AccessibleGroup],

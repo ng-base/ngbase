@@ -6,11 +6,10 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { documentListener } from '@meeui/ui/utils';
 import { List } from './list';
-import { documentListener } from '@meeui/utils';
 
 @Directive({
-  standalone: true,
   selector: '[meeListStyle]',
   host: {
     class:
@@ -20,7 +19,6 @@ import { documentListener } from '@meeui/utils';
 export class ListStyle {}
 
 @Directive({
-  standalone: true,
   selector: '[meeActionGroup]',
 })
 export class ListActionGroup {

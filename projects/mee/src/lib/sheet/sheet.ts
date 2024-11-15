@@ -1,3 +1,4 @@
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,17 +9,15 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { BaseDialog, DialogRef } from '../portal';
-import { NgStyle } from '@angular/common';
-import { createHostAnimation, fadeAnimation, sideAnimation } from '../dialog/dialog.animation';
-import { Button } from '../button';
-import { Icon } from '../icon';
+import { Button } from '@meeui/ui/button';
+import { createHostAnimation, fadeAnimation, sideAnimation } from '@meeui/ui/dialog';
+import { Icon } from '@meeui/ui/icon';
+import { BaseDialog, DialogRef } from '@meeui/ui/portal';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { SheetOptions } from './sheet.service';
 
 @Component({
-  standalone: true,
   selector: 'mee-sheet',
   imports: [NgStyle, Button, Icon],
   viewProviders: [provideIcons({ lucideX })],

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { Input } from '../input';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Button } from '../button';
-import { ColorInput } from '../color-picker';
+import { Button } from '@meeui/ui/button';
+import { ColorInput } from '@meeui/ui/color-picker';
+import { Input } from '@meeui/ui/input';
 
 interface ThemeData {
   name: string;
@@ -18,7 +18,6 @@ interface ThemeData {
 }
 
 @Component({
-  standalone: true,
   selector: 'mee-theme',
   imports: [Input, ReactiveFormsModule, Button, ColorInput],
   template: `

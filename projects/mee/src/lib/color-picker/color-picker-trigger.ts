@@ -9,11 +9,10 @@ import {
   model,
   untracked,
 } from '@angular/core';
+import { popoverPortal } from '@meeui/ui/popover';
 import { ColorFormat, ColorPicker } from './color-picker';
-import { popoverPortal } from '../popover';
 
 @Directive({
-  standalone: true,
   selector: '[meeColorPickerTrigger]',
   host: {
     '(click)': 'open()',

@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
+import { Heading } from '@meeui/ui/typography';
 import { FormsModule } from '@angular/forms';
-import { ScrollArea } from '@meeui/scroll-area';
-import { List } from '@meeui/list';
-import { RangePipe } from '@meeui/utils';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { List } from '@meeui/ui/list';
+import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-scroll-area',
   imports: [FormsModule, Heading, ScrollArea, List, RangePipe],
   template: `

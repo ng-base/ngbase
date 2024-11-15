@@ -1,6 +1,6 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DialogRef } from '../portal';
-import { render, RenderResult } from '../test';
+import { DialogRef } from '@meeui/ui/portal';
+import { render, RenderResult } from '@meeui/ui/test';
 import { DrawerContainer } from './drawer';
 
 const options = { title: 'Drawer' };

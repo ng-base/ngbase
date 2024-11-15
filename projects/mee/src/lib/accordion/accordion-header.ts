@@ -2,7 +2,6 @@ import { Directive, inject } from '@angular/core';
 import { Accordion } from './accordion-item';
 
 @Directive({
-  standalone: true,
   selector: '[meeAccordionHeader]',
   host: {
     class: 'flex items-center w-full py-b3 px-b3',

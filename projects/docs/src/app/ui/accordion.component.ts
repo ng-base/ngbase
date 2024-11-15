@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/accordion';
-import { Checkbox } from '@meeui/checkbox';
-import { Heading } from '@meeui/typography';
+import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-accordion',
   imports: [FormsModule, Heading, AccordionGroup, Accordion, AccordionHeader, Checkbox, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +46,7 @@ export class AccordionComponent {
   accordionMultiple = signal(false);
   tsCode = `
   import { Component } from '@angular/core';
-  import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/accordion';
+  import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/ui/accordion';
 
   @Component({
     standalone: true,

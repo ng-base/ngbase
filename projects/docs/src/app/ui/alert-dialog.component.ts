@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { alertPortal } from '@meeui/alert';
-import { Button } from '@meeui/button';
+import { alertPortal } from '@meeui/ui/alert';
+import { Button } from '@meeui/ui/button';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-alert-dialog',
   imports: [FormsModule, Heading, Button, DocCode],
   template: `
@@ -39,7 +38,7 @@ import { DocCode } from './code.component';
 export class AlertDialogComponent {
   alert = alertPortal();
   tsCode = `
-  import { alertPortal } from '@meeui/alert';
+  import { alertPortal } from '@meeui/ui/alert';
 
   @Component({
     standalone: true,

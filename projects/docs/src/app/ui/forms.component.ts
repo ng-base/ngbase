@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
-import { DatepickerTrigger } from '@meeui/datepicker';
-import { Input } from '@meeui/input';
-import { Select, Option } from '@meeui/select';
-import { Heading } from '@meeui/typography';
-import { Autofocus } from '@meeui/utils';
+import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
+import { DatepickerTrigger } from '@meeui/ui/datepicker';
+import { Input } from '@meeui/ui/input';
+import { Option, Select } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
+import { Autofocus } from '@meeui/ui/adk';
 
 @Component({
-  standalone: true,
   selector: 'app-forms',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

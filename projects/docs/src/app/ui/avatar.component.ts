@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Avatar, AvatarGroup } from '@meeui/avatar';
+import { Avatar, AvatarGroup } from '@meeui/ui/avatar';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-avatar',
   imports: [Heading, Avatar, DocCode, AvatarGroup],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +43,7 @@ export class AvatarComponent {
   otp = '';
   tsCode = `
   import { Component } from '@angular/core';
-  import { Avatar } from '@meeui/avatar';
+  import { Avatar } from '@meeui/ui/avatar';
 
   @Component({
     standalone: true,

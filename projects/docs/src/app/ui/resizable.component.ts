@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { ResizableGroup, Resizable } from '@meeui/resizable';
-import { Heading } from '@meeui/typography';
-import { Button } from '@meeui/button';
+import { Button } from '@meeui/ui/button';
+import { Resizable, ResizableGroup } from '@meeui/ui/resizable';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-resizable',
   imports: [Resizable, ResizableGroup, Heading, Button, DocCode],
   template: `
@@ -75,9 +74,9 @@ export class ResizableComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { signal } from '@meeui/utils';
-  import { ResizableGroup, Resizable } from '@meeui/resizable';
-  import { Button } from '@meeui/button';
+  import { signal } from '@meeui/ui/utils';
+  import { ResizableGroup, Resizable } from '@meeui/ui/resizable';
+  import { Button } from '@meeui/ui/button';
 
   @Component({
     standalone: true,

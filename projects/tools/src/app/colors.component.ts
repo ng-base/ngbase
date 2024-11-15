@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 
 @Component({
-  standalone: true,
   selector: 'app-colors',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

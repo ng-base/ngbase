@@ -1,5 +1,5 @@
+import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
 import { DialogContainer } from './dialog';
-import { DialogInput, DialogOptions, basePortal } from '../portal';
 
 export function dialogPortal() {
   const NAME = 'dialog';

@@ -129,7 +129,7 @@ const fs = require('fs');
 
 const readable = fs.createReadStream('file.txt');
 
-readable.on('data', (chunk) => {
+readable.on('data', chunk => {
   console.log(chunk.toString());
 });
 
@@ -298,15 +298,15 @@ const { spawn } = require('child_process');
 
 const ls = spawn('ls', ['-lh', '/usr']);
 
-ls.stdout.on('data', (data) => {
+ls.stdout.on('data', data => {
   console.log(`stdout: ${data}`);
 });
 
-ls.stderr.on('error', (data) => {
+ls.stderr.on('error', data => {
   console.error(`stderr: ${data}`);
 });
 
-ls.on('close', (code) => {
+ls.on('close', code => {
   console.log(`child process exited with code ${code}`);
 });
 ```
@@ -345,7 +345,7 @@ const { fork } = require('child_process');
 
 const child = fork('child.js');
 
-child.on('message', (message) => {
+child.on('message', message => {
   console.log(`Message from child: ${message}`);
 });
 
@@ -356,7 +356,7 @@ child.on('exit', (code, signal) => {
 });
 
 // child.js
-child.on('message', (message) => {
+child.on('message', message => {
   console.log(`Message from parent: ${message}`);
 });
 

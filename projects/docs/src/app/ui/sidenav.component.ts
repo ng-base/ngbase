@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Sidenav, SidenavHeader } from '@meeui/sidenav';
-import { Button } from '@meeui/button';
+import { Button } from '@meeui/ui/button';
+import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-sidenav',
   imports: [Sidenav, SidenavHeader, Button, DocCode],
   template: `
@@ -28,8 +27,8 @@ export class SidenavComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Sidenav, SidenavHeader, SidenavContent } from '@meeui/sidenav';
-  import { Button } from '@meeui/button';
+  import { Sidenav, SidenavHeader, SidenavContent } from '@meeui/ui/sidenav';
+  import { Button } from '@meeui/ui/button';
 
   @Component({
     standalone: true,

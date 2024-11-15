@@ -1,4 +1,4 @@
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Portal } from './portal.component';
 
 describe('PortalComponent', () => {

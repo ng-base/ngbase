@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-option-group, [meeOptionGroup]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="sticky -top-b z-10 bg-foreground px-b2 py-b1.5 text-sm text-muted">

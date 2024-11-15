@@ -1,44 +1,42 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Avatar } from '@meeui/avatar';
-import { Badge } from '@meeui/badge';
-import { Button } from '@meeui/button';
-import { Card } from '@meeui/card';
-import { Icon } from '@meeui/icon';
-import { Input } from '@meeui/input';
-import { List } from '@meeui/list';
-import { MentionTrigger, Menu, MenuTrigger } from '@meeui/menu';
-import { Resizable, ResizableGroup } from '@meeui/resizable';
-import { ScrollArea } from '@meeui/scroll-area';
-import { Select, Option } from '@meeui/select';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { Separator } from '@meeui/separator';
-import { Switch } from '@meeui/switch';
-import { Tooltip } from '@meeui/tooltip';
-import { Heading } from '@meeui/typography';
-import { RangePipe } from '@meeui/utils';
+import { Avatar } from '@meeui/ui/avatar';
+import { Badge } from '@meeui/ui/badge';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Icon } from '@meeui/ui/icon';
+import { Input } from '@meeui/ui/input';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { Resizable, ResizableGroup } from '@meeui/ui/resizable';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { Option, Select } from '@meeui/ui/select';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { Separator } from '@meeui/ui/separator';
+import { Switch } from '@meeui/ui/switch';
+import { Tooltip } from '@meeui/ui/tooltip';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import {
-  lucideInbox,
-  lucideStickyNote,
-  lucideSend,
-  lucideArchiveX,
-  lucideTrash2,
   lucideArchive,
-  lucideUsers,
+  lucideArchiveX,
+  lucideClock,
+  lucideEllipsisVertical,
+  lucideForward,
+  lucideInbox,
   lucideInfo,
   lucideMessageSquare,
-  lucideShoppingCart,
-  lucideClock,
   lucideReply,
   lucideReplyAll,
-  lucideForward,
+  lucideSend,
+  lucideShoppingCart,
   lucideSquareDot,
-  lucideEllipsisVertical,
+  lucideStickyNote,
+  lucideTrash2,
+  lucideUsers,
 } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-mail',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

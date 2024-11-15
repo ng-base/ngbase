@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { PopoverTrigger, popoverPortal } from '@meeui/popover';
+import { Button } from '@meeui/ui/button';
+import { DialogClose } from '@meeui/ui/dialog';
+import { PopoverTrigger, popoverPortal } from '@meeui/ui/popover';
+import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
-import { Button } from '@meeui/button';
-import { DialogClose } from '@meeui/dialog';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-popover',
   imports: [Heading, PopoverTrigger, Button, DialogClose, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +35,7 @@ export class PopoverComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { popoverPortal, PopoverTrigger } from '@meeui/popover';
+  import { popoverPortal, PopoverTrigger } from '@meeui/ui/popover';
   import { AddComponent } from '../add.component';
 
   @Component({

@@ -9,18 +9,19 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { createHostAnimation } from '@meeui/ui/dialog';
+import { DragMove } from '@meeui/ui/drag';
+import { Icon } from '@meeui/ui/icon';
+import { BaseDialog } from '@meeui/ui/portal';
+import { tooltipPosition } from './utils';
+import { FocusTrap } from '@meeui/ui/adk';
+import { disposals } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
-import { createHostAnimation } from '../dialog/dialog.animation';
-import { DragMove } from '../drag';
-import { Icon } from '../icon';
-import { BaseDialog, tooltipPosition } from '../portal';
-import { FocusTrap, disposals } from '../utils';
 import { PopoverOptions, PopoverPosition } from './popover.service';
 
 @Component({
-  standalone: true,
   selector: 'mee-popover',
   imports: [DragMove, Icon, FocusTrap],
   providers: [provideIcons({ lucideX })],

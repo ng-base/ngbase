@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div

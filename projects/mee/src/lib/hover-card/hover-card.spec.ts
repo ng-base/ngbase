@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { HoverCard } from './hover-card';
 
 jest.useFakeTimers();
@@ -11,7 +11,6 @@ describe('HoverCard Directive', () => {
   let directive: HoverCard;
 
   @Component({
-    standalone: true,
     imports: [HoverCard],
     template: `
       <button [meeHoverCard]="hoverCard">Hover me</button>

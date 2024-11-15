@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,15 +13,13 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { DragData, Drag } from '../drag';
-import { NgClass } from '@angular/common';
-import { ResizableGroup } from './resizable-group';
+import { Drag, DragData } from '@meeui/ui/drag';
+import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
-import { Icon } from '../icon';
+import { ResizableGroup } from './resizable-group';
 
 @Component({
-  standalone: true,
   selector: 'mee-resizable',
   imports: [Drag, Icon, NgClass],
   template: `<ng-content />

@@ -1,4 +1,4 @@
-import { injectService } from '../test';
+import { injectService } from '@meeui/ui/test';
 import { PortalService } from './portal.service';
 
 describe('PortalService', () => {

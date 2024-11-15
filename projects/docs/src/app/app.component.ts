@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { sonnerPortal } from '@meeui/sonner';
-import { ThemeService } from '@meeui/theme';
-import { Directionality, InternetAvailability, isClient } from '@meeui/utils';
+import { sonnerPortal } from '@meeui/ui/sonner';
+import { ThemeService } from '@meeui/ui/theme';
+import { isClient } from '@meeui/ui/utils';
+import { Directionality, InternetAvailability } from '@meeui/ui/adk';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],

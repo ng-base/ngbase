@@ -1,34 +1,34 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  signal,
+  Component,
   computed,
   inject,
+  OnInit,
+  signal,
 } from '@angular/core';
-import { AutoHeight, Input } from '@meeui/input';
-import { Card } from '@meeui/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Button } from '@meeui/button';
-import { Spinner } from '@meeui/spinner';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KtdGridLayout, KtdGridModule } from '@katoid/angular-grid-layout';
-import { NgxEchartsDirective } from 'ngx-echarts';
-import { EChartsOption } from 'echarts';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { AutoHeight, Input } from '@meeui/ui/input';
+import { Spinner } from '@meeui/ui/spinner';
 import {
-  Table,
   BodyRow,
   BodyRowDef,
-  HeadRow,
-  HeadRowDef,
   Cell,
   CellDef,
   Head,
   HeadDef,
+  HeadRow,
+  HeadRowDef,
   Row,
-} from '@meeui/table';
-import { Heading } from '@meeui/typography';
-import { ThemeService } from '@meeui/theme';
-import { ActivatedRoute, Router } from '@angular/router';
+  Table,
+} from '@meeui/ui/table';
+import { ThemeService } from '@meeui/ui/theme';
+import { Heading } from '@meeui/ui/typography';
+import { EChartsOption } from 'echarts';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 interface Health {
   id: number;
@@ -38,7 +38,6 @@ interface Health {
 }
 
 @Component({
-  standalone: true,
   selector: 'mee-landing-page',
   imports: [
     Input,
@@ -91,7 +90,7 @@ interface Health {
                         </td>
                       </ng-container>
                     }
-                    <tr meeHeadRow *meeHeadRowDef></tr>
+                    <!-- <tr meeHeadRow *meeHeadRowDef></tr> -->
                     <tr meeBodyRow *meeBodyRowDef></tr>
                   </table>
                 }

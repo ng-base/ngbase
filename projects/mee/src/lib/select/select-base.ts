@@ -1,32 +1,34 @@
 import {
-  Directive,
-  ElementRef,
-  OnDestroy,
-  TemplateRef,
+  booleanAttribute,
   computed,
   contentChildren,
+  Directive,
   effect,
+  EffectRef,
+  ElementRef,
   inject,
   input,
   model,
+  OnDestroy,
   output,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
-  booleanAttribute,
-  EffectRef,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { popoverPortal } from '../popover';
+import { popoverPortal } from '@meeui/ui/popover';
+import { uniqueId } from '@meeui/ui/utils';
 import { Subject } from 'rxjs';
 import { Option } from './option';
-import { uniqueId } from '../utils';
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   // Dependencies
   readonly el = inject(ElementRef);
   readonly options = contentChildren(Option, { descendants: true });
+  readonly optionss = input<T[]>([]);
+
   readonly optionsTemplate = viewChild('options', { read: TemplateRef });
   readonly container = viewChild('container', { read: ElementRef });
   readonly optionsGroup = viewChild('optionsGroup', { read: ElementRef });
@@ -125,7 +127,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     if (this.status() === 'opened') return;
 
     // if the options are empty, return
-    if (this.options().length === 0) {
+    if (this.options().length === 0 && this.optionss().length === 0) {
       this.status.set('opening');
       return;
     }

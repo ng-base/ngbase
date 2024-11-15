@@ -9,12 +9,11 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Checkbox } from '../checkbox';
-import { ListStyle } from '../list';
-import { AccessibleItem } from '../a11y';
+import { AccessibleItem } from '@meeui/ui/a11y';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { ListStyle } from '@meeui/ui/list';
 
 @Component({
-  standalone: true,
   selector: 'mee-option, [meeOption]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Checkbox],

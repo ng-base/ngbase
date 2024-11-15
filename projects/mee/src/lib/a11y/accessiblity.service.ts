@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { documentListener } from '@meeui/ui/utils';
 import { AccessibleGroup } from './accessiblity-group';
-import { documentListener } from '@meeui/utils';
 
 @Injectable({ providedIn: 'root' })
 export class AccessiblityService {

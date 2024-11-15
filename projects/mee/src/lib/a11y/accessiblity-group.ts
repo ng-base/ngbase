@@ -1,26 +1,25 @@
+import { DOCUMENT } from '@angular/common';
 import {
-  Directive,
-  input,
   booleanAttribute,
-  inject,
   computed,
+  Directive,
   effect,
-  OnDestroy,
   ElementRef,
+  inject,
+  input,
+  model,
+  OnDestroy,
   output,
   signal,
   untracked,
-  model,
 } from '@angular/core';
+import { Directionality } from '@meeui/ui/adk';
 import { AccessibleItem } from './accessiblity-item';
 import { AccessiblityService } from './accessiblity.service';
-import { DOCUMENT } from '@angular/common';
-import { Directionality } from '../utils';
 
 type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
 
 @Directive({
-  standalone: true,
   selector: '[meeAccessibleGroup]',
   host: {
     role: 'group',

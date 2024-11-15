@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { RadioGroup, Radio } from '@meeui/radio';
 import { FormsModule } from '@angular/forms';
-import { Card } from '@meeui/card';
+import { Card } from '@meeui/ui/card';
+import { Radio, RadioGroup } from '@meeui/ui/radio';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-radio',
   imports: [Heading, RadioGroup, Radio, Card, FormsModule, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,7 +50,7 @@ export class RadioComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { RadioGroup, Radio } from '@meeui/radio';
+  import { RadioGroup, Radio } from '@meeui/ui/radio';
   import { FormsModule } from '@angular/forms';
 
   @Component({

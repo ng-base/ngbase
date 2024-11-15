@@ -4,7 +4,6 @@ import { Card } from '@meeui/card';
 import { List } from '@meeui/list';
 
 @Component({
-  standalone: true,
   selector: 'app-sidebar',
   imports: [Card, List, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,

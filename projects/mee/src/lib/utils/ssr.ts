@@ -1,6 +1,5 @@
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { inject } from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 
 export function isServer() {
   return isPlatformServer(inject(PLATFORM_ID));

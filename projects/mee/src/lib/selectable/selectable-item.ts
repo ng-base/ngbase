@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { AccessibleItem } from '@meeui/ui/a11y';
 import { Selectable } from './selectable';
-import { AccessibleItem } from '../a11y';
 
 @Component({
-  standalone: true,
   selector: 'mee-selectable-item, [meeSelectableItem]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

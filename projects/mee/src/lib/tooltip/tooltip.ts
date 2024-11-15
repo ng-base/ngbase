@@ -1,4 +1,4 @@
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,12 +8,10 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { tooltipPosition } from '../portal';
-import { ThemeService } from '../theme';
-import { PopoverPosition } from '../popover';
+import { PopoverPosition, tooltipPosition } from '@meeui/ui/popover';
+import { ThemeService } from '@meeui/ui/theme';
 
 @Component({
-  standalone: true,
   selector: 'mee-tooltip',
   template: `{{ content() }}`,
   styles: ``,

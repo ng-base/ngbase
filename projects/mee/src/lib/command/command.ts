@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { List } from '../list';
-import { AccessibleGroup, AccessibleItem } from '../a11y';
-import { Autofocus, filterFunction, uniqueId } from '../utils';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { DialogRef } from '../portal';
+import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { List } from '@meeui/ui/list';
+import { DialogRef } from '@meeui/ui/portal';
+import { filterFunction, uniqueId } from '@meeui/ui/utils';
+import { Autofocus } from '@meeui/ui/adk';
 
 export type CommandItem = {
   name: string;
@@ -12,7 +13,6 @@ export type CommandItem = {
 };
 
 @Component({
-  standalone: true,
   selector: 'mee-command',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, List, AccessibleGroup, AccessibleItem, Autofocus, RouterLink],

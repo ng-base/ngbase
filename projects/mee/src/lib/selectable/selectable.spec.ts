@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Selectable } from './selectable';
 import { SelectableItem } from './selectable-item';
-import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '../test';
 
 @Component({
-  standalone: true,
   imports: [Selectable, SelectableItem, FormsModule],
   template: `
     <mee-selectable [(ngModel)]="selectedValue">

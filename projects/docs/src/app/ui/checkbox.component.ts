@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Checkbox } from '@meeui/checkbox';
 import { FormsModule } from '@angular/forms';
+import { Checkbox } from '@meeui/ui/checkbox';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-checkbox',
   imports: [Heading, Checkbox, FormsModule, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +29,7 @@ export class CheckboxComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { Checkbox } from '@meeui/checkbox';
+  import { Checkbox } from '@meeui/ui/checkbox';
 
   @Component({
     standalone: true,

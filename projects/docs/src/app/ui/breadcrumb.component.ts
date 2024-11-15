@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Breadcrumbs, Breadcrumb, BreadcrumbsSeparator } from '@meeui/breadcrumb';
 import { FormsModule } from '@angular/forms';
+import { Breadcrumb, Breadcrumbs, BreadcrumbsSeparator } from '@meeui/ui/breadcrumb';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-breadcrumb',
   imports: [Heading, Breadcrumbs, Breadcrumb, BreadcrumbsSeparator, FormsModule, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,7 +23,7 @@ import { DocCode } from './code.component';
 export class BreadcrumbComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Breadcrumbs, Breadcrumb } from '@meeui/breadcrumb';
+  import { Breadcrumbs, Breadcrumb } from '@meeui/ui/breadcrumb';
 
   @Component({
     standalone: true,

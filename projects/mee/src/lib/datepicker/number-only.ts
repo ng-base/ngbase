@@ -1,7 +1,6 @@
 import { Directive, effect, ElementRef, inject, input, model } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[meeNumberOnly]',
   host: {
     '(input)': 'value.set($event.target.value)',

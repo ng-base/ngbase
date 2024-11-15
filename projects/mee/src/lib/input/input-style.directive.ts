@@ -1,11 +1,10 @@
 import { Directive } from '@angular/core';
-import { FocusStyle } from '../checkbox/focus-style.directive';
+import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
 
 @Directive({
-  standalone: true,
   selector: '[meeInputStyle]',
   host: {
-    class: 'inline-block text-left rounded-base bg-foreground px-3 py-b2 border m-b0.5 font-normal',
+    class: 'inline-block text-left rounded-base bg-foreground px-3 py-b2 border font-normal',
   },
   hostDirectives: [{ directive: FocusStyle, inputs: ['unfocus'] }],
 })

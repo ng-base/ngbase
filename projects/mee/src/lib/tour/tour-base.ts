@@ -1,29 +1,24 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
-  ElementRef,
-  Component,
   ChangeDetectionStrategy,
+  Component,
   computed,
+  effect,
+  ElementRef,
   inject,
   OnDestroy,
+  signal,
   viewChild,
   ViewContainerRef,
-  effect,
-  signal,
 } from '@angular/core';
+import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
+import { PopoverOptions, PopoverPosition } from '@meeui/ui/popover';
+import { BaseDialog, DialogOptions, tooltipPosition } from '@meeui/ui/portal';
+import { debounceTime, fromEvent, startWith, take } from 'rxjs';
 import { TourService } from './tour.service';
-import { Button } from '../button';
-import { BaseDialog } from '../portal';
-import { tooltipPosition } from '../portal/utils';
-import { DialogOptions } from '../dialog';
-import { fromEvent, debounceTime, startWith, take } from 'rxjs';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
-import { PopoverOptions, PopoverPosition } from '../popover';
 
 @Component({
-  standalone: true,
   selector: '[meeTour]',
-  imports: [Button],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

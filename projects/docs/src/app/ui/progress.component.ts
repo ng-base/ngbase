@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Progress } from '@meeui/progress';
-import { Button } from '@meeui/button';
-import { Tooltip } from '@meeui/tooltip';
-import { Heading } from '@meeui/typography';
+import { Button } from '@meeui/ui/button';
+import { Progress } from '@meeui/ui/progress';
+import { Tooltip } from '@meeui/ui/tooltip';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-progress',
   imports: [Progress, Button, Tooltip, Heading, DocCode],
   template: `
@@ -31,7 +30,7 @@ export class ProgressComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Progress } from '@meeui/progress';
+  import { Progress } from '@meeui/ui/progress';
 
   @Component({
     standalone: true,

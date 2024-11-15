@@ -1,11 +1,10 @@
-import { SelectableItem } from './selectable-item';
-import { Selectable } from './selectable';
 import { Component, ModelSignal, signal } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
+import { Selectable } from './selectable';
+import { SelectableItem } from './selectable-item';
 
 // Test host component
 @Component({
-  standalone: true,
   imports: [SelectableItem],
   template: '<button meeSelectableItem [value]="testValue"></button>',
 })

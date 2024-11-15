@@ -1,7 +1,6 @@
 import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: '[meeCell]',
   template: `<ng-content />`,
   host: {
@@ -14,7 +13,6 @@ export class Cell {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeCellDef]',
 })
 export class CellDef {}

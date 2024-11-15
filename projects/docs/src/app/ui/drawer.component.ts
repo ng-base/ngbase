@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { drawerPortal } from '@meeui/drawer';
+import { Button } from '@meeui/ui/button';
+import { drawerPortal } from '@meeui/ui/drawer';
+import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
-import { Button } from '@meeui/button';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-drawer',
   imports: [FormsModule, Heading, Button, DocCode],
   template: `
@@ -23,7 +22,7 @@ export class DrawerComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { drawerPortal } from '@meeui/drawer';
+  import { drawerPortal } from '@meeui/ui/drawer';
   import { AddComponent } from '../add.component';
 
   @Component({

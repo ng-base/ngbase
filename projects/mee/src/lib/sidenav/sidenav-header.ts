@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,12 +8,10 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { Directionality } from '@meeui/ui/adk';
 import { Sidenav } from './sidenav';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Directionality } from '../utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-sidenav-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

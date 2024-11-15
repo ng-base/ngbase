@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Chip } from '@meeui/chip';
-import { Heading } from '@meeui/typography';
+import { Chip } from '@meeui/ui/chip';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-chip',
   imports: [Heading, Chip, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,7 +17,7 @@ import { DocCode } from './code.component';
 export class ChipComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { Chip } from '@meeui/chip';
+  import { Chip } from '@meeui/ui/chip';
 
   @Component({
     standalone: true,

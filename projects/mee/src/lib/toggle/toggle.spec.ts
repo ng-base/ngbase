@@ -1,4 +1,4 @@
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Toggle } from './toggle';
 
 describe('ToggleComponent', () => {

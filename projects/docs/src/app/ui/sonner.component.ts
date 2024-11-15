@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Button } from '@meeui/button';
-import { sonnerPortal } from '@meeui/sonner';
+import { Button } from '@meeui/ui/button';
+import { sonnerPortal } from '@meeui/ui/sonner';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-sonner',
   imports: [Heading, Button, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +26,7 @@ export class SonnerComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { sonnerPortal } from '@meeui/sonner';
+  import { sonnerPortal } from '@meeui/ui/sonner';
 
   @Component({
     standalone: true,

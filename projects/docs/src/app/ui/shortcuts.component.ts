@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { keyMap } from '@meeui/keys';
-import { ThemeService } from '@meeui/theme';
+import { Input } from '@meeui/ui/input';
+import { keyMap } from '@meeui/ui/keys';
+import { ThemeService } from '@meeui/ui/theme';
 import { DocCode } from './code.component';
-import { Input } from '@meeui/input';
 
 @Component({
-  standalone: true,
   imports: [DocCode, Input],
   selector: 'app-shortcuts',
   template: `

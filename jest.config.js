@@ -4,6 +4,6 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   // globalSetup: "jest-preset-angular/global-setup",
   moduleNameMapper: {
-    '@meeui/(.*)$': '<rootDir>/projects/mee/src/lib/$1',
+    '@meeui/ui/(.*)$': '<rootDir>/projects/mee/src/lib/$1/public-api.ts',
   },
 };

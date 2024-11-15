@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS, HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { InternetAvailability } from './internet-availability.service';
 import { inject } from '@angular/core';
-import { isClient } from '../../utils/ssr';
+import { isClient } from '@meeui/ui/utils';
 
 const internetAvailabilityInterceptor: HttpInterceptorFn = (req, next) => {
   const internetAvailabilityService = inject(InternetAvailability);

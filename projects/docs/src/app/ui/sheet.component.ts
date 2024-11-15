@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { sheetPortal } from '@meeui/sheet';
+import { Button } from '@meeui/ui/button';
+import { sheetPortal } from '@meeui/ui/sheet';
+import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
-import { Button } from '@meeui/button';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-sheet',
   imports: [FormsModule, Button, Heading, DocCode],
   template: `
@@ -23,7 +22,7 @@ export class SheetComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { sheetPortal } from '@meeui/sheet';
+  import { sheetPortal } from '@meeui/ui/sheet';
 
   @Component({
     standalone: true,

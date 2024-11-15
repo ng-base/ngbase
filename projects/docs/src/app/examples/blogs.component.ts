@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Card } from '@meeui/card';
+import { Card } from '@meeui/ui/card';
 import { MarkdownComponent } from './markdown.component';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  standalone: true,
   selector: 'app-blogs',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Card, MarkdownComponent],

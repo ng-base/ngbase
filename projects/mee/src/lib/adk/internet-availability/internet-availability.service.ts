@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { isClient } from '../../utils/ssr';
-import { documentListener, ListnerOut } from '@meeui/utils';
+import { documentListener, isClient, ListnerOut } from '@meeui/ui/utils';
 
 @Injectable({ providedIn: 'root' })
 export class InternetAvailability {

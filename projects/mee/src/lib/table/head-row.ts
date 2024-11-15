@@ -14,7 +14,6 @@ import { ROW_TOKEN, Table } from './table';
 import { Row } from './column';
 
 @Component({
-  standalone: true,
   selector: '[meeHeadRow]',
   template: `<ng-container #container />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,7 +63,6 @@ export class HeadRow implements OnDestroy {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeHeadRowDef]',
 })
 export class HeadRowDef {

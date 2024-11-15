@@ -2,7 +2,6 @@ import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core
 import { PopoverPosition, popoverPortal } from './popover.service';
 
 @Directive({
-  standalone: true,
   selector: '[meePopoverTrigger]',
   exportAs: 'meePopoverTrigger',
   host: {

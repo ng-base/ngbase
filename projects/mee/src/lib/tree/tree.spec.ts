@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Tree } from './tree';
 import { TreeNodeDef } from './tree-toggle';
 
@@ -26,7 +26,6 @@ const mockData: TestNode[] = [
 ];
 
 @Component({
-  standalone: true,
   imports: [Tree, TreeNodeDef],
   template: `
     <mee-tree [dataSource]="data()" [trackBy]="trackBy" [children]="getChildren">

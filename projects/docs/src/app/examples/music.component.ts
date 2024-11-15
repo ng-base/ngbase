@@ -1,30 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Button } from '@meeui/button';
-import { Card } from '@meeui/card';
-import { Icon } from '@meeui/icon';
-import { Key } from '@meeui/keys';
-import { List } from '@meeui/list';
-import { Menu, MenuTrigger, NavigationMenu } from '@meeui/menu';
-import { ScrollArea } from '@meeui/scroll-area';
-import { Option } from '@meeui/select';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { Separator } from '@meeui/separator';
-import { Heading } from '@meeui/typography';
-import { RangePipe } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { Card } from '@meeui/ui/card';
+import { Icon } from '@meeui/ui/icon';
+import { Key } from '@meeui/ui/keys';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger, NavigationMenu } from '@meeui/ui/menu';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { Option } from '@meeui/ui/select';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { Separator } from '@meeui/ui/separator';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideCirclePlay,
   lucideLayoutGrid,
-  lucideRadio,
-  lucideListMusic,
-  lucideMusic2,
-  lucideUser,
-  lucideMic,
   lucideLibrary,
+  lucideListMusic,
+  lucideMic,
+  lucideMusic2,
+  lucideRadio,
+  lucideUser,
 } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-music',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

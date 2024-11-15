@@ -5,7 +5,6 @@ import { Input } from '@meeui/input';
 import { ResizableGroup, Resizable } from '@meeui/resizable';
 
 @Component({
-  standalone: true,
   selector: 'app-svg-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, Input, ResizableGroup, Resizable],

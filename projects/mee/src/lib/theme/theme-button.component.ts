@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ThemeService } from './theme.service';
-import { Icon } from '../icon';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
-import { Button } from '../button';
+import { ThemeService } from './theme.service';
 
 @Component({
-  standalone: true,
   selector: 'mee-theme-button',
   imports: [Icon, Button],
   changeDetection: ChangeDetectionStrategy.OnPush,

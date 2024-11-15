@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { provideValueAccessor } from '@meeui/ui/utils';
 import { SelectBase } from './select-base';
-import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-list-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

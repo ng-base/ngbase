@@ -8,10 +8,10 @@ import {
   signal,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Button } from '@meeui/button';
-import { Icon } from '@meeui/icon';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { CopyToClipboard } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { CopyToClipboard } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideCopy } from '@ng-icons/lucide';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
@@ -31,7 +31,6 @@ export class CodeService {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-doc-code',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon],

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { Button } from '@meeui/button';
-import { Heading } from '@meeui/typography';
-import { VirtualFor, Virtualizer } from '@meeui/virutalizer';
+import { Button } from '@meeui/ui/button';
+import { Heading } from '@meeui/ui/typography';
+import { VirtualFor, Virtualizer } from '@meeui/ui/virtualizer';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [Virtualizer, VirtualFor, Button, Heading],
   template: `
     <div>

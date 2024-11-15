@@ -15,7 +15,6 @@ import { ROW_TOKEN, Table } from './table';
 import { Row } from './column';
 
 @Component({
-  standalone: true,
   selector: '[meeBodyRow]',
   template: `<ng-container #container />`,
   host: {
@@ -76,7 +75,6 @@ export class BodyRow implements OnDestroy {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeBodyRowDef]',
 })
 export class BodyRowDef {

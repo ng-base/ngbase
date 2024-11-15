@@ -1,7 +1,8 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { uniqueId } from '../utils';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Icon } from '../icon';
+import { Icon } from '@meeui/ui/icon';
+import { uniqueId } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideCircleAlert,
@@ -9,10 +10,8 @@ import {
   lucideInfo,
   lucideTriangleAlert,
 } from '@ng-icons/lucide';
-import { NgClass } from '@angular/common';
 
 @Component({
-  standalone: true,
   selector: 'mee-sonner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, NgClass],

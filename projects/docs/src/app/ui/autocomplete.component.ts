@@ -1,16 +1,14 @@
-import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Option } from '@meeui/select';
-import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { JsonPipe } from '@angular/common';
-import { Chip, ChipGroup } from '@meeui/chip';
+import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
+import { Chip, ChipGroup } from '@meeui/ui/chip';
+import { Option } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
+import { filterFunction } from '@meeui/ui/utils';
+import { Autofocus } from '@meeui/ui/adk';
 import { DocCode } from './code.component';
-import { Autofocus, filterFunction } from '@meeui/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-autocomplete',
   imports: [
     FormsModule,
@@ -83,8 +81,8 @@ export class AutocompleteComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormControl, ReactiveFormsModule } from '@angular/forms';
-  import { Autocomplete, AutocompleteInput } from '@meeui/autocomplete';
-  import { Option } from '@meeui/select';
+  import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
+  import { Option } from '@meeui/ui/select';
 
   @Component({
     standalone: true,

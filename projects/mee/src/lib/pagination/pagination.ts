@@ -1,5 +1,7 @@
 import { Component, computed, input, model, output } from '@angular/core';
-import { Button } from '../button';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { Option, Select } from '@meeui/ui/select';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideChevronLeft,
@@ -7,11 +9,8 @@ import {
   lucideChevronsLeft,
   lucideChevronsRight,
 } from '@ng-icons/lucide';
-import { Icon } from '../icon';
-import { Option, Select } from '../select';
 
 @Component({
-  standalone: true,
   selector: 'mee-pagination',
   imports: [Button, Icon, Select, Option],
   viewProviders: [

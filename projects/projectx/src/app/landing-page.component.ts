@@ -8,7 +8,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Heading } from '@meeui/typography';
 
 @Component({
-  standalone: true,
   selector: 'mee-landing-page',
   imports: [Input, Card, AutoHeight, Heading, FormsModule, ReactiveFormsModule, Button, Spinner],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,27 +1,26 @@
+import { NgClass } from '@angular/common';
 import {
-  Component,
-  signal,
-  computed,
-  input,
   ChangeDetectionStrategy,
-  inject,
-  viewChildren,
+  Component,
+  computed,
   effect,
   ElementRef,
+  inject,
+  input,
   OnDestroy,
+  signal,
+  viewChildren,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
-import { Button } from '../button';
-import { DatePicker } from './datepicker';
+import { AccessibleItem } from '@meeui/ui/a11y';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { Directionality } from '@meeui/ui/adk';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
-import { Icon } from '../icon';
+import { DatePicker } from './datepicker';
 import { TimePicker } from './time';
-import { AccessibleItem } from '../a11y';
-import { Directionality } from '../utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, Button, Icon, TimePicker, AccessibleItem],

@@ -6,11 +6,10 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { AccessibleItem } from '@meeui/ui/a11y';
 import { ToggleGroup } from './toggle-group';
-import { AccessibleItem } from '../a11y/accessiblity-item';
 
 @Component({
-  standalone: true,
   selector: 'button[meeToggleItem]',
   template: `<ng-content />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,18 +25,19 @@ import { AccessibleItem } from '../a11y/accessiblity-item';
     },
   ],
 })
-export class ToggleItem {
+export class ToggleItem<T> {
   private accessibleItem = inject(AccessibleItem);
 
-  readonly toggleGroup = inject(ToggleGroup);
+  readonly toggleGroup = inject<ToggleGroup<T>>(ToggleGroup);
   readonly disabled = input(false, { transform: booleanAttribute });
 
   readonly value = input.required<any>();
   readonly active = computed(() => {
-    if (this.toggleGroup.multiple()) {
-      return this.toggleGroup.value()?.includes(this.value());
+    const values = this.toggleGroup.value();
+    if (Array.isArray(values)) {
+      return values.includes(this.value());
     }
-    return this.value() === this.toggleGroup.value();
+    return values === this.value();
   });
 
   constructor() {

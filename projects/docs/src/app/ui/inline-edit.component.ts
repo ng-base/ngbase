@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InlineEdit } from '@meeui/inline-edit';
-import { Heading } from '@meeui/typography';
+import { InlineEdit } from '@meeui/ui/inline-edit';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
-  standalone: true,
   imports: [FormsModule, Heading, InlineEdit],
   selector: 'app-inline-edit',
   template: `

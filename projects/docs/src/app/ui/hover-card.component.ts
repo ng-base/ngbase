@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { HoverCard } from '@meeui/hover-card';
-import { Button } from '@meeui/button';
+import { Avatar } from '@meeui/ui/avatar';
+import { Button } from '@meeui/ui/button';
+import { HoverCard } from '@meeui/ui/hover-card';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
-import { Avatar } from '@meeui/avatar';
 
 @Component({
-  standalone: true,
   selector: 'app-hover-card',
   imports: [Heading, Button, HoverCard, DocCode, Avatar],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,9 +70,9 @@ export class HoverCardComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Button } from '@meeui/button';
-  import { DialogClose } from '@meeui/dialog';
-  import { HoverCard } from '@meeui/hover-card';
+  import { Button } from '@meeui/ui/button';
+  import { DialogClose } from '@meeui/ui/dialog';
+  import { HoverCard } from '@meeui/ui/hover-card';
 
   @Component({
     standalone: true,

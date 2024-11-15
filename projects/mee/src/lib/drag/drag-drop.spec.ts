@@ -1,10 +1,9 @@
 import { Component, DebugElement } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Drag, DragData } from './drag';
 import { DragDrop, moveItemInArray } from './drag-drop';
 
 @Component({
-  standalone: true,
   imports: [DragDrop, Drag],
   template: `
     <div meeDrop (orderChanged)="onOrderChanged($event)">

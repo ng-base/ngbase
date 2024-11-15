@@ -23,7 +23,7 @@ export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
   const timeToLive = config.defaultTimeToLive;
 
   // Try to get from cache
-  const cachedResponse = cacheService.get(request.url, { timeToLive });
+  const cachedResponse = cacheService.get(request.url);
   if (cachedResponse) {
     return of(new HttpResponse({ body: cachedResponse }));
   }

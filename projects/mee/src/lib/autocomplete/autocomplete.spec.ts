@@ -1,14 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { Option } from '@meeui/ui/select';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Autocomplete } from './autocomplete';
 import { AutocompleteInput } from './autocomplete-input';
-import { Option } from '../select';
-import { render, RenderResult } from '../test';
 
 // Test host component
 @Component({
-  standalone: true,
   imports: [Autocomplete, AutocompleteInput, Option, FormsModule],
   template: `
     <mee-autocomplete

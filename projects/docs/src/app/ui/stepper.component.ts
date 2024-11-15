@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Step, Stepper } from '@meeui/stepper';
-import { Button } from '@meeui/button';
-import { Heading } from '@meeui/typography';
+import { Button } from '@meeui/ui/button';
+import { Step, Stepper } from '@meeui/ui/stepper';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Stepper, Step, Button, Heading, DocCode],
@@ -54,9 +53,9 @@ export class StepperComponent {
 
   code = `
   import { Component } from '@angular/core';
-  import { signal } from '@meeui/core';
-  import { Step, Stepper } from '@meeui/stepper';
-  import { Button } from '@meeui/button';
+  import { signal } from '@meeui/ui/core';
+  import { Step, Stepper } from '@meeui/ui/stepper';
+  import { Button } from '@meeui/ui/button';
 
   @Component({
     selector: 'app-stepper',

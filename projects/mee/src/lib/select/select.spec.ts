@@ -1,13 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Option } from './option';
 import { Select } from './select';
 
 // Test host component
 @Component({
-  standalone: true,
   imports: [Select, Option, ReactiveFormsModule],
   template: `
     <form [formGroup]="form">

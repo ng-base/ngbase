@@ -1,4 +1,4 @@
-import { DialogInput, DialogOptions, basePortal } from '../portal';
+import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
 import { DrawerContainer } from './drawer';
 
 export function drawerPortal() {

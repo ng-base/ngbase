@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Card } from '@meeui/card';
-import { TourStep } from '@meeui/tour';
+import { Card } from '@meeui/ui/card';
+import { TourStep } from '@meeui/ui/tour';
 import { timer } from 'rxjs';
 import { AccordionComponent } from './accordion.component';
 import { AlertDialogComponent } from './alert-dialog.component';

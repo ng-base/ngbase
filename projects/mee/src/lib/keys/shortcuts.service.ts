@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
-import { documentListener, uniqueId, isClient } from '../utils';
+import { documentListener, isClient, uniqueId } from '@meeui/ui/utils';
 
 const IGNORED_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const SHORTCUT_MAP: Record<string, string> = {
@@ -37,22 +37,26 @@ export class Shortcuts {
 
   on(keyCombination: string, data: Shortcut): void {
     const parsedKey = this.getParsedKey(keyCombination);
-    const shortcuts = this.shortcuts.get(parsedKey) || [];
-    shortcuts.push(data);
-    this.shortcuts.set(parsedKey, shortcuts);
+    for (const key of parsedKey) {
+      const shortcuts = this.shortcuts.get(key) || [];
+      shortcuts.push(data);
+      this.shortcuts.set(key, shortcuts);
+    }
     this.turnOn();
   }
 
   off(keyCombination: string, id: string): void {
     const parsedKey = this.getParsedKey(keyCombination);
-    const shortcuts = this.shortcuts.get(parsedKey);
-    if (shortcuts) {
-      const index = shortcuts.findIndex(s => s.id === id);
-      if (index > -1) {
-        shortcuts.splice(index, 1);
-      }
-      if (shortcuts.length === 0) {
-        this.shortcuts.delete(parsedKey);
+    for (const key of parsedKey) {
+      const shortcuts = this.shortcuts.get(key);
+      if (shortcuts) {
+        const index = shortcuts.findIndex(s => s.id === id);
+        if (index > -1) {
+          shortcuts.splice(index, 1);
+        }
+        if (shortcuts.length === 0) {
+          this.shortcuts.delete(key);
+        }
       }
     }
     this.turnOff();
@@ -63,24 +67,25 @@ export class Shortcuts {
    * e.g. ⇧⌘P -> shift+meta+p, ⌥⌘P -> meta+alt+p, ctrl+p -> ctrl+p
    * e.g. esc|prevent|stop|global -> escape
    */
-  private getParsedKey(combination: string): string {
+  private getParsedKey(combination: string): string[] {
     const baseSplit = combination.split('|');
-    const keys = baseSplit[0].split('+');
-    const parsedKeys = keys.map(key => {
-      // Check if the key is a special character in our map
-      if (SHORTCUT_MAP[key]) {
-        return SHORTCUT_MAP[key];
-      }
+    return baseSplit.map(split => {
+      const keys = split.split('+');
+      const parsedKeys = keys.map(key => {
+        // Check if the key is a special character in our map
+        if (SHORTCUT_MAP[key]) {
+          return SHORTCUT_MAP[key];
+        }
 
-      // If it's a special key, return it as is (case-sensitive)
-      if (SPECIAL_KEYS.has(key)) {
-        return key;
-      }
-      // If not found in the map or special keys, return the lowercase key
-      return key.toLowerCase();
+        // If it's a special key, return it as is (case-sensitive)
+        if (SPECIAL_KEYS.has(key)) {
+          return key;
+        }
+        // If not found in the map or special keys, return the lowercase key
+        return key.toLowerCase();
+      });
+      return parsedKeys.join('+');
     });
-
-    return parsedKeys.join('+');
   }
 
   private handleKeyEvent = (event: KeyboardEvent): void => {
@@ -128,6 +133,7 @@ export class Shortcuts {
     if (event.ctrlKey) modifiers.push('ctrl');
     if (event.altKey) modifiers.push('alt');
     if (event.shiftKey) modifiers.push('shift');
+    if (event.metaKey) modifiers.push('meta');
 
     const key = event.key.toLowerCase();
     return [...modifiers, key].join('+');

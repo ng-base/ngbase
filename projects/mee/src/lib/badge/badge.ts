@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-badge, [meeBadge]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

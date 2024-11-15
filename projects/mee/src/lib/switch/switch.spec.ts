@@ -1,14 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '../test';
-import { Switch } from './switch';
 import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '@meeui/ui/test';
+import { Switch } from './switch';
 
 describe('SwitchComponent', () => {
   let component: Switch;
   let view: RenderResult<TestComponent>;
 
   @Component({
-    standalone: true,
     imports: [Switch, FormsModule],
     template: `<mee-switch [(ngModel)]="value" />`,
   })

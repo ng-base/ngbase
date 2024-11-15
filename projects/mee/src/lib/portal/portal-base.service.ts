@@ -1,19 +1,17 @@
 import {
-  Type,
-  inject,
+  ComponentRef,
+  EmbeddedViewRef,
   Injector,
   TemplateRef,
-  ComponentRef,
+  Type,
   ViewContainerRef,
-  EmbeddedViewRef,
+  inject,
   signal,
 } from '@angular/core';
+import { keyMap } from '@meeui/ui/keys';
 import { first } from 'rxjs';
-import { keyMap } from '../keys';
-import { DialogOptions, DialogRef, createInj, BaseDialog } from './dialog-ref';
+import { BaseDialog, DialogInput, DialogOptions, DialogRef, createInj } from './dialog-ref';
 import { PortalService } from './portal.service';
-
-export type DialogInput<T = any> = Type<T> | TemplateRef<any>;
 
 export function basePortal<U>(name: string, baseComponent: Type<U>) {
   const NAME = name;
@@ -44,13 +42,11 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
 
     // close on esc
     if (!options.disableClose) {
-      console.log('register esc');
       sub = keyMap('esc', () => diaRef.close(), { injector, stop: true });
     }
 
     function destroy() {
       portal.delete(NAME, parent);
-      // console.log('destroyed');
       sub?.();
     }
 

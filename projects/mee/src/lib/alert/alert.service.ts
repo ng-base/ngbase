@@ -1,6 +1,6 @@
+import { dialogPortal } from '@meeui/ui/dialog';
+import { DialogInput, DialogOptions } from '@meeui/ui/portal';
 import { Alert, AlertOptions } from './alert';
-import { DialogInput, DialogOptions } from '../portal';
-import { dialogPortal } from '../dialog';
 
 export function alertPortal() {
   const base = dialogPortal();

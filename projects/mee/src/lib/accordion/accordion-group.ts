@@ -10,7 +10,6 @@ import {
 import { Accordion } from './accordion-item';
 
 @Component({
-  standalone: true,
   selector: 'mee-accordion-group',
   template: `<ng-content />`,
   changeDetection: ChangeDetectionStrategy.OnPush,

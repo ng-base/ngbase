@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { Toggle } from '@meeui/toggle';
+import { Toggle } from '@meeui/ui/toggle';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
-  standalone: true,
   selector: 'app-toggle',
   imports: [FormsModule, Heading, Toggle],
   template: `

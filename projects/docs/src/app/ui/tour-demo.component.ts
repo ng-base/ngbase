@@ -1,10 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { TourService } from '@meeui/tour';
-import { Button } from '@meeui/button';
-import { RangePipe } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { TourService } from '@meeui/ui/tour';
+import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-tour-demo',
   imports: [Button, RangePipe],
   template: `

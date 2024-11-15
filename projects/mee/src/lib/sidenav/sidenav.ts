@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { fadeAnimation } from '../dialog/dialog.animation';
+import { fadeAnimation } from '@meeui/ui/dialog';
 
 export type ModeType = 'side' | 'over';
 
 @Component({
-  standalone: true,
   selector: 'mee-sidenav',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

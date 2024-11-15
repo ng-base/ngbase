@@ -9,13 +9,11 @@ import {
 import { Breadcrumb } from './breadcrumb';
 
 @Directive({
-  standalone: true,
   selector: '[meeBreadcrumbsSeparator]',
 })
 export class BreadcrumbsSeparator {}
 
 @Component({
-  standalone: true,
   selector: 'mee-breadcrumbs',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,

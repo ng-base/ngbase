@@ -9,15 +9,14 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { DialogRef } from '../portal';
-import { Keys } from '../keys';
-import { Option } from '../select';
-import { List } from '../list';
-import { AccessibleGroup } from '../a11y';
+import { AccessibleGroup } from '@meeui/ui/a11y';
+import { Keys } from '@meeui/ui/keys';
+import { List } from '@meeui/ui/list';
+import { DialogRef } from '@meeui/ui/portal';
+import { Option } from '@meeui/ui/select';
 import { Subject } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'mee-menu',
   exportAs: 'meeMenu',
   imports: [AccessibleGroup],

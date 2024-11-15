@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Separator } from '@meeui/separator';
-import { Card } from '@meeui/card';
-import { RangePipe } from '@meeui/utils';
+import { Card } from '@meeui/ui/card';
+import { Separator } from '@meeui/ui/separator';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-typography',
   imports: [Heading, Separator, Card, RangePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,7 +1,6 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-skeleton',
   template: ``,
   host: {

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,13 +6,11 @@ import {
   afterNextRender,
   viewChild,
 } from '@angular/core';
-import { BaseDialog, DialogOptions } from '../portal';
-import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { FocusTrap } from '../utils/focus-trap.directive';
+import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
+import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
+import { FocusTrap } from '@meeui/ui/adk';
 
 @Component({
-  standalone: true,
   selector: 'mee-drawer',
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">

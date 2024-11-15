@@ -5,7 +5,6 @@ import { ThemeService } from '@meeui/theme';
 import { ScrollArea } from '@meeui/scroll-area';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, Button, ScrollArea],
   changeDetection: ChangeDetectionStrategy.OnPush,

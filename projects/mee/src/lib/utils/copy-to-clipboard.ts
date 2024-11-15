@@ -6,7 +6,6 @@ import { Directive, input } from '@angular/core';
     class: 'cursor-pointer',
     '(click)': 'onClick($event)',
   },
-  standalone: true,
 })
 export class CopyToClipboard {
   readonly meeCopyToClipboard = input<string>();

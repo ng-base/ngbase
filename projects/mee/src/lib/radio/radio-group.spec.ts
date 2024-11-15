@@ -1,8 +1,8 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { render, RenderResult } from '../test';
-import { RadioGroup } from './radio-group';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Radio } from './radio';
+import { RadioGroup } from './radio-group';
 
 describe('RadioGroup and Radio', () => {
   let component: TestComponent;
@@ -11,7 +11,6 @@ describe('RadioGroup and Radio', () => {
   let radioElements: DebugElement[];
 
   @Component({
-    standalone: true,
     imports: [RadioGroup, Radio, FormsModule, ReactiveFormsModule],
     template: `
       <form [formGroup]="form">

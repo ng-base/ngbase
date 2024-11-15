@@ -1,10 +1,18 @@
-import { Directive, ElementRef, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  computed,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { InputStyle } from '@meeui/ui/input';
+import { Autofocus } from '@meeui/ui/adk';
 import { Select } from './select';
-import { InputStyle } from '../input/input-style.directive';
-import { Autofocus } from '../utils';
 
 @Directive({
-  standalone: true,
   selector: '[meeSelectInput]',
   hostDirectives: [InputStyle, Autofocus],
   exportAs: 'meeSelectInput',
@@ -18,7 +26,7 @@ import { Autofocus } from '../utils';
 export class SelectInput<T> {
   // Dependencies
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  readonly select = inject(Select, { optional: true });
+  readonly select = inject<Select<T>>(Select, { optional: true });
 
   // Inputs
   readonly placeholder = input('Search here');
@@ -53,7 +61,6 @@ export class SelectInput<T> {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeSelectTrigger]',
 })
 export class SelectTrigger {}

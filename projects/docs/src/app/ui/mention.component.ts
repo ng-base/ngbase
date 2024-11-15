@@ -1,13 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
-import { Menu, MentionTrigger } from '@meeui/menu';
-import { Input } from '@meeui/input';
-import { Option } from '@meeui/select';
 import { FormsModule } from '@angular/forms';
-import { Heading } from '@meeui/typography';
+import { Input } from '@meeui/ui/input';
+import { MentionTrigger, Menu } from '@meeui/ui/menu';
+import { Option } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-placeholder',
   imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, DocCode],
   template: `
@@ -50,9 +49,9 @@ export class MentionComponent {
   code = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { Menu, MentionTrigger } from '@meeui/menu';
-  import { Input } from '@meeui/input';
-  import { Option } from '@meeui/select';
+  import { Menu, MentionTrigger } from '@meeui/ui/menu';
+  import { Input } from '@meeui/ui/input';
+  import { Option } from '@meeui/ui/select';
 
   @Component({
     standalone: true,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RangePipe } from '@meeui/utils';
+import { RangePipe } from '@meeui/ui/utils';
 
 const TRIPLE_WORD_SCORE = {
   '1,1': 1,

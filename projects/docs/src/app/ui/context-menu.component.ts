@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { ContextMenu, Menu } from '@meeui/menu';
-import { Heading } from '@meeui/typography';
-import { List } from '@meeui/list';
-import { Card } from '@meeui/card';
+import { Card } from '@meeui/ui/card';
+import { List } from '@meeui/ui/list';
+import { ContextMenu, Menu } from '@meeui/ui/menu';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-context-menu',
   imports: [ContextMenu, Heading, Menu, List, Card, DocCode],
   template: `
@@ -34,10 +33,10 @@ import { DocCode } from './code.component';
 export class ContextMenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { ContextMenu } from '@meeui/menu';
-  import { Menu } from '@meeui/menu';
-  import { Separator } from '@meeui/separator';
-  import { List } from '@meeui/list';
+  import { ContextMenu } from '@meeui/ui/menu';
+  import { Menu } from '@meeui/ui/menu';
+  import { Separator } from '@meeui/ui/separator';
+  import { List } from '@meeui/ui/list';
 
   @Component({
     standalone: true,

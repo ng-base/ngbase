@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,12 +9,10 @@ import {
   input,
   untracked,
 } from '@angular/core';
+import { uniqueId } from '@meeui/ui/utils';
 import { Resizable } from './resizable';
-import { DOCUMENT } from '@angular/common';
-import { uniqueId } from '@meeui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-resizable-group',
   template: `<ng-content select="mee-resizable" />`,
   changeDetection: ChangeDetectionStrategy.OnPush,

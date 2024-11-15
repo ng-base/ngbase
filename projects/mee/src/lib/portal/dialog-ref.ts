@@ -3,11 +3,15 @@ import {
   ElementRef,
   InjectionToken,
   Injector,
+  TemplateRef,
+  Type,
   ViewContainerRef,
   inject,
   signal,
 } from '@angular/core';
-import { Subscription, Subject, first, BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, filter, first } from 'rxjs';
+
+export type DialogInput<T = any> = Type<T> | TemplateRef<any>;
 
 export abstract class BaseDialog {
   dialogRef = inject(DialogRef);

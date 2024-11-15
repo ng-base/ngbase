@@ -1,7 +1,6 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'mee-separator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ``,

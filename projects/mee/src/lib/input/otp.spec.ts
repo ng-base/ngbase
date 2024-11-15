@@ -1,4 +1,4 @@
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { InputOtp } from './otp';
 
 describe('InputOtp', () => {
@@ -144,14 +144,14 @@ describe('InputOtp', () => {
   it('should register onChange', () => {
     const onChange = jest.fn();
     component.registerOnChange(onChange);
-    component.onChange('123');
+    component.onChange!('123');
     expect(onChange).toHaveBeenCalledWith('123');
   });
 
   it('should register onTouched', () => {
     const onTouched = jest.fn();
     component.registerOnTouched(onTouched);
-    component.onTouched();
+    component.onTouched!();
     expect(onTouched).toHaveBeenCalled();
   });
 });

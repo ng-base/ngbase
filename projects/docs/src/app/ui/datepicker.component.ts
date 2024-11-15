@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { DatepickerTrigger, TimePicker } from '@meeui/datepicker';
-import { Button } from '@meeui/button';
-import { Input, Label } from '@meeui/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Button } from '@meeui/ui/button';
+import { DatepickerTrigger, TimePicker } from '@meeui/ui/datepicker';
+import { FormField, Input, Label } from '@meeui/ui/input';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-datepicker',
   imports: [
     FormsModule,
@@ -19,38 +18,41 @@ import { DocCode } from './code.component';
     TimePicker,
     DocCode,
     Label,
+    FormField,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="datepickerPage">Datepicker</h4>
     <div class="grid gap-b4">
-      <label meeLabel class="flex w-52 flex-col">
-        Time 24 -- {{ time24() }}
+      <div meeFormField>
+        <label meeLabel>Time 24 -- {{ time24() }}</label>
         <mee-time [(value)]="time24" [is24]="true" />
-      </label>
-      <label meeLabel class="flex w-52 flex-col">
-        Time -- {{ time() }}
+      </div>
+      <div meeFormField>
+        <label meeLabel>Time -- {{ time() }}</label>
         <mee-time [(ngModel)]="time" />
-      </label>
+      </div>
       <button meeButton (click)="toggle()">Toggle datepicker</button>
       <app-doc-code [tsCode]="tsCode">
         @if (show()) {
           <div class="flex w-52 flex-col">
-            <label for="date" class="mb-1">Datetime</label>
-            <input
-              [formControl]="date"
-              id="date"
-              placeholder="Date"
-              meeDatepickerTrigger
-              format="dd-MM-yyyy hh:mm a"
-              [range]="true"
-              [time]="true"
-              readonly
-            />
+            <div meeFormField>
+              <label for="date" class="mb-1">Datetime</label>
+              <input
+                [formControl]="date"
+                id="date"
+                placeholder="Date"
+                meeDatepickerTrigger
+                format="dd-MM-yyyy hh:mm a"
+                [range]="true"
+                [time]="true"
+                readonly
+              />
+            </div>
           </div>
         }
-        <label meeLable class="flex w-52 flex-col">
-          Date 2 calendars
+        <div meeFormField>
+          <label meeLable class="flex w-52 flex-col"> Date 2 calendars</label>
           <input
             [(ngModel)]="dateRange"
             placeholder="Date"
@@ -60,9 +62,9 @@ import { DocCode } from './code.component';
             [range]="true"
             readonly
           />
-        </label>
-        <label meeLabel class="flex w-52 flex-col">
-          Date
+        </div>
+        <div meeFormField>
+          <label meeLabel class="flex w-52 flex-col"> Date </label>
           <input
             [formControl]="date"
             placeholder="Date"
@@ -70,9 +72,9 @@ import { DocCode } from './code.component';
             format="dd-MM-yyyy"
             readonly
           />
-        </label>
-        <label meeLabel class="mt-4 flex w-52 flex-col">
-          Month picker
+        </div>
+        <div meeFormField>
+          <label meeLabel class="mt-4 flex w-52 flex-col"> Month picker</label>
           <input
             [formControl]="date"
             placeholder="Month"
@@ -81,9 +83,9 @@ import { DocCode } from './code.component';
             format="MM-yyyy"
             readonly
           />
-        </label>
-        <label class="mt-4 flex w-52 flex-col">
-          Year picker
+        </div>
+        <div meeFormField>
+          <label class="mt-4 flex w-52 flex-col"> Year picker</label>
           <input
             [formControl]="date"
             placeholder="Year"
@@ -92,7 +94,7 @@ import { DocCode } from './code.component';
             format="yyyy"
             readonly
           />
-        </label>
+        </div>
       </app-doc-code>
     </div>
   `,
@@ -108,9 +110,9 @@ export class DatepickerComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { DatepickerTrigger } from '@meeui/datepicker';
-  import { Input } from '@meeui/input';
-  import { signal } from '@meeui/utils';
+  import { DatepickerTrigger } from '@meeui/ui/datepicker';
+  import { Input } from '@meeui/ui/input';
+  import { signal } from '@meeui/ui/utils';
 
   @Component({
     standalone: true,

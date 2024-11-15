@@ -1,19 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  contentChildren,
   contentChild,
+  contentChildren,
   effect,
 } from '@angular/core';
-import { InputStyle } from '../input/input-style.directive';
-import { Chip } from '../chip';
+import { AccessibleGroup } from '@meeui/ui/a11y';
+import { Chip } from '@meeui/ui/chip';
+import { InputStyle } from '@meeui/ui/input';
+import { SelectBase } from '@meeui/ui/select';
+import { provideValueAccessor } from '@meeui/ui/utils';
 import { AutocompleteInput } from './autocomplete-input';
-import { SelectBase } from '../select/select-base';
-import { AccessibleGroup } from '../a11y';
-import { provideValueAccessor } from '@meeui/utils';
 
 @Component({
-  standalone: true,
   selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [InputStyle, AccessibleGroup],

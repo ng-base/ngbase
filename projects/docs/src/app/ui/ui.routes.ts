@@ -58,6 +58,7 @@ import { CommandComponent } from './command.component';
 import { DirectionalityComponent } from './directionality.component';
 import { InlineEditComponent } from './inline-edit.component';
 import { VirtualizerComponent } from './virutalizer.component';
+import { TranslationComponent } from './translation.component';
 
 export const UI_ROUTES: Routes = [
   {
@@ -121,6 +122,7 @@ export const UI_ROUTES: Routes = [
       { path: 'directionality', component: DirectionalityComponent },
       { path: 'inline-edit', component: InlineEditComponent },
       { path: 'virtualizer', component: VirtualizerComponent },
+      { path: 'translation', component: TranslationComponent },
       {
         path: 'examples',
         loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),

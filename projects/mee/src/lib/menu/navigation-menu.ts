@@ -1,11 +1,9 @@
 import { Directive, contentChildren, effect, input } from '@angular/core';
+import { Popover, PopoverOpen, basePopoverPortal } from '@meeui/ui/popover';
+import { documentListener, uniqueId } from '@meeui/ui/utils';
 import { MenuTrigger } from './menu-trigger';
-import { basePopoverPortal } from '../popover/base-popover.service';
-import { Popover, PopoverOpen } from '../popover';
-import { documentListener, uniqueId } from '../utils';
 
 @Directive({
-  standalone: true,
   selector: '[meeNavigationMenu]',
 })
 export class NavigationMenu {

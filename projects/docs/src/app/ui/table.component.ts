@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, OnDestroy, signal } from '@angular/core';
-import { ScrollArea } from '@meeui/scroll-area';
-import { TableComponents } from '@meeui/table';
-import { Heading } from '@meeui/typography';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { TableComponents } from '@meeui/ui/table';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 interface Employee {
@@ -14,7 +14,6 @@ interface Employee {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-table',
   imports: [TableComponents, ScrollArea, Heading, DocCode],
   template: `

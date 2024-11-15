@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { DialogInput, basePortal } from '../portal';
+import { basePortal, DialogInput } from '@meeui/ui/portal';
 import { Popover } from './popover';
 import { PopoverOptions } from './popover.service';
 

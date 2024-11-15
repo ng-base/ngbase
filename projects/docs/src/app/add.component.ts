@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { Button } from '@meeui/button';
-import { DialogClose, dialogPortal, DialogRef } from '@meeui/dialog';
-import { Input } from '@meeui/input';
-import { Option, Select } from '@meeui/select';
-import { Autofocus } from '@meeui/utils';
+import { Button } from '@meeui/ui/button';
+import { DialogClose, dialogPortal, DialogRef } from '@meeui/ui/dialog';
+import { Input } from '@meeui/ui/input';
+import { Option, Select } from '@meeui/ui/select';
+import { Autofocus } from '@meeui/ui/adk';
 import { AddService } from './add.service';
 import { AppService } from './app.service';
 
 @Component({
-  standalone: true,
   selector: 'app-add',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, DialogClose, Select, Option, Input, Autofocus],

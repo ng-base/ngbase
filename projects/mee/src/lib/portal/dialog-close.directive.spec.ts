@@ -1,10 +1,9 @@
-import { DialogClose } from './dialog-close.directive';
 import { Component, signal } from '@angular/core';
+import { render, RenderResult } from '@meeui/ui/test';
+import { DialogClose } from './dialog-close.directive';
 import { DialogRef } from './dialog-ref';
-import { render, RenderResult } from '../test';
 
 @Component({
-  standalone: true,
   selector: 'mee-test-dialog',
   imports: [DialogClose],
   template: `<button [meeDialogClose]="value()">Close</button>`,

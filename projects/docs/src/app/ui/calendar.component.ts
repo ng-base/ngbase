@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { DatePicker } from '@meeui/datepicker';
+import { DatePicker } from '@meeui/ui/datepicker';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-calendar',
   imports: [Heading, DatePicker, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,7 +21,7 @@ import { DocCode } from './code.component';
 export class CalendarComponent {
   tsCode = `
   import { Component } from '@angular/core';
-  import { DatePicker } from '@meeui/datepicker';
+  import { DatePicker } from '@meeui/ui/datepicker';
 
   @Component({
     standalone: true,

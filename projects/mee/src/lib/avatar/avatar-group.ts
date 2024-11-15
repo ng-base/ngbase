@@ -9,7 +9,6 @@ import {
 import { Avatar } from './avatar';
 
 @Component({
-  standalone: true,
   selector: 'mee-avatar-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   // imports: [Avatar],

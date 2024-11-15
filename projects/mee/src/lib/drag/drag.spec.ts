@@ -1,5 +1,5 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Drag, DragData } from './drag';
 
 // Mock PointerEvent
@@ -17,7 +17,6 @@ class MockPointerEvent extends Event {
 }
 
 @Component({
-  standalone: true,
   imports: [Drag],
   template: `
     <div class="parent" style="width: 100px; height: 100px; background: red;">

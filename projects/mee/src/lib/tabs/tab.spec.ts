@@ -1,6 +1,6 @@
 import { Component, signal, TemplateRef } from '@angular/core';
+import { render, RenderResult } from '@meeui/ui/test';
 import { Tab, TabHeader } from './tab';
-import { render, RenderResult } from '../test';
 
 describe('Tab Component', () => {
   let tab: Tab;
@@ -8,7 +8,6 @@ describe('Tab Component', () => {
   let view: RenderResult<TestHostComponent>;
 
   @Component({
-    standalone: true,
     imports: [Tab, TabHeader],
     template: `<mee-tab [label]="label()" [disabled]="disabled()" [mode]="mode()">
       Tab Content
@@ -116,7 +115,6 @@ describe('Tab Component', () => {
 
 describe('with custom header', () => {
   @Component({
-    standalone: true,
     imports: [Tab, TabHeader],
     template: `
       <mee-tab>

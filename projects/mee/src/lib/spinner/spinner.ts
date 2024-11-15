@@ -25,7 +25,6 @@ const spinnerAnimation = trigger('enterLeave', [
 ]);
 
 @Component({
-  standalone: true,
   selector: 'mee-spinner',
   template: `
     <ng-content />

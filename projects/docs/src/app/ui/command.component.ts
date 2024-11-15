@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Command } from '@meeui/command';
-import { dialogPortal } from '@meeui/dialog';
-import { keyMap } from '@meeui/keys';
+import { Command } from '@meeui/ui/command';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { keyMap } from '@meeui/ui/keys';
 
 @Component({
   standalone: true,

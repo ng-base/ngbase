@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { Tooltip } from '@meeui/tooltip';
-import { Button } from '@meeui/button';
+import { Button } from '@meeui/ui/button';
+import { Tooltip } from '@meeui/ui/tooltip';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-tooltip',
   imports: [Heading, Tooltip, Button, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,8 +24,8 @@ export class TooltipComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Tooltip } from '@meeui/tooltip';
-  import { Button } from '@meeui/button';
+  import { Tooltip } from '@meeui/ui/tooltip';
+  import { Button } from '@meeui/ui/button';
 
   @Component({
     standalone: true,

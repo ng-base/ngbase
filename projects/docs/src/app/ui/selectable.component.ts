@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Selectable, SelectableItem } from '@meeui/selectable';
-import { Heading } from '@meeui/typography';
-import { RangePipe } from '@meeui/utils';
+import { Selectable, SelectableItem } from '@meeui/ui/selectable';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-tabs',
   imports: [FormsModule, Heading, RangePipe, Selectable, SelectableItem, DocCode],
   template: `
@@ -28,7 +27,7 @@ export class SelectableComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { Selectable, SelectableItem } from '@meeui/selectable';
+  import { Selectable, SelectableItem } from '@meeui/ui/selectable';
 
   @Component({
     standalone: true,

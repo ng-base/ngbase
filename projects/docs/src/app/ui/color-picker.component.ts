@@ -1,22 +1,21 @@
 import { Component, signal } from '@angular/core';
-import { Heading } from '@meeui/typography';
 import { FormsModule } from '@angular/forms';
-import { ColorInput } from '@meeui/color-picker';
-import { Label } from '@meeui/input';
+import { ColorInput } from '@meeui/ui/color-picker';
+import { FormField, Label } from '@meeui/ui/input';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-color-picker',
-  imports: [FormsModule, Heading, ColorInput, Label, DocCode],
+  imports: [FormsModule, Heading, ColorInput, FormField, Label, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="colorPickerPage">Color picker</h4>
     <!-- <button meeButton meeColorPickerTrigger class="mt-5">Open color picker</button>
     color -- {{ hexColor() }} -->
 
     <app-doc-code [tsCode]="tsCode">
-      <label meeLabel>
-        Hex color
+      <div meeFormField>
+        <label meeLabel>Hex color</label>
         <mee-color-input
           [(ngModel)]="hexColor"
           [presetColors]="[
@@ -34,12 +33,12 @@ import { DocCode } from './code.component';
             '#cbd5e1',
           ]"
         />
-      </label>
+      </div>
 
-      <label meeLabel>
-        RGB color
+      <div meeFormField>
+        <label meeLabel>RGB color</label>
         <mee-color-input [format]="'rgb'" [(value)]="rgbColor" />
-      </label>
+      </div>
     </app-doc-code>
   `,
 })
@@ -50,8 +49,8 @@ export class ColorPickerComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { ColorInput } from '@meeui/color-picker';
-  import { Label } from '@meeui/input';
+  import { ColorInput } from '@meeui/ui/color-picker';
+  import { Label } from '@meeui/ui/input';
 
   @Component({
     standalone: true,

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Picasa, PicasaItem } from '@meeui/picasa';
-import { Heading } from '@meeui/typography';
-import { RangePipe } from '@meeui/utils';
+import { Picasa, PicasaItem } from '@meeui/ui/picasa';
+import { Heading } from '@meeui/ui/typography';
+import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-picasa',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Picasa, PicasaItem, Heading, RangePipe],

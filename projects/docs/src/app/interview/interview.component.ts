@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { Tour, TourService, TourStep } from '@meeui/ui/tour';
 import { ChildComponent } from './child.component';
-import { Tour, TourService, TourStep } from '@meeui/tour';
 
 @Component({
   standalone: true,

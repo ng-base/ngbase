@@ -10,9 +10,9 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { popoverPortal } from '../popover';
+import { Input } from '@meeui/ui/input';
+import { popoverPortal } from '@meeui/ui/popover';
 import { DatePicker } from './datepicker';
-import { Input } from '../input';
 import { injectMeeDateAdapter } from './native-date-adapter';
 
 const DEFAULT_FIELD_FORMAT = 'ISO';
@@ -20,7 +20,6 @@ const DEFAULT_FORMAT = 'M/d/yyyy';
 const DEFAULT_TIME_FORMAT = 'M/d/yyyy, HH:mm a';
 
 @Directive({
-  standalone: true,
   selector: '[meeDatepickerTrigger]',
   exportAs: 'meeDatepickerTrigger',
   hostDirectives: [Input],

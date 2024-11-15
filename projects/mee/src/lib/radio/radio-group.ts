@@ -1,8 +1,8 @@
 import { Component, contentChildren, inject, model } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { AccessibleGroup } from '@meeui/ui/a11y';
+import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
 import { Radio } from './radio';
-import { AccessibleGroup } from '../a11y';
-import { provideValueAccessor, uniqueId } from '../utils';
 
 @Component({
   standalone: true,

@@ -1,16 +1,15 @@
 import {
-  Component,
-  ViewContainerRef,
-  ChangeDetectionStrategy,
-  viewChild,
   afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { BaseDialog, DialogOptions } from '../portal';
-import { createHostAnimation, fadeAnimation } from '../dialog/dialog.animation';
+import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
+import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
 import { Subject } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'mee-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

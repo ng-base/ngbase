@@ -1,11 +1,10 @@
 import { Component, TemplateRef, viewChild } from '@angular/core';
-import { DialogRef } from '../portal';
-import { render, RenderResult } from '../test';
-import { DatepickerTrigger } from './datepicker-trigger';
+import { DialogRef } from '@meeui/ui/portal';
+import { render, RenderResult } from '@meeui/ui/test';
 import { DatePicker } from './datepicker';
+import { DatepickerTrigger } from './datepicker-trigger';
 
 @Component({
-  standalone: true,
   template: `<ng-template #templateRef>
     <div id="templateDiv">Test</div>
   </ng-template>`,

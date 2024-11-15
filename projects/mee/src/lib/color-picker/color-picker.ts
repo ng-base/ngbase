@@ -1,14 +1,15 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  afterNextRender,
   inject,
   input,
   output,
   viewChild,
 } from '@angular/core';
-import { Drag } from '../drag';
+import { Drag } from '@meeui/ui/drag';
+import { DialogRef } from '@meeui/ui/portal';
 import {
   hexToHsb,
   hsbaToHex,
@@ -19,11 +20,9 @@ import {
   parseRgba,
   rgbToHsba,
 } from './utils';
-import { DialogRef } from '../portal';
 
 export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
 @Component({
-  standalone: true,
   selector: 'mee-color-picker-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Drag],

@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { PopoverOpen, popoverPortal } from '@meeui/ui/popover';
+import { DialogInput } from '@meeui/ui/portal';
 import { TourStep } from './tour-step';
-import { DialogInput } from '../portal';
-import { PopoverOpen, popoverPortal } from '../popover';
 
 @Injectable({ providedIn: 'root' })
 export class TourService {

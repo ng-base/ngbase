@@ -1,18 +1,17 @@
 import { Component, signal } from '@angular/core';
 import {
-  DragMove,
   Drag,
   DragDrop,
+  DragMove,
+  DropEvent,
   moveItemInArray,
   transferArrayItem,
-  DropEvent,
-} from '@meeui/drag';
-import { Heading } from '@meeui/typography';
+} from '@meeui/ui/drag';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-drag',
   imports: [DragDrop, Drag, DragMove, Heading],
   providers: [provideIcons({ lucideGripVertical })],

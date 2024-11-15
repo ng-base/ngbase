@@ -1,16 +1,16 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/accordion';
-import { Avatar } from '@meeui/avatar';
-import { Card } from '@meeui/card';
-import { Icon } from '@meeui/icon';
-import { List } from '@meeui/list';
-import { Menu, MenuTrigger } from '@meeui/menu';
-import { Progress } from '@meeui/progress';
-import { Option, Select, SelectTrigger } from '@meeui/select';
-import { Separator } from '@meeui/separator';
-import { Sidenav, SidenavHeader } from '@meeui/sidenav';
+import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
+import { Avatar } from '@meeui/ui/avatar';
+import { Card } from '@meeui/ui/card';
+import { Icon } from '@meeui/ui/icon';
+import { List } from '@meeui/ui/list';
+import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { Progress } from '@meeui/ui/progress';
+import { Option, Select, SelectTrigger } from '@meeui/ui/select';
+import { Separator } from '@meeui/ui/separator';
+import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideBadgeCheck,
@@ -29,16 +29,15 @@ import {
   lucideLogOut,
   lucideMap,
   lucidePieChart,
-  lucideSquarePlus,
   lucideSearch,
   lucideSend,
   lucideSettings2,
+  lucideSquarePlus,
   lucideSquareTerminal,
   lucideUser,
 } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-sidebars',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

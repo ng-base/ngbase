@@ -1,8 +1,8 @@
 import { Directive, inject, Injectable, input, output } from '@angular/core';
+import { popoverPortal } from '@meeui/ui/popover';
+import { DialogRef } from '@meeui/ui/portal';
+import { documentListener, uniqueId } from '@meeui/ui/utils';
 import { Menu } from './menu';
-import { popoverPortal } from '../popover';
-import { documentListener, uniqueId } from '../utils';
-import { DialogRef } from '../portal';
 
 @Injectable({ providedIn: 'root' })
 class MenuService {
@@ -20,7 +20,6 @@ class MenuService {
 }
 
 @Directive({
-  standalone: true,
   selector: '[meeContextMenu]',
   host: {
     '(contextmenu)': 'open($event)',

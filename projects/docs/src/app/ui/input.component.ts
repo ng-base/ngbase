@@ -1,41 +1,56 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/typography';
-import { FormsModule } from '@angular/forms';
-import { Input, Label } from '@meeui/input';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputError, FormField, Input, Label, Description, InputPrefix } from '@meeui/ui/input';
+import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
+import { Icon } from '@meeui/ui/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
 
 @Component({
-  standalone: true,
   selector: 'app-input',
-  imports: [FormsModule, Heading, Input, Label, DocCode],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    Heading,
+    Input,
+    InputError,
+    FormField,
+    Label,
+    Description,
+    DocCode,
+    Icon,
+    InputPrefix,
+  ],
+  viewProviders: [provideIcons({ lucideEye, lucideEyeOff })],
   template: `
     <h4 meeHeader class="mb-5" id="inputPage">Input</h4>
     <app-doc-code [tsCode]="tsCode">
       <div class="flex flex-col gap-b4">
-        <label meeLabel>
-          Input
-          <input meeInput [(ngModel)]="inputValue" placeholder="Input" id="input" class="w-full" />
-        </label>
+        <mee-form-field>
+          <!-- <label meeLabel>Input</label>
+          <p meeDescription>This is a description</p>
+          <mee-icon name="lucideEyeOff" /> -->
+          <input meeInput [formControl]="inputValue" placeholder="Input" class="w-full" />
+          <mee-icon name="lucideEye" meeInputPrefix />
+          <p meeError="required">This field is required</p>
+        </mee-form-field>
 
-        <label meeLabel>
-          Textarea
+        <div meeFormField>
+          <label meeLabel>Textarea</label>
           <textarea type="text" meeInput id="textarea" class="w-full"></textarea>
-        </label>
+        </div>
       </div>
     </app-doc-code>
   `,
 })
 export class InputComponent {
-  inputValue = '';
-
-  htmlCode = `
-      
-    `;
+  inputValue = new FormControl('', [Validators.required]);
 
   tsCode = `
   import { Component } from '@angular/core';
   import { FormsModule } from '@angular/forms';
-  import { Input } from '@meeui/input';
+  import { Input } from '@meeui/ui/input';
 
   @Component({
     standalone: true,

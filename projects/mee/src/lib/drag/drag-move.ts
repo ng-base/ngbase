@@ -2,7 +2,6 @@ import { Directive, ElementRef, inject, input } from '@angular/core';
 import { Drag } from './drag';
 
 @Directive({
-  standalone: true,
   selector: '[meeDragMove]',
   hostDirectives: [
     {

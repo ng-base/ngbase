@@ -1,12 +1,11 @@
-import { AccordionGroup } from './accordion-group';
-import { Accordion } from './accordion-item';
 import { Component, signal } from '@angular/core';
-import { AccordionHeader } from './accordion-header';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '../test';
+import { render, RenderResult } from '@meeui/ui/test';
+import { AccordionGroup } from './accordion-group';
+import { AccordionHeader } from './accordion-header';
+import { Accordion } from './accordion-item';
 
 @Component({
-  standalone: true,
   imports: [Accordion, AccordionGroup, AccordionHeader],
   template: `
     <mee-accordion-group [multiple]="multiple()">

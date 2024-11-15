@@ -1,9 +1,8 @@
 import { Component, contentChildren, effect, inject, untracked } from '@angular/core';
+import { Autocomplete } from '@meeui/ui/autocomplete';
 import { Chip } from './chip';
-import { Autocomplete } from '../autocomplete';
 
 @Component({
-  standalone: true,
   selector: 'mee-chip-group',
   template: `<ng-content />`,
 })

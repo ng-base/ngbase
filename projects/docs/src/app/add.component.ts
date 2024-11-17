@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { Button } from '@meeui/ui/button';
-import { DialogClose, dialogPortal, DialogRef } from '@meeui/ui/dialog';
-import { Input } from '@meeui/ui/input';
-import { Option, Select } from '@meeui/ui/select';
 import { Autofocus } from '@meeui/ui/adk';
+import { Button } from '@meeui/ui/button';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { Input } from '@meeui/ui/input';
+import { DialogClose, DialogRef } from '@meeui/ui/portal';
+import { Option, Select } from '@meeui/ui/select';
 import { AddService } from './add.service';
 import { AppService } from './app.service';
 

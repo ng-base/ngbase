@@ -72,7 +72,7 @@ import { FormField, Label } from '@meeui/ui/input';
 
       <div meeFormField class="min-w-52">
         <label meeLabel>Small select</label>
-        <mee-select class="w-30" size="free">
+        <mee-select class="w-30">
           <mee-option>Option 1</mee-option>
           <mee-option>Option 2</mee-option>
           <mee-option>Option 3</mee-option>

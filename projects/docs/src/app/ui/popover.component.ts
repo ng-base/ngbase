@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
-import { DialogClose } from '@meeui/ui/dialog';
 import { PopoverTrigger, popoverPortal } from '@meeui/ui/popover';
+import { DialogClose } from '@meeui/ui/portal';
 import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
 import { DocCode } from './code.component';

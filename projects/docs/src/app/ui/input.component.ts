@@ -28,12 +28,13 @@ import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
     <app-doc-code [tsCode]="tsCode">
       <div class="flex flex-col gap-b4">
         <mee-form-field>
-          <!-- <label meeLabel>Input</label>
+          <label meeLabel>Input</label>
           <p meeDescription>This is a description</p>
-          <mee-icon name="lucideEyeOff" /> -->
+          <!-- <mee-icon name="lucideEyeOff" /> -->
           <input meeInput [formControl]="inputValue" placeholder="Input" class="w-full" />
           <mee-icon name="lucideEye" meeInputPrefix />
           <p meeError="required">This field is required</p>
+          <p meeError="!required && minlength">This field must be at least 3 characters long</p>
         </mee-form-field>
 
         <div meeFormField>
@@ -45,7 +46,7 @@ import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
   `,
 })
 export class InputComponent {
-  inputValue = new FormControl('', [Validators.required]);
+  inputValue = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
   tsCode = `
   import { Component } from '@angular/core';

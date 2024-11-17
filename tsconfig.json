@@ -8,22 +8,18 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
-    "baseUrl": ".",
-    "rootDir": ".",
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "paths": {
-      "@meeui/ui/*": ["./projects/mee/src/lib/*/public-api", "./dist/@meeui/ui/*"]
+      "@meeui/ui/*": ["./projects/mee/*/public-api", "./dist/@meeui/ui/*"]
     }
   },
   "angularCompilerOptions": {

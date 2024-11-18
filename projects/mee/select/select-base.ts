@@ -206,7 +206,6 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   };
 
   private setValue(values: T[], skip = false): void {
-    console.log('setValue', values, this.values());
     let localValue = this.values();
     let setValue: any;
     if (this.multiple()) {
@@ -243,7 +242,6 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   }
 
   writeValue(value: T[] | T): void {
-    console.log('writeValue', value, this.el.nativeElement.id);
     this.updateValues(value);
   }
 

@@ -29,7 +29,6 @@ export class AutocompleteInput<T> {
     const options = this.options();
     const search = this.search();
     const values = search ? options.filter(v => fn!(search, v, options)) : options;
-    console.log(values);
     return values;
   });
 

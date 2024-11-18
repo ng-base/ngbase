@@ -171,7 +171,10 @@ export class NavComponent implements OnInit {
 
   open() {
     this.dialog.open(Command, {
-      data: this.sortComponentList,
+      data: [
+        { name: 'Components', items: this.sortComponentList },
+        { name: 'ADK', items: this.sortList },
+      ],
       header: true,
       width: '600px',
       minHeight: '400px',

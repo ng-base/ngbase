@@ -71,6 +71,7 @@ export function filterFunction<T, V = T>(
   data: Signal<T[]> | T[],
   options: {
     filter?: (v: V) => string;
+    key?: keyof T;
     childrenFilter?: (v: T) => V[];
     query?: (v: V, search: string) => boolean;
   },
@@ -84,18 +85,22 @@ export function filterFunction<T, V = T>(
 
     const query =
       options.query ?? ((v: V, t: string) => options.filter!(v).toLowerCase().includes(t));
-    return lists.reduce((acc, item) => {
+    const vvv = lists.reduce((acc, item) => {
       if (options.childrenFilter) {
         const children = options.childrenFilter(item);
         const filteredChildren = children.filter(child => query(child as unknown as V, text));
         if (filteredChildren.length) {
-          acc.push({ ...item, children: filteredChildren });
+          acc.push({
+            ...item,
+            [(options.key as unknown as string) || 'children']: filteredChildren,
+          });
         }
       } else if (query(item as unknown as V, text)) {
         acc.push(item);
       }
       return acc;
     }, [] as T[]);
+    return vvv;
   });
   return { search, list, filteredList };
 }

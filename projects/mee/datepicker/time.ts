@@ -97,7 +97,6 @@ export class TimePicker implements ControlValueAccessor {
     effect(() => {
       const value = this.value();
       untracked(() => {
-        console.log('value', value);
         this.parseValue(value);
       });
     });

@@ -82,7 +82,6 @@ export class SheetContainer extends BaseDialog implements OnDestroy {
     afterNextRender(() => {
       this._afterViewSource.next(this.myDialog()!);
       this.position.set('center');
-      console.log('afterNextRender', 'center');
     });
     const ref = inject(DialogRef);
     ref.afterClosed.subscribe(() => {
@@ -96,12 +95,10 @@ export class SheetContainer extends BaseDialog implements OnDestroy {
     this.classNames = this.options.classNames?.join(' ') || '';
     this.isHideHeader = this.options.header || false;
     this.backdropColor = this.options.backdropColor || true;
-    console.log('setOptions', this.options.position);
     this.position.set(this.options.position as 'left' | 'right' | 'center');
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy', this.options.position);
     // this.position.set(this.options.position as 'left' | 'right' | 'center');
   }
 }

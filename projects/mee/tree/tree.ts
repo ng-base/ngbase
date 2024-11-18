@@ -171,7 +171,6 @@ export class Tree<T> {
           viewRef.context.$implicit = this.flatner().dataMap.get(item.item.id)!;
         }
       });
-      console.log('count', count);
     });
   }
 

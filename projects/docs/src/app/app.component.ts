@@ -22,7 +22,6 @@ export class AppComponent {
 
     if (isClient()) {
       this.internetAvailability.addListener(status => {
-        console.log('Internet availability changed:', status);
         if (status === initialStatus) return;
         initialStatus = status;
         if (status) {

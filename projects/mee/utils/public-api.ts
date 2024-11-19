@@ -5,3 +5,4 @@ export * from './ssr';
 
 export * from './ng/internals';
 export * from './breakpoints-observer';
+export * from './SelectionModel';

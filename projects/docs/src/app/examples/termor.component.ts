@@ -1,5 +1,4 @@
 // restaurant-list.component.ts
-import { SelectionModel } from '@angular/cdk/collections';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Checkbox } from '@meeui/ui/checkbox';
@@ -8,6 +7,7 @@ import { Input } from '@meeui/ui/input';
 import { Pagination } from '@meeui/ui/pagination';
 import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { TableComponents } from '@meeui/ui/table';
+import { SelectionModel } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideArrowUpDown,

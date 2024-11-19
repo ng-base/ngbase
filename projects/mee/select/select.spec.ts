@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/ui/test';
+import { firstOutputFrom, render, RenderResult } from '@meeui/ui/test';
 import { Option } from './option';
 import { Select } from './select';
 
@@ -143,21 +143,17 @@ describe('Select', () => {
     expect(component.form.value.selectedValue).toEqual(['1', '2']);
   });
 
-  it('should emit opened event when options are opened', done => {
-    selectComponent.opened.subscribe(isOpened => {
-      expect(isOpened).toBe(true);
-      done();
-    });
+  it('should emit opened event when options are opened', async () => {
+    const openedPromise = firstOutputFrom(selectComponent.opened);
     selectComponent.open();
+    expect(await openedPromise).toBe(true);
   });
 
-  it('should emit closed event when options are closed', done => {
-    selectComponent.closed.subscribe(isClosed => {
-      expect(isClosed).toBe(true);
-      done();
-    });
+  it('should emit closed event when options are closed', async () => {
+    const closedPromise = firstOutputFrom(selectComponent.closed);
     selectComponent.open();
     selectComponent['close']();
+    expect(await closedPromise).toBe(true);
   });
 
   it('should update panelOpen signal when options are opened/closed', () => {
@@ -166,6 +162,4 @@ describe('Select', () => {
     selectComponent['close']();
     expect(selectComponent.panelOpen()).toBe(false);
   });
-
-  // Add more tests as needed
 });

@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { DialogRef } from '@meeui/ui/portal';
-import { render, RenderResult } from '@meeui/ui/test';
+import { firstOutputFrom, render, RenderResult } from '@meeui/ui/test';
 import { ColorFormat, ColorPicker } from './color-picker';
 
 describe('ColorPicker', () => {
@@ -106,13 +106,11 @@ describe('ColorPicker', () => {
     expect(component.setValue).toHaveBeenCalledWith('#00ff00', true);
   });
 
-  it('should emit value change', done => {
-    component.valueChange.subscribe(value => {
-      expect(value).toBe('#FF0000');
-      done();
-    });
+  it('should emit value change', async () => {
+    const valuePromise = firstOutputFrom(component.valueChange);
 
     component.setValue('#ff0000', true);
+    expect(await valuePromise).toBe('#FF0000');
   });
 
   it('should calculate coordinates correctly', () => {

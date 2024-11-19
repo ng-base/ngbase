@@ -30,7 +30,7 @@ describe('SelectableItem', () => {
   });
 
   function getSelectableItem() {
-    return view.$(SelectableItem<string>);
+    return view.$0(SelectableItem<string>);
   }
 
   it('should create', () => {
@@ -47,11 +47,8 @@ describe('SelectableItem', () => {
 
   it('should have the correct CSS classes when not selected', () => {
     const element = getSelectableItem();
-    expect(element.classList.contains('opacity-60')).toBeTruthy();
-    expect(element.classList.contains('bg-foreground')).toBeFalsy();
-    expect(element.classList.contains('shadow-md')).toBeFalsy();
-    expect(element.classList.contains('ring-1')).toBeFalsy();
-    expect(element.classList.contains('ring-border')).toBeFalsy();
+    expect(element.hasClass('opacity-60')).toBeTruthy();
+    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeFalsy();
   });
 
   it('should have the correct CSS classes when selected', () => {
@@ -59,22 +56,19 @@ describe('SelectableItem', () => {
     view.detectChanges();
 
     const element = getSelectableItem();
-    expect(element.classList.contains('opacity-60')).toBeFalsy();
-    expect(element.classList.contains('bg-foreground')).toBeTruthy();
-    expect(element.classList.contains('shadow-md')).toBeTruthy();
-    expect(element.classList.contains('ring-1')).toBeTruthy();
-    expect(element.classList.contains('ring-border')).toBeTruthy();
+    expect(element.hasClass('opacity-60')).toBeFalsy();
+    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeTruthy();
   });
 
   it('should call select method when clicked', () => {
     const selectSpy = jest.spyOn(selectableItem, 'select');
     const element = getSelectableItem();
-    element.click();
+    element.el.click();
     expect(selectSpy).toHaveBeenCalled();
   });
 
   it('should have the correct attributes', () => {
     const element = getSelectableItem();
-    expect(element.getAttribute('role')).toBe('tab');
+    expect(element.attr('role')).toBe('tab');
   });
 });

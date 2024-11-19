@@ -27,30 +27,38 @@ describe('Input Error', () => {
     view.detectChanges();
   });
 
+  function isRequired() {
+    return view.$('p#required').hidden === false;
+  }
+
+  function isMinlength() {
+    return view.$('p#minlength').hidden === false;
+  }
+
   it('should be invalid when the control is invalid and the error is present', () => {
     expect(view.host.control.invalid).toBe(true);
     expect(view.host.control.errors).toEqual({
       required: true,
     });
     expect(view.host.control.touched).toBe(false);
-    expect(view.$('p#required').hidden).toBe(true);
-    expect(view.$('p#minlength').hidden).toBe(true);
+    expect(isRequired()).toBe(false);
+    expect(isMinlength()).toBe(false);
   });
 
   it('should be invalid when the control is invalid and the error is present', () => {
     view.host.control.setValue('ab');
     view.detectChanges();
-    expect(view.$('p#required').hidden).toBe(true);
-    expect(view.$('p#minlength').hidden).toBe(false);
+    expect(isRequired()).toBe(false);
+    expect(isMinlength()).toBe(true);
 
     view.host.control.setValue('abc');
     view.detectChanges();
-    expect(view.$('p#required').hidden).toBe(true);
-    expect(view.$('p#minlength').hidden).toBe(true);
+    expect(isRequired()).toBe(false);
+    expect(isMinlength()).toBe(false);
 
     view.host.control.setValue('');
     view.detectChanges();
-    expect(view.$('p#required').hidden).toBe(false);
-    expect(view.$('p#minlength').hidden).toBe(true);
+    expect(isRequired()).toBe(true);
+    expect(isMinlength()).toBe(false);
   });
 });

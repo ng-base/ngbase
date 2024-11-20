@@ -1,11 +1,19 @@
-import { inject, Injector, linkedSignal, Pipe, PipeTransform, signal } from '@angular/core';
-import { TranslateService } from './translate.service';
+import {
+  inject,
+  Injector,
+  linkedSignal,
+  Pipe,
+  PipeTransform,
+  signal,
+  untracked,
+} from '@angular/core';
+import { injectTranslate } from './translate.service';
 
 @Pipe({
   name: 'translate',
 })
 export class Translate implements PipeTransform {
-  private translate = inject(TranslateService);
+  private translate = injectTranslate();
   private value = signal<[string, ...any[]]>(['']);
   private linkedValue = linkedSignal({
     source: () => ({ value: this.value(), data: this.translate.translations() }),
@@ -15,16 +23,16 @@ export class Translate implements PipeTransform {
   });
 
   transform(value: string, ...args: any[]) {
-    Promise.resolve().then(() => {
+    // untracked to avoid error: cannot set signal inside computation
+    untracked(() => {
       this.value.set([value, ...args]);
     });
     return this.linkedValue;
-    // return this.translate.translate(value, args[0]);
   }
 }
 
 export function translate() {
-  const ts = inject(TranslateService);
+  const ts = injectTranslate();
   const injector = inject(Injector);
   return (value: string, ...args: any[]) => {
     console.count(value);

@@ -1,5 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { Translate, translate, TranslateService } from '@meeui/ui/adk';
+import { Component, computed, signal } from '@angular/core';
+import { Translate, translate, injectTranslate } from '@meeui/ui/adk';
 import { Button } from '@meeui/ui/button';
 import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
 import { RangePipe } from '@meeui/ui/utils';
@@ -17,7 +17,7 @@ import { RangePipe } from '@meeui/ui/utils';
       <h4>Change Language: {{ translateService.currentLang() }}</h4>
       <h4>Status: {{ translateService.status() }}</h4>
       <button meeButton (click)="($event)">test</button>
-      <button meeButton (click)="param.set({ value: '123' })">Change Param</button>
+      <button meeButton (click)="toggleParam()">Change Param</button>
       <mee-toggle-group multiple="false" (valueChange)="changeLang($event)">
         <button meeToggleItem value="en">English</button>
         <button meeToggleItem value="ar">Arabic</button>
@@ -29,8 +29,8 @@ import { RangePipe } from '@meeui/ui/utils';
 export class TranslationComponent {
   readonly lang = signal(false);
   readonly translate = translate();
-  readonly param = signal({ value: 'world' });
-  readonly translateService = inject(TranslateService);
+  readonly param = signal({ value: 123 });
+  readonly translateService = injectTranslate();
   readonly computed = computed;
 
   toggle() {
@@ -39,5 +39,9 @@ export class TranslationComponent {
 
   changeLang(lang: string) {
     this.translateService.use(lang);
+  }
+
+  toggleParam() {
+    this.param.update(p => ({ value: p.value + 1 }));
   }
 }

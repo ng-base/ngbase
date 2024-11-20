@@ -100,3 +100,5 @@ export class TranslateService {
 //     return result;
 //   };
 // }
+
+export const injectTranslate = () => inject(TranslateService);

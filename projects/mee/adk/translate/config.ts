@@ -31,12 +31,15 @@ export function interpolate(translation: string, params: Record<string, any>) {
 
 function defaultLoader(lang: string, fallbackLang: string) {
   const http = inject(HttpClient);
-  return of([]).pipe(
-    delay(1000),
-    switchMap(() =>
-      http
-        .get<Record<string, any>>(`/i18n/${lang}.json`)
-        .pipe(catchError(() => http.get<Record<string, any>>(`/i18n/${fallbackLang}.json`))),
-    ),
-  );
+  return http
+    .get<Record<string, any>>(`/i18n/${lang}.json`)
+    .pipe(catchError(() => http.get<Record<string, any>>(`/i18n/${fallbackLang}.json`)));
+  // return of([]).pipe(
+  //   delay(1),
+  //   switchMap(() =>
+  //     http
+  //       .get<Record<string, any>>(`/i18n/${lang}.json`)
+  //       .pipe(catchError(() => http.get<Record<string, any>>(`/i18n/${fallbackLang}.json`))),
+  //   ),
+  // );
 }

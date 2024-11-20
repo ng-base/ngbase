@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { sonnerPortal } from '@meeui/ui/sonner';
-import { ThemeService } from '@meeui/ui/theme';
+import { injectTheme } from '@meeui/ui/theme';
 import { isClient } from '@meeui/ui/utils';
-import { Directionality, InternetAvailability } from '@meeui/ui/adk';
+import { injectDirectionality, injectNetwork } from '@meeui/ui/adk';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +12,9 @@ import { Directionality, InternetAvailability } from '@meeui/ui/adk';
   template: `<router-outlet />`,
 })
 export class AppComponent {
-  themeService = inject(ThemeService);
-  direction = inject(Directionality);
-  internetAvailability = inject(InternetAvailability);
+  themeService = injectTheme();
+  direction = injectDirectionality();
+  internetAvailability = injectNetwork();
   sonner = sonnerPortal();
 
   constructor() {

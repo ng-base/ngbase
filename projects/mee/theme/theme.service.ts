@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { dialogPortal } from '@meeui/ui/dialog';
 import { ThemeComponent } from './theme.component';
 import { isClient } from '@meeui/ui/utils';
@@ -40,3 +40,5 @@ export class ThemeService {
     });
   }
 }
+
+export const injectTheme = () => inject(ThemeService);

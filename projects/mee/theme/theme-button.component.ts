@@ -3,7 +3,7 @@ import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
-import { ThemeService } from './theme.service';
+import { injectTheme } from './theme.service';
 
 @Component({
   selector: 'mee-theme-button',
@@ -18,7 +18,7 @@ import { ThemeService } from './theme.service';
   `,
 })
 export class ThemeButton {
-  readonly themeService = inject(ThemeService);
+  readonly themeService = injectTheme();
 
   constructor() {
     // shortcutListener('ctrl+d', () => this.themeService.toggle());

@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Spinner } from '@meeui/ui/spinner';
 import { Tab, Tabs } from '@meeui/ui/tabs';
-import { ThemeService } from '@meeui/ui/theme';
+import { injectTheme } from '@meeui/ui/theme';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { BlogsComponent } from './blogs.component';
@@ -124,7 +124,7 @@ export function injectParams() {
   `,
 })
 export class ExamplesComponent {
-  theme = inject(ThemeService);
+  theme = injectTheme();
   private params = injectParams();
   private route = inject(Router);
   tabIndex = signal(+this.params()!['id']);

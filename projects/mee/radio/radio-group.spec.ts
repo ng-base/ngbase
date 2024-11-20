@@ -58,7 +58,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should have six radio buttons in total', () => {
-    const allRadioButtons = view.$$('mee-radio');
+    const allRadioButtons = view.$All('mee-radio');
     expect(allRadioButtons.length).toBe(9);
   });
 
@@ -69,7 +69,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should update the ngModel when a radio button is clicked', () => {
-    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
     ngModelRadios[1].click();
     view.detectChanges();
     expect(component.selectedValue).toBe('option2');
@@ -85,7 +85,7 @@ describe('RadioGroup and Radio', () => {
   it('should update the UI when the ngModel changes', async () => {
     component.selectedValue = 'option1';
     await view.formStable();
-    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
     expect(ngModelRadios[0].querySelector('button > div')).toBeTruthy();
     expect(ngModelRadios[1].querySelector('button > div')).toBeFalsy();
   });
@@ -95,7 +95,7 @@ describe('RadioGroup and Radio', () => {
     view.detectChanges();
     expect(component.form.get('option')?.value).not.toBe('option3');
 
-    const ngModelRadios = view.$$('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
     ngModelRadios[2].click();
     view.detectChanges();
     expect(component.selectedValue).not.toBe('option3');

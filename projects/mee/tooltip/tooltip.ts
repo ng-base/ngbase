@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { PopoverPosition, tooltipPosition } from '@meeui/ui/popover';
-import { ThemeService } from '@meeui/ui/theme';
+import { injectTheme } from '@meeui/ui/theme';
 
 @Component({
   selector: 'mee-tooltip',
@@ -33,7 +33,7 @@ import { ThemeService } from '@meeui/ui/theme';
 })
 export class TooltipComponent implements OnDestroy {
   content = signal('Tooltip');
-  theme = inject(ThemeService);
+  theme = injectTheme();
   target!: HTMLElement;
   el = inject<ElementRef<HTMLElement>>(ElementRef);
   position: PopoverPosition = 'top';

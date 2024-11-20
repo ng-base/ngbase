@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Translate, translate, TranslateService } from '@meeui/ui/translate';
+import { Translate, translate, TranslateService } from '@meeui/ui/adk';
 import { Button } from '@meeui/ui/button';
 import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
 import { RangePipe } from '@meeui/ui/utils';

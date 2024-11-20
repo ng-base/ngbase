@@ -10,7 +10,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ThemeService } from '@meeui/ui/theme';
+import { injectTheme } from '@meeui/ui/theme';
 import hljs from 'highlight.js';
 import { marked } from 'marked';
 
@@ -82,7 +82,7 @@ import { marked } from 'marked';
 })
 export class MarkdownComponent {
   readonly el = inject(ElementRef);
-  readonly theme = inject(ThemeService);
+  readonly theme = injectTheme();
   private sanitizer = inject(DomSanitizer);
   private renderer = inject(Renderer2);
 

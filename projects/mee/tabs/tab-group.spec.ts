@@ -73,7 +73,7 @@ describe('Tabs Component', () => {
     tabsComponent = view.viewChild(Tabs);
   });
 
-  const tabs = () => view.$$('button[role="tab"]');
+  const tabs = () => view.$All('button[role="tab"]');
   const activeTab = () => view.$('button[aria-selected="true"]');
 
   function clickTab(index: number) {

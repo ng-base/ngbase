@@ -21,7 +21,7 @@ describe('InputOtp', () => {
   }
 
   function getInputs() {
-    return [...view.$$('input')] as HTMLInputElement[];
+    return [...view.$All('input')] as HTMLInputElement[];
   }
 
   beforeEach(async () => {

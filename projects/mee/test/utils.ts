@@ -84,7 +84,19 @@ export class RenderResult<T> {
     return this.queryNative(selector)?.nativeElement as U;
   }
 
-  $$<U = HTMLElement>(selector: string | Type<any>): U[] {
+  getByText(text: string, root: string | Type<any> = 'body'): HTMLElement | null {
+    const rootEl = this.$(root);
+    const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_ELEMENT, null);
+    let node: Node | null;
+    while ((node = walker.nextNode())) {
+      if ((node as HTMLElement).textContent?.trim() === text) {
+        return node as HTMLElement;
+      }
+    }
+    return null;
+  }
+
+  $All<U = HTMLElement>(selector: string | Type<any>): U[] {
     return this.viewChildrenDebug(selector).map(de => de.nativeElement);
   }
 

@@ -14,7 +14,7 @@ import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { ScrollArea } from '@meeui/ui/scroll-area';
 import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
-import { ThemeButton, ThemeService } from '@meeui/ui/theme';
+import { injectTheme, ThemeButton } from '@meeui/ui/theme';
 import { TourStep } from '@meeui/ui/tour';
 import { Heading } from '@meeui/ui/typography';
 import { breakpointObserver } from '@meeui/ui/utils';
@@ -106,7 +106,7 @@ import { NavComponent } from './nav-header.component';
   },
 })
 export class BaseComponent {
-  readonly themeService = inject(ThemeService);
+  readonly themeService = injectTheme();
   readonly dir = inject(Directionality);
   readonly sideNav = viewChild.required(Sidenav);
   readonly breakpoints = breakpointObserver();

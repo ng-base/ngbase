@@ -96,7 +96,7 @@ describe('ColorPicker', () => {
     view.setInput('presetColors', ['#ff0000', '#00ff00', '#0000ff']);
     view.detectChanges();
 
-    const presetButtons = view.$$('.flex.flex-wrap button');
+    const presetButtons = view.$All('.flex.flex-wrap button');
     expect(presetButtons.length).toBe(3);
 
     jest.spyOn(component, 'setValue').mockImplementation();

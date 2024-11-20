@@ -194,7 +194,7 @@ describe('DatePicker', () => {
   it('should render the correct number of calendars', () => {
     component.noOfCalendar.set(3);
     view.detectChanges();
-    const calendars = view.$$('mee-calendar');
+    const calendars = view.$All('mee-calendar');
     expect(calendars.length).toBe(3);
   });
 

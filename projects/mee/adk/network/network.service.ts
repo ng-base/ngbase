@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { documentListener, isClient, ListnerOut } from '@meeui/ui/utils';
 
 @Injectable({ providedIn: 'root' })
-export class InternetAvailability {
+export class Network {
   private status = signal(true);
   readonly isOnline = this.status.asReadonly();
   private listeners: ((status: boolean) => void)[] = [];
@@ -58,3 +58,5 @@ export class InternetAvailability {
     if (this.listeners.length === 0) this.off();
   }
 }
+
+export const injectNetwork = () => inject(Network);

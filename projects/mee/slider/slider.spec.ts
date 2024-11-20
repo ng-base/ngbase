@@ -74,7 +74,7 @@ describe('Slider', () => {
     view.setInput('range', true);
     component.value.set([25, 75]);
     view.detectChanges();
-    const [sliderMin, sliderMax] = view.$$('[role="slider"] button');
+    const [sliderMin, sliderMax] = view.$All('[role="slider"] button');
     expect(sliderMin.style.left).toBe('25%');
     expect(sliderMax.style.left).toBe('75%');
   });

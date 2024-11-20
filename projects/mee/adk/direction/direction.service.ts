@@ -35,3 +35,5 @@ export class Directionality {
     }
   }
 }
+
+export const injectDirectionality = () => inject(Directionality);

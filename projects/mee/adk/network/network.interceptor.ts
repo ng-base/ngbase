@@ -1,21 +1,20 @@
 import { HTTP_INTERCEPTORS, HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
-import { InternetAvailability } from './internet-availability.service';
-import { inject } from '@angular/core';
+import { injectNetwork } from './network.service';
 import { isClient } from '@meeui/ui/utils';
 
-const internetAvailabilityInterceptor: HttpInterceptorFn = (req, next) => {
-  const internetAvailabilityService = inject(InternetAvailability);
+const networkInterceptor: HttpInterceptorFn = (req, next) => {
+  const networkService = injectNetwork();
   const isBrowser = isClient();
 
-  if (isBrowser && !internetAvailabilityService.isOnline()) {
+  if (isBrowser && !networkService.isOnline()) {
     console.error('No internet connection');
     throw 'No internet connection';
   }
 
   return next(req).pipe(
     catchError(error => {
-      if (isBrowser && !internetAvailabilityService.isOnline()) {
+      if (isBrowser && !networkService.isOnline()) {
         console.error('Lost internet connection during request');
         // You can implement custom error handling here
       }
@@ -24,8 +23,8 @@ const internetAvailabilityInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 
-export const provideInternetAvailabilityInterceptor = () => ({
+export const provideNetworkInterceptor = () => ({
   provide: HTTP_INTERCEPTORS,
-  useFactory: internetAvailabilityInterceptor,
+  useFactory: networkInterceptor,
   multi: true,
 });

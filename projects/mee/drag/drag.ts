@@ -56,7 +56,6 @@ export class Drag {
   readonly dragBoundary = input<string>();
   private readonly dragBoundaryElement = computed(() => {
     const id = this.dragBoundary();
-    console.log(id);
     return id ? this.document.querySelector(id) : null;
   });
   private boundaryRect: { left: number; top: number; right: number; bottom: number } | undefined;

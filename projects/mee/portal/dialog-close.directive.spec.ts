@@ -30,7 +30,7 @@ describe('DialogCloseDirective', () => {
 
   it('should close the dialog', () => {
     jest.spyOn(directive.dialogRef, 'close');
-    view.$('button').click();
+    view.$0('button').click();
     expect(directive.dialogRef.close).toHaveBeenCalled();
   });
 
@@ -38,7 +38,7 @@ describe('DialogCloseDirective', () => {
     jest.spyOn(directive.dialogRef, 'close');
     component.value.set('test');
     view.detectChanges();
-    view.$('button').click();
+    view.$0('button').click();
     expect(directive.dialogRef.close).toHaveBeenCalledWith('test');
   });
 });

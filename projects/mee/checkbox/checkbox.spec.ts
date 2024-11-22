@@ -32,18 +32,18 @@ describe('CheckboxComponent', () => {
   });
 
   it('should disbale the checkbox', () => {
-    const el = view.$('mee-checkbox');
-    expect(['cursor-pointer'].every(x => el.className.includes(x))).toBeTruthy();
+    const el = view.$0('mee-checkbox');
+    expect(el.hasClass('cursor-pointer')).toBeTruthy();
     view.host.disabled.set(true);
     view.detectChanges();
-    expect(['opacity-60', 'cursor-not-allowed'].every(x => el.className.includes(x))).toBeTruthy();
+    expect(['opacity-60', 'cursor-not-allowed'].every(x => el.hasClass(x))).toBeTruthy();
   });
 
   it('should disabled checkbox should not be clickable', () => {
     view.host.disabled.set(true);
     view.detectChanges();
     expect(component.checked()).toBeFalsy();
-    view.$('button')!.click();
+    view.$0('button').click();
     expect(component.checked()).toBeFalsy();
   });
 
@@ -60,23 +60,23 @@ describe('CheckboxComponent', () => {
     jest.spyOn(component.change, 'emit');
     jest.spyOn(component, 'updateValue');
     expect(component.checked()).toBeFalsy();
-    view.$('button')!.click();
+    view.$0('button').click();
     expect(component.checked()).toBeTruthy();
     expect(component.updateValue).toHaveBeenCalled();
     expect(component.change.emit).toHaveBeenCalledWith(true);
   });
 
   it('should add svg when checkbox is checked', async () => {
-    expect(view.$('svg')).toBeFalsy();
+    expect(view.$0('svg')).toBeFalsy();
     view.host.checked.set(true);
     await view.formStable();
-    expect(view.$('svg')).toBeTruthy();
+    expect(view.$0('svg')).toBeTruthy();
   });
 
   it('should handle svg path when checkbox is indeterminate or checked', async () => {
     async function getD() {
       await view.formStable();
-      return view.$('svg path')?.getAttribute('d');
+      return view.$0('svg path')?.attr('d');
     }
     expect(await getD()).toBeFalsy();
 

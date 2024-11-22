@@ -68,9 +68,9 @@ describe('AccessibleGroup', () => {
   });
 
   it('should set correct attributes on the group element', () => {
-    const element = view.$(AccessibleGroup);
-    expect(element.getAttribute('role')).toBe('group');
-    expect(element.getAttribute('tabindex')).toBe('0');
+    const element = view.$0(AccessibleGroup);
+    expect(element.attr('role')).toBe('group');
+    expect(element.attr('tabindex')).toBe('0');
   });
 
   it('should register items with Accessibility Group', () => {
@@ -145,8 +145,8 @@ describe('AccessibleGroup', () => {
   it('should handle disabled state correctly', () => {
     view.host.isDisabled = true;
     view.detectChanges();
-    const element = view.$(AccessibleGroup);
-    expect(element.getAttribute('aria-disabled')).toBe('true');
+    const element = view.$0(AccessibleGroup);
+    expect(element.attr('aria-disabled')).toBe('true');
   });
 
   it('should handle space and arrow keys in input element', () => {

@@ -1,9 +1,7 @@
-// http-cache.service.ts
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 export interface CacheConfig {
   timeToLive: number;
-  //   maxSize: number;
 }
 
 interface CacheEntry<T = unknown> {
@@ -17,11 +15,8 @@ interface CacheEntry<T = unknown> {
 export class Cache {
   private cache = new Map<string, CacheEntry>();
   private defaultConfig: CacheConfig = {
-    timeToLive: 300000,
-    // maxSize: 100,
+    timeToLive: 0, // 0 means no expiration
   };
-
-  //   private http = inject(HttpClient);
 
   setConfig(config: Partial<CacheConfig>) {
     this.defaultConfig = { ...this.defaultConfig, ...config };
@@ -48,7 +43,8 @@ export class Cache {
     const cached = this.cache.get(url) as CacheEntry<T> | undefined;
     if (!cached) return null;
 
-    const isExpired = Date.now() - cached.lastUpdated > cached.config.timeToLive;
+    const isExpired =
+      cached.config.timeToLive > 0 && Date.now() - cached.lastUpdated > cached.config.timeToLive;
     if (isExpired) {
       this.cache.delete(url);
       return null;
@@ -58,11 +54,6 @@ export class Cache {
   }
 
   addToCache(url: string, response: any, config: CacheConfig) {
-    // if (this.cache.size >= config.maxSize) {
-    //   const oldestUrl = this.cache.keys().next().value;
-    //   this.cache.delete(oldestUrl);
-    // }
-
     this.cache.set(url, {
       url,
       response,
@@ -71,3 +62,5 @@ export class Cache {
     });
   }
 }
+
+export const injectCache = () => inject(Cache);

@@ -1,13 +1,14 @@
 import { HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { of, tap } from 'rxjs';
-import { Cache } from './cache';
-import { CACHE_CONFIG, CacheInterceptorConfig } from './cache-config';
+import { injectCache } from './cache';
+import { CACHE_CONFIG, InternalCacheInterceptorConfig } from './cache-config';
 
 export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
-  const cacheService = inject(Cache);
-  const config = inject(CACHE_CONFIG);
+  const cache = injectCache();
+  const config = inject(CACHE_CONFIG) as InternalCacheInterceptorConfig;
 
+  // If not cacheable,  return the response
   if (!shouldCache(request, config)) {
     return next(request);
   }
@@ -15,7 +16,7 @@ export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
   // Check for cache control headers
   const noCache = request.headers.get('Cache-Control') === 'no-cache';
   if (noCache) {
-    cacheService.clearCache(request.url);
+    cache.clearCache(request.url);
     return next(request);
   }
 
@@ -23,7 +24,7 @@ export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
   const timeToLive = config.defaultTimeToLive;
 
   // Try to get from cache
-  const cachedResponse = cacheService.get(request.url);
+  const cachedResponse = cache.get(request.url);
   if (cachedResponse) {
     return of(new HttpResponse({ body: cachedResponse }));
   }
@@ -32,13 +33,16 @@ export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
   return next(request).pipe(
     tap(event => {
       if (event instanceof HttpResponse) {
-        cacheService.addToCache(request.url, event.body, { timeToLive: config.defaultTimeToLive! });
+        cache.addToCache(request.url, event.body, { timeToLive: config.defaultTimeToLive! });
       }
     }),
   );
 };
 
-function shouldCache(request: HttpRequest<unknown>, config: CacheInterceptorConfig): boolean {
+function shouldCache(
+  request: HttpRequest<unknown>,
+  config: InternalCacheInterceptorConfig,
+): boolean {
   // Fall back to global config
   if (!config.enabled) {
     return false;

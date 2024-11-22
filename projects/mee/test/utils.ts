@@ -1,4 +1,5 @@
 import {
+  DebugElement,
   OutputEmitterRef,
   provideExperimentalZonelessChangeDetection,
   Provider,
@@ -35,15 +36,6 @@ export class RenderResult<T> {
 
   detectChanges(): void {
     this.fixture.detectChanges();
-  }
-
-  type(selector: string | Type<any>, value: string) {
-    const el = this.$(selector);
-    const valueSplit = value.split('');
-    valueSplit.forEach(char => {
-      const keyEvent = new KeyboardEvent('keydown', { key: char, cancelable: true });
-      el.dispatchEvent(keyEvent);
-    });
   }
 
   async whenStable(): Promise<void> {
@@ -101,7 +93,15 @@ export class RenderResult<T> {
   }
 
   $0<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U> {
-    return new ElementHelper(this.$(selector));
+    const el = this.queryNative(selector);
+    if (el) {
+      return new ElementHelper(el);
+    }
+    return null as any;
+  }
+
+  $0All<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U>[] {
+    return this.viewChildrenDebug(selector).map(de => new ElementHelper(de));
   }
 
   setInput(name: string, value: any) {
@@ -113,7 +113,11 @@ export class RenderResult<T> {
   }
 }
 
-export async function render<T>(component: Type<T>, providers: Provider[] = []) {
+export async function render<T>(
+  component: Type<T>,
+  providers: Provider[] = [],
+  inputs: [string, any][] = [],
+) {
   if (providers.length) {
     await TestBed.configureTestingModule({
       imports: [component],
@@ -122,6 +126,11 @@ export async function render<T>(component: Type<T>, providers: Provider[] = []) 
     }).compileComponents();
   }
   const fixture = TestBed.createComponent(component);
+
+  // Set inputs
+  inputs.forEach(([name, value]) => {
+    fixture.componentRef.setInput(name, value);
+  });
   return new RenderResult(fixture);
 }
 
@@ -142,7 +151,11 @@ export function firstOutputFrom<T>(observable: OutputEmitterRef<T>) {
 }
 
 export class ElementHelper<T extends HTMLElement> {
-  constructor(public el: T) {}
+  public el!: T;
+
+  constructor(public dEl: DebugElement) {
+    this.el = dEl.nativeElement;
+  }
 
   get textContent() {
     return this.el.textContent;
@@ -157,5 +170,91 @@ export class ElementHelper<T extends HTMLElement> {
       this.el.setAttribute(name, value);
     }
     return this.el.getAttribute(name);
+  }
+
+  click() {
+    this.el.click();
+  }
+
+  focus() {
+    this.el.focus();
+    const focusEvent = new Event('focus', { bubbles: true, cancelable: true });
+    this.el.dispatchEvent(focusEvent);
+  }
+
+  keydown(key: string, options?: KeyboardEventInit) {
+    const event = new KeyboardEvent('keydown', {
+      key,
+      cancelable: true,
+      bubbles: true,
+      ...options,
+    });
+    this.el.dispatchEvent(event);
+    return event;
+  }
+
+  mouseDown(options?: MouseEventInit) {
+    const event = new MouseEvent('mousedown', { cancelable: true, bubbles: true, ...options });
+    this.el.dispatchEvent(event);
+    return event;
+  }
+
+  mouseEnter(options?: MouseEventInit) {
+    const event = new MouseEvent('mouseenter', { cancelable: true, bubbles: true, ...options });
+    this.el.dispatchEvent(event);
+    return event;
+  }
+
+  mouseLeave(options?: MouseEventInit) {
+    const event = new MouseEvent('mouseleave', { cancelable: true, bubbles: true, ...options });
+    this.el.dispatchEvent(event);
+    return event;
+  }
+
+  input(value: string | ((v: any) => any)) {
+    if (this.el instanceof HTMLInputElement) {
+      this.el.value = typeof value === 'function' ? value(this.el.value) : value;
+      this.el.dispatchEvent(new Event('input'));
+    } else {
+      throw new Error('Element is not an input');
+    }
+  }
+
+  type(value: string | string[], clear = false) {
+    if (clear) {
+      this.input('');
+    }
+    // Ensure the input has focus
+    if (document.activeElement !== this.el) {
+      this.focus();
+    }
+    let event: KeyboardEvent | MouseEvent;
+    for (const char of value) {
+      event = this.keydown(char);
+      if (event.defaultPrevented) {
+        continue;
+      }
+
+      // Trigger keypress event (deprecated, but some implementations might use it)
+      event = new KeyboardEvent('keypress', { key: char, bubbles: true });
+      if (!this.el.dispatchEvent(event)) {
+        continue;
+      }
+
+      // Append character to input value
+      if (char === 'Backspace') {
+        this.input(v => v.slice(0, -1));
+      } else if (char === 'Delete') {
+        const caretPosition = (this.el as unknown as HTMLInputElement).selectionStart || 0;
+        this.input(v => v.slice(0, caretPosition) + v.slice(caretPosition + 1));
+      } else if (/^[a-zA-Z0-9]$/.test(char)) {
+        this.input(v => v + char);
+      }
+
+      // Trigger keyup event
+      const keyupEvent = new KeyboardEvent('keyup', { key: char, bubbles: true });
+      this.el.dispatchEvent(keyupEvent);
+    }
+    return event!;
   }
 }

@@ -1,27 +1,13 @@
-import { render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
 import { InputOtp } from './otp';
 
 describe('InputOtp', () => {
   let component: InputOtp;
   let view: RenderResult<InputOtp>;
-  let inputs: HTMLInputElement[];
-
-  function triggerKeyEvent(name: string, key: string, index: number) {
-    const event = new KeyboardEvent(name, { key, cancelable: true });
-    const inputElement = inputs[index];
-    inputElement.dispatchEvent(event);
-    if (event.defaultPrevented) {
-      return event;
-    } else if (key !== 'Tab') {
-      const v = key !== 'Backspace' ? key : '';
-      inputElement.value = v;
-      inputElement.dispatchEvent(new Event('input'));
-    }
-    return event;
-  }
+  let inputs: ElementHelper<HTMLInputElement>[];
 
   function getInputs() {
-    return [...view.$All('input')] as HTMLInputElement[];
+    return view.$0All<HTMLInputElement>('input');
   }
 
   beforeEach(async () => {
@@ -45,22 +31,22 @@ describe('InputOtp', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
     inputs = getInputs();
-    triggerKeyEvent('keydown', '1', 0);
-    expect(document.activeElement).toBe(inputs[1]);
+    inputs[0].type('1');
+    expect(document.activeElement).toBe(inputs[1].el);
     inputs[2].focus();
-    expect(document.activeElement).toBe(inputs[1]);
+    expect(document.activeElement).toBe(inputs[1].el);
   });
 
   it('should move focus to the previous input on backspace', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
     inputs = getInputs();
-    triggerKeyEvent('keydown', '1', 0);
-    triggerKeyEvent('keydown', '1', 1);
-    triggerKeyEvent('keydown', 'Backspace', 2);
-    expect(document.activeElement).toBe(inputs[1]);
+    inputs[0].type('1');
+    inputs[1].type('1');
+    inputs[2].type(['Backspace']);
+    expect(document.activeElement).toBe(inputs[1].el);
     inputs[0].focus();
-    expect(document.activeElement).toBe(inputs[1]);
+    expect(document.activeElement).toBe(inputs[1].el);
   });
 
   it('should update value on input change', () => {
@@ -69,14 +55,14 @@ describe('InputOtp', () => {
     view.detectChanges();
     inputs = getInputs();
     jest.spyOn(component, 'updateValue');
-    triggerKeyEvent('keydown', '1', 0);
-    triggerKeyEvent('keydown', '2', 1);
+    inputs[0].type('1');
+    inputs[1].type('2');
     expect(component.onChange).not.toHaveBeenCalled();
-    triggerKeyEvent('keydown', '3', 2);
+    inputs[2].type('3');
     expect(component.onChange).toHaveBeenCalledWith('123');
-    triggerKeyEvent('keydown', '4', 2);
+    inputs[2].type('4');
     expect(component.lastValue).toBe('123');
-    triggerKeyEvent('keydown', 'Backspace', 2);
+    inputs[2].type(['Backspace']);
     expect(component.onChange).toHaveBeenCalledWith('');
   });
 
@@ -84,7 +70,7 @@ describe('InputOtp', () => {
     view.setInput('size', [3]);
     view.detectChanges();
     inputs = getInputs();
-    const event = triggerKeyEvent('keydown', 'a', 0);
+    const event = inputs[0].type('a');
     expect(event.defaultPrevented).toBe(true);
   });
 
@@ -95,9 +81,9 @@ describe('InputOtp', () => {
     component.writeValue('123');
 
     inputs = getInputs();
-    expect(inputs[0].value).toBe('1');
-    expect(inputs[1].value).toBe('2');
-    expect(inputs[2].value).toBe('3');
+    expect(inputs[0].el.value).toBe('1');
+    expect(inputs[1].el.value).toBe('2');
+    expect(inputs[2].el.value).toBe('3');
   });
 
   it('should handle partial input correctly', () => {
@@ -106,12 +92,12 @@ describe('InputOtp', () => {
 
     component.writeValue('123');
     inputs = getInputs();
-    expect(inputs[0].value).toBe('1');
-    expect(inputs[1].value).toBe('2');
-    expect(inputs[2].value).toBe('3');
-    expect(inputs[3].value).toBe('');
-    expect(inputs[4].value).toBe('');
-    expect(inputs[5].value).toBe('');
+    expect(inputs[0].el.value).toBe('1');
+    expect(inputs[1].el.value).toBe('2');
+    expect(inputs[2].el.value).toBe('3');
+    expect(inputs[3].el.value).toBe('');
+    expect(inputs[4].el.value).toBe('');
+    expect(inputs[5].el.value).toBe('');
   });
 
   it('should update tabIndex correctly', () => {
@@ -119,15 +105,15 @@ describe('InputOtp', () => {
     view.detectChanges();
     inputs = getInputs();
 
-    const getTabIndexes = () => inputs.map(i => i.tabIndex);
+    const getTabIndexes = () => inputs.map(i => i.el.tabIndex);
 
     expect(getTabIndexes()).toEqual([0, -1, -1, -1]);
-    triggerKeyEvent('keydown', '1', 0);
+    inputs[0].type('1');
     expect(getTabIndexes()).toEqual([-1, 0, -1, -1]);
-    triggerKeyEvent('keydown', '2', 1);
-    triggerKeyEvent('keydown', '3', 2);
+    inputs[1].type('2');
+    inputs[2].type('3');
     expect(getTabIndexes()).toEqual([-1, -1, -1, 0]);
-    triggerKeyEvent('keydown', '4', 3);
+    inputs[3].type('4');
     expect(getTabIndexes()).toEqual([-1, -1, -1, 0]);
   });
 
@@ -136,8 +122,8 @@ describe('InputOtp', () => {
     view.detectChanges();
     inputs = getInputs();
 
-    triggerKeyEvent('keydown', '1', 0);
-    const event = triggerKeyEvent('keydown', 'Tab', 1);
+    inputs[0].type('1');
+    const event = inputs[1].type(['Tab']);
     expect(event.defaultPrevented).toBeFalsy();
   });
 

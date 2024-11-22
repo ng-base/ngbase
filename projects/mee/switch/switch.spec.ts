@@ -40,17 +40,18 @@ describe('SwitchComponent', () => {
   it('should render content when checked', () => {
     component.checked.set(true);
     view.detectChanges();
-    expect(view.$('span').classList).toContain('translate-x-full');
+    const span = view.$0('span');
+    expect(span.hasClass('translate-x-full')).toBeTruthy();
 
     component.checked.set(false);
     view.detectChanges();
-    expect(view.$('span').classList).not.toContain('translate-x-full');
+    expect(span.hasClass('translate-x-full')).toBeFalsy();
   });
 
   it('should call updateValue when clicked', () => {
     const spy = jest.spyOn(component, 'updateValue');
     const changeSpy = jest.spyOn(component.change, 'emit');
-    view.$('button').click();
+    view.$0('button').click();
     expect(spy).toHaveBeenCalled();
     expect(changeSpy).toHaveBeenCalledWith(true);
   });

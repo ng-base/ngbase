@@ -5,7 +5,6 @@ import { Chip, ChipGroup } from '@meeui/ui/chip';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 import { filterFunction } from '@meeui/ui/utils';
-import { Autofocus } from '@meeui/ui/adk';
 import { DocCode } from './code.component';
 
 @Component({
@@ -20,7 +19,6 @@ import { DocCode } from './code.component';
     Chip,
     ChipGroup,
     DocCode,
-    Autofocus,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -34,7 +32,6 @@ import { DocCode } from './code.component';
           placeholder="Search options"
           [(ngModel)]="selectValue2.optionsFilter.search"
           meeAutocompleteInput
-          meeAutofocus
         />
         @for (item of selectValue2.optionsFilter.filteredList(); track item) {
           <mee-option [value]="item">{{ item }}</mee-option>

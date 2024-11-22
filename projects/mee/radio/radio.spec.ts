@@ -33,7 +33,7 @@ describe('RadioComponent', () => {
   it('should call updateValue when clicked', () => {
     view.setInput('value', '1');
     const spy = jest.spyOn(component, 'updateValue');
-    view.$('button').click();
+    view.$0('button').click();
     view.detectChanges();
     expect(spy).toHaveBeenCalled();
   });
@@ -41,7 +41,7 @@ describe('RadioComponent', () => {
   it('should not call updateValue when disabled', () => {
     view.setInput('disabled', true);
     const spy = jest.spyOn(component, 'updateValue');
-    view.$('button').click();
+    view.$0('button').click();
     view.detectChanges();
     expect(spy).not.toHaveBeenCalled();
   });

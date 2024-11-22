@@ -55,7 +55,7 @@ describe('Select', () => {
   });
 
   function selectInput() {
-    return view.$<HTMLButtonElement>('#select1 button');
+    return view.$0<HTMLButtonElement>('#select1 button');
   }
 
   function selectOptions() {
@@ -96,7 +96,7 @@ describe('Select', () => {
     selectComponent.disabled.set(true);
     view.detectChanges();
     const buttonElement = selectInput();
-    expect(buttonElement.disabled).toBe(true);
+    expect(buttonElement.el.disabled).toBe(true);
   });
 
   it('should open options when clicked', () => {

@@ -28,6 +28,7 @@ import { VirtualFor, Virtualizer } from '@meeui/ui/virtualizer';
 export class SelectOption<T> {
   readonly template = inject(TemplateRef<OptionContext<T>>);
 }
+
 @Component({
   selector: 'mee-select',
   changeDetection: ChangeDetectionStrategy.OnPush,

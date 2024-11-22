@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
 import { HoverCard } from './hover-card';
 
 jest.useFakeTimers();
 
 describe('HoverCard Directive', () => {
   let view: RenderResult<TestComponent>;
-  let element: HTMLElement;
+  let element: ElementHelper<HTMLElement>;
   let directive: HoverCard;
 
   @Component({
@@ -24,12 +24,12 @@ describe('HoverCard Directive', () => {
   beforeEach(async () => {
     view = await render(TestComponent, [provideNoopAnimations()]);
 
-    element = view.$('button');
+    element = view.$0('button');
     directive = view.viewChild(HoverCard);
   });
 
   function mouseEnter(skipTimer = false) {
-    element.dispatchEvent(new Event('mouseenter'));
+    element.mouseEnter();
     view.detectChanges();
     if (skipTimer) return;
     // run the intimer
@@ -39,7 +39,7 @@ describe('HoverCard Directive', () => {
   }
 
   function mouseLeave(skipTimer = false) {
-    element.dispatchEvent(new Event('mouseleave'));
+    element.mouseLeave();
     if (skipTimer) return;
     // run the outTimer
     jest.runOnlyPendingTimers();

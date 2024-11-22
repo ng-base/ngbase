@@ -42,13 +42,13 @@ describe('Accordion', () => {
   it('should render content when expanded', () => {
     view.host.expanded.set(true);
     view.detectChanges();
-    expect(view.$('div')).toBeTruthy();
+    expect(view.$0('div')).toBeTruthy();
   });
 
   it('should not render content when collapsed', () => {
     view.host.expanded.set(false);
     view.detectChanges();
-    expect(view.$('div')).toBeFalsy();
+    expect(view.$0('div')).toBeFalsy();
   });
 
   it('should update activeId when expanded', () => {

@@ -1,18 +1,23 @@
 import { InjectionToken } from '@angular/core';
+import { Cache } from './cache';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { cacheInterceptor } from './cache.interecptor';
 
-export interface CacheInterceptorConfig {
+export type CacheInterceptorConfig = Partial<InternalCacheInterceptorConfig>;
+
+export interface InternalCacheInterceptorConfig {
   enabled: boolean;
   cacheable: {
     methods: string[];
     urls: string[];
   };
   excludeUrls: string[];
-  defaultTimeToLive?: number;
+  defaultTimeToLive: number;
 }
 
 export const CACHE_CONFIG = new InjectionToken<CacheInterceptorConfig>('CACHE_CONFIG', {
   factory: () => ({
-    enabled: false,
+    enabled: true,
     cacheable: {
       methods: ['GET'],
       urls: [],
@@ -21,3 +26,11 @@ export const CACHE_CONFIG = new InjectionToken<CacheInterceptorConfig>('CACHE_CO
     defaultTimeToLive: 300000,
   }),
 });
+
+export function provideCache(fn: () => CacheInterceptorConfig) {
+  return [
+    Cache,
+    { provide: CACHE_CONFIG, useFactory: fn },
+    { provide: HTTP_INTERCEPTORS, useFactory: cacheInterceptor, multi: true },
+  ];
+}

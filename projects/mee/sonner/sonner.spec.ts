@@ -14,7 +14,7 @@ describe('Sonner', () => {
   });
 
   function getLi() {
-    return [...view.$All('li')];
+    return view.$All('li');
   }
 
   it('should create', () => {

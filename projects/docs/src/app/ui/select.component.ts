@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Option, OptionGroup, Select, SelectInput, SelectOption } from '@meeui/ui/select';
-import { Tooltip } from '@meeui/ui/tooltip';
 import { Heading } from '@meeui/ui/typography';
 import { filterFunction } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
@@ -16,11 +15,10 @@ import { FormField, Label } from '@meeui/ui/input';
     FormField,
     Label,
     Select,
-    SelectOption,
+    // SelectOption,
     SelectInput,
     Option,
     OptionGroup,
-    Tooltip,
     DocCode,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
 import { MaskInput } from './masking';
 
 @Component({
@@ -15,45 +15,19 @@ class TestComponent {
 describe('MaskInput', () => {
   let component: TestComponent;
   let view: RenderResult<TestComponent>;
-  let inputElement: HTMLInputElement;
+  let input: ElementHelper<HTMLInputElement>;
   let animationFrameRequests: Function[] = [];
 
   beforeEach(async () => {
-    // Mock requestAnimationFrame
-    jest
-      .spyOn(window, 'requestAnimationFrame')
-      .mockImplementation((cb: FrameRequestCallback): number => {
-        animationFrameRequests.push(() => cb(0));
-        return 0;
-      });
-
     view = await render(TestComponent);
     component = view.host;
-    inputElement = view.$('input');
+    input = view.$0('input');
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     animationFrameRequests = [];
   });
-
-  // Utility function to flush animation frames
-  function flushAnimationFrames() {
-    // while (animationFrameRequests.length) {
-    //   animationFrameRequests.shift()!();
-    // }
-  }
-
-  // Helper function to simulate input event
-  function simulateInput(value: string, clear = true): void {
-    // view.detectChanges();
-    // flushAnimationFrames();
-    if (clear) {
-      inputElement.value = '';
-      inputElement.dispatchEvent(new Event('input'));
-    }
-    view.type('input', value);
-  }
 
   async function setMask(mask: string) {
     component.mask = mask;
@@ -67,94 +41,94 @@ describe('MaskInput', () => {
   it('should apply numeric mask correctly', async () => {
     await setMask('###-###-####');
 
-    simulateInput('1234567890');
-    expect(inputElement.value).toBe('123-456-7890');
+    input.type('1234567890', true);
+    expect(input.el.value).toBe('123-456-7890');
 
-    simulateInput('12345', true);
-    expect(inputElement.value).toBe('123-45');
+    input.type('12345', true);
+    expect(input.el.value).toBe('123-45');
   });
 
   it('should input typing works properly', async () => {
     await setMask('**/*#/#*##');
 
-    simulateInput('1');
-    expect(inputElement.value).toBe('1');
-    simulateInput('1b');
-    expect(inputElement.value).toBe('1b');
-    simulateInput('1b2');
-    expect(inputElement.value).toBe('1b/2');
-    simulateInput('1b23');
-    expect(inputElement.value).toBe('1b/23');
+    input.type('1', true);
+    expect(input.el.value).toBe('1');
+    input.type('1b', true);
+    expect(input.el.value).toBe('1b');
+    input.type('1b2', true);
+    expect(input.el.value).toBe('1b/2');
+    input.type('1b23', true);
+    expect(input.el.value).toBe('1b/23');
   });
 
   it('should apply alphabetic mask correctly', async () => {
     await setMask('aaa-aaa');
 
-    simulateInput('abcdef');
-    expect(inputElement.value).toBe('abc-def');
+    input.type('abcdef', true);
+    expect(input.el.value).toBe('abc-def');
 
-    simulateInput('ab1cd');
-    expect(inputElement.value).toBe('abc-d');
+    input.type('ab1cd', true);
+    expect(input.el.value).toBe('abc-d');
   });
 
   it('should apply alphanumeric mask correctly', async () => {
     await setMask('***-***');
 
-    simulateInput('abc123');
-    expect(inputElement.value).toBe('abc-123');
+    input.type('abc123', true);
+    expect(input.el.value).toBe('abc-123');
 
-    simulateInput('ab@cd');
-    expect(inputElement.value).toBe('abc-d');
+    input.type('ab@cd', true);
+    expect(input.el.value).toBe('abc-d');
   });
 
   it('should handle mask with fixed characters', async () => {
     await setMask('+1 (###) ###-####');
 
-    simulateInput('1234567890');
-    expect(inputElement.value).toBe('+1 (123) 456-7890');
+    input.type('1234567890', true);
+    expect(input.el.value).toBe('+1 (123) 456-7890');
   });
 
   it('should handle input longer than mask', async () => {
     await setMask('###-###');
 
-    simulateInput('1234567890');
-    expect(inputElement.value).toBe('123-456');
+    input.type('1234567890', true);
+    expect(input.el.value).toBe('123-456');
   });
 
   it('should handle partial input', async () => {
     await setMask('(###) ###-####');
 
-    simulateInput('123');
-    expect(inputElement.value).toBe('(123');
+    input.type('123', true);
+    expect(input.el.value).toBe('(123');
   });
 
   it('should handle deletion of characters', async () => {
     await setMask('###-###-####');
 
-    simulateInput('123-456-7890');
-    expect(inputElement.value).toBe('123-456-7890');
+    input.type('123-456-7890', true);
+    expect(input.el.value).toBe('123-456-7890');
 
-    simulateInput('123-456-789');
-    expect(inputElement.value).toBe('123-456-789');
+    input.type('123-456-789', true);
+    expect(input.el.value).toBe('123-456-789');
   });
 
   it('should handle writeValue correctly', async () => {
     await setMask('###-###-####');
 
-    simulateInput('1234567890');
-    expect(inputElement.value).toBe('123-456-7890');
+    input.type('1234567890', true);
+    expect(input.el.value).toBe('123-456-7890');
 
-    simulateInput('', true);
-    expect(inputElement.value).toBe('');
+    input.type('', true);
+    expect(input.el.value).toBe('');
   });
 
   it('should handle different mask characters', async () => {
     await setMask('#a*-#a*');
 
-    simulateInput('1b2-3c4');
-    expect(inputElement.value).toBe('1b2-3c4');
+    input.type('1b2-3c4', true);
+    expect(input.el.value).toBe('1b2-3c4');
 
-    simulateInput('1bc-3de');
-    expect(inputElement.value).toBe('1bc-3de');
+    input.type('1bc-3de', true);
+    expect(input.el.value).toBe('1bc-3de');
   });
 });

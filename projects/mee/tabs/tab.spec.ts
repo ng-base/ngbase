@@ -85,31 +85,29 @@ describe('Tab Component', () => {
     tab.active.set(true);
     view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
-    const tabEl = view.$('mee-tab');
-    expect(tabEl?.textContent).not.toBe('');
+    const tabEl = view.$0('mee-tab');
+    expect(tabEl.textContent).not.toBe('');
   });
 
   it('should not render content when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
-    expect(tabEl?.textContent).toBe('');
+    const tabEl = view.$0('mee-tab');
+    expect(tabEl.textContent).toBe('');
   });
 
   it('should have correct host classes when active', () => {
     tab.active.set(true);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
-    expect(tabEl?.classList.contains('flex-1')).toBeTruthy();
-    expect(tabEl?.classList.contains('h-full')).toBeTruthy();
-    expect(tabEl?.classList.contains('pt-b4')).toBeTruthy();
+    const tabEl = view.$0('mee-tab');
+    expect(tabEl.hasClass('flex-1', 'h-full', 'pt-b4')).toBeTruthy();
   });
 
   it('should have correct host classes when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
-    expect(tabEl?.classList.contains('hidden')).toBeTruthy();
+    const tabEl = view.$0('mee-tab');
+    expect(tabEl.hasClass('hidden')).toBeTruthy();
   });
 });
 

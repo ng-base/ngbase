@@ -23,7 +23,7 @@ import { Breadcrumbs } from './breadcrumbs';
     </a>
     @if (!active()) {
       @if (separator()) {
-        <span class="text-muted" aria-hidden="true" role="presentation">
+        <span class="flex items-center text-muted" aria-hidden="true" role="presentation">
           <ng-template [ngTemplateOutlet]="separator()!"></ng-template>
         </span>
       } @else {

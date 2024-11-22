@@ -7,6 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideJwt, provideNetworkInterceptor, provideTranslate } from '@meeui/ui/adk';
 import { provideTooltipOptions } from '@meeui/ui/tooltip';
 import { routes } from './app.routes';
+import { provideCache } from '@meeui/ui/adk';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +20,14 @@ export const appConfig: ApplicationConfig = {
     provideNetworkInterceptor(),
     provideJwt(() => ({ tokenGetter: () => localStorage.getItem('auth_token') })),
     provideTranslate({ defaultLang: 'en' }),
+    provideCache(() => ({
+      enabled: true,
+      defaultTimeToLive: 0,
+      cacheable: {
+        methods: ['GET'],
+        urls: [],
+      },
+      excludeUrls: [],
+    })),
   ],
 };

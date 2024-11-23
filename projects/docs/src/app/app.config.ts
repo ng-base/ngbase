@@ -4,10 +4,12 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideJwt, provideNetworkInterceptor, provideTranslate } from '@meeui/ui/adk';
+import { provideCache } from '@meeui/adk/cache';
+import { provideJwt } from '@meeui/adk/jwt';
+import { provideNetworkInterceptor } from '@meeui/adk/network';
+import { provideTranslate } from '@meeui/adk/translate';
 import { provideTooltipOptions } from '@meeui/ui/tooltip';
 import { routes } from './app.routes';
-import { provideCache } from '@meeui/ui/adk';
 
 export const appConfig: ApplicationConfig = {
   providers: [

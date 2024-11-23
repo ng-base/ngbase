@@ -5,11 +5,11 @@ import {
   contentChildren,
   effect,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/ui/a11y';
+import { AccessibleGroup } from '@meeui/adk/a11y';
+import { provideValueAccessor } from '@meeui/adk/utils';
 import { Chip } from '@meeui/ui/chip';
 import { InputStyle } from '@meeui/ui/input';
 import { SelectBase } from '@meeui/ui/select';
-import { provideValueAccessor } from '@meeui/ui/utils';
 import { AutocompleteInput } from './autocomplete-input';
 
 @Component({

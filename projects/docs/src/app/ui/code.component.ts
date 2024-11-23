@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
-import { CopyToClipboard } from '@meeui/ui/utils';
+import { CopyToClipboard } from '@meeui/adk/clipboard';
 import { provideIcons } from '@ng-icons/core';
 import { lucideCopy } from '@ng-icons/lucide';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';

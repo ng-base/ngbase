@@ -5,5 +5,6 @@ module.exports = {
   // globalSetup: "jest-preset-angular/global-setup",
   moduleNameMapper: {
     '@meeui/ui/(.*)$': '<rootDir>/projects/mee/$1/public-api.ts',
+    '@meeui/adk/(.*)$': '<rootDir>/projects/adk/$1/public-api.ts',
   },
 };

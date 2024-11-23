@@ -8,7 +8,7 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { Drag } from '@meeui/ui/drag';
+import { Drag } from '@meeui/adk/drag';
 import { DialogRef } from '@meeui/ui/portal';
 import {
   hexToHsb,

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputError } from './error';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { FormField } from './form-field';
 import { Input } from './input';
 

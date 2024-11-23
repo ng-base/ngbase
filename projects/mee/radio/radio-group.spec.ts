@@ -1,6 +1,6 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Radio } from './radio';
 import { RadioGroup } from './radio-group';
 

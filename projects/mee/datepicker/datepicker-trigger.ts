@@ -10,6 +10,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { InputBase } from '@meeui/adk/input';
 import { Input } from '@meeui/ui/input';
 import { popoverPortal } from '@meeui/ui/popover';
 import { DatePicker } from './datepicker';
@@ -31,7 +32,7 @@ const DEFAULT_TIME_FORMAT = 'M/d/yyyy, HH:mm a';
 })
 export class DatepickerTrigger<D> {
   readonly el = inject(ElementRef);
-  readonly inputS = inject(Input);
+  readonly inputS = inject(InputBase);
   private readonly injector = inject(Injector);
   readonly adapter = injectMeeDateAdapter<D>();
   readonly popover = popoverPortal();

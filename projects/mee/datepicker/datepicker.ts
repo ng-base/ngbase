@@ -10,9 +10,9 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
+import { RangePipe, uniqueId } from '@meeui/adk/utils';
 import { DialogRef } from '@meeui/ui/portal';
-import { RangePipe, uniqueId } from '@meeui/ui/utils';
 import { Calendar } from './calendar';
 import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger';
 import { injectMeeDateAdapter } from './native-date-adapter';

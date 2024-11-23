@@ -1,5 +1,5 @@
 import { Component, OnDestroy, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Tab, TabHeader, TabLazy } from './tab';
 import { Tabs } from './tab-group';
 

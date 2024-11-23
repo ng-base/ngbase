@@ -1,14 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  contentChildren,
-  forwardRef,
-} from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { uniqueId } from '@meeui/ui/utils';
-import { InputError } from './error';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeFormField } from '@meeui/adk/input';
 
 @Component({
   standalone: true,
@@ -25,12 +16,6 @@ import { InputError } from './error';
   host: {
     class: 'inline-flex flex-col font-medium mb-b2 gap-b text-left',
   },
+  hostDirectives: [{ directive: MeeFormField }],
 })
-export class FormField {
-  readonly control = contentChild(NgControl, { descendants: true });
-  readonly id = uniqueId();
-
-  // we need to forwardRef the error component to avoid circular dependency
-  readonly errors = contentChildren(forwardRef(() => InputError));
-  readonly hasErrors = computed(() => this.errors().some(e => e.isInvalid()));
-}
+export class FormField {}

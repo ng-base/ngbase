@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
-import { disposals, documentListener, provideValueAccessor } from '@meeui/ui/utils';
+import { disposals, documentListener, provideValueAccessor } from '@meeui/adk/utils';
 
 @Component({
   selector: 'mee-inline-edit',

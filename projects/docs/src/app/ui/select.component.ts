@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Option, OptionGroup, Select, SelectInput, SelectOption } from '@meeui/ui/select';
-import { Heading } from '@meeui/ui/typography';
-import { filterFunction } from '@meeui/ui/utils';
-import { DocCode } from './code.component';
+import { filterFunction } from '@meeui/adk/utils';
 import { FormField, Label } from '@meeui/ui/input';
+import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
+import { Heading } from '@meeui/ui/typography';
+import { DocCode } from './code.component';
 
 @Component({
   selector: 'app-select',

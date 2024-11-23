@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RangePipe } from '@meeui/adk/utils';
 import { Card } from '@meeui/ui/card';
 import { Separator } from '@meeui/ui/separator';
 import { Heading } from '@meeui/ui/typography';
-import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
   selector: 'app-typography',

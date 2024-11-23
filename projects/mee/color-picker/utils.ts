@@ -1,5 +1,3 @@
-// colorConversion.ts
-
 const MAX_RGB = 255;
 const MAX_HUE = 360;
 const MAX_PERCENTAGE = 100;

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Heading } from '@meeui/ui/typography';
 import { FormsModule } from '@angular/forms';
-import { ScrollArea } from '@meeui/ui/scroll-area';
+import { RangePipe } from '@meeui/adk/utils';
 import { List } from '@meeui/ui/list';
-import { RangePipe } from '@meeui/ui/utils';
+import { ScrollArea } from '@meeui/ui/scroll-area';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
   selector: 'app-scroll-area',

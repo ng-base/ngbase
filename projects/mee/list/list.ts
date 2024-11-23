@@ -1,5 +1,5 @@
 import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
 
 @Directive({
   selector: '[meeListStyle]',

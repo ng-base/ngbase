@@ -15,8 +15,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/ui/a11y';
-import { uniqueId } from '@meeui/ui/utils';
+import { AccessibleGroup } from '@meeui/adk/a11y';
+import { uniqueId } from '@meeui/adk/utils';
 import { TreeNodeDef } from './tree-toggle';
 
 export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');

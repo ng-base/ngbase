@@ -19,7 +19,8 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@meeui/ui/*": ["./projects/mee/*/public-api", "./dist/@meeui/ui/*"]
+      "@meeui/adk/*": ["./projects/adk/*/public-api"],
+      "@meeui/ui/*": ["./projects/mee/*/public-api"]
     }
   },
   "angularCompilerOptions": {

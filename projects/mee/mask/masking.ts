@@ -9,6 +9,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { InputBase } from '@meeui/adk/input';
 import { Input } from '@meeui/ui/input';
 
 @Pipe({
@@ -32,7 +33,7 @@ export class MaskInput {
   // Dependencies
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   readonly control = inject(NgControl, { optional: true });
-  private readonly inputC = inject(Input);
+  private readonly inputC = inject(InputBase);
 
   // Inputs
   readonly meeMask = input<string>('');

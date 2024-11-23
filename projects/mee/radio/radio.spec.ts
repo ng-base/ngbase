@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Radio } from './radio';
 import { RadioGroup } from './radio-group';
 

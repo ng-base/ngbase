@@ -6,7 +6,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { documentListener } from '@meeui/ui/utils';
+import { documentListener } from '@meeui/adk/utils';
 import { List } from './list';
 
 @Directive({

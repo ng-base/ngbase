@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/ui/utils';
+import { provideValueAccessor } from '@meeui/adk/utils';
 
 @Component({
   selector: 'button[meeToggle]',

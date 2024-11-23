@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Card } from './card';
 
 describe('CardComponent', () => {

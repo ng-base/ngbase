@@ -13,9 +13,9 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
+import { uniqueId } from '@meeui/adk/utils';
 import { Icon } from '@meeui/ui/icon';
-import { uniqueId } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { Tab } from './tab';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
-import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
+import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 import { FocusStyle } from './focus-style.directive';
 
 @Component({

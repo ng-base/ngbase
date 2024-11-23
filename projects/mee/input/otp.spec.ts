@@ -1,4 +1,4 @@
-import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { InputOtp } from './otp';
 
 describe('InputOtp', () => {

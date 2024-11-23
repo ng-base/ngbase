@@ -7,9 +7,9 @@ import {
   untracked,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { provideValueAccessor } from '@meeui/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { InputStyle } from '@meeui/ui/input';
-import { provideValueAccessor } from '@meeui/ui/utils';
 import { NumberOnly, padString } from './number-only';
 
 @Component({

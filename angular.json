@@ -122,6 +122,36 @@
           }
         }
       }
+    },
+    "adk": {
+      "projectType": "library",
+      "root": "projects/adk",
+      "sourceRoot": "projects/adk/src",
+      "prefix": "mee",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/adk/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/adk/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/adk/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/adk/tsconfig.spec.json",
+            "polyfills": []
+          }
+        }
+      }
     }
   },
   "schematics": {

@@ -1,4 +1,4 @@
-import { injectService } from '@meeui/ui/test';
+import { injectService } from '@meeui/adk/test';
 import { TooltipService } from './tooltip.service';
 
 describe('TooltipService', () => {

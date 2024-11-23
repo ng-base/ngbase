@@ -7,7 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
+import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 
 @Component({
   selector: 'mee-switch',

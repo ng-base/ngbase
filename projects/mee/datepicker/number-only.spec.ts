@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { NumberOnly } from './number-only';
 
 describe('NumberOnly Directive', () => {

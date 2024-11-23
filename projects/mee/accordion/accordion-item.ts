@@ -7,7 +7,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { uniqueId } from '@meeui/ui/utils';
+import { uniqueId } from '@meeui/adk/utils';
 import { AccordionGroup } from './accordion-group';
 
 @Component({

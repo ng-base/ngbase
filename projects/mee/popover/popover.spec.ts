@@ -1,6 +1,6 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { render, RenderResult } from '@meeui/adk/test';
 import { DialogRef } from '@meeui/ui/portal';
-import { render, RenderResult } from '@meeui/ui/test';
 import { Popover } from './popover';
 
 const options = {

@@ -1,4 +1,13 @@
-import { Directive, ElementRef, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import { InputBase } from '@meeui/adk/input';
 import { Autocomplete } from './autocomplete';
 
 @Directive({
@@ -11,10 +20,12 @@ import { Autocomplete } from './autocomplete';
     '(input)': 'updateSearch($event.target.value)',
     autocomplete: 'off',
   },
+  hostDirectives: [{ directive: InputBase, inputs: ['value'] }],
 })
 export class AutocompleteInput<T> {
   // Dependencies
   readonly autoComplete = inject(Autocomplete);
+  readonly input = inject(InputBase);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
 
   // Inputs
@@ -23,29 +34,32 @@ export class AutocompleteInput<T> {
   readonly filterFn = input<(query: string, value: T, values: T[]) => boolean>();
 
   // State
-  readonly search = signal('');
   readonly filteredOptions = computed(() => {
     const fn = this.filterFn();
     const options = this.options();
-    const search = this.search();
+    const search = this.input.value();
     const values = search ? options.filter(v => fn!(search, v, options)) : options;
     return values;
   });
 
   constructor() {
-    // afterNextRender(() => {
-    // if (this.autoComplete.multiple()) return;
-    // this.autoComplete.events.subscribe((event) => {
-    //   if (event === 'close') {
-    //     const value = this.autoComplete.cValue();
-    //     this.el.nativeElement.value = value;
-    //   }
-    // });
-    // });
+    afterNextRender(() => {
+      this.el.nativeElement.addEventListener('keydown', event => {
+        if (event.key === 'Backspace' && this.input.value() === '') {
+          this.autoComplete.popValue();
+        }
+      });
+      // if (this.autoComplete.multiple()) return;
+      // this.autoComplete.events.subscribe((event) => {
+      //   if (event === 'close') {
+      //     const value = this.autoComplete.cValue();
+      //     this.el.nativeElement.value = value;
+      //   }
+      // });
+    });
   }
 
   onFocus() {
-    console.log('Focused');
     this.autoComplete.open();
   }
 
@@ -58,7 +72,7 @@ export class AutocompleteInput<T> {
   }
 
   updateSearch(value: string) {
-    this.search.set(value);
+    this.input.setValue(value);
     this.meeAutocompleteInput.emit(value);
   }
 }

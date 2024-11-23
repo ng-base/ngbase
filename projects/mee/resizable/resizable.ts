@@ -13,7 +13,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { Drag, DragData } from '@meeui/ui/drag';
+import { Drag, DragData } from '@meeui/adk/drag';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';

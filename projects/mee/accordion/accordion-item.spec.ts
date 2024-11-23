@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { AccordionGroup } from './accordion-group';
 import { Accordion } from './accordion-item';
 

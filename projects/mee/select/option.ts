@@ -9,7 +9,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { ListStyle } from '@meeui/ui/list';
 

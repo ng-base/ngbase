@@ -9,8 +9,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Drag } from '@meeui/ui/drag';
-import { Directionality } from '@meeui/ui/adk';
+import { Directionality } from '@meeui/adk/bidi';
+import { Drag } from '@meeui/adk/drag';
 import { CarouselItem } from './carousel-item';
 
 const DEFAULT_VELOCITY = 0.7;

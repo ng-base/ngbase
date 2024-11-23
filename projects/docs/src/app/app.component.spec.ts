@@ -1,5 +1,5 @@
+import { render, RenderResult } from '@meeui/adk/test';
 import { AppComponent } from './app.component';
-import { render, RenderResult } from '@meeui/ui/test';
 
 describe('AppComponent', () => {
   let component: AppComponent;

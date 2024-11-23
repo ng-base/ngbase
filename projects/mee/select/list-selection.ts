@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { provideValueAccessor } from '@meeui/ui/utils';
+import { provideValueAccessor } from '@meeui/adk/utils';
 import { SelectBase } from './select-base';
 
 @Component({

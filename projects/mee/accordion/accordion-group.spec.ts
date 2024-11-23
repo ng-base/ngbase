@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { AccordionGroup } from './accordion-group';
 import { AccordionHeader } from './accordion-header';
 import { Accordion } from './accordion-item';
@@ -35,7 +35,7 @@ describe('AccordionGroup', () => {
   });
 
   function click(selector: string) {
-    view.$(selector).click();
+    view.$0(selector).click();
     view.detectChanges();
   }
 

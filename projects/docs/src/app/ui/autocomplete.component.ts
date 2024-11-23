@@ -4,7 +4,7 @@ import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
 import { Chip, ChipGroup } from '@meeui/ui/chip';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
-import { filterFunction } from '@meeui/ui/utils';
+import { filterFunction } from '@meeui/adk/utils';
 import { DocCode } from './code.component';
 
 @Component({

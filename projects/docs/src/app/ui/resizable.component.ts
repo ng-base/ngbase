@@ -74,7 +74,6 @@ export class ResizableComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { signal } from '@meeui/ui/utils';
   import { ResizableGroup, Resizable } from '@meeui/ui/resizable';
   import { Button } from '@meeui/ui/button';
 

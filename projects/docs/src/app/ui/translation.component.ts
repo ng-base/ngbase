@@ -1,8 +1,8 @@
 import { Component, computed, signal } from '@angular/core';
-import { Translate, translate, injectTranslate } from '@meeui/ui/adk';
+import { injectTranslate, Translate, translate } from '@meeui/adk/translate';
+import { RangePipe } from '@meeui/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
-import { RangePipe } from '@meeui/ui/utils';
 
 @Component({
   selector: 'app-translation',

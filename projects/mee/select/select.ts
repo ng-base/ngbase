@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,18 +9,16 @@ import {
   model,
   TemplateRef,
 } from '@angular/core';
-import { AccessibleGroup, AccessibleItem } from '@meeui/ui/a11y';
+import { FormsModule } from '@angular/forms';
+import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
+import { filterFunction, provideValueAccessor } from '@meeui/adk/utils';
 import { Icon } from '@meeui/ui/icon';
 import { InputStyle } from '@meeui/ui/input';
-import { filterFunction, provideValueAccessor } from '@meeui/ui/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
-import { SelectBase } from './select-base';
-import { NgTemplateOutlet } from '@angular/common';
 import { Option } from './option';
-import { FormsModule } from '@angular/forms';
+import { SelectBase } from './select-base';
 import { SelectInput } from './select-input';
-import { VirtualFor, Virtualizer } from '@meeui/ui/virtualizer';
 
 @Directive({
   selector: '[meeSelectOption]',

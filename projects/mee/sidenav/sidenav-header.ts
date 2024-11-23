@@ -8,7 +8,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { Directionality } from '@meeui/ui/adk';
+import { Directionality } from '@meeui/adk/bidi';
 import { Sidenav } from './sidenav';
 
 @Component({

@@ -4,7 +4,6 @@
 
 export * from './input';
 export * from './otp';
-export * from './auto-height';
 export * from './input-style.directive';
 export * from './form-field';
 export * from './label';

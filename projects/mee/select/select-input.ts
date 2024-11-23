@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { InputStyle } from '@meeui/ui/input';
-import { Autofocus } from '@meeui/ui/adk';
+import { Autofocus } from '@meeui/adk/a11y';
 import { Select } from './select';
 
 @Directive({

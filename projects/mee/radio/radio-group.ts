@@ -1,7 +1,7 @@
 import { Component, contentChildren, forwardRef, inject, model } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
-import { AccessibleGroup } from '@meeui/ui/a11y';
-import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
+import { AccessibleGroup } from '@meeui/adk/a11y';
+import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 import { Radio } from './radio';
 
 @Component({

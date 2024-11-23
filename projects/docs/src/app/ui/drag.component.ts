@@ -6,7 +6,7 @@ import {
   DropEvent,
   moveItemInArray,
   transferArrayItem,
-} from '@meeui/ui/drag';
+} from '@meeui/adk/drag';
 import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';

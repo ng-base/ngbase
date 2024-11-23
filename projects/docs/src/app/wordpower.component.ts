@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RangePipe } from '@meeui/ui/utils';
+import { RangePipe } from '@meeui/adk/utils';
 
 const TRIPLE_WORD_SCORE = {
   '1,1': 1,
@@ -80,7 +80,7 @@ const DOUBLE_WORD_SCORE = {
         <div class="flex gap-2">
           @for (col of 15 | range; track col) {
             <div
-              class="grid aspect-square w-36 place-items-center rounded border  p-2 text-center"
+              class="grid aspect-square w-36 place-items-center rounded border p-2 text-center"
               [class.bg-red-400]="powers.get(row + ',' + col) === 1"
               [class.bg-blue-300]="powers.get(row + ',' + col) === 2"
               [class.bg-blue-600]="powers.get(row + ',' + col) === 3"

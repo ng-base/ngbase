@@ -7,9 +7,9 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
+import { uniqueId } from '@meeui/adk/utils';
 import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
-import { uniqueId } from '@meeui/ui/utils';
 import { RadioGroup } from './radio-group';
 
 @Component({

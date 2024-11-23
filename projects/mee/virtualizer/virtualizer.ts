@@ -11,7 +11,7 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { cleanup, isClient } from '@meeui/ui/utils';
+import { cleanup, isClient } from '@meeui/adk/utils';
 
 export type Orientation = 'vertical' | 'horizontal';
 

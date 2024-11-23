@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { MaskInput } from './masking';
 
 @Component({

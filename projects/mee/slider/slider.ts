@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
-import { Drag, DragData } from '@meeui/ui/drag';
-import { provideValueAccessor } from '@meeui/ui/utils';
+import { Drag, DragData } from '@meeui/adk/drag';
+import { provideValueAccessor } from '@meeui/adk/utils';
 
 @Component({
   selector: 'mee-slider',

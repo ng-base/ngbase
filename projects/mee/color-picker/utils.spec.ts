@@ -1,5 +1,3 @@
-// colorConversion.test.ts
-
 import * as cc from './utils';
 
 describe('Color Conversion Functions', () => {

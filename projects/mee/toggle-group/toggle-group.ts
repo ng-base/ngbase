@@ -7,8 +7,8 @@ import {
   model,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '@meeui/ui/a11y';
-import { provideValueAccessor, uniqueId } from '@meeui/ui/utils';
+import { AccessibleGroup } from '@meeui/adk/a11y';
+import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 import { ToggleItem } from './toggle-item';
 
 @Component({

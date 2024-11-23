@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ElementHelper, render, RenderResult } from '@meeui/ui/test';
+import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { HoverCard } from './hover-card';
 
 jest.useFakeTimers();

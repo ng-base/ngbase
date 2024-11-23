@@ -9,7 +9,7 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/ui/a11y';
+import { AccessibleGroup } from '@meeui/adk/a11y';
 import { Keys } from '@meeui/ui/keys';
 import { List } from '@meeui/ui/list';
 import { DialogRef } from '@meeui/ui/portal';

@@ -11,10 +11,10 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
+import { Directionality } from '@meeui/adk/bidi';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
-import { Directionality } from '@meeui/ui/adk';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { DatePicker } from './datepicker';

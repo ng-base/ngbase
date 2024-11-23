@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
 import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
-import { FocusTrap } from '@meeui/ui/adk';
+import { FocusTrap } from '@meeui/adk/a11y';
 
 @Component({
   selector: 'mee-drawer',

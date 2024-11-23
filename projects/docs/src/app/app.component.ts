@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { injectDirectionality } from '@meeui/adk/bidi';
+import { injectNetwork } from '@meeui/adk/network';
+import { isClient } from '@meeui/adk/utils';
 import { sonnerPortal } from '@meeui/ui/sonner';
 import { injectTheme } from '@meeui/ui/theme';
-import { isClient } from '@meeui/ui/utils';
-import { injectDirectionality, injectNetwork } from '@meeui/ui/adk';
 
 @Component({
   selector: 'app-root',

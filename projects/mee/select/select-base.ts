@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { popoverPortal } from '@meeui/ui/popover';
-import { uniqueId } from '@meeui/ui/utils';
+import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { Option } from './option';
 
@@ -162,6 +162,14 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       diaRef.close();
     };
     this.afterOpen();
+  }
+
+  popValue() {
+    const values = this.values();
+    const value = values[values.length - 1];
+    if (value) {
+      this.setValue([value]);
+    }
   }
 
   close() {

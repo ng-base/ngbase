@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { provideValueAccessor } from '@meeui/adk/utils';
 import { InputStyle } from '@meeui/ui/input';
-import { provideValueAccessor } from '@meeui/ui/utils';
 import { ColorFormat } from './color-picker';
 import { ColorPickerTrigger } from './color-picker-trigger';
 

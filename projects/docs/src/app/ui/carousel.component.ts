@@ -3,7 +3,7 @@ import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';
 import { Heading } from '@meeui/ui/typography';
-import { RangePipe } from '@meeui/ui/utils';
+import { RangePipe } from '@meeui/adk/utils';
 import { DocCode } from './code.component';
 
 @Component({

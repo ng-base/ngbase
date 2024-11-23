@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Input } from './input';
 
 @Component({

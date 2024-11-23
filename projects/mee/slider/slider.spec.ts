@@ -1,5 +1,5 @@
-import { DragData } from '@meeui/ui/drag';
-import { render, RenderResult } from '@meeui/ui/test';
+import { DragData } from '@meeui/adk/drag';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Slider } from './slider';
 
 describe('Slider', () => {

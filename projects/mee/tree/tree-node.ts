@@ -6,7 +6,7 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
 import { TREE_NODE_DATA, Tree, TreeNodeData } from './tree';
 import { TreeNodeDef } from './tree-toggle';
 

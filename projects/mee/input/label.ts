@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormField } from './form-field';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeLabel } from '@meeui/adk/input';
 
 @Component({
   selector: '[meeLabel]',
@@ -7,10 +7,7 @@ import { FormField } from './form-field';
   template: `<ng-content />`,
   host: {
     class: 'block font-medium text-left mx-b0.5',
-    '[attr.for]': 'id',
   },
+  hostDirectives: [MeeLabel],
 })
-export class Label {
-  private readonly formField = inject(FormField);
-  readonly id = this.formField.id;
-}
+export class Label {}

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { RangePipe } from '@meeui/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger, NavigationMenu } from '@meeui/ui/menu';
-import { RangePipe } from '@meeui/ui/utils';
 import { DocCode } from './code.component';
 
 @Component({

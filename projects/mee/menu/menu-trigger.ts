@@ -1,8 +1,8 @@
 import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
-import { AccessibleItem } from '@meeui/ui/a11y';
+import { AccessibleItem } from '@meeui/adk/a11y';
+import { uniqueId } from '@meeui/adk/utils';
 import { popoverPortal } from '@meeui/ui/popover';
 import { DialogOptions } from '@meeui/ui/portal';
-import { uniqueId } from '@meeui/ui/utils';
 import { Subject } from 'rxjs';
 import { Menu } from './menu';
 import { NavigationMenu } from './navigation-menu';

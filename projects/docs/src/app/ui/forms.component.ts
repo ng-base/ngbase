@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Autofocus } from '@meeui/adk/a11y';
 import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
 import { DatepickerTrigger } from '@meeui/ui/datepicker';
 import { Input } from '@meeui/ui/input';
 import { Option, Select } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
-import { Autofocus } from '@meeui/ui/adk';
 
 @Component({
   selector: 'app-forms',
@@ -22,7 +22,7 @@ import { Autofocus } from '@meeui/ui/adk';
     Autofocus,
   ],
   template: `
-    <h4 meeHeader class="mb-5 ">Forms</h4>
+    <h4 meeHeader class="mb-5">Forms</h4>
     <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
       <div class="flex flex-col">
         <label for="name" class="mb-1">Name</label>

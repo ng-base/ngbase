@@ -1,5 +1,5 @@
 import { Component, ModelSignal, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Selectable } from './selectable';
 import { SelectableItem } from './selectable-item';
 

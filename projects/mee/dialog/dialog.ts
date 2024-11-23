@@ -6,11 +6,11 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { FocusTrap } from '@meeui/adk/a11y';
+import { DragMove } from '@meeui/adk/drag';
 import { Button } from '@meeui/ui/button';
-import { DragMove } from '@meeui/ui/drag';
 import { Icon } from '@meeui/ui/icon';
 import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
-import { FocusTrap } from '@meeui/ui/adk';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { Subject } from 'rxjs';

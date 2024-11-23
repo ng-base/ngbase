@@ -9,7 +9,7 @@ import {
 import { Button } from '@meeui/ui/button';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Directionality } from '@meeui/ui/adk';
+import { Directionality } from '@meeui/adk/bidi';
 import { Icon } from '@meeui/ui/icon';
 
 @Component({

@@ -108,11 +108,10 @@ export class DatepickerComponent {
   dateRange = signal(['2024-10-01T00:00:00.000Z', '2024-10-31T23:59:59.999Z']);
 
   tsCode = `
-  import { Component } from '@angular/core';
+  import { Component, signal } from '@angular/core';
   import { FormsModule } from '@angular/forms';
   import { DatepickerTrigger } from '@meeui/ui/datepicker';
   import { Input } from '@meeui/ui/input';
-  import { signal } from '@meeui/ui/utils';
 
   @Component({
     standalone: true,
@@ -129,7 +128,9 @@ export class DatepickerComponent {
       />
     \`
   })
-  export class AppComponent {}
+  export class AppComponent {
+    readonly date = signal('');
+  }
   `;
 
   toggle() {

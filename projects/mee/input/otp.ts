@@ -10,7 +10,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, RangePipe } from '@meeui/ui/utils';
+import { provideValueAccessor, RangePipe } from '@meeui/adk/utils';
 import { InputStyle } from './input-style.directive';
 
 @Component({

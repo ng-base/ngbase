@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { Tree } from './tree';
 import { TreeNodeDef } from './tree-toggle';
 

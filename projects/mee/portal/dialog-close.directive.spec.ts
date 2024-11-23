@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/ui/test';
+import { render, RenderResult } from '@meeui/adk/test';
 import { DialogClose } from './dialog-close.directive';
 import { DialogRef } from './dialog-ref';
 

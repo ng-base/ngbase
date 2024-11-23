@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Icon } from '@meeui/ui/icon';
-import { uniqueId } from '@meeui/ui/utils';
+import { uniqueId } from '@meeui/adk/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideCircleAlert,

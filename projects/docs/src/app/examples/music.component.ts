@@ -10,7 +10,7 @@ import { Option } from '@meeui/ui/select';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
 import { Separator } from '@meeui/ui/separator';
 import { Heading } from '@meeui/ui/typography';
-import { RangePipe } from '@meeui/ui/utils';
+import { RangePipe } from '@meeui/adk/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideCirclePlay,
@@ -153,7 +153,7 @@ import {
           </div>
 
           <h4 meeHeader="sm" class="mt-5">Listen Now</h4>
-          <p class=" text-muted-foreground">Top picks for you. Updated daily.</p>
+          <p class="text-muted-foreground">Top picks for you. Updated daily.</p>
           <mee-separator class="my-b4" />
 
           <mee-scroll-area>
@@ -168,14 +168,14 @@ import {
                     {{ item }}
                   </mee-card>
                   <h4 meeHeader class="mt-b2">React Rendezvous</h4>
-                  <p class=" text-muted-foreground">Ethan Byte</p>
+                  <p class="text-muted-foreground">Ethan Byte</p>
                 </div>
               }
             </div>
           </mee-scroll-area>
 
           <h4 meeHeader="sm" class="mt-8">Made for You</h4>
-          <p class=" text-muted-foreground">Your personal playlists. Updated daily.</p>
+          <p class="text-muted-foreground">Your personal playlists. Updated daily.</p>
           <mee-separator class="my-b4" />
 
           <mee-scroll-area>
@@ -189,7 +189,7 @@ import {
                   >
                   </mee-card>
                   <h4 meeHeader class="mt-b2">React Rendezvous</h4>
-                  <p class=" text-muted-foreground">Ethan Byte</p>
+                  <p class="text-muted-foreground">Ethan Byte</p>
                 </div>
               }
             </div>

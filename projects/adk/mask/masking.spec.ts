@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
-import { MaskInput } from './masking';
+import { Mask } from './mask';
 
 @Component({
-  imports: [MaskInput, FormsModule],
+  imports: [Mask, FormsModule],
   template: `<input [meeMask]="mask" [(ngModel)]="value" />`,
 })
 class TestComponent {
@@ -16,7 +16,6 @@ describe('MaskInput', () => {
   let component: TestComponent;
   let view: RenderResult<TestComponent>;
   let input: ElementHelper<HTMLInputElement>;
-  let animationFrameRequests: Function[] = [];
 
   beforeEach(async () => {
     view = await render(TestComponent);
@@ -26,7 +25,6 @@ describe('MaskInput', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-    animationFrameRequests = [];
   });
 
   async function setMask(mask: string) {

@@ -1,1 +1,1 @@
-export * from './masking';
+export * from './mask';

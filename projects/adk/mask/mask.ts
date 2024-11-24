@@ -5,31 +5,19 @@ import {
   inject,
   input,
   linkedSignal,
-  Pipe,
-  PipeTransform,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { InputBase } from '@meeui/adk/input';
-import { Input } from '@meeui/ui/input';
-
-@Pipe({
-  name: 'mask',
-})
-export class MaskPipe implements PipeTransform {
-  transform(value: string, mask: string): string {
-    return maskTransform(value, mask);
-  }
-}
 
 @Directive({
   selector: '[meeMask]',
-  hostDirectives: [Input],
+  hostDirectives: [InputBase],
   host: {
     '(keydown)': 'onKeyDown($event)',
     '(paste)': 'onPaste($event)',
   },
 })
-export class MaskInput {
+export class Mask {
   // Dependencies
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   readonly control = inject(NgControl, { optional: true });
@@ -202,7 +190,7 @@ export class MaskInput {
   }
 }
 
-function maskTransform(value: string, mask: string, showMaskType = false): string {
+export function maskTransform(value: string, mask: string, showMaskType = false): string {
   let result = '';
   let valueIndex = 0;
 

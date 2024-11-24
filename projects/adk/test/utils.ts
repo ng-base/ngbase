@@ -54,7 +54,11 @@ export class RenderResult<T> {
     return injectService(directive);
   }
 
-  viewChild<U>(directive: Type<U>, selector?: string): U {
+  injectHost<U>(directive: Type<U>) {
+    return this.fixture.debugElement.injector.get(directive);
+  }
+
+  viewChild<U>(directive: Type<U>, selector?: string | Type<any>): U {
     return this.queryNative(selector || directive).injector.get(directive);
   }
 

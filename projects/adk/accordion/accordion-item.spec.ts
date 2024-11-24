@@ -1,27 +1,40 @@
-import { signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { MeeAccordion, MeeAccordionGroup } from '@meeui/adk/accordion';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Accordion } from './accordion-item';
+import { MeeAccordionGroup } from './accordion-group';
+import { MeeAccordion } from './accordion-item';
+import { MeeAccordionContent } from './accordion-content';
+import { MeeAccordionHeader } from './public-api';
 
 const accordionGroupStub = {
   multiple: signal(false),
   activeId: signal(''),
 };
 
+@Component({
+  imports: [MeeAccordion, MeeAccordionHeader, MeeAccordionContent],
+  template: `<div #accordion="meeAccordion" meeAccordion>
+    <div meeAccordionHeader>Header</div>
+    @if (accordion.expanded()) {
+      <div meeAccordionContent id="content">Content</div>
+    }
+  </div>`,
+})
+class TestComponent {}
+
 describe('Accordion', () => {
-  let view: RenderResult<Accordion>;
+  let view: RenderResult<TestComponent>;
   let accordion: MeeAccordion;
 
   beforeEach(async () => {
     accordionGroupStub.multiple.set(false);
     accordionGroupStub.activeId.set('');
 
-    view = await render(Accordion, [
+    view = await render(TestComponent, [
       provideNoopAnimations(),
       { provide: MeeAccordionGroup, useValue: accordionGroupStub },
     ]);
-    accordion = view.injectHost(MeeAccordion)!;
+    accordion = view.viewChild(MeeAccordion)!;
     view.detectChanges();
   });
 
@@ -50,7 +63,7 @@ describe('Accordion', () => {
   it('should not render content when collapsed', () => {
     accordion.expanded.set(false);
     view.detectChanges();
-    expect(view.$0('div')).toBeFalsy();
+    expect(view.$0('#content')).toBeFalsy();
   });
 
   it('should update activeId when expanded', () => {

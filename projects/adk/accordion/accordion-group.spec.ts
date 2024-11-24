@@ -1,24 +1,23 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@meeui/adk/test';
-import { AccordionGroup } from './accordion-group';
-import { AccordionHeader } from './accordion-header';
-import { Accordion } from './accordion-item';
-import { MeeAccordionGroup } from '@meeui/adk/accordion';
+import { MeeAccordionGroup } from './accordion-group';
+import { MeeAccordionHeader } from './accordion-header';
+import { MeeAccordion } from './accordion-item';
 
 @Component({
-  imports: [Accordion, AccordionGroup, AccordionHeader],
+  imports: [MeeAccordion, MeeAccordionGroup, MeeAccordionHeader],
   template: `
-    <mee-accordion-group [multiple]="multiple()">
-      <mee-accordion>
+    <div #accordionGroup="meeAccordionGroup" meeAccordionGroup [multiple]="multiple()">
+      <div meeAccordion>
         <div meeAccordionHeader class="header1">Header 1</div>
         <div>Content 1</div>
-      </mee-accordion>
-      <mee-accordion>
+      </div>
+      <div meeAccordion>
         <div meeAccordionHeader class="header2">Header 2</div>
         <div>Content 2</div>
-      </mee-accordion>
-    </mee-accordion-group>
+      </div>
+    </div>
   `,
 })
 class TestHostComponent {

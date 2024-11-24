@@ -1,28 +1,15 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  model,
-} from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
-import { AccordionGroup } from './accordion-group';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MeeAccordion, MeeAccordionContent } from '@meeui/adk/accordion';
 
 @Component({
   selector: 'mee-accordion',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MeeAccordionContent],
   template: `
     <ng-content select="[meeAccordionHeader]" />
-    @if (expanded()) {
-      <div
-        [@slide]
-        class="overflow-hidden"
-        role="region"
-        [id]="id"
-        [attr.aria-labelledby]="'accordion-' + id"
-      >
+    @if (accordion.expanded()) {
+      <div [@slide] class="overflow-hidden" meeAccordionContent>
         <ng-content />
       </div>
     }
@@ -30,7 +17,9 @@ import { AccordionGroup } from './accordion-group';
   host: {
     class: 'block will-change-auto',
   },
-  exportAs: 'meeAccordionItem',
+  hostDirectives: [
+    { directive: MeeAccordion, inputs: ['expanded', 'disabled'], outputs: ['expandedChange'] },
+  ],
   animations: [
     trigger('slide', [
       state('void', style({ height: '0', opacity: 0 })),
@@ -41,21 +30,5 @@ import { AccordionGroup } from './accordion-group';
   ],
 })
 export class Accordion {
-  // Dependencies
-  private accordionService = inject(AccordionGroup);
-
-  // Inputs
-  readonly expanded = model(false);
-  readonly disabled = input(false, { transform: booleanAttribute });
-
-  // locals
-  readonly id = uniqueId();
-
-  toggle() {
-    this.expanded.update(v => !v);
-    if (this.accordionService.multiple()) {
-      return;
-    }
-    this.accordionService.activeId.set(this.expanded() ? this.id : '');
-  }
+  readonly accordion = inject(MeeAccordion);
 }

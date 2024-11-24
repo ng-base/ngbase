@@ -1,5 +1,5 @@
 import { Signal, WritableSignal } from '@angular/core';
-import { DialogInput, DialogOptions, DialogRef } from '@meeui/ui/portal';
+import { DialogInput, DialogOptions, DialogRef } from '@meeui/adk/portal';
 import { Observable } from 'rxjs';
 import { basePopoverPortal } from './base-popover.service';
 import { Popover } from './popover';

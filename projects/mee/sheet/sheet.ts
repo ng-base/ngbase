@@ -12,7 +12,7 @@ import {
 import { Button } from '@meeui/ui/button';
 import { createHostAnimation, fadeAnimation, sideAnimation } from '@meeui/ui/dialog';
 import { Icon } from '@meeui/ui/icon';
-import { BaseDialog, DialogRef } from '@meeui/ui/portal';
+import { BaseDialog, DialogRef } from '@meeui/adk/portal';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { SheetOptions } from './sheet.service';

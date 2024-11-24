@@ -7,7 +7,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
-import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
+import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
 import { FocusTrap } from '@meeui/adk/a11y';
 
 @Component({

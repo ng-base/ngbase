@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable } from '@angular/core';
+import { basePortal, DialogInput } from '@meeui/adk/portal';
 import { PopoverPosition } from '@meeui/ui/popover';
-import { basePortal, DialogInput } from '@meeui/ui/portal';
 import { TooltipComponent } from './tooltip';
 
 @Injectable({ providedIn: 'root' })

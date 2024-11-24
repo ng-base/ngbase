@@ -1,6 +1,6 @@
 import { Component, TemplateRef, viewChild } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 import { DatePicker } from './datepicker';
 import { DatepickerTrigger } from './datepicker-trigger';
 

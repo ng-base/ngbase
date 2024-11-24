@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Drag } from '@meeui/adk/drag';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 import {
   hexToHsb,
   hsbaToHex,

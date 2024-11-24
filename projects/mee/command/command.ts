@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AccessibleGroup, AccessibleItem, Autofocus } from '@meeui/adk/a11y';
+import { DialogRef } from '@meeui/adk/portal';
 import { filterFunction, uniqueId } from '@meeui/adk/utils';
 import { List } from '@meeui/ui/list';
-import { DialogRef } from '@meeui/ui/portal';
 
 export interface CommandGroup {
   name: string;

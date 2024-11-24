@@ -1,5 +1,5 @@
 import { Component, ElementRef, afterNextRender, inject, viewChild } from '@angular/core';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 import { PicasaBase } from './picasa-base.component';
 
 @Component({

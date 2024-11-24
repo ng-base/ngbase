@@ -10,9 +10,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { AccessibleGroup } from '@meeui/adk/a11y';
+import { DialogRef } from '@meeui/adk/portal';
 import { Keys } from '@meeui/ui/keys';
 import { List } from '@meeui/ui/list';
-import { DialogRef } from '@meeui/ui/portal';
 import { Option } from '@meeui/ui/select';
 import { Subject } from 'rxjs';
 

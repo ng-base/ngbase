@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Button, ButtonVariant } from '@meeui/ui/button';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 
 export interface AlertOptions {
   title?: string;

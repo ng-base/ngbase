@@ -14,7 +14,7 @@ import { DragMove } from '@meeui/adk/drag';
 import { disposals } from '@meeui/adk/utils';
 import { createHostAnimation } from '@meeui/ui/dialog';
 import { Icon } from '@meeui/ui/icon';
-import { BaseDialog } from '@meeui/ui/portal';
+import { BaseDialog } from '@meeui/adk/portal';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';

@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { DialogInput } from '@meeui/adk/portal';
 import { PopoverOpen, popoverPortal } from '@meeui/ui/popover';
-import { DialogInput } from '@meeui/ui/portal';
 import { TourStep } from './tour-step';
 
 @Injectable({ providedIn: 'root' })

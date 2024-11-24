@@ -1,4 +1,4 @@
-import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
+import { basePortal, DialogInput, DialogOptions } from '@meeui/adk/portal';
 import { PicasaBase } from './picasa-base.component';
 
 export function picasaPortal() {

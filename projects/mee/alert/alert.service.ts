@@ -1,5 +1,5 @@
 import { dialogPortal } from '@meeui/ui/dialog';
-import { DialogInput, DialogOptions } from '@meeui/ui/portal';
+import { DialogInput, DialogOptions } from '@meeui/adk/portal';
 import { Alert, AlertOptions } from './alert';
 
 export function alertPortal() {

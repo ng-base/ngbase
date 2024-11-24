@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
 import { RangePipe, uniqueId } from '@meeui/adk/utils';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 import { Calendar } from './calendar';
 import { DatePickerOptions, DatepickerTrigger } from './datepicker-trigger';
 import { injectMeeDateAdapter } from './native-date-adapter';

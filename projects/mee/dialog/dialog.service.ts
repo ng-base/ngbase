@@ -1,4 +1,4 @@
-import { basePortal, DialogInput, DialogOptions } from '@meeui/ui/portal';
+import { basePortal, DialogInput, DialogOptions } from '@meeui/adk/portal';
 import { DialogContainer } from './dialog';
 
 export function dialogPortal() {

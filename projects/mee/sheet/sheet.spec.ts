@@ -1,5 +1,5 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DialogRef } from '@meeui/ui/portal';
+import { DialogRef } from '@meeui/adk/portal';
 import { render, RenderResult } from '@meeui/adk/test';
 import { SheetContainer } from './sheet';
 

@@ -10,7 +10,7 @@ import { FocusTrap } from '@meeui/adk/a11y';
 import { DragMove } from '@meeui/adk/drag';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
-import { BaseDialog, DialogOptions } from '@meeui/ui/portal';
+import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { Subject } from 'rxjs';

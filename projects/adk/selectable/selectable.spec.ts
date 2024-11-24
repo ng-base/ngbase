@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Selectable } from './selectable';
-import { SelectableItem } from './selectable-item';
-import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
+import { MeeSelectable } from './selectable';
+import { MeeSelectableItem } from './selectable-item';
 
 @Component({
-  imports: [Selectable, SelectableItem, FormsModule],
+  imports: [MeeSelectable, MeeSelectableItem, FormsModule],
   template: `
-    <mee-selectable [(ngModel)]="selectedValue">
-      <mee-selectable-item [value]="1">Item 1</mee-selectable-item>
-      <mee-selectable-item [value]="2">Item 2</mee-selectable-item>
-      <mee-selectable-item [value]="3">Item 3</mee-selectable-item>
-    </mee-selectable>
+    <div meeSelectable [(ngModel)]="selectedValue">
+      <div meeSelectableItem [value]="1">Item 1</div>
+      <div meeSelectableItem [value]="2">Item 2</div>
+      <div meeSelectableItem [value]="3">Item 3</div>
+    </div>
   `,
 })
 class TestHostComponent {

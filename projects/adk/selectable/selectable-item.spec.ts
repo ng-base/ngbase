@@ -1,19 +1,18 @@
 import { Component, ModelSignal, signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Selectable } from './selectable';
-import { SelectableItem } from './selectable-item';
-import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
+import { MeeSelectable } from './selectable';
+import { MeeSelectableItem } from './selectable-item';
 
 // Test host component
 @Component({
-  imports: [SelectableItem],
+  imports: [MeeSelectableItem],
   template: '<button meeSelectableItem [value]="testValue"></button>',
 })
 class TestHostComponent {
   testValue = 'test';
 }
 
-const SelectableStub: Partial<Selectable<string>> = {
+const SelectableStub: Partial<MeeSelectable<string>> = {
   activeIndex: signal(0) as unknown as ModelSignal<string | undefined>,
   setValue: jest.fn(),
 };
@@ -21,17 +20,15 @@ const SelectableStub: Partial<Selectable<string>> = {
 describe('SelectableItem', () => {
   let view: RenderResult<TestHostComponent>;
   let selectableItem: MeeSelectableItem<string>;
-  let selectable: MeeSelectable<string>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent, [{ provide: MeeSelectable, useValue: SelectableStub }]);
-    selectable = view.inject(MeeSelectable<string>);
     selectableItem = view.viewChild(MeeSelectableItem<string>);
     view.detectChanges();
   });
 
   function getSelectableItem() {
-    return view.$0(SelectableItem<string>);
+    return view.$0(MeeSelectableItem<string>);
   }
 
   it('should create', () => {
@@ -44,21 +41,6 @@ describe('SelectableItem', () => {
 
   it('should have the correct default selected state', () => {
     expect(selectableItem.selected()).toBeFalsy();
-  });
-
-  it('should have the correct CSS classes when not selected', () => {
-    const element = getSelectableItem();
-    expect(element.hasClass('opacity-60')).toBeTruthy();
-    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeFalsy();
-  });
-
-  it('should have the correct CSS classes when selected', () => {
-    selectable.activeIndex.set('test');
-    view.detectChanges();
-
-    const element = getSelectableItem();
-    expect(element.hasClass('opacity-60')).toBeFalsy();
-    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeTruthy();
   });
 
   it('should call select method when clicked', () => {

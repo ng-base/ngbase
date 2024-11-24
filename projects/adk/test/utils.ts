@@ -58,8 +58,8 @@ export class RenderResult<T> {
     return this.queryNative(selector || directive).injector.get(directive);
   }
 
-  viewChildren<U>(directive: string | Type<U>): U[] {
-    return this.viewChildrenDebug(directive).map(de => de.componentInstance);
+  viewChildren<U>(directive: Type<U>, selector?: string): U[] {
+    return this.viewChildrenDebug(selector || directive).map(de => de.injector.get(directive));
   }
 
   viewChildrenDebug<U>(directive: string | Type<U>) {

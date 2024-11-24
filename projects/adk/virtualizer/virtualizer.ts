@@ -109,7 +109,6 @@ export class Virtualizer<T> {
   readonly visibleItems = computed(() => {
     const { startIndex, endIndex } = this.visibleIndexes();
     const items: VirtualItem[] = [];
-    console.log('startIndex', startIndex, 'endIndex', endIndex, this.totalItems());
 
     for (let i = startIndex; i < endIndex; i++) {
       items.push({

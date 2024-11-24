@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Heading } from '@meeui/ui/typography';
-import { VirtualFor, Virtualizer } from '@meeui/ui/virtualizer';
+import { VirtualFor, Virtualizer } from '@meeui/adk/virtualizer';
 
 @Component({
   selector: 'app-root',

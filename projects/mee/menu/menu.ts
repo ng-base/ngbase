@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { AccessibleGroup } from '@meeui/adk/a11y';
 import { DialogRef } from '@meeui/adk/portal';
-import { Keys } from '@meeui/ui/keys';
+import { Keys } from '@meeui/adk/keys';
 import { List } from '@meeui/ui/list';
 import { Option } from '@meeui/ui/select';
 import { Subject } from 'rxjs';

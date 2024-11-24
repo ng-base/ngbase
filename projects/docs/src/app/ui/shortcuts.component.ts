@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Input } from '@meeui/ui/input';
-import { keyMap } from '@meeui/ui/keys';
+import { keyMap } from '@meeui/adk/keys';
 import { injectTheme } from '@meeui/ui/theme';
 import { DocCode } from './code.component';
 

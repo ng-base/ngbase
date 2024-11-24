@@ -3,7 +3,7 @@ import { List } from '@meeui/ui/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
 import { dialogPortal } from '@meeui/ui/dialog';
-import { keyMap } from '@meeui/ui/keys';
+import { keyMap } from '@meeui/adk/keys';
 import { Command, CommandItem } from '@meeui/ui/command';
 
 @Component({

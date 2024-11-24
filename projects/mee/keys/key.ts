@@ -8,7 +8,7 @@ import {
   Injector,
   input,
 } from '@angular/core';
-import { keyMap } from './shortcuts.service';
+import { keyMap } from '@meeui/adk/keys';
 
 @Component({
   selector: 'mee-key, [meeKey]',

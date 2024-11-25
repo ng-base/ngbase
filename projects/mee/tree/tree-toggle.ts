@@ -1,31 +1,24 @@
-import { Directive, inject } from '@angular/core';
-import { TreeNode } from './tree-node';
+import { Directive } from '@angular/core';
+import { MeeTreeNodeContent, MeeTreeNodeDef, MeeTreeNodeToggle } from '@meeui/adk/tree';
 
 @Directive({
   selector: '[meeTreeNodeToggle]',
+  hostDirectives: [MeeTreeNodeToggle],
   host: {
-    '(click)': 'toggle()',
-    '[class.invisible]': '!treeNode.hasChildren()',
-    tabIndex: '-1',
+    class: `aria-[hidden="true"]:invisible`,
   },
 })
-export class TreeNodeToggle {
-  treeNode = inject(TreeNode);
-
-  toggle() {
-    if (this.treeNode.hasChildren()) {
-      this.treeNode.toggle();
-    }
-  }
-}
+export class TreeNodeToggle {}
 
 @Directive({
   selector: '[meeTreeNodeDef]',
+  hostDirectives: [MeeTreeNodeDef],
 })
 export class TreeNodeDef<T> {}
 
 @Directive({
   selector: '[meeTreeNodeContent]',
+  hostDirectives: [MeeTreeNodeContent],
   host: {
     class: 'ml-8',
   },

@@ -33,9 +33,9 @@ export class AccessibleItem<T = any> implements OnDestroy {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly data = input<T>();
   readonly skip = input(false, { transform: booleanAttribute });
-  readonly level = input(0);
-  readonly expandable = input(false);
-  readonly expanded = input(false);
+  readonly level = model(0);
+  readonly expandable = model(false);
+  readonly expanded = model(false);
   readonly selectedChange = output<number>();
 
   readonly group = computed(() => this.allyService.getGroup(this.ayId() || ''));

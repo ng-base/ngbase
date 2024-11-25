@@ -9,7 +9,7 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideChevronDown, lucideChevronRight } from '@ng-icons/lucide';
 
 class TreeItem {
-  currentNow = signal(Date.now());
+  currentNow = () => Date.now();
   constructor(
     public id: number,
     public name: string,
@@ -44,8 +44,13 @@ class TreeItem {
     @if (show()) {
       <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
       <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
-      <mee-tree [dataSource]="items()" [trackBy]="trackBy" [children]="getChildren" #myTree>
-        <mee-tree-node *meeTreeNodeDef="let item; level as l" #myNode>
+      <mee-tree
+        [dataSource]="items()"
+        [trackBy]="trackBy"
+        [children]="getChildren"
+        #myTree="meeTree"
+      >
+        <mee-tree-node *meeTreeNodeDef="let item; level as l" #myNode="meeTreeNode">
           <button meeButton variant="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
             <mee-icon
               size="20px"

@@ -1,15 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  contentChild,
-  contentChildren,
-  Directive,
-  TemplateRef,
-} from '@angular/core';
-import { Breadcrumb } from './breadcrumb';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { MeeBreadcrumbs, MeeBreadcrumbSeparator } from '@meeui/adk/breadcrumb';
 
 @Directive({
   selector: '[meeBreadcrumbsSeparator]',
+  hostDirectives: [MeeBreadcrumbSeparator],
 })
 export class BreadcrumbsSeparator {}
 
@@ -19,10 +13,7 @@ export class BreadcrumbsSeparator {}
   template: `<ng-content />`,
   host: {
     class: 'flex items-center gap-b2',
-    'aria-label': 'breadcrumb',
   },
+  hostDirectives: [MeeBreadcrumbs],
 })
-export class Breadcrumbs {
-  readonly items = contentChildren(Breadcrumb);
-  readonly separator = contentChild(BreadcrumbsSeparator, { read: TemplateRef });
-}
+export class Breadcrumbs {}

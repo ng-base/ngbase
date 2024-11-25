@@ -1,30 +1,27 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  MeeBreadcrumb,
+  MeeBreadcrumbLink,
+  MeeBreadcrumbSeparatorAria,
+} from '@meeui/adk/breadcrumb';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
-import { Breadcrumbs } from './breadcrumbs';
 
 @Component({
   selector: 'mee-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, NgTemplateOutlet],
+  imports: [Icon, NgTemplateOutlet, MeeBreadcrumbLink, MeeBreadcrumbSeparatorAria],
   viewProviders: [provideIcons({ lucideChevronRight })],
   template: `
-    <a
-      class="hover:text-primary"
-      [class.text-primary]="active()"
-      [tabIndex]="active() ? -1 : 0"
-      [attr.aria-current]="active() ? 'page' : null"
-      [attr.aria-disabled]="active()"
-      role="link"
-    >
+    <a class='hover:text-primary aria-[current="page"]:text-primary' meeBreadcrumbLink>
       <ng-content />
     </a>
-    @if (!active()) {
-      @if (separator()) {
-        <span class="flex items-center text-muted" aria-hidden="true" role="presentation">
-          <ng-template [ngTemplateOutlet]="separator()!"></ng-template>
+    @if (!breadcrumb.active()) {
+      @if (breadcrumb.separator()) {
+        <span class="flex items-center text-muted" meeBreadcrumbSeparatorAria>
+          <ng-template [ngTemplateOutlet]="breadcrumb.separator()!"></ng-template>
         </span>
       } @else {
         <mee-icon
@@ -39,12 +36,8 @@ import { Breadcrumbs } from './breadcrumbs';
   host: {
     class: 'flex items-center gap-b2 text-muted',
   },
+  hostDirectives: [MeeBreadcrumb],
 })
 export class Breadcrumb {
-  private breadcrumbs = inject(Breadcrumbs);
-  readonly active = computed(() => {
-    const items = this.breadcrumbs.items();
-    return items.indexOf(this) === items.length - 1;
-  });
-  readonly separator = this.breadcrumbs.separator;
+  readonly breadcrumb = inject(MeeBreadcrumb);
 }

@@ -2,9 +2,10 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { render, RenderResult } from '@meeui/adk/test';
 import { Checkbox } from './checkbox';
+import { MeeCheckbox } from '@meeui/adk/checkbox';
 
 describe('CheckboxComponent', () => {
-  let component: Checkbox;
+  let component: MeeCheckbox;
   let view: RenderResult<TestComponent>;
 
   @Component({
@@ -23,7 +24,7 @@ describe('CheckboxComponent', () => {
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(Checkbox);
+    component = view.viewChild(MeeCheckbox);
     view.detectChanges();
   });
 
@@ -36,34 +37,7 @@ describe('CheckboxComponent', () => {
     expect(el.hasClass('cursor-pointer')).toBeTruthy();
     view.host.disabled.set(true);
     view.detectChanges();
-    expect(['opacity-60', 'cursor-not-allowed'].every(x => el.hasClass(x))).toBeTruthy();
-  });
-
-  it('should disabled checkbox should not be clickable', () => {
-    view.host.disabled.set(true);
-    view.detectChanges();
-    expect(component.checked()).toBeFalsy();
-    view.$0('button').click();
-    expect(component.checked()).toBeFalsy();
-  });
-
-  it('should update the checked when writeValue is called', async () => {
-    jest.spyOn(component.change, 'emit');
-    expect(component.checked()).toBeFalsy();
-    view.host.checked.set(true);
-    await view.formStable();
-    expect(component.checked()).toBeTruthy();
-    expect(component.change.emit).not.toHaveBeenCalled();
-  });
-
-  it('should emit change event when checkbox is clicked', () => {
-    jest.spyOn(component.change, 'emit');
-    jest.spyOn(component, 'updateValue');
-    expect(component.checked()).toBeFalsy();
-    view.$0('button').click();
-    expect(component.checked()).toBeTruthy();
-    expect(component.updateValue).toHaveBeenCalled();
-    expect(component.change.emit).toHaveBeenCalledWith(true);
+    expect(el.hasClass('opacity-60', 'cursor-not-allowed')).toBeTruthy();
   });
 
   it('should add svg when checkbox is checked', async () => {

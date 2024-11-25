@@ -1,0 +1,101 @@
+import { Component, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { render, RenderResult } from '@meeui/adk/test';
+import { CheckboxButton, MeeCheckbox } from './checkbox';
+
+@Component({
+  imports: [MeeCheckbox, CheckboxButton, FormsModule],
+  template: `<div
+    meeCheckbox
+    [(ngModel)]="checked"
+    [disabled]="disabled()"
+    [indeterminate]="indeterminate()"
+  >
+    <button
+      meeCheckboxButton
+      [class]="disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
+    >
+      @if (path(); as d) {
+        <svg class="h-full w-full text-foreground" viewBox="0 0 24 24" aria-hidden="true">
+          <path [attr.d]="d" stroke="currentColor" stroke-width="2" fill="none" />
+        </svg>
+      }
+    </button>
+    <ng-content />
+  </div> `,
+})
+class TestComponent {
+  checked = signal(false);
+  disabled = signal(false);
+  indeterminate = signal(false);
+
+  readonly path = computed(() =>
+    this.indeterminate() ? 'M6 12L18 12' : this.checked() ? 'M20 6L9 17L4 12' : '',
+  );
+}
+
+describe('CheckboxComponent', () => {
+  let component: MeeCheckbox;
+  let view: RenderResult<TestComponent>;
+
+  beforeEach(async () => {
+    view = await render(TestComponent);
+    component = view.viewChild(MeeCheckbox);
+    view.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should disabled checkbox should not be clickable', () => {
+    view.host.disabled.set(true);
+    view.detectChanges();
+    expect(component.checked()).toBeFalsy();
+    view.$0('button').click();
+    expect(component.checked()).toBeFalsy();
+  });
+
+  it('should update the checked when writeValue is called', async () => {
+    jest.spyOn(component.change, 'emit');
+    expect(component.checked()).toBeFalsy();
+    view.host.checked.set(true);
+    await view.formStable();
+    expect(component.checked()).toBeTruthy();
+    expect(component.change.emit).not.toHaveBeenCalled();
+  });
+
+  it('should emit change event when checkbox is clicked', () => {
+    jest.spyOn(component.change, 'emit');
+    jest.spyOn(component, 'updateValue');
+    expect(component.checked()).toBeFalsy();
+    view.$0('button').click();
+    expect(component.checked()).toBeTruthy();
+    expect(component.updateValue).toHaveBeenCalled();
+    expect(component.change.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should add svg when checkbox is checked', async () => {
+    expect(view.$0('svg')).toBeFalsy();
+    view.host.checked.set(true);
+    await view.formStable();
+    expect(view.$0('svg')).toBeTruthy();
+  });
+
+  it('should handle svg path when checkbox is indeterminate or checked', async () => {
+    async function getD() {
+      await view.formStable();
+      return view.$0('svg path')?.attr('d');
+    }
+    expect(await getD()).toBeFalsy();
+
+    view.host.checked.set(true);
+    expect(await getD()).toBe('M20 6L9 17L4 12');
+
+    view.host.indeterminate.set(true);
+    expect(await getD()).toBe('M6 12L18 12');
+
+    view.host.checked.set(false);
+    expect(await getD()).toBe('M6 12L18 12');
+  });
+});

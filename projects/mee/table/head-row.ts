@@ -1,71 +1,19 @@
-import {
-  Component,
-  Directive,
-  inject,
-  viewChild,
-  ViewContainerRef,
-  ChangeDetectionStrategy,
-  effect,
-  EmbeddedViewRef,
-  input,
-  OnDestroy,
-} from '@angular/core';
-import { ROW_TOKEN, Table } from './table';
-import { Row } from './column';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { MeeHeadRow, MeeHeadRowDef } from '@meeui/adk/table';
 
 @Component({
   selector: '[meeHeadRow]',
-  template: `<ng-container #container />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'h-b10',
-    '[class]': `headDef.meeHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
+    class: `h-b10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-foreground`,
   },
+  providers: [{ provide: MeeHeadRow, useExisting: HeadRow }],
+  template: `<ng-container #container />`,
 })
-export class HeadRow implements OnDestroy {
-  def = inject(ROW_TOKEN);
-  table = inject(Table);
-  container = viewChild('container', { read: ViewContainerRef });
-  ref = new Map<Row, EmbeddedViewRef<any>>();
-  headDef = inject(HeadRowDef);
-
-  constructor() {
-    effect(() => {
-      const rows = this.table.rows();
-      this.ref.forEach((ref, row) => {
-        if (!rows.includes(row)) {
-          ref.destroy();
-          this.ref.delete(row);
-          return;
-        }
-      });
-      const cols = this.headDef.meeHeadRowDef();
-      rows.forEach(row => {
-        if (!cols?.includes(row.meeRow())) {
-          if (this.ref.has(row)) {
-            const ref = this.ref.get(row);
-            ref!.destroy();
-            this.ref.delete(row);
-          }
-          return;
-        }
-        if (!this.ref.has(row)) {
-          const ref = this.container()!.createEmbeddedView(row.heads()!);
-          this.ref.set(row, ref);
-        }
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.container()!.clear();
-  }
-}
+export class HeadRow extends MeeHeadRow {}
 
 @Directive({
   selector: '[meeHeadRowDef]',
+  hostDirectives: [{ directive: MeeHeadRowDef, inputs: ['meeHeadRowDef', 'meeHeadRowDefSticky'] }],
 })
-export class HeadRowDef {
-  meeHeadRowDef = input<string[]>();
-  meeHeadRowDefSticky = input();
-}
+export class HeadRowDef {}

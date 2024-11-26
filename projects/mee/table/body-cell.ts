@@ -1,18 +1,19 @@
 import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
+import { MeeCell, MeeCellDef } from '@meeui/adk/table';
 
 @Component({
   selector: '[meeCell]',
-  template: `<ng-content />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [MeeCell],
   host: {
     class: 'px-b4 py-b2 align-middle',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content />`,
 })
-export class Cell {
-  constructor() {}
-}
+export class Cell {}
 
 @Directive({
   selector: '[meeCellDef]',
+  hostDirectives: [MeeCellDef],
 })
 export class CellDef {}

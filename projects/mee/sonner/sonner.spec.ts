@@ -1,4 +1,3 @@
-import { fakeAsync, tick } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@meeui/adk/test';
 import { Sonner } from './sonner';
@@ -36,29 +35,29 @@ describe('Sonner', () => {
     expect(messageElements[0].textContent).toContain('Hello');
   });
 
-  it('should remove a message after the specified timeout', fakeAsync(() => {
-    component.addMessage('Hello', 'default', { timeout: 1000 });
+  it('should remove a message after the specified timeout', async () => {
+    component.addMessage('Hello', 'default', { timeout: 1 });
     view.detectChanges();
 
     expect(getLi().length).toBe(1);
 
-    tick(1000);
+    await view.sleep(1);
     view.detectChanges();
 
     expect(getLi().length).toBe(0);
-  }));
+  });
 
-  it('should not remove a message with timeout 0', fakeAsync(() => {
+  it('should not remove a message with timeout 0', async () => {
     component.addMessage('Hello', 'default', { timeout: 0 });
     view.detectChanges();
 
     expect(getLi().length).toBe(1);
 
-    tick(5000);
+    await view.sleep(1);
     view.detectChanges();
 
     expect(getLi().length).toBe(1);
-  }));
+  });
 
   it('should clear all messages', () => {
     component.addMessage('Hello1', 'default', { timeout: 0 });

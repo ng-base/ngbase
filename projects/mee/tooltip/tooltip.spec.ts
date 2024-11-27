@@ -9,6 +9,8 @@ describe('TooltipComponent', () => {
   beforeEach(async () => {
     view = await render(TooltipComponent, [provideNoopAnimations()]);
     component = view.host;
+    // fake the target
+    component.target = document.createElement('div');
     view.detectChanges();
   });
 

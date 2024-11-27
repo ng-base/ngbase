@@ -2,8 +2,5 @@
   "editor.formatOnSave": true,
   "files.autoSave": "off",
   "jest.runMode": "on-demand",
-  "cSpell.words": [
-    "meeui",
-    "Sonner"
-  ]
+  "cSpell.words": ["meeui", "Sonner"]
 }

@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
 import { Drag, DragData } from './drag';
 import { DragDrop, moveItemInArray } from './drag-drop';
@@ -7,14 +7,14 @@ import { DragDrop, moveItemInArray } from './drag-drop';
   imports: [DragDrop, Drag],
   template: `
     <div meeDrop (orderChanged)="onOrderChanged($event)">
-      @for (item of items; track item) {
+      @for (item of items(); track item) {
         <div meeDrag>{{ item }}</div>
       }
     </div>
   `,
 })
 class TestComponent {
-  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  items = signal(['Item 1', 'Item 2', 'Item 3', 'Item 4']);
   onOrderChanged(event: { previousIndex: number; currentIndex: number }) {}
 }
 
@@ -46,7 +46,7 @@ describe('DropDirective', () => {
   });
 
   it('should update sortableElements when items change', () => {
-    component.items.push('Item 5');
+    component.items.update(items => [...items, 'Item 5']);
     view.detectChanges();
     expect(dropDirective['sortableElements'].length).toBe(5);
   });

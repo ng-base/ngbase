@@ -12,7 +12,7 @@ import { AutocompleteInput } from './autocomplete-input';
   template: `
     <mee-autocomplete
       [(ngModel)]="selectedValue"
-      [multiple]="multiple"
+      [multiple]="multiple()"
       [placeholder]="placeholder()"
     >
       <input meeAutocompleteInput />
@@ -26,7 +26,7 @@ import { AutocompleteInput } from './autocomplete-input';
 })
 class TestAutocompleteComponent {
   selectedValue = signal<string | string[]>('');
-  multiple = false;
+  multiple = signal(false);
   placeholder = signal('');
   options = [
     { value: '1', label: 'Option 1' },
@@ -39,13 +39,15 @@ describe('Autocomplete', () => {
   let component: TestAutocompleteComponent;
   let view: RenderResult<TestAutocompleteComponent>;
   let selectComponent: Autocomplete<string>;
+  let input: HTMLInputElement;
 
-  function selectInput() {
-    return view.$<HTMLInputElement>('input');
-  }
+  // function selectInput() {
+  //   return view.$<HTMLInputElement>('input');
+  // }
 
-  function selectOptions() {
-    selectInput().click();
+  function clickAndSelectOptions() {
+    input.click();
+    view.detectChanges();
     return document.querySelectorAll('mee-option') as NodeListOf<HTMLElement>;
   }
 
@@ -53,6 +55,7 @@ describe('Autocomplete', () => {
     view = await render(TestAutocompleteComponent, [provideNoopAnimations()]);
     component = view.host;
     selectComponent = view.viewChild(Autocomplete<string>);
+    input = view.$<HTMLInputElement>('input');
     view.detectChanges();
   });
 
@@ -76,8 +79,7 @@ describe('Autocomplete', () => {
   it('should render selected value', async () => {
     component.selectedValue.set('1');
     await view.formStable();
-    const buttonElement = selectInput();
-    expect(buttonElement.value?.trim()).toBe('Option 1');
+    expect(input.value?.trim()).toBe('Option 1');
   });
 
   // it('should disable select when disabled is set', () => {
@@ -89,35 +91,28 @@ describe('Autocomplete', () => {
 
   it('should open options when clicked', () => {
     jest.spyOn(selectComponent, 'open');
-    const buttonElement = selectInput();
-    buttonElement.click();
+    input.click();
     expect(selectComponent.open).toHaveBeenCalled();
   });
 
   it('should handle single selection', () => {
-    const buttonElement = selectInput();
-    buttonElement.click();
-    view.detectChanges();
-
     // Simulate option selection
-    const options = selectOptions();
+    const options = clickAndSelectOptions();
     options[0].click();
     view.detectChanges();
 
     expect(component.selectedValue()).toBe('1');
-    expect(buttonElement.value?.trim()).toBe('Option 1');
+    expect(input.value?.trim()).toBe('Option 1');
   });
 
   it('should handle multiple selection', async () => {
-    component.multiple = true;
+    component.multiple.set(true);
     component.selectedValue.set(['1', '2']);
-    view.detectChanges();
+    await view.formStable();
 
-    const options = selectOptions();
-    view.detectChanges();
+    const options = clickAndSelectOptions();
 
     // Simulate multiple option selection
-    const buttonElement = selectInput();
     options[2].click();
     view.detectChanges();
     // we have to close the panel, so that the value is updated
@@ -125,7 +120,7 @@ describe('Autocomplete', () => {
     await view.whenStable();
 
     expect(component.selectedValue()).toEqual(['1', '2', '3']);
-    expect(buttonElement.value?.trim()).toBe('Option 1  (+2)');
+    expect(input.value?.trim()).toBe('Option 1  (+2)');
 
     // Simulate multiple option deselection
     options[2].click();

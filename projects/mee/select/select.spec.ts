@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
+import { ElementHelper, firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
 import { Option } from './option';
 import { Select } from './select';
 
@@ -46,20 +46,19 @@ describe('Select', () => {
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
   let selectComponent: Select<string>;
+  let input: ElementHelper<HTMLButtonElement>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent, [provideNoopAnimations()]);
     component = view.host;
     selectComponent = view.viewChild(Select<string>, '#select1');
+    input = view.$0('#select1 button');
     view.detectChanges();
   });
 
-  function selectInput() {
-    return view.$0<HTMLButtonElement>('#select1 button');
-  }
-
-  function selectOptions() {
-    selectInput().click();
+  function clickAndSelectOptions() {
+    input.click();
+    view.detectChanges();
     return document.querySelectorAll('mee-option') as NodeListOf<HTMLElement>;
   }
 
@@ -73,68 +72,61 @@ describe('Select', () => {
 
   it('should render the current value', async () => {
     await view.formStable();
-    const buttonElement = selectInput();
-    expect(buttonElement.textContent?.trim()).toBe('Option 1');
+    expect(input.textContent?.trim()).toBe('Option 1');
   });
 
   it('should render placeholder when no value is selected', async () => {
     component.placeholder.set('Select an option');
     component.setSelectedValue('');
     await view.formStable();
-    const buttonElement = selectInput();
-    expect(buttonElement.textContent?.trim()).toBe('Select an option');
+    expect(input.textContent?.trim()).toBe('Select an option');
   });
 
   it('should render selected value', async () => {
     component.setSelectedValue('1');
     await view.formStable();
-    const buttonElement = selectInput();
-    expect(buttonElement.textContent?.trim()).toBe('Option 1');
+    expect(input.textContent?.trim()).toBe('Option 1');
   });
 
   it('should disable select when disabled is set', () => {
     selectComponent.disabled.set(true);
     view.detectChanges();
-    const buttonElement = selectInput();
-    expect(buttonElement.el.disabled).toBe(true);
+    expect(input.el.disabled).toBe(true);
   });
 
   it('should open options when clicked', () => {
     jest.spyOn(selectComponent, 'open');
-    const buttonElement = selectInput();
-    buttonElement.click();
+    input.click();
     expect(selectComponent.open).toHaveBeenCalled();
   });
 
   it('should handle single selection', () => {
-    const buttonElement = selectInput();
-    buttonElement.click();
+    input.click();
     view.detectChanges();
 
     // Simulate option selection
-    const options = selectOptions();
+    const options = clickAndSelectOptions();
     options[0].click();
     view.detectChanges();
 
     expect(component.form.value.selectedValue).toBe('1');
-    expect(buttonElement.textContent?.trim()).toBe('Option 1');
+    expect(input.textContent?.trim()).toBe('Option 1');
   });
 
   it('should handle multiple selection', async () => {
     component.multiple = true;
     component.setSelectedValue(['1', '2']);
-    view.detectChanges();
+    await view.formStable();
 
-    const options = selectOptions();
+    const options = clickAndSelectOptions();
     view.detectChanges();
 
     // Simulate multiple option selection
-    const buttonElement = selectInput();
     options[2].click();
     view.detectChanges();
 
     expect(component.form.value.selectedValue).toEqual(['1', '2', '3']);
-    expect(buttonElement.textContent?.trim()).toBe('Option 1  (+2)');
+    expect(input.textContent?.trim()).toBe('Option 1  (+2)');
 
     // Simulate multiple option deselection
     options[2].click();

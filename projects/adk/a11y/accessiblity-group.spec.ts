@@ -1,5 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
-import { fakeAsync } from '@angular/core/testing';
+import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
 import { AccessibleGroup } from './accessiblity-group';
 import { AccessibleItem } from './accessiblity-item';
@@ -7,14 +6,15 @@ import { AccessibleItem } from './accessiblity-item';
 Element.prototype.scrollIntoView = jest.fn();
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="parent">
       <div
         meeAccessibleGroup
         [ayId]="groupId"
-        [columns]="columns"
-        [isPopup]="isPopup"
-        [disabled]="isDisabled"
+        [columns]="columns()"
+        [isPopup]="isPopup()"
+        [disabled]="isDisabled()"
       >
         <input type="text" />
         <button meeAccessibleItem [ayId]="groupId">Item 1</button>
@@ -29,9 +29,9 @@ Element.prototype.scrollIntoView = jest.fn();
 })
 class TestComponent {
   groupId = 'test-group';
-  columns = 2;
-  isPopup = false;
-  isDisabled = false;
+  columns = signal(2);
+  isPopup = signal(false);
+  isDisabled = signal(false);
 }
 
 describe('AccessibleGroup', () => {
@@ -104,7 +104,7 @@ describe('AccessibleGroup', () => {
     expect(document.activeElement).toBe(itemElements[3].nativeElement);
   });
 
-  it('should skip disabled items during navigation', fakeAsync(() => {
+  it('should skip disabled items during navigation', () => {
     focusElement(view.queryNative(AccessibleGroup));
     pressKey('ArrowRight');
     expect(document.activeElement).toBe(itemElements[1].nativeElement);
@@ -115,15 +115,15 @@ describe('AccessibleGroup', () => {
 
     pressKey('ArrowRight');
     expect(document.activeElement).toBe(itemElements[0].nativeElement);
-  }));
+  });
 
-  it('should handle popup mode correctly', fakeAsync(() => {
-    view.host.isPopup = true;
+  it('should handle popup mode correctly', async () => {
+    view.host.isPopup.set(true);
     view.detectChanges();
 
     const groupInstance = view.viewChild(AccessibleGroup);
     groupInstance.on();
-    view.detectChanges();
+    await view.whenStable();
 
     const bodyElements = document.querySelectorAll('body > *');
     bodyElements.forEach(el => {
@@ -134,23 +134,23 @@ describe('AccessibleGroup', () => {
     });
 
     groupInstance.off();
-    view.detectChanges();
+    await view.whenStable();
 
     bodyElements.forEach(el => {
       expect(el.getAttribute('tabindex')).toBeNull();
       expect(el.getAttribute('aria-hidden')).toBeNull();
     });
-  }));
+  });
 
   it('should handle disabled state correctly', () => {
-    view.host.isDisabled = true;
+    view.host.isDisabled.set(true);
     view.detectChanges();
     const element = view.$0(AccessibleGroup);
     expect(element.attr('aria-disabled')).toBe('true');
   });
 
   it('should handle space and arrow keys in input element', () => {
-    view.host.isPopup = true;
+    view.host.isPopup.set(true);
     view.detectChanges();
     const inputElement = view.queryNative('input');
     focusElement(inputElement);

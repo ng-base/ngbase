@@ -1,4 +1,4 @@
-import { injectService } from '@meeui/adk/test';
+import { injectService, sleep } from '@meeui/adk/test';
 import { Cache } from './cache';
 
 describe('Cache', () => {
@@ -46,7 +46,7 @@ describe('Cache', () => {
 
   it('should not get from cache if expired', async () => {
     cache.addToCache('url6', 'response6', { timeToLive: 1 });
-    await new Promise(resolve => setTimeout(resolve, 2));
+    await sleep(2);
     expect(cache.get('url6')).toBeNull();
   });
 });

@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { Mask } from './mask';
 
 @Component({
   imports: [Mask, FormsModule],
-  template: `<input [meeMask]="mask" [(ngModel)]="value" />`,
+  template: `<input [meeMask]="mask()" [(ngModel)]="value" />`,
 })
 class TestComponent {
-  mask = '';
-  value = '';
+  readonly mask = signal('');
+  readonly value = signal('');
 }
 
 describe('MaskInput', () => {
@@ -28,8 +28,20 @@ describe('MaskInput', () => {
   });
 
   async function setMask(mask: string) {
-    component.mask = mask;
+    component.mask.set(mask);
     await view.whenStable();
+  }
+
+  async function typeValue(value: string) {
+    // Clear the input and wait for the view to stabilize
+    input.input('');
+    await view.whenStable();
+
+    // Type the value character by character, waiting for the view to stabilize after each character
+    for (let char of value) {
+      input.type(char);
+      await view.whenStable();
+    }
   }
 
   it('should create', () => {
@@ -39,94 +51,94 @@ describe('MaskInput', () => {
   it('should apply numeric mask correctly', async () => {
     await setMask('###-###-####');
 
-    input.type('1234567890', true);
+    await typeValue('1234567890');
     expect(input.el.value).toBe('123-456-7890');
 
-    input.type('12345', true);
+    await typeValue('12345');
     expect(input.el.value).toBe('123-45');
   });
 
   it('should input typing works properly', async () => {
     await setMask('**/*#/#*##');
 
-    input.type('1', true);
+    await typeValue('1');
     expect(input.el.value).toBe('1');
-    input.type('1b', true);
+    await typeValue('1b');
     expect(input.el.value).toBe('1b');
-    input.type('1b2', true);
+    await typeValue('1b2');
     expect(input.el.value).toBe('1b/2');
-    input.type('1b23', true);
+    await typeValue('1b23');
     expect(input.el.value).toBe('1b/23');
   });
 
   it('should apply alphabetic mask correctly', async () => {
     await setMask('aaa-aaa');
 
-    input.type('abcdef', true);
+    await typeValue('abcdef');
     expect(input.el.value).toBe('abc-def');
 
-    input.type('ab1cd', true);
+    await typeValue('ab1cd');
     expect(input.el.value).toBe('abc-d');
   });
 
   it('should apply alphanumeric mask correctly', async () => {
     await setMask('***-***');
 
-    input.type('abc123', true);
+    await typeValue('abc123');
     expect(input.el.value).toBe('abc-123');
 
-    input.type('ab@cd', true);
+    await typeValue('ab@cd');
     expect(input.el.value).toBe('abc-d');
   });
 
   it('should handle mask with fixed characters', async () => {
     await setMask('+1 (###) ###-####');
 
-    input.type('1234567890', true);
+    await typeValue('1234567890');
     expect(input.el.value).toBe('+1 (123) 456-7890');
   });
 
   it('should handle input longer than mask', async () => {
     await setMask('###-###');
 
-    input.type('1234567890', true);
+    await typeValue('1234567890');
     expect(input.el.value).toBe('123-456');
   });
 
   it('should handle partial input', async () => {
     await setMask('(###) ###-####');
 
-    input.type('123', true);
+    await typeValue('123');
     expect(input.el.value).toBe('(123');
   });
 
   it('should handle deletion of characters', async () => {
     await setMask('###-###-####');
 
-    input.type('123-456-7890', true);
+    await typeValue('123-456-7890');
     expect(input.el.value).toBe('123-456-7890');
 
-    input.type('123-456-789', true);
+    await typeValue('123-456-789');
     expect(input.el.value).toBe('123-456-789');
   });
 
   it('should handle writeValue correctly', async () => {
     await setMask('###-###-####');
 
-    input.type('1234567890', true);
+    await typeValue('1234567890');
     expect(input.el.value).toBe('123-456-7890');
 
-    input.type('', true);
+    await typeValue('');
     expect(input.el.value).toBe('');
   });
 
   it('should handle different mask characters', async () => {
     await setMask('#a*-#a*');
 
-    input.type('1b2-3c4', true);
+    await typeValue('1b2-3c4');
     expect(input.el.value).toBe('1b2-3c4');
 
-    input.type('1bc-3de', true);
+    await typeValue('1bc-3de');
     expect(input.el.value).toBe('1bc-3de');
   });
 });

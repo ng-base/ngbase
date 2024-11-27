@@ -1,4 +1,5 @@
-import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core';
+import { Directive, ElementRef, TemplateRef, inject, input, numberAttribute } from '@angular/core';
+import { DialogRef } from '@meeui/adk/portal';
 import { PopoverOptions, popoverPortal } from '@meeui/ui/popover';
 
 @Directive({
@@ -14,9 +15,9 @@ export class HoverCard<T = any> {
 
   readonly meeHoverCard = input.required<TemplateRef<T>>();
   readonly options = input<PopoverOptions>();
-  readonly delay = input(400);
+  readonly delay = input(400, { transform: numberAttribute });
 
-  private close: null | VoidFunction = null;
+  private close: DialogRef | null = null;
   private inTimer: any;
   private outTimer: any;
 
@@ -29,13 +30,14 @@ export class HoverCard<T = any> {
 
     // we need to delay the opening of the popover to ensure that the user is hovering over the popover
     this.inTimer = setTimeout(() => {
+      const options = this.options() ?? {};
       const { diaRef, events } = this.popoverPortal.open(this.meeHoverCard(), {
         target: this.el.nativeElement,
         position: 'top',
         backdrop: false,
-        ...(this.options() ?? {}),
+        ...options,
       });
-      this.close = diaRef.close;
+      this.close = diaRef;
       events.subscribe(e => {
         if (e.type === 'mouseleave') {
           this.closePopup();
@@ -56,7 +58,7 @@ export class HoverCard<T = any> {
     this.inTimer = null;
     if (!this.close) return;
     this.outTimer = setTimeout(() => {
-      this.close?.();
+      this.close?.close();
       this.close = null;
       this.outTimer = null;
     }, this.delay());

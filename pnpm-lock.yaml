@@ -94,8 +94,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@18.19.40)
       jest-preset-angular:
-        specifier: ^14.4.0-rc.0
-        version: 14.4.0-rc.0(@angular-devkit/build-angular@19.0.0(yjduphythyg7zicya4d22xyegi))(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))))(@babel/core@7.25.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.9))(jest@29.7.0(@types/node@18.19.40))(typescript@5.6.3)
+        specifier: ^14.4.0
+        version: 14.4.0(@angular-devkit/build-angular@19.0.0(yjduphythyg7zicya4d22xyegi))(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))))(@babel/core@7.25.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.9))(jest@29.7.0(@types/node@18.19.40))(typescript@5.6.3)
       ng-packagr:
         specifier: ^19.0.0
         version: 19.0.0(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(tailwindcss@3.4.15)(tslib@2.6.3)(typescript@5.6.3)
@@ -3694,8 +3694,8 @@ packages:
       jest-resolve:
         optional: true
 
-  jest-preset-angular@14.4.0-rc.0:
-    resolution: {integrity: sha512-ko42kbdwYssxYSL9Dqi3tw9FMuUCDX3JxWS1gAd4aiSxGsSuEgK0XHJ6BicnZ8J8F9f+0EX/SnsAkl8tnNehTw==}
+  jest-preset-angular@14.4.0:
+    resolution: {integrity: sha512-oGQN8ME1IbpqoOlgM/ebokIkXTkE2kUvSdvsO7WPj8HMjYvyg2YGOmn1hyxTttzw1cGo/JEVvAZTdCyMVLrMFQ==}
     engines: {node: ^14.15.0 || >=16.10.0}
     peerDependencies:
       '@angular-devkit/build-angular': '>=15.0.0 <20.0.0'
@@ -9663,7 +9663,7 @@ snapshots:
     optionalDependencies:
       jest-resolve: 29.7.0
 
-  jest-preset-angular@14.4.0-rc.0(@angular-devkit/build-angular@19.0.0(yjduphythyg7zicya4d22xyegi))(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))))(@babel/core@7.25.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.9))(jest@29.7.0(@types/node@18.19.40))(typescript@5.6.3):
+  jest-preset-angular@14.4.0(@angular-devkit/build-angular@19.0.0(yjduphythyg7zicya4d22xyegi))(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))))(@babel/core@7.25.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.9))(jest@29.7.0(@types/node@18.19.40))(typescript@5.6.3):
     dependencies:
       '@angular-devkit/build-angular': 19.0.0(yjduphythyg7zicya4d22xyegi)
       '@angular/compiler-cli': 19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3)

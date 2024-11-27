@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
 import { NumberOnly } from './number-only';
 
@@ -8,13 +8,14 @@ describe('NumberOnly Directive', () => {
   let input: ElementHelper<HTMLInputElement>;
 
   @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NumberOnly],
-    template: `<input meeNumberOnly [min]="min" [max]="max" [len]="len" [(value)]="value" />`,
+    template: `<input meeNumberOnly [min]="min()" [max]="max()" [len]="len()" [(value)]="value" />`,
   })
   class TestComponent {
-    min?: number;
-    max?: number;
-    len?: number;
+    min = signal<number | undefined>(undefined);
+    max = signal<number | undefined>(undefined);
+    len = signal<number | undefined>(undefined);
     value = '';
   }
 
@@ -66,7 +67,7 @@ describe('NumberOnly Directive', () => {
   });
 
   it('should respect min value', () => {
-    component.min = 10;
+    component.min.set(10);
     view.detectChanges();
 
     // Now try to type a value that would go below min
@@ -82,7 +83,7 @@ describe('NumberOnly Directive', () => {
   });
 
   it('should respect max value', () => {
-    component.max = 100;
+    component.max.set(100);
     view.detectChanges();
 
     input.type('9911'); // Try to type '9911', which would exceed max

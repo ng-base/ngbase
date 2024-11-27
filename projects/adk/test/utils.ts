@@ -1,10 +1,4 @@
-import {
-  DebugElement,
-  OutputEmitterRef,
-  provideExperimentalZonelessChangeDetection,
-  Provider,
-  Type,
-} from '@angular/core';
+import { DebugElement, OutputEmitterRef, Provider, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -50,6 +44,10 @@ export class RenderResult<T> {
     this.fixture.detectChanges();
   }
 
+  async sleep(ms: number) {
+    await sleep(ms);
+  }
+
   inject<U>(directive: Type<U>) {
     return injectService(directive);
   }
@@ -72,6 +70,10 @@ export class RenderResult<T> {
 
   queryNative<U>(directive: string | Type<U>) {
     return this.fixture.debugElement.query(this.getDirectiveType(directive));
+  }
+
+  queryRoot<U extends HTMLElement>(selector: string): U {
+    return document.querySelector(selector) as U;
   }
 
   $<U = HTMLElement>(selector: string | Type<any>): U {
@@ -121,7 +123,6 @@ export async function render<T>(
   if (providers.length) {
     const bed = TestBed.configureTestingModule({
       imports: [component],
-      // providers: [provideExperimentalZonelessChangeDetection(), ...providers],
       providers,
     });
     overrides.forEach(([from, to, type]) => {
@@ -267,4 +268,8 @@ export class ElementHelper<T extends HTMLElement> {
     }
     return event!;
   }
+}
+
+export async function sleep(ms: number) {
+  await new Promise(resolve => setTimeout(resolve, ms));
 }

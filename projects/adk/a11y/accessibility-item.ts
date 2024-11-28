@@ -6,31 +6,35 @@ import {
   ElementRef,
   inject,
   input,
+  linkedSignal,
   model,
   OnDestroy,
   output,
+  Signal,
   signal,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AccessiblityService } from './accessiblity.service';
+import { AccessibilityService } from './accessibility.service';
 
 @Directive({
   selector: '[meeAccessibleItem]',
   host: {
     '[attr.aria-pressed]': 'pressed()',
-    '[attr.aria-disabled]': 'disabled()',
-    '[tabindex]': 'disabled() ? -1 : 0',
+    '[attr.aria-disabled]': '_disabled() || null',
+    '[attr.aria-selected]': '_selected()',
+    '[tabindex]': '_disabled() ? -1 : 0',
     '(click)': 'onFocus()',
   },
 })
 export class AccessibleItem<T = any> implements OnDestroy {
-  readonly allyService = inject(AccessiblityService);
+  readonly allyService = inject(AccessibilityService);
   readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly id = input<string>('');
-  readonly ayId = model<string>('');
+  readonly ayId = input<string>('');
   readonly role = input('button');
   readonly disabled = input(false, { transform: booleanAttribute });
+  readonly selected = input(false, { transform: booleanAttribute });
   readonly data = input<T>();
   readonly skip = input(false, { transform: booleanAttribute });
   readonly level = model(0);
@@ -38,7 +42,12 @@ export class AccessibleItem<T = any> implements OnDestroy {
   readonly expanded = model(false);
   readonly selectedChange = output<number>();
 
-  readonly group = computed(() => this.allyService.getGroup(this.ayId() || ''));
+  // inputs writable for hacky reasons
+  _disabled = linkedSignal(this.disabled) as Signal<boolean>;
+  _selected = linkedSignal(this.selected) as Signal<boolean>;
+  _ayId = linkedSignal(this.ayId);
+
+  readonly group = computed(() => this.allyService.getGroup(this._ayId() || ''));
   readonly pressed = signal(false);
   readonly hasPopup = computed(() => this.el.getAttribute('aria-haspopup') === 'true');
   readonly events = new Subject<{

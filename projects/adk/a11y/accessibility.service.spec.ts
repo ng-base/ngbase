@@ -1,17 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { injectService } from '@meeui/adk/test';
-import { AccessibleGroup } from './accessiblity-group';
-import { AccessiblityService } from './accessiblity.service';
+import { AccessibleGroup } from './accessibility-group';
+import { AccessibilityService } from './accessibility.service';
 
 describe('AccessibilityService', () => {
-  let service: AccessiblityService;
+  let service: AccessibilityService;
   let mockDocument: Document;
 
   beforeEach(() => {
     mockDocument = document.implementation.createHTMLDocument();
 
-    service = injectService(AccessiblityService, [
-      AccessiblityService,
+    service = injectService(AccessibilityService, [
+      AccessibilityService,
       { provide: DOCUMENT, useValue: mockDocument },
     ]);
   });

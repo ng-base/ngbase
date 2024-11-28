@@ -1,9 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { documentListener } from '@meeui/adk/utils';
-import { AccessibleGroup } from './accessiblity-group';
+import { AccessibleGroup } from './accessibility-group';
 
 @Injectable({ providedIn: 'root' })
-export class AccessiblityService {
+export class AccessibilityService {
   readonly groups = signal(new Map<string, AccessibleGroup>());
   private activeGroupOrder: string[] = [];
   usingMouse = false;

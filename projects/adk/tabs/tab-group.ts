@@ -2,11 +2,14 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  Directive,
   ElementRef,
   afterNextRender,
   booleanAttribute,
+  computed,
   contentChildren,
   effect,
+  inject,
   input,
   model,
   output,
@@ -25,64 +28,98 @@ export interface TabChangeEvent {
   index: number;
 }
 
+@Directive({
+  selector: '[meeTabButtonsGroup]',
+  hostDirectives: [{ directive: AccessibleGroup }],
+  host: {
+    role: 'tablist',
+  },
+})
+export class TabButtonsGroup {
+  private readonly tabGroup = inject(MeeTabs);
+  private readonly accessibleGroup = inject(AccessibleGroup);
+
+  constructor() {
+    this.accessibleGroup.ayId.set(this.tabGroup.ayId);
+  }
+}
+
+@Directive({
+  selector: 'button[meeTabButton]',
+  hostDirectives: [{ directive: AccessibleItem }],
+  host: {
+    type: 'button',
+    role: 'tab',
+    '[attr.id]': 'meeTabButton().id',
+    '(click)': '!meeTabButton().disabled() && tabGroup.setActive(meeTabButton())',
+  },
+})
+export class TabButton {
+  private readonly tabGroup = inject(MeeTabs);
+  private readonly accessibleItem = inject(AccessibleItem);
+
+  readonly meeTabButton = input.required<MeeTab>();
+
+  constructor() {
+    this.accessibleItem._selected = computed(
+      () => this.meeTabButton().tabId() === this.tabGroup.selectedIndex(),
+    );
+    this.accessibleItem._disabled = computed(() => this.meeTabButton().disabled());
+    this.accessibleItem._ayId.set(this.tabGroup.ayId);
+  }
+}
+
+@Directive({
+  selector: 'button[meeTabScroll]',
+  host: {
+    type: 'button',
+    tabindex: '-1',
+    style: '{display: none}',
+    '(click)': 'tabGroup.scroll(meeTabScroll())',
+  },
+})
+export class TabScroll {
+  readonly meeTabScroll = input.required<'left' | 'right'>();
+  readonly tabGroup = inject(MeeTabs);
+}
+
 @Component({
   selector: 'mee-tabs',
-  imports: [NgTemplateOutlet, Icon, NgClass, AccessibleGroup, AccessibleItem],
+  exportAs: 'meeTabs',
+  imports: [NgTemplateOutlet, Icon, NgClass, TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
-      <div class="relative flex overflow-hidden" role="tabList">
+      <div class="relative flex overflow-hidden">
         <button
-          #leftScroll
-          type="button"
-          (click)="scroll('left')"
-          class="absolute left-0 z-10 hidden h-full place-items-center bg-foreground px-2"
-          tabindex="-1"
+          meeTabScroll="left"
+          class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           <mee-icon name="lucideChevronLeft" />
         </button>
-        <nav role="tablist" #tabList class="tabList overflow-auto" meeAccessibleGroup [ayId]="ayId">
+        <nav meeTabButtonsGroup class="overflow-auto [scrollbar-width:none]">
           <div #tabListContainer class="flex h-full w-max">
             @for (tab of tabs(); track tab.id) {
               <button
-                #tabButtons
-                type="button"
-                class="whitespace-nowrap border-b-2 border-transparent"
+                [meeTabButton]="tab"
+                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
                 [ngClass]="{
-                  'cursor-not-allowed text-muted opacity-50': tab.disabled(),
-                  '!border-primary !text-primary': tab.tabId() === selectedIndex(),
+                  'px-b4 py-b3 font-medium text-muted': headerStyle(),
                 }"
-                (click)="!tab.disabled() && setActive(tab)"
-                role="tab"
-                [attr.aria-selected]="selectedIndex() === tab.tabId()"
-                [attr.id]="tab.id"
-                [disabled]="tab.disabled()"
-                meeAccessibleItem
-                [ayId]="ayId"
               >
-                <div
-                  [ngClass]="{
-                    'px-b4 py-b3 font-medium text-muted': headerStyle(),
-                    '!text-primary': tab.tabId() === selectedIndex(),
-                  }"
-                >
-                  @if (tab.header()) {
-                    <ng-container *ngTemplateOutlet="tab.header()!" />
-                  } @else {
-                    {{ tab.label() }}
-                  }
-                </div>
+                @if (tab.header()) {
+                  <ng-container *ngTemplateOutlet="tab.header()!" />
+                } @else {
+                  {{ tab.label() }}
+                }
               </button>
             }
           </div>
         </nav>
         <button
-          #rightScroll
-          type="button"
-          (click)="scroll('right')"
-          class="absolute right-0 z-10 hidden h-full place-items-center bg-foreground px-2"
-          tabindex="-1"
+          meeTabScroll="right"
+          class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           <mee-icon name="lucideChevronRight" />
         </button>
@@ -90,21 +127,23 @@ export interface TabChangeEvent {
       <ng-content select=".tab-header-content" />
     </div>
     <ng-content /> `,
-  styles: `
-    .tabList {
-      scrollbar-width: none;
-    }
-  `,
   host: {
     class: 'bg-foreground flex flex-col',
   },
 })
 export class MeeTabs {
-  readonly tabList = viewChild.required<ElementRef<HTMLElement>>('tabList');
+  readonly tabList = viewChild.required<TabButtonsGroup, ElementRef<HTMLElement>>(TabButtonsGroup, {
+    read: ElementRef,
+  });
   readonly tabListContainer = viewChild.required<ElementRef<HTMLElement>>('tabListContainer');
-  readonly tabButtons = viewChildren<ElementRef<HTMLElement>>('tabButtons');
-  readonly leftScroll = viewChild<ElementRef<HTMLElement>>('leftScroll');
-  readonly rightScroll = viewChild<ElementRef<HTMLElement>>('rightScroll');
+  readonly tabButtons = viewChildren<TabButton, ElementRef<HTMLElement>>(TabButton, {
+    read: ElementRef,
+  });
+  // readonly leftScroll = viewChild<ElementRef<HTMLElement>>('leftScroll');
+  // readonly rightScroll = viewChild<ElementRef<HTMLElement>>('rightScroll');
+  readonly scrollButtons = viewChildren<TabScroll, ElementRef<HTMLElement>>(TabScroll, {
+    read: ElementRef,
+  });
   readonly tabs = contentChildren(MeeTab);
 
   readonly selectedIndex = model<any>(0);
@@ -188,8 +227,8 @@ export class MeeTabs {
   }
 
   private updateScrollDisplay(el: HTMLElement) {
-    const leftScroll = this.leftScroll()!.nativeElement;
-    const rightScroll = this.rightScroll()!.nativeElement;
+    const leftScroll = this.scrollButtons()[0]!.nativeElement;
+    const rightScroll = this.scrollButtons()[1]!.nativeElement;
     leftScroll.style.display = el.scrollLeft > 0 ? 'grid' : 'none';
     rightScroll.style.display = el.scrollLeft + el.clientWidth < el.scrollWidth ? 'grid' : 'none';
   }

@@ -14,8 +14,8 @@ import {
   untracked,
 } from '@angular/core';
 import { Directionality } from '@meeui/adk/bidi';
-import { AccessibleItem } from './accessiblity-item';
-import { AccessiblityService } from './accessiblity.service';
+import { AccessibleItem } from './accessibility-item';
+import { AccessibilityService } from './accessibility.service';
 
 type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
 
@@ -30,7 +30,7 @@ type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
   },
 })
 export class AccessibleGroup implements OnDestroy {
-  private readonly allyService = inject(AccessiblityService);
+  private readonly allyService = inject(AccessibilityService);
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly document = inject(DOCUMENT);
   private readonly dir = inject(Directionality);
@@ -276,7 +276,7 @@ export class AccessibleGroup implements OnDestroy {
     let index = currentIndex - 1;
     for (let i = index; i >= 0; i--) {
       const nextItem = items[i];
-      if (!nextItem.disabled() && !nextItem.skip() && nextItem.level() === level) {
+      if (!nextItem._disabled() && !nextItem.skip() && nextItem.level() === level) {
         return i;
       }
     }
@@ -288,7 +288,7 @@ export class AccessibleGroup implements OnDestroy {
     previosItem?.blur();
     const items = this.items();
     this.log('focusItem', item?.host.nativeElement.textContent);
-    item = item ?? items.find(item => !item.disabled() && !item.skip());
+    item = item ?? items.find(item => !item._disabled() && !item.skip());
     this.log('next focusItem', item?.host.nativeElement.textContent);
     if (!item) return;
     this.focusIndex(items.indexOf(item));
@@ -299,7 +299,7 @@ export class AccessibleGroup implements OnDestroy {
     this.log('focusIndex', nextIndex, direction);
     if (nextIndex !== null && nextIndex >= 0 && nextIndex < items.length) {
       let nextItem = items[nextIndex];
-      if (nextItem.disabled() || nextItem.skip()) {
+      if (nextItem._disabled() || nextItem.skip()) {
         nextIndex = this.getNextItem(nextIndex, items, direction);
         nextItem = items[nextIndex];
       }
@@ -331,7 +331,7 @@ export class AccessibleGroup implements OnDestroy {
       const nextIndex = (currentIndex + i * step + len) % len;
       // this.log(totalItems, currentIndex, step, nextIndex);
       const item = items[nextIndex];
-      if (!item.disabled() && !item.skip()) {
+      if (!item._disabled() && !item.skip()) {
         // this.log({ currentIndex, items, direction });
         return nextIndex;
       }
@@ -348,7 +348,7 @@ export class AccessibleGroup implements OnDestroy {
     const endIndex = direction === 'next' ? items.length : -1;
 
     for (let i = startIndex; i !== endIndex; i += step) {
-      if (!items[i].disabled() && !items[i].skip()) {
+      if (!items[i]._disabled() && !items[i].skip()) {
         return i;
       }
     }

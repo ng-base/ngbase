@@ -18,7 +18,7 @@ export class MeeSelectableItem<T> {
   readonly selected = computed(() => this.value() === this.selectable.activeIndex());
 
   constructor() {
-    inject(AccessibleItem).ayId.set(this.selectable.ayId);
+    inject(AccessibleItem)._ayId.set(this.selectable.ayId);
   }
 
   select() {

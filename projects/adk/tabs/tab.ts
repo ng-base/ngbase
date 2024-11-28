@@ -24,6 +24,7 @@ export class MeeTabLazy {}
 
 @Component({
   selector: 'mee-tab',
+  exportAs: 'meeTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   template: `@if (active() && lazy()) {
@@ -31,10 +32,9 @@ export class MeeTabLazy {}
     } @else if (activeMode()) {
       <ng-content />
     }`,
-  exportAs: 'meeTab',
   host: {
-    '[tabindex]': 'active() ? 0 : -1',
     role: 'tabpanel',
+    '[tabindex]': 'active() ? 0 : -1',
     '[attr.aria-hidden]': '!active()',
     '[attr.aria-labelledby]': 'id',
   },

@@ -41,7 +41,7 @@ export class ToggleItem<T> {
   });
 
   constructor() {
-    this.accessibleItem.ayId.set(this.toggleGroup.ayId);
+    this.accessibleItem._ayId.set(this.toggleGroup.ayId);
   }
 
   updateValue() {

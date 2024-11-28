@@ -33,7 +33,7 @@ export class List {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   setAyId(id: string) {
-    this.allyItem.ayId.set(id);
+    this.allyItem._ayId.set(id);
   }
 
   select() {

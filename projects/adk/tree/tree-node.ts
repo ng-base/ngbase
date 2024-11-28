@@ -52,7 +52,7 @@ export class MeeTreeNode<T> {
 
   constructor() {
     const a11yItem = inject(AccessibleItem);
-    a11yItem.ayId.set(this.tree.ayId);
+    a11yItem._ayId.set(this.tree.ayId);
     a11yItem.level.set(this.data.level);
     effect(() => {
       a11yItem.expandable.set(this.hasChildren());

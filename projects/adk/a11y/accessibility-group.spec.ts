@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
-import { AccessibleGroup } from './accessiblity-group';
-import { AccessibleItem } from './accessiblity-item';
+import { AccessibleGroup } from './accessibility-group';
+import { AccessibleItem } from './accessibility-item';
 
 Element.prototype.scrollIntoView = jest.fn();
 

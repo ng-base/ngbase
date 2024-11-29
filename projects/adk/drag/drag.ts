@@ -9,6 +9,7 @@ import {
   effect,
   inject,
   input,
+  linkedSignal,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
@@ -54,8 +55,13 @@ export class Drag {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly lockAxis = input<'x' | 'y'>();
   readonly dragBoundary = input<string>();
+
+  // hacky: we need this for host directives
+  _lockAxis = linkedSignal(this.lockAxis);
+  _dragBoundary = linkedSignal(this.dragBoundary);
+
   private readonly dragBoundaryElement = computed(() => {
-    const id = this.dragBoundary();
+    const id = this._dragBoundary();
     return id ? this.document.querySelector(id) : null;
   });
   private boundaryRect: { left: number; top: number; right: number; bottom: number } | undefined;
@@ -166,9 +172,9 @@ export class Drag {
       y = Math.max(-top, Math.min(y, bottom));
     }
 
-    if (this.lockAxis() === 'x') {
+    if (this._lockAxis() === 'x') {
       y = 0;
-    } else if (this.lockAxis() === 'y') {
+    } else if (this._lockAxis() === 'y') {
       x = 0;
     }
 

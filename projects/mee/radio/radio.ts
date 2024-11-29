@@ -1,54 +1,30 @@
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { uniqueId } from '@meeui/adk/utils';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeRadio, MeeRadioIndicator } from '@meeui/adk/radio';
 import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
-import { RadioGroup } from './radio-group';
 
 @Component({
   selector: 'mee-radio, [meeRadio]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AccessibleItem, FocusStyle],
+  hostDirectives: [{ directive: MeeRadio, inputs: ['value', 'disabled'] }],
+  imports: [FocusStyle, MeeRadioIndicator],
   template: `
     <button
       meeFocusStyle
-      type="button"
+      meeRadioIndicator
+      #radioIndicator
       class="custom-radio relative flex h-b4 w-b4 flex-none items-center justify-center rounded-full border border-primary"
-      [class]="disabled() ? 'border-muted' : 'border-primary'"
-      [attr.aria-checked]="checked()"
-      meeAccessibleItem
-      [ayId]="ayId()"
-      [disabled]="disabled()"
-      role="radio"
+      [class]="radioIndicator.disabled() ? 'border-muted' : 'border-primary'"
     >
-      @if (checked()) {
-        <div class="h-b2 w-b2 rounded-full" [class]="disabled() ? 'bg-muted' : 'bg-primary'"></div>
-      }
+      <div
+        class="h-b2 w-b2 rounded-full"
+        [class]="radioIndicator.disabled() ? 'bg-muted' : 'bg-primary'"
+      ></div>
     </button>
     <ng-content />
   `,
   host: {
-    class: 'flex items-center gap-b2 py-1',
-    '(click)': '!disabled() && updateValue($event)',
-    '[class]': `disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
+    class:
+      'flex items-center gap-b2 py-1 cursor-pointer aria-[disabled="true"]:opacity-40 aria-[disabled="true"]:cursor-not-allowed',
   },
 })
-export class Radio {
-  readonly radio = inject(RadioGroup);
-  readonly value = input<any>();
-  readonly disabled = input(false, { transform: booleanAttribute });
-  readonly inputId = uniqueId();
-  readonly checked = computed(() => this.value() === this.radio.value());
-  readonly ayId = signal<string>(this.radio.ayId);
-
-  updateValue() {
-    this.radio.updateValue(this.value());
-  }
-}
+export class Radio {}

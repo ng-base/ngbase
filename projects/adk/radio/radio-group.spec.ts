@@ -1,31 +1,57 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Radio } from './radio';
-import { RadioGroup } from './radio-group';
-import { MeeRadioGroup } from '@meeui/adk/radio';
+import { MeeRadio, MeeRadioIndicator } from './radio';
+import { MeeRadioGroup } from './radio-group';
 
 @Component({
-  imports: [RadioGroup, Radio, FormsModule, ReactiveFormsModule],
+  imports: [MeeRadioGroup, MeeRadio, MeeRadioIndicator, FormsModule, ReactiveFormsModule],
   template: `
     <form [formGroup]="form">
-      <mee-radio-group formControlName="option" id="first">
-        <mee-radio [value]="'option1'">Option 1</mee-radio>
-        <mee-radio [value]="'option2'">Option 2</mee-radio>
-        <mee-radio [value]="'option3'" [disabled]="isDisabled">Option 3</mee-radio>
-      </mee-radio-group>
+      <div meeRadioGroup formControlName="option" id="first">
+        <div meeRadio [value]="'option1'">
+          <button meeRadioIndicator><div></div></button>
+          Option 1
+        </div>
+        <div meeRadio [value]="'option2'">
+          <button meeRadioIndicator><div></div></button>
+          Option 2
+        </div>
+        <div meeRadio [value]="'option3'" [disabled]="isDisabled">
+          <button meeRadioIndicator><div></div></button>
+          Option 3
+        </div>
+      </div>
     </form>
-    <mee-radio-group [(ngModel)]="selectedValue" id="second">
-      <mee-radio [value]="'option1'">Option 1</mee-radio>
-      <mee-radio [value]="'option2'">Option 2</mee-radio>
-      <mee-radio [value]="'option3'" [disabled]="true">Option 3</mee-radio>
-    </mee-radio-group>
+    <div meeRadioGroup [(ngModel)]="selectedValue" id="second">
+      <div meeRadio [value]="'option1'">
+        <button meeRadioIndicator><div></div></button>
+        Option 1
+      </div>
+      <div meeRadio [value]="'option2'">
+        <button meeRadioIndicator><div></div></button>
+        Option 2
+      </div>
+      <div meeRadio [value]="'option3'" [disabled]="true">
+        <button meeRadioIndicator><div></div></button>
+        Option 3
+      </div>
+    </div>
 
-    <mee-radio-group [(value)]="value" id="third">
-      <mee-radio [value]="'option1'">Option 1</mee-radio>
-      <mee-radio [value]="'option2'">Option 2</mee-radio>
-      <mee-radio [value]="'option3'">Option 3</mee-radio>
-    </mee-radio-group>
+    <div meeRadioGroup [(value)]="value" id="third">
+      <div meeRadio [value]="'option1'">
+        <button meeRadioIndicator><div></div></button>
+        Option 1
+      </div>
+      <div meeRadio [value]="'option2'">
+        <button meeRadioIndicator><div></div></button>
+        Option 2
+      </div>
+      <div meeRadio [value]="'option3'">
+        <button meeRadioIndicator><div></div></button>
+        Option 3
+      </div>
+    </div>
   `,
 })
 class TestComponent {
@@ -50,7 +76,7 @@ describe('RadioGroup and Radio', () => {
     view.detectChanges();
 
     radioGroupElement = view.viewChildrenDebug(MeeRadioGroup);
-    radioElements = view.viewChildrenDebug(Radio);
+    radioElements = view.viewChildrenDebug(MeeRadio);
   });
 
   it('should create the radio group', () => {
@@ -59,7 +85,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should have six radio buttons in total', () => {
-    const allRadioButtons = view.$All('mee-radio');
+    const allRadioButtons = view.$All('.mee-radio');
     expect(allRadioButtons.length).toBe(9);
   });
 
@@ -70,7 +96,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should update the ngModel when a radio button is clicked', () => {
-    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
     ngModelRadios[1].click();
     view.detectChanges();
     expect(component.selectedValue).toBe('option2');
@@ -86,7 +112,7 @@ describe('RadioGroup and Radio', () => {
   it('should update the UI when the ngModel changes', async () => {
     component.selectedValue = 'option1';
     await view.formStable();
-    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
     expect(ngModelRadios[0].querySelector('button > div')).toBeTruthy();
     expect(ngModelRadios[1].querySelector('button > div')).toBeFalsy();
   });
@@ -96,7 +122,7 @@ describe('RadioGroup and Radio', () => {
     view.detectChanges();
     expect(component.form.get('option')?.value).not.toBe('option3');
 
-    const ngModelRadios = view.$All('mee-radio-group:nth-child(2) mee-radio');
+    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
     ngModelRadios[2].click();
     view.detectChanges();
     expect(component.selectedValue).not.toBe('option3');
@@ -157,6 +183,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should emit value change on clicking', () => {
+    // const radioGroup = radioGroupElement[1].componentInstance as MeeRadioGroup;
     const radioGroup = view.viewChild(MeeRadioGroup, '#second');
     jest.spyOn(radioGroup, 'onChange');
     radioElements[4].nativeElement.click();

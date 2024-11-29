@@ -1,26 +1,22 @@
 import { signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
 import { Radio } from './radio';
-import { RadioGroup } from './radio-group';
+import { MeeRadio, MeeRadioGroup } from '@meeui/adk/radio';
 
 describe('RadioComponent', () => {
-  let component: Radio;
+  let component: MeeRadio;
   let view: RenderResult<Radio>;
 
   beforeEach(async () => {
     view = await render(Radio, [
-      { provide: RadioGroup, useValue: { value: signal('1'), updateValue: () => {} } },
+      { provide: MeeRadioGroup, useValue: { value: signal('1'), updateValue: () => {} } },
     ]);
-    component = view.host;
+    component = view.injectHost(MeeRadio);
     view.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have a unique id', () => {
-    expect(component.inputId).toBeTruthy();
   });
 
   it('should check if value is equal to radio value', () => {
@@ -49,7 +45,7 @@ describe('RadioComponent', () => {
   it('should avoid the curosor pointer when disabled', () => {
     view.setInput('disabled', true);
     view.detectChanges();
-    const button = view.fixture.nativeElement as HTMLButtonElement;
-    expect(button.classList).toContain('cursor-not-allowed');
+    const button = view.$0Native<HTMLButtonElement>();
+    expect(button.attr('aria-disabled')).toBe('true');
   });
 });

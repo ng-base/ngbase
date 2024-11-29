@@ -101,6 +101,10 @@ export class RenderResult<T> {
     return el ? new ElementHelper(el) : (null as any);
   }
 
+  $0Native<U extends HTMLElement>(): ElementHelper<U> {
+    return new ElementHelper(this.fixture.debugElement);
+  }
+
   $0All<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U>[] {
     return this.viewChildrenDebug(selector).map(de => new ElementHelper(de));
   }

@@ -8,17 +8,17 @@ import { MeeResizableGroup } from './resizable-group';
   imports: [MeeResizableGroup, MeeResizable],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <mee-resizable-group #resizableGroup>
+    <div meeResizableGroup #resizableGroup>
       <!-- <mee-resizable [size]="show() ? 50 : 0" />
       <mee-resizable size="auto" /> -->
-      <mee-resizable [size]="show() ? '250px' : 0" />
-      <mee-resizable size="250px" min="50px" max="300px" />
-      <mee-resizable size="250px" min="50px" />
-      <mee-resizable />
+      <div meeResizable [size]="show() ? '250px' : 0"></div>
+      <div meeResizable size="250px" min="50px" max="300px"></div>
+      <div meeResizable size="250px" min="50px"></div>
+      <div meeResizable></div>
       @if (showLast()) {
-        <mee-resizable size="250px" min="50px" />
+        <div meeResizable size="250px" min="50px"></div>
       }
-    </mee-resizable-group>
+    </div>
   `,
 })
 class ResizableTestComponent {

@@ -1,26 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeProgress, MeeProgressBar } from '@meeui/adk/progress';
 
 @Component({
   selector: 'mee-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div
-    class="h-full bg-primary transition"
-    [style.transform]="'translateX(-' + total() + '%)'"
-  ></div>`,
+  imports: [MeeProgressBar],
+  hostDirectives: [{ directive: MeeProgress, inputs: ['value'] }],
+  template: `<div class="h-full bg-primary transition" meeProgressBar></div>`,
   host: {
-    class: 'block h-b2 my-1 bg-muted-background rounded-full overflow-hidden',
-    role: 'progressbar',
-    '[attr.aria-valuenow]': 'value()',
-    '[attr.aria-valuemin]': '0',
-    '[attr.aria-valuemax]': '100',
+    class: 'block h-b2 my-1 bg-muted-background rounded-full',
   },
 })
-export class Progress {
-  readonly value = input(0);
-
-  readonly total = computed(() => {
-    let percentage = this.value();
-    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage;
-    return 100 - percentage;
-  });
-}
+export class Progress {}

@@ -17,7 +17,7 @@ import { MeeResizable } from './resizable';
   selector: '[meeResizableGroup]',
   exportAs: 'meeResizableGroup',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content select="mee-resizable" />`,
+  template: `<ng-content select="[meeResizable]" />`,
   host: {
     class: 'flex w-full',
     '[class.flex-col]': "direction() === 'vertical'",

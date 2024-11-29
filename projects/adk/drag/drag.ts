@@ -59,6 +59,7 @@ export class Drag {
   // hacky: we need this for host directives
   _lockAxis = linkedSignal(this.lockAxis);
   _dragBoundary = linkedSignal(this.dragBoundary);
+  _disabled = linkedSignal(this.disabled);
 
   private readonly dragBoundaryElement = computed(() => {
     const id = this._dragBoundary();
@@ -71,7 +72,7 @@ export class Drag {
 
   constructor() {
     effect(cleanup => {
-      if (!this.disabled()) {
+      if (!this._disabled()) {
         const handle = this.handle() || this.el;
         handle.nativeElement.addEventListener('pointerdown', this.onPointerDown);
         cleanup(() => handle.nativeElement.removeEventListener('pointerdown', this.onPointerDown));

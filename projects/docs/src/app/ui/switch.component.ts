@@ -23,7 +23,6 @@ export class SwitchComponent {
   import { Switch } from '@meeui/ui/switch';
 
   @Component({
-    standalone: true,
     selector: 'app-switch',
     imports: [Switch, FormsModule],
     template: \`

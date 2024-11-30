@@ -5,7 +5,6 @@ import { Card } from '@meeui/ui/card';
 import { Separator } from '@meeui/ui/separator';
 
 @Component({
-  standalone: true,
   selector: 'app-chat',
   imports: [Heading, Card, Separator],
   providers: [ChatService],

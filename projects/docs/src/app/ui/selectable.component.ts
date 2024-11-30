@@ -30,7 +30,6 @@ export class SelectableComponent {
   import { Selectable, SelectableItem } from '@meeui/ui/selectable';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <mee-selectable [(activeIndex)]="index">

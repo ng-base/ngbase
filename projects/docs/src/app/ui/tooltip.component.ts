@@ -28,7 +28,6 @@ export class TooltipComponent {
   import { Button } from '@meeui/ui/button';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Tooltip, Button],
     template: \`

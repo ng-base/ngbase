@@ -259,7 +259,6 @@ export class MenuComponent {
   import { List } from '@meeui/ui/list';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Menu, MenuTrigger, Separator, List],
     template: \`

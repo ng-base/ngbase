@@ -4,7 +4,6 @@ import { uniqueId } from '@meeui/adk/utils';
 import { MeeInputError } from './error';
 
 @Directive({
-  standalone: true,
   selector: 'mee-form-field, [meeFormField]',
 })
 export class MeeFormField {

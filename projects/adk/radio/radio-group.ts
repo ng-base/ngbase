@@ -5,7 +5,6 @@ import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 import { MeeRadio } from './radio';
 
 @Directive({
-  standalone: true,
   selector: '[meeRadioGroup]',
   host: {
     class: 'mee-radio-group',

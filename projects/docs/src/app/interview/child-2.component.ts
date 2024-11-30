@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'app-child-2',
   template: `
     <h4>Child -- {{ now() }}</h4>

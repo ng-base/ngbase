@@ -71,7 +71,6 @@ const DOUBLE_WORD_SCORE = {
 };
 
 @Component({
-  standalone: true,
   selector: 'app-word-power',
   imports: [RangePipe],
   template: `

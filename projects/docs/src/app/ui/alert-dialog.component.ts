@@ -41,7 +41,6 @@ export class AlertDialogComponent {
   import { alertPortal } from '@meeui/ui/alert';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<button (click)="openAlert()">Open alert</button>\`,
   })

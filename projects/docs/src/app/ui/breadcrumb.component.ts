@@ -39,7 +39,6 @@ export class BreadcrumbComponent {
   import { Breadcrumbs, Breadcrumb } from '@meeui/ui/breadcrumb';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Breadcrumbs, Breadcrumb],
     template: \`

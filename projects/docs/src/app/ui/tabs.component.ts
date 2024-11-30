@@ -8,7 +8,6 @@ import { lucidePlus, lucideX } from '@ng-icons/lucide';
 import { DocCode } from './code.component';
 
 @Component({
-  standalone: true,
   selector: 'app-tab-lazy',
   template: `<p>Lazy tab</p>`,
 })
@@ -82,7 +81,6 @@ export class TabsComponent {
   import { Tabs, Tab, TabHeader } from '@meeui/ui/tabs';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Tabs, Tab, TabHeader],
     template: \`

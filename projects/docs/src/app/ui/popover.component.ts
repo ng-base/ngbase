@@ -39,7 +39,6 @@ export class PopoverComponent {
   import { AddComponent } from '../add.component';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [PopoverTrigger],
     template: \`

@@ -24,7 +24,6 @@ export class CalendarComponent {
   import { DatePicker } from '@meeui/ui/datepicker';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<mee-date-picker />\`,
     imports: [DatePicker],

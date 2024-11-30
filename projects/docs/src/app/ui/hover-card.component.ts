@@ -75,7 +75,6 @@ export class HoverCardComponent {
   import { HoverCard } from '@meeui/ui/hover-card';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Button, DialogClose, HoverCard],
     template: \`

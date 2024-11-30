@@ -88,7 +88,6 @@ export class CardComponent {
   import { Avatar } from '@meeui/ui/avatar';
 
   @Component({
-    standalone: true,
     selector: 'app-card',
     imports: [Card, Avatar],
     template: \`${this.htmlCode}\`,

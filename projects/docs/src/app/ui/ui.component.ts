@@ -39,7 +39,6 @@ import { TooltipComponent } from './tooltip.component';
 import { TypographyComponent } from './typography.component';
 
 @Component({
-  standalone: true,
   selector: 'mee-ui',
   templateUrl: 'ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

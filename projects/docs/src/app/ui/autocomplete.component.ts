@@ -82,7 +82,6 @@ export class AutocompleteComponent {
   import { Option } from '@meeui/ui/select';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [ReactiveFormsModule, Autocomplete, AutocompleteInput, Option],
     template: \`

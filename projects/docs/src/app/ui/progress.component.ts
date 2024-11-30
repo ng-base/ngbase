@@ -33,7 +33,6 @@ export class ProgressComponent {
   import { Progress } from '@meeui/ui/progress';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Progress],
     template: \`

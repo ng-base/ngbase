@@ -25,7 +25,6 @@ export class DialogComponent {
   import { AddComponent } from '../add.component';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<button (click)="open()">submit</button>\`,
   })

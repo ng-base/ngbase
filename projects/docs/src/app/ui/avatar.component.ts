@@ -46,7 +46,6 @@ export class AvatarComponent {
   import { Avatar } from '@meeui/ui/avatar';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <mee-avatar

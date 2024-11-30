@@ -53,7 +53,6 @@ export class ColorPickerComponent {
   import { Label } from '@meeui/ui/input';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <label meeLabel>

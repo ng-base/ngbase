@@ -3,7 +3,6 @@ import { TourStep } from '@meeui/ui/tour';
 import { Child1Component } from './child-1.component';
 
 @Component({
-  standalone: true,
   selector: 'app-child',
   imports: [Child1Component, TourStep],
   template: `

@@ -20,7 +20,6 @@ export class ChipComponent {
   import { Chip } from '@meeui/ui/chip';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Chip],
     template: \`<button meeChip>Chip</button>\`,

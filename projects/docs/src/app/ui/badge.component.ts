@@ -20,7 +20,6 @@ export class BadgeComponent {
   import { Badge } from '@meeui/ui/badge';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<button meeBadge>Badge</button>\`,
     imports: [Badge],

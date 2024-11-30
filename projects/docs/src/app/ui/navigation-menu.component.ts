@@ -60,7 +60,6 @@ export class NavigationMenuComponent {
   import { List } from '@meeui/ui/list';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [
       NavigationMenu, MenuTrigger, Menu,

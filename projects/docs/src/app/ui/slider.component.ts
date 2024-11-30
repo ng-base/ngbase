@@ -39,7 +39,6 @@ export class SliderComponent {
   import { Slider } from '@meeui/ui/slider';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [FormsModule, Slider],
     template: \`

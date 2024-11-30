@@ -61,7 +61,6 @@ export class CarouselComponent {
   import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <mee-carousel #myCarousel>

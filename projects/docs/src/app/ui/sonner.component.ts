@@ -29,7 +29,6 @@ export class SonnerComponent {
   import { sonnerPortal } from '@meeui/ui/sonner';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <button (click)="addMessage()">Sonner</button>

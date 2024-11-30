@@ -1,4 +1,3 @@
-import { CdkTreeModule } from '@angular/cdk/tree';
 import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button } from '@meeui/ui/button';
@@ -50,7 +49,6 @@ interface TreeItem {
 // }
 
 @Component({
-  standalone: true,
   selector: 'app-tree',
   imports: [
     Tree,
@@ -63,7 +61,6 @@ interface TreeItem {
     Icon,
     NgTemplateOutlet,
     JsonPipe,
-    CdkTreeModule,
   ],
   viewProviders: [provideIcons({ lucideChevronDown, lucideChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,

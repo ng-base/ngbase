@@ -39,7 +39,6 @@ export class ContextMenuComponent {
   import { List } from '@meeui/ui/list';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [
       ContextMenu, Menu,

@@ -26,7 +26,6 @@ export class DrawerComponent {
   import { AddComponent } from '../add.component';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<button (click)="open()">Open drawer</button>\`,
   })

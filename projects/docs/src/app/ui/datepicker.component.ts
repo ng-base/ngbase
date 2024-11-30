@@ -114,7 +114,6 @@ export class DatepickerComponent {
   import { Input } from '@meeui/ui/input';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [DatepickerTrigger, FormsModule, Input],
     template: \`

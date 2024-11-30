@@ -78,7 +78,6 @@ export class ResizableComponent {
   import { Button } from '@meeui/ui/button';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Resizable, ResizableGroup, Button],
     template: \`

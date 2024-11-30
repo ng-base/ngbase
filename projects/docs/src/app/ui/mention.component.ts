@@ -54,7 +54,6 @@ export class MentionComponent {
   import { Option } from '@meeui/ui/select';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [FormsModule, MentionTrigger, Input, Menu, Option],
     template: \`

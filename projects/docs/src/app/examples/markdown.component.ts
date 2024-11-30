@@ -15,7 +15,6 @@ import hljs from 'highlight.js';
 import { marked } from 'marked';
 
 @Component({
-  standalone: true,
   selector: 'app-markdown',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<article

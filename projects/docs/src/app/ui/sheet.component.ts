@@ -25,7 +25,6 @@ export class SheetComponent {
   import { sheetPortal } from '@meeui/ui/sheet';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <button (click)="open()">Open sheet</button>

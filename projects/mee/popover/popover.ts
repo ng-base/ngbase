@@ -23,9 +23,31 @@ import { tooltipPosition } from './utils';
 
 @Component({
   selector: 'mee-popover',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragMove, Icon, FocusTrap],
   providers: [provideIcons({ lucideX })],
-  template: ` <div
+  template: ` <style>
+      .popover-anchor {
+        --action-angle: 180deg;
+        --action-left: 50%;
+        --action-top: -1rem;
+      }
+      .popover-anchor::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-top: 0.8rem solid;
+        @apply border-foreground;
+        border-left: 0.5rem solid transparent;
+        border-right: 0.5rem solid transparent;
+        top: var(--action-top);
+        left: var(--action-left);
+        transform: translateX(-50%) rotate(var(--action-angle, 180deg));
+      }
+    </style>
+    <div
       #container
       [meeFocusTrap]="options().focusTrap"
       class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md"
@@ -61,30 +83,6 @@ import { tooltipPosition } from './utils';
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },
-  styles: [
-    `
-      .popover-anchor {
-        --action-angle: 180deg;
-        --action-left: 50%;
-        --action-top: -1rem;
-      }
-      .popover-anchor::before {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-top: 0.8rem solid;
-        @apply border-foreground;
-        border-left: 0.5rem solid transparent;
-        border-right: 0.5rem solid transparent;
-        top: var(--action-top);
-        left: var(--action-left);
-        transform: translateX(-50%) rotate(var(--action-angle, 180deg));
-      }
-    `,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     createHostAnimation(['@slideInOutAnimation']),
     trigger('slideInOutAnimation', [

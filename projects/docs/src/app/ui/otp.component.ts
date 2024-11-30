@@ -35,7 +35,6 @@ export class OtpComponent {
   import { InputOtp } from '@meeui/ui/input';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [InputOtp, FormsModule],
     template: \`

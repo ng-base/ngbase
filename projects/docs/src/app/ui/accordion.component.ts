@@ -49,7 +49,6 @@ export class AccordionComponent {
   import { AccordionGroup, Accordion, AccordionHeader } from '@meeui/ui/accordion';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`
       <mee-accordion-group

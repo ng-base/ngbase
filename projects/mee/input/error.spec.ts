@@ -6,7 +6,6 @@ import { FormField } from './form-field';
 import { Input } from './input';
 
 @Component({
-  standalone: true,
   selector: 'test-component',
   imports: [FormField, InputError, ReactiveFormsModule, Input],
   template: ` <div meeFormField>

@@ -31,7 +31,6 @@ export class SidenavComponent {
   import { Button } from '@meeui/ui/button';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Sidenav, SidenavHeader, SidenavContent, Button],
     template: \`

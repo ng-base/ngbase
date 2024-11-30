@@ -54,7 +54,6 @@ export class InputComponent {
   import { Input } from '@meeui/ui/input';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [FormsModule, Input],
     template: \`

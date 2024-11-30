@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MeeFormField } from '@meeui/adk/input';
 
 @Component({
-  standalone: true,
   selector: 'mee-form-field, [meeFormField]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

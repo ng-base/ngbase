@@ -54,7 +54,6 @@ export class RadioComponent {
   import { FormsModule } from '@angular/forms';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [RadioGroup, Radio, FormsModule],
     template: \`

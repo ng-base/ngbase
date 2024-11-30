@@ -24,7 +24,6 @@ export class SpinnerComponent {
   import { Spinner } from '@meeui/ui/spinner';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Spinner],
     template: \`

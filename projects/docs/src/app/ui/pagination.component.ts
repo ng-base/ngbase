@@ -27,7 +27,6 @@ export class PaginationComponent {
   import { Pagination } from '@meeui/ui/pagination';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [Pagination],
     template: \`

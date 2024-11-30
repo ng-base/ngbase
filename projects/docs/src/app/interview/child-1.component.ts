@@ -3,7 +3,6 @@ import { TourStep } from '@meeui/ui/tour';
 import { Child2Component } from './child-2.component';
 
 @Component({
-  standalone: true,
   selector: 'app-child-1',
   imports: [Child2Component, TourStep],
   changeDetection: ChangeDetectionStrategy.OnPush,

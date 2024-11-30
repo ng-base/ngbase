@@ -32,7 +32,6 @@ export class CheckboxComponent {
   import { Checkbox } from '@meeui/ui/checkbox';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     template: \`<mee-checkbox [(ngModel)]="checkBox">Check the UI</mee-checkbox>\`,
     imports: [Checkbox, FormsModule],

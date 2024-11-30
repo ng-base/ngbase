@@ -22,7 +22,6 @@ import { SelectInput } from './select-input';
 
 @Directive({
   selector: '[meeSelectOption]',
-  standalone: true,
 })
 export class SelectOption<T> {
   readonly template = inject(TemplateRef<OptionContext<T>>);

@@ -4,7 +4,6 @@ import { dialogPortal } from '@meeui/ui/dialog';
 import { keyMap } from '@meeui/adk/keys';
 
 @Component({
-  standalone: true,
   selector: 'app-command',
   template: ``,
 })

@@ -32,7 +32,6 @@ export class ListComponent {
   import { Option, ListSelection } from '@meeui/ui/select';
 
   @Component({
-    standalone: true,
     selector: 'app-root',
     imports: [List, Option, ListSelection],
     template: \`

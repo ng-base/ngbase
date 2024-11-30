@@ -1,20 +1,24 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Switch } from './switch';
-import { MeeSwitch, MeeSwitchThumb } from '@meeui/adk/switch';
+import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from './switch';
+
+@Component({
+  imports: [MeeSwitch, MeeSwitchTrack, MeeSwitchThumb, MeeSwitchLabel, FormsModule],
+  template: `<div meeSwitch [(ngModel)]="value">
+    <button meeSwitchTrack>
+      <span meeSwitchThumb></span>
+    </button>
+    <label meeSwitchLabel><ng-content /></label>
+  </div>`,
+})
+class TestComponent {
+  value = signal(false);
+}
 
 describe('SwitchComponent', () => {
   let component: MeeSwitch;
   let view: RenderResult<TestComponent>;
-
-  @Component({
-    imports: [Switch, FormsModule],
-    template: `<mee-switch [(ngModel)]="value" />`,
-  })
-  class TestComponent {
-    value = signal(false);
-  }
 
   beforeEach(async () => {
     view = await render(TestComponent);
@@ -52,7 +56,7 @@ describe('SwitchComponent', () => {
   it('should call updateValue when clicked', () => {
     const spy = jest.spyOn(component, 'updateValue');
     const changeSpy = jest.spyOn(component.change, 'emit');
-    view.$0('button').click();
+    view.$0(MeeSwitchTrack).click();
     expect(spy).toHaveBeenCalled();
     expect(changeSpy).toHaveBeenCalledWith(true);
   });

@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  linkedSignal,
   model,
   OnDestroy,
   output,
@@ -23,9 +24,9 @@ type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
   selector: '[meeAccessibleGroup]',
   host: {
     role: 'group',
-    '[attr.aria-label]': 'ariaLabel()',
-    '[attr.aria-labelledby]': 'ariaLabelledby()',
-    '[attr.aria-disabled]': 'disabled()',
+    '[attr.aria-label]': '_ariaLabel()',
+    '[attr.aria-labelledby]': '_ariaLabelledby()',
+    '[attr.aria-disabled]': '_disabled()',
     tabindex: '0',
   },
 })
@@ -45,13 +46,19 @@ export class AccessibleGroup implements OnDestroy {
   readonly clickable = model(false);
   readonly initialFocus = input(true);
 
+  // Hacky way to make sure the signals are updated
+  _ayId = linkedSignal(this.ayId);
+  _disabled = linkedSignal(this.disabled);
+  _ariaLabel = linkedSignal(this.ariaLabel);
+  _ariaLabelledby = linkedSignal(this.ariaLabelledby);
+
   private focusedItem?: WeakRef<AccessibleItem>;
   private isOn = signal(false);
 
   readonly elements = signal<AccessibleItem[]>([]);
 
   readonly items = computed(() => {
-    const _ = this.ayId() || '';
+    const _ = this._ayId() || '';
     const items = this.elements();
     // console.count(`items changed ${this.ayId()}`);
     // Sort items based on their position in the DOM
@@ -69,7 +76,7 @@ export class AccessibleGroup implements OnDestroy {
   constructor() {
     this.el.nativeElement.style.outline = 'none';
     effect(cleanup => {
-      const id = this.ayId();
+      const id = this._ayId();
       if (id) {
         this.allyService.addGroup(id, this);
         cleanup(() => this.allyService.removeGroup(id));
@@ -118,7 +125,7 @@ export class AccessibleGroup implements OnDestroy {
   };
 
   on = () => {
-    this.allyService.setActiveGroup(this.ayId()!);
+    this.allyService.setActiveGroup(this._ayId()!);
     // console.count(`focus in ${this.ayId()}`);
     if (this.isPopup()) {
       this.document.querySelectorAll('body > *').forEach(el => {
@@ -149,7 +156,7 @@ export class AccessibleGroup implements OnDestroy {
   onKeyDown = (event: KeyboardEvent) => {
     const items = this.items();
     // this.log('key down', this.ayId(), event.key, items.length);
-    if (!items.length || !this.allyService.isActive(this.ayId()!)) return;
+    if (!items.length || !this.allyService.isActive(this._ayId()!)) return;
 
     let item = this.focusedItem?.deref();
     // If there is no focused item, then wait for the first key press to focus the item
@@ -189,7 +196,7 @@ export class AccessibleGroup implements OnDestroy {
         if (isInput) return;
         const prevGroup = this.allyService.getPreviousGroup();
         let prevItem = prevGroup?.focusedItem?.deref();
-        const isSameGroup = prevGroup?.ayId() === this.ayId();
+        const isSameGroup = prevGroup?._ayId() === this._ayId();
         const collapse = item.expandable() && item.expanded();
         if ((!isSameGroup && prevGroup?.isOn() && prevItem) || collapse) {
           prevItem?.events.next({ event, type: 'key', item });

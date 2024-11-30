@@ -1,37 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/adk/utils';
+import { MeeToggle } from '@meeui/adk/toggle';
 
 @Component({
   selector: 'button[meeToggle]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [{ directive: MeeToggle, inputs: ['value'], outputs: ['valueChange'] }],
   template: `<ng-content />`,
   host: {
-    class: 'block w-9 h-9 rounded relative',
-    '[class.bg-background]': 'value',
-    '(click)': 'toggle()',
+    class: 'block w-9 h-9 rounded relative aria-[pressed=true]:bg-background',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideValueAccessor(Toggle)],
 })
-export class Toggle implements ControlValueAccessor {
-  value = false;
-  onChange = (_: boolean) => {};
-  onTouched = () => {};
-
-  writeValue(value: boolean): void {
-    this.value = value;
-  }
-
-  registerOnChange(fn: (value: boolean) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: VoidFunction): void {
-    this.onTouched = fn;
-  }
-
-  toggle() {
-    this.value = !this.value;
-    this.onChange(this.value);
-  }
-}
+export class Toggle {}

@@ -1,5 +1,5 @@
-import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
+import { Directive } from '@angular/core';
+import { MeeList } from '@meeui/adk/list';
 
 @Directive({
   selector: '[meeListStyle]',
@@ -16,36 +16,6 @@ export class ListStyle {}
     role: 'list',
     '[class]': 'disabled() ? "pointer-events-none cursor-not-allowed opacity-50" : ""',
   },
-  hostDirectives: [
-    ListStyle,
-    {
-      directive: AccessibleItem,
-      inputs: ['role', 'disabled', 'ayId'],
-    },
-  ],
+  hostDirectives: [ListStyle],
 })
-export class List {
-  // Dependencies
-  readonly allyItem = inject(AccessibleItem);
-  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  // Inputs
-  readonly disabled = input(false, { transform: booleanAttribute });
-
-  setAyId(id: string) {
-    this.allyItem._ayId.set(id);
-  }
-
-  select() {
-    this.el.nativeElement.click();
-  }
-
-  focus() {
-    this.el.nativeElement.scrollIntoView({ block: 'nearest' });
-    this.el.nativeElement.classList.add('bg-muted-background');
-  }
-
-  unselect() {
-    this.el.nativeElement.classList.remove('bg-muted-background');
-  }
-}
+export class List extends MeeList {}

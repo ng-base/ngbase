@@ -1,4 +1,12 @@
-import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  linkedSignal,
+  WritableSignal,
+} from '@angular/core';
 import { AccessibleItem } from '@meeui/adk/a11y';
 
 @Directive({
@@ -14,7 +22,12 @@ export class MeeList {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   // Inputs
+  readonly ayId = input<string>();
   readonly disabled = input(false, { transform: booleanAttribute });
+
+  constructor() {
+    this.allyItem._ayId = linkedSignal(this.ayId) as WritableSignal<string>;
+  }
 
   setAyId(id: string) {
     this.allyItem._ayId.set(id);

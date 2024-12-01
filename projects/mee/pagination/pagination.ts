@@ -1,4 +1,5 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import { Component } from '@angular/core';
+import { MeePagination, MeePaginationBtn } from '@meeui/adk/pagination';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { Option, Select } from '@meeui/ui/select';
@@ -12,7 +13,7 @@ import {
 
 @Component({
   selector: 'mee-pagination',
-  imports: [Button, Icon, Select, Option],
+  providers: [{ provide: MeePagination, useExisting: Pagination }],
   viewProviders: [
     provideIcons({
       lucideChevronLeft,
@@ -21,6 +22,7 @@ import {
       lucideChevronsRight,
     }),
   ],
+  imports: [Button, Icon, Select, Option, MeePaginationBtn],
   template: `
     <div class="flex items-center gap-b2">
       <div>Rows per page</div>
@@ -34,119 +36,35 @@ import {
     </div>
     <div>Page {{ active() }} of {{ _totalSize() }}</div>
     <div class="flex items-center gap-b2">
-      <button
-        type="button"
-        meeButton
-        variant="outline"
-        [disabled]="!prev()"
-        (click)="goto(0)"
-        class="h-b8 w-b8 !p-b2"
-      >
+      <button meePaginationBtn="prev" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsLeft" />
       </button>
-      <button
-        type="button"
-        meeButton
-        variant="outline"
-        (click)="jump(-1)"
-        [disabled]="!prev()"
-        aria-label="Go to previous page"
-        class="h-b8 w-b8 !p-b2"
-      >
+      <button meePaginationBtn="prev" jump="-1" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronLeft" />
       </button>
       @if (showPage()) {
         @for (item of items(); track item) {
           <button
-            type="button"
+            meePaginationBtn="page"
+            [jump]="item"
             meeButton
             variant="ghost"
-            [class]="active() === item ? 'bg-muted-background text-primary' : ''"
-            (click)="goto(item)"
-            class="min-w-b9 !p-b2 ring-offset-background"
-            aria-current="page"
+            class="min-w-b9 !p-b2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
           >
             {{ item }}
           </button>
         }
       }
-      <button
-        type="button"
-        meeButton
-        variant="outline"
-        (click)="jump(1)"
-        [disabled]="!next()"
-        aria-label="Go to next page"
-        class="h-b8 w-b8 !p-b2"
-      >
+      <button meePaginationBtn="next" jump="1" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronRight" />
       </button>
-      <button
-        type="button"
-        meeButton
-        variant="outline"
-        [disabled]="!next()"
-        (click)="jump(total() - 1)"
-        class="h-b8 w-b8 !p-b2"
-      >
+      <button meePaginationBtn="next" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsRight" />
       </button>
     </div>
   `,
   host: {
     class: 'flex items-center gap-b8 font-semibold',
-    role: 'pagination',
-    'aria-label': 'pagination',
   },
 })
-export class Pagination {
-  readonly total = input.required<number>();
-  readonly size = model.required<number>();
-  readonly sizeOptions = input<number[]>([10, 20, 50, 100]);
-  readonly active = model.required<number>();
-  readonly valueChanged = output<number>();
-  readonly showPage = input<boolean>(false);
-  readonly _totalSize = computed(() => Math.ceil(this.total() / this.size()));
-  readonly items = computed(() => {
-    const activeIndex = this.active();
-    const total = this._totalSize();
-
-    const num = [];
-    let start = activeIndex - 2 > 1 ? activeIndex - 2 : 1;
-    let end = start + 4;
-
-    if (end > total) {
-      end = total;
-      start = total - 4 > 1 ? total - 4 : 1;
-    }
-
-    for (let i = start; i <= end; i++) {
-      num.push(i);
-    }
-    return num;
-  });
-
-  readonly prev = computed(() => this.active() > 1);
-  readonly next = computed(() => this.active() < this._totalSize());
-
-  goto(index: number) {
-    const total = this._totalSize();
-    this.active.update(e => {
-      e = index <= total ? index : total;
-      e = e >= 1 ? e : 1;
-      return e;
-    });
-    this.valueChanged.emit(this.active());
-  }
-
-  jump(by: number) {
-    const active = this.active();
-    this.goto(active + by);
-  }
-
-  sizeChanged(size: number) {
-    this.size.set(size);
-    this.active.set(1);
-    this.valueChanged.emit(this.active());
-  }
-}
+export class Pagination extends MeePagination {}

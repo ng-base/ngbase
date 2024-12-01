@@ -14,6 +14,7 @@ import { DocCode } from './code.component';
         [active]="2"
         [size]="10"
         [total]="400"
+        [showPage]="true"
         class="rounded-base border bg-foreground p-b4 shadow-sm"
       />
     </app-doc-code>

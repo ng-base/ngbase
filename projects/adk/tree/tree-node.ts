@@ -12,11 +12,17 @@ import { MeeTree, TREE_NODE_DATA, TreeNodeData } from './tree';
 import { MeeTreeNodeDef } from './tree-toggle';
 
 @Component({
-  selector: 'mee-tree-node',
+  selector: '[meeTreeNode]',
   exportAs: 'meeTreeNode',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex items-start">
+    <style>
+      .tree-node {
+        display: flex;
+        align-items: start;
+      }
+    </style>
+    <div class="tree-node">
       <ng-content />
     </div>
     <ng-content select="[meeTreeNodeContent]" />
@@ -35,7 +41,6 @@ import { MeeTreeNodeDef } from './tree-toggle';
   },
 })
 export class MeeTreeNode<T> {
-  $implict: any;
   treeNodeDef = inject(MeeTreeNodeDef);
   tree = inject<MeeTree<T>>(MeeTree);
   data = inject<TreeNodeData<T>>(TREE_NODE_DATA);

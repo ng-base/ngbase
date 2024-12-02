@@ -1,33 +1,22 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { fadeAnimation } from '@meeui/ui/dialog';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeSidenav, MeeSidenavOverlay, provideSidenav } from '@meeui/adk/sidenav';
 
 export type ModeType = 'side' | 'over';
 
 @Component({
   selector: 'mee-sidenav',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideSidenav(Sidenav)],
+  imports: [MeeSidenavOverlay],
+  host: {
+    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
+  },
   template: `
     @if (mode() === 'over' && show()) {
-      <div
-        [@fadeAnimation]
-        class="absolute left-0 top-0 z-p h-full w-full bg-black/70"
-        (click)="toggle()"
-      ></div>
+      <div meeSidenavOverlay class="z-p bg-black/70"></div>
     }
     <ng-content select="mee-sidenav-header" />
     <ng-content />
   `,
-  host: {
-    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
-  },
-  animations: [fadeAnimation('500ms')],
 })
-export class Sidenav {
-  // Inputs
-  readonly show = model(true);
-  readonly mode = input<ModeType>('side');
-
-  toggle() {
-    this.show.update(show => !show);
-  }
-}
+export class Sidenav extends MeeSidenav {}

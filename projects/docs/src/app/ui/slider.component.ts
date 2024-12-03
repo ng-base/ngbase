@@ -13,12 +13,12 @@ import { DocCode } from './code.component';
     <h4 meeHeader class="mb-5" id="sliderPage">Slider</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <mee-slider [value]="slider" [step]="10" [max]="200" [range]="true" class="w-64 md:w-96" />
+      <mee-slider [(value)]="slider" [step]="10" [max]="200" [range]="3" class="w-64 md:w-96" />
 
       <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
       {{ test() }}
       <mee-slider
-        [(value)]="test"
+        [(ngModel)]="test"
         [step]="0.1"
         [min]="-2"
         [max]="2"
@@ -29,7 +29,7 @@ import { DocCode } from './code.component';
   `,
 })
 export class SliderComponent {
-  slider = [50, 100];
+  slider = signal([50, 100, 150]);
   test = signal(-1);
   disabled = signal(false);
 

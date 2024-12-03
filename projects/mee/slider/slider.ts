@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeSlider, SliderRange, SliderThumb, SliderTrack } from '@meeui/adk/slider';
+import { MeeSlider, SliderRange, SliderThumb, SliderTrack, provideSlider } from '@meeui/adk/slider';
 import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
 
 @Component({
   selector: 'mee-slider',
   exportAs: 'meeSlider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: MeeSlider, useExisting: Slider }],
+  providers: [provideSlider(Slider)],
   imports: [FocusStyle, SliderTrack, SliderRange, SliderThumb],
   template: `
     <div

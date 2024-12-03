@@ -12,6 +12,8 @@ import {
   linkedSignal,
   model,
   numberAttribute,
+  Type,
+  untracked,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -50,11 +52,25 @@ export class SliderRange {
   selector: '[meeSliderThumb]',
   host: {
     type: 'button',
+    role: 'slider',
     '[attr.aria-disabled]': 'slider.disabled()',
+    '[attr.aria-valuemin]': 'slider.min()',
+    '[attr.aria-valuemax]': 'slider.max()',
+    '[attr.aria-valuenow]': 'value()',
   },
 })
 export class SliderThumb {
   readonly slider = inject(MeeSlider);
+  readonly el = inject(ElementRef);
+
+  readonly index = computed(() => {
+    return this.slider.thumbs().findIndex(t => t.nativeElement === this.el.nativeElement);
+  });
+  readonly value = computed(() => {
+    const values = this.slider.value();
+    if (!values) return values;
+    return this.slider.range() > 1 ? (values as number[])[this.index()] : values;
+  });
 }
 
 @Component({
@@ -71,20 +87,14 @@ export class SliderThumb {
       <button meeSliderThumb></button>
     }
   `,
-  host: {
-    role: 'slider',
-    '[attr.aria-valuemin]': 'min()',
-    '[attr.aria-valuemax]': 'max()',
-    '[attr.aria-valuenow]': 'value()',
-  },
 })
 export class MeeSlider implements ControlValueAccessor {
-  private el = inject(ElementRef);
-  private drag = viewChild.required(Drag);
-  private track = viewChild.required<SliderRange, ElementRef<HTMLElement>>(SliderRange, {
+  private readonly el = inject(ElementRef);
+  private readonly drag = viewChild.required(Drag);
+  private readonly track = viewChild.required<SliderRange, ElementRef<HTMLElement>>(SliderRange, {
     read: ElementRef,
   });
-  private thumbs = viewChildren<SliderThumb, ElementRef<HTMLElement>>(SliderThumb, {
+  readonly thumbs = viewChildren<SliderThumb, ElementRef<HTMLElement>>(SliderThumb, {
     read: ElementRef,
   });
 
@@ -92,26 +102,23 @@ export class MeeSlider implements ControlValueAccessor {
   readonly step = input(1, { transform: numberAttribute });
   readonly min = input(0, { transform: numberAttribute });
   readonly max = input(100, { transform: numberAttribute });
-  readonly range = input(false, { transform: booleanAttribute });
+  readonly range = input(1, { transform: numberAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
-  readonly immediateUpdate = input(true, { transform: booleanAttribute });
 
   onChange?: (value: number | number[]) => {};
   onTouched?: () => {};
 
-  readonly noOfThumbs = computed(() => (this.range() ? [1, 2] : [1]));
-  private readonly values: number[] = [];
+  readonly noOfThumbs = computed(() => Array.from({ length: this.range() }, (_, i) => i));
+  private values: number[] = [];
   private activeIndex = 0;
   private totalWidth = 0;
   private totalSliderWidth = 0;
-  private startValue = 0;
 
   constructor() {
     effect(() => {
-      const value = this.value() ?? this.values;
-      // update the value only when there is a thumbs
+      const value = this.value() || 0;
       if (this.thumbs().length) {
-        this.handleValueUpdate(value);
+        untracked(() => this.handleValueUpdate(value));
       }
     });
 
@@ -121,31 +128,38 @@ export class MeeSlider implements ControlValueAccessor {
   }
 
   private handleValueUpdate(value: number | number[]) {
-    const v = Array.isArray(value) ? value : [value];
-    this.values[0] = this.fixStep(v[0]);
-    if (this.range()) {
-      this.updateValue(1, v[1], false);
+    const values = this.values;
+    const range = this.range() > 1;
+    if ((range && value !== values) || (!range && value !== values[0])) {
+      const v = Array.isArray(value) ? value : [value];
+      this.values = v.map(v => this.fixStep(v));
     }
+
     this.updateElement();
   }
 
   private updateElement() {
-    const [minPosition, maxPosition] = this.values.map(x => this.toPercentage(x));
-    const [minThumb, maxThumb] = this.thumbs();
-    minThumb.nativeElement.style.left = minPosition + '%';
+    const positions = this.values.map(x => this.toPercentage(x));
+    const thumbs = this.thumbs();
     const track = this.track().nativeElement;
-    if (maxThumb) {
-      maxThumb.nativeElement.style.left = maxPosition + '%';
+
+    thumbs.forEach((thumb, index) => {
+      thumb.nativeElement.style.left = positions[index] + '%';
+    });
+
+    if (positions.length > 1) {
+      const minPosition = Math.min(...positions);
+      const maxPosition = Math.max(...positions);
       track.style.width = maxPosition - minPosition + '%';
       track.style.marginLeft = minPosition + '%';
       track.style.transform = '';
     } else {
-      track.style.transform = 'translateX(' + (minPosition - 100) + '%)';
+      track.style.transform = 'translateX(' + (positions[0] - 100) + '%)';
     }
   }
 
   writeValue(value: number | number[]): void {
-    this.handleValueUpdate(value);
+    this.value.set(value);
   }
 
   registerOnChange(fn: any): void {
@@ -206,63 +220,69 @@ export class MeeSlider implements ControlValueAccessor {
     data.event?.preventDefault();
     // convert value to percentage based on the max value
     if (data.type === 'start') {
-      this.clicked(data.clientX!);
-      this.startValue = this.clicked(data.clientX!);
-      const valuePercentage = this.toPercentage(this.startValue);
+      const clickedValue = this.clicked(data.clientX!);
+      const valuePercentage = this.toPercentage(clickedValue);
       // total width of the slider
       this.totalWidth = this.width;
       // the width of the slider using current percentage
       this.totalSliderWidth = this.totalWidth * (valuePercentage / 100);
 
-      // find the nearest value index based on the percentage
-      this.activeIndex = 0;
-      if (this.range()) {
-        const [min, max] = this.values;
-        const minPercentage = this.toPercentage(min || 0);
-        const maxPercentage = this.toPercentage(max || 0);
-        const minDiff = Math.abs(minPercentage - valuePercentage);
-        const maxDiff = Math.abs(maxPercentage - valuePercentage);
-        this.activeIndex = minDiff < maxDiff ? 0 : 1;
+      // make sure the values are equal length as the range
+      if (this.values.length !== this.range()) {
+        this.values = Array.from({ length: this.range() }, (_, i) => this.values[i] || this.min());
       }
-      this.updateValue(this.activeIndex, this.startValue);
+      // sort the values
+      this.values = this.values.sort((a, b) => a - b);
+
+      // find the nearest value index based on the percentage
+      this.activeIndex = this.values.reduce((closestIndex, value, index) => {
+        const diff = Math.abs(this.toPercentage(value || 0) - valuePercentage);
+        return diff < Math.abs(this.toPercentage(this.values[closestIndex] || 0) - valuePercentage)
+          ? index
+          : closestIndex;
+      }, 0);
+      this.updateValue(this.activeIndex, clickedValue);
+      if (this.values[this.activeIndex] !== this.value()) {
+        this.notifyChange();
+      }
     } else if (data.type === 'move') {
       // the new percentage of the slider
       const newSize = this.totalSliderWidth + data.x;
-      let percentage = this.perRound(newSize, this.totalWidth);
+      const percentage = this.perRound(newSize, this.totalWidth);
       // update the value only when the percentage is different and within the range
-      percentage = this.updateValue(this.activeIndex, percentage);
-      if (this.startValue !== percentage) {
-        this.startValue = percentage;
-        if (this.immediateUpdate()) this.notifyChange();
+      const prevValue = this.values[this.activeIndex];
+      const currentValue = this.updateValue(this.activeIndex, percentage);
+      if (prevValue !== currentValue) {
+        this.notifyChange();
       }
     } else {
       this.totalWidth = 0;
       this.totalSliderWidth = 0;
-      if (this.values[this.activeIndex] !== this.value()) {
-        this.notifyChange();
-      }
     }
   }
 
-  private updateValue(index: number, value: number, notify = true) {
-    const prev = this.values[index];
-    this.values[index] = this.fixStep(value);
-    const [min = 0, max = 0] = this.values;
-    if (index === 0) {
-      this.values[0] = this.range() ? Math.min(min, max, this.max()) : Math.min(min, this.max());
-    } else {
-      this.values[1] = Math.max(min, max, this.min());
-    }
-    if (this.values[index] !== prev && notify) {
-      this.updateElement();
-    }
-    return this.values[index];
+  private updateValue(index: number, value: number) {
+    const values = this.values;
+    let stepValue = this.fixStep(value);
+
+    // Clamp the value between min and max
+    stepValue = Math.max(this.min(), Math.min(this.max(), stepValue));
+    values[index] = stepValue;
+
+    this.values = values.sort((a, b) => a - b);
+    this.activeIndex = this.values.findIndex(v => v === stepValue);
+    return stepValue;
   }
 
   private notifyChange() {
-    const percentage = this.range() ? this.values : this.values[0];
+    const percentage = this.range() > 1 ? [...this.values] : this.values[0];
     this.value.set(percentage);
     this.onChange?.(percentage);
     this.onTouched?.();
   }
 }
+
+export const provideSlider = (slider: Type<MeeSlider>) => [
+  { provide: MeeSlider, useExisting: slider },
+  provideValueAccessor(slider),
+];

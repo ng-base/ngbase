@@ -1,10 +1,32 @@
 import { DragData } from '@meeui/adk/drag';
 import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSlider } from './slider';
+import { MeeSlider, SliderThumb } from './slider';
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  imports: [MeeSlider, FormsModule],
+  template: `<div
+    meeSlider
+    [range]="range()"
+    [(ngModel)]="value"
+    [step]="step()"
+    [min]="min()"
+    [max]="max()"
+  ></div>`,
+})
+class TestComponent {
+  readonly range = signal(1);
+  readonly value = signal<any>(0);
+  readonly step = signal(1);
+  readonly min = signal(0);
+  readonly max = signal(100);
+  readonly immediateUpdate = signal(true);
+}
 
 describe('Slider', () => {
   let component: MeeSlider;
-  let view: RenderResult<MeeSlider>;
+  let view: RenderResult<TestComponent>;
 
   function stimulateDrag(type: 'start' | 'move' | 'end', x: number, clientX: number) {
     const dragEvent = {
@@ -17,8 +39,8 @@ describe('Slider', () => {
   }
 
   beforeEach(async () => {
-    view = await render(MeeSlider);
-    component = view.host;
+    view = await render(TestComponent);
+    component = view.viewChild(MeeSlider);
     view.detectChanges();
 
     // Mock the element
@@ -36,8 +58,7 @@ describe('Slider', () => {
     expect(component.step()).toBe(1);
     expect(component.min()).toBe(0);
     expect(component.max()).toBe(100);
-    expect(component.range()).toBe(false);
-    expect(component.immediateUpdate()).toBe(true);
+    expect(component.range()).toBe(1);
   });
 
   it('should set the form hooks', () => {
@@ -50,56 +71,68 @@ describe('Slider', () => {
     expect(component.onTouched).toBe(fn2);
   });
 
-  it('should update value when writeValue is called', () => {
-    component.writeValue(50);
-    expect(component['values']).toEqual([50]);
-    component.writeValue([25, 75]);
-    expect(component['values']).toEqual([25]);
+  it('should maintain the values length when the range changes', async () => {
+    view.host.range.set(2);
+    view.host.min.set(10);
+    view.host.value.set(0);
+    await view.formStable();
+    stimulateDrag('start', 0, 50);
+    expect(component['values']).toEqual([10, 55]);
   });
 
-  it('should update range values when writeValue is called with an array', () => {
-    view.setInput('range', true);
-    component.writeValue([25, 75]);
+  it('should sort the values when the value changes', async () => {
+    view.host.value.set([75, 25]);
+    view.host.range.set(2);
+    await view.formStable();
+    stimulateDrag('start', 0, 75);
     expect(component['values']).toEqual([25, 75]);
   });
 
-  it('should update element styles when value changes', () => {
-    component.value.set(50);
-    view.detectChanges();
-    const sliderMin = view.$('[role="slider"] button');
+  it('should update range values when writeValue is called with an array', async () => {
+    view.host.range.set(2);
+    view.host.value.set([25, 75]);
+    await view.formStable();
+    expect(component['values']).toEqual([25, 75]);
+  });
+
+  it('should update element styles when value changes', async () => {
+    view.host.value.set(50);
+    await view.formStable();
+    const sliderMin = view.$('[role="slider"]');
     expect(sliderMin.style.left).toBe('50%');
   });
 
-  it('should update element styles for range slider', () => {
-    view.setInput('range', true);
-    component.value.set([25, 75]);
-    view.detectChanges();
-    const [sliderMin, sliderMax] = view.$All('[role="slider"] button');
+  it('should update element styles for range slider', async () => {
+    view.host.range.set(2);
+    view.host.value.set([25, 75]);
+    await view.formStable();
+    const [sliderMin, sliderMax] = view.$All('[role="slider"]');
     expect(sliderMin.style.left).toBe('25%');
     expect(sliderMax.style.left).toBe('75%');
   });
 
-  it('should round values to step', () => {
-    view.setInput('step', 5);
-    component.value.set(22);
-    view.detectChanges();
+  it('should round values to step', async () => {
+    view.host.step.set(5);
+    view.host.value.set(22);
+    await view.formStable();
     expect(component['values']).toEqual([20]);
   });
 
-  it('should clamp values to min and max', () => {
-    view.setInput('min', 10);
-    view.setInput('max', 90);
-    component.value.set(-10);
-    view.detectChanges();
+  it('should clamp values to min and max', async () => {
+    view.host.min.set(10);
+    view.host.max.set(90);
+    view.host.value.set(-10);
+    await view.formStable();
     expect(component['values']).toEqual([10]);
-    component.value.set(100);
-    view.detectChanges();
+    view.host.value.set(100);
+    await view.formStable();
     expect(component['values']).toEqual([90]);
   });
 
   it('should handle negative values', () => {
-    view.setInput('min', -2);
-    view.setInput('max', 2);
+    view.host.min.set(-2);
+    view.host.max.set(2);
+    view.detectChanges();
     stimulateDrag('start', 0, 25);
     stimulateDrag('end', 0, 25);
     expect(component.value()).toBe(-1);
@@ -115,51 +148,73 @@ describe('Slider', () => {
     expect(component.value()).toBeCloseTo(50, 0);
   });
 
-  it('should handle drag events for range slider', () => {
-    view.setInput('range', true);
-    stimulateDrag('start', 0, 25);
-    stimulateDrag('move', 50, 75);
-    stimulateDrag('end', 0, 75);
-    expect(component.value()).toEqual([0, 75]);
+  it('should update ARIA attributes', async () => {
+    const values = [25, 75];
+    view.host.value.set(values);
+    view.host.range.set(2);
+    view.host.min.set(0);
+    view.host.max.set(100);
+    await view.formStable();
 
-    component.value.set([25, 40]);
-    view.detectChanges();
-    stimulateDrag('start', 0, 50);
-    expect(component['activeIndex']).toBe(1);
-    stimulateDrag('move', 20, 70);
-    stimulateDrag('end', 0, 70);
-    expect(component.value()).toEqual([25, 70]);
-
-    stimulateDrag('start', 0, 15);
-    expect(component['activeIndex']).toBe(0);
-    stimulateDrag('move', -10, 5);
-    stimulateDrag('end', 0, 5);
-    expect(component.value()).toEqual([5, 70]);
+    view.$0All(SliderThumb).forEach((sliderElement, i) => {
+      expect(sliderElement.attr('aria-valuemin')).toBe('0');
+      expect(sliderElement.attr('aria-valuemax')).toBe('100');
+      expect(sliderElement.attr('aria-valuenow')).toBe(values[i].toString());
+    });
   });
 
-  it('should handle immediate updates', () => {
-    view.setInput('immediateUpdate', true);
-    stimulateDrag('start', 0, 10);
-    stimulateDrag('move', 20, 30);
-    expect(component.value()).toBeCloseTo(30, 0);
-  });
+  describe('drag', () => {
+    it('should handle drag events for range slider', async () => {
+      view.host.range.set(2);
+      view.detectChanges();
+      stimulateDrag('start', 0, 25);
+      stimulateDrag('move', 50, 75);
+      stimulateDrag('end', 0, 75);
+      expect(component.value()).toEqual([0, 75]);
+    });
 
-  it('should not update immediately when immediateUpdate is false', () => {
-    view.setInput('immediateUpdate', false);
-    const initialValue = component.value();
-    stimulateDrag('start', 0, 10);
-    stimulateDrag('move', 20, 30);
-    expect(component.value()).toBe(initialValue);
-  });
+    it('should handle activeIndex on drag events for 2 range slider', async () => {
+      view.host.range.set(2);
+      view.host.value.set([25, 40]);
+      await view.formStable();
+      stimulateDrag('start', 0, 50);
+      expect(component['activeIndex']).toBe(1);
+      stimulateDrag('move', 20, 70);
+      stimulateDrag('end', 0, 70);
+      expect(component.value()).toEqual([25, 70]);
 
-  it('should update ARIA attributes', () => {
-    view.setInput('min', 0);
-    view.setInput('max', 100);
-    component.value.set(50);
-    view.detectChanges();
-    const sliderElement = view.fixture.nativeElement;
-    expect(sliderElement.getAttribute('aria-valuemin')).toBe('0');
-    expect(sliderElement.getAttribute('aria-valuemax')).toBe('100');
-    expect(sliderElement.getAttribute('aria-valuenow')).toBe('50');
+      stimulateDrag('start', 0, 15);
+      expect(component['activeIndex']).toBe(0);
+      stimulateDrag('move', -10, 5);
+      stimulateDrag('end', 0, 5);
+      expect(component.value()).toEqual([5, 70]);
+    });
+
+    it('should handle activeIndex on drag events for 3 range slider', async () => {
+      view.host.range.set(3);
+      view.host.value.set([25, 40, 55]);
+      await view.formStable();
+
+      stimulateDrag('start', 0, 20);
+      expect(component['activeIndex']).toBe(0);
+
+      stimulateDrag('move', 20, 40);
+      expect(component['activeIndex']).toBe(0);
+
+      stimulateDrag('move', 25, 45);
+      expect(component['activeIndex']).toBe(1);
+
+      stimulateDrag('move', 35, 55);
+      expect(component['activeIndex']).toBe(1);
+
+      stimulateDrag('move', 55, 75);
+      expect(component['activeIndex']).toBe(2);
+
+      stimulateDrag('move', 35, 55);
+      expect(component['activeIndex']).toBe(1);
+
+      stimulateDrag('move', 0, 20);
+      expect(component['activeIndex']).toBe(0);
+    });
   });
 });

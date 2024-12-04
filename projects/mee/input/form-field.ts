@@ -4,6 +4,7 @@ import { MeeFormField } from '@meeui/adk/input';
 @Component({
   selector: 'mee-form-field, [meeFormField]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [MeeFormField],
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
@@ -15,6 +16,5 @@ import { MeeFormField } from '@meeui/adk/input';
   host: {
     class: 'inline-flex flex-col font-medium mb-b2 gap-b text-left',
   },
-  hostDirectives: [{ directive: MeeFormField }],
 })
 export class FormField {}

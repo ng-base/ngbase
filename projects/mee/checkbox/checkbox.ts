@@ -30,7 +30,7 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
     {
       directive: MeeCheckbox,
       inputs: ['disabled', 'checked', 'indeterminate'],
-      outputs: ['checkedChange'],
+      outputs: ['checkedChange', 'change'],
     },
   ],
 })

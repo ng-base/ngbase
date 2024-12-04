@@ -85,7 +85,7 @@ interface Restaurant {
           <ng-container meeRow="select">
             <th meeHead *meeHeadDef class="!px-b">
               <mee-checkbox
-                (change)="masterToggle()"
+                (checkedChange)="masterToggle()"
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()"
               />
@@ -93,7 +93,7 @@ interface Restaurant {
             <td meeCell *meeCellDef="let row" class="!px-b">
               <mee-checkbox
                 (click)="$event.stopPropagation()"
-                (change)="selection.toggle(row)"
+                (checkedChange)="selection.toggle(row)"
                 [checked]="selection.isSelected(row)"
               />
             </td>
@@ -190,14 +190,13 @@ export class TermorComponent {
 
   /** Whether all items are selected */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
+    const numSelected = this.selection.selected().length;
     const numRows = this.dataSource().length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    console.log('masterToggle', this.isAllSelected());
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource().forEach(row => this.selection.select(row));

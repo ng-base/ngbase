@@ -8,13 +8,14 @@ import {
 } from '@angular/core';
 import { FocusTrap } from '@meeui/adk/a11y';
 import { DragMove } from '@meeui/adk/drag';
+import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
-import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { Subject } from 'rxjs';
-import { createHostAnimation, fadeAnimation, viewAnimation } from './dialog.animation';
+import { viewAnimation } from './dialog.animation';
 
 @Component({
   selector: 'mee-dialog',

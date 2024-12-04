@@ -1,6 +1,6 @@
 import { Directive, contentChildren, effect, input } from '@angular/core';
 import { documentListener, uniqueId } from '@meeui/adk/utils';
-import { Popover, PopoverOpen, basePopoverPortal } from '@meeui/ui/popover';
+import { Popover, PopoverOpen, basePopoverPortal } from '@meeui/adk/popover';
 import { MenuTrigger } from './menu-trigger';
 
 @Directive({

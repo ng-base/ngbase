@@ -9,7 +9,7 @@ import {
   model,
   untracked,
 } from '@angular/core';
-import { popoverPortal } from '@meeui/ui/popover';
+import { popoverPortal } from '@meeui/adk/popover';
 import { ColorFormat, ColorPicker } from './color-picker';
 
 @Directive({

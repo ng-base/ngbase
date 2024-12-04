@@ -1,7 +1,7 @@
 import { Component, ElementRef, TemplateRef, viewChild } from '@angular/core';
-import { popoverPortal } from './popover.service';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@meeui/adk/test';
+import { popoverPortal } from './popover.service';
 
 @Component({
   template: `<div #target></div>

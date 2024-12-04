@@ -17,7 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { popoverPortal } from '@meeui/ui/popover';
+import { popoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { Option } from './option';

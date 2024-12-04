@@ -5,8 +5,8 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
 import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 
 @Component({

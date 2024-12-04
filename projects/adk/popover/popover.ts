@@ -11,10 +11,8 @@ import {
 } from '@angular/core';
 import { FocusTrap } from '@meeui/adk/a11y';
 import { DragMove } from '@meeui/adk/drag';
-import { disposals } from '@meeui/adk/utils';
-import { createHostAnimation } from '@meeui/ui/dialog';
-import { Icon } from '@meeui/ui/icon';
 import { BaseDialog } from '@meeui/adk/portal';
+import { createHostAnimation, disposals } from '@meeui/adk/utils';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
@@ -24,7 +22,7 @@ import { tooltipPosition } from './utils';
 @Component({
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DragMove, Icon, FocusTrap],
+  imports: [FocusTrap],
   providers: [provideIcons({ lucideX })],
   template: ` <style>
       .popover-anchor {
@@ -54,16 +52,6 @@ import { tooltipPosition } from './utils';
       [class]="[options().anchor ? 'popover-anchor' : 'overflow-auto', options().className]"
       [@slideInOutAnimation]
     >
-      @if (options().title) {
-        <div
-          class="flex items-center justify-between border-b px-b3 py-b2"
-          meeDragMove
-          [target]="container"
-        >
-          {{ options().title }}
-          <mee-icon name="lucideX" (click)="close()" class="cursor-pointer" />
-        </div>
-      }
       <div class="flex flex-1 flex-col overflow-auto">
         <ng-container #myDialog />
       </div>

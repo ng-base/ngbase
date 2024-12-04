@@ -3,7 +3,7 @@ import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
-import { PopoverTrigger } from '@meeui/ui/popover';
+import { PopoverTrigger } from '@meeui/adk/popover';
 import { Option } from '@meeui/ui/select';
 import { Separator } from '@meeui/ui/separator';
 import { Heading } from '@meeui/ui/typography';

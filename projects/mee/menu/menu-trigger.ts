@@ -2,7 +2,7 @@ import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@
 import { AccessibleItem } from '@meeui/adk/a11y';
 import { DialogOptions } from '@meeui/adk/portal';
 import { uniqueId } from '@meeui/adk/utils';
-import { popoverPortal } from '@meeui/ui/popover';
+import { popoverPortal } from '@meeui/adk/popover';
 import { Subject } from 'rxjs';
 import { Menu } from './menu';
 import { NavigationMenu } from './navigation-menu';

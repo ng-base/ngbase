@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
-import { PopoverTrigger } from '@meeui/ui/popover';
+import { PopoverTrigger } from '@meeui/adk/popover';
 import { DialogClose } from '@meeui/adk/portal';
 
 @Component({

@@ -11,9 +11,9 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { createHostAnimation, fadeAnimation } from '@meeui/ui/dialog';
-import { PopoverOptions, PopoverPosition, tooltipPosition } from '@meeui/ui/popover';
+import { PopoverOptions, PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
 import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { debounceTime, fromEvent, startWith, take } from 'rxjs';
 import { TourService } from './tour.service';
 

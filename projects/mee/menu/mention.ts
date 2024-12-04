@@ -1,6 +1,6 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
 import { uniqueId } from '@meeui/adk/utils';
-import { PopoverOptions, popoverPortal } from '@meeui/ui/popover';
+import { PopoverOptions, popoverPortal } from '@meeui/adk/popover';
 import { Menu } from './menu';
 
 @Directive({

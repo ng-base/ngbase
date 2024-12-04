@@ -7,7 +7,7 @@ import {
   model,
   Type,
 } from '@angular/core';
-import { fadeAnimation } from '@meeui/ui/dialog';
+import { fadeAnimation } from '@meeui/adk/utils';
 import { ModeType, SidenavService } from './sidenav.service';
 
 @Directive({

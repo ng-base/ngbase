@@ -9,7 +9,7 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { PopoverPosition } from '@meeui/ui/popover';
+import { PopoverPosition } from '@meeui/adk/popover';
 import { TooltipService } from './tooltip.service';
 
 export function provideTooltipOptions(options: TooltipOptions) {

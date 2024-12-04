@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { InputBase } from '@meeui/adk/input';
 import { Input } from '@meeui/ui/input';
-import { popoverPortal } from '@meeui/ui/popover';
+import { popoverPortal } from '@meeui/adk/popover';
 import { DatePicker } from './datepicker';
 import { injectMeeDateAdapter } from './native-date-adapter';
 

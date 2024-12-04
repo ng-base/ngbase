@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DialogClose } from '@meeui/adk/portal';
 import { Button } from '@meeui/ui/button';
-import { PopoverTrigger, popoverPortal } from '@meeui/ui/popover';
+import { PopoverTrigger, popoverPortal } from '@meeui/adk/popover';
 import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
 import { DocCode } from './code.component';
@@ -35,7 +35,7 @@ export class PopoverComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { popoverPortal, PopoverTrigger } from '@meeui/ui/popover';
+  import { popoverPortal, PopoverTrigger } from '@meeui/adk/popover';
   import { AddComponent } from '../add.component';
 
   @Component({

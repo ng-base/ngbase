@@ -9,10 +9,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Button } from '@meeui/ui/button';
-import { createHostAnimation, fadeAnimation, sideAnimation } from '@meeui/ui/dialog';
-import { Icon } from '@meeui/ui/icon';
 import { BaseDialog, DialogRef } from '@meeui/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
+import { Button } from '@meeui/ui/button';
+import { sideAnimation } from '@meeui/ui/dialog';
+import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
 import { SheetOptions } from './sheet.service';

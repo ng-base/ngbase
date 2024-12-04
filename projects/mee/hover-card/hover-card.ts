@@ -1,6 +1,6 @@
 import { Directive, ElementRef, TemplateRef, inject, input, numberAttribute } from '@angular/core';
 import { DialogRef } from '@meeui/adk/portal';
-import { PopoverOptions, popoverPortal } from '@meeui/ui/popover';
+import { PopoverOptions, popoverPortal } from '@meeui/adk/popover';
 
 @Directive({
   selector: '[meeHoverCard]',

@@ -8,7 +8,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { PopoverPosition, tooltipPosition } from '@meeui/ui/popover';
+import { PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
 import { injectTheme } from '@meeui/ui/theme';
 
 @Component({

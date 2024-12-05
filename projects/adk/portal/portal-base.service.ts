@@ -23,11 +23,12 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     callback?: (comp: ComponentRef<U>, opt: DialogOptions) => void,
     opt?: DialogOptions,
     animation = true,
+    parentComponent?: Type<U>,
   ) {
     const options = { ...new DialogOptions(), ...opt };
     const diaRef = new DialogRef(options, destroy, closeAll, animation);
     const childInjector = createInj(injector, options.data, diaRef);
-    const parent = portal.create(baseComponent, childInjector, NAME);
+    const parent = portal.create(parentComponent || baseComponent, childInjector, NAME);
 
     // set options
     callback?.(parent, options);

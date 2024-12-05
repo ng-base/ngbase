@@ -2,4 +2,4 @@
  * Public API Surface of tooltip
  */
 
-export * from './tooltip.directive';
+export { provideTooltipOptions, Tooltip } from './tooltip';

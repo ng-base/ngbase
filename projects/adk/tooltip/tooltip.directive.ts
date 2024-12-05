@@ -3,6 +3,7 @@ import {
   ElementRef,
   InjectionToken,
   OnDestroy,
+  Type,
   afterRenderEffect,
   computed,
   inject,
@@ -11,8 +12,9 @@ import {
 } from '@angular/core';
 import { PopoverPosition } from '@meeui/adk/popover';
 import { TooltipService } from './tooltip.service';
+import { MeeTooltipTemplate } from './tooltip';
 
-export function provideTooltipOptions(options: TooltipOptions) {
+export function provideMeeTooltipOptions(options: TooltipOptions) {
   return { provide: TOOLTIP_OPTIONS, useValue: options };
 }
 
@@ -22,12 +24,13 @@ export interface TooltipOptions {
   showDelay?: number;
   hideDelay?: number;
   position?: PopoverPosition;
+  component?: Type<MeeTooltipTemplate>;
 }
 
 @Directive({
   selector: '[meeTooltip]',
 })
-export class Tooltip implements OnDestroy {
+export class MeeTooltip implements OnDestroy {
   // Dependencies
   private defaultOptions = inject(TOOLTIP_OPTIONS, { optional: true });
   private el = inject(ElementRef);
@@ -45,6 +48,7 @@ export class Tooltip implements OnDestroy {
       showDelay: this.delay() || o.showDelay || 0,
       hideDelay: o.hideDelay || 0,
       position: this.meeTooltipPosition() || o.position || 'top',
+      component: this.defaultOptions?.component || o.component,
     };
     return options;
   });
@@ -78,6 +82,7 @@ export class Tooltip implements OnDestroy {
         this.meeTooltip()!,
         options.position!,
         this.quickHide,
+        options.component,
       );
       return;
     }
@@ -87,6 +92,7 @@ export class Tooltip implements OnDestroy {
         this.meeTooltip()!,
         options.position!,
         this.hide,
+        options.component,
       );
     }, options.showDelay);
   };

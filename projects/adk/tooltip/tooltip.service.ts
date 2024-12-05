@@ -1,7 +1,7 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import { ComponentRef, Injectable, Type } from '@angular/core';
 import { basePortal, DialogInput } from '@meeui/adk/portal';
 import { PopoverPosition } from '@meeui/adk/popover';
-import { TooltipComponent } from './tooltip';
+import { MeeTooltipTemplate } from './tooltip';
 
 @Injectable({ providedIn: 'root' })
 export class TooltipService {
@@ -10,7 +10,13 @@ export class TooltipService {
   timeoutId: any;
   delay = 100;
 
-  insert(el: HTMLElement, content: string, position: PopoverPosition, hide: VoidFunction) {
+  insert(
+    el: HTMLElement,
+    content: string,
+    position: PopoverPosition,
+    hide: VoidFunction,
+    component?: Type<MeeTooltipTemplate>,
+  ) {
     clearTimeout(this.timeoutId);
     if (this.tooltipOpen) {
       this.tooltipOpen.parent.instance.update(content, el, position, hide);
@@ -18,7 +24,7 @@ export class TooltipService {
       //   this.tooltipOpen.parent.instance.setPosition(el);
       // });
     } else {
-      this.tooltipOpen = this.tooltip.open(content, el, position, hide);
+      this.tooltipOpen = this.tooltip.open(content, el, position, hide, component);
     }
   }
 
@@ -33,27 +39,29 @@ export class TooltipService {
 
 interface TooltipOpen {
   destroy: VoidFunction;
-  parent: ComponentRef<TooltipComponent>;
-  replace: ((component: DialogInput<TooltipComponent>) => void) | undefined;
+  parent: ComponentRef<MeeTooltipTemplate>;
+  replace: ((component: DialogInput<MeeTooltipTemplate>) => void) | undefined;
 }
 
 export function tooltipPortal() {
   const NAME = 'tooltip';
-  const base = basePortal(NAME, TooltipComponent);
+  const base = basePortal(NAME, MeeTooltipTemplate);
 
   function open(
     content: string,
     target: HTMLElement,
     position: PopoverPosition,
     hide: VoidFunction,
+    parentComponent?: Type<MeeTooltipTemplate>,
   ) {
-    const { diaRef, parent, replace } = base.open<TooltipComponent>(
+    const { diaRef, parent, replace } = base.open<MeeTooltipTemplate>(
       undefined,
       comp => {
         comp.instance.update(content, target, position || 'top', hide);
       },
       undefined,
       false,
+      parentComponent,
     );
 
     function destroy() {

@@ -1,16 +1,15 @@
 import { signal } from '@angular/core';
-import { ColorFormat } from '@meeui/adk/color-picker';
-import { DialogRef } from '@meeui/adk/portal';
 import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
-import { ColorPicker } from './color-picker';
+import { DialogRef } from '@meeui/adk/portal';
+import { ColorFormat, MeeColorPicker } from './color-picker';
 
 describe('ColorPicker', () => {
-  let component: ColorPicker;
-  let view: RenderResult<ColorPicker>;
+  let component: MeeColorPicker;
+  let view: RenderResult<MeeColorPicker>;
 
   beforeEach(async () => {
     const dialogRefMock = { data: { format: 'hex' as ColorFormat, presetColors: [] } };
-    view = await render(ColorPicker, [{ provide: DialogRef, useValue: dialogRefMock }]);
+    view = await render(MeeColorPicker, [{ provide: DialogRef, useValue: dialogRefMock }]);
     component = view.host;
     view.detectChanges();
   });

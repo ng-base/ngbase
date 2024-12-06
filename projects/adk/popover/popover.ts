@@ -10,7 +10,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { FocusTrap } from '@meeui/adk/a11y';
-import { DragMove } from '@meeui/adk/drag';
 import { BaseDialog } from '@meeui/adk/portal';
 import { createHostAnimation, disposals } from '@meeui/adk/utils';
 import { provideIcons } from '@ng-icons/core';

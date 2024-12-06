@@ -1,13 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ColorPickerTrigger, MeeColorInput, provideColorPicker } from '@meeui/adk/color-picker';
 import { provideValueAccessor } from '@meeui/adk/utils';
 import { InputStyle } from '@meeui/ui/input';
-import { ColorFormat } from './color-picker';
-import { ColorPickerTrigger } from './color-picker-trigger';
+import { ColorPicker } from './color-picker';
 
 @Component({
   selector: 'mee-color-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideColorPicker(ColorPicker), provideValueAccessor(ColorInput)],
+  hostDirectives: [InputStyle],
   imports: [ColorPickerTrigger, FormsModule],
   template: `
     <input
@@ -28,37 +30,8 @@ import { ColorPickerTrigger } from './color-picker-trigger';
       [style.backgroundColor]="value()"
     ></button>
   `,
-  hostDirectives: [InputStyle],
   host: {
     class: '!inline-flex gap-2 items-center',
   },
-  providers: [provideValueAccessor(ColorInput)],
 })
-export class ColorInput implements ControlValueAccessor {
-  // value = signal('#0E16D7');
-  // value = signal('hsb(215, 91%, 100%)');
-  format = input<ColorFormat>('hex');
-  presetColors = input<string[]>();
-  value = model<string>('');
-
-  onChange = (_: string) => {};
-  onTouched = () => {};
-
-  updateValue(value = ''): void {
-    this.value.set(value);
-    this.onChange(value);
-    this.onTouched();
-  }
-
-  writeValue(value: string): void {
-    this.value.set(value);
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-}
+export class ColorInput extends MeeColorInput {}

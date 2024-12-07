@@ -51,6 +51,7 @@ export class AccessibleGroup implements OnDestroy {
   _disabled = linkedSignal(this.disabled);
   _ariaLabel = linkedSignal(this.ariaLabel);
   _ariaLabelledby = linkedSignal(this.ariaLabelledby);
+  _isPopup = linkedSignal(this.isPopup);
 
   private focusedItem?: WeakRef<AccessibleItem>;
   private isOn = signal(false);
@@ -99,7 +100,7 @@ export class AccessibleGroup implements OnDestroy {
       });
     });
     effect(() => {
-      const isPopup = this.isPopup();
+      const isPopup = this._isPopup();
       untracked(() => {
         if (isPopup) {
           this.on();
@@ -127,7 +128,7 @@ export class AccessibleGroup implements OnDestroy {
   on = () => {
     this.allyService.setActiveGroup(this._ayId()!);
     // console.count(`focus in ${this.ayId()}`);
-    if (this.isPopup()) {
+    if (this._isPopup()) {
       this.document.querySelectorAll('body > *').forEach(el => {
         if (el.tagName !== 'MEE-PORTAL') {
           el.setAttribute('tabindex', '-1');
@@ -141,7 +142,7 @@ export class AccessibleGroup implements OnDestroy {
   };
 
   off = () => {
-    if (this.isPopup()) {
+    if (this._isPopup()) {
       this.document.querySelectorAll('body > *').forEach(el => {
         el.removeAttribute('tabindex');
         el.removeAttribute('aria-hidden');
@@ -248,7 +249,7 @@ export class AccessibleGroup implements OnDestroy {
         direction = 'last';
         break;
       case 'Tab':
-        if (this.isPopup()) {
+        if (this._isPopup()) {
           // this.log('tab', event, this.isPopup());
           event.preventDefault();
         }

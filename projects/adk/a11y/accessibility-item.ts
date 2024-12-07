@@ -71,7 +71,7 @@ export class AccessibleItem<T = any> implements OnDestroy {
     });
     effect(cleanUp => {
       const el = this.host.nativeElement;
-      if (this.group()?.isPopup()) {
+      if (this.group()?._isPopup()) {
         el.addEventListener('mouseenter', this.onFocus);
         cleanUp(() => el.removeEventListener('mouseenter', this.onFocus));
       }

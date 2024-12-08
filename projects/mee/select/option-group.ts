@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeOptionGroup } from '@meeui/adk/select';
 
 @Component({
   selector: 'mee-option-group, [meeOptionGroup]',
@@ -11,8 +12,4 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     class: 'block',
   },
 })
-export class OptionGroup {
-  label = input.required<string>();
-
-  disabled = input<boolean>(false);
-}
+export class OptionGroup extends MeeOptionGroup {}

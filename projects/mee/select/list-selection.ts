@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { provideValueAccessor } from '@meeui/adk/utils';
-import { SelectBase } from './select-base';
+import { SelectBase } from '@meeui/adk/select';
 
 @Component({
   selector: 'mee-list-selection',

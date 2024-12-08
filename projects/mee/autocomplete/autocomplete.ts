@@ -9,8 +9,8 @@ import { AccessibleGroup } from '@meeui/adk/a11y';
 import { provideValueAccessor } from '@meeui/adk/utils';
 import { Chip } from '@meeui/ui/chip';
 import { InputStyle } from '@meeui/ui/input';
-import { SelectBase } from '@meeui/ui/select';
 import { AutocompleteInput } from './autocomplete-input';
+import { SelectBase } from '@meeui/adk/select';
 
 @Component({
   selector: 'mee-autocomplete',

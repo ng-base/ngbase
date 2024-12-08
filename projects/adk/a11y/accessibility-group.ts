@@ -52,6 +52,7 @@ export class AccessibleGroup implements OnDestroy {
   _ariaLabel = linkedSignal(this.ariaLabel);
   _ariaLabelledby = linkedSignal(this.ariaLabelledby);
   _isPopup = linkedSignal(this.isPopup);
+  _loop = linkedSignal(this.loop);
 
   private focusedItem?: WeakRef<AccessibleItem>;
   private isOn = signal(false);
@@ -213,7 +214,7 @@ export class AccessibleGroup implements OnDestroy {
       case 'ArrowDown':
         nextIndex = currentIndex + columns;
         if (nextIndex >= items.length) {
-          if (this.loop()) {
+          if (this._loop()) {
             nextIndex = nextIndex % columns; // Wrap to top
           } else {
             nextIndex = items.length - 1;
@@ -224,7 +225,7 @@ export class AccessibleGroup implements OnDestroy {
       case 'ArrowUp':
         nextIndex = currentIndex - columns;
         if (nextIndex < 0) {
-          if (this.loop()) {
+          if (this._loop()) {
             nextIndex = items.length - (columns - (currentIndex % columns)); // Wrap to bottom
           } else {
             nextIndex = 0;
@@ -292,8 +293,8 @@ export class AccessibleGroup implements OnDestroy {
   }
 
   focusItem(item?: AccessibleItem) {
-    const previosItem = this.focusedItem?.deref();
-    previosItem?.blur();
+    const previousItem = this.focusedItem?.deref();
+    previousItem?.blur();
     const items = this.items();
     this.log('focusItem', item?.host.nativeElement.textContent);
     item = item ?? items.find(item => !item._disabled() && !item.skip());
@@ -311,12 +312,15 @@ export class AccessibleGroup implements OnDestroy {
         nextIndex = this.getNextItem(nextIndex, items, direction);
         nextItem = items[nextIndex];
       }
-      const previosItem = this.focusedItem?.deref();
+      const previousItem = this.focusedItem?.deref();
       this.focusedItem = new WeakRef(nextItem);
-      nextItem.focus(!this.allyService.usingMouse && !this.isPopup(), !this.allyService.usingMouse);
+      nextItem.focus(
+        !this.allyService.usingMouse && !this._isPopup(),
+        !this.allyService.usingMouse,
+      );
       // this.focusCount++;
       if (this.clickable()) nextItem.click();
-      this.focusChanged.emit({ current: nextItem, previous: previosItem });
+      this.focusChanged.emit({ current: nextItem, previous: previousItem });
     }
   }
 

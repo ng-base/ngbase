@@ -20,13 +20,13 @@ import { ControlValueAccessor } from '@angular/forms';
 import { popoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
-import { Option } from './option';
+import { MeeOption } from './option';
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   // Dependencies
   readonly el = inject(ElementRef);
-  readonly options = contentChildren(Option, { descendants: true });
+  readonly options = contentChildren(MeeOption, { descendants: true });
   readonly optionss = input<T[]>([]);
 
   readonly optionsTemplate = viewChild('options', { read: TemplateRef });

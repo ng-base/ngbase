@@ -14,8 +14,8 @@ import {
 import { AccessibleGroup } from '@meeui/adk/a11y';
 import { Keys } from '@meeui/adk/keys';
 import { DialogRef } from '@meeui/adk/portal';
+import { MeeOption } from '@meeui/adk/select';
 import { List } from '@meeui/ui/list';
-import { Option } from '@meeui/ui/select';
 import { Subject } from 'rxjs';
 
 @Directive({
@@ -53,7 +53,7 @@ export class MeeMenu implements OnDestroy {
     read: ElementRef,
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
-  readonly options = contentChildren(Option);
+  readonly options = contentChildren(MeeOption);
   readonly lists = contentChildren(List);
   readonly manager = new Keys();
   readonly selected = output<string>();

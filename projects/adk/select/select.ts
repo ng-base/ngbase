@@ -47,7 +47,7 @@ export class SelectValue {
 })
 export class MeeSelectOptionGroup {
   readonly group = inject(AccessibleGroup);
-  readonly select = inject(MeeSelect<any>);
+  readonly select = inject(SelectBase<any>);
 
   constructor() {
     this.group._isPopup.set(true);
@@ -139,5 +139,6 @@ export class MeeSelect<T> extends SelectBase<T> {
 
 export const provideSelect = (select: typeof MeeSelect) => [
   { provide: MeeSelect, useExisting: select },
+  { provide: SelectBase, useExisting: select },
   provideValueAccessor(select),
 ];

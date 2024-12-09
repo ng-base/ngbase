@@ -1,31 +1,23 @@
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeChip, MeeChipRemove, provideChip } from '@meeui/adk/chip';
 import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
-import { Directionality } from '@meeui/adk/bidi';
-import { Icon } from '@meeui/ui/icon';
 
 @Component({
   selector: 'mee-chip, [meeChip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Icon],
+  imports: [Button, Icon, MeeChipRemove],
+  providers: [provideChip(Chip)],
   viewProviders: [provideIcons({ lucideX })],
   template: `<ng-content />
     @if (removable()) {
       <button
         meeButton
-        type="button"
+        meeChipRemove
         variant="ghost"
-        class="small -my-b2"
-        [class]="dir.isRtl() ? '-ml-b4' : '-mr-b4'"
-        (click)="close.emit()"
+        class="small -my-b2 data-[dir=ltr]:-mr-b4 data-[dir=rtl]:-ml-b4"
       >
         <mee-icon name="lucideX" />
       </button>
@@ -35,10 +27,4 @@ import { Icon } from '@meeui/ui/icon';
       'inline-flex items-center bg-muted-background rounded-base px-b2 py-1 text-xs font-medium',
   },
 })
-export class Chip<T = any> {
-  readonly dir = inject(Directionality);
-
-  readonly removable = input(true, { transform: booleanAttribute });
-  readonly value = input<T>();
-  readonly close = output();
-}
+export class Chip<T = any> extends MeeChip<T> {}

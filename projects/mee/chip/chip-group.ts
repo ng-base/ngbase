@@ -1,25 +1,10 @@
-import { Component, contentChildren, effect, inject, untracked } from '@angular/core';
+import { Component } from '@angular/core';
 // import { Autocomplete } from '@meeui/ui/autocomplete';
-import { Chip } from './chip';
+import { MeeChipGroup } from '@meeui/adk/chip';
 
 @Component({
   selector: 'mee-chip-group',
+  hostDirectives: [MeeChipGroup],
   template: `<ng-content />`,
 })
-export class ChipGroup<T> {
-  readonly chips = contentChildren(Chip<T>);
-  // readonly autoComplete = inject(Autocomplete);
-
-  constructor() {
-    effect(() => {
-      const chips = this.chips();
-      untracked(() => {
-        chips.forEach(chip => {
-          chip.close.subscribe(() => {
-            // this.autoComplete.removeValue(chip.value());
-          });
-        });
-      });
-    });
-  }
-}
+export class ChipGroup<T> {}

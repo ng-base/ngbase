@@ -1,21 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  contentChild,
-  contentChildren,
-  effect,
-} from '@angular/core';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { provideValueAccessor } from '@meeui/adk/utils';
-import { Chip } from '@meeui/ui/chip';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MeeAutocomplete, provideAutocomplete } from '@meeui/adk/autocomplete';
+import { MeeSelectOptionGroup } from '@meeui/adk/select';
 import { InputStyle } from '@meeui/ui/input';
-import { AutocompleteInput } from './autocomplete-input';
-import { SelectBase } from '@meeui/adk/select';
 
 @Component({
   selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [InputStyle, AccessibleGroup],
+  providers: [provideAutocomplete(Autocomplete)],
+  imports: [InputStyle, MeeSelectOptionGroup],
   template: `
     <ul
       #container
@@ -30,7 +22,7 @@ import { SelectBase } from '@meeui/adk/select';
       </li>
     </ul>
     <ng-template #options>
-      <div #optionsGroup meeAccessibleGroup [ayId]="ayid" [isPopup]="true" class="p-b">
+      <div #optionsGroup meeSelectOptionGroup class="p-b">
         <ng-content />
       </div>
     </ng-template>
@@ -38,28 +30,5 @@ import { SelectBase } from '@meeui/adk/select';
   host: {
     class: 'inline-flex',
   },
-  providers: [provideValueAccessor(Autocomplete)],
 })
-export class Autocomplete<T> extends SelectBase<T> {
-  searchInput = contentChild(AutocompleteInput);
-  chips = contentChildren(Chip);
-
-  constructor() {
-    super(false);
-    effect(() => {
-      if (this.status() !== 'opened') this.updateInputValue();
-    });
-  }
-
-  prevent(ev: MouseEvent) {
-    ev.stopPropagation();
-  }
-
-  private updateInputValue() {
-    const searchInput = this.searchInput();
-    if (!this.chips()?.length && searchInput) {
-      searchInput.meeAutocompleteInput.emit('');
-      searchInput.updateValue(this.cValue());
-    }
-  }
-}
+export class Autocomplete<T> extends MeeAutocomplete<T> {}

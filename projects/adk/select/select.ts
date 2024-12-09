@@ -59,7 +59,7 @@ export class MeeSelectOptionGroup {
 @Component({
   selector: '[meeSelect]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideValueAccessor(MeeSelect)],
+  providers: [provideSelect(MeeSelect)],
   imports: [
     AccessibleGroup,
     FormsModule,
@@ -137,8 +137,11 @@ export class MeeSelect<T> extends SelectBase<T> {
   }
 }
 
-export const provideSelect = (select: typeof MeeSelect) => [
-  { provide: MeeSelect, useExisting: select },
-  { provide: SelectBase, useExisting: select },
-  provideValueAccessor(select),
-];
+export function provideSelect(select: typeof MeeSelect) {
+  const deps = [{ provide: SelectBase, useExisting: select }, provideValueAccessor(select)];
+  // Avoid circular dependency
+  if (select !== MeeSelect) {
+    deps.push({ provide: MeeSelect, useExisting: select });
+  }
+  return deps;
+}

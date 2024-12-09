@@ -102,9 +102,6 @@ describe('Select', () => {
   });
 
   it('should handle single selection', () => {
-    input.click();
-    view.detectChanges();
-
     // Simulate option selection
     const options = clickAndSelectOptions();
     options[0].click();

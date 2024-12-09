@@ -2,32 +2,33 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
-import { Option } from '@meeui/ui/select';
+import { MeeOption } from '@meeui/adk/select';
 import { MeeAutocomplete } from './autocomplete';
 import { MeeAutocompleteInput } from './autocomplete-input';
 
 // Test host component
 @Component({
-  imports: [MeeAutocomplete, MeeAutocompleteInput, Option, FormsModule],
+  imports: [MeeAutocomplete, MeeAutocompleteInput, MeeOption, FormsModule],
   template: `
-    <mee-autocomplete
+    <div
+      meeAutocomplete
       [(ngModel)]="selectedValue"
       [multiple]="multiple()"
       [placeholder]="placeholder()"
     >
       <input meeAutocompleteInput />
       @for (option of options; track option.value) {
-        <mee-option [value]="option.value">
+        <div meeOption class="option" [value]="option.value">
           {{ option.label }}
-        </mee-option>
+        </div>
       }
-    </mee-autocomplete>
+    </div>
   `,
 })
 class TestAutocompleteComponent {
-  selectedValue = signal<string | string[]>('');
-  multiple = signal(false);
-  placeholder = signal('');
+  readonly selectedValue = signal<string | string[]>('');
+  readonly multiple = signal(false);
+  readonly placeholder = signal('');
   options = [
     { value: '1', label: 'Option 1' },
     { value: '2', label: 'Option 2' },
@@ -48,7 +49,7 @@ describe('Autocomplete', () => {
   function clickAndSelectOptions() {
     input.click();
     view.detectChanges();
-    return document.querySelectorAll('mee-option') as NodeListOf<HTMLElement>;
+    return document.querySelectorAll('.option') as NodeListOf<HTMLElement>;
   }
 
   beforeEach(async () => {

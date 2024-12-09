@@ -18,6 +18,10 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
   const portal = inject(PortalService);
   const injector = inject(Injector);
 
+  function updateBaseComponent(component: Type<U>) {
+    baseComponent = component;
+  }
+
   function open<T>(
     component?: DialogInput<T>,
     callback?: (comp: ComponentRef<U>, opt: DialogOptions) => void,
@@ -95,5 +99,5 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
   function closeAll() {
     portal.clear(NAME);
   }
-  return { open, closeAll };
+  return { open, closeAll, updateBaseComponent };
 }

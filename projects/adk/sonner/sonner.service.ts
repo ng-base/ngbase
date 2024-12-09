@@ -1,12 +1,16 @@
-import { ComponentRef, inject, Injectable } from '@angular/core';
+import { ComponentRef, inject, Injectable, Type } from '@angular/core';
 import { basePortal, DialogRef } from '@meeui/adk/portal';
-import { Sonner, SonnerData, SonnerType } from './sonner';
+import { MeeSonner, SonnerData, SonnerType } from './sonner';
 
 @Injectable({ providedIn: 'root' })
 export class SonnerService {
   private NAME = 'sonner';
-  private base = basePortal(this.NAME, Sonner);
-  private sonner: { parent: ComponentRef<Sonner>; diaRef: DialogRef<Sonner> } | undefined;
+  private base = basePortal(this.NAME, MeeSonner);
+  private sonner: { parent: ComponentRef<MeeSonner>; diaRef: DialogRef<MeeSonner> } | undefined;
+
+  updateSonner(component: Type<MeeSonner> = MeeSonner) {
+    this.base.updateBaseComponent(component);
+  }
 
   addMessage(message: string, type: SonnerType, data?: SonnerData) {
     if (!this.sonner) {
@@ -21,8 +25,10 @@ export class SonnerService {
   }
 }
 
-export function sonnerPortal() {
+export function meeSonnerPortal(component?: Type<MeeSonner>) {
   const sonnerService = inject(SonnerService);
+
+  sonnerService.updateSonner(component);
 
   function closeAll() {
     sonnerService.closeAll();

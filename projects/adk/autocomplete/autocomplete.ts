@@ -56,9 +56,13 @@ export class MeeAutocomplete<T> extends SelectBase<T> {
 }
 
 export function provideAutocomplete<T>(autocomplete: Type<MeeAutocomplete<T>>) {
-  return [
-    { provide: MeeAutocomplete, useExisting: autocomplete },
+  const deps = [
     { provide: SelectBase, useExisting: autocomplete },
     provideValueAccessor(autocomplete),
   ];
+  // Avoid circular dependency
+  if (autocomplete !== MeeAutocomplete) {
+    deps.push({ provide: MeeAutocomplete, useExisting: autocomplete });
+  }
+  return deps;
 }

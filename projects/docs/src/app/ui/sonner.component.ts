@@ -49,7 +49,9 @@ export class SonnerComponent {
   `;
 
   addMessage(type: 'success' | 'error' | 'warning' | 'info' | 'message' = 'message') {
-    this.sonner[type]('Event has been created');
+    this.sonner[type]('Event has been created', {
+      description: 'Sunday, December 03, 2023 at 9:00 AM',
+    });
   }
 
   clearMessage() {

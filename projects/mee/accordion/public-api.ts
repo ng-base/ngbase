@@ -2,6 +2,6 @@
  * Public API Surface of accordion
  */
 
-export * from './accordion-group';
+export * from './accordion';
 export * from './accordion-item';
 export * from './accordion-header';

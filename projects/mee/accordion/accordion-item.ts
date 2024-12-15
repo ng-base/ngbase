@@ -1,10 +1,12 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MeeAccordion, MeeAccordionContent } from '@meeui/adk/accordion';
+import { MeeAccordion, MeeAccordionContent, slideAnimation } from '@meeui/adk/accordion';
 
 @Component({
   selector: 'mee-accordion',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    { directive: MeeAccordion, inputs: ['expanded', 'disabled'], outputs: ['expandedChange'] },
+  ],
   imports: [MeeAccordionContent],
   template: `
     <ng-content select="[meeAccordionHeader]" />
@@ -17,17 +19,7 @@ import { MeeAccordion, MeeAccordionContent } from '@meeui/adk/accordion';
   host: {
     class: 'block will-change-auto',
   },
-  hostDirectives: [
-    { directive: MeeAccordion, inputs: ['expanded', 'disabled'], outputs: ['expandedChange'] },
-  ],
-  animations: [
-    trigger('slide', [
-      state('void', style({ height: '0', opacity: 0 })),
-      state('*', style({ height: '*', opacity: 1 })),
-      transition('void => *', animate('300ms ease')),
-      transition('* => void', animate('300ms ease')),
-    ]),
-  ],
+  animations: [slideAnimation],
 })
 export class Accordion {
   readonly accordion = inject(MeeAccordion);

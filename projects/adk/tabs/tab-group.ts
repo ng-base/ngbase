@@ -18,9 +18,6 @@ import {
 } from '@angular/core';
 import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
 import { uniqueId } from '@meeui/adk/utils';
-import { Icon } from '@meeui/ui/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { MeeTab } from './tab';
 
 export interface TabChangeEvent {
@@ -86,9 +83,8 @@ export class TabScroll {
 @Component({
   selector: 'mee-tabs',
   exportAs: 'meeTabs',
-  imports: [NgTemplateOutlet, Icon, NgClass, TabButton, TabButtonsGroup, TabScroll],
+  imports: [NgTemplateOutlet, NgClass, TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
       <div class="relative flex overflow-hidden">
@@ -96,7 +92,7 @@ export class TabScroll {
           meeTabScroll="left"
           class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
         >
-          <mee-icon name="lucideChevronLeft" />
+          <
         </button>
         <nav meeTabButtonsGroup class="overflow-auto [scrollbar-width:none]">
           <div #tabListContainer class="flex h-full w-max">
@@ -121,7 +117,7 @@ export class TabScroll {
           meeTabScroll="right"
           class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
         >
-          <mee-icon name="lucideChevronRight" />
+          >
         </button>
       </div>
       <ng-content select=".tab-header-content" />
@@ -178,7 +174,12 @@ export class MeeTabs {
       if (activeIndex === undefined || activeIndex === null) {
         this.setActive(tabs[0]);
         return;
+      } else if (activeIndex >= tabs.length) {
+        // if the index is out of bounds, set the last tab as active
+        this.setActive(tabs[tabs.length - 1]);
+        return;
       }
+
       if (this.selectedId !== undefined && activeIndex === this.selectedId) {
         const id = this.tabMap.get(this.selectedId);
         const tab = tabs.find(tab => tab.id === id);

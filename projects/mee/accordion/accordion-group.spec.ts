@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { MeeAccordionGroup } from '@meeui/adk/accordion';
 import { render, RenderResult } from '@meeui/adk/test';
 import { AccordionGroup } from './accordion-group';
 import { AccordionHeader } from './accordion-header';
 import { Accordion } from './accordion-item';
-import { MeeAccordionGroup } from '@meeui/adk/accordion';
 
 @Component({
   imports: [Accordion, AccordionGroup, AccordionHeader],

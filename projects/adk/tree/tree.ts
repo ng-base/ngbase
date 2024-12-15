@@ -1,11 +1,11 @@
 import {
   Component,
-  Directive,
   EmbeddedViewRef,
   InjectionToken,
   Injector,
   IterableDiffers,
   TemplateRef,
+  Type,
   ViewContainerRef,
   computed,
   contentChild,
@@ -226,4 +226,8 @@ export class MeeTree<T> {
     this.expanded = true;
     this.opened.set(new Set());
   }
+}
+
+export function provideTree<T>(tree: Type<MeeTree<T>>) {
+  return { provide: MeeTree, useExisting: tree };
 }

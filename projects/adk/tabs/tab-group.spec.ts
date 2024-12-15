@@ -28,14 +28,14 @@ describe('Tabs Component', () => {
           <p *meeTabHeader>Custom Tab 1</p>
           Content 1
         </mee-tab>
+        <mee-tab mode="lazy">
+          <app-lazy *meeTabLazy></app-lazy>
+        </mee-tab>
         @for (tab of tabs(); track tab.id) {
           <mee-tab [label]="tab.name" [disabled]="tab.disabled">
             <p>Custom {{ tab.content }}</p>
           </mee-tab>
         }
-        <mee-tab mode="lazy">
-          <app-lazy *meeTabLazy></app-lazy>
-        </mee-tab>
       </mee-tabs>
     `,
   })
@@ -77,7 +77,8 @@ describe('Tabs Component', () => {
   const activeTab = () => view.$('button[aria-selected="true"]');
 
   function clickTab(index: number) {
-    tabs()[index].click();
+    const buttons = tabs();
+    buttons[index].click();
     view.detectChanges();
   }
 
@@ -91,7 +92,7 @@ describe('Tabs Component', () => {
   });
 
   it('should change active tab when clicked', () => {
-    clickTab(1);
+    clickTab(2);
 
     const tab = activeTab();
     expect(tab?.textContent?.trim()).toBe('Tab 1');
@@ -102,7 +103,7 @@ describe('Tabs Component', () => {
     const content = view.$('mee-tab:not([aria-hidden="true"])');
     expect(content?.textContent?.trim()).toBe('Content 1');
 
-    clickTab(1);
+    clickTab(2);
 
     const newContent = view.$('mee-tab:not([aria-hidden="true"])');
     expect(newContent?.textContent?.trim()).toBe('Custom Content 1');
@@ -125,7 +126,7 @@ describe('Tabs Component', () => {
   });
 
   it('should maintain the active tab when new tabs are added', () => {
-    clickTab(1);
+    clickTab(2);
     component.addTab();
     view.detectChanges();
 
@@ -135,30 +136,30 @@ describe('Tabs Component', () => {
   });
 
   it('should maintain the active tab when other tab is removed', () => {
-    clickTab(1);
-    component.deleteTab(1);
+    clickTab(2);
+    component.deleteTab(2);
     view.detectChanges();
 
     const tab = activeTab();
     expect(tab?.textContent?.trim()).toBe('Tab 1');
 
-    clickTab(2);
-    component.deleteTab(0);
-    view.detectChanges();
-
-    expect(tabsComponent.selectedIndex()).toBe(1);
-    view.detectChanges();
-    const newTab = activeTab();
-    expect(newTab?.textContent?.trim()).toBe('Tab 3');
-  });
-
-  it('should maintain the current tab index when previous tab is removed', () => {
-    jest.spyOn(tabsComponent.selectedTabChange, 'emit');
     clickTab(3);
     component.deleteTab(0);
     view.detectChanges();
 
     expect(tabsComponent.selectedIndex()).toBe(2);
+    view.detectChanges();
+    const newTab = activeTab();
+    expect(newTab?.textContent?.trim()).toBe('Tab 2');
+  });
+
+  it('should maintain the current tab index when previous tab is removed', () => {
+    jest.spyOn(tabsComponent.selectedTabChange, 'emit');
+    clickTab(4);
+    component.deleteTab(0);
+    view.detectChanges();
+
+    expect(tabsComponent.selectedIndex()).toBe(3);
     view.detectChanges();
     const tab = activeTab();
     expect(tab?.textContent?.trim()).toBe('Tab 3');
@@ -167,19 +168,30 @@ describe('Tabs Component', () => {
 
   it('should move to the next tab when current tab is removed', () => {
     jest.spyOn(tabsComponent.selectedTabChange, 'emit');
-    clickTab(1);
+    clickTab(2);
     component.deleteTab(0);
     view.detectChanges();
 
-    expect(tabsComponent.selectedIndex()).toBe(1);
+    expect(tabsComponent.selectedIndex()).toBe(2);
     view.detectChanges();
     const tab = activeTab();
     expect(tab?.textContent?.trim()).toBe('Tab 2');
     expect(tabsComponent.selectedTabChange.emit).toHaveBeenCalledTimes(1);
   });
 
+  it('should move to the previous tab when current tab is removed and it is the last tab', () => {
+    clickTab(7);
+    component.deleteTab(5);
+    view.detectChanges();
+
+    expect(tabsComponent.selectedIndex()).toBe(6);
+    view.detectChanges();
+    const tab = activeTab();
+    expect(tab?.textContent?.trim()).toBe('Tab with long name 5');
+  });
+
   it('should handle the lazy mode', () => {
-    clickTab(tabs().length - 1);
+    clickTab(1);
     const lazyComponent = view.viewChild(LazyComponent);
     expect(lazyComponent.id).toBeDefined();
     clickTab(0);

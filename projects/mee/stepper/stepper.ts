@@ -1,32 +1,33 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChildren,
-  effect,
-  input,
-  model,
-} from '@angular/core';
-import { Step } from './step';
+  MeeStep,
+  MeeStepHeader,
+  MeeStepper,
+  MeeStepperStep,
+  provideStep,
+  provideStepper,
+  slideAnimation,
+} from '@meeui/adk/stepper';
 
 @Component({
   selector: 'mee-stepper',
+  exportAs: 'meeStepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgClass],
+  providers: [provideStepper(Stepper)],
+  imports: [NgTemplateOutlet, NgClass, MeeStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
       @for (step of steps(); track step) {
         <div
-          class="testy relative flex [&:not(:last-child)]:flex-1 [&:not(:last-child)]:after:mx-2 [&:not(:last-child)]:after:block [&:not(:last-child)]:after:flex-1 [&:not(:last-child)]:after:bg-background [&:not(:last-child)]:after:transition-colors"
+          [meeStepperStep]="$index"
+          class="relative flex pb-b4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-background data-[index]:after:transition-colors"
           [ngClass]="[
-            activeIndex() > $index ? '[&:not(:last-child)]:after:bg-primary' : '',
+            activeIndex() > $index ? 'data-[index]:after:bg-primary' : '',
             direction() === 'vertical'
-              ? 'flex-col [&:not(:last-child)]:after:absolute [&:not(:last-child)]:after:bottom-0 [&:not(:last-child)]:after:left-3 [&:not(:last-child)]:after:top-10 [&:not(:last-child)]:after:w-0.5'
-              : 'items-center [&:not(:last-child)]:after:h-0.5',
+              ? 'flex-col data-[index]:after:absolute data-[index]:after:bottom-0 data-[index]:after:left-3 data-[index]:after:top-10 data-[index]:after:w-0.5'
+              : 'items-center data-[index]:after:h-0.5',
           ]"
-          [attr.data]="!$last"
         >
           <div class="flex items-center">
             <div
@@ -42,13 +43,11 @@ import { Step } from './step';
               {{ step.title() }}
             }
           </div>
-          @if (direction() === 'vertical') {
-            <div class="ml-12 min-h-4">
-              @if (step.stepContainer() && step.active()) {
-                <div [@slide]>
-                  <ng-container *ngTemplateOutlet="step.stepContainer()" />
-                </div>
-              }
+          @if (step.verticalTemplate(); as template) {
+            <div class="ml-12" [@slide]>
+              <div class="pt-b4">
+                <ng-container *ngTemplateOutlet="template" />
+              </div>
             </div>
           }
         </div>
@@ -56,40 +55,32 @@ import { Step } from './step';
     </div>
     <ng-content />
   `,
-  animations: [
-    trigger('slide', [
-      state('void', style({ height: '0', overflow: 'hidden' })),
-      state('*', style({ height: '*' })),
-      transition('void => *', animate('200ms ease')),
-      transition('* => void', animate('200ms ease')),
-    ]),
-  ],
+  animations: [slideAnimation],
 })
-export class Stepper {
-  readonly steps = contentChildren(Step);
-  readonly activeIndex = model(0);
-  readonly direction = input<'horizontal' | 'vertical'>('horizontal');
+export class Stepper extends MeeStepper {}
 
-  readonly first = computed(() => this.activeIndex() === 0);
-  readonly last = computed(() => this.activeIndex() === this.steps().length - 1);
-  readonly completed = computed(() => this.activeIndex() === this.steps().length);
+@Component({
+  selector: 'mee-step',
+  exportAs: 'meeStep',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideStep(Step)],
+  imports: [NgTemplateOutlet],
+  template: `
+    <ng-template #stepContainer>
+      <ng-content />
+    </ng-template>
 
-  constructor() {
-    effect(() => {
-      const steps = this.steps();
-      const activeIndex = this.activeIndex();
+    @if (horizontalTemplate(); as template) {
+      <div class="pb-b4">
+        <ng-container *ngTemplateOutlet="template" />
+      </div>
+    }
+  `,
+})
+export class Step extends MeeStep {}
 
-      steps.forEach((step, index) => {
-        step.active.set(activeIndex === index);
-      });
-    });
-  }
-
-  next() {
-    this.activeIndex.update(index => Math.min(index + 1, this.steps().length));
-  }
-
-  previous() {
-    this.activeIndex.update(index => Math.max(index - 1, 0));
-  }
-}
+@Directive({
+  selector: '[meeStepHeader]',
+  hostDirectives: [MeeStepHeader],
+})
+export class StepHeader {}

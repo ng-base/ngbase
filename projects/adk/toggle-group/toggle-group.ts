@@ -43,7 +43,7 @@ export class MeeToggleGroup<T> implements ControlValueAccessor {
   updateValue(value: T[]) {
     let values = this.value();
     if (this.multiple()) {
-      values = values as T[];
+      values = (values as T[]) || [];
       for (const val of value) {
         if (values.includes(val)) {
           values = values.filter(v => v !== val);

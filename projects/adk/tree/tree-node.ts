@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  Type,
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -96,4 +97,8 @@ export class MeeTreeNode<T> {
       }
     }
   }
+}
+
+export function provideTreeNode<T>(treeNode: Type<MeeTreeNode<T>>) {
+  return { provide: MeeTreeNode, useExisting: treeNode };
 }

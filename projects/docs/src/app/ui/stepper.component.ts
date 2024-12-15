@@ -31,12 +31,12 @@ import { DocCode } from './code.component';
         meeButton
         variant="outline"
         class="small"
-        (click)="myStepper.previous()"
+        (click)="myStepper.prevStep()"
         [disabled]="myStepper.first()"
       >
         Previous
       </button>
-      <button meeButton variant="outline" class="small" (click)="myStepper.next()">
+      <button meeButton variant="outline" class="small" (click)="myStepper.nextStep()">
         @if (myStepper.completed()) {
           Reset
         } @else if (myStepper.last()) {
@@ -49,9 +49,9 @@ import { DocCode } from './code.component';
   `,
 })
 export class StepperComponent {
-  direction = signal<'horizontal' | 'vertical'>('horizontal');
+  readonly direction = signal<'horizontal' | 'vertical'>('horizontal');
 
-  code = `
+  readonly code = `
   import { Component } from '@angular/core';
   import { signal } from '@meeui/ui/core';
   import { Step, Stepper } from '@meeui/ui/stepper';

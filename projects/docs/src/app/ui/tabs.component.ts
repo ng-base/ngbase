@@ -50,7 +50,7 @@ export class TabLazyComponent {
                 variant="ghost"
                 tabindex="-1"
                 class="ml-2 h-7 w-7 !p-b"
-                (click)="deleteTab(n.id)"
+                (click)="$event.stopPropagation(); deleteTab(n.id)"
               >
                 <mee-icon name="lucideX" />
               </div>

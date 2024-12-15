@@ -13,9 +13,9 @@ import {
 } from '@angular/core';
 import { AccessibleGroup } from '@meeui/adk/a11y';
 import { Keys } from '@meeui/adk/keys';
+import { MeeList } from '@meeui/adk/list';
 import { DialogRef } from '@meeui/adk/portal';
 import { MeeOption } from '@meeui/adk/select';
-import { List } from '@meeui/ui/list';
 import { Subject } from 'rxjs';
 
 @Directive({
@@ -54,7 +54,7 @@ export class MeeMenu implements OnDestroy {
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
   readonly options = contentChildren(MeeOption);
-  readonly lists = contentChildren(List);
+  readonly lists = contentChildren(MeeList);
   readonly manager = new Keys();
   readonly selected = output<string>();
   // this will be injected by the MenuTrigger directive

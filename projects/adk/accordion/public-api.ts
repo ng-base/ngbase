@@ -5,4 +5,4 @@
 export { MeeAccordionGroup } from './accordion-group';
 export { MeeAccordion } from './accordion-item';
 export { MeeAccordionHeader } from './accordion-header';
-export { MeeAccordionContent } from './accordion-content';
+export { MeeAccordionContent, slideAnimation } from './accordion-content';

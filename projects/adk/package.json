@@ -1,9 +1,21 @@
 {
   "name": "@meeui/adk",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sheikalthaf/mee-ui.git"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sheikalthaf/mee-ui/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0"
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

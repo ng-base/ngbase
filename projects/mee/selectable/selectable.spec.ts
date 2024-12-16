@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { Selectable } from './selectable';
-import { SelectableItem } from './selectable-item';
 import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
+import { render, RenderResult } from '@meeui/adk/test';
+import { Selectable, SelectableItem } from './selectable';
 
 @Component({
   imports: [Selectable, SelectableItem, FormsModule],

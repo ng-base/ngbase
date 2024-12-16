@@ -11,14 +11,21 @@ import {
   untracked,
 } from '@angular/core';
 import { popoverPortal } from '@meeui/adk/popover';
+import { provideValueAccessor } from '@meeui/adk/utils';
+import { MeeColorInput } from './color-input';
 import { ColorFormat, MeeColorPicker } from './color-picker';
 
 const ColorPicker = new InjectionToken<typeof MeeColorPicker>('ColorPicker');
 
-export const provideColorPicker = (token: typeof MeeColorPicker) => ({
-  provide: ColorPicker,
-  useValue: token,
-});
+interface ColorPickerOptions {
+  picker: typeof MeeColorPicker;
+  accessor: typeof MeeColorInput;
+}
+
+export const provideColorPicker = ({ picker, accessor }: ColorPickerOptions) => [
+  { provide: ColorPicker, useValue: picker },
+  provideValueAccessor(accessor),
+];
 
 @Directive({
   selector: '[meeColorPickerTrigger]',

@@ -1,17 +1,37 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeResizable, MeeGutter } from '@meeui/adk/resizable';
+import {
+  MeeGutter,
+  MeeResizable,
+  MeeResizableGroup,
+  provideResizable,
+  provideResizableGroup,
+} from '@meeui/adk/resizable';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
 
 @Component({
+  selector: 'mee-resizable-group',
+  exportAs: 'meeResizableGroup',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideResizableGroup(ResizableGroup)],
+  template: `<ng-content select="mee-resizable" />`,
+  host: {
+    class: 'flex w-full',
+    '[class.flex-col]': "direction() === 'vertical'",
+    '[attr.id]': 'id',
+  },
+})
+export class ResizableGroup extends MeeResizableGroup {}
+
+@Component({
   selector: 'mee-resizable',
   exportAs: 'meeResizable',
-  imports: [Icon, NgClass, MeeGutter],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: MeeResizable, useExisting: Resizable }],
+  providers: [provideResizable(Resizable)],
   viewProviders: [provideIcons({ lucideGripVertical })],
+  imports: [Icon, NgClass, MeeGutter],
   template: `<ng-content />
     <ng-template #dragElement>
       @if (draggable()) {

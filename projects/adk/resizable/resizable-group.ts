@@ -109,3 +109,7 @@ export class MeeResizableGroup {
     });
   }
 }
+
+export function provideResizableGroup(resizableGroup: typeof MeeResizableGroup) {
+  return { provide: MeeResizableGroup, useExisting: resizableGroup };
+}

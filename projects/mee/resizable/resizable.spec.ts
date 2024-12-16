@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DragData } from '@meeui/adk/drag';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Resizable } from './resizable';
-import { ResizableGroup } from './resizable-group';
+import { Resizable, ResizableGroup } from './resizable';
 
 @Component({
   imports: [ResizableGroup, Resizable],

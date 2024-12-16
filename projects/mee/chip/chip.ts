@@ -1,9 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeChip, MeeChipRemove, provideChip } from '@meeui/adk/chip';
+import { MeeChip, MeeChipGroup, MeeChipRemove, provideChip } from '@meeui/adk/chip';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
+
+@Component({
+  selector: 'mee-chip-group',
+  hostDirectives: [MeeChipGroup],
+  template: `<ng-content />`,
+})
+export class ChipGroup<T> {}
 
 @Component({
   selector: 'mee-chip, [meeChip]',

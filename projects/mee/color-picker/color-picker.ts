@@ -4,11 +4,16 @@ import {
   ColorAlphaThumb,
   ColorHue,
   ColorHueThumb,
+  ColorPickerTrigger,
   ColorSelected,
   ColorSpectrum,
   ColorSpectrumSelector,
+  MeeColorInput,
   MeeColorPicker,
+  provideColorPicker,
 } from '@meeui/adk/color-picker';
+import { InputBase } from '@meeui/adk/input';
+import { InputStyle } from '@meeui/ui/input';
 
 @Component({
   selector: 'mee-color-picker-container',
@@ -67,3 +72,35 @@ import {
   },
 })
 export class ColorPicker extends MeeColorPicker {}
+
+@Component({
+  selector: 'mee-color-input',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideColorPicker({ picker: ColorPicker, accessor: ColorInput })],
+  hostDirectives: [InputStyle],
+  imports: [ColorPickerTrigger, InputBase],
+  template: `
+    <input
+      meeInputBase
+      type="text"
+      [value]="value()"
+      (valueChange)="updateValue($event)"
+      class="w-full flex-1 bg-transparent outline-none"
+    />
+    <button
+      #color
+      type="button"
+      meeColorPickerTrigger
+      [value]="value()"
+      [format]="format()"
+      [presetColors]="presetColors()"
+      (valueChange)="updateValue($event)"
+      class="h-b5 w-b5 flex-none rounded-full border"
+      [style.backgroundColor]="value()"
+    ></button>
+  `,
+  host: {
+    class: '!inline-flex gap-2 items-center',
+  },
+})
+export class ColorInput extends MeeColorInput {}

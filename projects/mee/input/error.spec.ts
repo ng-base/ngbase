@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { InputError } from './error';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { render, RenderResult } from '@meeui/adk/test';
-import { FormField } from './form-field';
-import { Input } from './input';
+import { FormField, Input, InputError } from './input';
 
 @Component({
   selector: 'test-component',

@@ -4,7 +4,7 @@ import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 import { MeeFormField } from './form-field';
 
 @Directive({
-  selector: '[meeInput]',
+  selector: '[meeInputBase]',
   providers: [provideValueAccessor(InputBase)],
   host: {
     role: 'textbox',

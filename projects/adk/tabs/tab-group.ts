@@ -30,6 +30,7 @@ export interface TabChangeEvent {
   hostDirectives: [{ directive: AccessibleGroup }],
   host: {
     role: 'tablist',
+    style: 'scrollbar-width: none',
   },
 })
 export class TabButtonsGroup {
@@ -41,9 +42,18 @@ export class TabButtonsGroup {
   }
 }
 
-@Directive({
+@Component({
   selector: 'button[meeTabButton]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: AccessibleItem }],
+  imports: [NgTemplateOutlet],
+  template: `
+    @if (meeTabButton().header(); as template) {
+      <ng-container *ngTemplateOutlet="template" />
+    } @else {
+      {{ meeTabButton().label() }}
+    }
+  `,
   host: {
     type: 'button',
     role: 'tab',
@@ -83,7 +93,7 @@ export class TabScroll {
 @Component({
   selector: 'mee-tabs',
   exportAs: 'meeTabs',
-  imports: [NgTemplateOutlet, NgClass, TabButton, TabButtonsGroup, TabScroll],
+  imports: [NgClass, TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
@@ -94,7 +104,7 @@ export class TabScroll {
         >
           <
         </button>
-        <nav meeTabButtonsGroup class="overflow-auto [scrollbar-width:none]">
+        <nav meeTabButtonsGroup class="overflow-auto">
           <div #tabListContainer class="flex h-full w-max">
             @for (tab of tabs(); track tab.id) {
               <button
@@ -103,13 +113,7 @@ export class TabScroll {
                 [ngClass]="{
                   'px-b4 py-b3 font-medium text-muted': headerStyle(),
                 }"
-              >
-                @if (tab.header()) {
-                  <ng-container *ngTemplateOutlet="tab.header()!" />
-                } @else {
-                  {{ tab.label() }}
-                }
-              </button>
+              ></button>
             }
           </div>
         </nav>
@@ -273,4 +277,11 @@ export class MeeTabs {
       tabList.scrollTo({ left, behavior: 'smooth' });
     }
   }
+}
+
+export function provideTabs(tab: typeof MeeTabs) {
+  return {
+    provide: MeeTabs,
+    useExisting: tab,
+  };
 }

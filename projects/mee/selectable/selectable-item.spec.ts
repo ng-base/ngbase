@@ -1,8 +1,7 @@
 import { Component, ModelSignal, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { Selectable } from './selectable';
-import { SelectableItem } from './selectable-item';
 import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
+import { render, RenderResult } from '@meeui/adk/test';
+import { Selectable, SelectableItem } from './selectable';
 
 // Test host component
 @Component({

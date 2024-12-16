@@ -1,9 +1,8 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { Radio } from './radio';
-import { RadioGroup } from './radio-group';
 import { MeeRadioGroup } from '@meeui/adk/radio';
+import { render, RenderResult } from '@meeui/adk/test';
+import { Radio, RadioGroup } from './radio';
 
 @Component({
   imports: [RadioGroup, Radio, FormsModule, ReactiveFormsModule],

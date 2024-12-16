@@ -1,8 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, inject } from '@angular/core';
 import {
   MeeBreadcrumb,
   MeeBreadcrumbLink,
+  MeeBreadcrumbs,
+  MeeBreadcrumbSeparator,
   MeeBreadcrumbSeparatorAria,
 } from '@meeui/adk/breadcrumb';
 import { Icon } from '@meeui/ui/icon';
@@ -41,3 +43,20 @@ import { lucideChevronRight } from '@ng-icons/lucide';
 export class Breadcrumb {
   readonly breadcrumb = inject(MeeBreadcrumb);
 }
+
+@Directive({
+  selector: '[meeBreadcrumbsSeparator]',
+  hostDirectives: [MeeBreadcrumbSeparator],
+})
+export class BreadcrumbsSeparator {}
+
+@Component({
+  selector: 'mee-breadcrumbs',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content />`,
+  host: {
+    class: 'flex items-center gap-b2',
+  },
+  hostDirectives: [MeeBreadcrumbs],
+})
+export class Breadcrumbs {}

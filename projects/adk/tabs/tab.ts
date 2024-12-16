@@ -27,11 +27,13 @@ export class MeeTabLazy {}
   exportAs: 'meeTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
-  template: `@if (active() && lazy()) {
-      <ng-container *ngTemplateOutlet="lazy()!" />
+  template: `
+    @if (lazyTemplate(); as template) {
+      <ng-container *ngTemplateOutlet="template" />
     } @else if (activeMode()) {
       <ng-content />
-    }`,
+    }
+  `,
   host: {
     role: 'tabpanel',
     '[tabindex]': 'active() ? 0 : -1',
@@ -61,4 +63,12 @@ export class MeeTab {
     this.activated ||= this.active();
     return this.mode() ? this.activated : this.active();
   });
+  readonly lazyTemplate = computed(() => this.active() && this.lazy());
+}
+
+export function provideTab(tab: typeof MeeTab) {
+  return {
+    provide: MeeTab,
+    useExisting: tab,
+  };
 }

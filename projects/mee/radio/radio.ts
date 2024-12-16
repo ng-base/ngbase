@@ -1,6 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeRadio, MeeRadioIndicator } from '@meeui/adk/radio';
+import { MeeRadio, MeeRadioGroup, MeeRadioIndicator } from '@meeui/adk/radio';
 import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
+
+@Component({
+  selector: 'mee-radio-group',
+  hostDirectives: [{ directive: MeeRadioGroup, inputs: ['value'], outputs: ['valueChange'] }],
+  template: `<ng-content />`,
+  host: {
+    class: 'flex gap-b2',
+  },
+})
+export class RadioGroup {}
 
 @Component({
   selector: 'mee-radio, [meeRadio]',

@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { MeeList } from '@meeui/adk/list';
+import { MeeList, MeeListActionGroup } from '@meeui/adk/list';
 
 @Directive({
   selector: '[meeListStyle]',
@@ -19,3 +19,9 @@ export class ListStyle {}
   hostDirectives: [ListStyle],
 })
 export class List extends MeeList {}
+
+@Directive({
+  selector: '[meeActionGroup]',
+  hostDirectives: [MeeListActionGroup],
+})
+export class ListActionGroup {}

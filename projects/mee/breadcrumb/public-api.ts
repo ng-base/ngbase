@@ -1,2 +1,1 @@
-export { Breadcrumbs, BreadcrumbsSeparator } from './breadcrumbs';
-export { Breadcrumb } from './breadcrumb';
+export { Breadcrumbs, BreadcrumbsSeparator, Breadcrumb } from './breadcrumb';

@@ -3,4 +3,3 @@
  */
 
 export * from './resizable';
-export * from './resizable-group';

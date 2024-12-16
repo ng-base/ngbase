@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeAutocomplete, provideAutocomplete } from '@meeui/adk/autocomplete';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import {
+  MeeAutocomplete,
+  MeeAutocompleteInput,
+  provideAutocomplete,
+} from '@meeui/adk/autocomplete';
 import { MeeSelectOptionGroup } from '@meeui/adk/select';
 import { InputStyle } from '@meeui/ui/input';
 
@@ -32,3 +36,19 @@ import { InputStyle } from '@meeui/ui/input';
   },
 })
 export class Autocomplete<T> extends MeeAutocomplete<T> {}
+
+@Directive({
+  selector: '[meeAutocompleteInput]',
+  exportAs: 'meeAutocompleteInput',
+  hostDirectives: [
+    {
+      directive: MeeAutocompleteInput,
+      inputs: ['options', 'filterFn'],
+      outputs: ['meeAutocompleteInput'],
+    },
+  ],
+  host: {
+    class: 'w-full bg-transparent shadow-none outline-none',
+  },
+})
+export class AutocompleteInput<T> {}

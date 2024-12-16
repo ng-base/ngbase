@@ -1,7 +1,6 @@
 import { Component, OnDestroy, signal } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Tab, TabHeader, TabLazy } from './tab';
-import { Tabs } from './tab-group';
+import { Tab, TabHeader, TabLazy, Tabs } from './tab';
 
 describe('Tabs Component', () => {
   let component: TestHostComponent;

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
+import { MeeRadio, MeeRadioGroup } from '@meeui/adk/radio';
 import { render, RenderResult } from '@meeui/adk/test';
 import { Radio } from './radio';
-import { MeeRadio, MeeRadioGroup } from '@meeui/adk/radio';
 
 describe('RadioComponent', () => {
   let component: MeeRadio;

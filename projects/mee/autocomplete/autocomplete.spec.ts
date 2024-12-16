@@ -3,8 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
 import { Option } from '@meeui/ui/select';
-import { Autocomplete } from './autocomplete';
-import { AutocompleteInput } from './autocomplete-input';
+import { Autocomplete, AutocompleteInput } from './autocomplete';
 
 // Test host component
 @Component({

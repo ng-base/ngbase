@@ -282,3 +282,7 @@ export class MeeResizable {
     }
   }
 }
+
+export function provideResizable(resizable: typeof MeeResizable) {
+  return { provide: MeeResizable, useExisting: resizable };
+}

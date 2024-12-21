@@ -1,5 +1,5 @@
 import { contentChildren, Directive, effect, untracked } from '@angular/core';
-// import { Autocomplete } from '@meeui/ui/autocomplete';
+// import { Autocomplete } from '@meeui/adk/autocomplete';
 import { MeeChip } from './chip';
 
 @Directive({

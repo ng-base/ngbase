@@ -36,10 +36,10 @@ import {
     </div>
     <div>Page {{ active() }} of {{ _totalSize() }}</div>
     <div class="flex items-center gap-b2">
-      <button meePaginationBtn="prev" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
+      <button meePaginationBtn="prev" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsLeft" />
       </button>
-      <button meePaginationBtn="prev" jump="-1" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
+      <button meePaginationBtn="prev" jump="-1" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronLeft" />
       </button>
       @if (showPage()) {
@@ -47,18 +47,17 @@ import {
           <button
             meePaginationBtn="page"
             [jump]="item"
-            meeButton
-            variant="ghost"
+            meeButton="ghost"
             class="min-w-b9 !p-b2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
           >
             {{ item }}
           </button>
         }
       }
-      <button meePaginationBtn="next" jump="1" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
+      <button meePaginationBtn="next" jump="1" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronRight" />
       </button>
-      <button meePaginationBtn="next" meeButton variant="outline" class="h-b8 w-b8 !p-b2">
+      <button meePaginationBtn="next" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsRight" />
       </button>
     </div>

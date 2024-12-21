@@ -12,7 +12,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="hoverCardPage">Hover Card</h4>
     <app-doc-code [tsCode]="tsCode">
-      <button [meeHoverCard]="myTemplate" meeButton variant="ghost" class="underline">
+      <button [meeHoverCard]="myTemplate" meeButton="ghost" class="underline">
         Hover over to show hover card
       </button>
 
@@ -53,7 +53,7 @@ import { DocCode } from './code.component';
 })
 export default class HoverCardComponent {
   htmlCode = `
-      <button [meeHoverCard]="myTemplate" meeButton variant="ghost" class="underline">
+      <button [meeHoverCard]="myTemplate" meeButton="ghost" class="underline">
         Hover over to show hover card
       </button>
 
@@ -78,7 +78,7 @@ export default class HoverCardComponent {
     selector: 'app-root',
     imports: [Button, DialogClose, HoverCard],
     template: \`
-      <button [meeHoverCard]="myTemplate" meeButton variant="ghost" class="underline">
+      <button [meeHoverCard]="myTemplate" meeButton="ghost" class="underline">
         Hover over to show hover card
       </button>
 

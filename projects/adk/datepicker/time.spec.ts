@@ -1,12 +1,12 @@
 import { render, RenderResult } from '@meeui/adk/test';
-import { TimePicker } from './time';
+import { MeeTimePicker } from './time';
 
 describe('TimeComponent', () => {
-  let component: TimePicker;
-  let view: RenderResult<TimePicker>;
+  let component: MeeTimePicker;
+  let view: RenderResult<MeeTimePicker>;
 
   beforeEach(async () => {
-    view = await render(TimePicker);
+    view = await render(MeeTimePicker);
     component = view.host;
     view.detectChanges();
   });
@@ -17,33 +17,34 @@ describe('TimeComponent', () => {
 
   it('should update time', () => {
     component['parseValue']('12:30:00 AM');
-    expect(component['time']).toBe('12:30:00 AM');
+    expect(component['time']()).toBe('12:30:00 AM');
 
     jest.spyOn(component.valueChange, 'emit');
     component['parseValue']('12:30:00 AM');
-    expect(component['time']).toBe('12:30:00 AM');
+    expect(component['time']()).toBe('12:30:00 AM');
     expect(component.valueChange.emit).not.toHaveBeenCalled();
   });
 
   it('should change AM', () => {
     component['parseValue']('12:30:00 AM');
     component.changeAm(false);
-    expect(component.am).toBe(false);
-    expect(component['time']).toBe('12:30:00 PM');
+    expect(component.am()).toBe(false);
+    expect(component['time']()).toBe('12:30:00 PM');
   });
 
   it('should write value', () => {
     jest.spyOn(component.valueChange, 'emit');
     component.writeValue('12:30:00 AM');
-    expect(component.hours).toBe('12');
-    expect(component.minutes).toBe('30');
-    expect(component.am).toBe(true);
+    expect(component.hours()).toBe('12');
+    expect(component.minutes()).toBe('30');
+    expect(component.am()).toBe(true);
     expect(component.valueChange.emit).not.toHaveBeenCalled();
   });
 
   it('should notify', () => {
     jest.spyOn(component.valueChange, 'emit');
-    component['parseValue']('12:30:00 AM');
+    component['writeValue']('12:30:00 AM');
+    component.updateValue();
     expect(component.valueChange.emit).toHaveBeenCalledWith('12:30:00 AM');
 
     view.setInput('value', '12:30:00 AM');
@@ -65,8 +66,8 @@ describe('TimeComponent', () => {
   it('should update time based on the value input', async () => {
     view.setInput('value', '12:30:00 AM');
     await view.whenStable();
-    expect(component.hours).toBe('12');
-    expect(component.minutes).toBe('30');
-    expect(component.am).toBe(true);
+    expect(component.hours()).toBe('12');
+    expect(component.minutes()).toBe('30');
+    expect(component.am()).toBe(true);
   });
 });

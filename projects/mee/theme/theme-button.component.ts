@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -11,7 +11,7 @@ import { injectTheme } from './theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [provideIcons({ lucideMoon, lucideSun })],
   template: `
-    <button meeButton variant="icon" class="tour-mode h-9 w-9" (click)="themeService.toggle()">
+    <button meeButton="icon" class="tour-mode h-9 w-9" (click)="themeService.toggle()">
       <mee-icon [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'" />
       <span class="sr-only">Toggle theme</span>
     </button>

@@ -28,15 +28,14 @@ import { DocCode } from './code.component';
         }
       </mee-stepper>
       <button
-        meeButton
-        variant="outline"
+        meeButton="outline"
         class="small"
         (click)="myStepper.prevStep()"
         [disabled]="myStepper.first()"
       >
         Previous
       </button>
-      <button meeButton variant="outline" class="small" (click)="myStepper.nextStep()">
+      <button meeButton="outline" class="small" (click)="myStepper.nextStep()">
         @if (myStepper.completed()) {
           Reset
         } @else if (myStepper.last()) {

@@ -1,4 +1,4 @@
-import { Directive, effect, ElementRef, inject, input, model } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input, linkedSignal, model } from '@angular/core';
 
 @Directive({
   selector: '[meeNumberOnly]',
@@ -8,11 +8,18 @@ import { Directive, effect, ElementRef, inject, input, model } from '@angular/co
   },
 })
 export class NumberOnly {
-  min = input<number | undefined>();
-  max = input<number | undefined>();
-  len = input<number | undefined>();
-  el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  value = model<string>('');
+  readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+
+  readonly min = input<number | undefined>();
+  readonly max = input<number | undefined>();
+  readonly len = input<number | undefined>();
+
+  readonly value = model<string>('');
+
+  // Hacky way to set the min value
+  readonly _min = linkedSignal(this.min);
+  readonly _max = linkedSignal(this.max);
+  readonly _len = linkedSignal(this.len);
 
   constructor() {
     effect(cleanup => {
@@ -68,10 +75,10 @@ export class NumberOnly {
   }
 
   private validateValue(rawValue: string): boolean {
-    const len = this.len();
+    const len = this._len();
     const value = +rawValue;
-    const min = this.min();
-    const max = this.max();
+    const min = this._min();
+    const max = this._max();
 
     if (len !== undefined && rawValue.length > len) return false;
     if (max !== undefined && value > max) return false;

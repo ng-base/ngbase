@@ -21,9 +21,8 @@ export class ChipGroup<T> {}
   template: `<ng-content />
     @if (removable()) {
       <button
-        meeButton
+        meeButton="ghost"
         meeChipRemove
-        variant="ghost"
         class="small -my-b2 data-[dir=ltr]:-mr-b4 data-[dir=rtl]:-ml-b4"
       >
         <mee-icon name="lucideX" />

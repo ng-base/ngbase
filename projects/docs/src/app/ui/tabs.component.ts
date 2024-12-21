@@ -36,7 +36,7 @@ export class TabLazyComponent {
           <h4 class="text-base font-semibold">Tab Header</h4>
         </div>
         <div class="tab-header-content flex items-center justify-center">
-          <button meeButton variant="ghost" class="mr-2 h-8 w-8" (click)="addTab()">
+          <button meeButton="ghost" class="mr-2 h-8 w-8" (click)="addTab()">
             <mee-icon name="lucidePlus" />
           </button>
         </div>
@@ -46,8 +46,7 @@ export class TabLazyComponent {
               {{ n.name }}
 
               <div
-                meeButton
-                variant="ghost"
+                meeButton="ghost"
                 tabindex="-1"
                 class="ml-2 h-7 w-7 !p-b"
                 (click)="$event.stopPropagation(); deleteTab(n.id)"

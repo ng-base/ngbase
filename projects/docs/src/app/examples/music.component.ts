@@ -58,13 +58,11 @@ import {
   template: `
     <mee-card class="!p-0">
       <div class="flex gap-b2 px-b4 py-b" meeNavigationMenu>
-        <button meeButton variant="ghost" class="small !font-bold" [meeMenuTrigger]="music">
-          Music
-        </button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="file">File</button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="edit">Edit</button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="view">View</button>
-        <button meeButton variant="ghost" class="small" [meeMenuTrigger]="account">Account</button>
+        <button meeButton="ghost" class="small !font-bold" [meeMenuTrigger]="music">Music</button>
+        <button meeButton="ghost" class="small" [meeMenuTrigger]="file">File</button>
+        <button meeButton="ghost" class="small" [meeMenuTrigger]="edit">Edit</button>
+        <button meeButton="ghost" class="small" [meeMenuTrigger]="view">View</button>
+        <button meeButton="ghost" class="small" [meeMenuTrigger]="account">Account</button>
       </div>
       <mee-menu #music>
         <button meeOption>About Music</button>

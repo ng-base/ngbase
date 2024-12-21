@@ -53,6 +53,8 @@ export class AccessibleGroup implements OnDestroy {
   _ariaLabelledby = linkedSignal(this.ariaLabelledby);
   _isPopup = linkedSignal(this.isPopup);
   _loop = linkedSignal(this.loop);
+  _columns = linkedSignal(this.columns);
+  _initialFocus = linkedSignal(this.initialFocus);
 
   private focusedItem?: WeakRef<AccessibleItem>;
   private isOn = signal(false);
@@ -90,9 +92,9 @@ export class AccessibleGroup implements OnDestroy {
       // this.log('group', items);
       untracked(() => {
         items.forEach(item => item.blur());
-        this.log('focus', items.length, isOn, this.initialFocus());
+        this.log('focus', items.length, isOn, this._initialFocus());
         let item = this.focusedItem?.deref();
-        if (items.length && isOn && this.initialFocus()) {
+        if (items.length && isOn && this._initialFocus()) {
           if (!item || !items.includes(item)) {
             item = items[0];
           }
@@ -169,7 +171,7 @@ export class AccessibleGroup implements OnDestroy {
     // Calculate the number of columns in the grid
     // const gridRect = this.el.nativeElement.getBoundingClientRect();
     // const itemWidth = items[0].host.nativeElement.offsetWidth;
-    const columns = this.columns() || 1;
+    const columns = this._columns() || 1;
     let direction: Direction = 'next';
 
     const isInput = (event.target as HTMLInputElement).tagName === 'INPUT';
@@ -285,7 +287,7 @@ export class AccessibleGroup implements OnDestroy {
     let index = currentIndex - 1;
     for (let i = index; i >= 0; i--) {
       const nextItem = items[i];
-      if (!nextItem._disabled() && !nextItem.skip() && nextItem.level() === level) {
+      if (!nextItem._disabled() && !nextItem._skip() && nextItem.level() === level) {
         return i;
       }
     }
@@ -297,7 +299,7 @@ export class AccessibleGroup implements OnDestroy {
     previousItem?.blur();
     const items = this.items();
     this.log('focusItem', item?.host.nativeElement.textContent);
-    item = item ?? items.find(item => !item._disabled() && !item.skip());
+    item = item ?? items.find(item => !item._disabled() && !item._skip());
     this.log('next focusItem', item?.host.nativeElement.textContent);
     if (!item) return;
     this.focusIndex(items.indexOf(item));
@@ -308,7 +310,7 @@ export class AccessibleGroup implements OnDestroy {
     this.log('focusIndex', nextIndex, direction);
     if (nextIndex !== null && nextIndex >= 0 && nextIndex < items.length) {
       let nextItem = items[nextIndex];
-      if (nextItem._disabled() || nextItem.skip()) {
+      if (nextItem._disabled() || nextItem._skip()) {
         nextIndex = this.getNextItem(nextIndex, items, direction);
         nextItem = items[nextIndex];
       }
@@ -336,14 +338,14 @@ export class AccessibleGroup implements OnDestroy {
         : direction === 'previous'
           ? -1
           : direction === 'up'
-            ? -(this.columns() || 1)
-            : this.columns() || 1;
+            ? -(this._columns() || 1)
+            : this._columns() || 1;
 
     for (let i = 0; i < len; i++) {
       const nextIndex = (currentIndex + i * step + len) % len;
       // this.log(totalItems, currentIndex, step, nextIndex);
       const item = items[nextIndex];
-      if (!item._disabled() && !item.skip()) {
+      if (!item._disabled() && !item._skip()) {
         // this.log({ currentIndex, items, direction });
         return nextIndex;
       }
@@ -360,7 +362,7 @@ export class AccessibleGroup implements OnDestroy {
     const endIndex = direction === 'next' ? items.length : -1;
 
     for (let i = startIndex; i !== endIndex; i += step) {
-      if (!items[i]._disabled() && !items[i].skip()) {
+      if (!items[i]._disabled() && !items[i]._skip()) {
         return i;
       }
     }

@@ -12,10 +12,10 @@ import { TourService } from '@meeui/ui/tour';
       maiores dignissimos harum suscipit accusantium ab illo inventore possimus.
     </p>
     <div class="flex justify-between gap-4">
-      <button meeButton variant="ghost" (click)="tourService.stop()">Skip</button>
+      <button meeButton="ghost" (click)="tourService.stop()">Skip</button>
       <div class="inline-flex justify-between gap-4">
         @if (tourService.showPrev()) {
-          <button meeButton variant="ghost" (click)="tourService.prev()"><-</button>
+          <button meeButton="ghost" (click)="tourService.prev()"><-</button>
         }
         <div class="inline-flex items-center gap-0.5">
           @for (item of tourService.totalSteps() | range; track item) {
@@ -25,7 +25,7 @@ import { TourService } from '@meeui/ui/tour';
             ></div>
           }
         </div>
-        <button meeButton variant="ghost" (click)="tourService.next()">
+        <button meeButton="ghost" (click)="tourService.next()">
           @if (tourService.showNext()) {
             ->
           } @else {

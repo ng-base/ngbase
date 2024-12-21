@@ -89,8 +89,6 @@ export class MeePaginationBtn {
           <button
             meePaginationBtn="page"
             [jump]="item"
-            meeButton
-            variant="ghost"
             [class]="active() === item ? 'bg-muted-background text-primary' : ''"
             class="min-w-b9 !p-b2 ring-offset-background"
           >

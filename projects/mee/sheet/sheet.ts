@@ -39,7 +39,7 @@ import { SheetOptions } from './sheet.service';
         @if (!isHideHeader) {
           <div class="flex items-center border-b px-b4 py-b2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button type="button" meeButton variant="ghost" class="-mr-b2 !p-b2" (click)="close()">
+            <button meeButton="ghost" class="-mr-b2 !p-b2" (click)="close()">
               <mee-icon name="lucideX" />
             </button>
           </div>

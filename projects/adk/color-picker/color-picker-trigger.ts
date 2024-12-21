@@ -22,7 +22,7 @@ interface ColorPickerOptions {
   accessor: typeof MeeColorInput;
 }
 
-export const provideColorPicker = ({ picker, accessor }: ColorPickerOptions) => [
+export const registerColorPicker = ({ picker, accessor }: ColorPickerOptions) => [
   { provide: ColorPicker, useValue: picker },
   provideValueAccessor(accessor),
 ];

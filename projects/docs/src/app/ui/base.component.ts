@@ -49,7 +49,7 @@ import { NavComponent } from './nav-header.component';
     <nav class="sticky top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
       <div class="flex h-full items-center justify-between">
         <div class="flex items-center gap-b2 text-lg">
-          <button meeButton variant="ghost" (click)="toggleShow()" class="h-8 w-8">
+          <button meeButton="ghost" (click)="toggleShow()" class="h-8 w-8">
             <mee-icon name="lucideMenu" />
           </button>
           <img src="/logo.svg" alt="logo" class="h-6" />
@@ -57,8 +57,7 @@ import { NavComponent } from './nav-header.component';
         </div>
         <div class="flex h-full items-center gap-b">
           <button
-            meeButton
-            variant="ghost"
+            meeButton="ghost"
             (click)="themeService.open()"
             class="tour-theme"
             meeTourStep="theme-open"
@@ -66,7 +65,7 @@ import { NavComponent } from './nav-header.component';
             Theme
           </button>
           <mee-theme-button meeTourStep="theme-toggle" />
-          <button meeButton variant="ghost" (click)="dir.toggleDirection()">
+          <button meeButton="ghost" (click)="dir.toggleDirection()">
             {{ dir.isRtl() ? 'RTL' : 'LTR' }}
           </button>
           <button

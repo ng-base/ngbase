@@ -163,49 +163,33 @@ import {
         <mee-resizable [size]="40" class="flex flex-col">
           <div class="flex justify-between">
             <div class="flex gap-b2 px-b3 py-b2.5">
-              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Archive">
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Archive">
                 <mee-icon name="lucideArchive" />
               </button>
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Move to junk"
-              >
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Move to junk">
                 <mee-icon name="lucideArchiveX" />
               </button>
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Move to trash"
-              >
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Move to trash">
                 <mee-icon name="lucideTrash2" />
               </button>
               <mee-separator vertical />
-              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Snooze">
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Snooze">
                 <mee-icon name="lucideClock" />
               </button>
             </div>
             <div class="flex gap-2 px-3 py-2">
-              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Reply">
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Reply">
                 <mee-icon name="lucideReply" />
               </button>
-              <button
-                meeButton
-                variant="ghost"
-                class="h-9 w-9 flex-none !p-0"
-                meeTooltip="Reply All"
-              >
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Reply All">
                 <mee-icon name="lucideReplyAll" />
               </button>
-              <button meeButton variant="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Forward">
+              <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Forward">
                 <mee-icon name="lucideForward" />
               </button>
               <mee-separator vertical />
               <button
-                meeButton
-                variant="ghost"
+                meeButton="ghost"
                 class="h-9 w-9 flex-none !p-0"
                 [meeMenuTrigger]="mailOptions"
               >
@@ -250,7 +234,7 @@ import {
             ></textarea>
             <div class="flex justify-between pt-b4">
               <mee-switch class="text-sm">Mute this thread</mee-switch>
-              <button meeButton variant="primary">Send</button>
+              <button meeButton>Send</button>
             </div>
           </div>
         </mee-resizable>

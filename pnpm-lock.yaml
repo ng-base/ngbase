@@ -75,6 +75,9 @@ importers:
       '@angular/compiler-cli':
         specifier: ^19.0.0
         version: 19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3)
+      '@angular/language-service':
+        specifier: ^19.0.5
+        version: 19.0.5
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.21
@@ -100,8 +103,8 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(@angular/compiler-cli@19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(typescript@5.6.3))(tailwindcss@3.4.15)(tslib@2.6.3)(typescript@5.6.3)
       oxlint:
-        specifier: ^0.13.1
-        version: 0.13.1
+        specifier: ^0.15.3
+        version: 0.15.3
       postcss:
         specifier: ^8.4.38
         version: 8.4.39
@@ -282,6 +285,10 @@ packages:
       '@angular/core': 19.0.0
       '@angular/platform-browser': 19.0.0
       rxjs: ^6.5.3 || ^7.4.0
+
+  '@angular/language-service@19.0.5':
+    resolution: {integrity: sha512-E4WFEsCzHuF3DYe4EfOCiMGW1zWmq3UYi5XXOBNLyzWDvwU5xTfdme6ECXGawHMc2kCaWMVNL4DzYpVsUgLG0w==}
+    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
 
   '@angular/platform-browser-dynamic@19.0.0':
     resolution: {integrity: sha512-ljvycDe0etmTBDzbCFakpsItywddpKEyCZGMKRvz5TdND1N1qqXydxAF1kLzP5H7F/QOMdP4/T/T1HS+6AUpkw==}
@@ -1686,43 +1693,43 @@ packages:
     resolution: {integrity: sha512-q9C0uHrb6B6cm3qXVM32UmpqTKuFGbtP23O2K5sLvPMz2hilKd0ptqGXSpuunOuOmPQb/aT5F/kCXFc1P2gO/A==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  '@oxlint/darwin-arm64@0.13.1':
-    resolution: {integrity: sha512-r2lMzuOhEO1j4NQe/A7kBcziuHvx2PZzCz3ip1eI6zUrwKqRtHZF3e9EdU0M2VLVV+1Mt1rJIYqHo4lXC3TCdw==}
+  '@oxlint/darwin-arm64@0.15.3':
+    resolution: {integrity: sha512-6isglmWrI3XxNR+V2KDURRg8bo3JpoTGUs1BqEuwZISz0tIEU5kVZ3Zba4vNz6Rp79lfA18ueYTB5NKonWaYOg==}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint/darwin-x64@0.13.1':
-    resolution: {integrity: sha512-kQa5MAOlBx9F5nBs1S5dk7ZUJ8wWKxPPQ2OvjZpqKCGQe5YlMEPWdTJK21SmNIf/V0WOUV3PIexZwVJ2kzuMrQ==}
+  '@oxlint/darwin-x64@0.15.3':
+    resolution: {integrity: sha512-wKn+eITIIpcXPU7hiWVHezAKONT/Vz6q9TUZFiYQFytF7sGAt0APZshe5tbjGTZ8XTR6wQ5wDETwdornHXCNFg==}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint/linux-arm64-gnu@0.13.1':
-    resolution: {integrity: sha512-zrN/1LvHq+s8CBi1u59tR/xVC0rb9ONJAXXTwfnf2QM3lbCjFXi8sgFDcffL6KoMzVrZwwIK+qFnbl7daHaqvA==}
+  '@oxlint/linux-arm64-gnu@0.15.3':
+    resolution: {integrity: sha512-AZUOtb3OfK8xDZJfk60AwgTKEpa6zJdvjrwuk8Qqz4tPqLJpk4KSJmfNMzbYzy689m27ur+ix1p/7JAxwvckRg==}
     cpu: [arm64]
     os: [linux]
 
-  '@oxlint/linux-arm64-musl@0.13.1':
-    resolution: {integrity: sha512-TWG/dCh6WBi9OfO+rJJ45smLvFShy/6ZwOg7f2MWTcfkEKdCLJP+bkVwZFVwB+WndBFAMk45lyli83uaHJfNpg==}
+  '@oxlint/linux-arm64-musl@0.15.3':
+    resolution: {integrity: sha512-HIeyrgE11KFkSRpVjBRWOux78OITDqlOiC8plC2RDrLvSj205MaA1GYYyIMMv/FuyWdGMOAHOetn5vWbyJJctQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@oxlint/linux-x64-gnu@0.13.1':
-    resolution: {integrity: sha512-lk9X72DJ5EZpDpc4fM+O+Qk5GuZ37LHeHhUNzjQ01uywwGVCkW2cDmTKIs/PYfxcDA53bwW/Ddsljn71BLtWoA==}
+  '@oxlint/linux-x64-gnu@0.15.3':
+    resolution: {integrity: sha512-cDHQaDCpuqFFYTohM+xw4120hzBSWaOVIZqq0ROUEX/qi+nnR9XMKE/fJf8xiHJznFlV6ANsiMLY939uur8OKw==}
     cpu: [x64]
     os: [linux]
 
-  '@oxlint/linux-x64-musl@0.13.1':
-    resolution: {integrity: sha512-Hb8wiT6KnyljDeMN7exSRRTkKH1n/8pczqWkPT5fCklahs721/z+vnxp49U5yvDdrD1LyppFKieEnKKg4uWtOw==}
+  '@oxlint/linux-x64-musl@0.15.3':
+    resolution: {integrity: sha512-6PVIi0XXhlpFoBh0k2fP9wioU8MiktkqnYHxOv7EM7HggjAzpRMJqQmgwWcww3RU5R7T4wnZNzrUPPqI7+Ejmw==}
     cpu: [x64]
     os: [linux]
 
-  '@oxlint/win32-arm64@0.13.1':
-    resolution: {integrity: sha512-Z3sHxYSGz+ZByScbe01Tqv9DEIr4ve/mgrFPFMxL0ve18CAnMe/2Psxj4A+T/BW4zINXdQyeiPkcWDNX+eUEQg==}
+  '@oxlint/win32-arm64@0.15.3':
+    resolution: {integrity: sha512-CAvFXTZ6pwHHMHTmRgev/QcS4vD2UeH4e68DxgslPrib6ivTGz2EvtVbrVuVsuS27WQuKTy06e9RW339dk4pHg==}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint/win32-x64@0.13.1':
-    resolution: {integrity: sha512-9BKvquGa9nloHEXXNPnro7inzbX6BNFun9+ti9LvWEn1uNL/m6mmfMbwEmqXeDaeJACuQB3/9te1DRNUOE5ULw==}
+  '@oxlint/win32-x64@0.15.3':
+    resolution: {integrity: sha512-sXBPSxDoOELlkUbjXfXqlfig3jw67ylrZn+URke/TZMknY1uNEsFTg9+89t8km65eC8SZSE9rnZVyjK8iaEJXA==}
     cpu: [x64]
     os: [win32]
 
@@ -4309,8 +4316,8 @@ packages:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
     engines: {node: '>=0.10.0'}
 
-  oxlint@0.13.1:
-    resolution: {integrity: sha512-XkH9kzbWv9VWiVF76GFij33ZCVCznRItZc50kAIoVdqWpPYjvZk4oc71fKIfxoLxChB+ZNwU2PmsHLBDXAmhuw==}
+  oxlint@0.15.3:
+    resolution: {integrity: sha512-kOAt0EC/oluYTcfRu6yg8+QkYMq6uibvEW+hx5nKsX320+VYEw1ChNBRcfSLCtJwA+k6X/CGxk2MN2Nddw70sQ==}
     engines: {node: '>=14.*'}
     hasBin: true
 
@@ -5953,6 +5960,8 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.8.1
 
+  '@angular/language-service@19.0.5': {}
+
   '@angular/platform-browser-dynamic@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8)))':
     dependencies:
       '@angular/common': 19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
@@ -7501,28 +7510,28 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@oxlint/darwin-arm64@0.13.1':
+  '@oxlint/darwin-arm64@0.15.3':
     optional: true
 
-  '@oxlint/darwin-x64@0.13.1':
+  '@oxlint/darwin-x64@0.15.3':
     optional: true
 
-  '@oxlint/linux-arm64-gnu@0.13.1':
+  '@oxlint/linux-arm64-gnu@0.15.3':
     optional: true
 
-  '@oxlint/linux-arm64-musl@0.13.1':
+  '@oxlint/linux-arm64-musl@0.15.3':
     optional: true
 
-  '@oxlint/linux-x64-gnu@0.13.1':
+  '@oxlint/linux-x64-gnu@0.15.3':
     optional: true
 
-  '@oxlint/linux-x64-musl@0.13.1':
+  '@oxlint/linux-x64-musl@0.15.3':
     optional: true
 
-  '@oxlint/win32-arm64@0.13.1':
+  '@oxlint/win32-arm64@0.15.3':
     optional: true
 
-  '@oxlint/win32-x64@0.13.1':
+  '@oxlint/win32-x64@0.15.3':
     optional: true
 
   '@parcel/watcher-android-arm64@2.4.1':
@@ -10464,16 +10473,16 @@ snapshots:
 
   os-tmpdir@1.0.2: {}
 
-  oxlint@0.13.1:
+  oxlint@0.15.3:
     optionalDependencies:
-      '@oxlint/darwin-arm64': 0.13.1
-      '@oxlint/darwin-x64': 0.13.1
-      '@oxlint/linux-arm64-gnu': 0.13.1
-      '@oxlint/linux-arm64-musl': 0.13.1
-      '@oxlint/linux-x64-gnu': 0.13.1
-      '@oxlint/linux-x64-musl': 0.13.1
-      '@oxlint/win32-arm64': 0.13.1
-      '@oxlint/win32-x64': 0.13.1
+      '@oxlint/darwin-arm64': 0.15.3
+      '@oxlint/darwin-x64': 0.15.3
+      '@oxlint/linux-arm64-gnu': 0.15.3
+      '@oxlint/linux-arm64-musl': 0.15.3
+      '@oxlint/linux-x64-gnu': 0.15.3
+      '@oxlint/linux-x64-musl': 0.15.3
+      '@oxlint/win32-arm64': 0.15.3
+      '@oxlint/win32-x64': 0.15.3
 
   p-limit@2.3.0:
     dependencies:

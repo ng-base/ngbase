@@ -1,4 +1,3 @@
-import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
@@ -50,42 +49,26 @@ interface TreeItem {
 
 @Component({
   selector: 'app-tree',
-  imports: [
-    Tree,
-    TreeNode,
-    TreeNodeDef,
-    TreeNodeToggle,
-    TreeNodeContent,
-    Heading,
-    Button,
-    Icon,
-    NgTemplateOutlet,
-    JsonPipe,
-  ],
+  imports: [Tree, TreeNode, TreeNodeDef, TreeNodeToggle, Heading, Button, Icon],
   viewProviders: [provideIcons({ lucideChevronDown, lucideChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5">Tree</h4>
     <button meeButton (click)="toggle()">Toggle</button>
     @if (show()) {
-      <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
-      <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
+      <button meeButton="outline" (click)="myTree.foldAll()">Fold All</button>
+      <button meeButton="outline" (click)="myTree.expandAll()">Expand All</button>
       <mee-tree [dataSource]="items()" [trackBy]="trackBy" [children]="getChildren" #myTree>
         <mee-tree-node *meeTreeNodeDef="let item" #myNode>
-          <button meeButton variant="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
+          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
             />
           </button>
           {{ item.name }}
-          <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>
-          <button
-            meeButton
-            variant="ghost"
-            class="small"
-            (click)="deleteItem(item, myNode.parent())"
-          >
+          <button meeButton="ghost" class="small" (click)="add(item)">Add</button>
+          <button meeButton="ghost" class="small" (click)="deleteItem(item, myNode.parent())">
             delete
           </button>
           <!-- <div meeTreeNodeContent class="text-muted-foreground">
@@ -95,14 +78,6 @@ interface TreeItem {
       </mee-tree>
     }
   `,
-  styles: [
-    `
-      .example-tree-node {
-        display: flex;
-        align-items: center;
-      }
-    `,
-  ],
 })
 export default class TreeComponent {
   items = signal<TreeItem[]>([]);

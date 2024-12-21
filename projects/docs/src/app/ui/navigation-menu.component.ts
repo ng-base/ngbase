@@ -11,13 +11,13 @@ import { DocCode } from './code.component';
   template: `
     <app-doc-code [tsCode]="tsCode">
       <nav class="flex gap-2 rounded-base border bg-foreground shadow-sm" meeNavigationMenu>
-        <button meeButton variant="ghost">Home</button>
-        <button meeButton variant="ghost">About</button>
-        <button meeButton variant="ghost" [meeMenuTrigger]="solutionMenu">
+        <button meeButton="ghost">Home</button>
+        <button meeButton="ghost">About</button>
+        <button meeButton="ghost" [meeMenuTrigger]="solutionMenu">
           Solutions
           <div class="ml-2 flex items-center">&#8964;</div>
         </button>
-        <button meeButton variant="ghost" [meeMenuTrigger]="productMenu">
+        <button meeButton="ghost" [meeMenuTrigger]="productMenu">
           Products
           <div class="ml-2 flex items-center">&#8964;</div>
         </button>
@@ -45,7 +45,7 @@ import { DocCode } from './code.component';
         </div>
         <div class="grid grid-cols-4">
           @for (item of 16 | range; track $index) {
-            <button meeButton variant="ghost">-></button>
+            <button meeButton="ghost">-></button>
           }
         </div>
       </div>
@@ -68,13 +68,13 @@ export default class NavigationMenuComponent {
     ],
     template: \`
       <nav meeNavigationMenu>
-        <button meeButton variant="ghost">Home</button>
-        <button meeButton variant="ghost">About</button>
-        <button meeButton variant="ghost" [meeMenuTrigger]="solutionMenu">
+        <button meeButton="ghost">Home</button>
+        <button meeButton="ghost">About</button>
+        <button meeButton="ghost" [meeMenuTrigger]="solutionMenu">
           Solutions
           <div class="ml-2 flex items-center">&#8964;</div>
         </button>
-        <button meeButton variant="ghost" [meeMenuTrigger]="productMenu">
+        <button meeButton="ghost" [meeMenuTrigger]="productMenu">
           Products
           <div class="ml-2 flex items-center">&#8964;</div>
         </button>

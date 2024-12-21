@@ -69,49 +69,19 @@ import {
     <mee-card class="flex overflow-hidden !p-0">
       <!-- Sidebar -->
       <div class="flex flex-none flex-col gap-b4 border-r p-b4">
-        <button
-          meeButton
-          variant="ghost"
-          meeTooltip="Dashboard"
-          meeTooltipPosition="right"
-          class="h-9 w-9"
-        >
+        <button meeButton="ghost" meeTooltip="Dashboard" meeTooltipPosition="right" class="h-9 w-9">
           <mee-icon name="lucideHouse" size="1.2rem" />
         </button>
-        <button
-          meeButton
-          variant="ghost"
-          meeTooltip="Orders"
-          meeTooltipPosition="right"
-          class="h-9 w-9"
-        >
+        <button meeButton="ghost" meeTooltip="Orders" meeTooltipPosition="right" class="h-9 w-9">
           <mee-icon name="lucideShoppingCart" size="1.2rem" />
         </button>
-        <button
-          meeButton
-          variant="ghost"
-          meeTooltip="Product"
-          meeTooltipPosition="right"
-          class="h-9 w-9"
-        >
+        <button meeButton="ghost" meeTooltip="Product" meeTooltipPosition="right" class="h-9 w-9">
           <mee-icon name="lucidePackage" size="1.2rem" />
         </button>
-        <button
-          meeButton
-          variant="ghost"
-          meeTooltip="Customers"
-          meeTooltipPosition="right"
-          class="h-9 w-9"
-        >
+        <button meeButton="ghost" meeTooltip="Customers" meeTooltipPosition="right" class="h-9 w-9">
           <mee-icon name="lucideUsers" size="1.2rem" />
         </button>
-        <button
-          meeButton
-          variant="ghost"
-          meeTooltip="Analytics"
-          meeTooltipPosition="right"
-          class="h-9 w-9"
-        >
+        <button meeButton="ghost" meeTooltip="Analytics" meeTooltipPosition="right" class="h-9 w-9">
           <mee-icon name="lucideLineChart" size="1.2rem" />
         </button>
       </div>
@@ -126,8 +96,7 @@ import {
           <div class="flex-1"></div>
           <input meeInput placeholder="Search..." class="w-[366px] bg-foreground" />
           <button
-            meeButton
-            variant="outline"
+            meeButton="outline"
             class="rounded-full bg-foreground !px-b2"
             [meeMenuTrigger]="userMenu"
           >
@@ -184,15 +153,14 @@ import {
 
                 <div class="ml-auto flex items-center gap-b2">
                   <button
-                    meeButton
-                    variant="outline"
+                    meeButton="outline"
                     class="small bg-foreground"
                     [meeMenuTrigger]="filterMenu"
                   >
                     <mee-icon class="mr-b2" name="lucideFilter" />
                     Filter
                   </button>
-                  <button meeButton variant="outline" class="small bg-foreground">
+                  <button meeButton="outline" class="small bg-foreground">
                     <mee-icon class="mr-b2" name="lucideFile" /> Export
                   </button>
                   <mee-menu #filterMenu>
@@ -259,10 +227,10 @@ import {
                 <p class="text-muted">Date: November 23, 2023</p>
               </div>
               <div class="ml-auto flex items-center gap-b2">
-                <button meeButton variant="outline" class="h-9 w-9 bg-foreground">
+                <button meeButton="outline" class="h-9 w-9 bg-foreground">
                   <mee-icon name="lucidePackage" />
                 </button>
-                <button meeButton variant="outline" class="h-9 w-9 bg-foreground">
+                <button meeButton="outline" class="h-9 w-9 bg-foreground">
                   <mee-icon name="lucideFilter" />
                 </button>
               </div>
@@ -353,11 +321,11 @@ import {
             <div class="flex items-center gap-b2 border-t bg-background px-b8 py-b4">
               <div class="text-sm text-muted">Updated November 23, 2023</div>
               <div class="ml-auto flex items-center gap-b2">
-                <button meeButton variant="outline" class="small bg-foreground">
+                <button meeButton="outline" class="small bg-foreground">
                   <mee-icon name="lucideChevronLeft" />
                   <span class="sr-only">Previous Order</span>
                 </button>
-                <button meeButton variant="outline" class="small bg-foreground">
+                <button meeButton="outline" class="small bg-foreground">
                   <mee-icon name="lucideChevronRight" />
                   <span class="sr-only">Next Order</span>
                 </button>

@@ -46,6 +46,9 @@ export class AccessibleItem<T = any> implements OnDestroy {
   _disabled = linkedSignal(this.disabled) as Signal<boolean>;
   _selected = linkedSignal(this.selected) as Signal<boolean>;
   _ayId = linkedSignal(this.ayId);
+  _data = linkedSignal(this.data);
+  _id = linkedSignal(this.id);
+  _skip = linkedSignal(this.skip);
 
   readonly group = computed(() => this.allyService.getGroup(this._ayId() || ''));
   readonly pressed = signal(false);

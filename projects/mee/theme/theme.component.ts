@@ -23,7 +23,7 @@ interface ThemeData {
   template: `
     <div class="mb-b4 flex gap-4">
       @for (theme of themes; track theme) {
-        <button meeButton variant="outline" (click)="changeTheme(theme)">
+        <button meeButton="outline" (click)="changeTheme(theme)">
           {{ theme.name }}
         </button>
       }

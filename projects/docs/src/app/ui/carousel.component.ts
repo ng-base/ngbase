@@ -24,8 +24,7 @@ import { DocCode } from './code.component';
         }
         <div class="flex justify-between">
           <button
-            meeButton
-            variant="outline"
+            meeButton="outline"
             class="small"
             [meeCarouselButton]="-1"
             [disabled]="myCarousel.isFirst()"
@@ -42,8 +41,7 @@ import { DocCode } from './code.component';
             }
           </div>
           <button
-            meeButton
-            variant="outline"
+            meeButton="outline"
             class="small"
             [meeCarouselButton]="1"
             [disabled]="myCarousel.isLast()"
@@ -73,8 +71,7 @@ export default class CarouselComponent {
         }
         <div class="flex justify-between">
           <button
-            meeButton
-            variant="outline"
+            meeButton="outline"
             class="small"
             [meeCarouselButton]="-1"
             [disabled]="myCarousel.isFirst()"
@@ -91,8 +88,7 @@ export default class CarouselComponent {
             }
           </div>
           <button
-            meeButton
-            variant="outline"
+            meeButton="outline"
             class="small"
             [meeCarouselButton]="1"
             [disabled]="myCarousel.isLast()"

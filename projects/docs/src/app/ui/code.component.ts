@@ -50,8 +50,7 @@ export class CodeService {
     } @else {
       <div class="relative overflow-hidden rounded-base border font-body">
         <button
-          meeButton
-          variant="outline"
+          meeButton="outline"
           class="dark absolute right-0 top-0 h-8 w-8"
           [meeCopyToClipboard]="tsCode()"
         >

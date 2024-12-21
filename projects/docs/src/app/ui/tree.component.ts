@@ -42,8 +42,8 @@ class TreeItem {
     <h4 meeHeader class="mb-5">Tree</h4>
     <button meeButton (click)="toggle()">Toggle</button>
     @if (show()) {
-      <button meeButton variant="outline" (click)="myTree.foldAll()">Fold All</button>
-      <button meeButton variant="outline" (click)="myTree.expandAll()">Expand All</button>
+      <button meeButton="outline" (click)="myTree.foldAll()">Fold All</button>
+      <button meeButton="outline" (click)="myTree.expandAll()">Expand All</button>
       <mee-tree
         [dataSource]="items()"
         [trackBy]="trackBy"
@@ -51,7 +51,7 @@ class TreeItem {
         #myTree="meeTree"
       >
         <mee-tree-node *meeTreeNodeDef="let item; level as l" #myNode="meeTreeNode">
-          <button meeButton variant="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
+          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
@@ -59,13 +59,8 @@ class TreeItem {
             <!-- {{ myNode.isOpen() ? '▼' : '►' }} -->
           </button>
           <mee-inline-edit [(ngModel)]="item.name" class="bg-transparent" /> {{ item.currentNow() }}
-          <button meeButton variant="ghost" class="small" (click)="add(item)">Add</button>
-          <button
-            meeButton
-            variant="ghost"
-            class="small"
-            (click)="deleteItem(item, myNode.parent())"
-          >
+          <button meeButton="ghost" class="small" (click)="add(item)">Add</button>
+          <button meeButton="ghost" class="small" (click)="deleteItem(item, myNode.parent())">
             delete
           </button>
           <!-- <div meeTreeNodeContent class="text-muted-foreground">

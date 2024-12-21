@@ -21,12 +21,7 @@ export interface AlertOptions {
     <p class="text-muted-foreground pb-b3">{{ data?.description }}</p>
     <div class="flex justify-end gap-4 pt-1">
       @for (action of data?.actions; track action) {
-        <button
-          meeButton
-          type="button"
-          [variant]="action.type || 'primary'"
-          (click)="action.handler(diaRef.close)"
-        >
+        <button [meeButton]="action.type || 'primary'" (click)="action.handler(diaRef.close)">
           {{ action.text }}
         </button>
       }

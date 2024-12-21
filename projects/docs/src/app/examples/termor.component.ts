@@ -57,17 +57,17 @@ interface Restaurant {
         <div class="header-section mat-elevation-z1">
           <!-- Search and Filter Bar -->
           <div class="flex items-center gap-b2">
-            <button meeButton variant="outline" class="small gap-2">
+            <button meeButton="outline" class="small gap-2">
               <mee-icon name="lucideArrowUpDown" />
               Sort
             </button>
 
-            <button meeButton variant="outline" class="small gap-2">
+            <button meeButton="outline" class="small gap-2">
               <mee-icon name="lucideGlobe" />
               Countries
             </button>
 
-            <button meeButton variant="outline" class="small gap-2">
+            <button meeButton="outline" class="small gap-2">
               <mee-icon name="lucideRatio" />
               Industry
             </button>

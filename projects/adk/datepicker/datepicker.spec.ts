@@ -1,8 +1,8 @@
 import { Component, TemplateRef, viewChild } from '@angular/core';
 import { render, RenderResult } from '@meeui/adk/test';
 import { DialogRef } from '@meeui/adk/portal';
-import { DatePicker } from './datepicker';
-import { DatepickerTrigger } from './datepicker-trigger';
+import { MeeDatePicker } from './datepicker';
+import { MeeDatepickerTrigger } from './datepicker-trigger';
 
 @Component({
   template: `<ng-template #templateRef>
@@ -16,14 +16,14 @@ class TestDatePicker {
 const mockDialogRef = { data: { value: [] as any[] } };
 
 describe('DatePicker', () => {
-  let component: DatePicker<Date>;
-  let view: RenderResult<DatePicker<Date>>;
+  let component: MeeDatePicker<Date>;
+  let view: RenderResult<MeeDatePicker<Date>>;
   let templateRef: TemplateRef<any>;
 
   beforeEach(async () => {
-    view = await render(DatePicker<Date>, [
+    view = await render(MeeDatePicker<Date>, [
       { provide: DialogRef, useValue: mockDialogRef },
-      { provide: DatepickerTrigger, useValue: { updateInput: jest.fn() } },
+      { provide: MeeDatepickerTrigger, useValue: { updateInput: jest.fn() } },
     ]);
     component = view.host;
     view.detectChanges();

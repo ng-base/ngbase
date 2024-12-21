@@ -47,10 +47,10 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
             <mee-option [value]="item">{{ item }}</mee-option>
           }
         </mee-select>
-        <button meeButton variant="secondary">Save</button>
-        <button meeButton variant="secondary">View Code</button>
-        <button meeButton variant="secondary">Share</button>
-        <button meeButton variant="secondary" [meeMenuTrigger]="menuDots">...</button>
+        <button meeButton="secondary">Save</button>
+        <button meeButton="secondary">View Code</button>
+        <button meeButton="secondary">Share</button>
+        <button meeButton="secondary" [meeMenuTrigger]="menuDots">...</button>
       </div>
       <mee-separator />
       <mee-menu #menuDots>
@@ -118,7 +118,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
       </div>
       <div class="flex gap-b2 px-b4 pb-b4">
         <button meeButton>Submit</button>
-        <button meeButton variant="secondary">X</button>
+        <button meeButton="secondary">X</button>
       </div>
     </mee-card>
   `,

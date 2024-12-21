@@ -114,8 +114,7 @@ export function injectParams() {
       </mee-tab>
     </mee-tabs>
     <!-- <button
-      meeButton
-      variant="ghost"
+      meeButton="ghost"
       class="absolute right-0 top-0.5 h-9 w-9"
       (click)="theme.toggle()"
     >

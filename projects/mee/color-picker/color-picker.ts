@@ -10,7 +10,7 @@ import {
   ColorSpectrumSelector,
   MeeColorInput,
   MeeColorPicker,
-  provideColorPicker,
+  registerColorPicker,
 } from '@meeui/adk/color-picker';
 import { InputBase } from '@meeui/adk/input';
 import { InputStyle } from '@meeui/ui/input';
@@ -76,7 +76,7 @@ export class ColorPicker extends MeeColorPicker {}
 @Component({
   selector: 'mee-color-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideColorPicker({ picker: ColorPicker, accessor: ColorInput })],
+  providers: [registerColorPicker({ picker: ColorPicker, accessor: ColorInput })],
   hostDirectives: [InputStyle],
   imports: [ColorPickerTrigger, InputBase],
   template: `

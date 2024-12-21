@@ -12,8 +12,6 @@ import {
 import { FocusTrap } from '@meeui/adk/a11y';
 import { BaseDialog } from '@meeui/adk/portal';
 import { createHostAnimation, disposals } from '@meeui/adk/utils';
-import { provideIcons } from '@ng-icons/core';
-import { lucideX } from '@ng-icons/lucide';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { PopoverOptions, PopoverPosition } from './popover.service';
 import { tooltipPosition } from './utils';
@@ -22,7 +20,6 @@ import { tooltipPosition } from './utils';
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FocusTrap],
-  providers: [provideIcons({ lucideX })],
   template: ` <style>
       .popover-anchor {
         --action-angle: 180deg;

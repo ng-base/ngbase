@@ -51,13 +51,7 @@ import { viewAnimation } from './dialog.animation';
           >
             <h2 class="flex-1 text-base font-bold">{{ options.title }}</h2>
             @if (!options.disableClose) {
-              <button
-                type="button"
-                meeButton
-                variant="ghost"
-                class="-mr-b2 !p-b2"
-                (click)="close()"
-              >
+              <button meeButton="ghost" class="-mr-b2 !p-b2" (click)="close()">
                 <mee-icon name="lucideX" />
               </button>
             }

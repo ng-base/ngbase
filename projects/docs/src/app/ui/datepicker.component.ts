@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { DatepickerTrigger, TimePicker } from '@meeui/ui/datepicker';
-import { FormField, Input, Label } from '@meeui/ui/input';
+import { FormField, Label } from '@meeui/ui/input';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
@@ -14,7 +14,6 @@ import { DocCode } from './code.component';
     Heading,
     Button,
     DatepickerTrigger,
-    Input,
     TimePicker,
     DocCode,
     Label,
@@ -36,8 +35,8 @@ import { DocCode } from './code.component';
       <app-doc-code [tsCode]="tsCode">
         @if (show()) {
           <div class="flex w-52 flex-col">
-            <div meeFormField>
-              <label for="date" class="mb-1">Datetime</label>
+            <div meeFormField class="w-full">
+              <label meeLabel for="date" class="mb-1">Datetime</label>
               <input
                 [formControl]="date"
                 id="date"
@@ -51,8 +50,8 @@ import { DocCode } from './code.component';
             </div>
           </div>
         }
-        <div meeFormField>
-          <label meeLable class="flex w-52 flex-col"> Date 2 calendars</label>
+        <div meeFormField class="w-full">
+          <label meeLabel class="flex w-52 flex-col"> Date 2 calendars</label>
           <input
             [(ngModel)]="dateRange"
             placeholder="Date"
@@ -63,7 +62,7 @@ import { DocCode } from './code.component';
             readonly
           />
         </div>
-        <div meeFormField>
+        <div meeFormField class="w-full">
           <label meeLabel class="flex w-52 flex-col"> Date </label>
           <input
             [formControl]="date"
@@ -73,7 +72,7 @@ import { DocCode } from './code.component';
             readonly
           />
         </div>
-        <div meeFormField>
+        <div meeFormField class="w-full">
           <label meeLabel class="mt-4 flex w-52 flex-col"> Month picker</label>
           <input
             [formControl]="date"
@@ -84,8 +83,8 @@ import { DocCode } from './code.component';
             readonly
           />
         </div>
-        <div meeFormField>
-          <label class="mt-4 flex w-52 flex-col"> Year picker</label>
+        <div meeFormField class="w-full">
+          <label meeLabel class="mt-4 flex w-52 flex-col"> Year picker</label>
           <input
             [formControl]="date"
             placeholder="Year"

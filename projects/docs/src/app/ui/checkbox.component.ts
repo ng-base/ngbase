@@ -22,7 +22,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class CheckboxComponent {
+export default class CheckboxComponent {
   checkBox = false;
   indeterminate = signal(false);
 

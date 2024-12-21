@@ -30,7 +30,7 @@ import { DocCode } from './code.component';
     </mee-menu>
   `,
 })
-export class ContextMenuComponent {
+export default class ContextMenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { ContextMenu } from '@meeui/ui/menu';

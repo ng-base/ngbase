@@ -33,4 +33,4 @@ import { Skeleton } from '@meeui/ui/skeleton';
       }
     </div>`,
 })
-export class SkeletonComponent {}
+export default class SkeletonComponent {}

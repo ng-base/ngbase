@@ -33,7 +33,7 @@ import { Icon } from '@meeui/ui/icon';
     </app-doc-code>
   `,
 })
-export class BreadcrumbComponent {
+export default class BreadcrumbComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Breadcrumbs, Breadcrumb } from '@meeui/ui/breadcrumb';

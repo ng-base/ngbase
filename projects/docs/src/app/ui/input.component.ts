@@ -45,7 +45,7 @@ import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
     </app-doc-code>
   `,
 })
-export class InputComponent {
+export default class InputComponent {
   inputValue = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
   tsCode = `

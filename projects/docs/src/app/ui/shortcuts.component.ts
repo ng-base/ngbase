@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ShortcutsComponent {
+export default class ShortcutsComponent {
   private themeService = injectTheme();
   private router = inject(Router);
 

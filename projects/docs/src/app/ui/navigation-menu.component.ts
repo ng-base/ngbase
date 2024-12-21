@@ -52,7 +52,7 @@ import { DocCode } from './code.component';
     </mee-menu>
   `,
 })
-export class NavigationMenuComponent {
+export default class NavigationMenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Button } from '@meeui/ui/button';

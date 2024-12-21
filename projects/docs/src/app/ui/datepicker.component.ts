@@ -99,7 +99,7 @@ import { DocCode } from './code.component';
     </div>
   `,
 })
-export class DatepickerComponent {
+export default class DatepickerComponent {
   date = new FormControl();
   rangeDate: Date[] = [];
   time24 = signal('');

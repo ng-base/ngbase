@@ -70,7 +70,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class AutocompleteComponent {
+export default class AutocompleteComponent {
   selectValue = new AutocompleteForm<string[]>(['Option 1']);
   selectValue1 = new AutocompleteForm<string[]>(['Option 1']);
   selectValue2 = new AutocompleteForm<string>('Option 1');

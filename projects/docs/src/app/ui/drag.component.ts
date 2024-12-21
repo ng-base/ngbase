@@ -95,7 +95,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     </div>
   `,
 })
-export class DragComponent {
+export default class DragComponent {
   dragItems = [
     'Episode I - The Phantom Menace',
     'Episode II - Attack of the Clones',

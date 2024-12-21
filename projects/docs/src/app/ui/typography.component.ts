@@ -38,6 +38,6 @@ import { Heading } from '@meeui/ui/typography';
     </div>
   `,
 })
-export class TypographyComponent {
+export default class TypographyComponent {
   checkBox = false;
 }

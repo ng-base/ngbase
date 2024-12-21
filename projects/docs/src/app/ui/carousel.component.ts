@@ -55,7 +55,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class CarouselComponent {
+export default class CarouselComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';

@@ -12,6 +12,6 @@ import { Heading } from '@meeui/ui/typography';
     <mee-inline-edit [(ngModel)]="value" />
   `,
 })
-export class InlineEditComponent {
+export default class InlineEditComponent {
   value = signal('Hello World');
 }

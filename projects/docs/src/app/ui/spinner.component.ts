@@ -18,7 +18,7 @@ import { DocCode } from './code.component';
     } -->
   `,
 })
-export class SpinnerComponent {
+export default class SpinnerComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Spinner } from '@meeui/ui/spinner';

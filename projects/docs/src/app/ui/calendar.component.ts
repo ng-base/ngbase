@@ -18,7 +18,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class CalendarComponent {
+export default class CalendarComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { DatePicker } from '@meeui/ui/datepicker';

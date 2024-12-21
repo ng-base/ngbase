@@ -20,7 +20,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class PaginationComponent {
+export default class PaginationComponent {
   checkBox = false;
 
   tsCode = `

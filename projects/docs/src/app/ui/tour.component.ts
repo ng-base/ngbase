@@ -13,7 +13,7 @@ import { TourDemoComponent } from './tour-demo.component';
     <button meeButton (click)="start()" meeShortcut="ctrl+t" (onKeys)="start()">Start Tour</button>
   `,
 })
-export class TourComponent implements OnInit {
+export default class TourComponent implements OnInit {
   tourService = inject(TourService);
   constructor() {}
 

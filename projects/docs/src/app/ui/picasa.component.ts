@@ -16,4 +16,4 @@ import { Heading } from '@meeui/ui/typography';
     </div>
   `,
 })
-export class PicasaComponent {}
+export default class PicasaComponent {}

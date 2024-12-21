@@ -18,7 +18,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ToggleGroupComponent {
+export default class ToggleGroupComponent {
   toggleGroup = ['A'];
 
   code = `

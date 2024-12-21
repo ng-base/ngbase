@@ -49,7 +49,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class CardComponent {
+export default class CardComponent {
   htmlCode = `
       <mee-card>
         <div class="flex flex-col gap-b2">

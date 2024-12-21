@@ -17,7 +17,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ProgressComponent {
+export default class ProgressComponent {
   percentage = 50;
 
   increment() {

@@ -21,7 +21,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SonnerComponent {
+export default class SonnerComponent {
   sonner = sonnerPortal();
 
   tsCode = `

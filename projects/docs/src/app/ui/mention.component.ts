@@ -31,7 +31,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class MentionComponent {
+export default class MentionComponent {
   value = signal('');
   search = signal('');
   items = signal(['Item 1', 'Item 2', 'Item 3']);

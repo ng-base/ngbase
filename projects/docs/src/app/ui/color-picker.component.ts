@@ -42,7 +42,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ColorPickerComponent {
+export default class ColorPickerComponent {
   hexColor = signal('#1778FF');
   rgbColor = signal('rgb(255, 0, 0)');
   hsbColor = signal('hsb(215, 91%, 100%)');

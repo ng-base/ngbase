@@ -70,7 +70,7 @@ export class TabLazyComponent {
     </app-doc-code>
   `,
 })
-export class TabsComponent {
+export default class TabsComponent {
   tabs = signal([
     { id: 0, name: 'Tab 1' },
     { id: 1, name: 'Tab with long name 2', disabled: true },

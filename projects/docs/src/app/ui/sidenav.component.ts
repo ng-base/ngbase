@@ -22,7 +22,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SidenavComponent {
+export default class SidenavComponent {
   show = signal(true);
 
   tsCode = `

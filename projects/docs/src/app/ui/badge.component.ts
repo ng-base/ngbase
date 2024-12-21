@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class BadgeComponent {
+export default class BadgeComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Badge } from '@meeui/ui/badge';

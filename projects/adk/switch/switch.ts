@@ -9,6 +9,7 @@ import {
   Type,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { Directionality } from '@meeui/adk/bidi';
 import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 
 @Directive({
@@ -32,11 +33,14 @@ export class MeeSwitchTrack {
   selector: '[meeSwitchThumb]',
   exportAs: 'meeSwitchThumb',
   host: {
-    '[attr.aria-checked]': 'switch.checked()',
+    '[attr.aria-checked]': 'checked()',
   },
 })
 export class MeeSwitchThumb {
   readonly switch = inject(MeeSwitch);
+  private readonly dir = inject(Directionality);
+  readonly checked = computed(() => this.switch.checked());
+  readonly rtl = this.dir.isRtl;
 }
 
 @Directive({

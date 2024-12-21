@@ -48,7 +48,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class StepperComponent {
+export default class StepperComponent {
   readonly direction = signal<'horizontal' | 'vertical'>('horizontal');
 
   readonly code = `

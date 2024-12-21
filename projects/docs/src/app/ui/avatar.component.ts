@@ -39,7 +39,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class AvatarComponent {
+export default class AvatarComponent {
   otp = '';
   tsCode = `
   import { Component } from '@angular/core';

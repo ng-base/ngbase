@@ -17,4 +17,4 @@ import { Heading } from '@meeui/ui/typography';
     </mee-scroll-area>
   `,
 })
-export class ScrollAreaComponent {}
+export default class ScrollAreaComponent {}

@@ -16,7 +16,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class DialogComponent {
+export default class DialogComponent {
   dialogPortal = dialogPortal();
 
   tsCode = `

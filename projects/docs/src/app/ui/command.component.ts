@@ -7,7 +7,7 @@ import { keyMap } from '@meeui/adk/keys';
   selector: 'app-command',
   template: ``,
 })
-export class CommandComponent {
+export default class CommandComponent {
   dialog = dialogPortal();
 
   constructor() {

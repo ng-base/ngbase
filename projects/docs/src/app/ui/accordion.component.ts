@@ -42,7 +42,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class AccordionComponent {
+export default class AccordionComponent {
   accordionMultiple = signal(false);
   tsCode = `
   import { Component } from '@angular/core';

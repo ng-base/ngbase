@@ -41,7 +41,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class MaskComponent {
+export default class MaskComponent {
   maskValue = '1022';
   formControl = new FormControl('10');
 

@@ -17,7 +17,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class DrawerComponent {
+export default class DrawerComponent {
   drawerPortal = drawerPortal();
 
   tsCode = `

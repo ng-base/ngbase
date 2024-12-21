@@ -40,7 +40,7 @@ import { VirtualFor, Virtualizer } from '@meeui/adk/virtualizer';
     </div>
   `,
 })
-export class VirtualizerComponent {
+export default class VirtualizerComponent {
   items = Array.from({ length: 100000 }).map((_, i) => i);
   constructor() {
     console.log('this.items');

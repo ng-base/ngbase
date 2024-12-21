@@ -251,7 +251,7 @@ import { DocCode } from './code.component';
     </mee-menu>
   `,
 })
-export class MenuComponent {
+export default class MenuComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Menu, MenuTrigger } from '@meeui/ui/menu';

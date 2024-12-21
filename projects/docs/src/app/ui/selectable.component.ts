@@ -22,7 +22,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SelectableComponent {
+export default class SelectableComponent {
   activeIndex = 2;
 
   tsCode = `

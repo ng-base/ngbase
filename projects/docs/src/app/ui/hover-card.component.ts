@@ -51,7 +51,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class HoverCardComponent {
+export default class HoverCardComponent {
   htmlCode = `
       <button [meeHoverCard]="myTemplate" meeButton variant="ghost" class="underline">
         Hover over to show hover card

@@ -30,7 +30,7 @@ import { DocCode } from './code.component';
     </ng-template>
   `,
 })
-export class PopoverComponent {
+export default class PopoverComponent {
   popoverPortal = popoverPortal();
 
   tsCode = `

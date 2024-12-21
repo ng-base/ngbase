@@ -1,132 +1,71 @@
 import { Routes } from '@angular/router';
 import { BaseComponent } from './base.component';
-import { AccordionComponent } from './accordion.component';
-import { TableComponent } from './table.component';
-import { SpinnerComponent } from './spinner.component';
-import { OtpComponent } from './otp.component';
-import { TabsComponent } from './tabs.component';
-import { ResizableComponent } from './resizable.component';
-import { ContextMenuComponent } from './context-menu.component';
-import { ButtonsComponent } from './buttons.component';
-import { ProgressComponent } from './progress.component';
-import { AvatarComponent } from './avatar.component';
-import { MenuComponent } from './menu.component';
-import { PopoverComponent } from './popover.component';
-import { HoverCardComponent } from './hover-card.component';
-import { SonnerComponent } from './sonner.component';
-import { DatepickerComponent } from './datepicker.component';
-import { AutocompleteComponent } from './autocomplete.component';
-import { SelectComponent } from './select.component';
-import { SliderComponent } from './slider.component';
-import { TooltipComponent } from './tooltip.component';
-import { RadioComponent } from './radio.component';
-import { BreadcrumbComponent } from './breadcrumb.component';
-import { CheckboxComponent } from './checkbox.component';
-import { PaginationComponent } from './pagination.component';
-import { TypographyComponent } from './typography.component';
-import { ToggleComponent } from './toggle.component';
-import { ToggleGroupComponent } from './toggle-group.component';
-import { AlertDialogComponent } from './alert-dialog.component';
-import { ScrollAreaComponent } from './scroll-area.component';
-import { ColorPickerComponent } from './color-picker.component';
-import { CalendarComponent } from './calendar.component';
-import { DialogComponent } from './dialog.component';
-import { DrawerComponent } from './drawer.component';
-import { InputComponent } from './input.component';
-import { SwitchComponent } from './switch.component';
-import { MentionComponent } from './mention.component';
-import { TourComponent } from './tour.component';
 import { PopoverDemoComponent } from './popover-demo.component';
-import { NavigationMenuComponent } from './navigation-menu.component';
-import { SidenavComponent } from './sidenav.component';
-import { CarouselComponent } from './carousel.component';
-import { BadgeComponent } from './badge.component';
-import { ChipComponent } from './chip.component';
-import { TreeComponent } from './tree.component';
-import { StepperComponent } from './stepper.component';
-import { PicasaComponent } from './picasa.component';
-import { SheetComponent } from './sheet.component';
-import { FormsComponent } from './forms.component';
-import { ListComponent } from './list.component';
-import { SelectableComponent } from './selectable.component';
-import { DragComponent } from './drag.component';
-import { CardComponent } from './card.component';
-import { MaskComponent } from './mask.component';
-import { SkeletonComponent } from './skeletion.component';
-import { ShortcutsComponent } from './shortcuts.component';
-import { CommandComponent } from './command.component';
-import { DirectionalityComponent } from './directionality.component';
-import { InlineEditComponent } from './inline-edit.component';
-import { VirtualizerComponent } from './virutalizer.component';
-import { TranslationComponent } from './translation.component';
 
 export const UI_ROUTES: Routes = [
   {
     path: '',
     component: BaseComponent,
     children: [
-      { path: 'accordion', component: AccordionComponent },
-      { path: 'table', component: TableComponent },
-      { path: 'spinner', component: SpinnerComponent },
-      { path: 'otp', component: OtpComponent },
-      { path: 'tabs', component: TabsComponent },
-      { path: 'resizable', component: ResizableComponent },
-      { path: 'context-menu', component: ContextMenuComponent },
-      { path: 'buttons', component: ButtonsComponent },
-      { path: 'progress', component: ProgressComponent },
-      { path: 'avatar', component: AvatarComponent },
-      { path: 'menu', component: MenuComponent },
-      { path: 'popover', component: PopoverComponent },
-      { path: 'hover-card', component: HoverCardComponent },
-      { path: 'sonner', component: SonnerComponent },
-      { path: 'datepicker', component: DatepickerComponent },
-      { path: 'autocomplete', component: AutocompleteComponent },
-      { path: 'select', component: SelectComponent },
-      { path: 'slider', component: SliderComponent },
-      { path: 'tooltip', component: TooltipComponent },
-      { path: 'radio', component: RadioComponent },
-      { path: 'breadcrumbs', component: BreadcrumbComponent },
-      { path: 'checkbox', component: CheckboxComponent },
-      { path: 'pagination', component: PaginationComponent },
-      { path: 'typography', component: TypographyComponent },
-      { path: 'toggle', component: ToggleComponent },
-      { path: 'toggle-group', component: ToggleGroupComponent },
-      { path: 'alert-dialog', component: AlertDialogComponent },
-      { path: 'scroll-area', component: ScrollAreaComponent },
-      { path: 'color-picker', component: ColorPickerComponent },
-      { path: 'calendar', component: CalendarComponent },
-      { path: 'dialog', component: DialogComponent },
-      { path: 'drawer', component: DrawerComponent },
-      { path: 'input', component: InputComponent },
-      { path: 'switch', component: SwitchComponent },
-      { path: 'mention', component: MentionComponent },
-      { path: 'tour', component: TourComponent },
-      { path: 'navigation-menu', component: NavigationMenuComponent },
-      { path: 'sidenav', component: SidenavComponent },
-      { path: 'carousel', component: CarouselComponent },
-      { path: 'badge', component: BadgeComponent },
-      { path: 'chip', component: ChipComponent },
-      { path: 'tree', component: TreeComponent },
-      { path: 'stepper', component: StepperComponent },
-      { path: 'picasa', component: PicasaComponent },
-      { path: 'sheet', component: SheetComponent },
-      { path: 'forms', component: FormsComponent },
-      { path: 'list', component: ListComponent },
-      { path: 'selectable', component: SelectableComponent },
-      { path: 'drag', component: DragComponent },
-      { path: 'card', component: CardComponent },
-      { path: 'mask', component: MaskComponent },
-      { path: 'skeleton', component: SkeletonComponent },
-      { path: 'shortcuts', component: ShortcutsComponent },
-      { path: 'command', component: CommandComponent },
-      { path: 'directionality', component: DirectionalityComponent },
-      { path: 'inline-edit', component: InlineEditComponent },
-      { path: 'virtualizer', component: VirtualizerComponent },
-      { path: 'translation', component: TranslationComponent },
-      {
-        path: 'examples',
-        loadChildren: () => import('../examples/example.routes').then(m => m.EXAMPLE_ROUTES),
-      },
+      { path: 'accordion', loadComponent: () => import('./accordion.component') },
+      { path: 'table', loadComponent: () => import('./table.component') },
+      { path: 'spinner', loadComponent: () => import('./spinner.component') },
+      { path: 'otp', loadComponent: () => import('./otp.component') },
+      { path: 'tabs', loadComponent: () => import('./tabs.component') },
+      { path: 'resizable', loadComponent: () => import('./resizable.component') },
+      { path: 'context-menu', loadComponent: () => import('./context-menu.component') },
+      { path: 'buttons', loadComponent: () => import('./buttons.component') },
+      { path: 'progress', loadComponent: () => import('./progress.component') },
+      { path: 'avatar', loadComponent: () => import('./avatar.component') },
+      { path: 'menu', loadComponent: () => import('./menu.component') },
+      { path: 'popover', loadComponent: () => import('./popover.component') },
+      { path: 'hover-card', loadComponent: () => import('./hover-card.component') },
+      { path: 'sonner', loadComponent: () => import('./sonner.component') },
+      { path: 'datepicker', loadComponent: () => import('./datepicker.component') },
+      { path: 'autocomplete', loadComponent: () => import('./autocomplete.component') },
+      { path: 'select', loadComponent: () => import('./select.component') },
+      { path: 'slider', loadComponent: () => import('./slider.component') },
+      { path: 'tooltip', loadComponent: () => import('./tooltip.component') },
+      { path: 'radio', loadComponent: () => import('./radio.component') },
+      { path: 'breadcrumbs', loadComponent: () => import('./breadcrumb.component') },
+      { path: 'checkbox', loadComponent: () => import('./checkbox.component') },
+      { path: 'pagination', loadComponent: () => import('./pagination.component') },
+      { path: 'typography', loadComponent: () => import('./typography.component') },
+      { path: 'toggle', loadComponent: () => import('./toggle.component') },
+      { path: 'toggle-group', loadComponent: () => import('./toggle-group.component') },
+      { path: 'alert-dialog', loadComponent: () => import('./alert-dialog.component') },
+      { path: 'scroll-area', loadComponent: () => import('./scroll-area.component') },
+      { path: 'color-picker', loadComponent: () => import('./color-picker.component') },
+      { path: 'calendar', loadComponent: () => import('./calendar.component') },
+      { path: 'dialog', loadComponent: () => import('./dialog.component') },
+      { path: 'drawer', loadComponent: () => import('./drawer.component') },
+      { path: 'input', loadComponent: () => import('./input.component') },
+      { path: 'switch', loadComponent: () => import('./switch.component') },
+      { path: 'mention', loadComponent: () => import('./mention.component') },
+      { path: 'tour', loadComponent: () => import('./tour.component') },
+      { path: 'navigation-menu', loadComponent: () => import('./navigation-menu.component') },
+      { path: 'sidenav', loadComponent: () => import('./sidenav.component') },
+      { path: 'carousel', loadComponent: () => import('./carousel.component') },
+      { path: 'badge', loadComponent: () => import('./badge.component') },
+      { path: 'chip', loadComponent: () => import('./chip.component') },
+      { path: 'tree', loadComponent: () => import('./tree.component') },
+      { path: 'stepper', loadComponent: () => import('./stepper.component') },
+      { path: 'picasa', loadComponent: () => import('./picasa.component') },
+      { path: 'sheet', loadComponent: () => import('./sheet.component') },
+      { path: 'forms', loadComponent: () => import('./forms.component') },
+      { path: 'list', loadComponent: () => import('./list.component') },
+      { path: 'selectable', loadComponent: () => import('./selectable.component') },
+      { path: 'drag', loadComponent: () => import('./drag.component') },
+      { path: 'card', loadComponent: () => import('./card.component') },
+      { path: 'mask', loadComponent: () => import('./mask.component') },
+      { path: 'skeleton', loadComponent: () => import('./skeleton.component') },
+      { path: 'shortcuts', loadComponent: () => import('./shortcuts.component') },
+      { path: 'command', loadComponent: () => import('./command.component') },
+      { path: 'directionality', loadComponent: () => import('./directionality.component') },
+      { path: 'inline-edit', loadComponent: () => import('./inline-edit.component') },
+      { path: 'virtualizer', loadComponent: () => import('./virtualizer.component') },
+      { path: 'translation', loadComponent: () => import('./translation.component') },
+      { path: 'examples', loadChildren: () => import('../examples/example.routes') },
       { path: '', redirectTo: 'accordion', pathMatch: 'full' },
     ],
   },

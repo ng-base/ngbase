@@ -79,7 +79,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SelectComponent {
+export default class SelectComponent {
   selectValue = 'Option 1';
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
   optionsFilter = filterFunction(this.options, { filter: option => option });

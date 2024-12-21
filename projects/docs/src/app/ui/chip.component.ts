@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ChipComponent {
+export default class ChipComponent {
   tsCode = `
   import { Component } from '@angular/core';
   import { Chip } from '@meeui/ui/chip';

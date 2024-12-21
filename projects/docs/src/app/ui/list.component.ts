@@ -25,7 +25,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ListComponent {
+export default class ListComponent {
   code = `
   import { Component } from '@angular/core';
   import { List } from '@meeui/ui/list';

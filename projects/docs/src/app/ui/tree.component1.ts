@@ -104,7 +104,7 @@ interface TreeItem {
     `,
   ],
 })
-export class TreeComponent {
+export default class TreeComponent {
   items = signal<TreeItem[]>([]);
   show = signal(true);
 

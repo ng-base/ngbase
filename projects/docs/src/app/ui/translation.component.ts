@@ -26,7 +26,7 @@ import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
     }
   `,
 })
-export class TranslationComponent {
+export default class TranslationComponent {
   readonly lang = signal(false);
   readonly translate = translate();
   readonly param = signal({ value: 123 });

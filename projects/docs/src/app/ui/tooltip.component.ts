@@ -19,7 +19,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class TooltipComponent {
+export default class TooltipComponent {
   slider = 50;
 
   tsCode = `

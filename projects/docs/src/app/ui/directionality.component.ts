@@ -4,4 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-directionality',
   template: ``,
 })
-export class DirectionalityComponent {}
+export default class DirectionalityComponent {}

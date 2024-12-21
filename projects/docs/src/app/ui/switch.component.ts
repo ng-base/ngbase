@@ -14,7 +14,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SwitchComponent {
+export default class SwitchComponent {
   switch = false;
 
   tsCode = `

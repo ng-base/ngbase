@@ -28,7 +28,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SliderComponent {
+export default class SliderComponent {
   slider = signal([50, 100, 150]);
   test = signal(-1);
   disabled = signal(false);

@@ -11,6 +11,6 @@ import { Heading } from '@meeui/ui/typography';
     <button meeToggle [(ngModel)]="toggle">B</button>
   `,
 })
-export class ToggleComponent {
+export default class ToggleComponent {
   toggle = '';
 }

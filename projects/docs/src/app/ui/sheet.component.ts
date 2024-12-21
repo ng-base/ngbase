@@ -17,7 +17,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class SheetComponent {
+export default class SheetComponent {
   sheetPortal = sheetPortal();
 
   tsCode = `

@@ -67,7 +67,7 @@ import { Heading } from '@meeui/ui/typography';
     </form>
   `,
 })
-export class FormsComponent {
+export default class FormsComponent {
   fb = inject(FormBuilder);
 
   forms = this.fb.group({

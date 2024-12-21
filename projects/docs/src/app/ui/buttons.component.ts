@@ -26,7 +26,7 @@ import { Heading } from '@meeui/ui/typography';
     <button meeButton variant="ghost" class="small mr-2">Outline</button>
   `,
 })
-export class ButtonsComponent implements OnInit {
+export default class ButtonsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}

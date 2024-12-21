@@ -24,7 +24,7 @@ import { FormField, InputOtp, Label } from '@meeui/ui/input';
     </app-doc-code>
   `,
 })
-export class OtpComponent {
+export default class OtpComponent {
   otp = '';
   otp1 = '';
   maskValue = '10';

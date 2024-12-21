@@ -68,7 +68,7 @@ import { DocCode } from './code.component';
     </app-doc-code>
   `,
 })
-export class ResizableComponent {
+export default class ResizableComponent {
   show = signal(true);
   showThird = signal(true);
 

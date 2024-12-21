@@ -35,7 +35,7 @@ import { DocCode } from './code.component';
     } -->
   `,
 })
-export class AlertDialogComponent {
+export default class AlertDialogComponent {
   alert = alertPortal();
   tsCode = `
   import { alertPortal } from '@meeui/ui/alert';

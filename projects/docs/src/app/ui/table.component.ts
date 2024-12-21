@@ -85,7 +85,7 @@ interface Employee {
     `,
   ],
 })
-export class TableComponent implements OnDestroy {
+export default class TableComponent implements OnDestroy {
   title = input<string>('Table');
   randomNum = signal(2);
   employees = signal<Employee[]>([

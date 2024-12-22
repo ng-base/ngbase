@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { AccessibleGroup } from '@meeui/adk/a11y';
-import { MeeMenu, MenuGroup, provideMenu } from '@meeui/adk/menu';
+import { MeeMenu, MeeMenuTrigger, MenuGroup, provideMenu } from '@meeui/adk/menu';
 
 @Component({
   selector: 'mee-menu',
@@ -17,3 +17,11 @@ import { MeeMenu, MenuGroup, provideMenu } from '@meeui/adk/menu';
   `,
 })
 export class Menu extends MeeMenu {}
+
+@Directive({
+  selector: '[meeMenuTrigger]',
+  hostDirectives: [
+    { directive: MeeMenuTrigger, inputs: ['meeMenuTrigger', 'meeMenuTriggerData', 'options'] },
+  ],
+})
+export class MenuTrigger {}

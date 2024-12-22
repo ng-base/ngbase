@@ -55,12 +55,5 @@ export class Sonner extends MeeSonner {
 
 export function sonnerPortal() {
   const portal = meeSonnerPortal(Sonner);
-  return {
-    message: portal.message,
-    success: portal.success,
-    error: portal.error,
-    warning: portal.warning,
-    info: portal.info,
-    closeAll: portal.closeAll,
-  };
+  return portal;
 }

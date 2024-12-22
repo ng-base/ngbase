@@ -10,7 +10,7 @@ describe('TooltipComponent', () => {
     view = await render(TooltipComponent, [provideNoopAnimations()]);
     component = view.host;
     // fake the target
-    component.target = document.createElement('div');
+    component['target'] = document.createElement('div');
     view.detectChanges();
   });
 

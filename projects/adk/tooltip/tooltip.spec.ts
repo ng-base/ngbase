@@ -10,7 +10,7 @@ describe('TooltipComponent', () => {
     view = await render(MeeTooltipTemplate, [provideNoopAnimations()]);
     component = view.host;
     // fake the target
-    component.target = document.createElement('div');
+    component['target'] = document.createElement('div');
     view.detectChanges();
   });
 

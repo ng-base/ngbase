@@ -30,10 +30,10 @@ export class MeeTooltipTemplate implements OnDestroy {
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly content = signal('Tooltip');
 
-  target!: HTMLElement;
-  position: PopoverPosition = 'top';
-  hide!: VoidFunction;
-  observer?: MutationObserver;
+  private target!: HTMLElement;
+  private position: PopoverPosition = 'top';
+  private hide!: VoidFunction;
+  private observer?: MutationObserver;
 
   constructor() {
     afterRenderEffect(() => {

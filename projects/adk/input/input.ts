@@ -17,7 +17,7 @@ export class InputBase<T = unknown> implements ControlValueAccessor {
   readonly formField = inject(MeeFormField, { optional: true });
   readonly value = model<T>('' as any);
 
-  readonly id = this.formField?.id ?? uniqueId();
+  readonly id = this.formField?._id ?? uniqueId();
 
   onChange?: (_: string) => void;
   onTouched?: () => void;

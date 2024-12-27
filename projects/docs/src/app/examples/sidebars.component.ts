@@ -276,6 +276,6 @@ import {
     </mee-card>
   `,
 })
-export class SidebarsComponent {
+export default class SidebarsComponent {
   user = 'Acme Corp.';
 }

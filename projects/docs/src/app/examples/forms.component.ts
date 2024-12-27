@@ -113,7 +113,7 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
     </mee-card>
   `,
 })
-export class FormsComponent {
+export default class FormsComponent {
   skills = signal<string[]>([]);
   skillList = selectFilter<(typeof SKILLS)[0]>(value => value, SKILLS);
 

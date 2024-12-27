@@ -242,7 +242,7 @@ import {
     </mee-card>
   `,
 })
-export class MailComponent {
+export default class MailComponent {
   accounts = [
     { name: 'Alicia Koch', email: 'alicia@example.com' },
     { name: 'Alicia Koch', email: 'alicia@gmail.com' },

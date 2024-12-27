@@ -124,7 +124,7 @@ export class MeeMenuTrigger {
     if (this.close) {
       return;
     }
-    console.log('open menu', this.parent);
+    // console.log('open menu', this.parent);
     const menu = this.meeMenuTrigger();
     const { diaRef, events } = this.popover.open(menu.container()!, {
       ...this.options(),

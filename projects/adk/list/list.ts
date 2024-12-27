@@ -11,10 +11,10 @@ import { AccessibleItem } from '@meeui/adk/a11y';
 
 @Directive({
   selector: '[meeList]',
+  hostDirectives: [{ directive: AccessibleItem, inputs: ['role', 'disabled'] }],
   host: {
     role: 'list',
   },
-  hostDirectives: [{ directive: AccessibleItem, inputs: ['role', 'disabled'] }],
 })
 export class MeeList {
   // Dependencies
@@ -45,4 +45,11 @@ export class MeeList {
   unselect() {
     this.el.nativeElement.classList.remove('bg-muted-background');
   }
+}
+
+export function provideList(list: typeof MeeList) {
+  return {
+    provide: MeeList,
+    useExisting: list,
+  };
 }

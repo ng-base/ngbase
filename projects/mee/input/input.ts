@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-import { InputBase, MeeFormField, MeeInputError, MeeLabel } from '@meeui/adk/input';
+import { ChangeDetectionStrategy, Component, Directive, inject } from '@angular/core';
+import { InputBase, MeeFormField, MeeInputError, MeeLabel, toggleDiv } from '@meeui/adk/input';
 import { InputStyle } from './input-style.directive';
 
 @Component({
@@ -36,7 +36,7 @@ export class Input<T = unknown> {}
   hostDirectives: [MeeLabel],
   template: `<ng-content />`,
   host: {
-    class: 'block font-medium text-left mx-b0.5',
+    class: 'block font-medium mx-b0.5',
   },
 })
 export class Label {}
@@ -55,11 +55,21 @@ export class Description {}
 })
 export class InputPrefix {}
 
-@Directive({
+@Component({
   selector: '[meeError]',
   hostDirectives: [{ directive: MeeInputError, inputs: ['meeError'] }],
+  template: `<ng-content />`,
   host: {
     class: 'text-red-500 mx-b0.5',
+    '[@toggleDiv]': 'isInvalid() ? "visible" : "hidden"',
   },
+  animations: [toggleDiv],
 })
-export class InputError {}
+export class InputError {
+  readonly error = inject(MeeInputError);
+  readonly isInvalid = this.error.isInvalid;
+
+  constructor() {
+    this.error.animate.set(true);
+  }
+}

@@ -197,5 +197,4 @@ import {
     </mee-card>
   `,
 })
-export class MusicComponent {}
-// 'Switch AccountAndyBenoitLuisManage Family...Add Account...'
+export default class MusicComponent {}

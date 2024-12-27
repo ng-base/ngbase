@@ -7,12 +7,12 @@ import { injectTheme } from '@meeui/ui/theme';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { BlogsComponent } from './blogs.component';
-import { FormsComponent } from './forms.component';
-import { InventoryComponent } from './inventory.component';
-import { MailComponent } from './mail.component';
-import { MusicComponent } from './music.component';
-import { PlaygroundComponent } from './playground.component';
-import { SidebarsComponent } from './sidebars.component';
+import FormsComponent from './forms.component';
+import InventoryComponent from './inventory.component';
+import MailComponent from './mail.component';
+import MusicComponent from './music.component';
+import PlaygroundComponent from './playground.component';
+import SidebarsComponent from './sidebars.component';
 import { TermorComponent } from './termor.component';
 
 export function injectParams() {

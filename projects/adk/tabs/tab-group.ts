@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -93,7 +93,7 @@ export class TabScroll {
 @Component({
   selector: 'mee-tabs',
   exportAs: 'meeTabs',
-  imports: [NgClass, TabButton, TabButtonsGroup, TabScroll],
+  imports: [TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
@@ -109,10 +109,10 @@ export class TabScroll {
             @for (tab of tabs(); track tab.id) {
               <button
                 [meeTabButton]="tab"
-                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
-                [ngClass]="{
-                  'px-b4 py-b3 font-medium text-muted': headerStyle(),
-                }"
+                class="{{
+                  'whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50 ' +
+                    (headerStyle() ? 'px-b4 py-b3 font-medium text-muted' : '')
+                }}"
               ></button>
             }
           </div>

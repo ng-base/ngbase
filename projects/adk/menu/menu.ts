@@ -36,7 +36,7 @@ export class MenuGroup {
 }
 
 @Component({
-  selector: 'mee-menu',
+  selector: '[meeMenu]',
   exportAs: 'meeMenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AccessibleGroup, MenuGroup],

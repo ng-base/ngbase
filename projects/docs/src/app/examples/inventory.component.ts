@@ -337,7 +337,7 @@ import {
     </mee-card>
   `,
 })
-export class InventoryComponent {
+export default class InventoryComponent {
   tableData = TABLE_DATA;
   displayedColumns = ['customer', 'type', 'status', 'date', 'amount'];
   trackByFn = (index: number, item: any) => item.name;

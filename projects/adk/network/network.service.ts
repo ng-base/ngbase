@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { isClient } from '@meeui/adk/utils';
-import { documentListener, ListnerOut } from '@meeui/adk/utils';
+import { documentListener, ListenerOut } from '@meeui/adk/utils';
 
 @Injectable({ providedIn: 'root' })
 export class Network {
@@ -8,17 +8,17 @@ export class Network {
   readonly isOnline = this.status.asReadonly();
   private listeners: ((status: boolean) => void)[] = [];
   private initialized = false;
-  private onlineListner!: ListnerOut;
-  private offlineListner!: ListnerOut;
+  private onlineListener!: ListenerOut;
+  private offlineListener!: ListenerOut;
 
   constructor() {
     if (isClient()) {
       this.status.set(navigator.onLine);
-      this.onlineListner = documentListener('online', () => this.updateOnlineStatus(true), {
+      this.onlineListener = documentListener('online', () => this.updateOnlineStatus(true), {
         element: window,
         lazy: true,
       });
-      this.offlineListner = documentListener('offline', () => this.updateOnlineStatus(false), {
+      this.offlineListener = documentListener('offline', () => this.updateOnlineStatus(false), {
         element: window,
         lazy: true,
       });
@@ -29,16 +29,16 @@ export class Network {
     if (this.initialized) return;
     // window.addEventListener('online', () => this.updateOnlineStatus(true));
     // window.addEventListener('offline', () => this.updateOnlineStatus(false));
-    this.onlineListner.on();
-    this.offlineListner.on();
+    this.onlineListener.on();
+    this.offlineListener.on();
     this.initialized = true;
   }
 
   private off(): void {
     // window.removeEventListener('online', () => this.updateOnlineStatus(true));
     // window.removeEventListener('offline', () => this.updateOnlineStatus(false));
-    this.onlineListner.off();
-    this.offlineListner.off();
+    this.onlineListener.off();
+    this.offlineListener.off();
     this.initialized = false;
   }
 

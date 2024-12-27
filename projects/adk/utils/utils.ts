@@ -28,7 +28,7 @@ export function provideValueAccessor<T>(valueAccessor: Type<T>) {
   };
 }
 
-export interface ListnerOut {
+export interface ListenerOut {
   on: () => void;
   off: () => void;
 }
@@ -44,10 +44,10 @@ export function documentListener<T extends Event>(
       element?: HTMLElement | Document | Window;
     }
   > = {},
-): ListnerOut {
+): ListenerOut {
   const { injector = inject(Injector), lazy = false, element, skip = 0, ...listenerOptions } = data;
   let active = false;
-  const controller: ListnerOut = { on: () => {}, off: () => {} };
+  const controller: ListenerOut = { on: () => {}, off: () => {} };
 
   controller.on = () => {
     if (active) return;

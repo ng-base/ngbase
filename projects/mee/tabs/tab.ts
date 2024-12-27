@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
   MeeTab,
@@ -17,7 +17,7 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-tabs',
-  imports: [Icon, NgClass, TabButton, TabButtonsGroup, TabScroll],
+  imports: [Icon, TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideTabs(Tabs)],
   viewProviders: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
@@ -35,10 +35,10 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
             @for (tab of tabs(); track tab.id) {
               <button
                 [meeTabButton]="tab"
-                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
-                [ngClass]="{
-                  'px-b4 py-b3 font-medium text-muted': headerStyle(),
-                }"
+                class="{{
+                  'whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50' +
+                    (headerStyle() ? ' px-b4 py-b3 font-medium text-muted' : '')
+                }}"
               ></button>
             }
           </div>

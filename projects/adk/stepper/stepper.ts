@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,19 +39,19 @@ export class MeeStepperStep {
   selector: '[meeStepper]',
   exportAs: 'meeStepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, NgClass, MeeStepperStep],
+  imports: [NgTemplateOutlet, MeeStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
       @for (step of steps(); track step) {
         <div
           [meeStepperStep]="$index"
-          class="relative flex [&:not(:last-child)]:flex-1 [&:not(:last-child)]:after:mx-2 [&:not(:last-child)]:after:block [&:not(:last-child)]:after:flex-1 [&:not(:last-child)]:after:bg-background [&:not(:last-child)]:after:transition-colors"
-          [ngClass]="[
-            activeIndex() > $index ? '[&:not(:last-child)]:after:bg-primary' : '',
-            direction() === 'vertical'
-              ? 'flex-col [&:not(:last-child)]:after:absolute [&:not(:last-child)]:after:bottom-0 [&:not(:last-child)]:after:left-3 [&:not(:last-child)]:after:top-10 [&:not(:last-child)]:after:w-0.5'
-              : 'items-center [&:not(:last-child)]:after:h-0.5',
-          ]"
+          class="{{
+            'relative flex [&:not(:last-child)]:flex-1 [&:not(:last-child)]:after:mx-2 [&:not(:last-child)]:after:block [&:not(:last-child)]:after:flex-1 [&:not(:last-child)]:after:bg-background [&:not(:last-child)]:after:transition-colors' +
+              (activeIndex() > $index ? ' [&:not(:last-child)]:after:bg-primary' : '') +
+              (direction() === 'vertical'
+                ? ' flex-col [&:not(:last-child)]:after:absolute [&:not(:last-child)]:after:bottom-0 [&:not(:last-child)]:after:left-3 [&:not(:last-child)]:after:top-10 [&:not(:last-child)]:after:w-0.5'
+                : 'items-center [&:not(:last-child)]:after:h-0.5')
+          }}"
         >
           <div class="flex items-center">
             <div

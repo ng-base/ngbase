@@ -9,5 +9,5 @@ import { MeeFormField } from './form-field';
 })
 export class MeeLabel {
   private readonly formField = inject(MeeFormField);
-  readonly id = this.formField.id;
+  readonly id = this.formField._id;
 }

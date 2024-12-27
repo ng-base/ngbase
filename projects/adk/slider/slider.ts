@@ -53,6 +53,7 @@ export class SliderRange {
   host: {
     type: 'button',
     role: 'slider',
+    '[attr.tabindex]': 'slider.disabled() ? -1 : 0',
     '[attr.aria-disabled]': 'slider.disabled()',
     '[attr.aria-valuemin]': 'slider.min()',
     '[attr.aria-valuemax]': 'slider.max()',
@@ -89,7 +90,7 @@ export class SliderThumb {
   `,
 })
 export class MeeSlider implements ControlValueAccessor {
-  private readonly el = inject(ElementRef);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly drag = viewChild.required(Drag);
   private readonly track = viewChild.required<SliderRange, ElementRef<HTMLElement>>(SliderRange, {
     read: ElementRef,
@@ -236,8 +237,8 @@ export class MeeSlider implements ControlValueAccessor {
 
       // find the nearest value index based on the percentage
       this.activeIndex = this.values.reduce((closestIndex, value, index) => {
-        const diff = Math.abs(this.toPercentage(value || 0) - valuePercentage);
-        return diff < Math.abs(this.toPercentage(this.values[closestIndex] || 0) - valuePercentage)
+        const diff = Math.abs(this.toPercentage(value) - valuePercentage);
+        return diff < Math.abs(this.toPercentage(this.values[closestIndex]) - valuePercentage)
           ? index
           : closestIndex;
       }, 0);

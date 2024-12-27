@@ -123,7 +123,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
     </mee-card>
   `,
 })
-export class PlaygroundComponent {
+export default class PlaygroundComponent {
   searchPreset = signal('');
   filteredPresets = computed(() => {
     const search = this.searchPreset()?.toLowerCase() || '';

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MeeSonner, meeSonnerPortal, SonnerBase } from '@meeui/adk/sonner';
 import { Icon } from '@meeui/ui/icon';
@@ -13,7 +12,7 @@ import {
 @Component({
   selector: 'mee-sonner',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, NgClass, SonnerBase],
+  imports: [Icon, SonnerBase],
   providers: [
     provideIcons({ lucideCircleCheck, lucideInfo, lucideTriangleAlert, lucideCircleAlert }),
   ],
@@ -22,12 +21,12 @@ import {
       @for (msg of messages(); track msg.id) {
         <li
           [meeSonnerBase]="$index"
-          class="m-4 w-96 rounded-base border bg-foreground p-4 shadow-lg transition-all duration-300"
-          [ngClass]="{
-            'bg-green-50 text-green-600': msg.type === 'success',
-            'bg-red-50 text-red-600': msg.type === 'error',
-            'bg-yellow-50 text-yellow-600': msg.type === 'warning',
-          }"
+          class="{{
+            'm-4 w-96 rounded-base border bg-foreground p-4 shadow-lg transition-all duration-300' +
+              (msg.type === 'success' ? ' bg-green-50 text-green-600' : '') +
+              (msg.type === 'error' ? ' bg-red-50 text-red-600' : '') +
+              (msg.type === 'warning' ? ' bg-yellow-50 text-yellow-600' : '')
+          }}"
         >
           <h4 class="flex items-center gap-b2 font-semibold">
             @if (msg.type && icons[msg.type]; as iconName) {

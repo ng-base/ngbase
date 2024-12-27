@@ -23,6 +23,7 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideMenu } from '@ng-icons/lucide';
 import { AppService } from '../app.service';
 import { NavComponent } from './nav-header.component';
+import { LangButton } from './lang-button';
 
 @Component({
   selector: 'mee-base',
@@ -41,6 +42,7 @@ import { NavComponent } from './nav-header.component';
     NavComponent,
     Heading,
     ThemeButton,
+    LangButton,
   ],
   providers: [AppService],
   viewProviders: [provideIcons({ lucideMenu })],
@@ -65,9 +67,7 @@ import { NavComponent } from './nav-header.component';
             Theme
           </button>
           <mee-theme-button meeTourStep="theme-toggle" />
-          <button meeButton="ghost" (click)="dir.toggleDirection()">
-            {{ dir.isRtl() ? 'RTL' : 'LTR' }}
-          </button>
+          <app-lang />
           <button
             meeAvatar
             class="h-full w-7"
@@ -93,7 +93,7 @@ import { NavComponent } from './nav-header.component';
           <div class="p-b4">
             <router-outlet />
           </div>
-          <!-- <div class="flex h-full h-screen w-full items-center justify-center">
+          <!-- <div class="flex h-screen w-full items-center justify-center">
             <mee-spinner />
           </div> -->
         </div>

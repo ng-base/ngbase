@@ -1,4 +1,4 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -19,7 +19,7 @@ import { viewAnimation } from './dialog.animation';
 
 @Component({
   selector: 'mee-dialog',
-  imports: [NgStyle, Button, NgClass, Icon, DragMove],
+  imports: [NgStyle, Button, Icon, DragMove],
   viewProviders: [provideIcons({ lucideX })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -27,13 +27,13 @@ import { viewAnimation } from './dialog.animation';
       <div
         #myDialog
         [@viewAnimation]
-        class="pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg"
-        [ngClass]="[
-          options.fullWindow
-            ? 'h-screen w-screen border-none'
-            : 'max-w-[calc(100vw-30px)] rounded-base',
-          classNames,
-        ]"
+        class="{{
+          'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
+            (options.fullWindow
+              ? ' h-screen w-screen border-none'
+              : ' max-w-[calc(100vw-30px)] rounded-base') +
+            (' ' + classNames)
+        }}"
         [ngStyle]="{
           width: options.fullWindow ? '100vw' : options.width,
           height: options.fullWindow ? '100vh' : options.height,

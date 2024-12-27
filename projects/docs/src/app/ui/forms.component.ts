@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Autofocus } from '@meeui/adk/a11y';
+import { markControlsTouched } from '@meeui/adk/input';
 import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
+import { Button } from '@meeui/ui/button';
 import { DatepickerTrigger } from '@meeui/ui/datepicker';
-import { Input } from '@meeui/ui/input';
+import { FormField, Input, Label, InputError } from '@meeui/ui/input';
 import { Option, Select } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 
@@ -14,56 +16,80 @@ import { Heading } from '@meeui/ui/typography';
     ReactiveFormsModule,
     Heading,
     Input,
+    Label,
+    FormField,
+    InputError,
     Select,
     Option,
     Autocomplete,
     AutocompleteInput,
     DatepickerTrigger,
     Autofocus,
+    Button,
   ],
   template: `
     <h4 meeHeader class="mb-5">Forms</h4>
     <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
-      <div class="flex flex-col">
-        <label for="name" class="mb-1">Name</label>
-        <input meeInput meeAutofocus formControlName="name" id="name" placeholder="Name" />
+      <div meeFormField>
+        <label meeLabel>Name</label>
+        <input meeInput class="w-full" meeAutofocus formControlName="name" placeholder="Name" />
+        <p meeError="required">Name is required</p>
       </div>
-      <div class="flex flex-col">
-        <label for="email" class="mb-1">Email</label>
-        <input meeInput formControlName="email" autocomplete="off" id="email" placeholder="Email" />
-      </div>
-      <div class="flex flex-col">
-        <label for="password" class="mb-1">Password</label>
+      <div meeFormField>
+        <label meeLabel>Email</label>
         <input
           meeInput
+          class="w-full"
+          formControlName="email"
+          autocomplete="off"
+          placeholder="Email"
+        />
+        <p meeError="required">Email is required</p>
+      </div>
+      <div meeFormField>
+        <label meeLabel>Password</label>
+        <input
+          meeInput
+          class="w-full"
           type="password"
           formControlName="password"
           autocomplete="off"
-          id="password"
           placeholder="Password"
         />
       </div>
-      <div class="flex flex-col">
-        <label for="country" class="mb-1">Country</label>
-        <mee-select formControlName="country" id="country" placeholder="Country">
+      <div meeFormField>
+        <label meeLabel>Country</label>
+        <mee-select formControlName="country" placeholder="Country" class="w-full">
           <mee-option value="India">India</mee-option>
           <mee-option value="USA">USA</mee-option>
           <mee-option value="UK">UK</mee-option>
         </mee-select>
       </div>
-      <div class="flex flex-col">
-        <label for="date" class="mb-1">Date</label>
-        <input formControlName="date" id="date" placeholder="Date" meeDatepickerTrigger readonly />
+      <div meeFormField>
+        <label meeLabel>Date</label>
+        <input
+          class="w-full"
+          formControlName="date"
+          placeholder="Date"
+          meeDatepickerTrigger
+          readonly
+        />
       </div>
-      <div class="flex flex-col">
-        <label for="users" class="mb-1">Users</label>
-        <mee-autocomplete formControlName="users" id="users" placeholder="Users" [multiple]="true">
+      <div meeFormField>
+        <label meeLabel>Users</label>
+        <mee-autocomplete
+          formControlName="users"
+          placeholder="Users"
+          [multiple]="true"
+          class="w-full"
+        >
           <input meeAutocompleteInput placeholder="Search users" />
           <mee-option value="User 1">User 1</mee-option>
           <mee-option value="User 2">User 2</mee-option>
           <mee-option value="User 3">User 3</mee-option>
         </mee-autocomplete>
       </div>
+      <button meeButton type="submit" (click)="submit()">Submit</button>
     </form>
   `,
 })
@@ -71,11 +97,17 @@ export default class FormsComponent {
   fb = inject(FormBuilder);
 
   forms = this.fb.group({
-    name: [''],
-    email: [''],
+    name: ['', Validators.required],
+    email: ['', Validators.required],
     password: [''],
     country: [''],
     date: [''],
     users: [''],
   });
+
+  submit() {
+    if (this.forms.invalid) {
+      markControlsTouched(this.forms);
+    }
+  }
 }

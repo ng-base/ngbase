@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,19 +40,19 @@ export class MeeGutter {
 @Component({
   selector: '[meeResizable]',
   exportAs: 'meeResizable',
-  imports: [Drag, NgClass, MeeGutter],
+  imports: [Drag, MeeGutter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />
     <ng-template #dragElement>
       @if (draggable()) {
         <div
           meeGutter
-          class="dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0"
-          [ngClass]="
-            resizable.direction() === 'vertical'
-              ? 'bottom-0 left-0 h-0 w-full cursor-ns-resize border-b after:-mt-b after:h-b2 after:w-full'
-              : 'right-0 top-0 w-0 cursor-ew-resize border-l after:h-full after:w-b2'
-          "
+          class="{{
+            'dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0 ' +
+              (resizable.direction() === 'vertical'
+                ? 'bottom-0 left-0 h-0 w-full cursor-ns-resize border-b after:-mt-b after:h-b2 after:w-full'
+                : 'right-0 top-0 w-0 cursor-ew-resize border-l after:h-full after:w-b2')
+          }}"
         ></div>
       }
     </ng-template>`,

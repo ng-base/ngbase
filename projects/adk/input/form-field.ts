@@ -7,10 +7,10 @@ import { MeeInputError } from './error';
   selector: 'mee-form-field, [meeFormField]',
 })
 export class MeeFormField {
-  readonly control = contentChild(NgControl, { descendants: true });
-  readonly id = uniqueId();
+  readonly _control = contentChild(NgControl, { descendants: true });
+  readonly _id = uniqueId();
 
   // we need to forwardRef the error component to avoid circular dependency
-  readonly errors = contentChildren(forwardRef(() => MeeInputError));
+  readonly errors = contentChildren<MeeInputError>(forwardRef(() => MeeInputError));
   readonly hasErrors = computed(() => this.errors().some(e => e.isInvalid()));
 }

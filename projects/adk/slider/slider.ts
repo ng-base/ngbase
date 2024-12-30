@@ -18,6 +18,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { Directionality } from '@meeui/adk/bidi';
 import { Drag, DragData } from '@meeui/adk/drag';
 import { provideValueAccessor } from '@meeui/adk/utils';
 
@@ -93,6 +94,7 @@ export class SliderThumb {
 })
 export class MeeSlider implements ControlValueAccessor {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly dir = inject(Directionality); // this.dir.isRtl();
   private readonly drag = viewChild.required(Drag);
   private readonly track = viewChild.required<SliderRange, ElementRef<HTMLElement>>(SliderRange, {
     read: ElementRef,
@@ -122,6 +124,8 @@ export class MeeSlider implements ControlValueAccessor {
   constructor() {
     effect(() => {
       const value = this.value() || 0;
+      // we need to update the value direction when direction changes
+      const _ = this.dir.isRtl();
       if (this.thumbs().length) {
         untracked(() => this.handleValueUpdate(value));
       }
@@ -146,15 +150,21 @@ export class MeeSlider implements ControlValueAccessor {
   private updateElement() {
     const positions = this.values.map(x => this.toPercentage(x));
     const isVertical = this.orientation() === 'vertical';
+    const isRtl = !isVertical && this.dir.isRtl();
     const track = this.track().nativeElement;
 
     // Update thumb positions
     this.thumbs().forEach((thumb, i) => {
       const value = this.values[i];
-      const pos = isVertical ? 100 - positions[i] : positions[i];
+      let pos = isVertical ? 100 - positions[i] : positions[i];
+      // Invert position for RTL
+      if (isRtl) {
+        pos = 100 - pos;
+      }
       const prop = isVertical ? 'top' : 'left';
       const thumbSize = this.getThumbSize(value, thumb.nativeElement.offsetWidth);
-      thumb.nativeElement.style[prop] = `calc(${pos}% + ${isVertical ? -thumbSize : thumbSize}px)`;
+      const offset = isVertical || isRtl ? -thumbSize : thumbSize;
+      thumb.nativeElement.style[prop] = `calc(${pos}% + ${offset}px)`;
     });
 
     // Update track position
@@ -166,8 +176,8 @@ export class MeeSlider implements ControlValueAccessor {
       track.style.bottom = min + '%';
       track.style.width = '100%';
     } else {
-      track.style.left = min + '%';
-      track.style.right = 100 - max + '%';
+      track.style.left = (isRtl ? 100 - max : min) + '%';
+      track.style.right = (isRtl ? min : 100 - max) + '%';
       track.style.height = '100%';
     }
   }
@@ -224,8 +234,18 @@ export class MeeSlider implements ControlValueAccessor {
   private clicked(clientX: number) {
     const slider = this.el.nativeElement;
     const rect = slider.getBoundingClientRect();
-    const left = this.orientation() === 'vertical' ? rect.top : rect.left;
-    return this.perRound(clientX - left, this.width, this.orientation() === 'vertical');
+    const isVertical = this.orientation() === 'vertical';
+    const isRtl = !isVertical && this.dir.isRtl();
+
+    let position: number;
+    if (isVertical) {
+      position = rect.top;
+    } else {
+      position = isRtl ? rect.right : rect.left;
+      clientX = isRtl ? -clientX : clientX; // Invert the click position for RTL
+    }
+
+    return this.perRound(clientX + (isRtl ? position : -position), this.width, isVertical);
   }
 
   private perRound(x: number, width: number, reverse = false) {
@@ -247,11 +267,17 @@ export class MeeSlider implements ControlValueAccessor {
 
   private moveSlider(data: DragData) {
     data.event?.preventDefault();
+    const isVertical = this.orientation() === 'vertical';
+    const isRtl = !isVertical && this.dir.isRtl();
+
     let cx = data.clientX!;
     let x = data.x!;
-    if (this.orientation() === 'vertical') {
+
+    if (isVertical) {
       cx = data.clientY!;
       x = -data.y!;
+    } else if (isRtl) {
+      x = -x; // Invert the movement for RTL
     }
     // convert value to percentage based on the max value
     if (data.type === 'start') {

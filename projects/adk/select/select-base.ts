@@ -21,11 +21,13 @@ import { popoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { MeeOption } from './option';
+import { Directionality } from '@meeui/adk/bidi';
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   // Dependencies
   readonly el = inject(ElementRef);
+  readonly dir = inject(Directionality);
   readonly options = contentChildren(MeeOption, { descendants: true });
   readonly optionss = input<T[]>([]);
 
@@ -134,7 +136,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     const el = this.container()?.nativeElement || this.el.nativeElement;
     const { diaRef, events } = this.popover.open(this.optionsTemplate()!, {
       target: el,
-      position: 'bl',
+      position: this.dir.isRtl() ? 'br' : 'bl',
       backdrop: this.isSelect,
       width: this.size(),
       maxHeight: '400px',

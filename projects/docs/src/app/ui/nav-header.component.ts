@@ -42,6 +42,9 @@ import { Command, CommandItem } from '@meeui/ui/command';
     <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="examples">
       Examples
     </a>
+    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="origin">
+      Origin
+    </a>
 
     <mee-accordion-group multiple class="mt-b4">
       <mee-accordion [expanded]="true">

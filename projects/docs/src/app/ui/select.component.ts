@@ -65,6 +65,7 @@ import { DocCode } from './code.component';
               }
             </mee-option-group>
           }
+          <div class="select-footer border-t px-b3 py-b2">Footer</div>
         </mee-select>
       </div>
 

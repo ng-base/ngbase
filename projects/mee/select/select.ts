@@ -84,6 +84,7 @@ export class SelectOption<T> {}
             </ng-content>
           </div>
         </div>
+        <ng-content select=".select-footer" />
       </div>
     </ng-template>
   `,

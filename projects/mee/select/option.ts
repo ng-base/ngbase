@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MeeOption } from '@meeui/adk/select';
+import { MeeOption, MeeOptionGroup } from '@meeui/adk/select';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { ListStyle } from '@meeui/ui/list';
 
@@ -19,3 +19,16 @@ import { ListStyle } from '@meeui/ui/list';
 export class Option<T> {
   readonly option = inject(MeeOption<T>);
 }
+
+@Component({
+  selector: 'mee-option-group, [meeOptionGroup]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<div class="sticky -top-b z-10 bg-foreground px-b2 py-b1.5 text-sm text-muted">
+      {{ label() }}
+    </div>
+    <ng-content />`,
+  host: {
+    class: 'block',
+  },
+})
+export class OptionGroup extends MeeOptionGroup {}

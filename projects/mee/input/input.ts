@@ -15,7 +15,7 @@ import { InputStyle } from './input-style.directive';
     <ng-content select="[meeError]" />
   `,
   host: {
-    class: 'inline-flex flex-col font-medium mb-b2 gap-b text-left',
+    class: 'inline-flex flex-col font-medium mb-b2 gap-b',
   },
 })
 export class FormField {}

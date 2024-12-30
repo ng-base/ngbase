@@ -72,8 +72,9 @@ export class RenderResult<T> {
     return this.fixture.debugElement.query(this.getDirectiveType(directive));
   }
 
-  queryRoot<U extends HTMLElement>(selector: string): U {
-    return document.querySelector(selector) as U;
+  queryRoot<U extends HTMLElement>(selector: string): ElementHelper<U> {
+    const el = document.querySelector(selector) as U;
+    return el ? new ElementHelper<U>({ nativeElement: el } as any) : (null as any);
   }
 
   $<U = HTMLElement>(selector: string | Type<any>): U {

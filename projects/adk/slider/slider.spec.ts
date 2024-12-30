@@ -46,8 +46,8 @@ describe('Slider', () => {
     // Mock the element
     component['el'].nativeElement = {
       clientWidth: 100,
-      getBoundingClientRect: () => ({ left: 0 }),
-    };
+      getBoundingClientRect: () => ({ left: 0, top: 0 }) as DOMRect,
+    } as HTMLElement;
   });
 
   it('should create', () => {
@@ -64,11 +64,11 @@ describe('Slider', () => {
   it('should set the form hooks', () => {
     const fn = jest.fn();
     component.registerOnChange(fn);
-    expect(component.onChange).toBe(fn);
+    expect(component['onChange']).toBe(fn);
 
     const fn2 = jest.fn();
     component.registerOnTouched(fn2);
-    expect(component.onTouched).toBe(fn2);
+    expect(component['onTouched']).toBe(fn2);
   });
 
   it('should maintain the values length when the range changes', async () => {
@@ -99,7 +99,7 @@ describe('Slider', () => {
     view.host.value.set(50);
     await view.formStable();
     const sliderMin = view.$('[role="slider"]');
-    expect(sliderMin.style.left).toBe('50%');
+    expect(sliderMin.style.left).toBe('calc(50% + 0px)');
   });
 
   it('should update element styles for range slider', async () => {
@@ -107,8 +107,8 @@ describe('Slider', () => {
     view.host.value.set([25, 75]);
     await view.formStable();
     const [sliderMin, sliderMax] = view.$All('[role="slider"]');
-    expect(sliderMin.style.left).toBe('25%');
-    expect(sliderMax.style.left).toBe('75%');
+    expect(sliderMin.style.left).toBe('calc(25% + 0px)');
+    expect(sliderMax.style.left).toBe('calc(75% + 0px)');
   });
 
   it('should round values to step', async () => {

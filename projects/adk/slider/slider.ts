@@ -25,7 +25,7 @@ import { provideValueAccessor } from '@meeui/adk/utils';
   selector: '[meeSliderTrack]',
   hostDirectives: [Drag],
   host: {
-    style: 'overflow: hidden',
+    style: 'overflow: hidden; position: relative;',
     '[attr.aria-disabled]': 'slider.disabled()',
   },
 })
@@ -42,6 +42,7 @@ export class SliderTrack {
   selector: '[meeSliderRange]',
   host: {
     '[attr.aria-disabled]': 'slider.disabled()',
+    style: 'position: absolute;',
   },
 })
 export class SliderRange {
@@ -53,6 +54,7 @@ export class SliderRange {
   host: {
     type: 'button',
     role: 'slider',
+    style: 'position: absolute; pointer-events: none;',
     '[attr.tabindex]': 'slider.disabled() ? -1 : 0',
     '[attr.aria-disabled]': 'slider.disabled()',
     '[attr.aria-valuemin]': 'slider.min()',
@@ -105,11 +107,13 @@ export class MeeSlider implements ControlValueAccessor {
   readonly max = input(100, { transform: numberAttribute });
   readonly range = input(1, { transform: numberAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
 
-  onChange?: (value: number | number[]) => {};
-  onTouched?: () => {};
+  private onChange?: (value: number | number[]) => {};
+  private onTouched?: () => {};
 
   readonly noOfThumbs = computed(() => Array.from({ length: this.range() }, (_, i) => i));
+  private readonly totalSteps = computed(() => (this.max() - this.min()) / this.step());
   private values: number[] = [];
   private activeIndex = 0;
   private totalWidth = 0;
@@ -141,22 +145,41 @@ export class MeeSlider implements ControlValueAccessor {
 
   private updateElement() {
     const positions = this.values.map(x => this.toPercentage(x));
-    const thumbs = this.thumbs();
+    const isVertical = this.orientation() === 'vertical';
     const track = this.track().nativeElement;
 
-    thumbs.forEach((thumb, index) => {
-      thumb.nativeElement.style.left = positions[index] + '%';
+    // Update thumb positions
+    this.thumbs().forEach((thumb, i) => {
+      const value = this.values[i];
+      const pos = isVertical ? 100 - positions[i] : positions[i];
+      const prop = isVertical ? 'top' : 'left';
+      const thumbSize = this.getThumbSize(value, thumb.nativeElement.offsetWidth);
+      thumb.nativeElement.style[prop] = `calc(${pos}% + ${isVertical ? -thumbSize : thumbSize}px)`;
     });
 
-    if (positions.length > 1) {
-      const minPosition = Math.min(...positions);
-      const maxPosition = Math.max(...positions);
-      track.style.width = maxPosition - minPosition + '%';
-      track.style.marginLeft = minPosition + '%';
-      track.style.transform = '';
+    // Update track position
+    const [min, max] =
+      positions.length > 1 ? [Math.min(...positions), Math.max(...positions)] : [0, positions[0]];
+
+    if (isVertical) {
+      track.style.top = 100 - max + '%';
+      track.style.bottom = min + '%';
+      track.style.width = '100%';
     } else {
-      track.style.transform = 'translateX(' + (positions[0] - 100) + '%)';
+      track.style.left = min + '%';
+      track.style.right = 100 - max + '%';
+      track.style.height = '100%';
     }
+  }
+
+  private getThumbSize(value: number, thumbSize: number = 0) {
+    const currentStep = (value - this.min()) / this.step();
+    const halfSteps = this.totalSteps() / 2;
+    const halfThumbSize = thumbSize / 2;
+
+    // Return 0 for middle, positive offset for first half, negative for second half
+    const offset = currentStep - halfSteps;
+    return -(offset / halfSteps) * halfThumbSize;
   }
 
   writeValue(value: number | number[]): void {
@@ -172,7 +195,9 @@ export class MeeSlider implements ControlValueAccessor {
   }
 
   private get width() {
-    return this.el.nativeElement.clientWidth;
+    return this.orientation() === 'vertical'
+      ? this.el.nativeElement.clientHeight
+      : this.el.nativeElement.clientWidth;
   }
 
   // We need to consider the min value also because the slider can be negative
@@ -199,13 +224,16 @@ export class MeeSlider implements ControlValueAccessor {
   private clicked(clientX: number) {
     const slider = this.el.nativeElement;
     const rect = slider.getBoundingClientRect();
-    const x = clientX - rect.left;
-    return this.perRound(x, this.width);
+    const left = this.orientation() === 'vertical' ? rect.top : rect.left;
+    return this.perRound(clientX - left, this.width, this.orientation() === 'vertical');
   }
 
-  private perRound(x: number, width: number) {
+  private perRound(x: number, width: number, reverse = false) {
     // the new percentage of the slider
-    const percentage = (x / width) * 100;
+    let percentage = (x / width) * 100;
+    if (reverse) {
+      percentage = 100 - percentage;
+    }
     // convert percentage to value
     return this.fromPercentage(percentage);
   }
@@ -219,9 +247,15 @@ export class MeeSlider implements ControlValueAccessor {
 
   private moveSlider(data: DragData) {
     data.event?.preventDefault();
+    let cx = data.clientX!;
+    let x = data.x!;
+    if (this.orientation() === 'vertical') {
+      cx = data.clientY!;
+      x = -data.y!;
+    }
     // convert value to percentage based on the max value
     if (data.type === 'start') {
-      const clickedValue = this.clicked(data.clientX!);
+      const clickedValue = this.clicked(cx);
       const valuePercentage = this.toPercentage(clickedValue);
       // total width of the slider
       this.totalWidth = this.width;
@@ -248,7 +282,7 @@ export class MeeSlider implements ControlValueAccessor {
       }
     } else if (data.type === 'move') {
       // the new percentage of the slider
-      const newSize = this.totalSliderWidth + data.x;
+      const newSize = this.totalSliderWidth + x;
       const percentage = this.perRound(newSize, this.totalWidth);
       // update the value only when the percentage is different and within the range
       const prevValue = this.values[this.activeIndex];

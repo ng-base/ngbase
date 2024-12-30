@@ -129,34 +129,36 @@ import {
           <div class="flex flex-1 flex-col overflow-hidden">
             <div class="p-b4"><input meeInput placeholder="Search mail" class="w-full" /></div>
 
-            <mee-scroll-area class="flex flex-1 flex-col gap-b4 px-b4 pb-b4">
-              @for (mail of filteredMails(); track $index) {
-                <button
-                  meeCard
-                  class="hover:bg-muted-background"
-                  (click)="select(mail)"
-                  [class.bg-muted-background]="selected() === mail"
-                >
-                  <div class="flex justify-between">
-                    <h4 meeHeader class="!font-semibold">
-                      {{ mail.name }}
-                      @if (mail.status === 'unread') {
-                        <mee-badge class="!ml-2">New</mee-badge>
+            <mee-scroll-area class="flex-1">
+              <div class="flex flex-col gap-b4 px-b4 pb-b4">
+                @for (mail of filteredMails(); track $index) {
+                  <button
+                    meeCard
+                    class="hover:bg-muted-background"
+                    (click)="select(mail)"
+                    [class.bg-muted-background]="selected() === mail"
+                  >
+                    <div class="flex justify-between">
+                      <h4 meeHeader class="!font-semibold">
+                        {{ mail.name }}
+                        @if (mail.status === 'unread') {
+                          <mee-badge class="!ml-2">New</mee-badge>
+                        }
+                      </h4>
+                      <span class="text-muted-foreground text-xs">7 months ago</span>
+                    </div>
+                    <h4 class="text-xs">{{ mail.subject }}</h4>
+                    <p class="text-muted-foreground my-b2 line-clamp-2 text-xs">
+                      {{ mail.content }}
+                    </p>
+                    <div class="flex gap-b2">
+                      @for (tag of mail.tags; track tag) {
+                        <mee-badge>{{ tag }}</mee-badge>
                       }
-                    </h4>
-                    <span class="text-muted-foreground text-xs">7 months ago</span>
-                  </div>
-                  <h4 class="text-xs">{{ mail.subject }}</h4>
-                  <p class="text-muted-foreground my-b2 line-clamp-2 text-xs">
-                    {{ mail.content }}
-                  </p>
-                  <div class="flex gap-b2">
-                    @for (tag of mail.tags; track tag) {
-                      <mee-badge>{{ tag }}</mee-badge>
-                    }
-                  </div>
-                </button>
-              }
+                    </div>
+                  </button>
+                }
+              </div>
             </mee-scroll-area>
           </div>
         </mee-resizable>

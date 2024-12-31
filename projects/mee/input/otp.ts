@@ -15,11 +15,11 @@ import { injectDirectionality } from '@meeui/adk/bidi';
         <input
           meeInputStyle
           meeOtpInput
-          [class]="{
-            '!rounded-l-lg': dir.isRtl() ? ll : i === 0,
-            '!rounded-r-lg': dir.isRtl() ? i === 0 : ll,
-          }"
-          class="mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold"
+          class="{{
+            'mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold disabled:bg-muted-background/40 disabled:text-muted' +
+              ((dir.isRtl() ? ll : i === 0) ? ' !rounded-l-lg' : '') +
+              ((dir.isRtl() ? i === 0 : ll) ? ' !rounded-r-lg' : '')
+          }}"
         />
       }
       @if (!l) {

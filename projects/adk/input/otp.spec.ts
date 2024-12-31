@@ -1,9 +1,9 @@
 import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
-import { InputOtp } from './otp';
+import { MeeInputOtp } from './otp';
 
 describe('InputOtp', () => {
-  let component: InputOtp;
-  let view: RenderResult<InputOtp>;
+  let component: MeeInputOtp;
+  let view: RenderResult<MeeInputOtp>;
   let inputs: ElementHelper<HTMLInputElement>[];
 
   function getInputs() {
@@ -11,7 +11,7 @@ describe('InputOtp', () => {
   }
 
   beforeEach(async () => {
-    view = await render(InputOtp);
+    view = await render(MeeInputOtp);
     component = view.host;
     view.detectChanges();
   });
@@ -50,20 +50,20 @@ describe('InputOtp', () => {
   });
 
   it('should update value on input change', () => {
-    component.onChange = jest.fn();
+    component['onChange'] = jest.fn();
     view.setInput('size', [3]);
     view.detectChanges();
     inputs = getInputs();
     jest.spyOn(component, 'updateValue');
     inputs[0].type('1');
     inputs[1].type('2');
-    expect(component.onChange).not.toHaveBeenCalled();
+    expect(component['onChange']).not.toHaveBeenCalled();
     inputs[2].type('3');
-    expect(component.onChange).toHaveBeenCalledWith('123');
+    expect(component['onChange']).toHaveBeenCalledWith('123');
     inputs[2].type('4');
-    expect(component.lastValue).toBe('123');
+    expect(component['lastValue']).toBe('123');
     inputs[2].type(['Backspace']);
-    expect(component.onChange).toHaveBeenCalledWith('');
+    expect(component['onChange']).toHaveBeenCalledWith('');
   });
 
   it('should not allow non-numeric input', () => {
@@ -130,14 +130,14 @@ describe('InputOtp', () => {
   it('should register onChange', () => {
     const onChange = jest.fn();
     component.registerOnChange(onChange);
-    component.onChange!('123');
+    component['onChange']!('123');
     expect(onChange).toHaveBeenCalledWith('123');
   });
 
   it('should register onTouched', () => {
     const onTouched = jest.fn();
     component.registerOnTouched(onTouched);
-    component.onTouched!();
+    component['onTouched']!();
     expect(onTouched).toHaveBeenCalled();
   });
 });

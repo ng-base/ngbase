@@ -44,12 +44,13 @@ export class MeeAutocompleteInput<T> {
   constructor() {
     afterNextRender(() => {
       this.el.nativeElement.addEventListener('keydown', event => {
-        if (event.key === 'Backspace' && this.input.value() === '') {
+        const value = (event.target as any).value;
+        if (event.key === 'Backspace' && value === '') {
           this.autoComplete.popValue();
         }
       });
       // if (this.autoComplete.multiple()) return;
-      // this.autoComplete.events.subscribe((event) => {
+      // this.autoComplete.events.subscribe(event => {
       //   if (event === 'close') {
       //     const value = this.autoComplete.cValue();
       //     this.el.nativeElement.value = value;

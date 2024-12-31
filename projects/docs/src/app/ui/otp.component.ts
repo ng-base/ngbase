@@ -1,20 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
 import { Heading } from '@meeui/ui/typography';
 import { FormField, InputOtp, Label } from '@meeui/ui/input';
+import { Checkbox } from '@meeui/ui/checkbox';
 
 @Component({
   selector: 'app-otp',
-  imports: [FormsModule, Heading, InputOtp, DocCode, FormField, Label],
+  imports: [FormsModule, Heading, InputOtp, DocCode, FormField, Label, Checkbox],
   template: `
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
     <app-doc-code [tsCode]="tsCode">
       <div class="flex flex-col items-start gap-b4">
+        <div class="flex items-center gap-2">
+          <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
+          <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>
+        </div>
         <div meeFormField>
           <label meeLabel>OTP: {{ otp }}</label>
-          <mee-input-otp placeholder="_" [size]="[4]" [(ngModel)]="otp" mask />
+          <mee-input-otp
+            placeholder=""
+            separator=""
+            [size]="[1, 1, 1, 1]"
+            [disabled]="disabled()"
+            [(ngModel)]="otp"
+            [masked]="masked()"
+          />
         </div>
         <div meeFormField>
           <label meeLabel>Card: {{ otp1 }}</label>
@@ -28,6 +40,9 @@ export default class OtpComponent {
   otp = '';
   otp1 = '';
   maskValue = '10';
+
+  readonly disabled = signal(false);
+  readonly masked = signal(false);
 
   tsCode = `
   import { Component } from '@angular/core';

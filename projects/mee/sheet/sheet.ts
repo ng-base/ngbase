@@ -12,7 +12,7 @@ import {
 import { BaseDialog, DialogRef } from '@meeui/adk/portal';
 import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { Button } from '@meeui/ui/button';
-import { sideAnimation } from '@meeui/ui/dialog';
+import { sideAnimation } from '@meeui/adk/dialog';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';

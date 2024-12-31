@@ -1,4 +1,12 @@
-import { booleanAttribute, Directive, effect, ElementRef, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  linkedSignal,
+} from '@angular/core';
 
 @Directive({
   selector: '[meeFocusTrap]',
@@ -9,19 +17,23 @@ export class FocusTrap {
   readonly meeFocusTrap = input(true, { transform: booleanAttribute });
   readonly focusInitial = input(true, { transform: booleanAttribute });
 
+  // hacky way
+  _focusTrap = linkedSignal(this.meeFocusTrap);
+  _focusInitial = linkedSignal(this.focusInitial);
+
   private firstFocusableElement: HTMLElement | null = null;
   private lastFocusableElement: HTMLElement | null = null;
 
   constructor() {
     let initialFocus = false;
     effect(cleanup => {
-      if (this.meeFocusTrap()) {
+      if (this._focusTrap()) {
         const observer = new MutationObserver(() => this.setFocusableElements());
         observer.observe(this.el.nativeElement, { childList: true, subtree: true });
         // we have call this manually because mutation observer not trigger on initial render
         this.setFocusableElements();
 
-        if (!initialFocus && this.focusInitial()) {
+        if (!initialFocus && this._focusInitial()) {
           initialFocus = true;
           // console.log('focusInitial', this.el.nativeElement);
           this.firstFocusableElement?.focus();

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
 import { AccessibleItem } from '@meeui/adk/a11y';
-import { popoverPortal } from '@meeui/adk/popover';
+import { meePopoverPortal } from '@meeui/adk/popover';
 import { DialogOptions } from '@meeui/adk/portal';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
@@ -20,7 +20,7 @@ import { MeeNavigationMenu } from './navigation-menu';
 export class MeeMenuTrigger {
   private readonly nav = inject(MeeNavigationMenu, { optional: true });
   private readonly parent = inject(MeeMenu, { optional: true });
-  private readonly popover = popoverPortal();
+  private readonly popover = meePopoverPortal();
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly a11y = inject(AccessibleItem, { optional: true });
 

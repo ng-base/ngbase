@@ -2,10 +2,13 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import {
   ChangeDetectionStrategy,
   Component,
+  Directive,
   ElementRef,
   ViewContainerRef,
   afterNextRender,
   effect,
+  inject,
+  linkedSignal,
   signal,
   viewChild,
 } from '@angular/core';
@@ -16,10 +19,38 @@ import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { PopoverOptions, PopoverPosition } from './popover.service';
 import { tooltipPosition } from './utils';
 
+@Directive({
+  selector: '[meePopoverBackdrop]',
+  hostDirectives: [FocusTrap],
+  host: {
+    '[style.clipPath]': 'popover.options().clipPath?.()',
+    '[class]': 'popover.options().backdropClassName',
+    '(click)': '!popover.options().disableClose && popover.close()',
+  },
+})
+export class MeePopoverBackdrop {
+  readonly popover = inject(MeePopover);
+  readonly focusTrap = inject(FocusTrap);
+
+  constructor() {
+    this.focusTrap._focusTrap = linkedSignal(() => this.popover.options().focusTrap ?? true);
+  }
+}
+
+@Directive({
+  selector: '[meePopoverMain]',
+  host: {
+    '[class]': 'popover.options().className',
+  },
+})
+export class MeePopoverMain {
+  readonly popover = inject(MeePopover);
+}
+
 @Component({
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusTrap],
+  imports: [MeePopoverBackdrop, MeePopoverMain],
   template: ` <style>
       .popover-anchor {
         --action-angle: 180deg;
@@ -42,24 +73,19 @@ import { tooltipPosition } from './utils';
       }
     </style>
     <div
-      #container
-      [meeFocusTrap]="options().focusTrap"
-      class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md"
-      [class]="[options().anchor ? 'popover-anchor' : 'overflow-auto', options().className]"
+      meePopoverMain
       [@slideInOutAnimation]
+      class="{{
+        'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md ' +
+          (options().anchor ? 'popover-anchor ' : 'overflow-auto ')
+      }}"
     >
       <div class="flex flex-1 flex-col overflow-auto">
         <ng-container #myDialog />
       </div>
     </div>
     @if (options().backdrop) {
-      <div
-        #backdropElement
-        class="pointer-events-auto fixed top-0 h-full w-full"
-        [style.clipPath]="options().clipPath?.()"
-        [class]="options().backdropClassName"
-        (click)="!options().disableClose && close()"
-      ></div>
+      <div meePopoverBackdrop class="pointer-events-auto fixed top-0 h-full w-full"></div>
     }`,
   host: {
     class:
@@ -77,12 +103,17 @@ import { tooltipPosition } from './utils';
     ]),
   ],
 })
-export class Popover extends BaseDialog {
+export class MeePopover extends BaseDialog {
   private readonly disposals = disposals();
 
   readonly myDialog = viewChild.required('myDialog', { read: ViewContainerRef });
-  readonly container = viewChild.required<ElementRef<HTMLElement>>('container');
-  readonly backdropElement = viewChild<ElementRef<HTMLElement>>('backdropElement');
+  readonly container = viewChild.required<MeePopoverMain, ElementRef<HTMLElement>>(MeePopoverMain, {
+    read: ElementRef,
+  });
+  readonly backdropElement = viewChild<MeePopoverBackdrop, ElementRef<HTMLElement>>(
+    MeePopoverBackdrop,
+    { read: ElementRef },
+  );
 
   readonly options = signal<PopoverOptions>({} as PopoverOptions);
   private lastPosition: PopoverPosition = 'top';
@@ -310,4 +341,8 @@ function scrollToElement(target: HTMLElement) {
     target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     requestAnimationFrame(checkIfScrollComplete);
   });
+}
+
+export function providePopover(popover: typeof MeePopover) {
+  return { provide: MeePopover, useExisting: popover };
 }

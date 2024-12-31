@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { PopoverOptions, popoverPortal } from '@meeui/adk/popover';
+import { PopoverOptions, meePopoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { MeeMenu } from './menu';
 
@@ -11,7 +11,7 @@ import { MeeMenu } from './menu';
 })
 export class MeeMentionTrigger {
   private readonly el = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
-  private readonly popover = popoverPortal();
+  private readonly popover = meePopoverPortal();
 
   readonly meeMentionTrigger = input.required<MeeMenu>();
   readonly options = input<{ focus?: 'el'; width?: 'full' }>();

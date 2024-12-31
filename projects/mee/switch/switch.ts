@@ -4,10 +4,10 @@ import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from '@meeu
 @Component({
   selector: 'mee-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MeeSwitchTrack, MeeSwitchLabel, MeeSwitchThumb],
   hostDirectives: [
     { directive: MeeSwitch, inputs: ['checked', 'disabled'], outputs: ['checkedChange', 'change'] },
   ],
+  imports: [MeeSwitchTrack, MeeSwitchLabel, MeeSwitchThumb],
   template: `
     <button
       meeSwitchTrack

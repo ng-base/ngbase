@@ -12,7 +12,7 @@ import {
   input,
 } from '@angular/core';
 import { InputBase } from '@meeui/adk/input';
-import { popoverPortal } from '@meeui/adk/popover';
+import { meePopoverPortal } from '@meeui/adk/popover';
 import { MeeDatePicker } from './datepicker';
 import { injectMeeDateAdapter } from './native-date-adapter';
 
@@ -37,7 +37,7 @@ export class MeeDatepickerTrigger<D> {
   readonly inputS = inject(InputBase);
   private readonly injector = inject(Injector);
   readonly adapter = injectMeeDateAdapter<D>();
-  readonly popover = popoverPortal();
+  readonly popover = meePopoverPortal();
   private datepicker =
     inject<typeof MeeDatePicker<D>>(DatePicker, { optional: true }) ?? MeeDatePicker<D>;
 

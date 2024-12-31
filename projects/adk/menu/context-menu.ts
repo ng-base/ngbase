@@ -1,5 +1,5 @@
 import { Directive, inject, Injectable, input, output } from '@angular/core';
-import { popoverPortal } from '@meeui/adk/popover';
+import { meePopoverPortal } from '@meeui/adk/popover';
 import { DialogRef } from '@meeui/adk/portal';
 import { documentListener, uniqueId } from '@meeui/adk/utils';
 import { MeeMenu } from './menu';
@@ -27,7 +27,7 @@ class MenuService {
 })
 export class MeeContextMenu {
   readonly meeContextMenu = input.required<MeeMenu>();
-  readonly popover = popoverPortal();
+  readonly popover = meePopoverPortal();
   readonly menuService = inject(MenuService);
   readonly ctxOpen = output<boolean>();
   readonly ctxClose = output<boolean>();

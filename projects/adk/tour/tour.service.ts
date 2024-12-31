@@ -1,11 +1,11 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { DialogInput } from '@meeui/adk/portal';
-import { PopoverOpen, popoverPortal } from '@meeui/adk/popover';
+import { PopoverOpen, meePopoverPortal } from '@meeui/adk/popover';
 import { MeeTourStep } from './tour-step';
 
 @Injectable({ providedIn: 'root' })
 export class MeeTourService {
-  private popover = popoverPortal();
+  private popover = meePopoverPortal();
   readonly steps = signal<MeeTourStep[]>([]);
   readonly step = signal(-1);
   private readonly ids = signal<string[]>([]);

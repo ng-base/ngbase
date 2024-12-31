@@ -1,7 +1,7 @@
 import { Component, ElementRef, TemplateRef, viewChild } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@meeui/adk/test';
-import { popoverPortal } from './popover.service';
+import { meePopoverPortal } from './popover.service';
 
 @Component({
   template: `<div #target></div>
@@ -10,7 +10,7 @@ import { popoverPortal } from './popover.service';
 class TestComponent {
   readonly target = viewChild.required<ElementRef<HTMLElement>>('target');
   readonly pop = viewChild.required<TemplateRef<any>>('pop');
-  readonly service = popoverPortal();
+  readonly service = meePopoverPortal();
 
   open() {
     const target = this.target().nativeElement;

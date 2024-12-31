@@ -1,7 +1,7 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { DialogRef } from '@meeui/adk/portal';
 import { render, RenderResult } from '@meeui/adk/test';
-import { Popover } from './popover';
+import { MeePopover } from './popover';
 
 const options = {
   title: 'Drawer',
@@ -16,11 +16,11 @@ const mockDialogRef = new DialogRef(
 );
 
 describe('DrawerComponent', () => {
-  let component: Popover;
-  let view: RenderResult<Popover>;
+  let component: MeePopover;
+  let view: RenderResult<MeePopover>;
 
   beforeEach(async () => {
-    view = await render(Popover, [
+    view = await render(MeePopover, [
       provideNoopAnimations(),
       { provide: DialogRef, useValue: mockDialogRef },
     ]);

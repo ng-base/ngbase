@@ -1,5 +1,5 @@
 import { Directive, ElementRef, TemplateRef, inject, input } from '@angular/core';
-import { PopoverPosition, popoverPortal } from './popover.service';
+import { PopoverPosition, meePopoverPortal } from './popover.service';
 
 @Directive({
   selector: '[meePopoverTrigger]',
@@ -8,14 +8,14 @@ import { PopoverPosition, popoverPortal } from './popover.service';
     '(click)': 'open()',
   },
 })
-export class PopoverTrigger {
-  popoverPortal = popoverPortal();
-  el = inject<ElementRef<HTMLElement>>(ElementRef);
+export class MeePopoverTrigger {
+  readonly popoverPortal = meePopoverPortal();
+  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  meePopoverTrigger = input.required<TemplateRef<any>>();
-  meePopoverTriggerData = input();
+  readonly meePopoverTrigger = input.required<TemplateRef<any>>();
+  readonly meePopoverTriggerData = input();
+  readonly options = input<{ position?: PopoverPosition; anchor?: boolean }>();
 
-  options = input<{ position?: PopoverPosition; anchor?: boolean }>();
   private closeFn: VoidFunction = () => {};
 
   open() {

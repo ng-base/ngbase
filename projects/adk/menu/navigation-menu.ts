@@ -1,5 +1,5 @@
 import { Directive, contentChildren, effect, input } from '@angular/core';
-import { Popover, PopoverOpen, basePopoverPortal } from '@meeui/adk/popover';
+import { PopoverOpen, meePopoverPortal } from '@meeui/adk/popover';
 import { documentListener, uniqueId } from '@meeui/adk/utils';
 import { MeeMenuTrigger } from './menu-trigger';
 
@@ -7,7 +7,7 @@ import { MeeMenuTrigger } from './menu-trigger';
   selector: '[meeNavigationMenu]',
 })
 export class MeeNavigationMenu {
-  private popover = basePopoverPortal(Popover);
+  private popover = meePopoverPortal();
   private readonly menus = contentChildren(MeeMenuTrigger, { descendants: true });
 
   readonly hover = input<boolean>(false);

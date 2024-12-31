@@ -10,7 +10,7 @@ import {
   model,
   untracked,
 } from '@angular/core';
-import { popoverPortal } from '@meeui/adk/popover';
+import { meePopoverPortal } from '@meeui/adk/popover';
 import { provideValueAccessor } from '@meeui/adk/utils';
 import { MeeColorInput } from './color-input';
 import { ColorFormat, MeeColorPicker } from './color-picker';
@@ -37,7 +37,7 @@ export class ColorPickerTrigger {
   private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private colorPicker =
     inject<typeof MeeColorPicker>(ColorPicker, { optional: true }) ?? MeeColorPicker;
-  private popover = popoverPortal();
+  private popover = meePopoverPortal();
   private injector = inject(Injector);
 
   readonly format = input<ColorFormat>('hex');

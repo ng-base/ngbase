@@ -23,10 +23,11 @@ export class InputBase<T = unknown> implements ControlValueAccessor {
   onTouched?: () => void;
 
   setValue(value: any, fromInput = false): void {
-    // console.log('setValue', value, fromInput);
     this.value.set(value);
-    this.onChange?.(value);
-    this.onTouched?.();
+    if (fromInput) {
+      this.onChange?.(value);
+      this.onTouched?.();
+    }
   }
 
   writeValue(value: string): void {

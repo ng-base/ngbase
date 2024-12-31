@@ -6,6 +6,13 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
 @Component({
   selector: 'mee-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: MeeCheckbox,
+      inputs: ['disabled', 'checked', 'indeterminate'],
+      outputs: ['checkedChange', 'change'],
+    },
+  ],
   imports: [FormsModule, FocusStyle, CheckboxButton],
   template: `
     <button
@@ -26,13 +33,6 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
     class: 'inline-flex items-center gap-b2 py-1',
     '[class]': `checkbox.disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
   },
-  hostDirectives: [
-    {
-      directive: MeeCheckbox,
-      inputs: ['disabled', 'checked', 'indeterminate'],
-      outputs: ['checkedChange', 'change'],
-    },
-  ],
 })
 export class Checkbox {
   readonly checkbox = inject(MeeCheckbox);

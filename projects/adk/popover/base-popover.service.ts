@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { basePortal, DialogInput } from '@meeui/adk/portal';
-import { Popover } from './popover';
+import { MeePopover } from './popover';
 import { PopoverOptions } from './popover.service';
 
 export function basePopoverPortal<T>(component: Type<T>) {
@@ -11,7 +11,7 @@ export function basePopoverPortal<T>(component: Type<T>) {
     const { diaRef, parent, replace, childSignal } = base.open(
       component,
       (comp, opt) => {
-        const compInst = comp.instance as Popover;
+        const compInst = comp.instance as MeePopover;
         compInst.setOptions(opt as PopoverOptions);
       },
       options,
@@ -19,7 +19,7 @@ export function basePopoverPortal<T>(component: Type<T>) {
 
     return {
       diaRef,
-      events: (parent.instance as Popover).events,
+      events: (parent.instance as MeePopover).events,
       parent: parent.instance,
       replace,
       childSignal,

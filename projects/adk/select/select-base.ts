@@ -17,7 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { popoverPortal } from '@meeui/adk/popover';
+import { meePopoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { MeeOption } from './option';
@@ -51,7 +51,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   onChange?: (value: any) => void;
   onTouched?: () => void;
   popClose?: VoidFunction;
-  readonly popover = popoverPortal();
+  readonly popover = meePopoverPortal();
   private previousValue = '';
   events = new Subject<'open' | 'close'>();
   readonly ayid = uniqueId();

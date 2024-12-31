@@ -1,6 +1,6 @@
 import { Directive, ElementRef, TemplateRef, inject, input, numberAttribute } from '@angular/core';
 import { DialogRef } from '@meeui/adk/portal';
-import { PopoverOptions, popoverPortal } from '@meeui/adk/popover';
+import { PopoverOptions, meePopoverPortal } from '@meeui/adk/popover';
 
 @Directive({
   selector: '[meeHoverCard]',
@@ -11,7 +11,7 @@ import { PopoverOptions, popoverPortal } from '@meeui/adk/popover';
   },
 })
 export class MeeHoverCard<T = any> {
-  private popoverPortal = popoverPortal();
+  private popoverPortal = meePopoverPortal();
   private el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly meeHoverCard = input.required<TemplateRef<T>>();

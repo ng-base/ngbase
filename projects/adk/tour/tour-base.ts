@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,9 +12,9 @@ import {
 } from '@angular/core';
 import { PopoverOptions, PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
 import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
-import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { debounceTime, fromEvent, startWith, take } from 'rxjs';
-import { TourService } from './tour.service';
+import { MeeTourService } from './tour.service';
+import { tourAnimation } from './animation';
 
 @Component({
   selector: '[meeTour]',
@@ -34,27 +33,19 @@ import { TourService } from './tour.service';
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },
-  animations: [
-    createHostAnimation(['@slideInOutAnimation', '@fadeAnimation']),
-    trigger('slideInOutAnimation', [
-      state('1', style({ transform: 'none', opacity: 1 })),
-      state('void', style({ transform: 'translateY(-20px)', opacity: 0 })),
-      state('0', style({ transform: 'translateY(-20px)', opacity: 0 })),
-      transition('* => *', animate('100ms ease-out')),
-    ]),
-    fadeAnimation('200ms'),
-  ],
+  animations: [tourAnimation],
 })
-export class BaseTour extends BaseDialog implements OnDestroy {
-  tourService = inject(TourService);
-  myDialog = viewChild('myDialog', { read: ViewContainerRef });
-  container = viewChild<ElementRef<HTMLElement>>('container');
+export class MeeBaseTour extends BaseDialog implements OnDestroy {
+  readonly tourService = inject(MeeTourService);
+  readonly myDialog = viewChild('myDialog', { read: ViewContainerRef });
+  readonly container = viewChild<ElementRef<HTMLElement>>('container');
+
   options!: DialogOptions;
   tooltipOptions!: PopoverOptions;
   private lastPosition: PopoverPosition = 'top';
-  scrolled = signal(0);
+  readonly scrolled = signal(0);
 
-  clipPath = computed(() => {
+  readonly clipPath = computed(() => {
     const _ = this.scrolled();
     const currentStep = this.tourService.currentStep()!;
     const { width, height, top, left } = currentStep.el.nativeElement.getBoundingClientRect();

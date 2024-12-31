@@ -1,16 +1,8 @@
-// highlight.directive.ts
-import { Directive, ElementRef, inject, input } from '@angular/core';
-import { TourService } from './tour.service';
+import { Directive } from '@angular/core';
+import { MeeTourStep } from '@meeui/adk/tour';
 
 @Directive({
   selector: '[meeTourStep]',
+  hostDirectives: [{ directive: MeeTourStep, inputs: ['meeTourStep'] }],
 })
-export class TourStep {
-  meeTourStep = input.required<string>();
-  el = inject<ElementRef>(ElementRef);
-  tourService = inject(TourService);
-
-  constructor() {
-    this.tourService.addStep(this);
-  }
-}
+export class TourStep {}

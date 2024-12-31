@@ -1,13 +1,8 @@
-import { Component, ChangeDetectionStrategy, inject, contentChildren } from '@angular/core';
-import { TourService } from './tour.service';
-import { TourStep } from './tour-step';
+import { Directive } from '@angular/core';
+import { MeeTour } from '@meeui/adk/tour';
 
-@Component({
+@Directive({
   selector: '[meeTour]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content />`,
+  hostDirectives: [MeeTour],
 })
-export class Tour {
-  tourService = inject(TourService);
-  steps = contentChildren(TourStep, { descendants: true });
-}
+export class Tour {}

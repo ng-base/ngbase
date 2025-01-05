@@ -28,7 +28,7 @@ export class MeeOtpInput {
 @Component({
   selector: '[meeInputOtp]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideInputOtp(MeeInputOtp)],
+  providers: [_provide(MeeInputOtp)],
   imports: [RangePipe, MeeOtpInput],
   template: `
     @for (num of size(); track $index; let l = $last) {
@@ -175,9 +175,10 @@ export class MeeInputOtp implements ControlValueAccessor {
   }
 }
 
+function _provide(otp: typeof MeeInputOtp) {
+  return [provideValueAccessor(otp)];
+}
+
 export function provideInputOtp(otp: typeof MeeInputOtp) {
-  return [
-    ...(otp !== MeeInputOtp ? [{ provide: MeeInputOtp, useExisting: otp }] : []),
-    provideValueAccessor(otp),
-  ];
+  return [_provide(otp), { provide: MeeInputOtp, useExisting: otp }];
 }

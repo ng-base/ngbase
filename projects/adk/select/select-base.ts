@@ -17,25 +17,34 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { Directionality } from '@meeui/adk/bidi';
 import { meePopoverPortal } from '@meeui/adk/popover';
 import { uniqueId } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { MeeOption } from './option';
-import { Directionality } from '@meeui/adk/bidi';
+
+@Directive({
+  selector: '[meeSelectTarget]',
+})
+export class MeeSelectTarget {
+  readonly target = signal<HTMLDivElement | null>(null);
+}
 
 @Directive()
 export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   // Dependencies
   readonly el = inject(ElementRef);
   readonly dir = inject(Directionality);
-  readonly options = contentChildren(MeeOption, { descendants: true });
-  readonly optionss = input<T[]>([]);
+  readonly target = inject(MeeSelectTarget, { optional: true });
+  readonly list = contentChildren(MeeOption, { descendants: true });
+  readonly popover = meePopoverPortal();
 
-  readonly optionsTemplate = viewChild('options', { read: TemplateRef });
+  readonly optionsTemplate = viewChild('optionsTemplate', { read: TemplateRef });
   readonly container = viewChild('container', { read: ElementRef });
   readonly optionsGroup = viewChild('optionsGroup', { read: ElementRef });
 
   // inputs
+  readonly options = input<T[]>([]);
   readonly value = model<any>('' as any);
   readonly multiple = input(false, { transform: booleanAttribute });
   readonly placeholder = input<string>(' ');
@@ -51,16 +60,15 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   onChange?: (value: any) => void;
   onTouched?: () => void;
   popClose?: VoidFunction;
-  readonly popover = meePopoverPortal();
   private previousValue = '';
   events = new Subject<'open' | 'close'>();
-  readonly ayid = uniqueId();
+  readonly ayId = uniqueId();
   readonly cValue = computed(() => {
     if (!this.isSelect && this.status() === 'opened') {
       return this.previousValue;
     }
     const multiple = this.multiple();
-    const options = this.options();
+    const options = this.list();
     const filtered = this.values(); // .filter(x => x !== undefined && x !== null && x !== '');
 
     const values = filtered.length
@@ -87,9 +95,9 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
 
   constructor(private isSelect: boolean) {
     effect(() => {
-      const options = this.options();
+      const options = this.list();
       options.forEach(option => {
-        option.setAyId(this.ayid);
+        option.setAyId(this.ayId);
         option.multiple.set(this.multiple());
         option.selectOption = () => {
           untracked(() => {
@@ -111,7 +119,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
 
     effect(() => {
       const values = this.values();
-      const options = this.options();
+      const options = this.list();
       // console.log('values', this.values());
 
       options.forEach(option => {
@@ -129,19 +137,21 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     if (this.status() === 'opened') return;
 
     // if the options are empty, return
-    if (this.options().length === 0 && this.optionss().length === 0) {
+    if (this.list().length === 0 && this.options().length === 0) {
       this.status.set('opening');
       return;
     }
-    const el = this.container()?.nativeElement || this.el.nativeElement;
+
+    const el = this.target?.target() || this.container()?.nativeElement || this.el.nativeElement;
     const { diaRef, events } = this.popover.open(this.optionsTemplate()!, {
       target: el,
       position: this.dir.isRtl() ? 'br' : 'bl',
       backdrop: this.isSelect,
       width: this.size(),
       maxHeight: '400px',
-      ayId: this.ayid,
+      ayId: this.ayId,
       focusTrap: false,
+      afterFocusEl: this.container()?.nativeElement || this.el.nativeElement,
     });
     this.withInPopup = false;
 

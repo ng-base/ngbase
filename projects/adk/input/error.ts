@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { computed, Directive, effect, inject, input, signal, Signal } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup, NgControl } from '@angular/forms';
+import { computed, Directive, inject, input, signal } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { MeeFormField } from './form-field';
 
 @Directive({
@@ -11,7 +11,6 @@ import { MeeFormField } from './form-field';
 })
 export class MeeInputError {
   private readonly formField = inject(MeeFormField);
-  private readonly statusChanges = statusChange(this.formField._control);
   /* the input can have comma separated error names like
    * 'required' or '!required && minlength'
    */
@@ -35,7 +34,7 @@ export class MeeInputError {
 
   readonly isInvalid = computed(() => {
     const control = this.formField._control();
-    const status = this.statusChanges();
+    const status = this.formField.status();
     const names = this.errorNames();
 
     return (
@@ -44,20 +43,6 @@ export class MeeInputError {
       names.every(n => !!control.errors?.[n.name] !== n.negated)
     );
   });
-}
-
-function statusChange(sControl: Signal<NgControl | undefined>): Signal<string | null> {
-  const statusChanges = signal<string | null>(null, { equal: (a, b) => false });
-  effect(cleanup => {
-    const control = sControl();
-    if (control) {
-      const sub = control.statusChanges?.subscribe(() => {
-        statusChanges.set(control.status);
-      });
-      cleanup(() => sub?.unsubscribe());
-    }
-  });
-  return statusChanges;
 }
 
 export function markControlsTouched(

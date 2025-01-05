@@ -68,7 +68,7 @@ describe('Select', () => {
   });
 
   it('should render options', () => {
-    expect(selectComponent.options().length).toBe(3);
+    expect(selectComponent.list().length).toBe(3);
   });
 
   it('should render the current value', async () => {

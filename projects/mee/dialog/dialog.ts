@@ -3,7 +3,9 @@ import {
   MeeDialogBackdrop,
   MeeDialogContainer,
   MeeDialogMain,
+  meeDialogPortal,
   provideDialog,
+  MeeDialog,
 } from '@meeui/adk/dialog';
 import { DragMove } from '@meeui/adk/drag';
 import { Button } from '@meeui/ui/button';
@@ -62,3 +64,19 @@ import { lucideX } from '@ng-icons/lucide';
   },
 })
 export class DialogContainer extends MeeDialogContainer {}
+
+@Component({
+  selector: '[meeDialogTitle]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content />`,
+  host: {
+    class: 'text-lg font-semibold',
+  },
+})
+export class DialogTitle {}
+
+export function dialogPortal() {
+  return meeDialogPortal(DialogContainer);
+}
+
+export type Dialog = MeeDialog;

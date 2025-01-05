@@ -1,15 +1,24 @@
-import { ChangeDetectionStrategy, Component, Directive, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { InputBase, MeeFormField, MeeInputError, MeeLabel, toggleDiv } from '@meeui/adk/input';
 import { InputStyle } from './input-style.directive';
+import { MeeSelectTarget } from '@meeui/adk/select';
 
 @Component({
   selector: 'mee-form-field, [meeFormField]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [MeeFormField],
+  hostDirectives: [MeeFormField, MeeSelectTarget],
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
-    <div class="flex items-center">
+    <div class="flex items-center" #target>
       <ng-content />
     </div>
     <ng-content select="[meeError]" />
@@ -18,7 +27,13 @@ import { InputStyle } from './input-style.directive';
     class: 'inline-flex flex-col font-medium mb-b2 gap-b',
   },
 })
-export class FormField {}
+export class FormField {
+  readonly selectTarget = inject(MeeSelectTarget);
+  readonly target = viewChild.required<ElementRef<HTMLDivElement>>('target');
+  private _ = effect(() => {
+    this.selectTarget.target.set(this.target().nativeElement);
+  });
+}
 
 @Directive({
   selector: '[meeInput]',

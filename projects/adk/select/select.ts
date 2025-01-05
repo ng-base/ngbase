@@ -52,14 +52,14 @@ export class MeeSelectOptionGroup {
   constructor() {
     this.group._isPopup.set(true);
     this.group._loop.set(false);
-    this.group._ayId.set(this.select.ayid);
+    this.group._ayId.set(this.select.ayId);
   }
 }
 
 @Component({
   selector: '[meeSelect]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideSelect(MeeSelect)],
+  providers: [_provide(MeeSelect)],
   imports: [
     AccessibleGroup,
     FormsModule,
@@ -97,10 +97,10 @@ export class MeeSelectOptionGroup {
     </button>
 
     <!-- Options template -->
-    <ng-template #options>
+    <ng-template #optionsTemplate>
       <div class="flex flex-col overflow-hidden">
         <ng-content select="[meeSelectInput]">
-          @if (optionss().length) {
+          @if (options().length) {
             <input meeSelectInput placeholder="Search options" [(value)]="optionsFilter.search" />
           }
         </ng-content>
@@ -108,7 +108,7 @@ export class MeeSelectOptionGroup {
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {
-                <div meeOption [value]="option" [ayId]="ayid">
+                <div meeOption [value]="option" [ayId]="ayId">
                   @if (optionTemplate(); as ot) {
                     <ng-template
                       [ngTemplateOutlet]="ot.template"
@@ -130,18 +130,18 @@ export class MeeSelect<T> extends SelectBase<T> {
   readonly search = model<string>('');
   readonly optionTemplate = contentChild(MeeSelectOption<T>);
   readonly defaultFilter = (option: string) => option;
-  readonly optionsFilter = filterFunction(this.optionss, { filter: this.defaultFilter });
+  readonly optionsFilter = filterFunction(this.options, { filter: this.defaultFilter });
 
   constructor() {
     super(true);
   }
 }
 
+function _provide(select: typeof MeeSelect) {
+  return [{ provide: SelectBase, useExisting: select }, provideValueAccessor(select)];
+}
+
 export function provideSelect(select: typeof MeeSelect) {
-  const deps = [{ provide: SelectBase, useExisting: select }, provideValueAccessor(select)];
-  // Avoid circular dependency
-  if (select !== MeeSelect) {
-    deps.push({ provide: MeeSelect, useExisting: select });
-  }
+  const deps = [_provide(select), { provide: MeeSelect, useExisting: select }];
   return deps;
 }

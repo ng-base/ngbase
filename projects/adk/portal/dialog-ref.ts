@@ -66,7 +66,8 @@ export abstract class BaseDialog {
       this.document.body.style.paddingRight = '';
       this.document.body.style.overflow = '';
     }
-    const target = this.getTarget() || this.currentActiveElement.deref();
+    const target =
+      this.dialogRef.options.afterFocusEl || this.getTarget() || this.currentActiveElement.deref();
     target?.focus();
   };
 }
@@ -134,6 +135,7 @@ export class DialogOptions<T = any> {
   disableClose? = false;
   ayId?: string;
   focusTrap? = true;
+  afterFocusEl?: HTMLElement;
 }
 
 export const DIALOG_INJ = new InjectionToken('dialogInj');

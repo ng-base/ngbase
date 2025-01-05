@@ -14,7 +14,7 @@ import { MeeAutocompleteInput } from './autocomplete-input';
 @Component({
   selector: '[meeAutocomplete]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideAutocomplete(MeeAutocomplete)],
+  providers: [_provide(MeeAutocomplete)],
   imports: [MeeSelectOptionGroup],
   template: `
     <ul #container (click)="prevent($event)">
@@ -24,7 +24,7 @@ import { MeeAutocompleteInput } from './autocomplete-input';
         <ng-content select="input" />
       </li>
     </ul>
-    <ng-template #options>
+    <ng-template #optionsTemplate>
       <div #optionsGroup meeSelectOptionGroup class="p-b">
         <ng-content />
       </div>
@@ -55,14 +55,11 @@ export class MeeAutocomplete<T> extends SelectBase<T> {
   }
 }
 
+function _provide<T>(autocomplete: Type<MeeAutocomplete<T>>) {
+  return [{ provide: SelectBase, useExisting: autocomplete }, provideValueAccessor(autocomplete)];
+}
+
 export function provideAutocomplete<T>(autocomplete: Type<MeeAutocomplete<T>>) {
-  const deps = [
-    { provide: SelectBase, useExisting: autocomplete },
-    provideValueAccessor(autocomplete),
-  ];
-  // Avoid circular dependency
-  if (autocomplete !== MeeAutocomplete) {
-    deps.push({ provide: MeeAutocomplete, useExisting: autocomplete });
-  }
+  const deps = [_provide(autocomplete), { provide: MeeAutocomplete, useExisting: autocomplete }];
   return deps;
 }

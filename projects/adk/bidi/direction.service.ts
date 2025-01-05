@@ -28,11 +28,7 @@ export class Directionality {
 
   private updateDir(isRtl: boolean): void {
     const dir = isRtl ? 'rtl' : 'ltr';
-    if (dir === 'rtl') {
-      this.document.documentElement.setAttribute('dir', dir);
-    } else {
-      this.document.documentElement.removeAttribute('dir');
-    }
+    this.document.documentElement.setAttribute('dir', dir);
   }
 }
 

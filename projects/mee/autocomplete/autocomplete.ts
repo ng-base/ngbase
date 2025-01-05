@@ -25,7 +25,7 @@ import { InputStyle } from '@meeui/ui/input';
         <ng-content select="input" />
       </li>
     </ul>
-    <ng-template #options>
+    <ng-template #optionsTemplate>
       <div #optionsGroup meeSelectOptionGroup class="p-b">
         <ng-content />
       </div>

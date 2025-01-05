@@ -56,7 +56,7 @@ export class MeeSwitchLabel {
 @Directive({
   selector: '[meeSwitch]',
   exportAs: 'meeSwitch',
-  providers: [provideValueAccessor(MeeSwitch)],
+  providers: [_provide(MeeSwitch)],
 })
 export class MeeSwitch implements ControlValueAccessor {
   readonly id = uniqueId();
@@ -88,6 +88,10 @@ export class MeeSwitch implements ControlValueAccessor {
   }
 }
 
-export function provideSwitch(value: Type<MeeSwitch>) {
-  return [{ provide: MeeSwitch, useExisting: value }, provideValueAccessor(MeeSwitch)];
+function _provide(meeSwitch: typeof MeeSwitch) {
+  return [provideValueAccessor(meeSwitch)];
+}
+
+export function provideSwitch(meeSwitch: Type<MeeSwitch>) {
+  return [_provide(meeSwitch), { provide: MeeSwitch, useExisting: meeSwitch }];
 }

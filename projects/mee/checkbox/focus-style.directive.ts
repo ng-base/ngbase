@@ -4,7 +4,7 @@ import { booleanAttribute, Directive, input } from '@angular/core';
   selector: '[meeFocusStyle]',
   host: {
     class: 'outline-none',
-    '[class]': `!unfocus() ? 'focus-visible:ring-2 ring-primary focus-visible:ring-offset-2 ring-offset-background' : ''`,
+    '[class]': `!unfocus() ? 'focus-visible:ring-2 focus:ring-2 focus:ring-offset-2 ring-primary focus-visible:ring-offset-2 ring-offset-background' : ''`,
   },
 })
 export class FocusStyle {

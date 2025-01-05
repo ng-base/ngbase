@@ -54,10 +54,10 @@ export class SelectOption<T> {}
     </button>
 
     <!-- Options template -->
-    <ng-template #options>
+    <ng-template #optionsTemplate>
       <div class="flex flex-col overflow-hidden">
         <ng-content select="[meeSelectInput]">
-          @if (optionss().length) {
+          @if (options().length) {
             <input
               meeSelectInput
               placeholder="Search options"
@@ -70,7 +70,7 @@ export class SelectOption<T> {}
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {
-                <mee-option [value]="option" [ayId]="ayid">
+                <mee-option [value]="option" [ayId]="ayId">
                   @if (optionTemplate(); as ot) {
                     <ng-template
                       [ngTemplateOutlet]="ot.template"

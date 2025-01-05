@@ -44,7 +44,7 @@ export class MeeTimeInput {
 @Component({
   selector: '[meeTime]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTimePicker(MeeTimePicker)],
+  providers: [_provide(MeeTimePicker)],
   imports: [NumberOnly, MeeTimeInput],
   template: `
     <input meeTimeInput="hours" [(value)]="hours" (valueChange)="updateValue()" />
@@ -133,10 +133,10 @@ export class MeeTimePicker implements ControlValueAccessor {
   }
 }
 
+function _provide(picker: typeof MeeTimePicker) {
+  return [provideValueAccessor(picker)];
+}
+
 export function provideTimePicker(picker: typeof MeeTimePicker) {
-  const deps = [
-    ...(picker !== MeeTimePicker ? [{ provide: MeeTimePicker, useExisting: picker }] : []),
-    provideValueAccessor(picker),
-  ];
-  return deps;
+  return [_provide(picker), { provide: MeeTimePicker, useExisting: picker }];
 }

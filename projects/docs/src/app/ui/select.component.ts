@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { filterFunction } from '@meeui/adk/utils';
 import { FormField, Label } from '@meeui/ui/input';
-import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
+import { Option, OptionGroup, Select, SelectInput, SelectTrigger } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
@@ -15,6 +15,7 @@ import { DocCode } from './code.component';
     FormField,
     Label,
     Select,
+    SelectTrigger,
     // SelectOption,
     SelectInput,
     Option,
@@ -29,7 +30,7 @@ import { DocCode } from './code.component';
         <mee-select
           formControlName="select"
           (ngModelChange)="valueChanged()"
-          [optionss]="options"
+          [options]="options"
           class="w-full"
           id="select-test"
         />
@@ -72,9 +73,10 @@ import { DocCode } from './code.component';
       <div meeFormField class="min-w-52">
         <label meeLabel>Small select</label>
         <mee-select class="w-30">
-          <mee-option>Option 1</mee-option>
-          <mee-option>Option 2</mee-option>
-          <mee-option>Option 3</mee-option>
+          <div meeSelectTrigger>Great</div>
+          @for (item of selectValues(); track item) {
+            <mee-option [value]="item">{{ item }}</mee-option>
+          }
         </mee-select>
       </div>
     </app-doc-code>
@@ -84,6 +86,8 @@ export default class SelectComponent {
   selectValue = 'Option 1';
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
   optionsFilter = filterFunction(this.options, { filter: option => option });
+
+  readonly selectValues = signal([1, 2, 3]);
 
   form = new FormGroup({
     select: new FormControl('Option 2'),

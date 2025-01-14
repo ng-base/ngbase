@@ -68,7 +68,7 @@ describe('AccessibleGroup', () => {
   });
 
   it('should set correct attributes on the group element', () => {
-    const element = view.$0(AccessibleGroup);
+    const element = view.$(AccessibleGroup);
     expect(element.attr('role')).toBe('group');
     expect(element.attr('tabindex')).toBe('0');
   });
@@ -145,7 +145,7 @@ describe('AccessibleGroup', () => {
   it('should handle disabled state correctly', () => {
     view.host.isDisabled.set(true);
     view.detectChanges();
-    const element = view.$0(AccessibleGroup);
+    const element = view.$(AccessibleGroup);
     expect(element.attr('aria-disabled')).toBe('true');
   });
 

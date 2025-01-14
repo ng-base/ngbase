@@ -20,7 +20,7 @@ describe('MaskInput', () => {
   beforeEach(async () => {
     view = await render(TestComponent);
     component = view.host;
-    input = view.$0('input');
+    input = view.$('input');
   });
 
   afterEach(() => {

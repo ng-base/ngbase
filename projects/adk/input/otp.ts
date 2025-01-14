@@ -5,46 +5,83 @@ import {
   Component,
   computed,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
+  signal,
+  untracked,
+  viewChild,
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { provideValueAccessor, RangePipe } from '@meeui/adk/utils';
 
 @Directive({
-  selector: '[meeOtpInput]',
+  selector: 'input[meeOtpInput]',
   host: {
     '[placeholder]': 'otp.placeholder()',
     '[type]': 'otp.masked() ? "password" : "text"',
-    '[disabled]': 'otp.disabled()',
+    '[disabled]': 'otp.disabled() || undefined',
+    style:
+      'position: absolute; inset: 0; border: none; background: transparent; caret-color: transparent; outline: none; color: transparent; letter-spacing: -0.5rem;',
   },
 })
 export class MeeOtpInput {
   readonly otp = inject(MeeInputOtp);
+  readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+}
+
+@Directive({
+  selector: '[meeOtpValue]',
+  host: {
+    style: `pointer-events: none`,
+    '[attr.data-focus]': 'focused() || undefined',
+    '[disabled]': 'otp.disabled() || undefined',
+    '[type]': 'otp.masked() ? "password" : "text"',
+    tabindex: '-1',
+  },
+})
+export class MeeOtpValue {
+  readonly otp = inject(MeeInputOtp);
+  readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  readonly index = computed(() => this.otp._otpValues().findIndex(v => this.el === v.el));
+  readonly value = computed(() => this.otp.values()[this.index()] || '');
+
+  readonly focused = computed(() => {
+    return (
+      this.otp.focused() && this.index() === Math.min(this.otp.values().length, this.otp.no() - 1)
+    );
+  });
+
+  constructor() {
+    effect(() => {
+      this.el.nativeElement.value = this.value();
+    });
+  }
 }
 
 @Component({
   selector: '[meeInputOtp]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [_provide(MeeInputOtp)],
-  imports: [RangePipe, MeeOtpInput],
+  imports: [RangePipe, MeeOtpInput, MeeOtpValue],
   template: `
     @for (num of size(); track $index; let l = $last) {
       @for (n of num | range; track n; let i = $index; let ll = $last) {
-        <input meeOtpInput />
+        <input meeOtpValue />
       }
       @if (!l) {
         <div>{{ separator() }}</div>
       }
     }
+    <input meeOtpInput />
   `,
 })
 export class MeeInputOtp implements ControlValueAccessor {
-  private readonly inputs = viewChildren<MeeOtpInput, ElementRef<HTMLInputElement>>(MeeOtpInput, {
-    read: ElementRef,
-  });
+  private readonly inputs = viewChild.required<MeeOtpInput>(MeeOtpInput);
+  readonly _otpValues = viewChildren<MeeOtpValue>(MeeOtpValue);
+  // private readonly
 
   readonly size = input<number[]>([4]);
   readonly placeholder = input('·');
@@ -52,112 +89,90 @@ export class MeeInputOtp implements ControlValueAccessor {
   readonly masked = input(false, { transform: booleanAttribute });
   readonly disabled = input<boolean>(false);
 
-  private readonly no = computed(() => this.size().reduce((a, b) => a + b, 0));
+  readonly no = computed(() => this.size().reduce((a, b) => a + b, 0));
   private onChange?: (value: string) => void;
   private onTouched?: () => void;
   private lastValue = '';
+  readonly values = signal<string>('');
+  readonly focused = signal<boolean>(false);
 
   constructor() {
     afterRenderEffect(cleanup => {
-      const values = Array.from({ length: this.no() }, () => '');
-      const inputs = this.inputs();
-      this.updateTabIndex(values);
-      // update values on input
+      const inputEl = this.inputs().el.nativeElement;
 
-      inputs.forEach((input, i) => {
-        const inputEl = input.nativeElement;
-        const inputListener = () => {
-          const currentVal = values[i];
-          const value = inputEl.value;
-          values[i] = value;
+      const inputListener = () => {
+        const value = inputEl.value;
+        this.updateValue(value);
+      };
 
-          let index = i;
-          if (value && i < this.no() - 1) {
-            index = i + 1;
-            inputs[index].nativeElement.focus();
-          } else if (!value && i > 0 && !currentVal) {
-            index = i - 1;
-            inputs[index].nativeElement.focus();
-          }
-          if (values.every(v => v)) {
-            this.updateValue(values.join(''));
-          } else {
-            this.updateValue('');
-          }
-          // update tabindex
-          // const index = this.values.findIndex(v => !v);
-          this.updateTabIndex(values);
-        };
+      const keydownListener = (e: KeyboardEvent) => {
+        const value = inputEl.value.length === this.no();
+        const isBackspace = e.key === 'Backspace';
+        const isPaste = (e.ctrlKey || e.metaKey) && e.key === 'v';
+        if (isPaste || ['Tab', 'Enter'].includes(e.key)) {
+          // prevent default behavior for tab key
+          return;
+        } else if (!isBackspace && (value || isNaN(Number(e.key)))) {
+          // prevent default behavior for non-numeric characters
+          e.preventDefault();
+        }
+      };
 
-        const focusListener = () => {
-          let index = values.findIndex(v => !v);
-          index = index === -1 ? values.length - 1 : index;
-          const el = inputs[index].nativeElement;
-          el.focus();
-          el.style.position = 'relative';
+      const pasteListener = (e: ClipboardEvent) => {
+        e.preventDefault();
 
-          // move the cursor to the end of the input
-          // wait for the next frame to set the cursor position
-          requestAnimationFrame(() => {
-            el.selectionStart = el.selectionEnd = el.value.length;
-          });
-        };
+        const pastedText = e.clipboardData?.getData('text') || '';
+        const numbers = pastedText.replace(/\D/g, '');
 
-        const keydownListener = (e: KeyboardEvent) => {
-          const value = inputEl.value;
-          const isBackspace = e.key === 'Backspace';
-          const isTab = e.key === 'Tab';
-          if (isTab) {
-            return;
-          } else if (isBackspace && !value && i > 0) {
-            const el = inputs[i - 1].nativeElement;
-            values[i - 1] = '';
-            el.value = '';
-            el.focus();
-            this.updateTabIndex(values);
-          } else if (!isBackspace && (value || isNaN(Number(e.key)))) {
-            e.preventDefault();
-          }
-        };
+        // Only process if we have valid numbers
+        if (numbers.length === 0) return;
 
-        const blurListener = () => {
-          inputEl.style.position = '';
-        };
+        this.updateNewValue(numbers.slice(0, this.no()));
+        this.updateValue(inputEl.value);
+      };
 
-        inputEl.addEventListener('input', inputListener);
-        inputEl.addEventListener('focus', focusListener);
-        inputEl.addEventListener('blur', blurListener);
-        inputEl.addEventListener('keydown', keydownListener);
+      const blurListener = () => {
+        // We have to use untracked because the blur is triggered by the input element when we make it disabled
+        // so we are getting cannot update signal inside computed error
+        untracked(() => this.focused.set(false));
+      };
 
-        // remove event listener
-        cleanup(() => {
-          inputEl.removeEventListener('input', inputListener);
-          inputEl.removeEventListener('focus', focusListener);
-          inputEl.removeEventListener('blur', blurListener);
-          inputEl.removeEventListener('keydown', keydownListener);
-        });
+      const focusListener = () => {
+        this.focused.set(true);
+        // set the cursor to the end of the input
+        inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+      };
+
+      inputEl.addEventListener('input', inputListener);
+      inputEl.addEventListener('focus', focusListener);
+      inputEl.addEventListener('blur', blurListener);
+      inputEl.addEventListener('keydown', keydownListener);
+      inputEl.addEventListener('paste', pasteListener);
+
+      cleanup(() => {
+        inputEl.removeEventListener('input', inputListener);
+        inputEl.removeEventListener('focus', focusListener);
+        inputEl.removeEventListener('blur', blurListener);
+        inputEl.removeEventListener('keydown', keydownListener);
+        inputEl.removeEventListener('paste', pasteListener);
       });
     });
   }
 
-  private updateTabIndex(values: string[]) {
-    let index = values.findIndex(v => !v);
-    const inputs = this.inputs();
-    index = Math.min(inputs.length - 1, index === -1 ? inputs.length - 1 : index);
-    inputs.forEach((el, j) => {
-      el.nativeElement.tabIndex = j === index ? 0 : -1;
-    });
+  private updateNewValue(value: string) {
+    this.values.set(value);
+    this.inputs().el.nativeElement.value = value;
   }
 
   writeValue(value: string) {
-    const values = value ? value.split('') : Array.from({ length: this.no() }, () => '');
+    const values = value || '';
     this.lastValue = value;
-    this.inputs().forEach((input, i) => {
-      input.nativeElement.value = values[i] ?? '';
-    });
+    this.updateNewValue(values);
   }
 
-  updateValue(value: string) {
+  updateValue(values: string) {
+    this.values.set(values);
+    const value = values.length === this.no() ? values : '';
     if (this.lastValue === value) {
       return;
     }

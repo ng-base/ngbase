@@ -5,11 +5,12 @@ import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
 @Directive({
   selector: '[meeCheckboxButton]',
   host: {
+    role: 'checkbox',
+    type: 'button',
+    '[disabled]': 'checkbox.disabled()',
     '[tabIndex]': 'checkbox.disabled() ? -1 : 0',
     '[attr.aria-checked]': 'checkbox.checked()',
     '[attr.aria-disabled]': 'checkbox.disabled()',
-    role: 'checkbox',
-    type: 'button',
   },
 })
 export class CheckboxButton {

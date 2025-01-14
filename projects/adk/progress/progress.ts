@@ -1,9 +1,10 @@
 import { computed, Directive, inject, input } from '@angular/core';
+import { injectDirectionality } from '@meeui/adk/bidi';
 
 @Directive({
   selector: '[meeProgressBar]',
   host: {
-    '[style.transform]': `'translateX(-' + progress.total() + '%)'`,
+    '[style.transform]': `'translateX(' + progress.total() + '%)'`,
   },
 })
 export class MeeProgressBar {
@@ -23,10 +24,10 @@ export class MeeProgressBar {
 })
 export class MeeProgress {
   readonly value = input(0);
+  readonly dir = injectDirectionality();
 
   readonly total = computed(() => {
-    let percentage = this.value();
-    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage;
-    return 100 - percentage;
+    const percentage = Math.min(100, Math.max(0, this.value()));
+    return this.dir.isRtl() ? 100 - percentage : percentage - 100;
   });
 }

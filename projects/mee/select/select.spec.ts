@@ -52,7 +52,7 @@ describe('Select', () => {
     view = await render(TestHostComponent, [provideNoopAnimations()]);
     component = view.host;
     selectComponent = view.viewChild(Select<string>, '#select1');
-    input = view.$0('#select1 button');
+    input = view.$('#select1 button');
     view.detectChanges();
   });
 

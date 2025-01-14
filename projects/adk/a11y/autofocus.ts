@@ -1,5 +1,4 @@
 import { Directive, ElementRef, ApplicationRef, inject, input, afterRender } from '@angular/core';
-import { debounceTime, take } from 'rxjs';
 import { isClient } from '@meeui/adk/utils';
 import { DOCUMENT } from '@angular/common';
 
@@ -10,10 +9,9 @@ export class Autofocus {
   private el = inject(ElementRef);
   private applicationRef = inject(ApplicationRef);
   private document = inject(DOCUMENT);
-  // private id = uniqueId();
 
   readonly focusDelay = input<number>(300);
-  isFocused = false;
+  private isFocused = false;
 
   constructor() {
     if (isClient()) {
@@ -27,43 +25,19 @@ export class Autofocus {
           } else if (!isPresent) {
             this.isFocused = false;
           }
-          // console.log(`${this.id} is present: ${isPresent}`);
         },
       });
     }
-    // effect(cleanup => {
-    //   let timeout: any;
-    //   let sub: Subscription | undefined;
-    //   sub = this.applicationRef.isStable.subscribe(isStable => {
-    //     if (isStable) {
-    //       sub?.unsubscribe();
-    //       sub = undefined;
-    //       timeout = this.focusElement();
-    //     }
-    //   });
-    //   cleanup(() => {
-    //     sub?.unsubscribe();
-    //     clearTimeout(timeout);
-    //   });
-    // });
   }
 
   private focusElement() {
-    // Use requestAnimationFrame to ensure the browser has painted the DOM
-
-    this.applicationRef.isStable.pipe(take(1), debounceTime(400)).subscribe(() => {
-      setTimeout(
-        () => {
-          // requestAnimationFrame(() => {
-          //   console.log('focusing', this.el.nativeElement);
-          //   this.el.nativeElement.focus();
-          // });
-          // console.log('isStable', this.id);
+    const sub = this.applicationRef.isStable.subscribe(res => {
+      if (res) {
+        sub.unsubscribe();
+        setTimeout(() => {
           this.el.nativeElement.focus();
-        },
-        // () => this.el.nativeElement.focus(),
-        this.focusDelay(),
-      );
+        }, this.focusDelay());
+      }
     });
   }
 }

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
-import { PopoverTrigger } from '@meeui/ui/popover';
-import { DialogClose } from '@meeui/adk/portal';
+import { PopoverTrigger, PopoverClose } from '@meeui/ui/popover';
 
 @Component({
   selector: 'app-popover-demo',
-  imports: [Button, DialogClose, PopoverTrigger],
+  imports: [Button, PopoverClose, PopoverTrigger],
   template: `
     <div
       class="absolute left-0 top-0 aspect-square w-40 border bg-slate-100"
@@ -34,7 +33,7 @@ import { DialogClose } from '@meeui/adk/portal';
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
           minima quis, accusamus vero voluptatem cumque. Impedit!
         </p>
-        <button meeButton meeDialogClose>Close</button>
+        <button meeButton meePopoverClose>Close</button>
       </div>
     </ng-template>
   `,

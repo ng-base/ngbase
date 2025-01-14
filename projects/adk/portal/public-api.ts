@@ -2,7 +2,7 @@
  * Public API Surface of portal
  */
 
-export * from './dialog-close.directive';
+export * from './portal-close.directive';
 export {
   BaseDialog,
   DIALOG_INJ,

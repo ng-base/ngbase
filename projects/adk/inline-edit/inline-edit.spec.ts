@@ -30,14 +30,14 @@ describe('MeeInlineEdit', () => {
   });
 
   it('should render only the value when not editing', () => {
-    expect(view.$0('div')?.textContent).toBe('Hello');
-    expect(view.$0('input')).toBeNull();
+    expect(view.$('div')?.textContent).toBe('Hello');
+    expect(view.$('input')).toBeNull();
   });
 
   it('should render only the input when editing', () => {
     component.isEditing.set(true);
     view.detectChanges();
-    expect(view.$0('input')).not.toBeNull();
-    expect(view.$0('#value')).toBeNull();
+    expect(view.$('input')).not.toBeNull();
+    expect(view.$('#value')).toBeNull();
   });
 });

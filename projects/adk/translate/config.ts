@@ -3,9 +3,12 @@ import { inject, InjectionToken, provideAppInitializer } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 import { TranslateService } from './translate.service';
 
+export type Translation<T = any> = Record<string, T>;
+
 export interface TranslateConfig {
   defaultLang: string;
-  loader?: (lang: string, fallbackLang: string) => Observable<Record<string, any>>;
+  preloadedLanguages?: Record<string, Translation>;
+  loader?: (lang: string, fallbackLang: string) => Observable<Translation>;
 }
 
 export const TRANSLATE_CONFIG = new InjectionToken<TranslateConfig>('TRANSLATE_CONFIG');

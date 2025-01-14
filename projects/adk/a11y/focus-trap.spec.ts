@@ -31,7 +31,7 @@ describe('FocusTrap', () => {
   });
 
   function simulateTab(id: string, shift = false): boolean {
-    const element = view.$0(id);
+    const element = view.$(id);
     element.focus();
     const tabEvent = element.keydown('Tab', { shiftKey: shift });
     return tabEvent.defaultPrevented;
@@ -44,13 +44,13 @@ describe('FocusTrap', () => {
   it('should trap focus when tabbing forward from last element', () => {
     const eventPrevented = simulateTab('#last');
     expect(eventPrevented).toBe(true);
-    expect(document.activeElement).toBe(view.$0('#first').el);
+    expect(document.activeElement).toBe(view.$('#first').el);
   });
 
   it('should trap focus when tabbing backward from first element', () => {
     const eventPrevented = simulateTab('#first', true);
     expect(eventPrevented).toBe(true);
-    expect(document.activeElement).toBe(view.$0('#last').el);
+    expect(document.activeElement).toBe(view.$('#last').el);
   });
 
   it('should not interfere with normal tabbing', () => {

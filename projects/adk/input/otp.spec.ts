@@ -5,15 +5,21 @@ describe('InputOtp', () => {
   let component: MeeInputOtp;
   let view: RenderResult<MeeInputOtp>;
   let inputs: ElementHelper<HTMLInputElement>[];
+  let input: ElementHelper<HTMLInputElement>;
 
-  function getInputs() {
-    return view.$0All<HTMLInputElement>('input');
+  function getValueInputs() {
+    return view.$All<HTMLInputElement>('[meeotpvalue]');
+  }
+
+  function activeElement() {
+    return getValueInputs().findIndex(i => !!i.el.getAttribute('data-focus'));
   }
 
   beforeEach(async () => {
     view = await render(MeeInputOtp);
     component = view.host;
     view.detectChanges();
+    input = view.$<HTMLInputElement>('input[meeotpinput]');
   });
 
   it('should create', () => {
@@ -23,108 +29,143 @@ describe('InputOtp', () => {
   it('should render correct number of input fields', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
-    const inputs = getInputs();
+    const inputs = getValueInputs();
     expect(inputs.length).toBe(6);
   });
 
   it('should move focus to the next input on value entry', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
-    inputs = getInputs();
-    inputs[0].type('1');
-    expect(document.activeElement).toBe(inputs[1].el);
-    inputs[2].focus();
-    expect(document.activeElement).toBe(inputs[1].el);
+    inputs = getValueInputs();
+    input.type('1');
+    view.detectChanges();
+    expect(activeElement()).toBe(1);
+    input.type('2');
+    view.detectChanges();
+    expect(activeElement()).toBe(2);
   });
 
   it('should move focus to the previous input on backspace', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
-    inputs = getInputs();
-    inputs[0].type('1');
-    inputs[1].type('1');
-    inputs[2].type(['Backspace']);
-    expect(document.activeElement).toBe(inputs[1].el);
-    inputs[0].focus();
-    expect(document.activeElement).toBe(inputs[1].el);
+    inputs = getValueInputs();
+    input.type('1');
+    input.type('1');
+    input.type(['Backspace']);
+    view.detectChanges();
+    expect(activeElement()).toBe(1);
+    input.focus();
+    view.detectChanges();
+    expect(activeElement()).toBe(1);
   });
 
   it('should update value on input change', () => {
     component['onChange'] = jest.fn();
     view.setInput('size', [3]);
     view.detectChanges();
-    inputs = getInputs();
+    inputs = getValueInputs();
     jest.spyOn(component, 'updateValue');
-    inputs[0].type('1');
-    inputs[1].type('2');
+    input.type('1');
+    input.type('2');
     expect(component['onChange']).not.toHaveBeenCalled();
-    inputs[2].type('3');
+    input.type('3');
     expect(component['onChange']).toHaveBeenCalledWith('123');
-    inputs[2].type('4');
+    input.type('4');
     expect(component['lastValue']).toBe('123');
-    inputs[2].type(['Backspace']);
+    input.type(['Backspace']);
     expect(component['onChange']).toHaveBeenCalledWith('');
   });
 
   it('should not allow non-numeric input', () => {
     view.setInput('size', [3]);
     view.detectChanges();
-    inputs = getInputs();
-    const event = inputs[0].type('a');
+    inputs = getValueInputs();
+    const event = input.type('a');
     expect(event.defaultPrevented).toBe(true);
   });
 
-  it('should write value correctly', () => {
+  it('should write value correctly and validate tabIndex', () => {
     view.setInput('size', [3]);
     view.detectChanges();
+    inputs = getValueInputs();
 
     component.writeValue('123');
+    view.detectChanges();
+    expect(getValues()).toEqual(['1', '2', '3']);
+    expect(getTabIndexes()).toEqual([-1, -1, -1]);
 
-    inputs = getInputs();
-    expect(inputs[0].el.value).toBe('1');
-    expect(inputs[1].el.value).toBe('2');
-    expect(inputs[2].el.value).toBe('3');
+    component.writeValue('');
+    view.detectChanges();
+    expect(getValues()).toEqual(['', '', '']);
+    expect(getTabIndexes()).toEqual([-1, -1, -1]);
   });
 
   it('should handle partial input correctly', () => {
     view.setInput('size', [3, 3]);
     view.detectChanges();
+    inputs = getValueInputs();
 
     component.writeValue('123');
-    inputs = getInputs();
-    expect(inputs[0].el.value).toBe('1');
-    expect(inputs[1].el.value).toBe('2');
-    expect(inputs[2].el.value).toBe('3');
-    expect(inputs[3].el.value).toBe('');
-    expect(inputs[4].el.value).toBe('');
-    expect(inputs[5].el.value).toBe('');
+    view.detectChanges();
+    expect(getValues()).toEqual(['1', '2', '3', '', '', '']);
+    expect(getTabIndexes()).toEqual([-1, -1, -1, -1, -1, -1]);
   });
 
   it('should update tabIndex correctly', () => {
     view.setInput('size', [4]);
     view.detectChanges();
-    inputs = getInputs();
+    inputs = getValueInputs();
 
-    const getTabIndexes = () => inputs.map(i => i.el.tabIndex);
-
-    expect(getTabIndexes()).toEqual([0, -1, -1, -1]);
-    inputs[0].type('1');
-    expect(getTabIndexes()).toEqual([-1, 0, -1, -1]);
-    inputs[1].type('2');
-    inputs[2].type('3');
-    expect(getTabIndexes()).toEqual([-1, -1, -1, 0]);
-    inputs[3].type('4');
-    expect(getTabIndexes()).toEqual([-1, -1, -1, 0]);
+    expect(getTabIndexes()).toEqual([-1, -1, -1, -1]);
+    input.type('1');
+    view.detectChanges();
+    expect(getTabIndexes()).toEqual([-1, -1, -1, -1]);
+    input.type('2');
+    input.type('3');
+    view.detectChanges();
+    expect(getTabIndexes()).toEqual([-1, -1, -1, -1]);
+    input.type('4');
+    view.detectChanges();
+    expect(getTabIndexes()).toEqual([-1, -1, -1, -1]);
   });
 
   it('should allow Tab key to move focus', () => {
     view.setInput('size', [3]);
     view.detectChanges();
-    inputs = getInputs();
+    inputs = getValueInputs();
 
-    inputs[0].type('1');
-    const event = inputs[1].type(['Tab']);
+    input.type('1');
+    const event = input.keydown('Tab');
     expect(event.defaultPrevented).toBeFalsy();
+  });
+
+  it('should allow paste key', () => {
+    view.setInput('size', [3]);
+    view.detectChanges();
+    inputs = getValueInputs();
+    const event = input.keydown('v', { ctrlKey: true });
+    expect(event.defaultPrevented).toBeFalsy();
+  });
+
+  it('should handle paste correctly', () => {
+    view.setInput('size', [3]);
+    view.detectChanges();
+    inputs = getValueInputs();
+    input.paste('12c');
+    view.detectChanges();
+    expect(getValues()).toEqual(['1', '2', '']);
+    expect(getTabIndexes()).toEqual([-1, -1, -1]);
+  });
+
+  it('should call onChange when value is valid', () => {
+    view.setInput('size', [3]);
+    view.detectChanges();
+    component['onChange'] = jest.fn();
+    input.type('1');
+    input.type('2');
+    input.type('3');
+    view.detectChanges();
+    expect(component['onChange']).toHaveBeenCalledWith('123');
   });
 
   it('should register onChange', () => {
@@ -140,4 +181,12 @@ describe('InputOtp', () => {
     component['onTouched']!();
     expect(onTouched).toHaveBeenCalled();
   });
+
+  function getValues() {
+    return inputs.map(i => i.el.value);
+  }
+
+  function getTabIndexes() {
+    return inputs.map(i => i.el.tabIndex);
+  }
 });

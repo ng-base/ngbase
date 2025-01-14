@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FocusTrap } from '@meeui/adk/a11y';
-import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
+import { BaseDialog, DialogOptions, MeePortalClose } from '@meeui/adk/portal';
 import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
 import { Subject } from 'rxjs';
 import { viewAnimation } from './dialog.animation';
@@ -125,6 +125,12 @@ export class MeeDialogContainer extends BaseDialog {
     this.backdropColor = options.backdropColor || true;
   }
 }
+
+@Directive({
+  selector: '[meeDialogClose]',
+  hostDirectives: [{ directive: MeePortalClose, inputs: ['meePortalClose: meeDialogClose'] }],
+})
+export class MeeDialogClose {}
 
 export function provideDialog(dialog: typeof MeeDialogContainer) {
   return {

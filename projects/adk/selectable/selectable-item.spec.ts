@@ -28,7 +28,7 @@ describe('SelectableItem', () => {
   });
 
   function getSelectableItem() {
-    return view.$0(MeeSelectableItem<string>);
+    return view.$(MeeSelectableItem<string>);
   }
 
   it('should create', () => {

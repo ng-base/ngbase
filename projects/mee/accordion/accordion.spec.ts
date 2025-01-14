@@ -34,7 +34,7 @@ describe('AccordionGroup', () => {
   });
 
   function click(selector: string) {
-    view.$0(selector).click();
+    view.$(selector).click();
     view.detectChanges();
   }
 

@@ -57,13 +57,13 @@ describe('Accordion', () => {
   it('should render content when expanded', () => {
     accordion.expanded.set(true);
     view.detectChanges();
-    expect(view.$0('div')).toBeTruthy();
+    expect(view.$('div')).toBeTruthy();
   });
 
   it('should not render content when collapsed', () => {
     accordion.expanded.set(false);
     view.detectChanges();
-    expect(view.$0('#content')).toBeFalsy();
+    expect(view.$('#content')).toBeFalsy();
   });
 
   it('should update activeId when expanded', () => {

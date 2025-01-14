@@ -30,8 +30,7 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
     <ng-content />
   `,
   host: {
-    class: 'inline-flex items-center gap-b2 py-1',
-    '[class]': `checkbox.disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
+    class: 'inline-flex items-center gap-b2 py-1 disabled:opacity-60 disabled:cursor-not-allowed',
   },
 })
 export class Checkbox {

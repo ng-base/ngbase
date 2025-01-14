@@ -22,7 +22,7 @@ describe('HoverCard Directive', () => {
   beforeEach(async () => {
     view = await render(TestComponent, [provideNoopAnimations()]);
 
-    element = view.$0('button');
+    element = view.$('button');
     directive = view.viewChild(MeeHoverCard);
   });
 

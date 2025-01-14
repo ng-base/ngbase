@@ -29,7 +29,7 @@ describe('RadioComponent', () => {
   it('should call updateValue when clicked', () => {
     view.setInput('value', '1');
     const spy = jest.spyOn(component, 'updateValue');
-    view.$0('button').click();
+    view.$('button').click();
     view.detectChanges();
     expect(spy).toHaveBeenCalled();
   });
@@ -37,7 +37,7 @@ describe('RadioComponent', () => {
   it('should not call updateValue when disabled', () => {
     view.setInput('disabled', true);
     const spy = jest.spyOn(component, 'updateValue');
-    view.$0('button').click();
+    view.$('button').click();
     view.detectChanges();
     expect(spy).not.toHaveBeenCalled();
   });
@@ -45,7 +45,6 @@ describe('RadioComponent', () => {
   it('should avoid the curosor pointer when disabled', () => {
     view.setInput('disabled', true);
     view.detectChanges();
-    const button = view.$0Native<HTMLButtonElement>();
-    expect(button.attr('aria-disabled')).toBe('true');
+    expect(view.attr('aria-disabled')).toBe('true');
   });
 });

@@ -43,7 +43,7 @@ describe('Drag Directive', () => {
   beforeEach(async () => {
     view = await render(TestComponent);
     component = view.host;
-    dragElement = view.$(Drag);
+    dragElement = view.$(Drag).el;
     view.detectChanges();
   });
 
@@ -116,7 +116,7 @@ describe('Drag Directive', () => {
     function initDrag() {
       component.dragBoundary.set('.parent');
       view.detectChanges();
-      const parent = view.$('.parent');
+      const parent = view.$('.parent').el;
       jest.spyOn(parent, 'getBoundingClientRect').mockReturnValue({
         left: 50,
         top: 50,
@@ -125,7 +125,7 @@ describe('Drag Directive', () => {
         width: 500,
         height: 1000,
       } as DOMRect);
-      const el = view.$('.child');
+      const el = view.$('.child').el;
       jest.spyOn(el, 'getBoundingClientRect').mockReturnValue({
         left: 100,
         top: 100,

@@ -31,7 +31,7 @@ describe('ToggleGroupComponent', () => {
   it('should toggle', () => {
     view.host.multiple.set(true);
     view.detectChanges();
-    view.$0('button').click();
+    view.$('button').click();
     expect(component.value()).toEqual(['1']);
   });
 });

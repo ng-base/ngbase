@@ -10,7 +10,7 @@ import {
 import { injectTranslate } from './translate.service';
 
 @Pipe({
-  name: 'translate',
+  name: 't',
 })
 export class Translate implements PipeTransform {
   private translate = injectTranslate();
@@ -35,7 +35,6 @@ export function translate() {
   const ts = injectTranslate();
   const injector = inject(Injector);
   return (value: string, ...args: any[]) => {
-    console.count(value);
-    return ts.translate(value, args[0]);
+    return ts.translate(value, args[0], args[1]);
   };
 }

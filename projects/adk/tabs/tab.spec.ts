@@ -85,28 +85,28 @@ describe('Tab Component', () => {
     tab.active.set(true);
     view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
-    const tabEl = view.$0('mee-tab');
+    const tabEl = view.$('mee-tab');
     expect(tabEl.textContent).not.toBe('');
   });
 
   it('should not render content when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$0('mee-tab');
+    const tabEl = view.$('mee-tab');
     expect(tabEl.textContent).toBe('');
   });
 
   it('should have correct host classes when active', () => {
     tab.active.set(true);
     view.detectChanges();
-    const tabEl = view.$0('mee-tab');
+    const tabEl = view.$('mee-tab');
     expect(tabEl.attr('aria-hidden')).toBe('false');
   });
 
   it('should have correct host classes when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$0('mee-tab');
+    const tabEl = view.$('mee-tab');
     expect(tabEl.attr('aria-hidden')).toBe('true');
   });
 });

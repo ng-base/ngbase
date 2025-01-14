@@ -17,17 +17,22 @@ import { Checkbox } from '@meeui/ui/checkbox';
           <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
           <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>
         </div>
-        <div meeFormField>
-          <label meeLabel>OTP: {{ otp }}</label>
-          <mee-input-otp
-            placeholder=""
-            separator=""
-            [size]="[1, 1, 1, 1]"
-            [disabled]="disabled()"
-            [(ngModel)]="otp"
-            [masked]="masked()"
-          />
-        </div>
+        <form #myForm="ngForm" (ngSubmit)="submit()">
+          <div meeFormField>
+            <label meeLabel>OTP: {{ otp() }}</label>
+            <mee-input-otp
+              placeholder=""
+              separator=""
+              [size]="[1, 1, 1, 1]"
+              [disabled]="disabled()"
+              [(ngModel)]="otp"
+              name="otp"
+              [masked]="masked()"
+            />
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
         <div meeFormField>
           <label meeLabel>Card: {{ otp1 }}</label>
           <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
@@ -37,7 +42,7 @@ import { Checkbox } from '@meeui/ui/checkbox';
   `,
 })
 export default class OtpComponent {
-  otp = '';
+  otp = signal('');
   otp1 = '';
   maskValue = '10';
 
@@ -62,4 +67,9 @@ export default class OtpComponent {
     otp = '';
   }
   `;
+
+  submit() {
+    console.log(this.otp());
+    this.disabled.set(true);
+  }
 }

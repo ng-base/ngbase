@@ -20,7 +20,7 @@ describe('ProgressComponent', () => {
     view.setInput('value', 50);
     view.detectChanges();
     expect(component.total()).toBe(50);
-    expect(view.$('div').style.transform).toBe('translateX(-50%)');
+    expect(view.$('div').el.style.transform).toBe('translateX(-50%)');
   });
 
   describe('aria attributes', () => {

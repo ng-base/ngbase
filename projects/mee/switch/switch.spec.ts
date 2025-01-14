@@ -41,7 +41,7 @@ describe('SwitchComponent', () => {
   it('should render content when checked', () => {
     component.checked.set(true);
     view.detectChanges();
-    const span = view.$0(MeeSwitchThumb);
+    const span = view.$(MeeSwitchThumb);
     expect(span.attr('aria-checked')).toBe('true');
 
     component.checked.set(false);
@@ -52,7 +52,7 @@ describe('SwitchComponent', () => {
   it('should call updateValue when clicked', () => {
     const spy = jest.spyOn(component, 'updateValue');
     const changeSpy = jest.spyOn(component.change, 'emit');
-    view.$0('button').click();
+    view.$('button').click();
     expect(spy).toHaveBeenCalled();
     expect(changeSpy).toHaveBeenCalledWith(true);
   });

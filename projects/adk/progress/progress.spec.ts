@@ -26,21 +26,29 @@ describe('ProgressComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(view.$0('#progress').el.style.overflow).toBe('hidden');
+    expect(view.$('#progress').css('overflow')).toBe('hidden');
   });
 
   it('should handle value changes', () => {
     view.host.value.set(50);
     view.detectChanges();
+    expect(component.total()).toBe(-50);
+    expect(view.$('#progressBar').css('transform')).toBe('translateX(-50%)');
+  });
+
+  it('should handle rtl', () => {
+    component['dir'].setDirection(true);
+    view.host.value.set(50);
+    view.detectChanges();
     expect(component.total()).toBe(50);
-    expect(view.$('#progressBar').style.transform).toBe('translateX(-50%)');
+    expect(view.$('#progressBar').css('transform')).toBe('translateX(50%)');
   });
 
   describe('aria attributes', () => {
     it('should set aria-valuenow', () => {
       view.host.value.set(60);
       view.detectChanges();
-      expect(view.$0('#progress').attr('aria-valuenow')).toBe('60');
+      expect(view.$('#progress').attr('aria-valuenow')).toBe('60');
     });
   });
 });

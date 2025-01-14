@@ -1,4 +1,10 @@
-import { DebugElement, OutputEmitterRef, Provider, Type } from '@angular/core';
+import {
+  DebugElement,
+  EnvironmentProviders,
+  OutputEmitterRef,
+  Provider,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -21,40 +27,8 @@ import { By } from '@angular/platform-browser';
 //   return mock(service, () => properties)();
 // }
 
-export class RenderResult<T> {
-  host!: T;
-
-  constructor(public fixture: ComponentFixture<T>) {
-    this.host = fixture.componentInstance;
-  }
-
-  detectChanges(): void {
-    this.fixture.detectChanges();
-  }
-
-  async whenStable(): Promise<void> {
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
-  }
-
-  async formStable(): Promise<void> {
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
-    // We have to wait for the UI to be updated
-    this.fixture.detectChanges();
-  }
-
-  async sleep(ms: number) {
-    await sleep(ms);
-  }
-
-  inject<U>(directive: Type<U>) {
-    return injectService(directive);
-  }
-
-  injectHost<U>(directive: Type<U>) {
-    return this.fixture.debugElement.injector.get(directive);
-  }
+class AngularQuery {
+  constructor(public dEl: DebugElement) {}
 
   viewChild<U>(directive: Type<U>, selector?: string | Type<any>): U {
     return this.queryNative(selector || directive).injector.get(directive);
@@ -65,24 +39,41 @@ export class RenderResult<T> {
   }
 
   viewChildrenDebug<U>(directive: string | Type<U>) {
-    return this.fixture.debugElement.queryAll(this.getDirectiveType(directive));
+    return this.dEl.queryAll(this.getDirectiveType(directive));
   }
 
   queryNative<U>(directive: string | Type<U>) {
-    return this.fixture.debugElement.query(this.getDirectiveType(directive));
+    return this.dEl.query(this.getDirectiveType(directive));
   }
 
-  queryRoot<U extends HTMLElement>(selector: string): ElementHelper<U> {
-    const el = document.querySelector(selector) as U;
-    return el ? new ElementHelper<U>({ nativeElement: el } as any) : (null as any);
+  private getDirectiveType(directive: string | Type<any>) {
+    return typeof directive === 'string' ? By.css(directive) : By.directive(directive);
+  }
+}
+
+export class ElementHelper<T extends HTMLElement> extends AngularQuery {
+  public el!: T;
+
+  constructor(public override dEl: DebugElement) {
+    super(dEl);
+    this.el = dEl.nativeElement;
   }
 
-  $<U = HTMLElement>(selector: string | Type<any>): U {
-    return this.queryNative(selector)?.nativeElement as U;
+  get textContent() {
+    return this.el.textContent;
+  }
+
+  $<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U> {
+    const el = this.queryNative(selector);
+    return el ? new ElementHelper(el) : (null as any);
+  }
+
+  $All<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U>[] {
+    return this.viewChildrenDebug(selector).map(de => new ElementHelper(de));
   }
 
   getByText(text: string, root: string | Type<any> = 'body'): HTMLElement | null {
-    const rootEl = this.$(root);
+    const rootEl = this.$(root).el;
     const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_ELEMENT, null);
     let node: Node | null;
     while ((node = walker.nextNode())) {
@@ -91,90 +82,6 @@ export class RenderResult<T> {
       }
     }
     return null;
-  }
-
-  $All<U = HTMLElement>(selector: string | Type<any>): U[] {
-    return this.viewChildrenDebug(selector).map(de => de.nativeElement);
-  }
-
-  $0<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U> {
-    const el = this.queryNative(selector);
-    return el ? new ElementHelper(el) : (null as any);
-  }
-
-  $0Native<U extends HTMLElement>(): ElementHelper<U> {
-    return new ElementHelper(this.fixture.debugElement);
-  }
-
-  $0All<U extends HTMLElement>(selector: string | Type<any>): ElementHelper<U>[] {
-    return this.viewChildrenDebug(selector).map(de => new ElementHelper(de));
-  }
-
-  setInput(name: string, value: any) {
-    this.fixture.componentRef.setInput(name, value);
-  }
-
-  private getDirectiveType(directive: string | Type<any>) {
-    return typeof directive === 'string' ? By.css(directive) : By.directive(directive);
-  }
-}
-
-export async function render<T>(
-  component: Type<T>,
-  providers: Provider[] = [],
-  inputs: [string, any][] = [],
-  overrides: [Type<any>, Type<any>, 'component' | 'directive' | 'pipe'][] = [],
-) {
-  if (providers.length) {
-    const bed = TestBed.configureTestingModule({
-      imports: [component],
-      providers,
-    });
-    overrides.forEach(([from, to, type]) => {
-      if (type === 'component') {
-        bed.overrideComponent(component, { remove: [from] as any, add: [to] as any });
-      } else if (type === 'directive') {
-        bed.overrideDirective(component, { remove: [from] as any, add: [to] as any });
-      } else if (type === 'pipe') {
-        bed.overridePipe(component, { remove: [from] as any, add: [to] as any });
-      }
-    });
-    await bed.compileComponents();
-  }
-  const fixture = TestBed.createComponent(component);
-
-  // Set inputs
-  inputs.forEach(([name, value]) => {
-    fixture.componentRef.setInput(name, value);
-  });
-  return new RenderResult(fixture);
-}
-
-export function injectService<T>(service: Type<T>, providers: Provider[] = []) {
-  if (providers.length) {
-    TestBed.configureTestingModule({ providers });
-  }
-  return TestBed.inject(service);
-}
-
-export function firstOutputFrom<T>(observable: OutputEmitterRef<T>) {
-  return new Promise<T>(resolve => {
-    const sub = observable.subscribe(value => {
-      sub.unsubscribe();
-      resolve(value);
-    });
-  });
-}
-
-export class ElementHelper<T extends HTMLElement> {
-  public el!: T;
-
-  constructor(public dEl: DebugElement) {
-    this.el = dEl.nativeElement;
-  }
-
-  get textContent() {
-    return this.el.textContent;
   }
 
   hasClass(...classNames: string[]) {
@@ -186,6 +93,13 @@ export class ElementHelper<T extends HTMLElement> {
       this.el.setAttribute(name, value);
     }
     return this.el.getAttribute(name);
+  }
+
+  css(name: string, value?: string) {
+    if (value !== undefined) {
+      this.el.style.setProperty(name, value);
+    }
+    return this.el.style.getPropertyValue(name);
   }
 
   click() {
@@ -236,6 +150,23 @@ export class ElementHelper<T extends HTMLElement> {
     }
   }
 
+  paste(text: string) {
+    const pasteEvent = new CustomEvent('paste', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    Object.defineProperty(pasteEvent, 'clipboardData', {
+      writable: true,
+      value: {
+        getData: () => text,
+      },
+    });
+
+    this.el.dispatchEvent(pasteEvent);
+    return pasteEvent;
+  }
+
   type(value: string | string[], clear = false) {
     if (clear) {
       this.input('');
@@ -273,6 +204,117 @@ export class ElementHelper<T extends HTMLElement> {
     }
     return event!;
   }
+}
+
+export class RenderResult<T> extends ElementHelper<HTMLElement> {
+  host!: T;
+
+  constructor(public fixture: ComponentFixture<T>) {
+    super(fixture.debugElement);
+    this.host = fixture.componentInstance;
+  }
+
+  detectChanges(): void {
+    this.fixture.detectChanges();
+  }
+
+  async whenStable(): Promise<void> {
+    this.fixture.detectChanges();
+    await this.fixture.whenStable();
+  }
+
+  async formStable(): Promise<void> {
+    await this.whenStable();
+    // We have to wait for the UI to be updated
+    this.fixture.detectChanges();
+  }
+
+  async sleep(ms: number) {
+    await sleep(ms);
+  }
+
+  inject<U>(directive: Type<U>) {
+    return injectService(directive);
+  }
+
+  injectHost<U>(directive: Type<U>) {
+    return this.fixture.debugElement.injector.get(directive);
+  }
+
+  queryRoot<U extends HTMLElement>(selector: string): ElementHelper<U> {
+    const el = document.querySelector(selector) as U;
+    return el ? new ElementHelper<U>({ nativeElement: el } as any) : (null as any);
+  }
+
+  setInput(name: string, value: any) {
+    this.fixture.componentRef.setInput(name, value);
+  }
+}
+
+export function fakeService<T extends Type<any>>(
+  service: T,
+  impl: Partial<InstanceType<T>> | (() => Partial<InstanceType<T>>),
+) {
+  const fn = typeof impl === 'function' ? impl : () => impl;
+  return { provide: service, useFactory: fn };
+}
+
+type FakeService<T extends Type<any>> = ReturnType<typeof fakeService<T>>;
+type RenderProvider = Provider | EnvironmentProviders | FakeService<any>;
+
+export async function render<T>(
+  component: Type<T>,
+  providers: RenderProvider[] = [],
+  options?: {
+    inputs?: [string, any][];
+    overrides?: [Type<any>, Type<any>, 'component' | 'directive' | 'pipe'][];
+    providers?: FakeService<any>[];
+  },
+) {
+  if (providers.length || options?.providers?.length || options?.overrides?.length) {
+    const bed = TestBed.configureTestingModule({
+      imports: [component],
+      providers,
+    });
+
+    options?.providers?.forEach(({ provide, useFactory }) => {
+      bed.overrideProvider(provide, { useFactory });
+    });
+
+    options?.overrides?.forEach(([from, to, type]) => {
+      if (type === 'component') {
+        bed.overrideComponent(component, { remove: [from] as any, add: [to] as any });
+      } else if (type === 'directive') {
+        bed.overrideDirective(component, { remove: [from] as any, add: [to] as any });
+      } else if (type === 'pipe') {
+        bed.overridePipe(component, { remove: [from] as any, add: [to] as any });
+      }
+    });
+    await bed.compileComponents();
+  }
+  const fixture = TestBed.createComponent(component);
+
+  // Set inputs
+  options?.inputs?.forEach(([name, value]) => {
+    fixture.componentRef.setInput(name, value);
+  });
+  return new RenderResult(fixture);
+}
+
+export function injectService<T>(service: Type<T>, providers: RenderProvider[] = []) {
+  if (providers.length) {
+    TestBed.configureTestingModule({ providers });
+  }
+  return TestBed.inject(service);
+}
+
+export function firstOutputFrom<T>(observable: OutputEmitterRef<T>) {
+  return new Promise<T>(resolve => {
+    const sub = observable.subscribe(value => {
+      sub.unsubscribe();
+      resolve(value);
+    });
+  });
 }
 
 export async function sleep(ms: number) {

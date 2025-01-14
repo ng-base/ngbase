@@ -99,7 +99,7 @@ describe('Slider', () => {
     view.host.value.set(50);
     await view.formStable();
     const sliderMin = view.$('[role="slider"]');
-    expect(sliderMin.style.left).toBe('calc(50% + 0px)');
+    expect(sliderMin.el.style.left).toBe('calc(50% + 0px)');
   });
 
   it('should update element styles for range slider', async () => {
@@ -107,8 +107,8 @@ describe('Slider', () => {
     view.host.value.set([25, 75]);
     await view.formStable();
     const [sliderMin, sliderMax] = view.$All('[role="slider"]');
-    expect(sliderMin.style.left).toBe('calc(25% + 0px)');
-    expect(sliderMax.style.left).toBe('calc(75% + 0px)');
+    expect(sliderMin.el.style.left).toBe('calc(25% + 0px)');
+    expect(sliderMax.el.style.left).toBe('calc(75% + 0px)');
   });
 
   it('should round values to step', async () => {
@@ -156,7 +156,7 @@ describe('Slider', () => {
     view.host.max.set(100);
     await view.formStable();
 
-    view.$0All(SliderThumb).forEach((sliderElement, i) => {
+    view.$All(SliderThumb).forEach((sliderElement, i) => {
       expect(sliderElement.attr('aria-valuemin')).toBe('0');
       expect(sliderElement.attr('aria-valuemax')).toBe('100');
       expect(sliderElement.attr('aria-valuenow')).toBe(values[i].toString());

@@ -9,11 +9,11 @@ import {
 
 @Component({
   selector: 'mee-accordion-group',
-  template: `<ng-content />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: MeeAccordionGroup, inputs: ['multiple'] }],
+  template: `<ng-content />`,
   host: {
-    class: 'block',
+    class: 'block rounded-base border bg-foreground',
   },
 })
 export class AccordionGroup {}
@@ -28,13 +28,15 @@ export class AccordionGroup {}
   template: `
     <ng-content select="[meeAccordionHeader]" />
     @if (accordion.expanded()) {
-      <div [@slide] class="overflow-hidden" meeAccordionContent>
-        <ng-content />
+      <div meeAccordionContent [@slide] class="overflow-hidden">
+        <div class="px-b3 pb-b4 text-muted">
+          <ng-content />
+        </div>
       </div>
     }
   `,
   host: {
-    class: 'block will-change-auto',
+    class: 'block will-change-auto [&:not(:last-child)]:border-b',
   },
   animations: [slideAnimation],
 })
@@ -44,12 +46,10 @@ export class Accordion {
 
 @Directive({
   selector: '[meeAccordionHeader]',
-  host: {
-    class: 'flex items-center w-full py-b3 px-b3',
-    '[class]': `accordion.disabled() ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'`,
-  },
   hostDirectives: [MeeAccordionHeader],
+  host: {
+    class:
+      'flex items-center w-full py-b3 px-b3 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
+  },
 })
-export class AccordionHeader {
-  readonly accordion = inject(MeeAccordion);
-}
+export class AccordionHeader {}

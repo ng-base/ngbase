@@ -65,6 +65,7 @@ export const UI_ROUTES: Routes = [
       { path: 'inline-edit', loadComponent: () => import('./inline-edit.component') },
       { path: 'virtualizer', loadComponent: () => import('./virtualizer.component') },
       { path: 'translation', loadComponent: () => import('./translation.component') },
+      { path: 'jwt', loadComponent: () => import('./jwt.component') },
       { path: 'examples', loadChildren: () => import('../examples/example.routes') },
       { path: 'origin', loadChildren: () => import('../origin/origin.routes') },
       { path: '', redirectTo: 'accordion', pathMatch: 'full' },

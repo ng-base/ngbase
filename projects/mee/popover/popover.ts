@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
   MeePopover,
   MeePopoverBackdrop,
+  MeePopoverClose,
   MeePopoverMain,
   meePopoverPortal,
   MeePopoverTrigger,
-  registerMeePopover,
   providePopover,
+  registerMeePopover,
 } from '@meeui/adk/popover';
 
 @Component({
@@ -74,3 +75,9 @@ export const popoverPortal = meePopoverPortal;
   providers: [registerPopover()],
 })
 export class PopoverTrigger {}
+
+@Directive({
+  selector: '[meePopoverClose]',
+  hostDirectives: [MeePopoverClose],
+})
+export class PopoverClose {}

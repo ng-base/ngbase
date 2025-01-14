@@ -56,7 +56,7 @@ describe('Autocomplete', () => {
     view = await render(TestAutocompleteComponent, [provideNoopAnimations()]);
     component = view.host;
     selectComponent = view.viewChild(MeeAutocomplete<string>);
-    input = view.$<HTMLInputElement>('input');
+    input = view.$<HTMLInputElement>('input').el;
     view.detectChanges();
   });
 

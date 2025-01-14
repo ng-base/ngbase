@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
   MeeDialogBackdrop,
   MeeDialogContainer,
@@ -6,6 +6,7 @@ import {
   meeDialogPortal,
   provideDialog,
   MeeDialog,
+  MeeDialogClose,
 } from '@meeui/adk/dialog';
 import { DragMove } from '@meeui/adk/drag';
 import { Button } from '@meeui/ui/button';
@@ -64,6 +65,12 @@ import { lucideX } from '@ng-icons/lucide';
   },
 })
 export class DialogContainer extends MeeDialogContainer {}
+
+@Directive({
+  selector: '[meeDialogClose]',
+  hostDirectives: [MeeDialogClose],
+})
+export class DialogClose {}
 
 @Component({
   selector: '[meeDialogTitle]',

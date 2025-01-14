@@ -33,24 +33,22 @@ describe('CheckboxComponent', () => {
   });
 
   it('should disbale the checkbox', () => {
-    const el = view.$0('mee-checkbox');
-    expect(el.hasClass('cursor-pointer')).toBeTruthy();
     view.host.disabled.set(true);
     view.detectChanges();
-    expect(el.hasClass('opacity-60', 'cursor-not-allowed')).toBeTruthy();
+    expect(view.$('button[disabled]')).toBeTruthy();
   });
 
   it('should add svg when checkbox is checked', async () => {
-    expect(view.$0('svg')).toBeFalsy();
+    expect(view.$('svg')).toBeFalsy();
     view.host.checked.set(true);
     await view.formStable();
-    expect(view.$0('svg')).toBeTruthy();
+    expect(view.$('svg')).toBeTruthy();
   });
 
   it('should handle svg path when checkbox is indeterminate or checked', async () => {
     async function getD() {
       await view.formStable();
-      return view.$0('svg path')?.attr('d');
+      return view.$('svg path')?.attr('d');
     }
     expect(await getD()).toBeFalsy();
 

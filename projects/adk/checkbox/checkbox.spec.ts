@@ -52,7 +52,7 @@ describe('CheckboxComponent', () => {
     view.host.disabled.set(true);
     view.detectChanges();
     expect(component.checked()).toBeFalsy();
-    view.$0('button').click();
+    view.$('button').click();
     expect(component.checked()).toBeFalsy();
   });
 
@@ -69,23 +69,23 @@ describe('CheckboxComponent', () => {
     jest.spyOn(component.change, 'emit');
     jest.spyOn(component, 'updateValue');
     expect(component.checked()).toBeFalsy();
-    view.$0('button').click();
+    view.$('button').click();
     expect(component.checked()).toBeTruthy();
     expect(component.updateValue).toHaveBeenCalled();
     expect(component.change.emit).toHaveBeenCalledWith(true);
   });
 
   it('should add svg when checkbox is checked', async () => {
-    expect(view.$0('svg')).toBeFalsy();
+    expect(view.$('svg')).toBeFalsy();
     view.host.checked.set(true);
     await view.formStable();
-    expect(view.$0('svg')).toBeTruthy();
+    expect(view.$('svg')).toBeTruthy();
   });
 
   it('should handle svg path when checkbox is indeterminate or checked', async () => {
     async function getD() {
       await view.formStable();
-      return view.$0('svg path')?.attr('d');
+      return view.$('svg path')?.attr('d');
     }
     expect(await getD()).toBeFalsy();
 

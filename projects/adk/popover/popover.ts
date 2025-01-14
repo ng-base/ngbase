@@ -13,7 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FocusTrap } from '@meeui/adk/a11y';
-import { BaseDialog } from '@meeui/adk/portal';
+import { BaseDialog, MeePortalClose } from '@meeui/adk/portal';
 import { createHostAnimation, disposals } from '@meeui/adk/utils';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { PopoverOptions, PopoverPosition } from './popover.service';
@@ -85,7 +85,10 @@ export class MeePopoverMain {
       </div>
     </div>
     @if (options().backdrop) {
-      <div meePopoverBackdrop class="pointer-events-auto fixed top-0 h-full w-full"></div>
+      <div
+        meePopoverBackdrop
+        class="popover-backdrop pointer-events-auto fixed top-0 h-full w-full"
+      ></div>
     }`,
   host: {
     class:
@@ -138,10 +141,10 @@ export class MeePopover extends BaseDialog {
 
   constructor() {
     super();
-    afterNextRender({
-      write: () => {
-        this._afterViewSource.next(this.myDialog()!);
-      },
+
+    const dialog = effect(() => {
+      this._afterViewSource.next(this.myDialog()!);
+      dialog.destroy();
     });
 
     effect(cleanup => {
@@ -342,6 +345,12 @@ function scrollToElement(target: HTMLElement) {
     requestAnimationFrame(checkIfScrollComplete);
   });
 }
+
+@Directive({
+  selector: '[meePopoverClose]',
+  hostDirectives: [{ directive: MeePortalClose, inputs: ['meePortalClose: meePopoverClose'] }],
+})
+export class MeePopoverClose {}
 
 export function providePopover(popover: typeof MeePopover) {
   return { provide: MeePopover, useExisting: popover };

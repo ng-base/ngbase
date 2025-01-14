@@ -113,8 +113,8 @@ describe('RadioGroup and Radio', () => {
     component.selectedValue = 'option1';
     await view.formStable();
     const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
-    expect(ngModelRadios[0].querySelector('button > div')).toBeTruthy();
-    expect(ngModelRadios[1].querySelector('button > div')).toBeFalsy();
+    expect(ngModelRadios[0].$('button > div')).toBeTruthy();
+    expect(ngModelRadios[1].$('button > div')).toBeFalsy();
   });
 
   it('should not allow clicking a disabled radio button', () => {

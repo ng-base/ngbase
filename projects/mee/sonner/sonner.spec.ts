@@ -81,7 +81,7 @@ describe('Sonner', () => {
     const messageElements = getLi();
     expect(messageElements.length).toBe(5);
 
-    const visibleMessages = messageElements.filter(el => el.style.visibility === 'visible');
+    const visibleMessages = messageElements.filter(eh => eh.el.style.visibility === 'visible');
     expect(visibleMessages.length).toBe(3);
   });
 
@@ -92,9 +92,9 @@ describe('Sonner', () => {
     view.detectChanges();
 
     const messageElements = getLi();
-    expect(messageElements[0].style.bottom).toBe('0px');
-    expect(messageElements[1].style.bottom).toBe('16px');
-    expect(messageElements[2].style.bottom).toBe('32px');
+    expect(messageElements[0].el.style.bottom).toBe('0px');
+    expect(messageElements[1].el.style.bottom).toBe('16px');
+    expect(messageElements[2].el.style.bottom).toBe('32px');
   });
 
   // TODO: Fix this test, it's failing because of the animations

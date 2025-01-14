@@ -30,7 +30,7 @@ describe('SelectableItem', () => {
   });
 
   function getSelectableItem() {
-    return view.$0(SelectableItem<string>);
+    return view.$(SelectableItem<string>);
   }
 
   it('should create', () => {

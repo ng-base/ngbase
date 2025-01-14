@@ -23,7 +23,7 @@ describe('NumberOnly Directive', () => {
     view = await render(TestComponent);
     component = view.host;
     view.detectChanges();
-    input = view.$0('input');
+    input = view.$('input');
   });
 
   it('should create an instance', () => {

@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DialogClose } from '@meeui/adk/portal';
 import { Button } from '@meeui/ui/button';
-import { PopoverTrigger, popoverPortal } from '@meeui/ui/popover';
+import { PopoverTrigger, popoverPortal, PopoverClose } from '@meeui/ui/popover';
 import { Heading } from '@meeui/ui/typography';
 import { AddComponent } from '../add.component';
 import { DocCode } from './code.component';
 
 @Component({
   selector: 'app-popover',
-  imports: [Heading, PopoverTrigger, Button, DialogClose, DocCode],
+  imports: [Heading, PopoverTrigger, Button, PopoverClose, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="popoverPage">Popover</h4>
@@ -25,7 +24,7 @@ import { DocCode } from './code.component';
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
           minima quis, accusamus vero voluptatem cumque. Impedit!
         </p>
-        <button meeButton meeDialogClose class="mt-b2">Close</button>
+        <button meeButton meePopoverClose class="mt-b2">Close</button>
       </div>
     </ng-template>
   `,
@@ -35,12 +34,12 @@ export default class PopoverComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { popoverPortal, PopoverTrigger } from '@meeui/adk/popover';
+  import { popoverPortal, PopoverTrigger, PopoverClose } from '@meeui/adk/popover';
   import { AddComponent } from '../add.component';
 
   @Component({
     selector: 'app-root',
-    imports: [PopoverTrigger],
+    imports: [PopoverTrigger, PopoverClose],
     template: \`
       <button (click)="openPopover($event)">Open popover</button>
       <button [meePopoverTrigger]="myTemplate">Open popover with template</button>
@@ -52,7 +51,7 @@ export default class PopoverComponent {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!
           </p>
-          <button meeButton meeDialogClose class="mt-b2">Close</button>
+          <button meeButton meePopoverClose class="mt-b2">Close</button>
         </div>
       </ng-template>
     \`

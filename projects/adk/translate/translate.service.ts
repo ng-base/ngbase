@@ -6,8 +6,8 @@ import {
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import { tap } from 'rxjs';
-import { interpolate, TRANSLATE_CONFIG, TranslateConfig } from './config';
+import { of, tap } from 'rxjs';
+import { interpolate, TRANSLATE_CONFIG, TranslateConfig, Translation } from './config';
 
 @Injectable()
 export class TranslateService {
@@ -18,7 +18,7 @@ export class TranslateService {
   readonly currentLang = this._currentLang.asReadonly();
   private lastLang = this.currentLang();
   private readonly cachedTranslations = signal<
-    Record<string, { data: Record<string, any>; cache: Map<string, string> }>
+    Record<string, { data: Translation; cache: Map<string, string> }>
   >({});
   private readonly _translationData = computed(
     () =>
@@ -50,7 +50,9 @@ export class TranslateService {
 
   private loadTranslations(lang: string, fallbackLang: string) {
     this.status.set('loading');
-    return this.config.loader!(lang, fallbackLang).pipe(
+    const data = this.config.preloadedLanguages?.[lang];
+    const api = data ? of(data) : this.config.loader!(lang, fallbackLang);
+    return api.pipe(
       tap(res => {
         this.cachedTranslations.update(cache => ({
           ...cache,
@@ -71,7 +73,7 @@ export class TranslateService {
   translate = (
     key: string,
     params: Record<string, any> = {},
-    translationData: Record<string, any> = this.translations(),
+    translationData: Translation = this.translations(),
   ) => {
     // we need to split the key by '.' and then interpolate the data
     const keys = key.split('.');

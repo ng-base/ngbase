@@ -5,7 +5,7 @@ import { Badge } from '@meeui/ui/badge';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
-import { Input } from '@meeui/ui/input';
+import { Input } from '@meeui/ui/form-field';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Resizable, ResizableGroup } from '@meeui/ui/resizable';

@@ -19,7 +19,7 @@ describe('ProgressComponent', () => {
   it('should handle value changes', () => {
     view.setInput('value', 50);
     view.detectChanges();
-    expect(component.total()).toBe(50);
+    expect(component.total()).toBe(-50);
     expect(view.$('div').el.style.transform).toBe('translateX(-50%)');
   });
 

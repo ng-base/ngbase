@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { MeeDatepickerTrigger, registerDatePicker } from '@meeui/adk/datepicker';
-import { InputStyle } from '@meeui/ui/input';
+import { InputStyle } from '@meeui/ui/form-field';
 import { DatePicker } from './datepicker';
 
 @Directive({

@@ -11,8 +11,10 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="progressPage">Progress</h4>
     <app-doc-code [tsCode]="tsCode">
-      <button meeButton meeTooltip="increment" class="mr-2" (click)="increment()">+</button>
-      <button meeButton meeTooltip="decrement" (click)="decrement()">-</button>
+      <div class="flex items-center gap-2">
+        <button meeButton meeTooltip="decrement" (click)="decrement()">-</button>
+        <button meeButton meeTooltip="increment" (click)="increment()">+</button>
+      </div>
       <mee-progress [value]="percentage" class="w-96" />
     </app-doc-code>
   `,

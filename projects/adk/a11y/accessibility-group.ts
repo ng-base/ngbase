@@ -186,7 +186,7 @@ export class AccessibleGroup implements OnDestroy {
     switch (key) {
       case 'ArrowRight': {
         if (isInput) return;
-        const expand = item.expandable() && !item.expanded();
+        const expand = item._expandable() && !item._expanded();
         if (item.hasPopup() || expand) {
           item.events.next({ event, type: 'key', item });
           item.click();
@@ -201,12 +201,12 @@ export class AccessibleGroup implements OnDestroy {
         const prevGroup = this.allyService.getPreviousGroup();
         let prevItem = prevGroup?.focusedItem?.deref();
         const isSameGroup = prevGroup?._ayId() === this._ayId();
-        const collapse = item.expandable() && item.expanded();
+        const collapse = item._expandable() && item._expanded();
         if ((!isSameGroup && prevGroup?.isOn() && prevItem) || collapse) {
           prevItem?.events.next({ event, type: 'key', item });
           item.click();
           return;
-        } else if (item.expandable()) {
+        } else if (item._expandable()) {
           nextIndex = this.findNextOrPreviousLevelItem(currentIndex, 'previous', items);
         } else {
           nextIndex = (currentIndex - 1 + items.length) % items.length;

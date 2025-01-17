@@ -3,7 +3,7 @@ import { Autofocus } from '@meeui/adk/a11y';
 import { DialogRef } from '@meeui/adk/portal';
 import { Button } from '@meeui/ui/button';
 import { DialogClose, dialogPortal } from '@meeui/ui/dialog';
-import { Input } from '@meeui/ui/input';
+import { Input } from '@meeui/ui/form-field';
 import { Option, Select } from '@meeui/ui/select';
 import { AddService } from './add.service';
 import { AppService } from './app.service';

@@ -1,7 +1,10 @@
 import {
+  Component,
   DebugElement,
+  Directive,
   EnvironmentProviders,
   OutputEmitterRef,
+  Pipe,
   Provider,
   Type,
 } from '@angular/core';
@@ -267,11 +270,19 @@ export async function render<T>(
   providers: RenderProvider[] = [],
   options?: {
     inputs?: [string, any][];
-    overrides?: [Type<any>, Type<any>, 'component' | 'directive' | 'pipe'][];
+    components?: [Partial<Component>, Partial<Component>][];
+    directives?: [Partial<Directive>, Partial<Directive>][];
+    pipes?: [Partial<Pipe>, Partial<Pipe>][];
     providers?: FakeService<any>[];
   },
 ) {
-  if (providers.length || options?.providers?.length || options?.overrides?.length) {
+  if (
+    providers.length ||
+    options?.providers?.length ||
+    options?.components?.length ||
+    options?.directives?.length ||
+    options?.pipes?.length
+  ) {
     const bed = TestBed.configureTestingModule({
       imports: [component],
       providers,
@@ -281,14 +292,14 @@ export async function render<T>(
       bed.overrideProvider(provide, { useFactory });
     });
 
-    options?.overrides?.forEach(([from, to, type]) => {
-      if (type === 'component') {
-        bed.overrideComponent(component, { remove: [from] as any, add: [to] as any });
-      } else if (type === 'directive') {
-        bed.overrideDirective(component, { remove: [from] as any, add: [to] as any });
-      } else if (type === 'pipe') {
-        bed.overridePipe(component, { remove: [from] as any, add: [to] as any });
-      }
+    options?.components?.forEach(([from, to]) => {
+      bed.overrideComponent(component, { remove: from, add: to });
+    });
+    options?.directives?.forEach(([from, to]) => {
+      bed.overrideDirective(component, { remove: from, add: to });
+    });
+    options?.pipes?.forEach(([from, to]) => {
+      bed.overridePipe(component, { remove: from, add: to });
     });
     await bed.compileComponents();
   }

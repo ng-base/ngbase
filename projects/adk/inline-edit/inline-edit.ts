@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { InputBase } from '@meeui/adk/input';
+import { InputBase } from '@meeui/adk/form-field';
 import { disposals, documentListener, provideValueAccessor } from '@meeui/adk/utils';
 
 @Directive({

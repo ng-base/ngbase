@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, signal } from '@angular/core';
 import {
   MeeTree,
   MeeTreeNode,
@@ -37,7 +37,9 @@ export class Tree<T> extends MeeTree<T> {}
     class: 'block w-full cursor-pointer',
   },
 })
-export class TreeNode<T> extends MeeTreeNode<T> {}
+export class TreeNode<T> extends MeeTreeNode<T> {
+  override size = signal(16);
+}
 
 @Directive({
   selector: '[meeTreeNodeToggle]',

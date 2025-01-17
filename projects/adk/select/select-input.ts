@@ -1,6 +1,6 @@
 import { Directive, ElementRef, computed, inject, input } from '@angular/core';
 import { Autofocus } from '@meeui/adk/a11y';
-import { InputBase } from '@meeui/adk/input';
+import { InputBase } from '@meeui/adk/form-field';
 import { MeeSelect } from './select';
 
 @Directive({

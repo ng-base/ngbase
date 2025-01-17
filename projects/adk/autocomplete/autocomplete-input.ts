@@ -7,7 +7,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { InputBase } from '@meeui/adk/input';
+import { InputBase } from '@meeui/adk/form-field';
 import { MeeAutocomplete } from './autocomplete';
 
 @Directive({

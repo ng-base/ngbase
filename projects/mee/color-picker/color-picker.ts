@@ -12,8 +12,8 @@ import {
   MeeColorPicker,
   registerColorPicker,
 } from '@meeui/adk/color-picker';
-import { InputBase } from '@meeui/adk/input';
-import { InputStyle } from '@meeui/ui/input';
+import { InputBase } from '@meeui/adk/form-field';
+import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-color-picker-container',

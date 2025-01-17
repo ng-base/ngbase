@@ -51,7 +51,7 @@ export class TranslateService {
   private loadTranslations(lang: string, fallbackLang: string) {
     this.status.set('loading');
     const data = this.config.preloadedLanguages?.[lang];
-    const api = data ? of(data) : this.config.loader!(lang, fallbackLang);
+    const api = data ? of(data) : this.config.loader!(lang, fallbackLang, this.config);
     return api.pipe(
       tap(res => {
         this.cachedTranslations.update(cache => ({

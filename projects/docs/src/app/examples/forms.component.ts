@@ -5,7 +5,7 @@ import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { Chip } from '@meeui/ui/chip';
-import { FormField, Input, Label } from '@meeui/ui/input';
+import { FormField, Input, Label } from '@meeui/ui/form-field';
 import { Option, Select, SelectInput } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 

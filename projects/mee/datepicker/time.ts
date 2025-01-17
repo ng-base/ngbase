@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MeeTimeInput, MeeTimePicker, provideTimePicker } from '@meeui/adk/datepicker';
 import { Button } from '@meeui/ui/button';
-import { InputStyle } from '@meeui/ui/input';
+import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-time',

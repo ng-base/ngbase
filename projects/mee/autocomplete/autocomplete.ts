@@ -5,7 +5,7 @@ import {
   provideAutocomplete,
 } from '@meeui/adk/autocomplete';
 import { MeeSelectOptionGroup } from '@meeui/adk/select';
-import { InputStyle } from '@meeui/ui/input';
+import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-autocomplete',

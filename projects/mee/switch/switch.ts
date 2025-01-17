@@ -11,7 +11,7 @@ import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from '@meeu
   template: `
     <button
       meeSwitchTrack
-      class="relative h-b5 w-b9 rounded-full border-b0.5 border-transparent bg-muted-background transition-colors aria-[checked=true]:bg-primary"
+      class="relative w-b9 rounded-full border-b0.5 border-transparent bg-muted-background transition-colors aria-[checked=true]:bg-primary"
     >
       <span
         #thumb="meeSwitchThumb"

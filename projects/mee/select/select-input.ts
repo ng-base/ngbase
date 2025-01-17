@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { MeeSelectInput, MeeSelectTrigger } from '@meeui/adk/select';
-import { InputStyle } from '@meeui/ui/input';
+import { InputStyle } from '@meeui/ui/form-field';
 
 @Directive({
   selector: '[meeSelectInput]',

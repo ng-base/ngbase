@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { injectDirectionality } from '@meeui/adk/bidi';
-import { MeeInputOtp, MeeOtpInput, MeeOtpValue, provideInputOtp } from '@meeui/adk/input';
+import { MeeInputOtp, MeeOtpInput, MeeOtpValue, provideInputOtp } from '@meeui/adk/form-field';
 import { RangePipe } from '@meeui/adk/utils';
 import { InputStyle } from './input-style.directive';
 

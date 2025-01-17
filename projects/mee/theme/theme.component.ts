@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { ColorInput } from '@meeui/ui/color-picker';
-import { Input } from '@meeui/ui/input';
+import { Input } from '@meeui/ui/form-field';
 
 interface ThemeData {
   name: string;

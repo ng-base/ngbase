@@ -49,6 +49,8 @@ export class AccessibleItem<T = any> implements OnDestroy {
   _data = linkedSignal(this.data);
   _id = linkedSignal(this.id);
   _skip = linkedSignal(this.skip);
+  _expandable = linkedSignal(this.expandable);
+  _expanded = linkedSignal(this.expanded);
 
   readonly group = computed(() => this.allyService.getGroup(this._ayId() || ''));
   readonly pressed = signal(false);
@@ -100,14 +102,11 @@ export class AccessibleItem<T = any> implements OnDestroy {
     this.el.setAttribute('data-focus', 'true');
     if (isKeyboard) this.el.scrollIntoView({ block: 'nearest' });
     this.el.tabIndex = 0;
-    // console.log('focus', this.el);
   }
 
   blur = () => {
-    // this.el.classList.remove('bg-muted-background');
     this.el.tabIndex = -1;
-    this.el.setAttribute('data-focus', 'false');
-    // console.log('blur', this.el);
+    this.el.removeAttribute('data-focus');
   };
 
   click() {

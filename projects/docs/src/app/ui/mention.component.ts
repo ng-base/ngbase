@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Input } from '@meeui/ui/input';
+import { Input } from '@meeui/ui/form-field';
 import { MentionTrigger, Menu } from '@meeui/ui/menu';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';

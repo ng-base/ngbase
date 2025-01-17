@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@meeui/adk/select';
 import { Icon } from '@meeui/ui/icon';
-import { InputStyle } from '@meeui/ui/input';
+import { InputStyle } from '@meeui/ui/form-field';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
 import { Option } from './option';

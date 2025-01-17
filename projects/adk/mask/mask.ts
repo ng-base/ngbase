@@ -7,7 +7,7 @@ import {
   linkedSignal,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { InputBase } from '@meeui/adk/input';
+import { InputBase } from '@meeui/adk/form-field';
 
 @Directive({
   selector: '[meeMask]',

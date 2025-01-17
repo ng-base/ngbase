@@ -1,4 +1,5 @@
 import { Directive, contentChildren, effect, input } from '@angular/core';
+import { injectDirectionality } from '@meeui/adk/bidi';
 import { PopoverOpen, meePopoverPortal } from '@meeui/adk/popover';
 import { documentListener, uniqueId } from '@meeui/adk/utils';
 import { MeeMenuTrigger } from './menu-trigger';
@@ -8,6 +9,7 @@ import { MeeMenuTrigger } from './menu-trigger';
 })
 export class MeeNavigationMenu {
   private popover = meePopoverPortal();
+  private readonly dir = injectDirectionality();
   private readonly menus = contentChildren(MeeMenuTrigger, { descendants: true });
 
   readonly hover = input<boolean>(false);
@@ -67,7 +69,7 @@ export class MeeNavigationMenu {
 
     this.popoverOpen = this.popover.open(menu.container()!, {
       target,
-      position: 'bl',
+      position: this.dir.isRtl() ? 'br' : 'bl',
       className: 'transition-all',
       ayId: this.ayId,
       backdrop: false,

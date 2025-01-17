@@ -1,11 +1,18 @@
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputError, FormField, Input, Label, Description, InputPrefix } from '@meeui/ui/input';
-import { Heading } from '@meeui/ui/typography';
-import { DocCode } from './code.component';
+import {
+  Description,
+  FormField,
+  Input,
+  InputError,
+  InputPrefix,
+  Label,
+} from '@meeui/ui/form-field';
 import { Icon } from '@meeui/ui/icon';
+import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
+import { DocCode } from './code.component';
 
 @Component({
   selector: 'app-input',

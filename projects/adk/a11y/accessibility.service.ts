@@ -21,10 +21,12 @@ export class AccessibilityService {
       this.activeGroupOrder.splice(index, 1);
     }
     this.activeGroupOrder.push(id);
+    // console.trace('setActiveGroup', this.activeGroupOrder);
   }
 
   removeActiveGroup(id: string) {
     this.activeGroupOrder = this.activeGroupOrder.filter(g => g !== id);
+    // console.log('removeActiveGroup', this.activeGroupOrder);
   }
 
   isActive(key: string) {

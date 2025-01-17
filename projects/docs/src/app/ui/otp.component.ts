@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
 import { Heading } from '@meeui/ui/typography';
-import { FormField, InputOtp, Label } from '@meeui/ui/input';
+import { FormField, InputOtp, Label } from '@meeui/ui/form-field';
 import { Checkbox } from '@meeui/ui/checkbox';
 
 @Component({

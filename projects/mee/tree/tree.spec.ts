@@ -85,7 +85,7 @@ describe('Tree', () => {
   });
 
   it('should expand node on toggle', () => {
-    const rootNode = treeComponent['flatner']().data[0];
+    const rootNode = treeComponent['flattener']().data[0];
     treeComponent.toggle(rootNode);
     view.detectChanges();
 
@@ -94,7 +94,7 @@ describe('Tree', () => {
   });
 
   it('should collapse expanded node on toggle', () => {
-    const rootNode = treeComponent['flatner']().data[0];
+    const rootNode = treeComponent['flattener']().data[0];
     treeComponent.toggle(rootNode); // Expand
     view.detectChanges();
     treeComponent.toggle(rootNode); // Collapse
@@ -137,7 +137,7 @@ describe('Tree', () => {
   describe('Children Shuffling', () => {
     it('should update tree when children are shuffled', () => {
       // First, expand the root node
-      const rootNode = treeComponent['flatner']().data[0];
+      const rootNode = treeComponent['flattener']().data[0];
       treeComponent.toggle(rootNode);
       view.detectChanges();
 
@@ -161,11 +161,11 @@ describe('Tree', () => {
 
     it('should maintain expanded state when children are shuffled', () => {
       // Expand root and Child 2
-      const rootNode = treeComponent['flatner']().data[0];
+      const rootNode = treeComponent['flattener']().data[0];
       treeComponent.toggle(rootNode);
       view.detectChanges();
 
-      const child2Node = treeComponent['flatner']().data.find(node => node.id.endsWith('-3'));
+      const child2Node = treeComponent['flattener']().data.find(node => node.id.endsWith('-3'));
       treeComponent.toggle(child2Node!);
       view.detectChanges();
 
@@ -199,7 +199,7 @@ describe('Tree', () => {
 
     it('should handle addition of new children after shuffling', () => {
       // Expand root
-      const rootNode = treeComponent['flatner']().data[0];
+      const rootNode = treeComponent['flattener']().data[0];
       treeComponent.toggle(rootNode);
       view.detectChanges();
 

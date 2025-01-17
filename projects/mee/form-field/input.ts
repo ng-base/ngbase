@@ -7,7 +7,7 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { InputBase, MeeFormField, MeeInputError, MeeLabel, toggleDiv } from '@meeui/adk/input';
+import { InputBase, MeeFormField, MeeInputError, MeeLabel, toggleDiv } from '@meeui/adk/form-field';
 import { InputStyle } from './input-style.directive';
 import { MeeSelectTarget } from '@meeui/adk/select';
 
@@ -18,7 +18,7 @@ import { MeeSelectTarget } from '@meeui/adk/select';
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
-    <div class="flex items-center" #target>
+    <div class="grid items-center" #target>
       <ng-content />
     </div>
     <ng-content select="[meeError]" />

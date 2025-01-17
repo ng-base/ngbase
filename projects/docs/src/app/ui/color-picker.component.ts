@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ColorInput } from '@meeui/ui/color-picker';
-import { FormField, Label } from '@meeui/ui/input';
+import { FormField, Label } from '@meeui/ui/form-field';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 

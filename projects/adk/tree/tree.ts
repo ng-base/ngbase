@@ -121,7 +121,7 @@ export class MeeTree<T> {
     { ref: EmbeddedViewRef<TreeNodeImplicit<T>>; parent: FlatNode }
   >();
   private readonly _dataDiffers = this.differs.find([]).create<FlatNode>((index, item) => item.id);
-  private readonly flatner = computed(
+  private readonly flattener = computed(
     () => new TreeFlatNode(this.children(), node => this.trackBy()(0, node)),
   );
   private expanded = false;
@@ -129,13 +129,13 @@ export class MeeTree<T> {
   constructor() {
     inject(AccessibleGroup).ayId.set(this.ayId);
     effect(() => {
-      const flatner = this.flatner();
+      const flattener = this.flattener();
       const data = this.dataSource();
       const opened = this.opened();
-      flatner.setDataSource(data, opened, this.expanded);
+      flattener.setDataSource(data, opened, this.expanded);
       this.expanded = false;
 
-      const changes = this._dataDiffers.diff(flatner.data);
+      const changes = this._dataDiffers.diff(flattener.data);
       if (!changes) {
         return;
       }
@@ -145,7 +145,7 @@ export class MeeTree<T> {
       changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
         if (item.previousIndex == null) {
           // Item added
-          // const parent = this.flatner().tempData.get(item.item.parentId!);
+          // const parent = this.flattener().tempData.get(item.item.parentId!);
           this.renderNode(item.item, container, def, item.item.level, currentIndex!);
         } else if (currentIndex == null) {
           // Item removed
@@ -164,7 +164,7 @@ export class MeeTree<T> {
         const viewRef = this.trace.get(item.item.id)?.ref;
         if (viewRef) {
           viewRef.context.level = item.item.level;
-          viewRef.context.$implicit = this.flatner().dataMap.get(item.item.id)!;
+          viewRef.context.$implicit = this.flattener().dataMap.get(item.item.id)!;
         }
       });
     });
@@ -179,7 +179,7 @@ export class MeeTree<T> {
   }
 
   getNode(id: string) {
-    return this.flatner().dataMap.get(id);
+    return this.flattener().dataMap.get(id);
   }
 
   private renderNode(
@@ -190,7 +190,7 @@ export class MeeTree<T> {
     index: number,
   ) {
     if (!this.trace.has(details.id)) {
-      const data = this.flatner().dataMap.get(details.id)!;
+      const data = this.flattener().dataMap.get(details.id)!;
       const value: TreeNodeData<T> = { level, details: details, data };
       const injector = Injector.create({
         providers: [{ provide: TREE_NODE_DATA, useValue: value }],

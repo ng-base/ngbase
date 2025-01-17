@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { DatepickerTrigger, TimePicker } from '@meeui/ui/datepicker';
-import { FormField, Label } from '@meeui/ui/input';
+import { FormField, Label } from '@meeui/ui/form-field';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 

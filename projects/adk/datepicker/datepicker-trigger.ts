@@ -11,7 +11,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { InputBase } from '@meeui/adk/input';
+import { InputBase } from '@meeui/adk/form-field';
 import { meePopoverPortal } from '@meeui/adk/popover';
 import { MeeDatePicker } from './datepicker';
 import { injectMeeDateAdapter } from './native-date-adapter';

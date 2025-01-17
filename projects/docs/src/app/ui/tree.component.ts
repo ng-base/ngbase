@@ -40,10 +40,10 @@ class TreeItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5">Tree</h4>
-    <button meeButton (click)="toggle()">Toggle</button>
+    <button meeButton class="mr-2" (click)="toggle()">Toggle</button>
     @if (show()) {
-      <button meeButton="outline" (click)="myTree.foldAll()">Fold All</button>
-      <button meeButton="outline" (click)="myTree.expandAll()">Expand All</button>
+      <button meeButton="outline" class="mr-2" (click)="myTree.foldAll()">Fold All</button>
+      <button meeButton="outline" class="mr-2" (click)="myTree.expandAll()">Expand All</button>
       <mee-tree
         [dataSource]="items()"
         [trackBy]="trackBy"

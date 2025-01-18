@@ -188,7 +188,7 @@ export class AccessibleGroup implements OnDestroy {
         if (isInput) return;
         const expand = item._expandable() && !item._expanded();
         if (item.hasPopup() || expand) {
-          item.events.next({ event, type: 'key', item });
+          item.events.next({ event, type: 'keyRight', item });
           item.click();
           return;
         }
@@ -203,7 +203,7 @@ export class AccessibleGroup implements OnDestroy {
         const isSameGroup = prevGroup?._ayId() === this._ayId();
         const collapse = item._expandable() && item._expanded();
         if ((!isSameGroup && prevGroup?.isOn() && prevItem) || collapse) {
-          prevItem?.events.next({ event, type: 'key', item });
+          prevItem?.events.next({ event, type: 'keyLeft', item });
           item.click();
           return;
         } else if (item._expandable()) {

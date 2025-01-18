@@ -19,7 +19,7 @@ import { AccessibleItem } from '@meeui/adk/a11y';
 export class MeeList {
   // Dependencies
   private readonly allyItem = inject(AccessibleItem);
-  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   // Inputs
   readonly ayId = input<string>();

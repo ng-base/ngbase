@@ -57,7 +57,7 @@ export class AccessibleItem<T = any> implements OnDestroy {
   readonly hasPopup = computed(() => this.el.getAttribute('aria-haspopup') === 'true');
   readonly events = new Subject<{
     event: KeyboardEvent;
-    type: 'enter' | 'leave' | 'click' | 'key';
+    type: 'enter' | 'leave' | 'click' | 'keyRight' | 'keyLeft';
     item: AccessibleItem;
   }>();
   private count = 1;

@@ -1,6 +1,4 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { PopoverOptions, meePopoverPortal } from '@meeui/adk/popover';
-import { uniqueId } from '@meeui/adk/utils';
 import { MeeMenu } from './menu';
 
 @Directive({
@@ -11,7 +9,6 @@ import { MeeMenu } from './menu';
 })
 export class MeeMentionTrigger {
   private readonly el = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
-  private readonly popover = meePopoverPortal();
 
   readonly meeMentionTrigger = input.required<MeeMenu>();
   readonly options = input<{ focus?: 'el'; width?: 'full' }>();
@@ -19,7 +16,6 @@ export class MeeMentionTrigger {
   readonly search = output<string>();
 
   private close?: VoidFunction;
-  private ayId = uniqueId();
 
   open() {
     // open the menu in a position where the cursor is at '@' character
@@ -47,19 +43,12 @@ export class MeeMentionTrigger {
 
     // open the menu at the cursor position
     const menu = this.meeMentionTrigger();
-    const diaOptions: PopoverOptions = {
+    menu.open({
       maxHeight: '400px',
-      ayId: this.ayId,
       target: this.el.nativeElement,
-      position: 'bl',
       client,
-    };
-    if (this.options()?.width === 'full') {
-      diaOptions.width = 'target';
-    }
-    const { diaRef } = this.popover.open(menu.container()!, diaOptions);
-    menu.diaRef = diaRef;
-    menu.opened();
+      width: this.options()?.width === 'full' ? 'target' : undefined,
+    });
     this.close = menu.close;
   }
 

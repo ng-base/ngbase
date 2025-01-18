@@ -23,5 +23,8 @@ export class Menu extends MeeMenu {}
   hostDirectives: [
     { directive: MeeMenuTrigger, inputs: ['meeMenuTrigger', 'meeMenuTriggerData', 'options'] },
   ],
+  host: {
+    class: 'outline-none',
+  },
 })
 export class MenuTrigger {}

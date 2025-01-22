@@ -100,7 +100,6 @@ export class MeeDatepickerTrigger<D> {
       if (filtered.length === 1) {
         return;
       }
-      console.log(dates);
       this.inputS?.setValue(formatDate);
     } else if (filtered.length) {
       this.inputS?.setValue(formatDate[0]);

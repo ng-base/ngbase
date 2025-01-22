@@ -248,7 +248,6 @@ export class MeeColorPicker {
   }
 
   private updateHue(x: number, y: number, width: number, height: number) {
-    console.log('updateHue', x, y, width, height);
     this.hue = Math.round((x / width) * 360);
     this.el.nativeElement.style.setProperty('--hue-color', `hsl(${this.hue}, 100%, 50%)`);
     const hueSelector = this.hueSelector()!.nativeElement;

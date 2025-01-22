@@ -11,8 +11,7 @@ import {
   untracked,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/adk/utils';
-import { NumberOnly, padString } from './number-only';
+import { NumberOnly, padString, provideValueAccessor } from '@meeui/adk/utils';
 
 @Directive({
   selector: '[meeTimeInput]',

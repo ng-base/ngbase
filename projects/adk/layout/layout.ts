@@ -1,66 +1,89 @@
-import { signal, WritableSignal } from '@angular/core';
+import { DestroyRef, inject, signal, WritableSignal } from '@angular/core';
 import { isClient } from '@meeui/adk/utils';
 
-export function breakpointObserver() {
-  const mediaQueryLists = new Map<string, MediaQueryList>();
-  const client = isClient();
+const mediaQueryListeners = new Map<
+  string,
+  { mql: MediaQueryList; listeners: Set<(event: MediaQueryListEvent) => void> }
+>();
 
-  /**
-   * Observe one or more media queries
-   * @param queries Object with query name as key and media query as value
-   */
-  function observe(queries: Record<string, string>) {
-    const breakpointStates = signal<Map<string, boolean>>(new Map());
+export function breakpointObserver() {
+  const client = isClient();
+  const activeListeners = new Map<any, () => void>();
+
+  function observe<T extends string>(queries: Record<T, string>) {
+    const breakpointStates = signal({} as Record<T, boolean>);
 
     if (client) {
-      // Initialize states
-      mediaQueriesListener(queries, breakpointStates);
+      const cleanup = setupMediaQueries(queries, breakpointStates);
+      activeListeners.set(queries, cleanup);
     }
 
-    // Return readonly access to breakpoint states
-    return breakpointStates.asReadonly();
+    return {
+      state: breakpointStates.asReadonly(),
+      unobserve: () => {
+        activeListeners.get(queries)?.();
+        activeListeners.delete(queries);
+      },
+    };
   }
 
-  function mediaQueriesListener(
+  function setupMediaQueries(
     queries: Record<string, string>,
-    breakpointStates: WritableSignal<Map<string, boolean>>,
+    breakpointStates: WritableSignal<Record<string, boolean>>,
   ) {
-    const states = new Map<string, boolean>();
+    const states = {} as Record<string, boolean>;
+    const cleanupFns: Array<() => void> = [];
 
-    // Set up listeners for each query
     Object.entries(queries).forEach(([name, query]) => {
-      const mediaQueryList = window.matchMedia(query);
-      console.log(name, query);
+      let queryData = mediaQueryListeners.get(query);
 
-      // Store initial state
-      states.set(name, mediaQueryList.matches);
+      if (!queryData) {
+        const mql = _matchMedia(query);
+        if (!mql) return;
+        queryData = { mql, listeners: new Set() };
+        mediaQueryListeners.set(query, queryData);
 
-      // Create listener
-      const listener = (event: MediaQueryListEvent) => {
-        breakpointStates.update(states => {
-          states.set(name, event.matches);
-          return new Map(states);
+        mql.addEventListener('change', event => {
+          queryData!.listeners.forEach(listener => listener(event));
         });
+      }
+
+      states[name] = queryData.mql.matches;
+
+      const listener = (event: MediaQueryListEvent) => {
+        breakpointStates.update(states => ({
+          ...states,
+          [name]: event.matches,
+        }));
       };
 
-      // Add listener and store reference
-      mediaQueryList.addEventListener('change', listener);
-      mediaQueryLists.set(name, mediaQueryList);
+      queryData.listeners.add(listener);
+      cleanupFns.push(() => {
+        queryData!.listeners.delete(listener);
+        if (queryData!.listeners.size === 0) {
+          queryData!.mql.removeEventListener('change', listener);
+          mediaQueryListeners.delete(query);
+        }
+      });
     });
 
-    // Set initial states
     breakpointStates.set(states);
+
+    return () => cleanupFns.forEach(fn => fn());
   }
 
-  /**
-   * Check if a specific breakpoint query matches
-   * @param queryName Name of the query to check
-   */
+  // cleanup all listeners when the component is destroyed
+  inject(DestroyRef).onDestroy(() => {
+    activeListeners.forEach(cleanup => cleanup());
+  });
+
   function matches(queryName: string): boolean {
     if (!client) return false;
+    return _matchMedia(queryName)?.matches ?? false;
+  }
 
-    const mediaQueryList = window.matchMedia(queryName);
-    return mediaQueryList.matches;
+  function _matchMedia(queryName: string) {
+    return typeof window.matchMedia !== 'undefined' ? window.matchMedia(queryName) : null;
   }
 
   return { observe, matches };

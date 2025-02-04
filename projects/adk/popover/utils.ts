@@ -184,6 +184,9 @@ export class PopoverPositioner {
       }
     }
     if (overflow.left) {
+      if (position === 'br') {
+        return overflow.bottom ? Position.TopLeft : Position.BottomLeft;
+      }
       if (position === Position.Left) {
         return Position.Right;
       }

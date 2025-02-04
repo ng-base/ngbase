@@ -109,10 +109,7 @@ export class TabScroll {
             @for (tab of tabs(); track tab.id) {
               <button
                 [meeTabButton]="tab"
-                class="{{
-                  'whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50 ' +
-                    (headerStyle() ? 'px-b4 py-b3 font-medium text-muted' : '')
-                }}"
+                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>
@@ -131,7 +128,7 @@ export class TabScroll {
     class: 'bg-foreground flex flex-col',
   },
 })
-export class MeeTabs {
+export class MeeTabs<T extends MeeTab = MeeTab> {
   readonly tabList = viewChild.required<TabButtonsGroup, ElementRef<HTMLElement>>(TabButtonsGroup, {
     read: ElementRef,
   });
@@ -144,11 +141,10 @@ export class MeeTabs {
   readonly scrollButtons = viewChildren<TabScroll, ElementRef<HTMLElement>>(TabScroll, {
     read: ElementRef,
   });
-  readonly tabs = contentChildren(MeeTab);
+  readonly tabs = contentChildren<T>(MeeTab as any);
 
   readonly selectedIndex = model<any>(0);
   readonly selectedTabChange = output<TabChangeEvent>();
-  readonly headerStyle = input(true, { transform: booleanAttribute });
 
   private selectedId?: number;
   private readonly tabMap = new Map<number, string>();
@@ -279,7 +275,7 @@ export class MeeTabs {
   }
 }
 
-export function provideTabs(tab: typeof MeeTabs) {
+export function provideTabs<T extends MeeTab>(tab: typeof MeeTabs<T>) {
   return {
     provide: MeeTabs,
     useExisting: tab,

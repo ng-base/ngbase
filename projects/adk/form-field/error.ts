@@ -15,6 +15,7 @@ export class MeeInputError {
    * 'required' or '!required && minlength'
    */
   readonly meeError = input.required<string>();
+  readonly invalid = input<boolean>();
   readonly animate = signal(false);
 
   private readonly errorNames = computed(() => {
@@ -32,7 +33,7 @@ export class MeeInputError {
     );
   });
 
-  readonly isInvalid = computed(() => {
+  readonly isFieldInvalid = computed(() => {
     const control = this.formField._control();
     const status = this.formField.status();
     const names = this.errorNames();
@@ -42,6 +43,10 @@ export class MeeInputError {
       control?.touched &&
       names.every(n => !!control.errors?.[n.name] !== n.negated)
     );
+  });
+
+  readonly isInvalid = computed(() => {
+    return this.invalid() ?? this.isFieldInvalid();
   });
 }
 

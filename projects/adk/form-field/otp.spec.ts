@@ -129,14 +129,34 @@ describe('InputOtp', () => {
     expect(getTabIndexes()).toEqual([-1, -1, -1, -1]);
   });
 
+  it('should handle the masked property', () => {
+    view.setInput('size', [3]);
+    view.setInput('masked', true);
+    view.detectChanges();
+    inputs = getValueInputs();
+    expect(getValues()).toEqual(['', '', '']);
+
+    component.writeValue('12');
+    view.detectChanges();
+    expect(getValues()).toEqual(['•', '•', '']);
+  });
+
   it('should allow Tab key to move focus', () => {
     view.setInput('size', [3]);
     view.detectChanges();
     inputs = getValueInputs();
 
     input.type('1');
-    const event = input.keydown('Tab');
+    let event = input.keydown('Tab');
     expect(event.defaultPrevented).toBeFalsy();
+
+    input.type('2');
+    input.type('3');
+    for (const key of ['Tab', 'Enter', 'Backspace']) {
+      input.focus();
+      event = input.keydown(key);
+      expect(event.defaultPrevented).toBeFalsy();
+    }
   });
 
   it('should allow paste key', () => {

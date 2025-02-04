@@ -21,7 +21,6 @@ import { provideValueAccessor, RangePipe } from '@meeui/adk/utils';
   selector: 'input[meeOtpInput]',
   host: {
     '[placeholder]': 'otp.placeholder()',
-    '[type]': 'otp.masked() ? "password" : "text"',
     '[disabled]': 'otp.disabled() || undefined',
     style:
       'position: absolute; inset: 0; border: none; background: transparent; caret-color: transparent; outline: none; color: transparent; letter-spacing: -0.5rem;',
@@ -39,7 +38,6 @@ export class MeeOtpInput {
     '[attr.data-focus]': 'focused() || undefined',
     '[attr.data-disabled]': 'otp.disabled() || undefined',
     'aria-hidden': 'true',
-    '[type]': 'otp.masked() ? "password" : "text"',
     tabindex: '-1',
   },
 })
@@ -57,7 +55,8 @@ export class MeeOtpValue {
 
   constructor() {
     effect(() => {
-      this.el.nativeElement.textContent = this.otp.masked() ? '•' : this.value();
+      const value = this.value();
+      this.el.nativeElement.textContent = value && this.otp.masked() ? '•' : value;
     });
   }
 }
@@ -108,13 +107,12 @@ export class MeeInputOtp implements ControlValueAccessor {
 
       const keydownListener = (e: KeyboardEvent) => {
         const value = inputEl.value.length === this.no();
-        const isBackspace = e.key === 'Backspace';
         // const isPaste = (e.ctrlKey || e.metaKey) && e.key === 'v';
         // if (isPaste || ['Tab', 'Enter'].includes(e.key)) {
         //   // prevent default behavior for tab key
         //   return;
         // } else
-        if (!isBackspace && value) {
+        if (value && !['Tab', 'Enter', 'Backspace'].includes(e.key)) {
           // prevent default behavior for non-numeric characters
           e.preventDefault();
         }

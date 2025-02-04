@@ -135,8 +135,8 @@ export class Shortcuts {
     if (event.shiftKey) modifiers.push('shift');
     if (event.metaKey) modifiers.push('meta');
 
-    const key = event.key.toLowerCase();
-    return [...modifiers, key].join('+');
+    const key = event.key?.toLowerCase();
+    return [...modifiers, ...(key ? [key] : [])].join('+');
   }
 
   private turnOff() {

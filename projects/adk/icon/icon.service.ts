@@ -19,9 +19,7 @@ function iconLoader(): IconLoaderFn {
         );
         return icon;
       }
-    } catch (error) {
-      console.error(`Failed to load icon ${name}`, error);
-    }
+    } catch {}
     return '';
   };
 }

@@ -161,7 +161,6 @@ export class Mask {
   }
 
   writeValue(value: string): void {
-    console.log('writeValue', value);
     this.handleValue(value);
   }
 

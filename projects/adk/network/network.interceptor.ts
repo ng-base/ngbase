@@ -8,14 +8,12 @@ const networkInterceptor: HttpInterceptorFn = (req, next) => {
   const isBrowser = isClient();
 
   if (isBrowser && !networkService.isOnline()) {
-    console.error('No internet connection');
     throw 'No internet connection';
   }
 
   return next(req).pipe(
     catchError(error => {
       if (isBrowser && !networkService.isOnline()) {
-        console.error('Lost internet connection during request');
         // You can implement custom error handling here
       }
       throw error;

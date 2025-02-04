@@ -72,7 +72,6 @@ export class MeeTourService {
     if (steps.length) {
       const step = (prevStep + 1) % steps.length;
       if (prevStep > step) {
-        console.log('next', step);
         this.stop();
         return;
       }

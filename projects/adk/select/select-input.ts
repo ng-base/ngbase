@@ -32,7 +32,6 @@ export class MeeSelectInput<T> {
     const options = this.options();
     const search = this.inputBase.value();
     const values = search ? options.filter(v => fn!(search, v, options)) : options;
-    console.log(values);
     return values;
   });
 

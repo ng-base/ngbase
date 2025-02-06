@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DialogInput, DialogOptions, DialogRef } from '@meeui/adk/portal';
 import { Button, ButtonVariant } from '@meeui/ui/button';
-import { DialogRef } from '@meeui/adk/portal';
+import { dialogPortal } from '@meeui/ui/dialog';
 
 export interface AlertOptions {
   title?: string;
@@ -10,6 +11,32 @@ export interface AlertOptions {
     type?: ButtonVariant;
     handler: (fn: VoidFunction) => any;
   }[];
+}
+
+export function alertPortal() {
+  const base = dialogPortal();
+
+  function open<T>(opt: AlertOptions, comp?: DialogInput<T>) {
+    const options: DialogOptions = {
+      ...new DialogOptions(),
+      data: opt,
+      title: opt.title,
+      width: '32rem',
+      maxWidth: '95vw',
+      disableClose: true,
+      header: true,
+      focusTrap: true,
+    };
+
+    const diaRef = base.open(comp || Alert, options);
+
+    return diaRef;
+  }
+
+  function closeAll() {
+    base.closeAll();
+  }
+  return { open, closeAll };
 }
 
 @Component({

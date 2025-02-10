@@ -10,7 +10,7 @@ import { DocCode } from './code.component';
   imports: [Progress, Button, Tooltip, Heading, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="progressPage">Progress</h4>
-    <app-doc-code [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode">
       <div class="flex items-center gap-2">
         <button meeButton meeTooltip="decrement" (click)="decrement()">-</button>
         <button meeButton meeTooltip="increment" (click)="increment()">+</button>
@@ -44,5 +44,22 @@ export default class ProgressComponent {
   export class AppComponent {
     percentage = 50;
   }
+  `;
+
+  adkCode = `
+  import { ChangeDetectionStrategy, Component } from '@angular/core';
+  import { MeeProgress, MeeProgressBar } from '@meeui/adk/progress';
+
+  @Component({
+    selector: 'mee-progress',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    hostDirectives: [{ directive: MeeProgress, inputs: ['value'] }],
+    imports: [MeeProgressBar],
+    template: \`<div class="h-full bg-primary transition" meeProgressBar></div>\`,
+    host: {
+      class: 'block h-2 my-1 bg-background rounded-full',
+    },
+  })
+  export class Progress {}
   `;
 }

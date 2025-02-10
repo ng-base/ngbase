@@ -23,7 +23,7 @@ import { InputStyle } from './input-style.directive';
         ></div>
       }
       @if (!l) {
-        <div class="px-2">{{ separator() }}</div>
+        <div class="px-2">-</div>
       }
     }
     <input type="text" meeOtpInput meeNumberOnly class="selection:bg-transparent" />

@@ -20,7 +20,6 @@ import { provideValueAccessor, RangePipe } from '@meeui/adk/utils';
 @Directive({
   selector: 'input[meeOtpInput]',
   host: {
-    '[placeholder]': 'otp.placeholder()',
     '[disabled]': 'otp.disabled() || undefined',
     style:
       'position: absolute; inset: 0; border: none; background: transparent; caret-color: transparent; outline: none; color: transparent; letter-spacing: -0.5rem;',
@@ -61,22 +60,9 @@ export class MeeOtpValue {
   }
 }
 
-@Component({
+@Directive({
   selector: '[meeInputOtp]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [_provide(MeeInputOtp)],
-  imports: [RangePipe, MeeOtpInput, MeeOtpValue],
-  template: `
-    @for (num of size(); track $index; let l = $last) {
-      @for (n of num | range; track n; let i = $index; let ll = $last) {
-        <input meeOtpValue />
-      }
-      @if (!l) {
-        <div>{{ separator() }}</div>
-      }
-    }
-    <input meeOtpInput />
-  `,
 })
 export class MeeInputOtp implements ControlValueAccessor {
   private readonly inputs = viewChild.required<MeeOtpInput>(MeeOtpInput);
@@ -84,8 +70,6 @@ export class MeeInputOtp implements ControlValueAccessor {
   // private readonly
 
   readonly size = input<number[]>([4]);
-  readonly placeholder = input('·');
-  readonly separator = input('-');
   readonly masked = input(false, { transform: booleanAttribute });
   readonly disabled = input<boolean>(false);
 
@@ -172,12 +156,12 @@ export class MeeInputOtp implements ControlValueAccessor {
 
   updateValue(values: string) {
     this.values.set(values);
-    const value = values.length === this.no() ? values : '';
-    if (this.lastValue === value) {
-      return;
-    }
-    this.lastValue = value;
-    this.onChange?.(value);
+    // const value = values.length === this.no() ? values : '';
+    // if (this.lastValue === value) {
+    //   return;
+    // }
+    this.lastValue = values;
+    this.onChange?.(values);
     this.onTouched?.();
   }
 

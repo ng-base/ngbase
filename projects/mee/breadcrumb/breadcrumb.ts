@@ -1,62 +1,49 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
   MeeBreadcrumb,
   MeeBreadcrumbLink,
   MeeBreadcrumbs,
   MeeBreadcrumbSeparator,
   MeeBreadcrumbSeparatorAria,
+  provideBreadcrumb,
 } from '@meeui/adk/breadcrumb';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
 
 @Component({
+  selector: 'mee-breadcrumbs',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [MeeBreadcrumbs],
+  template: `<ng-content />`,
+  host: {
+    class: 'flex items-center gap-b2',
+  },
+})
+export class Breadcrumbs {}
+
+@Component({
   selector: 'mee-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, NgTemplateOutlet, MeeBreadcrumbLink, MeeBreadcrumbSeparatorAria],
+  providers: [provideBreadcrumb(Breadcrumb)],
   viewProviders: [provideIcons({ lucideChevronRight })],
+  imports: [Icon, MeeBreadcrumbLink, MeeBreadcrumbSeparatorAria],
   template: `
     <a class='hover:text-primary aria-[current="page"]:text-primary' meeBreadcrumbLink>
       <ng-content />
     </a>
-    @if (!breadcrumb.active()) {
-      @if (breadcrumb.separator()) {
-        <span class="flex items-center text-muted" meeBreadcrumbSeparatorAria>
-          <ng-template [ngTemplateOutlet]="breadcrumb.separator()!"></ng-template>
-        </span>
-      } @else {
-        <mee-icon
-          name="lucideChevronRight"
-          class="text-muted"
-          role="presentation"
-          aria-hidden="true"
-        />
-      }
+    @if (!active()) {
+      <mee-icon meeBreadcrumbSeparatorAria name="lucideChevronRight" class="text-muted" />
     }
   `,
   host: {
     class: 'flex items-center gap-b2 text-muted',
   },
-  hostDirectives: [MeeBreadcrumb],
 })
-export class Breadcrumb {
-  readonly breadcrumb = inject(MeeBreadcrumb);
-}
+export class Breadcrumb extends MeeBreadcrumb {}
 
 @Directive({
   selector: '[meeBreadcrumbsSeparator]',
   hostDirectives: [MeeBreadcrumbSeparator],
 })
 export class BreadcrumbsSeparator {}
-
-@Component({
-  selector: 'mee-breadcrumbs',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content />`,
-  host: {
-    class: 'flex items-center gap-b2',
-  },
-  hostDirectives: [MeeBreadcrumbs],
-})
-export class Breadcrumbs {}

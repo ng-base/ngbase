@@ -14,7 +14,7 @@ import { Icon } from '@meeui/ui/icon';
   providers: [provideIcons({ lucideChevronRight })],
   template: `
     <h4 meeHeader class="mb-5" id="breadcrumbPage">Breadcrumbs</h4>
-    <app-doc-code [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode">
       <mee-breadcrumbs>
         <ng-template meeBreadcrumbsSeparator>/</ng-template>
         <mee-breadcrumb>Home</mee-breadcrumb>
@@ -56,5 +56,54 @@ export default class BreadcrumbComponent {
     \`,
   })
   export class AppComponent { }
+  `;
+
+  adkCode = `
+  import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+  import {
+    MeeBreadcrumb,
+    MeeBreadcrumbLink,
+    MeeBreadcrumbs,
+    MeeBreadcrumbSeparator,
+    MeeBreadcrumbSeparatorAria,
+    provideBreadcrumb,
+  } from '@meeui/adk/breadcrumb';
+
+  @Component({
+    selector: 'mee-breadcrumbs',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    hostDirectives: [MeeBreadcrumbs],
+    template: \`<ng-content />\`,
+    host: {
+      class: 'flex items-center gap-2',
+    },
+  })
+  export class Breadcrumbs {}
+
+  @Component({
+    selector: 'mee-breadcrumb',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [provideBreadcrumb(Breadcrumb)],
+    viewProviders: [provideIcons({ lucideChevronRight })],
+    imports: [MeeBreadcrumbLink, MeeBreadcrumbSeparatorAria],
+    template: \`
+      <a class='hover:text-primary aria-[current="page"]:text-primary' meeBreadcrumbLink>
+        <ng-content />
+      </a>
+      @if (!active()) {
+        <div meeBreadcrumbSeparatorAria class="text-muted">/</div>
+      }
+    \`,
+    host: {
+      class: 'flex items-center gap-2 text-muted',
+    },
+  })
+  export class Breadcrumb extends MeeBreadcrumb {}
+
+  @Directive({
+    selector: '[meeBreadcrumbsSeparator]',
+    hostDirectives: [MeeBreadcrumbSeparator],
+  })
+  export class BreadcrumbsSeparator {}
   `;
 }

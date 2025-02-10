@@ -1,56 +1,54 @@
 import {
-  ChangeDetectionStrategy,
   Component,
+  computed,
   Directive,
   inject,
   input,
+  linkedSignal,
   model,
+  signal,
   Type,
 } from '@angular/core';
 import { fadeAnimation } from '@meeui/adk/utils';
-import { ModeType, SidenavService } from './sidenav.service';
+import { SidenavType } from './sidenav.service';
+import { SidenavService } from './sidenav.service';
 
-@Directive({
+@Component({
   selector: '[meeSidenavOverlay]',
+  template: ``,
   host: {
     class: 'sidenav-overlay',
     style: 'position:absolute;left:0;top:0;width:100%;height:100%;',
     '(click)': 'sidenav.toggle()',
     '[@fadeAnimation]': '',
   },
+  animations: [fadeAnimation('500ms')],
 })
 export class MeeSidenavOverlay {
   readonly sidenav = inject(MeeSidenav);
 }
 
-@Component({
+@Directive({
   selector: '[meeSidenav]',
   exportAs: 'meeSidenav',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SidenavService],
-  imports: [MeeSidenavOverlay],
-  template: `
-    @if (mode() === 'over' && show()) {
-      <div meeSidenavOverlay [@fadeAnimation] class="bg-black/70"></div>
-    }
-    <ng-content select="mee-sidenav-header" />
-    <ng-content />
-  `,
   host: {
-    class: 'flex w-full overflow-hidden relative top-0 left-0 h-full',
+    style: 'position:relative;width:100%;height:100%;',
   },
-  animations: [fadeAnimation('500ms')],
 })
 export class MeeSidenav {
   readonly sidenavService = inject(SidenavService);
+  readonly status = signal(1);
 
   // Inputs
   readonly show = model(true);
-  readonly mode = input<ModeType>('side');
+  readonly mode = input<SidenavType>('side');
+
+  readonly showOverlay = computed(() => this.mode() === 'over' && this.show());
 
   constructor() {
-    this.sidenavService.show = this.show;
-    this.sidenavService.mode = this.mode;
+    this.sidenavService.show = linkedSignal(this.show);
+    this.sidenavService.mode = linkedSignal(this.mode);
   }
 
   toggle() {

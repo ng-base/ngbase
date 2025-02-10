@@ -1,13 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   Directive,
   ElementRef,
   inject,
   input,
-  Signal,
+  linkedSignal,
 } from '@angular/core';
 import { Directionality } from '@meeui/adk/bidi';
 import { SidenavService } from './sidenav.service';
@@ -15,74 +14,86 @@ import { SidenavService } from './sidenav.service';
 @Directive({
   selector: '[meeSidenavHeaderContent]',
   host: {
-    '[@slide]': "{ value: sidenavService.show(), params: { x: dir.isRtl() ? '100%' : '-100%' } }",
-    '(@slide.done)': 'sidenavService.animationDone()',
-    '(@slide.start)': 'sidenavService.animationStart()',
-    '[style.width]': 'sidenavService.width()',
+    '[style.width]': 'w()',
   },
 })
 export class MeeSidenavHeaderContent {
-  readonly dir = inject(Directionality);
-  readonly sidenavService = inject(SidenavService);
+  readonly sidenav = inject(SidenavService);
+  readonly w = computed(() =>
+    this.sidenav.mode() === 'partial' && !this.sidenav.show()
+      ? this.sidenav.minWidth()
+      : this.sidenav.width(),
+  );
+}
+
+@Directive({
+  selector: '[meeSidenavHeaderTrack]',
+  host: {
+    '[style.width]': 'sidenav.w()',
+  },
+})
+export class MeeSidenavHeaderTrack {
+  readonly sidenav = inject(SidenavService);
+}
+
+export function slideAnimation(ease: string) {
+  return trigger('slide', [
+    state('true', style({ transform: 'translateX(0)' })),
+    state('false', style({ transform: 'translateX({{x}})' }), { params: { x: '-100%' } }),
+    transition('* <=> *', [animate(ease)]),
+  ]);
 }
 
 @Component({
   selector: '[meeSidenavHeader]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MeeSidenavHeaderContent],
-  template: `
-    <div meeSidenavHeaderContent class="h-full overflow-auto">
-      <ng-content />
-    </div>
-  `,
+  template: ``,
   host: {
-    style: 'overflow:hidden',
-    '[style.visibility]': 'sidenavService.visibility() ? "visible" : "hidden"',
-    '[class]': `headerClasses()`,
-    '[style.width]': `sidenavService.show() ? width() : 0`,
-    '[style.transition]': "'500ms cubic-bezier(0.55, 0.31, 0.15, 0.93) width'",
-    '[attr.aria-hidden]': '!sidenavService.show()',
-    '[attr.data-mode]': 'sidenavService.mode()',
+    style: 'overflow:hidden;position:absolute;',
+    '[style.visibility]': 'sidenav.visibility() ? "visible" : "hidden"',
+    '[style]': `headerStyles()`,
+    '[style.width]': `actualWidth()`,
+    '[attr.aria-hidden]': '!sidenav.show()',
+    '[attr.data-mode]': 'sidenav.mode()',
+    '[@slide]': `{ value: sidenav.animate(), params: { x: dir.isRtl() ? w() : '-'+w() } }`,
+    '(@slide.done)': 'sidenav.animationDone()',
+    '(@slide.start)': 'sidenav.animationStart()',
   },
-  animations: [
-    trigger('slide', [
-      state('true', style({ transform: 'translateX(0)' })),
-      state('false', style({ transform: 'translateX({{x}})' }), { params: { x: '-100%' } }),
-      transition('* => *', animate('500ms cubic-bezier(0.55, 0.31, 0.15, 0.93)')),
-    ]),
-  ],
 })
 export class MeeSidenavHeader {
-  readonly sidenavService = inject(SidenavService);
+  readonly sidenav = inject(SidenavService);
   readonly el = inject(ElementRef);
   readonly dir = inject(Directionality);
 
   readonly width = input('250px');
+  readonly minWidth = input('0');
 
-  readonly headerClasses = computed(() => {
-    let clazz = '';
-    if (this.sidenavService.mode() === 'over') {
-      clazz += 'absolute top-0 z-p h-full shadow-2xl';
+  readonly w = computed(() => (this.sidenav.mode() === 'partial' ? this.minWidth() : this.width()));
+  readonly actualWidth = computed(() => {
+    if (this.sidenav.show()) {
+      return this.width();
+    } else if (this.sidenav.mode() === 'partial') {
+      return this.minWidth();
+    } else if (this.sidenav.mode() === 'over') {
+      return this.width();
+    }
+    return this.width();
+  });
+
+  readonly headerStyles = computed(() => {
+    let styles = {};
+    if (this.sidenav.mode() === 'over') {
+      styles = { ...styles, position: 'absolute', top: '0', height: '100%' };
     }
     if (this.dir.isRtl()) {
-      clazz += `right-0 border-l`;
+      styles = { ...styles, right: '0' };
     } else {
-      clazz += `left-0 border-r`;
+      styles = { ...styles, left: '0' };
     }
-    return clazz;
+    return styles;
   });
 
   constructor() {
-    this.sidenavService.width = this.width as Signal<string>;
+    this.sidenav.width = linkedSignal(this.width);
+    this.sidenav.minWidth = linkedSignal(this.minWidth);
   }
-
-  // lastWidth = 0;
-
-  // width = computed(() => {
-  //   const lastWidth = this.sidenav.show()
-  //     ? this.el.nativeElement.clientWidth
-  //     : this.lastWidth;
-  //   this.lastWidth &&= lastWidth;
-  //   return this.lastWidth;
-  // });
 }

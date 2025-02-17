@@ -80,21 +80,19 @@ export class MeePaginationBtn {
         }
       </div>
     </div>
-    <div>Page {{ active() }} of {{ _totalSize() }}</div>
+    <div>Page {{ active() }} of {{ totalSnaps() }}</div>
     <div class="flex items-center gap-b2">
       <button meePaginationBtn="prev" class="h-b8 w-b8 !p-b2"><</button>
       <button meePaginationBtn="prev" jump="-1" class="h-b8 w-b8 !p-b2"><</button>
-      @if (showPage()) {
-        @for (item of items(); track item) {
-          <button
-            meePaginationBtn="page"
-            [jump]="item"
-            [class]="active() === item ? 'bg-muted-background text-primary' : ''"
-            class="min-w-b9 !p-b2 ring-offset-background"
-          >
-            {{ item }}
-          </button>
-        }
+      @for (snap of snaps(); track snap) {
+        <button
+          meePaginationBtn="page"
+          [jump]="snap"
+          [class]="active() === snap ? 'bg-muted-background text-primary' : ''"
+          class="min-w-b9 !p-b2 ring-offset-background"
+        >
+          {{ snap }}
+        </button>
       }
       <button meePaginationBtn="next" jump="1" class="h-b8 w-b8 !p-b2">></button>
       <button meePaginationBtn="next" class="h-b8 w-b8 !p-b2">></button>
@@ -107,16 +105,18 @@ export class MeePaginationBtn {
   },
 })
 export class MeePagination {
+  // Inputs
   readonly total = input.required<number>();
   readonly size = model.required<number>();
   readonly sizeOptions = input<number[]>([10, 20, 50, 100]);
   readonly active = model.required<number>();
   readonly valueChanged = output<number>();
-  readonly showPage = input<boolean>(false);
-  readonly _totalSize = computed(() => Math.ceil(this.total() / this.size()));
-  readonly items = computed(() => {
+
+  // State
+  readonly totalSnaps = computed(() => Math.ceil(this.total() / this.size()));
+  readonly snaps = computed(() => {
     const activeIndex = this.active();
-    const total = this._totalSize();
+    const total = this.totalSnaps();
 
     const num = [];
     let start = activeIndex - 2 > 1 ? activeIndex - 2 : 1;
@@ -134,10 +134,10 @@ export class MeePagination {
   });
 
   readonly prev = computed(() => this.active() > 1);
-  readonly next = computed(() => this.active() < this._totalSize());
+  readonly next = computed(() => this.active() < this.totalSnaps());
 
   goto(index: number) {
-    const total = this._totalSize();
+    const total = this.totalSnaps();
     this.active.update(e => {
       e = index <= total ? index : total;
       e = e >= 1 ? e : 1;

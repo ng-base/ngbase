@@ -15,13 +15,13 @@ describe('Pagination', () => {
   });
 
   it('should create proper items based on size', () => {
-    expect(component.items()).toEqual([1, 2, 3, 4, 5]);
+    expect(component.snaps()).toEqual([1, 2, 3, 4, 5]);
     view.setInput('size', 20);
     view.detectChanges();
-    expect(component.items()).toEqual([1, 2, 3, 4, 5]);
+    expect(component.snaps()).toEqual([1, 2, 3, 4, 5]);
     view.setInput('size', 50);
     view.detectChanges();
-    expect(component.items()).toEqual([1, 2]);
+    expect(component.snaps()).toEqual([1, 2]);
   });
 
   it('should have prev and next', () => {

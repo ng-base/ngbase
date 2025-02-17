@@ -63,8 +63,8 @@ export class MeeMenu implements OnDestroy {
     read: ElementRef,
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
-  readonly options = contentChildren(MeeOption);
-  readonly lists = contentChildren(MeeList);
+  readonly options = contentChildren(MeeOption, { descendants: true });
+  readonly lists = contentChildren(MeeList, { descendants: true });
   readonly manager = new Keys();
   readonly selected = output<string>();
   readonly ayId = uniqueId();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MeePagination, MeePaginationBtn } from '@meeui/adk/pagination';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
@@ -34,7 +34,7 @@ import {
         }
       </mee-select>
     </div>
-    <div>Page {{ active() }} of {{ _totalSize() }}</div>
+    <div>Page {{ active() }} of {{ totalSnaps() }}</div>
     <div class="flex items-center gap-b2">
       <button meePaginationBtn="prev" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsLeft" />
@@ -43,14 +43,14 @@ import {
         <mee-icon name="lucideChevronLeft" />
       </button>
       @if (showPage()) {
-        @for (item of items(); track item) {
+        @for (snap of snaps(); track snap) {
           <button
             meePaginationBtn="page"
-            [jump]="item"
+            [jump]="snap"
             meeButton="ghost"
             class="min-w-b9 !p-b2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
           >
-            {{ item }}
+            {{ snap }}
           </button>
         }
       }
@@ -66,4 +66,6 @@ import {
     class: 'flex items-center gap-b8 font-semibold',
   },
 })
-export class Pagination extends MeePagination {}
+export class Pagination extends MeePagination {
+  readonly showPage = input<boolean>(false);
+}

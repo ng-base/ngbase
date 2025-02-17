@@ -9,6 +9,29 @@ import {
 } from '@angular/core';
 
 @Directive({
+  selector: '[meeAvatar]',
+})
+export class MeeAvatar {
+  readonly src = input<string>();
+  readonly name = input<string>();
+  readonly text = input<string>();
+
+  readonly nameChar = computed(() => {
+    if (this.src()) return '';
+    // if text is present, return it
+    if (this.text()) return this.text();
+
+    const name = this.name() || '';
+    // split the name into words and get the first character of each word
+    return name
+      .split(' ')
+      .slice(0, 2)
+      .map(word => word.charAt(0).toUpperCase())
+      .join('');
+  });
+}
+
+@Directive({
   selector: '[meeAvatarGroup]',
 })
 export class MeeAvatarGroup {
@@ -31,29 +54,6 @@ export class MeeAvatarGroup {
       });
     });
   }
-}
-
-@Directive({
-  selector: '[meeAvatar]',
-})
-export class MeeAvatar {
-  readonly src = input<string>();
-  readonly name = input<string>();
-  readonly text = input<string>();
-
-  readonly nameChar = computed(() => {
-    if (this.src()) return '';
-    // if text is present, return it
-    if (this.text()) return this.text();
-
-    const name = this.name() || '';
-    // split the name into words and get the first character of each word
-    return name
-      .split(' ')
-      .slice(0, 2)
-      .map(word => word.charAt(0).toUpperCase())
-      .join('');
-  });
 }
 
 export function provideAvatar(avatar: Type<MeeAvatar>) {

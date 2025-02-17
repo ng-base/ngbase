@@ -246,6 +246,9 @@ export class MeeTabs<T extends MeeTab = MeeTab> {
   }
 
   setActive(tab: MeeTab) {
+    // if the tab is not found, return
+    if (!tab) return;
+
     this.selectedIndex.set(tab.tabId());
     this.scrollToActive(tab.index());
     this.selectedTabChange.emit({ tab, index: tab.index() });

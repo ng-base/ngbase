@@ -54,6 +54,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   readonly closed = output<boolean>();
 
   // state
+  sideOffset = 0;
   readonly panelOpen = signal(false);
   readonly values = signal<T[]>([]);
   readonly status = signal<'opening' | 'opened' | 'closed'>('closed');
@@ -151,6 +152,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       maxHeight: '400px',
       ayId: this.ayId,
       focusTrap: false,
+      sideOffset: this.sideOffset,
       afterFocusEl: this.container()?.nativeElement || this.el.nativeElement,
     });
     this.withInPopup = false;

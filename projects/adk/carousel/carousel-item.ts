@@ -2,14 +2,12 @@ import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[meeCarouselItem]',
-  host: {
-    class: 'flex-none',
-  },
 })
-export class CarouselItem {
+export class MeeCarouselItem {
   el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   get width() {
-    return this.el.nativeElement.offsetWidth;
+    const width = this.el.nativeElement.getBoundingClientRect().width;
+    return width;
   }
 }

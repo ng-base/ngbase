@@ -35,10 +35,7 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
             @for (tab of tabs(); track tab.id) {
               <button
                 [meeTabButton]="tab"
-                class="{{
-                  'whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50' +
-                    (headerStyle() ? ' px-b4 py-b3 font-medium text-muted' : '')
-                }}"
+                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>
@@ -57,7 +54,7 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
     class: 'bg-foreground flex flex-col',
   },
 })
-export class Tabs extends MeeTabs {}
+export class Tabs extends MeeTabs<Tab> {}
 
 @Component({
   selector: 'mee-tab',

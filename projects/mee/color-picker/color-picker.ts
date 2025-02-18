@@ -13,7 +13,6 @@ import {
   registerColorPicker,
 } from '@meeui/adk/color-picker';
 import { InputBase } from '@meeui/adk/form-field';
-import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-color-picker-container',
@@ -77,7 +76,6 @@ export class ColorPicker extends MeeColorPicker {}
   selector: 'mee-color-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [registerColorPicker({ picker: ColorPicker, accessor: ColorInput })],
-  hostDirectives: [InputStyle],
   imports: [ColorPickerTrigger, InputBase],
   template: `
     <input

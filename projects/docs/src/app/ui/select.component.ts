@@ -27,13 +27,16 @@ import { DocCode } from './code.component';
     <h4 meeHeader class="mb-5" id="selectPage">Select</h4>
     <app-doc-code>
       <form [formGroup]="form">
-        <mee-select
-          formControlName="select"
-          (ngModelChange)="valueChanged()"
-          [options]="options"
-          class="w-full"
-          id="select-test"
-        />
+        <mee-form-field class="mt-5 min-w-52">
+          <label meeLabel>Select</label>
+          <mee-select
+            formControlName="select"
+            (ngModelChange)="valueChanged()"
+            [options]="options"
+            class="w-full"
+            id="select-test"
+          />
+        </mee-form-field>
         <!-- <input
             meeSelectInput
             placeholder="Search options"
@@ -49,7 +52,7 @@ import { DocCode } from './code.component';
         <!-- </mee-select> -->
       </form>
 
-      <div meeFormField class="mt-5 min-w-52">
+      <mee-form-field class="mt-5 min-w-52">
         <label meeLabel>Select with group</label>
         <mee-select
           [(ngModel)]="groupValue"
@@ -68,9 +71,8 @@ import { DocCode } from './code.component';
           }
           <div class="select-footer border-t px-b3 py-b2">Footer</div>
         </mee-select>
-      </div>
-
-      <div meeFormField class="min-w-52">
+      </mee-form-field>
+      <mee-form-field class="mt-5 min-w-52">
         <label meeLabel>Small select</label>
         <mee-select class="w-30">
           <div meeSelectTrigger>Great</div>
@@ -78,7 +80,7 @@ import { DocCode } from './code.component';
             <mee-option [value]="item">{{ item }}</mee-option>
           }
         </mee-select>
-      </div>
+      </mee-form-field>
     </app-doc-code>
   `,
 })

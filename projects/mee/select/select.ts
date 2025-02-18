@@ -9,7 +9,6 @@ import {
   SelectValue,
 } from '@meeui/adk/select';
 import { Icon } from '@meeui/ui/icon';
-import { InputStyle } from '@meeui/ui/form-field';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
 import { Option } from './option';
@@ -24,7 +23,6 @@ export class SelectOption<T> {}
 @Component({
   selector: 'mee-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [InputStyle],
   viewProviders: [provideIcons({ lucideChevronsUpDown })],
   providers: [provideSelect(Select)],
   imports: [
@@ -93,4 +91,6 @@ export class SelectOption<T> {}
     '[class.pointer-events-none]': 'disabled()',
   },
 })
-export class Select<T> extends MeeSelect<T> {}
+export class Select<T> extends MeeSelect<T> {
+  override sideOffset = 16;
+}

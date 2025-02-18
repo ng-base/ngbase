@@ -5,20 +5,14 @@ import {
   provideAutocomplete,
 } from '@meeui/adk/autocomplete';
 import { MeeSelectOptionGroup } from '@meeui/adk/select';
-import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideAutocomplete(Autocomplete)],
-  imports: [InputStyle, MeeSelectOptionGroup],
+  imports: [MeeSelectOptionGroup],
   template: `
-    <ul
-      #container
-      meeInputStyle
-      class="readonly !flex w-full flex-wrap gap-2"
-      (click)="prevent($event)"
-    >
+    <ul #container class="readonly !flex w-full flex-wrap gap-2" (click)="prevent($event)">
       <ng-content select="mee-chip, mee-chip-group" />
 
       <li class="flex min-w-8 flex-1 items-center" (click)="open()">

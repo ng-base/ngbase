@@ -15,11 +15,14 @@ import { MeeSelectTarget } from '@meeui/adk/select';
   selector: 'mee-form-field, [meeFormField]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [MeeFormField, MeeSelectTarget],
+  imports: [InputStyle],
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
-    <div class="grid items-center" #target>
+    <div class="flex items-center" #target meeInputStyle>
+      <ng-content select="[meeInputPrefix]" />
       <ng-content />
+      <ng-content select="[meeInputSuffix]" />
     </div>
     <ng-content select="[meeError]" />
   `,
@@ -37,7 +40,7 @@ export class FormField {
 
 @Directive({
   selector: '[meeInput]',
-  hostDirectives: [{ directive: InputBase, inputs: ['value'] }, InputStyle],
+  hostDirectives: [{ directive: InputBase, inputs: ['value'] }],
   host: {
     class: 'focus:outline-none',
     '[class.border-red-500]': 'formField?.hasErrors()',
@@ -66,7 +69,6 @@ export class Description {}
 
 @Directive({
   selector: '[meeInputPrefix]',
-  hostDirectives: [InputStyle],
 })
 export class InputPrefix {}
 

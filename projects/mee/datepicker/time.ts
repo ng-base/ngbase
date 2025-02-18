@@ -1,36 +1,32 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MeeTimeInput, MeeTimePicker, provideTimePicker } from '@meeui/adk/datepicker';
 import { Button } from '@meeui/ui/button';
-import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-time',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideTimePicker(TimePicker)],
-  imports: [InputStyle, Button, MeeTimeInput],
+  imports: [Button, MeeTimeInput],
   template: `
     <input
-      meeInputStyle
       meeTimeInput="hours"
       [(value)]="hours"
       (valueChange)="updateValue()"
-      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
-      meeInputStyle
       meeTimeInput="minutes"
       [(value)]="minutes"
       (valueChange)="updateValue()"
-      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
-      meeInputStyle
       meeTimeInput="seconds"
       [(value)]="seconds"
       (valueChange)="updateValue()"
-      class="w-10 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
     />
     @if (!is24()) {
       <div class="ml-b flex gap-b2">

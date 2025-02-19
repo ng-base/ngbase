@@ -1,13 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {
-  Component,
-  computed,
-  Directive,
-  ElementRef,
-  inject,
-  input,
-  linkedSignal,
-} from '@angular/core';
+import { computed, Directive, ElementRef, inject, input, linkedSignal } from '@angular/core';
 import { Directionality } from '@meeui/adk/bidi';
 import { SidenavService } from './sidenav.service';
 
@@ -44,9 +36,8 @@ export function slideAnimation(ease: string) {
   ]);
 }
 
-@Component({
+@Directive({
   selector: '[meeSidenavHeader]',
-  template: ``,
   host: {
     style: 'overflow:hidden;position:absolute;',
     '[style.visibility]': 'sidenav.visibility() ? "visible" : "hidden"',
@@ -57,6 +48,7 @@ export function slideAnimation(ease: string) {
     '[@slide]': `{ value: sidenav.animate(), params: { x: dir.isRtl() ? w() : '-'+w() } }`,
     '(@slide.done)': 'sidenav.animationDone()',
     '(@slide.start)': 'sidenav.animationStart()',
+    '[@.disabled]': 'isAnimationDisabled()',
   },
 })
 export class MeeSidenavHeader {
@@ -66,6 +58,12 @@ export class MeeSidenavHeader {
 
   readonly width = input('250px');
   readonly minWidth = input('0');
+
+  private initial = 0;
+  readonly isAnimationDisabled = linkedSignal({
+    source: this.sidenav.animate,
+    computation: () => this.initial++ === 0, // this will not considered on initial render due to increment
+  });
 
   readonly w = computed(() => (this.sidenav.mode() === 'partial' ? this.minWidth() : this.width()));
   readonly actualWidth = computed(() => {

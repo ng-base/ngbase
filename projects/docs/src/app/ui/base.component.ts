@@ -84,9 +84,9 @@ import { LangButton } from './lang-button';
       <button meeList>UI</button>
     </mee-menu>
 
-    <mee-scroll-area>
+    <mee-scroll-area class="h-[calc(100vh-56px)]">
       <mee-sidenav [mode]="mode()" [(show)]="show">
-        <mee-sidenav-header width="250px">
+        <mee-sidenav-header width="250px" minWidth="80px" class="border-r">
           <app-nav class="tour-nav block" meeTourStep></app-nav>
         </mee-sidenav-header>
         <div class="flex-1 overflow-x-hidden">
@@ -110,10 +110,10 @@ export class BaseComponent {
   readonly sideNav = viewChild.required(Sidenav);
   readonly breakpoints = breakpointObserver();
 
-  readonly md = this.breakpoints.observe({ md: '(max-width: 768px)' });
+  readonly bp = this.breakpoints.observe({ md: '(max-width: 768px)' });
   readonly mode = linkedSignal({
-    source: this.md,
-    computation: value => (value.get('md') ? 'over' : 'side'),
+    source: this.bp.state,
+    computation: value => (value.md ? 'over' : 'side'),
   });
 
   readonly show = signal(true);

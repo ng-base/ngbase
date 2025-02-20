@@ -46,8 +46,8 @@ import { Command, CommandItem } from '@meeui/ui/command';
       Origin
     </a>
 
-    <mee-accordion-group multiple class="mt-b4">
-      <mee-accordion [expanded]="true">
+    <mee-accordion-group multiple class="mt-b4 border-none">
+      <mee-accordion [expanded]="true" class="border-none">
         <button meeAccordionHeader class="!px-b2 font-semibold">Components</button>
         @for (item of sortComponentList; track item.name) {
           <a

@@ -24,7 +24,7 @@ export class TabLazyComponent {
   template: `
     <h4 meeHeader class="mb-5" id="tabsPage">Tabs</h4>
 
-    <app-doc-code [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode" [referencesCode]="references">
       <mee-tabs
         [(selectedIndex)]="tabIndex"
         (selectedIndexChange)="tabIndexChange($event)"
@@ -75,6 +75,7 @@ export default class TabsComponent {
     { id: 1, name: 'Tab with long name 2', disabled: true },
   ]);
   tabIndex = signal<number>(undefined as any);
+
   tsCode = `
   import { Component } from '@angular/core';
   import { Tabs, Tab, TabHeader } from '@meeui/ui/tabs';
@@ -96,6 +97,96 @@ export default class TabsComponent {
   })
   export class AppComponent { }
   `;
+
+  adkCode = `
+  import { NgTemplateOutlet } from '@angular/common';
+  import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+  import {
+    MeeTab,
+    MeeTabHeader,
+    MeeTabLazy,
+    MeeTabs,
+    provideTab,
+    provideTabs,
+    TabButton,
+    TabButtonsGroup,
+    TabScroll,
+  } from '@meeui/adk/tabs';
+
+  @Component({
+    selector: 'mee-tabs',
+    imports: [TabButton, TabButtonsGroup, TabScroll],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [provideTabs(Tabs)],
+    template: \`<div class="flex items-center border-b">
+        <ng-content select=".tab-start-header-content" />
+        <div class="relative flex overflow-hidden">
+          <button
+            meeTabScroll="left"
+            class="bg-foreground absolute left-0 z-10 h-full place-items-center px-2"
+          >
+            <
+          </button>
+          <nav meeTabButtonsGroup class="overflow-auto">
+            <div #tabListContainer class="flex h-full w-max">
+              @for (tab of tabs(); track tab.id) {
+                <button
+                  [meeTabButton]="tab"
+                  class="aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary border-b-2 border-transparent whitespace-nowrap aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-50"
+                ></button>
+              }
+            </div>
+          </nav>
+          <button
+            meeTabScroll="right"
+            class="bg-foreground absolute right-0 z-10 h-full place-items-center px-2"
+          >
+            >
+          </button>
+        </div>
+        <ng-content select=".tab-header-content" />
+      </div>
+      <ng-content /> \`,
+    host: {
+      class: 'bg-foreground flex flex-col',
+    },
+  })
+  export class Tabs extends MeeTabs {}
+
+  @Component({
+    selector: 'mee-tab',
+    exportAs: 'meeTab',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [provideTab(Tab)],
+    imports: [NgTemplateOutlet],
+    template: \`
+      @if (lazyTemplate(); as template) {
+        <ng-container *ngTemplateOutlet="template" />
+      } @else if (activeMode()) {
+        <ng-content />
+      }
+    \`,
+    host: {
+      class: 'block overflow-auto',
+      '[class]': \`active() ? 'flex-1 h-full pt-b4' : 'hidden'\`,
+    },
+  })
+  export class Tab extends MeeTab {}
+
+  @Directive({
+    selector: '[meeTabHeader]',
+    hostDirectives: [MeeTabHeader],
+  })
+  export class TabHeader {}
+
+  @Directive({
+    selector: '[meeTabLazy]',
+    hostDirectives: [MeeTabLazy],
+  })
+  export class TabLazy {}
+  `;
+
+  references = ``;
 
   addTab() {
     this.tabs.update(tabs => [

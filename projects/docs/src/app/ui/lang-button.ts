@@ -8,7 +8,7 @@ import { Button } from '@meeui/ui/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button],
   template: `<button meeButton="ghost" (click)="toggleDirection()">
-    {{ dir.isRtl() ? 'RTL' : 'LTR' }}
+    {{ dir.isRtl() ? 'LTR' : 'RTL' }}
   </button>`,
 })
 export class LangButton {

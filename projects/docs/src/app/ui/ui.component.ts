@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Card } from '@meeui/ui/card';
 import { TourStep } from '@meeui/ui/tour';
 import { timer } from 'rxjs';
-import AccordionComponent from './accordion.component';
+import AccordionComponent from './accordion/accordion.component';
 import AlertDialogComponent from './alert-dialog.component';
 import AutocompleteComponent from './autocomplete.component';
 import AvatarComponent from './avatar.component';

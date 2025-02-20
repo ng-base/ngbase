@@ -1,15 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocCode } from './code.component';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
   selector: 'app-jwt',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocCode],
+  imports: [DocCode, Heading],
   template: `
-    <div>
-      <h1>JWT</h1>
-      <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode"> </app-doc-code>
-    </div>
+    <h4 meeHeader="sm" class="mb-5">JWT</h4>
+    <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode" hidePreview> </app-doc-code>
   `,
 })
 export default class JwtComponent {

@@ -88,3 +88,33 @@ export function breakpointObserver() {
 
   return { observe, matches };
 }
+
+// This is a mock for testing purposes
+export function setupTestBreakpoint(fn: Function) {
+  const createMockMediaQuery = () => ({
+    matches: false,
+    addEventListener: fn(),
+    removeEventListener: fn(),
+  });
+
+  const _mediaQueryList = createMockMediaQuery();
+  const _matchMedia = fn(() => _mediaQueryList);
+  window.matchMedia = _matchMedia;
+
+  return {
+    reset: () => {
+      Object.assign(_mediaQueryList, createMockMediaQuery());
+      Object.assign(
+        _matchMedia,
+        fn(() => _mediaQueryList),
+      );
+      window.matchMedia = _matchMedia;
+    },
+    get mediaQueryList() {
+      return _mediaQueryList;
+    },
+    get matchMedia() {
+      return _matchMedia;
+    },
+  };
+}

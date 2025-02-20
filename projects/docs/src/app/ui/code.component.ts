@@ -1,10 +1,14 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   Injectable,
   input,
+  linkedSignal,
   resource,
+  Signal,
   signal,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,6 +19,10 @@ import { CopyToClipboard } from '@meeui/adk/clipboard';
 import { provideIcons } from '@ng-icons/core';
 import { lucideCopy } from '@ng-icons/lucide';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
+import { Heading } from '@meeui/ui/typography';
+import { injectTheme } from '@meeui/ui/theme';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CodeService {
@@ -33,16 +41,18 @@ export class CodeService {
 @Component({
   selector: 'app-doc-code',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon],
+  imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon, Heading],
   providers: [provideIcons({ lucideCopy })],
   template: `
     <mee-selectable [(activeIndex)]="selected" class="mb-b2 text-xs">
-      <button meeSelectableItem [value]="1">Preview</button>
-      <button meeSelectableItem [value]="2">Code</button>
-      <button meeSelectableItem [value]="3">Usage</button>
+      @if (!hidePreview()) {
+        <button meeSelectableItem [value]="1">Preview</button>
+      }
+      <button meeSelectableItem [value]="2">Usage</button>
+      <button meeSelectableItem [value]="3">Adk Code</button>
     </mee-selectable>
 
-    @if (selected() === 1) {
+    @if (selected() === 1 && !hidePreview()) {
       <div class="flex min-h-80 items-center justify-center rounded-base border">
         <div class="relative p-b4 md:w-auto">
           <ng-content />
@@ -52,24 +62,32 @@ export class CodeService {
       <div class="relative overflow-hidden rounded-base border font-body">
         <button
           meeButton="outline"
-          class="dark absolute right-0 top-0 h-8 w-8"
-          [meeCopyToClipboard]="adkCode()"
-        >
-          <mee-icon name="lucideCopy" />
-        </button>
-        <div [innerHTML]="adk.value()"></div>
-      </div>
-    } @else {
-      <div class="relative overflow-hidden rounded-base border font-body">
-        <button
-          meeButton="outline"
-          class="dark absolute right-0 top-0 h-8 w-8"
+          class="absolute right-0 top-0 h-8 w-8"
           [meeCopyToClipboard]="tsCode()"
         >
           <mee-icon name="lucideCopy" />
         </button>
         <div [innerHTML]="ts.value()"></div>
       </div>
+    } @else {
+      @if (adk.value(); as av) {
+        <div class="relative overflow-hidden rounded-base border font-body">
+          <button
+            meeButton="outline"
+            class="dark absolute right-0 top-0 h-8 w-8"
+            [meeCopyToClipboard]="adkCode()"
+          >
+            <mee-icon name="lucideCopy" />
+          </button>
+          <div [innerHTML]="av"></div>
+        </div>
+      }
+      @if (references.value(); as rv) {
+        <h4 meeHeader="md" class="mb-3 mt-5">References</h4>
+        <div class="relative overflow-hidden rounded-base border font-body">
+          <div [innerHTML]="rv"></div>
+        </div>
+      }
     }
   `,
   host: {
@@ -78,46 +96,69 @@ export class CodeService {
   styles: [
     `
       :host ::ng-deep pre {
-        @apply overflow-auto pr-b5;
+        @apply overflow-auto p-3 pr-b5;
       }
       :host ::ng-deep pre,
       :host ::ng-deep code {
         @apply font-dm-mono;
+      }
+      :host ::ng-deep code {
+        counter-reset: step;
+        counter-increment: step 0;
+      }
+
+      :host ::ng-deep code .line::before {
+        content: counter(step);
+        counter-increment: step;
+        width: 1rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: right;
+        color: rgba(115, 138, 148, 0.4);
       }
     `,
   ],
 })
 export class DocCode {
   private codeService = inject(CodeService);
-  selected = signal(1);
-  activeTab = signal(0);
-  sanitizer = inject(DomSanitizer);
-  tsCode = input<string>('');
-  adkCode = input<string>('');
+  readonly sanitizer = inject(DomSanitizer);
+  readonly themeService = injectTheme();
 
-  ts = resource({
-    request: this.tsCode,
-    loader: async ({ request }) => {
-      const highlighter = await this.codeService.getHighlighter();
-      const html = highlighter.codeToHtml(request, {
-        lang: 'angular-ts',
-        themes: { light: 'github-light', dark: 'github-dark' },
-        defaultColor: 'dark',
-      });
-      return this.sanitizer.bypassSecurityTrustHtml(html);
-    },
-  });
+  readonly tsCode = input<string>('');
+  readonly adkCode = input<string>('');
+  readonly referencesCode = input<string>('');
+  readonly hidePreview = input(false, { transform: booleanAttribute });
 
-  adk = resource({
-    request: this.adkCode,
-    loader: async ({ request }) => {
-      const highlighter = await this.codeService.getHighlighter();
-      const html = highlighter.codeToHtml(request, {
-        lang: 'angular-ts',
-        themes: { light: 'github-light', dark: 'github-dark' },
-        defaultColor: 'dark',
-      });
-      return this.sanitizer.bypassSecurityTrustHtml(html);
-    },
+  readonly selected = linkedSignal(() => (this.hidePreview() ? 2 : 1));
+  readonly activeTab = signal(0);
+
+  readonly ts = this.getThemeCode(this.tsCode);
+
+  readonly adk = this.getThemeCode(this.adkCode);
+
+  readonly references = this.getThemeCode(this.referencesCode);
+
+  private getThemeCode(code: Signal<string>) {
+    return resource({
+      request: () => ({ code: code(), theme: this.themeService.mode() }),
+      loader: async ({ request: { code, theme } }) => {
+        if (!code) return null;
+        const highlighter = await this.codeService.getHighlighter();
+        const html = highlighter.codeToHtml(code, {
+          lang: 'angular-ts',
+          themes: { light: 'github-light', dark: 'github-dark' },
+          defaultColor: theme,
+        });
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+      },
+    });
+  }
+}
+
+export function getCode(path: string) {
+  const httpClient = inject(HttpClient);
+  const x = rxResource({
+    loader: () => httpClient.get(path, { responseType: 'text' }),
   });
+  return computed(() => x.value()?.trim() ?? '');
 }

@@ -1,26 +1,37 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Input } from '@meeui/ui/form-field';
 import { keyMap } from '@meeui/adk/keys';
 import { injectTheme } from '@meeui/ui/theme';
 import { DocCode } from './code.component';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
-  imports: [DocCode, Input],
+  imports: [DocCode, Heading],
   selector: 'app-shortcuts',
   template: `
-    <app-doc-code [tsCode]="code">
-      <input meeInput type="text" />
-    </app-doc-code>
+    <h4 meeHeader="sm" class="mb-5">Shortcuts</h4>
+    <app-doc-code [tsCode]="usage" hidePreview> </app-doc-code>
   `,
 })
 export default class ShortcutsComponent {
   private themeService = injectTheme();
   private router = inject(Router);
 
-  code = `
-    shortcutListener('ctrl+d', () => this.themeService.toggle());
-    shortcutListener('ctrl+a', () => this.router.navigate(['/buttons']));
+  usage = `
+  import { keyMap } from '@meeui/adk/keys';
+
+  @Component({
+    ...
+  })
+  class AppComponent {
+    readonly themeService = injectTheme();
+    readonly router = inject(Router);
+
+    constructor() {
+      keyMap('ctrl+d', () => this.themeService.toggle());
+      keyMap('ctrl+a', () => this.router.navigate(['/buttons']));
+    }
+  }
   `;
 
   constructor() {

@@ -1,42 +1,16 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { breakpointObserver } from './layout';
+import { breakpointObserver, setupTestBreakpoint } from './layout';
 
 @Component({ template: '' })
 class TestComponent {
   readonly breakpoints = breakpointObserver();
 }
 
-function setupTestBreakpoint() {
-  const createMockMediaQuery = () => ({
-    matches: false,
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-  });
-
-  const _mediaQueryList = createMockMediaQuery();
-  const _matchMedia = jest.fn().mockReturnValue(_mediaQueryList);
-  window.matchMedia = _matchMedia;
-
-  return {
-    reset: () => {
-      Object.assign(_mediaQueryList, createMockMediaQuery());
-      Object.assign(_matchMedia, jest.fn().mockReturnValue(_mediaQueryList));
-      window.matchMedia = _matchMedia;
-    },
-    get mediaQueryList() {
-      return _mediaQueryList;
-    },
-    get matchMedia() {
-      return _matchMedia;
-    },
-  };
-}
-
 describe('breakpointObserver', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
-  let { reset, mediaQueryList, matchMedia } = setupTestBreakpoint();
+  let { reset, mediaQueryList, matchMedia } = setupTestBreakpoint(jest.fn);
   beforeEach(() => {
     reset();
 

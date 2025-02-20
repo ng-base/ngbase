@@ -8,8 +8,9 @@ import { MeeCarousel } from './carousel';
   },
 })
 export class MeeCarouselButton {
-  meeCarouselButton = input.required<number | 'next' | 'prev'>();
-  carousel = inject(MeeCarousel);
+  private readonly carousel = inject(MeeCarousel);
+
+  readonly meeCarouselButton = input.required<number | 'next' | 'prev'>();
 
   clicked(event: Event) {
     event.preventDefault();

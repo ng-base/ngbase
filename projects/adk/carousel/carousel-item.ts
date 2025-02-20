@@ -4,7 +4,7 @@ import { Directive, ElementRef, inject } from '@angular/core';
   selector: '[meeCarouselItem]',
 })
 export class MeeCarouselItem {
-  el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   get width() {
     const width = this.el.nativeElement.getBoundingClientRect().width;

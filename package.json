@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve docs --port 4555",
     "build": "ng build docs",
+    "build:lib:adk": "ng build adk",
+    "build:lib:mee": "ng build mee",
     "build:lib": "ng build adk && ng build mee",
     "publish:lib": "npm publish --access public",
     "watch": "ng build --watch --configuration development",

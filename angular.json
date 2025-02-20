@@ -31,6 +31,22 @@
               {
                 "glob": "**/*",
                 "input": "projects/docs/public"
+              },
+              {
+                "glob": "**/*.md",
+                "input": "projects/docs/src/app/ui"
+              },
+              {
+                "glob": "**/*-usage.ts",
+                "input": "projects/docs/src/app/ui"
+              },
+              {
+                "glob": "**/*-adk.ts",
+                "input": "projects/adk/"
+              },
+              {
+                "glob": "**/*-reference.ts",
+                "input": "projects/adk/"
               }
             ],
             "styles": ["projects/docs/src/styles.scss"],

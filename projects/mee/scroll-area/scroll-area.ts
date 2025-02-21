@@ -11,6 +11,7 @@ import { MeeScrollArea, MeeScrollBar, ScrollBarOrientation } from '@meeui/adk/sc
       [alwaysShow]="alwaysShow()"
       [orientation]="orientation()"
       [hideDelay]="hideDelay()"
+      class="flex-1"
     >
       <ng-content></ng-content>
 
@@ -29,7 +30,7 @@ import { MeeScrollArea, MeeScrollBar, ScrollBarOrientation } from '@meeui/adk/sc
     </div>
   `,
   host: {
-    class: 'block w-full min-h-0',
+    class: 'flex flex-col w-full',
   },
 })
 export class ScrollArea {

@@ -10,7 +10,7 @@ import { Option } from '@meeui/ui/select';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
 import { Separator } from '@meeui/ui/separator';
 import { Heading } from '@meeui/ui/typography';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideCirclePlay,

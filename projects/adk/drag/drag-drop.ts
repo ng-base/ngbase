@@ -17,7 +17,7 @@ export interface DropEvent<T> {
 }
 
 @Directive({
-  selector: '[meeDrop]',
+  selector: '[ngbDrop]',
 })
 export class DragDrop<T> {
   readonly el = inject(ElementRef);
@@ -37,7 +37,7 @@ export class DragDrop<T> {
       this.sortableElements = [];
       const subs = items.map(item => {
         this.sortableElements.push(item.el.nativeElement);
-        return item.meeDrag.subscribe(data => this.onDrag(data, item));
+        return item.ngbDrag.subscribe(data => this.onDrag(data, item));
       });
       cleanup(() => subs.forEach(sub => sub.unsubscribe()));
     });

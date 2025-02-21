@@ -1,33 +1,33 @@
-import { MeeCell, MeeCellDef } from './body-cell';
-import { MeeBodyRow, MeeBodyRowDef } from './body-row';
-import { MeeColumn } from './column';
-import { MeeHead, MeeHeadDef } from './head-cell';
-import { MeeHeadRow, MeeHeadRowDef } from './head-row';
-import { MeeTable } from './table';
+import { NgbCell, NgbCellDef } from './body-cell';
+import { NgbBodyRow, NgbBodyRowDef } from './body-row';
+import { NgbColumn } from './column';
+import { NgbHead, NgbHeadDef } from './head-cell';
+import { NgbHeadRow, NgbHeadRowDef } from './head-row';
+import { NgbTable } from './table';
 
 const TableComponents = [
-  MeeBodyRow,
-  MeeBodyRowDef,
-  MeeCell,
-  MeeCellDef,
-  MeeHead,
-  MeeHeadDef,
-  MeeHeadRow,
-  MeeHeadRowDef,
-  MeeColumn,
-  MeeTable,
+  NgbBodyRow,
+  NgbBodyRowDef,
+  NgbCell,
+  NgbCellDef,
+  NgbHead,
+  NgbHeadDef,
+  NgbHeadRow,
+  NgbHeadRowDef,
+  NgbColumn,
+  NgbTable,
 ];
 
 export {
-  MeeBodyRow,
-  MeeBodyRowDef,
-  MeeCell,
-  MeeCellDef,
-  MeeHead,
-  MeeHeadDef,
-  MeeHeadRow,
-  MeeHeadRowDef,
-  MeeColumn,
-  MeeTable,
+  NgbBodyRow,
+  NgbBodyRowDef,
+  NgbCell,
+  NgbCellDef,
+  NgbHead,
+  NgbHeadDef,
+  NgbHeadRow,
+  NgbHeadRowDef,
+  NgbColumn,
+  NgbTable,
   TableComponents,
 };

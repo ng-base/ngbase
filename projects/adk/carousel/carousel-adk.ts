@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeCarousel,
-  MeeCarouselButton,
-  MeeCarouselContainer,
-  MeeCarouselItem,
-  MeeCarouselSubContainer,
+  NgbCarousel,
+  NgbCarouselButton,
+  NgbCarouselContainer,
+  NgbCarouselItem,
+  NgbCarouselSubContainer,
   provideCarousel,
-} from '@meeui/adk/carousel';
+} from '@ngbase/adk/carousel';
 
 @Component({
   selector: 'mee-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideCarousel(Carousel)],
-  imports: [MeeCarouselContainer, MeeCarouselSubContainer],
+  imports: [NgbCarouselContainer, NgbCarouselSubContainer],
   template: `
-    <div class="touch-none overflow-hidden" meeCarouselContainer>
-      <div meeCarouselSubContainer class="relative -ml-4 flex">
+    <div class="touch-none overflow-hidden" ngbCarouselContainer>
+      <div ngbCarouselSubContainer class="relative -ml-4 flex">
         <ng-content select="[meeCarouselItem]" />
       </div>
     </div>
@@ -27,16 +27,18 @@ import {
     class: 'flex flex-col gap-4 relative',
   },
 })
-export class Carousel extends MeeCarousel {}
+export class Carousel extends NgbCarousel {}
 
 @Directive({
   selector: '[meeCarouselItem]',
-  hostDirectives: [MeeCarouselItem],
+  hostDirectives: [NgbCarouselItem],
 })
 export class CarouselItem {}
 
 @Directive({
   selector: '[meeCarouselButton]',
-  hostDirectives: [{ directive: MeeCarouselButton, inputs: ['meeCarouselButton'] }],
+  hostDirectives: [
+    { directive: NgbCarouselButton, inputs: ['ngbCarouselButton: meeCarouselButton'] },
+  ],
 })
 export class CarouselButton {}

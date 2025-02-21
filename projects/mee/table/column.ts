@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { MeeColumn } from '@meeui/adk/table';
+import { NgbColumn } from '@ngbase/adk/table';
 
 @Directive({
   selector: '[meeColumn]',
-  hostDirectives: [{ directive: MeeColumn, inputs: ['meeColumn', 'sticky'] }],
+  hostDirectives: [{ directive: NgbColumn, inputs: ['ngbColumn: meeColumn', 'sticky'] }],
 })
 export class Column {}

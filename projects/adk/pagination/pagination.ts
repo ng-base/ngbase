@@ -8,10 +8,10 @@ import {
   numberAttribute,
   output,
 } from '@angular/core';
-import { MeeSelect, MeeOption } from '@meeui/adk/select';
+import { NgbSelect, NgbOption } from '@ngbase/adk/select';
 
 @Directive({
-  selector: '[meePaginationBtn]',
+  selector: '[ngbPaginationBtn]',
   host: {
     type: 'button',
     '[attr.aria-label]': 'ariaLabel()',
@@ -20,37 +20,37 @@ import { MeeSelect, MeeOption } from '@meeui/adk/select';
     '[attr.aria-current]': 'ariaCurrent()',
   },
 })
-export class MeePaginationBtn {
-  readonly pagination = inject(MeePagination);
+export class NgbPaginationBtn {
+  readonly pagination = inject(NgbPagination);
 
-  readonly meePaginationBtn = input.required<'next' | 'prev' | 'page'>();
+  readonly ngbPaginationBtn = input.required<'next' | 'prev' | 'page'>();
   readonly jump = input(undefined, { transform: numberAttribute });
 
   readonly disabled = computed(() =>
-    this.meePaginationBtn() === 'page'
+    this.ngbPaginationBtn() === 'page'
       ? false
-      : this.meePaginationBtn() === 'prev'
+      : this.ngbPaginationBtn() === 'prev'
         ? !this.pagination.prev()
         : !this.pagination.next(),
   );
   readonly ariaLabel = computed(() => {
-    return this.meePaginationBtn() === 'page'
+    return this.ngbPaginationBtn() === 'page'
       ? 'Go to page'
-      : this.meePaginationBtn() === 'prev'
+      : this.ngbPaginationBtn() === 'prev'
         ? 'Go to previous page'
         : 'Go to next page';
   });
 
   readonly ariaCurrent = computed(() =>
-    this.meePaginationBtn() === 'page' && this.pagination.active() === this.jump()
+    this.ngbPaginationBtn() === 'page' && this.pagination.active() === this.jump()
       ? 'page'
       : undefined,
   );
 
   clicked() {
-    if (this.meePaginationBtn() === 'page') {
+    if (this.ngbPaginationBtn() === 'page') {
       this.pagination.goto(this.jump()!);
-    } else if (this.meePaginationBtn() === 'prev') {
+    } else if (this.ngbPaginationBtn() === 'prev') {
       if (this.jump()) {
         this.pagination.jump(-1);
       } else {
@@ -67,14 +67,14 @@ export class MeePaginationBtn {
 }
 
 @Component({
-  selector: '[meePagination]',
-  imports: [MeeSelect, MeeOption, MeePaginationBtn],
+  selector: '[ngbPagination]',
+  imports: [NgbSelect, NgbOption, NgbPaginationBtn],
   template: `
     <div class="flex items-center gap-b2">
       <div>Rows per page</div>
-      <div meeSelect [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-b1.5">
+      <div ngbSelect [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-b1.5">
         @for (size of sizeOptions(); track size) {
-          <div meeOption [value]="size">
+          <div ngbOption [value]="size">
             {{ size }}
           </div>
         }
@@ -82,11 +82,11 @@ export class MeePaginationBtn {
     </div>
     <div>Page {{ active() }} of {{ totalSnaps() }}</div>
     <div class="flex items-center gap-b2">
-      <button meePaginationBtn="prev" class="h-b8 w-b8 !p-b2"><</button>
-      <button meePaginationBtn="prev" jump="-1" class="h-b8 w-b8 !p-b2"><</button>
+      <button ngbPaginationBtn="prev" class="h-b8 w-b8 !p-b2"><</button>
+      <button ngbPaginationBtn="prev" jump="-1" class="h-b8 w-b8 !p-b2"><</button>
       @for (snap of snaps(); track snap) {
         <button
-          meePaginationBtn="page"
+          ngbPaginationBtn="page"
           [jump]="snap"
           [class]="active() === snap ? 'bg-muted-background text-primary' : ''"
           class="min-w-b9 !p-b2 ring-offset-background"
@@ -94,8 +94,8 @@ export class MeePaginationBtn {
           {{ snap }}
         </button>
       }
-      <button meePaginationBtn="next" jump="1" class="h-b8 w-b8 !p-b2">></button>
-      <button meePaginationBtn="next" class="h-b8 w-b8 !p-b2">></button>
+      <button ngbPaginationBtn="next" jump="1" class="h-b8 w-b8 !p-b2">></button>
+      <button ngbPaginationBtn="next" class="h-b8 w-b8 !p-b2">></button>
     </div>
   `,
   host: {
@@ -104,7 +104,7 @@ export class MeePaginationBtn {
     'aria-label': 'pagination',
   },
 })
-export class MeePagination {
+export class NgbPagination {
   // Inputs
   readonly total = input.required<number>();
   readonly size = model.required<number>();

@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { injectNetwork } from './network.service';
-import { isClient } from '@meeui/adk/utils';
+import { isClient } from '@ngbase/adk/utils';
 
 const networkInterceptor: HttpInterceptorFn = (req, next) => {
   const networkService = injectNetwork();

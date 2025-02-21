@@ -7,10 +7,10 @@ import {
   linkedSignal,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { InputBase } from '@meeui/adk/form-field';
+import { InputBase } from '@ngbase/adk/form-field';
 
 @Directive({
-  selector: '[meeMask]',
+  selector: '[ngbMask]',
   hostDirectives: [InputBase],
   host: {
     '(keydown)': 'onKeyDown($event)',
@@ -24,7 +24,7 @@ export class Mask {
   private readonly inputC = inject(InputBase);
 
   // Inputs
-  readonly meeMask = input<string>('');
+  readonly ngbMask = input<string>('');
   readonly showMaskType = input(false);
 
   readonly localValue = linkedSignal(() => (this.inputC.value() as string) ?? '');
@@ -36,7 +36,7 @@ export class Mask {
     // });
 
     afterRenderEffect(() => {
-      const mask = this.meeMask();
+      const mask = this.ngbMask();
       const value = this.localValue();
       this.el.nativeElement.value = this.updateView(value, mask);
     });
@@ -74,7 +74,7 @@ export class Mask {
 
     // Get the current value and mask
     const currentValue = input.value;
-    const mask = this.meeMask();
+    const mask = this.ngbMask();
 
     // Check if the key matches the mask at current position
     if (this.isValidChar(key, this.getCurrentMaskChar(mask, cursorPos))) {
@@ -142,7 +142,7 @@ export class Mask {
   }
 
   private calculateCursorPosition(maskedValue: string, oldPos: number): number {
-    const mask = this.meeMask();
+    const mask = this.ngbMask();
     let newPos = oldPos;
 
     // Move cursor past any fixed mask characters
@@ -164,12 +164,12 @@ export class Mask {
     this.handleValue(value);
   }
 
-  private updateView(value: string, mask = this.meeMask()): string {
+  private updateView(value: string, mask = this.ngbMask()): string {
     return maskTransform(value, mask);
   }
 
   private unmask(value: string): string {
-    const mask = this.meeMask();
+    const mask = this.ngbMask();
     let unmaskedValue = '';
     let valueIndex = 0;
 

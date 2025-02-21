@@ -11,26 +11,26 @@ import {
   untracked,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NumberOnly, padString, provideValueAccessor } from '@meeui/adk/utils';
+import { NumberOnly, padString, provideValueAccessor } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeTimeInput]',
+  selector: '[ngbTimeInput]',
   hostDirectives: [{ directive: NumberOnly, inputs: ['value'], outputs: ['valueChange'] }],
   host: {
     type: 'tel',
   },
 })
-export class MeeTimeInput {
+export class NgbTimeInput {
   readonly numberOnly = inject(NumberOnly);
-  readonly timePicker = inject(MeeTimePicker);
+  readonly timePicker = inject(NgbTimePicker);
 
-  readonly meeTimeInput = input.required<'hours' | 'minutes' | 'seconds'>();
+  readonly ngbTimeInput = input.required<'hours' | 'minutes' | 'seconds'>();
 
   constructor() {
     this.numberOnly._min.set(0);
     this.numberOnly._len.set(2);
     effect(() => {
-      const type = this.meeTimeInput();
+      const type = this.ngbTimeInput();
       if (type === 'hours') {
         this.numberOnly._max.set(this.timePicker.is24() ? 23 : 11);
       } else {
@@ -41,16 +41,16 @@ export class MeeTimeInput {
 }
 
 @Component({
-  selector: '[meeTime]',
+  selector: '[ngbTime]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [_provide(MeeTimePicker)],
-  imports: [NumberOnly, MeeTimeInput],
+  providers: [_provide(NgbTimePicker)],
+  imports: [NumberOnly, NgbTimeInput],
   template: `
-    <input meeTimeInput="hours" [(value)]="hours" (valueChange)="updateValue()" />
+    <input ngbTimeInput="hours" [(value)]="hours" (valueChange)="updateValue()" />
     <span>:</span>
-    <input meeTimeInput="minutes" [(value)]="minutes" (valueChange)="updateValue()" />
+    <input ngbTimeInput="minutes" [(value)]="minutes" (valueChange)="updateValue()" />
     <span>:</span>
-    <input meeTimeInput="seconds" [(value)]="seconds" (valueChange)="updateValue()" />
+    <input ngbTimeInput="seconds" [(value)]="seconds" (valueChange)="updateValue()" />
     @if (!is24()) {
       <div class="ml-b flex gap-b2">
         <button type="button" class="small" (click)="changeAm(true)">AM</button>
@@ -62,7 +62,7 @@ export class MeeTimeInput {
     class: 'inline-flex gap-b items-center justify-center',
   },
 })
-export class MeeTimePicker implements ControlValueAccessor {
+export class NgbTimePicker implements ControlValueAccessor {
   readonly is24 = input(false);
   readonly value = input<string | null | undefined>();
   readonly valueChange = output<string | null | undefined>();
@@ -132,10 +132,10 @@ export class MeeTimePicker implements ControlValueAccessor {
   }
 }
 
-function _provide(picker: typeof MeeTimePicker) {
+function _provide(picker: typeof NgbTimePicker) {
   return [provideValueAccessor(picker)];
 }
 
-export function provideTimePicker(picker: typeof MeeTimePicker) {
-  return [_provide(picker), { provide: MeeTimePicker, useExisting: picker }];
+export function provideTimePicker(picker: typeof NgbTimePicker) {
+  return [_provide(picker), { provide: NgbTimePicker, useExisting: picker }];
 }

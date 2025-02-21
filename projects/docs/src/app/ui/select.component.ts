@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { filterFunction } from '@meeui/adk/utils';
+import { filterFunction } from '@ngbase/adk/utils';
 import { FormField, Label } from '@meeui/ui/form-field';
 import { Option, OptionGroup, Select, SelectInput, SelectTrigger } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';

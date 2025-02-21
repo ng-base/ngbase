@@ -1,5 +1,5 @@
 import { Component, signal, TemplateRef } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Tab, TabHeader } from './tab';
 
 describe('Tab Component', () => {

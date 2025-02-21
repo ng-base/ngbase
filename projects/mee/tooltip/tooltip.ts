@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeTooltipTemplate,
-  provideMeeTooltipOptions,
+  NgbTooltipTemplate,
+  provideNgbTooltipOptions,
   TooltipOptions,
-  MeeTooltip,
-} from '@meeui/adk/tooltip';
+  NgbTooltip,
+} from '@ngbase/adk/tooltip';
 import { injectTheme } from '@meeui/ui/theme';
 
 @Directive({
   selector: '[meeTooltip]',
   hostDirectives: [
-    { directive: MeeTooltip, inputs: ['meeTooltip', 'meeTooltipPosition', 'delay'] },
+    { directive: NgbTooltip, inputs: ['ngbTooltip', 'ngbTooltipPosition', 'delay'] },
   ],
 })
 export class Tooltip {}
@@ -25,9 +25,9 @@ export class Tooltip {}
     '[class]': `theme.mode() === 'dark' ? 'light' : 'dark'`,
   },
 })
-export class TooltipComponent extends MeeTooltipTemplate {
+export class TooltipComponent extends NgbTooltipTemplate {
   readonly theme = injectTheme();
 }
 
 export const provideTooltipOptions = (options: TooltipOptions) =>
-  provideMeeTooltipOptions({ ...options, component: TooltipComponent });
+  provideNgbTooltipOptions({ ...options, component: TooltipComponent });

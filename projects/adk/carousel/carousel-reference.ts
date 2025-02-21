@@ -1,7 +1,7 @@
 /**
  * Reference Implementation
  * ----------------------
- * These are the underlying directives from @meeui/adk/carousel
+ * These are the underlying directives from @ngbase/adk/carousel
  * that power the component. You don't need to copy these.
  */
 
@@ -16,8 +16,8 @@ import { computed, Directive, input, signal } from '@angular/core';
  * - Last step
  */
 @Directive({
-  selector: '[meeCarousel]',
-  exportAs: 'meeCarousel',
+  selector: '[ngbCarousel]',
+  exportAs: 'ngbCarousel',
 })
 export class Carousel {
   // Items per step
@@ -37,16 +37,16 @@ export class Carousel {
 }
 
 @Directive({
-  selector: '[meeCarouselItem]',
-  exportAs: 'meeCarouselItem',
+  selector: '[ngbCarouselItem]',
+  exportAs: 'ngbCarouselItem',
 })
 export class CarouselItem {}
 
 @Directive({
-  selector: '[meeCarouselButton]',
-  exportAs: 'meeCarouselButton',
+  selector: '[ngbCarouselButton]',
+  exportAs: 'ngbCarouselButton',
 })
 export class CarouselButton {
   // The step number or 'next' or 'prev'
-  readonly meeCarouselButton = input.required<number | 'next' | 'prev'>();
+  readonly ngbCarouselButton = input.required<number | 'next' | 'prev'>();
 }

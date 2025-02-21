@@ -1,13 +1,13 @@
 import { Directive, input, contentChild, TemplateRef } from '@angular/core';
-import { MeeCellDef } from './body-cell';
-import { MeeHeadDef } from './head-cell';
+import { NgbCellDef } from './body-cell';
+import { NgbHeadDef } from './head-cell';
 
 @Directive({
-  selector: '[meeColumn]',
+  selector: '[ngbColumn]',
 })
-export class MeeColumn {
-  readonly meeColumn = input.required<string>();
+export class NgbColumn {
+  readonly ngbColumn = input.required<string>();
   readonly sticky = input<'start' | 'end' | ''>('');
-  readonly cells = contentChild(MeeCellDef, { read: TemplateRef });
-  readonly heads = contentChild(MeeHeadDef, { read: TemplateRef });
+  readonly cells = contentChild(NgbCellDef, { read: TemplateRef });
+  readonly heads = contentChild(NgbHeadDef, { read: TemplateRef });
 }

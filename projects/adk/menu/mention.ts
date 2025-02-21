@@ -1,16 +1,16 @@
 import { Directive, ElementRef, inject, input, output } from '@angular/core';
-import { MeeMenu } from './menu';
+import { NgbMenu } from './menu';
 
 @Directive({
-  selector: '[meeMentionTrigger]',
+  selector: '[ngbMentionTrigger]',
   host: {
     '(input)': 'open()',
   },
 })
-export class MeeMentionTrigger {
+export class NgbMentionTrigger {
   private readonly el = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
-  readonly meeMentionTrigger = input.required<MeeMenu>();
+  readonly ngbMentionTrigger = input.required<NgbMenu>();
   readonly options = input<{ focus?: 'el'; width?: 'full' }>();
   readonly key = input.required<string>();
   readonly search = output<string>();
@@ -42,7 +42,7 @@ export class MeeMentionTrigger {
     }
 
     // open the menu at the cursor position
-    const menu = this.meeMentionTrigger();
+    const menu = this.ngbMentionTrigger();
     menu.open({
       maxHeight: '400px',
       target: this.el.nativeElement,

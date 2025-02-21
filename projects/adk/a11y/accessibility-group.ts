@@ -13,14 +13,14 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { Directionality } from '@meeui/adk/bidi';
+import { Directionality } from '@ngbase/adk/bidi';
 import { AccessibleItem } from './accessibility-item';
 import { AccessibilityService } from './accessibility.service';
 
 type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
 
 @Directive({
-  selector: '[meeAccessibleGroup]',
+  selector: '[ngbAccessibleGroup]',
   host: {
     role: 'group',
     '[attr.aria-label]': '_ariaLabel()',

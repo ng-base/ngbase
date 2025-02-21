@@ -4,7 +4,7 @@ import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
 import { Chip, ChipGroup } from '@meeui/ui/chip';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
-import { filterFunction } from '@meeui/adk/utils';
+import { filterFunction } from '@ngbase/adk/utils';
 import { DocCode } from './code.component';
 import { FormField, Label } from '@meeui/ui/form-field';
 
@@ -125,8 +125,8 @@ export default class AutocompleteComponent {
     MeeAutocomplete,
     MeeAutocompleteInput,
     provideAutocomplete,
-  } from '@meeui/adk/autocomplete';
-  import { MeeSelectOptionGroup } from '@meeui/adk/select';
+  } from '@ngbase/adk/autocomplete';
+  import { MeeSelectOptionGroup } from '@ngbase/adk/select';
   import { InputStyle } from '@/ui/form-field';
 
   @Component({

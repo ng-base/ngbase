@@ -1,16 +1,16 @@
 import { Directive, inject } from '@angular/core';
-import { MeeTreeNode } from './tree-node';
+import { NgbTreeNode } from './tree-node';
 
 @Directive({
-  selector: '[meeTreeNodeToggle]',
+  selector: '[ngbTreeNodeToggle]',
   host: {
     '(click)': 'toggle()',
     '[attr.aria-hidden]': '!treeNode.hasChildren()',
     tabIndex: '-1',
   },
 })
-export class MeeTreeNodeToggle {
-  treeNode = inject(MeeTreeNode);
+export class NgbTreeNodeToggle {
+  treeNode = inject(NgbTreeNode);
 
   toggle() {
     if (this.treeNode.hasChildren()) {
@@ -20,11 +20,11 @@ export class MeeTreeNodeToggle {
 }
 
 @Directive({
-  selector: '[meeTreeNodeDef]',
+  selector: '[ngbTreeNodeDef]',
 })
-export class MeeTreeNodeDef<T> {}
+export class NgbTreeNodeDef<T> {}
 
 @Directive({
-  selector: '[meeTreeNodeContent]',
+  selector: '[ngbTreeNodeContent]',
 })
-export class MeeTreeNodeContent {}
+export class NgbTreeNodeContent {}

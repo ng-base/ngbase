@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from './switch';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbSwitch, NgbSwitchLabel, NgbSwitchThumb, NgbSwitchTrack } from './switch';
 
 @Component({
-  imports: [MeeSwitch, MeeSwitchTrack, MeeSwitchThumb, MeeSwitchLabel, FormsModule],
-  template: `<div meeSwitch [(ngModel)]="value">
-    <button meeSwitchTrack>
-      <span meeSwitchThumb></span>
+  imports: [NgbSwitch, NgbSwitchTrack, NgbSwitchThumb, NgbSwitchLabel, FormsModule],
+  template: `<div ngbSwitch [(ngModel)]="value">
+    <button ngbSwitchTrack>
+      <span ngbSwitchThumb></span>
     </button>
-    <label meeSwitchLabel><ng-content /></label>
+    <label ngbSwitchLabel><ng-content /></label>
   </div>`,
 })
 class TestComponent {
@@ -17,12 +17,12 @@ class TestComponent {
 }
 
 describe('SwitchComponent', () => {
-  let component: MeeSwitch;
+  let component: NgbSwitch;
   let view: RenderResult<TestComponent>;
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeSwitch);
+    component = view.viewChild(NgbSwitch);
     view.detectChanges();
   });
 
@@ -45,7 +45,7 @@ describe('SwitchComponent', () => {
   it('should render content when checked', () => {
     component.checked.set(true);
     view.detectChanges();
-    const span = view.$(MeeSwitchThumb);
+    const span = view.$(NgbSwitchThumb);
     expect(span.attr('aria-checked')).toBe('true');
 
     component.checked.set(false);
@@ -56,7 +56,7 @@ describe('SwitchComponent', () => {
   it('should call updateValue when clicked', () => {
     const spy = jest.spyOn(component, 'updateValue');
     const changeSpy = jest.spyOn(component.change, 'emit');
-    view.$(MeeSwitchTrack).click();
+    view.$(NgbSwitchTrack).click();
     expect(spy).toHaveBeenCalled();
     expect(changeSpy).toHaveBeenCalledWith(true);
   });

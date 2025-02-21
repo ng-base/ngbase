@@ -1,4 +1,4 @@
-import { injectService, sleep } from '@meeui/adk/test';
+import { injectService, sleep } from '@ngbase/adk/test';
 import { Cache } from './cache';
 
 describe('Cache', () => {

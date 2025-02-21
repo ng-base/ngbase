@@ -1,10 +1,10 @@
 import { Directive, inject, model } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
-import { MeeFormField } from './form-field';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
+import { NgbFormField } from './form-field';
 
 @Directive({
-  selector: '[meeInputBase]',
+  selector: '[ngbInputBase]',
   providers: [provideValueAccessor(InputBase)],
   host: {
     role: 'textbox',
@@ -14,7 +14,7 @@ import { MeeFormField } from './form-field';
   },
 })
 export class InputBase<T = unknown> implements ControlValueAccessor {
-  readonly formField = inject(MeeFormField, { optional: true });
+  readonly formField = inject(NgbFormField, { optional: true });
   readonly value = model<T>('' as any);
 
   readonly id = this.formField?._id ?? uniqueId();

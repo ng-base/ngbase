@@ -1,11 +1,11 @@
 import { Component, DebugElement, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { FocusTrap } from './focus-trap';
 
 @Component({
   imports: [FocusTrap],
   template: `
-    <div [meeFocusTrap]="enableFocusTrap()">
+    <div [ngbFocusTrap]="enableFocusTrap()">
       <button id="first">First</button>
       <input id="middle" type="text" />
       <button id="last">Last</button>

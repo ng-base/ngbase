@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { MeeList, MeeListActionGroup, provideList } from '@meeui/adk/list';
+import { NgbList, NgbListActionGroup, provideList } from '@ngbase/adk/list';
 
 @Directive({
   selector: '[meeListStyle]',
@@ -19,10 +19,10 @@ export class ListStyle {}
     '[class]': 'disabled() ? "pointer-events-none cursor-not-allowed opacity-50" : ""',
   },
 })
-export class List extends MeeList {}
+export class List extends NgbList {}
 
 @Directive({
   selector: '[meeActionGroup]',
-  hostDirectives: [MeeListActionGroup],
+  hostDirectives: [NgbListActionGroup],
 })
 export class ListActionGroup {}

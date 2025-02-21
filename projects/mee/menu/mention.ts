@@ -1,12 +1,12 @@
 import { Directive } from '@angular/core';
-import { MeeMentionTrigger } from '@meeui/adk/menu';
+import { NgbMentionTrigger } from '@ngbase/adk/menu';
 
 @Directive({
   selector: '[meeMentionTrigger]',
   hostDirectives: [
     {
-      directive: MeeMentionTrigger,
-      inputs: ['meeMentionTrigger', 'key', 'options'],
+      directive: NgbMentionTrigger,
+      inputs: ['ngbMentionTrigger: meeMentionTrigger', 'key', 'options'],
       outputs: ['search'],
     },
   ],

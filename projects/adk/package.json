@@ -1,16 +1,16 @@
 {
-  "name": "@meeui/adk",
+  "name": "@ngbase/adk",
   "version": "0.3.4",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sheikalthaf/mee-ui.git"
+    "url": "https://github.com/ng-base/ngbase.git"
   },
   "keywords": [
     "angular"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sheikalthaf/mee-ui/issues"
+    "url": "https://github.com/ng-base/ngbase/issues"
   },
   "peerDependencies": {
     "@angular/common": "^19.0.0",

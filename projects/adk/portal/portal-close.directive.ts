@@ -2,16 +2,16 @@ import { Directive, inject, input } from '@angular/core';
 import { DialogRef } from './dialog-ref';
 
 @Directive({
-  selector: '[meePortalClose]',
+  selector: '[ngbPortalClose]',
   host: {
     '(click)': 'close()',
   },
 })
-export class MeePortalClose {
+export class NgbPortalClose {
   private readonly dialogRef = inject(DialogRef);
-  readonly meePortalClose = input();
+  readonly ngbPortalClose = input();
 
   close() {
-    this.dialogRef.close(this.meePortalClose());
+    this.dialogRef.close(this.ngbPortalClose());
   }
 }

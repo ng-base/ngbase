@@ -1,6 +1,5 @@
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
   Component,
   Directive,
   ElementRef,
@@ -9,8 +8,8 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { Drag } from '@meeui/adk/drag';
-import { DialogRef } from '@meeui/adk/portal';
+import { Drag } from '@ngbase/adk/drag';
+import { DialogRef } from '@ngbase/adk/portal';
 import {
   hexToHsb,
   hsbaToHex,
@@ -25,7 +24,7 @@ import {
 export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
 
 @Directive({
-  selector: '[meeColorSpectrum]',
+  selector: '[ngbColorSpectrum]',
   hostDirectives: [Drag],
   host: {
     style:
@@ -35,18 +34,18 @@ export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsb';
 export class ColorSpectrum {}
 
 @Directive({
-  selector: '[meeColorSpectrumSelector]',
+  selector: '[ngbColorSpectrumSelector]',
   host: {
     type: 'button',
   },
 })
 export class ColorSpectrumSelector {}
 
-@Directive({ selector: '[meeColorSelected]' })
+@Directive({ selector: '[ngbColorSelected]' })
 export class ColorSelected {}
 
 @Directive({
-  selector: '[meeColorHue]',
+  selector: '[ngbColorHue]',
   hostDirectives: [Drag],
   host: {
     style:
@@ -56,7 +55,7 @@ export class ColorSelected {}
 export class ColorHue {}
 
 @Directive({
-  selector: '[meeColorHueThumb]',
+  selector: '[ngbColorHueThumb]',
   host: {
     type: 'button',
   },
@@ -64,10 +63,10 @@ export class ColorHue {}
 export class ColorHueThumb {}
 
 @Component({
-  selector: '[meeColorAlpha]',
+  selector: '[ngbColorAlpha]',
   hostDirectives: [Drag],
   template: ` <div
-    style="height: 100%; inset: 0px; background: linear-gradient(to right, rgba(255, 0, 4, 0), var(--spectrum-color));"
+    style="height: 100%; inset: 0px; background: linear-gradient(to right, rgba(255, 0, 4, 0), var(--hue-color));"
   >
     <ng-content />
   </div>`,
@@ -86,74 +85,23 @@ export class ColorHueThumb {}
 export class ColorAlpha {}
 
 @Directive({
-  selector: '[meeColorAlphaThumb]',
+  selector: '[ngbColorAlphaThumb]',
   host: {
     type: 'button',
   },
 })
 export class ColorAlphaThumb {}
 
-@Component({
-  selector: 'mee-color-picker-container',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ColorSpectrum,
-    ColorSpectrumSelector,
-    ColorSelected,
-    ColorHue,
-    ColorHueThumb,
-    ColorAlpha,
-    ColorAlphaThumb,
-  ],
-  template: `
-    <div class="flex w-full flex-col">
-      <div meeColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-h">
-        <button
-          meeColorSpectrumSelector
-          class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
-        ></button>
-      </div>
-      <div class="flex gap-b4 p-b3">
-        <div meeColorSelected class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
-        <div class="flex flex-1 flex-col gap-b4">
-          <div meeColorHue class="relative h-b3">
-            <button
-              meeColorHueThumb
-              class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
-            ></button>
-          </div>
-
-          <div meeColorAlpha class="relative h-b3">
-            <button
-              meeColorAlphaThumb
-              class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
-            ></button>
-          </div>
-        </div>
-      </div>
-      @if (presetColors().length) {
-        <div class="flex flex-wrap gap-b2 border-t p-b2 pt-b3">
-          @for (color of presetColors(); track color) {
-            <button
-              type="button"
-              class="aspect-square w-b4 rounded-h border"
-              [style.backgroundColor]="color"
-              (click)="setValue(color, true)"
-            ></button>
-          }
-        </div>
-      }
-    </div>
-  `,
+@Directive({
+  selector: 'ngb-color-picker-container',
   host: {
-    class: 'inline-block min-w-[245px]',
     style: `
       --hue-color: rgb(255, 0, 0);
       --spectrum-color: rgb(0, 0, 0);
     `,
   },
 })
-export class MeeColorPicker {
+export class NgbColorPicker {
   private readonly el = inject(ElementRef);
   private readonly dialogRef = inject(DialogRef, { optional: true });
   private readonly hueDiv = viewChild.required<ColorHue, Drag>(ColorHue, { read: Drag });

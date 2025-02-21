@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { AccessibleGroup } from './accessibility-group';
 import { AccessibleItem } from './accessibility-item';
 
@@ -10,17 +10,17 @@ Element.prototype.scrollIntoView = jest.fn();
   template: `
     <div class="parent">
       <div
-        meeAccessibleGroup
+        ngbAccessibleGroup
         [ayId]="groupId"
         [columns]="columns()"
         [isPopup]="isPopup()"
         [disabled]="isDisabled()"
       >
         <input type="text" />
-        <button meeAccessibleItem [ayId]="groupId">Item 1</button>
-        <button meeAccessibleItem [ayId]="groupId">Item 2</button>
-        <button meeAccessibleItem [ayId]="groupId" [disabled]="true">Item 3</button>
-        <button meeAccessibleItem [ayId]="groupId">Item 4</button>
+        <button ngbAccessibleItem [ayId]="groupId">Item 1</button>
+        <button ngbAccessibleItem [ayId]="groupId">Item 2</button>
+        <button ngbAccessibleItem [ayId]="groupId" [disabled]="true">Item 3</button>
+        <button ngbAccessibleItem [ayId]="groupId">Item 4</button>
       </div>
       <button class="outside">Outside</button>
     </div>

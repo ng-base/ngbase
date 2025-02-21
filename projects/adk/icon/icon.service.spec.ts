@@ -1,4 +1,4 @@
-import { injectService } from '@meeui/adk/test';
+import { injectService } from '@ngbase/adk/test';
 import { ICON_LOADER, IconService } from './icon.service';
 
 describe('IconService', () => {

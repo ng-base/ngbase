@@ -1,17 +1,17 @@
 import { Component, signal, TemplateRef } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeTab, MeeTabHeader } from './tab';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbTab, NgbTabHeader } from './tab';
 
 describe('Tab Component', () => {
-  let tab: MeeTab;
+  let tab: NgbTab;
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
 
   @Component({
-    imports: [MeeTab, MeeTabHeader],
-    template: `<mee-tab [label]="label()" [disabled]="disabled()" [mode]="mode()">
+    imports: [NgbTab, NgbTabHeader],
+    template: `<ngb-tab [label]="label()" [disabled]="disabled()" [mode]="mode()">
       Tab Content
-    </mee-tab>`,
+    </ngb-tab>`,
   })
   class TestHostComponent {
     label = signal<string | undefined>(undefined);
@@ -22,7 +22,7 @@ describe('Tab Component', () => {
   beforeEach(async () => {
     view = await render(TestHostComponent);
     component = view.host;
-    tab = view.viewChild(MeeTab);
+    tab = view.viewChild(NgbTab);
     view.detectChanges();
   });
 
@@ -85,42 +85,42 @@ describe('Tab Component', () => {
     tab.active.set(true);
     view.detectChanges();
     expect(tab.activeMode()).toBeTruthy();
-    const tabEl = view.$('mee-tab');
+    const tabEl = view.$('ngb-tab');
     expect(tabEl.textContent).not.toBe('');
   });
 
   it('should not render content when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
+    const tabEl = view.$('ngb-tab');
     expect(tabEl.textContent).toBe('');
   });
 
   it('should have correct host classes when active', () => {
     tab.active.set(true);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
+    const tabEl = view.$('ngb-tab');
     expect(tabEl.attr('aria-hidden')).toBe('false');
   });
 
   it('should have correct host classes when inactive', () => {
     tab.active.set(false);
     view.detectChanges();
-    const tabEl = view.$('mee-tab');
+    const tabEl = view.$('ngb-tab');
     expect(tabEl.attr('aria-hidden')).toBe('true');
   });
 });
 
 describe('with custom header', () => {
   @Component({
-    imports: [MeeTab, MeeTabHeader],
+    imports: [NgbTab, NgbTabHeader],
     template: `
-      <mee-tab>
-        <ng-template meeTabHeader>
+      <ngb-tab>
+        <ng-template ngbTabHeader>
           <span>Custom Header</span>
         </ng-template>
         Tab Content
-      </mee-tab>
+      </ngb-tab>
     `,
   })
   class TestHostComponent {}
@@ -133,7 +133,7 @@ describe('with custom header', () => {
   });
 
   it('should have custom header', () => {
-    const tabComponent = hostView.viewChild(MeeTab);
+    const tabComponent = hostView.viewChild(NgbTab);
     expect(tabComponent.header()).toBeInstanceOf(TemplateRef);
   });
 });

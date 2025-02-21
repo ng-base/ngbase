@@ -1,8 +1,8 @@
 import { Directive, inject } from '@angular/core';
-import { MeeBreadcrumb } from './public-api';
+import { NgbBreadcrumb } from './public-api';
 
 @Directive({
-  selector: '[meeBreadcrumbLink]',
+  selector: '[ngbBreadcrumbLink]',
   host: {
     '[tabIndex]': 'breadcrumb.active() ? -1 : 0',
     '[attr.aria-current]': "breadcrumb.active() ? 'page' : null",
@@ -10,6 +10,6 @@ import { MeeBreadcrumb } from './public-api';
     role: 'link',
   },
 })
-export class MeeBreadcrumbLink {
-  readonly breadcrumb = inject(MeeBreadcrumb);
+export class NgbBreadcrumbLink {
+  readonly breadcrumb = inject(NgbBreadcrumb);
 }

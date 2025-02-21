@@ -1,18 +1,18 @@
 import { Directive, input } from '@angular/core';
 
 @Directive({
-  selector: '[meeCopyToClipboard]',
+  selector: '[ngbCopyToClipboard]',
   host: {
     class: 'cursor-pointer',
     '(click)': 'onClick($event)',
   },
 })
 export class CopyToClipboard {
-  readonly meeCopyToClipboard = input<string>();
+  readonly ngbCopyToClipboard = input<string>();
 
   onClick(event: MouseEvent): void {
     event.preventDefault();
-    const textToCopy = this.meeCopyToClipboard();
+    const textToCopy = this.ngbCopyToClipboard();
     if (!textToCopy) return;
 
     navigator.clipboard

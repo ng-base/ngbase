@@ -15,9 +15,9 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { uniqueId } from '@meeui/adk/utils';
-import { MeeTreeNodeDef } from './tree-toggle';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { uniqueId } from '@ngbase/adk/utils';
+import { NgbTreeNodeDef } from './tree-toggle';
 
 export const TREE_NODE_DATA = new InjectionToken<TreeNodeData<any>>('TREE_NODE_DATA');
 
@@ -93,21 +93,21 @@ export interface TreeNodeImplicit<T> {
 }
 
 @Component({
-  selector: '[meeTree]',
-  exportAs: 'meeTree',
+  selector: '[ngbTree]',
+  exportAs: 'ngbTree',
   template: `<ng-container #container />`,
   hostDirectives: [AccessibleGroup],
   host: {
     role: 'tree',
   },
 })
-export class MeeTree<T> {
+export class NgbTree<T> {
   // Dependencies
   private readonly injector = inject(Injector);
   private readonly differs = inject(IterableDiffers);
   readonly ayId = uniqueId();
 
-  readonly treeNodeDef = contentChild.required(MeeTreeNodeDef, { read: TemplateRef });
+  readonly treeNodeDef = contentChild.required(NgbTreeNodeDef, { read: TemplateRef });
   readonly container = viewChild.required('container', { read: ViewContainerRef });
 
   // Inputs
@@ -228,6 +228,6 @@ export class MeeTree<T> {
   }
 }
 
-export function provideTree<T>(tree: Type<MeeTree<T>>) {
-  return { provide: MeeTree, useExisting: tree };
+export function provideTree<T>(tree: Type<NgbTree<T>>) {
+  return { provide: NgbTree, useExisting: tree };
 }

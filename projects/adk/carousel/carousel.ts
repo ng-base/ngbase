@@ -10,15 +10,15 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { Drag } from '@meeui/adk/drag';
-import { MeeCarouselItem } from './carousel-item';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { Drag } from '@ngbase/adk/drag';
+import { NgbCarouselItem } from './carousel-item';
 
 @Directive({
-  selector: '[meeCarouselContainer]',
+  selector: '[ngbCarouselContainer]',
   hostDirectives: [Drag],
 })
-export class MeeCarouselContainer {
+export class NgbCarouselContainer {
   readonly el = inject(ElementRef<HTMLElement>);
 
   get width() {
@@ -27,9 +27,9 @@ export class MeeCarouselContainer {
 }
 
 @Directive({
-  selector: '[meeCarouselSubContainer]',
+  selector: '[ngbCarouselSubContainer]',
 })
-export class MeeCarouselSubContainer {
+export class NgbCarouselSubContainer {
   private el = inject(ElementRef<HTMLElement>);
   private dir = injectDirectionality();
 
@@ -44,15 +44,15 @@ export class MeeCarouselSubContainer {
 }
 
 @Directive({
-  selector: '[meeCarousel]',
-  exportAs: 'meeCarousel',
+  selector: '[ngbCarousel]',
+  exportAs: 'ngbCarousel',
 })
-export class MeeCarousel {
+export class NgbCarousel {
   private drag = viewChild.required(Drag);
   private dir = injectDirectionality();
-  private mainContainer = viewChild.required(MeeCarouselContainer);
-  private subContainer = viewChild.required(MeeCarouselSubContainer);
-  private items = contentChildren(MeeCarouselItem);
+  private mainContainer = viewChild.required(NgbCarouselContainer);
+  private subContainer = viewChild.required(NgbCarouselSubContainer);
+  private items = contentChildren(NgbCarouselItem);
   readonly current = signal(0);
   private animationId = 0;
   // this can be overridden by the ui carousel component
@@ -306,6 +306,6 @@ export class MeeCarousel {
   }
 }
 
-export function provideCarousel(carousel: typeof MeeCarousel) {
-  return { provide: MeeCarousel, useExisting: carousel };
+export function provideCarousel(carousel: typeof NgbCarousel) {
+  return { provide: NgbCarousel, useExisting: carousel };
 }

@@ -17,8 +17,8 @@ import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { injectTheme, ThemeButton } from '@meeui/ui/theme';
 import { TourStep } from '@meeui/ui/tour';
 import { Heading } from '@meeui/ui/typography';
-import { breakpointObserver } from '@meeui/adk/layout';
-import { Directionality } from '@meeui/adk/bidi';
+import { breakpointObserver } from '@ngbase/adk/layout';
+import { Directionality } from '@ngbase/adk/bidi';
 import { provideIcons } from '@ng-icons/core';
 import { lucideMenu } from '@ng-icons/lucide';
 import { AppService } from '../app.service';
@@ -55,7 +55,7 @@ import { LangButton } from './lang-button';
             <mee-icon name="lucideMenu" />
           </button>
           <img src="/logo.svg" alt="logo" class="h-6" />
-          <h4 meeHeader="xs">Mee UI</h4>
+          <h4 meeHeader="xs">NgBase</h4>
         </div>
         <div class="flex h-full items-center gap-b">
           <button

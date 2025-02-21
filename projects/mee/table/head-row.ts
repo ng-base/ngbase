@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-import { MeeHeadRow, MeeHeadRowDef } from '@meeui/adk/table';
+import { NgbHeadRow, NgbHeadRowDef } from '@ngbase/adk/table';
 
 @Component({
   selector: '[meeHeadRow]',
@@ -7,13 +7,18 @@ import { MeeHeadRow, MeeHeadRowDef } from '@meeui/adk/table';
   host: {
     class: `h-b10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-foreground`,
   },
-  providers: [{ provide: MeeHeadRow, useExisting: HeadRow }],
+  providers: [{ provide: NgbHeadRow, useExisting: HeadRow }],
   template: `<ng-container #container />`,
 })
-export class HeadRow extends MeeHeadRow {}
+export class HeadRow extends NgbHeadRow {}
 
 @Directive({
   selector: '[meeHeadRowDef]',
-  hostDirectives: [{ directive: MeeHeadRowDef, inputs: ['meeHeadRowDef', 'meeHeadRowDefSticky'] }],
+  hostDirectives: [
+    {
+      directive: NgbHeadRowDef,
+      inputs: ['ngbHeadRowDef: meeHeadRowDef', 'ngbHeadRowDefSticky: meeHeadRowDefSticky'],
+    },
+  ],
 })
 export class HeadRowDef {}

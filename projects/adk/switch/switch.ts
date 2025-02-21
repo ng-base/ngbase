@@ -9,12 +9,12 @@ import {
   Type,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Directionality } from '@meeui/adk/bidi';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
+import { Directionality } from '@ngbase/adk/bidi';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: 'button[meeSwitchTrack]',
-  exportAs: 'meeSwitchTrack',
+  selector: 'button[ngbSwitchTrack]',
+  exportAs: 'ngbSwitchTrack',
   host: {
     type: 'button',
     role: 'switch',
@@ -24,41 +24,41 @@ import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
     '[attr.aria-checked]': 'checked()',
   },
 })
-export class MeeSwitchTrack {
-  readonly switch = inject(MeeSwitch);
+export class NgbSwitchTrack {
+  readonly switch = inject(NgbSwitch);
   readonly checked = computed(() => this.switch.checked());
 }
 
 @Directive({
-  selector: '[meeSwitchThumb]',
-  exportAs: 'meeSwitchThumb',
+  selector: '[ngbSwitchThumb]',
+  exportAs: 'ngbSwitchThumb',
   host: {
     '[attr.aria-checked]': 'checked()',
   },
 })
-export class MeeSwitchThumb {
-  readonly switch = inject(MeeSwitch);
+export class NgbSwitchThumb {
+  readonly switch = inject(NgbSwitch);
   private readonly dir = inject(Directionality);
   readonly checked = computed(() => this.switch.checked());
   readonly rtl = this.dir.isRtl;
 }
 
 @Directive({
-  selector: '[meeSwitchLabel]',
+  selector: '[ngbSwitchLabel]',
   host: {
     '[attr.for]': 'switch.id',
   },
 })
-export class MeeSwitchLabel {
-  readonly switch = inject(MeeSwitch);
+export class NgbSwitchLabel {
+  readonly switch = inject(NgbSwitch);
 }
 
 @Directive({
-  selector: '[meeSwitch]',
-  exportAs: 'meeSwitch',
-  providers: [_provide(MeeSwitch)],
+  selector: '[ngbSwitch]',
+  exportAs: 'ngbSwitch',
+  providers: [_provide(NgbSwitch)],
 })
-export class MeeSwitch implements ControlValueAccessor {
+export class NgbSwitch implements ControlValueAccessor {
   readonly id = uniqueId();
   readonly change = output<boolean>();
   readonly checked = model(false);
@@ -88,10 +88,10 @@ export class MeeSwitch implements ControlValueAccessor {
   }
 }
 
-function _provide(meeSwitch: typeof MeeSwitch) {
-  return [provideValueAccessor(meeSwitch)];
+function _provide(ngbSwitch: typeof NgbSwitch) {
+  return [provideValueAccessor(ngbSwitch)];
 }
 
-export function provideSwitch(meeSwitch: Type<MeeSwitch>) {
-  return [_provide(meeSwitch), { provide: MeeSwitch, useExisting: meeSwitch }];
+export function provideSwitch(ngbSwitch: Type<NgbSwitch>) {
+  return [_provide(ngbSwitch), { provide: NgbSwitch, useExisting: ngbSwitch }];
 }

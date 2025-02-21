@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ElementHelper, firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
+import { ElementHelper, firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { Option } from './option';
 import { Select } from './select';
 

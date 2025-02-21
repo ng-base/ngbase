@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { MeeAccordionGroup } from '@meeui/adk/accordion';
-import { render, RenderResult } from '@meeui/adk/test';
+import { NgbAccordionGroup } from '@ngbase/adk/accordion';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Accordion, AccordionGroup, AccordionHeader } from './accordion';
 
 @Component({
@@ -24,12 +24,12 @@ class TestHostComponent {
 }
 
 describe('AccordionGroup', () => {
-  let component: MeeAccordionGroup;
+  let component: NgbAccordionGroup;
   let view: RenderResult<TestHostComponent>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent, [provideNoopAnimations()]);
-    component = view.viewChild(MeeAccordionGroup);
+    component = view.viewChild(NgbAccordionGroup);
     view.detectChanges();
   });
 

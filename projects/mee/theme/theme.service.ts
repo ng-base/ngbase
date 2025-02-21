@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { isClient } from '@meeui/adk/utils';
+import { isClient } from '@ngbase/adk/utils';
 import { dialogPortal } from '@meeui/ui/dialog';
 import { ThemeComponent } from './theme.component';
 

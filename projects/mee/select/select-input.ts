@@ -1,11 +1,11 @@
 import { Directive } from '@angular/core';
-import { MeeSelectInput, MeeSelectTrigger } from '@meeui/adk/select';
+import { NgbSelectInput, NgbSelectTrigger } from '@ngbase/adk/select';
 import { InputStyle } from '@meeui/ui/form-field';
 
 @Directive({
   selector: '[meeSelectInput]',
   hostDirectives: [
-    { directive: MeeSelectInput, inputs: ['placeholder', 'options', 'filterFn'] },
+    { directive: NgbSelectInput, inputs: ['placeholder', 'options', 'filterFn'] },
     InputStyle,
   ],
   host: {
@@ -16,6 +16,6 @@ export class SelectInput<T> {}
 
 @Directive({
   selector: '[meeSelectTrigger]',
-  hostDirectives: [MeeSelectTrigger],
+  hostDirectives: [NgbSelectTrigger],
 })
 export class SelectTrigger {}

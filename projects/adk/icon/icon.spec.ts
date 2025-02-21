@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RenderResult, fakeService, render } from '@meeui/adk/test';
-import { MeeIcon } from './icon';
+import { RenderResult, fakeService, render } from '@ngbase/adk/test';
+import { NgbIcon } from './icon';
 import { IconService } from './icon.service';
 
 @Component({
-  selector: 'mee-icon-test',
-  hostDirectives: [{ directive: MeeIcon, inputs: ['name'] }],
+  selector: 'ngb-icon-test',
+  hostDirectives: [{ directive: NgbIcon, inputs: ['name'] }],
   template: ``,
 })
 class TestComponent {}

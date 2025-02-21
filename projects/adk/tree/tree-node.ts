@@ -9,14 +9,14 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { MeeTree, TREE_NODE_DATA, TreeNodeData } from './tree';
-import { MeeTreeNodeDef } from './tree-toggle';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { NgbTree, TREE_NODE_DATA, TreeNodeData } from './tree';
+import { NgbTreeNodeDef } from './tree-toggle';
 
 @Component({
-  selector: '[meeTreeNode]',
-  exportAs: 'meeTreeNode',
+  selector: '[ngbTreeNode]',
+  exportAs: 'ngbTreeNode',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <style>
@@ -28,7 +28,7 @@ import { MeeTreeNodeDef } from './tree-toggle';
     <div class="tree-node">
       <ng-content />
     </div>
-    <ng-content select="[meeTreeNodeContent]" />
+    <ng-content select="[ngbTreeNodeContent]" />
     <ng-container #container />
   `,
   hostDirectives: [AccessibleItem],
@@ -43,9 +43,9 @@ import { MeeTreeNodeDef } from './tree-toggle';
     '[attr.aria-expanded]': 'isOpen()',
   },
 })
-export class MeeTreeNode<T> {
-  readonly treeNodeDef = inject(MeeTreeNodeDef);
-  readonly tree = inject<MeeTree<T>>(MeeTree);
+export class NgbTreeNode<T> {
+  readonly treeNodeDef = inject(NgbTreeNodeDef);
+  readonly tree = inject<NgbTree<T>>(NgbTree);
   readonly data = inject<TreeNodeData<T>>(TREE_NODE_DATA);
   readonly container = viewChild('container', { read: ViewContainerRef });
 
@@ -104,6 +104,6 @@ export class MeeTreeNode<T> {
   // }
 }
 
-export function provideTreeNode<T>(treeNode: Type<MeeTreeNode<T>>) {
-  return { provide: MeeTreeNode, useExisting: treeNode };
+export function provideTreeNode<T>(treeNode: Type<NgbTreeNode<T>>) {
+  return { provide: NgbTreeNode, useExisting: treeNode };
 }

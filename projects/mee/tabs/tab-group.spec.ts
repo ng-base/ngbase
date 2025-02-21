@@ -1,5 +1,5 @@
 import { Component, OnDestroy, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Tab, TabHeader, TabLazy, Tabs } from './tab';
 
 describe('Tabs Component', () => {

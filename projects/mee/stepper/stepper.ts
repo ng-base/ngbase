@@ -1,26 +1,26 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeStep,
-  MeeStepHeader,
-  MeeStepper,
-  MeeStepperStep,
+  NgbStep,
+  NgbStepHeader,
+  NgbStepper,
+  NgbStepperStep,
   provideStep,
   provideStepper,
   slideAnimation,
-} from '@meeui/adk/stepper';
+} from '@ngbase/adk/stepper';
 
 @Component({
   selector: 'mee-stepper',
   exportAs: 'meeStepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideStepper(Stepper)],
-  imports: [NgTemplateOutlet, MeeStepperStep],
+  imports: [NgTemplateOutlet, NgbStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
       @for (step of steps(); track step) {
         <div
-          [meeStepperStep]="$index"
+          [ngbStepperStep]="$index"
           class="{{
             'relative flex pb-b4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-background data-[index]:after:transition-colors' +
               (activeIndex() > $index ? ' data-[index]:after:bg-primary' : '') +
@@ -59,7 +59,7 @@ import {
   `,
   animations: [slideAnimation],
 })
-export class Stepper extends MeeStepper {}
+export class Stepper extends NgbStepper {}
 
 @Component({
   selector: 'mee-step',
@@ -79,10 +79,10 @@ export class Stepper extends MeeStepper {}
     }
   `,
 })
-export class Step extends MeeStep {}
+export class Step extends NgbStep {}
 
 @Directive({
   selector: '[meeStepHeader]',
-  hostDirectives: [MeeStepHeader],
+  hostDirectives: [NgbStepHeader],
 })
 export class StepHeader {}

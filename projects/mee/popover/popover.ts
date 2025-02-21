@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeePopover,
-  MeePopoverBackdrop,
-  MeePopoverClose,
-  MeePopoverMain,
-  meePopoverPortal,
-  MeePopoverTrigger,
+  NgbPopover,
+  NgbPopoverBackdrop,
+  NgbPopoverClose,
+  NgbPopoverMain,
+  ngbPopoverPortal,
+  NgbPopoverTrigger,
   providePopover,
-  registerMeePopover,
-} from '@meeui/adk/popover';
+  registerNgbPopover,
+} from '@ngbase/adk/popover';
 
 @Component({
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [providePopover(Popover)],
-  imports: [MeePopoverBackdrop, MeePopoverMain],
+  imports: [NgbPopoverBackdrop, NgbPopoverMain],
   template: ` <style>
       .popover-anchor {
         --action-angle: 180deg;
@@ -37,7 +37,7 @@ import {
       }
     </style>
     <div
-      meePopoverMain
+      ngbPopoverMain
       [@slideInOutAnimation]
       class="{{
         'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md ' +
@@ -49,27 +49,31 @@ import {
       </div>
     </div>
     @if (options().backdrop) {
-      <div meePopoverBackdrop class="pointer-events-auto fixed top-0 h-full w-full"></div>
+      <div ngbPopoverBackdrop class="pointer-events-auto fixed top-0 h-full w-full"></div>
     }`,
   host: {
     class:
       'fixed top-0 left-0 w-full h-full pointer-events-none z-p flex items-center justify-center',
   },
 })
-class Popover extends MeePopover {}
+class Popover extends NgbPopover {}
 
 export function registerPopover() {
-  return registerMeePopover(Popover);
+  return registerNgbPopover(Popover);
 }
 
-export const popoverPortal = meePopoverPortal;
+export const popoverPortal = ngbPopoverPortal;
 
 @Directive({
   selector: '[meePopoverTrigger]',
   hostDirectives: [
     {
-      directive: MeePopoverTrigger,
-      inputs: ['meePopoverTrigger', 'meePopoverTriggerData', 'options'],
+      directive: NgbPopoverTrigger,
+      inputs: [
+        'ngbPopoverTrigger: meePopoverTrigger',
+        'ngbPopoverTriggerData: meePopoverTriggerData',
+        'options',
+      ],
     },
   ],
   providers: [registerPopover()],
@@ -78,6 +82,6 @@ export class PopoverTrigger {}
 
 @Directive({
   selector: '[meePopoverClose]',
-  hostDirectives: [MeePopoverClose],
+  hostDirectives: [NgbPopoverClose],
 })
 export class PopoverClose {}

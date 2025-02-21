@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeAccordionGroup } from './accordion-group';
-import { MeeAccordion } from './accordion-item';
-import { MeeAccordionContent } from './accordion-content';
-import { MeeAccordionHeader } from './public-api';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbAccordionGroup } from './accordion-group';
+import { NgbAccordion } from './accordion-item';
+import { NgbAccordionContent } from './accordion-content';
+import { NgbAccordionHeader } from './public-api';
 
 const accordionGroupStub = {
   multiple: signal(false),
@@ -12,11 +12,11 @@ const accordionGroupStub = {
 };
 
 @Component({
-  imports: [MeeAccordion, MeeAccordionHeader, MeeAccordionContent],
-  template: `<div #accordion="meeAccordion" meeAccordion>
-    <div meeAccordionHeader>Header</div>
+  imports: [NgbAccordion, NgbAccordionHeader, NgbAccordionContent],
+  template: `<div #accordion="ngbAccordion" ngbAccordion>
+    <div ngbAccordionHeader>Header</div>
     @if (accordion.expanded()) {
-      <div meeAccordionContent id="content">Content</div>
+      <div ngbAccordionContent id="content">Content</div>
     }
   </div>`,
 })
@@ -24,7 +24,7 @@ class TestComponent {}
 
 describe('Accordion', () => {
   let view: RenderResult<TestComponent>;
-  let accordion: MeeAccordion;
+  let accordion: NgbAccordion;
 
   beforeEach(async () => {
     accordionGroupStub.multiple.set(false);
@@ -32,9 +32,9 @@ describe('Accordion', () => {
 
     view = await render(TestComponent, [
       provideNoopAnimations(),
-      { provide: MeeAccordionGroup, useValue: accordionGroupStub },
+      { provide: NgbAccordionGroup, useValue: accordionGroupStub },
     ]);
-    accordion = view.viewChild(MeeAccordion)!;
+    accordion = view.viewChild(NgbAccordion)!;
     view.detectChanges();
   });
 

@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { MeeNavigationMenu } from '@meeui/adk/menu';
+import { NgbNavigationMenu } from '@ngbase/adk/menu';
 
 @Directive({
   selector: '[meeNavigationMenu]',
-  hostDirectives: [{ directive: MeeNavigationMenu, inputs: ['hover'] }],
+  hostDirectives: [{ directive: NgbNavigationMenu, inputs: ['hover'] }],
 })
 export class NavigationMenu {}

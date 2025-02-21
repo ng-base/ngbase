@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
+import { NgbSelectable, NgbSelectableItem } from '@ngbase/adk/selectable';
 
 @Component({
   selector: 'mee-selectable-item, [meeSelectableItem]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [{ directive: MeeSelectableItem, inputs: ['value'] }],
+  hostDirectives: [{ directive: NgbSelectableItem, inputs: ['value'] }],
   template: `<ng-content />`,
   host: {
     class:
@@ -13,7 +13,7 @@ import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
   },
 })
 export class SelectableItem<T> {
-  readonly selectable = inject(MeeSelectableItem);
+  readonly selectable = inject(NgbSelectableItem);
 }
 
 @Component({
@@ -25,7 +25,7 @@ export class SelectableItem<T> {
   },
   hostDirectives: [
     {
-      directive: MeeSelectable,
+      directive: NgbSelectable,
       inputs: ['activeIndex'],
       outputs: ['activeIndexChange', 'valueChanged'],
     },

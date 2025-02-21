@@ -15,7 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
-import { CopyToClipboard } from '@meeui/adk/clipboard';
+import { CopyToClipboard } from '@ngbase/adk/clipboard';
 import { provideIcons } from '@ng-icons/core';
 import { lucideCopy } from '@ng-icons/lucide';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
@@ -63,7 +63,7 @@ export class CodeService {
         <button
           meeButton="outline"
           class="absolute right-0 top-0 h-8 w-8"
-          [meeCopyToClipboard]="tsCode()"
+          [ngbCopyToClipboard]="tsCode()"
         >
           <mee-icon name="lucideCopy" />
         </button>
@@ -75,7 +75,7 @@ export class CodeService {
           <button
             meeButton="outline"
             class="dark absolute right-0 top-0 h-8 w-8"
-            [meeCopyToClipboard]="adkCode()"
+            [ngbCopyToClipboard]="adkCode()"
           >
             <mee-icon name="lucideCopy" />
           </button>

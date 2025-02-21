@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { MeeDatepickerTrigger, registerDatePicker } from '@meeui/adk/datepicker';
+import { NgbDatepickerTrigger, registerDatePicker } from '@ngbase/adk/datepicker';
 import { DatePicker } from './datepicker';
 
 @Directive({
@@ -7,7 +7,7 @@ import { DatePicker } from './datepicker';
   providers: [registerDatePicker(DatePicker)],
   hostDirectives: [
     {
-      directive: MeeDatepickerTrigger,
+      directive: NgbDatepickerTrigger,
       inputs: [
         'noOfCalendars',
         'range',

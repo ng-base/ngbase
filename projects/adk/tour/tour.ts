@@ -1,11 +1,11 @@
 import { inject, contentChildren, Directive } from '@angular/core';
-import { MeeTourService } from './tour.service';
-import { MeeTourStep } from './tour-step';
+import { NgbTourService } from './tour.service';
+import { NgbTourStep } from './tour-step';
 
 @Directive({
-  selector: '[meeTour]',
+  selector: '[ngbTour]',
 })
-export class MeeTour {
-  readonly tourService = inject(MeeTourService);
-  readonly steps = contentChildren(MeeTourStep, { descendants: true });
+export class NgbTour {
+  readonly tourService = inject(NgbTourService);
+  readonly steps = contentChildren(NgbTourStep, { descendants: true });
 }

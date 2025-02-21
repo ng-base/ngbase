@@ -1,24 +1,24 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ElementHelper, firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
-import { MeeOption } from './option';
-import { MeeSelect } from './select';
+import { ElementHelper, firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
+import { NgbOption } from './option';
+import { NgbSelect } from './select';
 
 // Test host component
 @Component({
-  imports: [MeeSelect, MeeOption, ReactiveFormsModule],
+  imports: [NgbSelect, NgbOption, ReactiveFormsModule],
   template: `
     <form [formGroup]="form">
       <div
-        meeSelect
+        ngbSelect
         id="select1"
         formControlName="selectedValue"
         [multiple]="multiple()"
         [placeholder]="placeholder()"
       >
         @for (option of options; track option.value) {
-          <div class="option" meeOption [value]="option.value">
+          <div class="option" ngbOption [value]="option.value">
             {{ option.label }}
           </div>
         }
@@ -46,13 +46,13 @@ class TestHostComponent {
 describe('Select', () => {
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
-  let selectComponent: MeeSelect<string>;
+  let selectComponent: NgbSelect<string>;
   let input: ElementHelper<HTMLButtonElement>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent, [provideNoopAnimations()]);
     component = view.host;
-    selectComponent = view.viewChild(MeeSelect<string>, '#select1');
+    selectComponent = view.viewChild(NgbSelect<string>, '#select1');
     input = view.$('#select1 button');
     view.detectChanges();
   });

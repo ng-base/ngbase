@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeChip, MeeChipGroup, MeeChipRemove, provideChip } from '@meeui/adk/chip';
+import { NgbChip, NgbChipGroup, NgbChipRemove, provideChip } from '@ngbase/adk/chip';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -7,7 +7,7 @@ import { lucideX } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-chip-group',
-  hostDirectives: [MeeChipGroup],
+  hostDirectives: [NgbChipGroup],
   template: `<ng-content />`,
 })
 export class ChipGroup<T> {}
@@ -15,14 +15,14 @@ export class ChipGroup<T> {}
 @Component({
   selector: 'mee-chip, [meeChip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Icon, MeeChipRemove],
+  imports: [Button, Icon, NgbChipRemove],
   providers: [provideChip(Chip)],
   viewProviders: [provideIcons({ lucideX })],
   template: `<ng-content />
     @if (removable()) {
       <button
         meeButton="ghost"
-        meeChipRemove
+        ngbChipRemove
         class="small -my-b2 data-[dir=ltr]:-mr-b4 data-[dir=rtl]:-ml-b4"
       >
         <mee-icon name="lucideX" />
@@ -33,4 +33,4 @@ export class ChipGroup<T> {}
       'inline-flex items-center bg-muted-background rounded-base px-b2 py-1 text-xs font-medium',
   },
 })
-export class Chip<T = any> extends MeeChip<T> {}
+export class Chip<T = any> extends NgbChip<T> {}

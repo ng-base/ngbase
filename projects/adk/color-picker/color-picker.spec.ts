@@ -1,15 +1,83 @@
-import { signal } from '@angular/core';
-import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
-import { DialogRef } from '@meeui/adk/portal';
-import { ColorFormat, MeeColorPicker } from './color-picker';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
+import { DialogRef } from '@ngbase/adk/portal';
+import {
+  ColorAlpha,
+  ColorAlphaThumb,
+  ColorFormat,
+  ColorHue,
+  ColorHueThumb,
+  ColorSelected,
+  ColorSpectrum,
+  ColorSpectrumSelector,
+  NgbColorPicker,
+} from './color-picker';
+
+@Component({
+  selector: 'app-color-picker-container',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ColorSpectrum,
+    ColorSpectrumSelector,
+    ColorSelected,
+    ColorHue,
+    ColorHueThumb,
+    ColorAlpha,
+    ColorAlphaThumb,
+  ],
+  template: `
+    <div class="flex w-full flex-col">
+      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-h">
+        <button
+          ngbColorSpectrumSelector
+          class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
+        ></button>
+      </div>
+      <div class="flex gap-b4 p-b3">
+        <div ngbColorSelected class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
+        <div class="flex flex-1 flex-col gap-b4">
+          <div ngbColorHue class="relative h-b3">
+            <button
+              ngbColorHueThumb
+              class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
+            ></button>
+          </div>
+
+          <div ngbColorAlpha class="relative h-b3">
+            <button
+              ngbColorAlphaThumb
+              class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
+            ></button>
+          </div>
+        </div>
+      </div>
+      @if (presetColors().length) {
+        <div class="flex flex-wrap gap-b2 border-t p-b2 pt-b3">
+          @for (color of presetColors(); track color) {
+            <button
+              type="button"
+              class="aspect-square w-b4 rounded-h border"
+              [style.backgroundColor]="color"
+              (click)="setValue(color, true)"
+            ></button>
+          }
+        </div>
+      }
+    </div>
+  `,
+  host: {
+    class: 'inline-block min-w-[245px]',
+  },
+})
+export class TestColorPicker extends NgbColorPicker {}
 
 describe('ColorPicker', () => {
-  let component: MeeColorPicker;
-  let view: RenderResult<MeeColorPicker>;
+  let component: TestColorPicker;
+  let view: RenderResult<TestColorPicker>;
 
   beforeEach(async () => {
     const dialogRefMock = { data: { format: 'hex' as ColorFormat, presetColors: [] } };
-    view = await render(MeeColorPicker, [{ provide: DialogRef, useValue: dialogRefMock }]);
+    view = await render(TestColorPicker, [{ provide: DialogRef, useValue: dialogRefMock }]);
     component = view.host;
     view.detectChanges();
   });

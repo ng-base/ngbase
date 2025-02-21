@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { injectService } from '@meeui/adk/test';
+import { injectService } from '@ngbase/adk/test';
 import { AccessibleGroup } from './accessibility-group';
 import { AccessibilityService } from './accessibility.service';
 

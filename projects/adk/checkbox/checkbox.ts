@@ -1,9 +1,9 @@
 import { Directive, inject, input, model, output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeCheckboxButton]',
+  selector: '[ngbCheckboxButton]',
   host: {
     role: 'checkbox',
     type: 'button',
@@ -14,17 +14,17 @@ import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
   },
 })
 export class CheckboxButton {
-  readonly checkbox = inject(MeeCheckbox);
+  readonly checkbox = inject(NgbCheckbox);
 }
 
 @Directive({
-  selector: '[meeCheckbox]',
+  selector: '[ngbCheckbox]',
   host: {
     '(click)': 'updateValue()',
   },
-  providers: [provideValueAccessor(MeeCheckbox)],
+  providers: [provideValueAccessor(NgbCheckbox)],
 })
-export class MeeCheckbox implements ControlValueAccessor {
+export class NgbCheckbox implements ControlValueAccessor {
   readonly id = uniqueId();
   readonly disabled = input(false);
   readonly checked = model(false);

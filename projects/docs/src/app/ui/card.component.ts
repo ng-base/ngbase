@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Avatar } from '@meeui/ui/avatar';
 import { Card } from '@meeui/ui/card';
 import { Heading } from '@meeui/ui/typography';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { DocCode } from './code.component';
 
 @Component({

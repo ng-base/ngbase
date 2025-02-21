@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeAvatar, MeeAvatarGroup, provideAvatar } from '@meeui/adk/avatar';
+import { NgbAvatar, NgbAvatarGroup, provideAvatar } from '@ngbase/adk/avatar';
 
 @Component({
   selector: 'mee-avatar-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [{ directive: MeeAvatarGroup, inputs: ['reverse', 'left'] }],
+  hostDirectives: [{ directive: NgbAvatarGroup, inputs: ['reverse', 'left'] }],
   template: `<ng-content select="mee-avatar,[meeAvatar]" />`,
   host: {
     class: 'flex flex-row',
@@ -28,4 +28,4 @@ export class AvatarGroup {}
       'inline-flex aspect-square rounded-full overflow-hidden border-2 border-foreground relative bg-background text-muted items-center justify-center',
   },
 })
-export class Avatar extends MeeAvatar {}
+export class Avatar extends NgbAvatar {}

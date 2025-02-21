@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Checkbox } from './checkbox';
-import { MeeCheckbox } from '@meeui/adk/checkbox';
+import { NgbCheckbox } from '@ngbase/adk/checkbox';
 
 describe('CheckboxComponent', () => {
-  let component: MeeCheckbox;
+  let component: NgbCheckbox;
   let view: RenderResult<TestComponent>;
 
   @Component({
@@ -24,7 +24,7 @@ describe('CheckboxComponent', () => {
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeCheckbox);
+    component = view.viewChild(NgbCheckbox);
     view.detectChanges();
   });
 

@@ -1,17 +1,17 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Directive, inject } from '@angular/core';
-import { MeeAccordion } from './accordion-item';
+import { NgbAccordion } from './accordion-item';
 
 @Directive({
-  selector: '[meeAccordionContent]',
+  selector: '[ngbAccordionContent]',
   host: {
     role: 'region',
     '[id]': 'accordion.id',
     '[attr.aria-labelledby]': "'accordion-' + accordion.id",
   },
 })
-export class MeeAccordionContent {
-  readonly accordion = inject(MeeAccordion);
+export class NgbAccordionContent {
+  readonly accordion = inject(NgbAccordion);
 }
 
 export const slideAnimation = trigger('slide', [

@@ -1,8 +1,8 @@
 import { inject, InjectionToken } from '@angular/core';
 
-export type MeeDateUnits = 'year' | 'month' | 'date' | 'hour' | 'minute' | 'second' | 'millisecond';
+export type NgbDateUnits = 'year' | 'month' | 'date' | 'hour' | 'minute' | 'second' | 'millisecond';
 
-export interface MeeAdpterInterface<D> {
+export interface NgbAdpterInterface<D> {
   now(): D;
   compare(first: D, second: D): number;
   getTime(date: D): number;
@@ -13,18 +13,18 @@ export interface MeeAdpterInterface<D> {
   create(year: number, month?: number, date?: number): D;
   format(date: D, displayFormat: any): string;
   parse(value: D | string, parseFormat?: string): D;
-  set(date: D, value: number, unit: MeeDateUnits): D;
+  set(date: D, value: number, unit: NgbDateUnits): D;
   longMonthNames(date: D): string;
 }
 
-export const MeeDateAdapter = new InjectionToken<MeeAdpterInterface<unknown>>('mat-date-formats');
+export const NgbDateAdapter = new InjectionToken<NgbAdpterInterface<unknown>>('mat-date-formats');
 
-export function injectMeeDateAdapter<D>() {
-  const adapter = inject(MeeDateAdapter, { optional: true }) as MeeAdpterInterface<D>;
-  return adapter || (new MeeNativeDateAdapter() as unknown as MeeAdpterInterface<D>);
+export function injectNgbDateAdapter<D>() {
+  const adapter = inject(NgbDateAdapter, { optional: true }) as NgbAdpterInterface<D>;
+  return adapter || (new NgbNativeDateAdapter() as unknown as NgbAdpterInterface<D>);
 }
 
-export class MeeNativeDateAdapter implements MeeAdpterInterface<Date> {
+export class NgbNativeDateAdapter implements NgbAdpterInterface<Date> {
   now(): Date {
     return new Date();
   }
@@ -107,7 +107,7 @@ export class MeeNativeDateAdapter implements MeeAdpterInterface<Date> {
     return a > 31 ? new Date(a, b - 1, c) : new Date(c, b - 1, a);
   }
 
-  set(date: Date, value: number, unit: MeeDateUnits): Date {
+  set(date: Date, value: number, unit: NgbDateUnits): Date {
     const newDate = new Date(date);
     if (unit === 'year') newDate.setFullYear(value);
     else if (unit === 'month') newDate.setMonth(value);

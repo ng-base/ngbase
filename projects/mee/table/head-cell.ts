@@ -1,5 +1,5 @@
 import { Component, Directive, ChangeDetectionStrategy } from '@angular/core';
-import { MeeHead, MeeHeadDef } from '@meeui/adk/table';
+import { NgbHead, NgbHeadDef } from '@ngbase/adk/table';
 
 @Component({
   selector: '[meeHead]',
@@ -7,13 +7,13 @@ import { MeeHead, MeeHeadDef } from '@meeui/adk/table';
   host: {
     class: 'px-b4 py-b2 text-left align-middle font-medium text-muted border-b bg-foreground',
   },
-  hostDirectives: [MeeHead],
+  hostDirectives: [NgbHead],
   template: `<ng-content />`,
 })
 export class Head {}
 
 @Directive({
   selector: '[meeHeadDef]',
-  hostDirectives: [MeeHeadDef],
+  hostDirectives: [NgbHeadDef],
 })
 export class HeadDef {}

@@ -1,24 +1,24 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
-import { MeeOption } from '@meeui/adk/select';
-import { MeeAutocomplete } from './autocomplete';
-import { MeeAutocompleteInput } from './autocomplete-input';
+import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
+import { NgbOption } from '@ngbase/adk/select';
+import { NgbAutocomplete } from './autocomplete';
+import { NgbAutocompleteInput } from './autocomplete-input';
 
 // Test host component
 @Component({
-  imports: [MeeAutocomplete, MeeAutocompleteInput, MeeOption, FormsModule],
+  imports: [NgbAutocomplete, NgbAutocompleteInput, NgbOption, FormsModule],
   template: `
     <div
-      meeAutocomplete
+      ngbAutocomplete
       [(ngModel)]="selectedValue"
       [multiple]="multiple()"
       [placeholder]="placeholder()"
     >
-      <input meeAutocompleteInput />
+      <input ngbAutocompleteInput />
       @for (option of options; track option.value) {
-        <div meeOption class="option" [value]="option.value">
+        <div ngbOption class="option" [value]="option.value">
           {{ option.label }}
         </div>
       }
@@ -39,7 +39,7 @@ class TestAutocompleteComponent {
 describe('Autocomplete', () => {
   let component: TestAutocompleteComponent;
   let view: RenderResult<TestAutocompleteComponent>;
-  let selectComponent: MeeAutocomplete<string>;
+  let selectComponent: NgbAutocomplete<string>;
   let input: HTMLInputElement;
 
   // function selectInput() {
@@ -55,7 +55,7 @@ describe('Autocomplete', () => {
   beforeEach(async () => {
     view = await render(TestAutocompleteComponent, [provideNoopAnimations()]);
     component = view.host;
-    selectComponent = view.viewChild(MeeAutocomplete<string>);
+    selectComponent = view.viewChild(NgbAutocomplete<string>);
     input = view.$<HTMLInputElement>('input').el;
     view.detectChanges();
   });

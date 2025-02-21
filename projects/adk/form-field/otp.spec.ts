@@ -1,25 +1,25 @@
-import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
-import { MeeInputOtp, MeeOtpInput, MeeOtpValue, provideInputOtp } from './otp';
+import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
+import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from './otp';
 import { Component } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 
 @Component({
   selector: 'test-component',
-  imports: [RangePipe, MeeOtpInput, MeeOtpValue],
+  imports: [RangePipe, NgbOtpInput, NgbOtpValue],
   providers: [provideInputOtp(TestComponent)],
   template: `
     @for (num of size(); track $index; let l = $last) {
       @for (n of num | range; track n; let i = $index; let ll = $last) {
-        <input meeOtpValue />
+        <input ngbOtpValue />
       }
       @if (!l) {
         <div>-</div>
       }
     }
-    <input meeOtpInput />
+    <input ngbOtpInput />
   `,
 })
-class TestComponent extends MeeInputOtp {}
+class TestComponent extends NgbInputOtp {}
 
 describe('InputOtp', () => {
   let component: TestComponent;
@@ -28,7 +28,7 @@ describe('InputOtp', () => {
   let input: ElementHelper<HTMLInputElement>;
 
   function getValueInputs() {
-    return view.$All<HTMLInputElement>('[meeotpvalue]');
+    return view.$All<HTMLInputElement>('[ngbotpvalue]');
   }
 
   function activeElement() {
@@ -39,7 +39,7 @@ describe('InputOtp', () => {
     view = await render(TestComponent);
     component = view.host;
     view.detectChanges();
-    input = view.$<HTMLInputElement>('input[meeotpinput]');
+    input = view.$<HTMLInputElement>('input[ngbotpinput]');
   });
 
   it('should create', () => {

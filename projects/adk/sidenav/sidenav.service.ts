@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
+import { injectDirectionality } from '@ngbase/adk/bidi';
 
 export type SidenavType = 'side' | 'over' | 'partial';
 

@@ -10,32 +10,32 @@ import {
   input,
   OnDestroy,
 } from '@angular/core';
-import { ROW_TOKEN, MeeTable } from './table';
-import { MeeColumn } from './column';
+import { ROW_TOKEN, NgbTable } from './table';
+import { NgbColumn } from './column';
 
 @Directive({
-  selector: '[meeHeadRowDef]',
+  selector: '[ngbHeadRowDef]',
 })
-export class MeeHeadRowDef {
-  readonly meeHeadRowDef = input<string[]>();
-  readonly meeHeadRowDefSticky = input();
+export class NgbHeadRowDef {
+  readonly ngbHeadRowDef = input<string[]>();
+  readonly ngbHeadRowDefSticky = input();
 }
 
 @Component({
-  selector: '[meeHeadRow]',
+  selector: '[ngbHeadRow]',
   template: `<ng-container #container />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    // '[class]': `headDef.meeHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
-    '[attr.data-sticky]': 'headDef.meeHeadRowDefSticky()',
+    // '[class]': `headDef.ngbHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
+    '[attr.data-sticky]': 'headDef.ngbHeadRowDefSticky()',
   },
 })
-export class MeeHeadRow implements OnDestroy {
+export class NgbHeadRow implements OnDestroy {
   def = inject(ROW_TOKEN);
-  table = inject(MeeTable);
+  table = inject(NgbTable);
   container = viewChild('container', { read: ViewContainerRef });
-  ref = new Map<MeeColumn, EmbeddedViewRef<any>>();
-  headDef = inject(MeeHeadRowDef);
+  ref = new Map<NgbColumn, EmbeddedViewRef<any>>();
+  headDef = inject(NgbHeadRowDef);
 
   constructor() {
     effect(() => {
@@ -47,9 +47,9 @@ export class MeeHeadRow implements OnDestroy {
           return;
         }
       });
-      const cols = this.headDef.meeHeadRowDef();
+      const cols = this.headDef.ngbHeadRowDef();
       columns.forEach(column => {
-        if (!cols?.includes(column.meeColumn())) {
+        if (!cols?.includes(column.ngbColumn())) {
           if (this.ref.has(column)) {
             const ref = this.ref.get(column);
             ref!.destroy();

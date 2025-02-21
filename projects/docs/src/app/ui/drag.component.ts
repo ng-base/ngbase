@@ -6,7 +6,7 @@ import {
   DropEvent,
   moveItemInArray,
   transferArrayItem,
-} from '@meeui/adk/drag';
+} from '@ngbase/adk/drag';
 import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
@@ -19,7 +19,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     <h4 meeHeader="sm" class="mb-b5">Drag and Drop</h4>
     <div class="parent flex h-96 w-96 items-center justify-center border bg-background">
       <div
-        meeDragMove
+        ngbDragMove
         dragBoundary=".parent"
         class="grid h-20 w-20 place-items-center border bg-foreground"
       >
@@ -40,7 +40,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     <div class="flex gap-b4">
       <div class="drop-list mt-10 w-96 rounded-base border">
         <h4 meeHeader="sm" class="m-b2">To do</h4>
-        <div meeDrop (orderChanged)="todoDrop($event)">
+        <div ngbDrop (orderChanged)="todoDrop($event)">
           @for (item of todo(); track item) {
             <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
               {{ item }}
@@ -51,7 +51,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
 
       <div class="drop-list mt-10 w-96 rounded-base border">
         <h4 meeHeader="sm" class="m-b2">Done</h4>
-        <div meeDrop (orderChanged)="doneDrop($event)">
+        <div ngbDrop (orderChanged)="doneDrop($event)">
           @for (item of done(); track item) {
             <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
               {{ item }}
@@ -63,7 +63,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
 
     <!-- horizontal drag -->
     <div
-      meeDrop
+      ngbDrop
       (orderChanged)="gridDrop($event)"
       class="drop-parent mt-10 inline-flex rounded-base border"
     >
@@ -79,14 +79,14 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     </div>
 
     <div
-      meeDrop
+      ngbDrop
       (orderChanged)="gridDrop($event)"
       class="drop-parent-1 mt-10 grid w-96 grid-cols-3 rounded-base border"
     >
       @for (item of grid; track item) {
         <div
           class="flex items-center border-b bg-foreground p-b2"
-          meeDrag
+          ngbDrag
           dragBoundary=".drop-parent-1"
         >
           {{ item }}

@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
-import { MeeHoverCard } from './hover-card';
+import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
+import { NgbHoverCard } from './hover-card';
 
 describe('HoverCard Directive', () => {
   let view: RenderResult<TestComponent>;
   let element: ElementHelper<HTMLElement>;
-  let directive: MeeHoverCard;
+  let directive: NgbHoverCard;
 
   @Component({
-    imports: [MeeHoverCard],
+    imports: [NgbHoverCard],
     template: `
-      <button [meeHoverCard]="hoverCard" delay="1">Hover me</button>
+      <button [ngbHoverCard]="hoverCard" delay="1">Hover me</button>
       <ng-template #hoverCard>
         <div>Hover Card</div>
       </ng-template>
@@ -23,7 +23,7 @@ describe('HoverCard Directive', () => {
     view = await render(TestComponent, [provideNoopAnimations()]);
 
     element = view.$('button');
-    directive = view.viewChild(MeeHoverCard);
+    directive = view.viewChild(NgbHoverCard);
   });
 
   async function mouseEnter(skipTimer = false) {

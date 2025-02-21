@@ -9,21 +9,21 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { FocusTrap } from '@meeui/adk/a11y';
-import { BaseDialog, DialogOptions, MeePortalClose } from '@meeui/adk/portal';
-import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
+import { FocusTrap } from '@ngbase/adk/a11y';
+import { BaseDialog, DialogOptions, NgbPortalClose } from '@ngbase/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
 import { Subject } from 'rxjs';
 import { viewAnimation } from './dialog.animation';
 
 @Directive({
-  selector: '[meeDialogMain]',
+  selector: '[ngbDialogMain]',
   host: {
     '[class]': `classNames()`,
     '[style]': `style()`,
   },
 })
-export class MeeDialogMain {
-  readonly dialog = inject(MeeDialogContainer);
+export class NgbDialogMain {
+  readonly dialog = inject(NgbDialogContainer);
   readonly options = this.dialog.options;
   readonly classNames = computed(() => this.options().classNames?.join(' ') || '');
   readonly style = computed(() => {
@@ -39,13 +39,13 @@ export class MeeDialogMain {
 }
 
 @Directive({
-  selector: '[meeDialogBackdrop]',
+  selector: '[ngbDialogBackdrop]',
   host: {
     '(click)': `close()`,
   },
 })
-export class MeeDialogBackdrop {
-  readonly dialog = inject(MeeDialogContainer);
+export class NgbDialogBackdrop {
+  readonly dialog = inject(NgbDialogContainer);
   readonly options = this.dialog.options;
 
   close() {
@@ -56,15 +56,15 @@ export class MeeDialogBackdrop {
 }
 
 @Component({
-  selector: '[meeDialog]',
+  selector: '[ngbDialog]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [FocusTrap],
-  imports: [MeeDialogMain, MeeDialogBackdrop],
+  imports: [NgbDialogMain, NgbDialogBackdrop],
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
       <div
         [@viewAnimation]
-        meeDialogMain
+        ngbDialogMain
         class="{{
           'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
             (options().fullWindow
@@ -84,7 +84,7 @@ export class MeeDialogBackdrop {
       @if (showBackdrop()) {
         <div
           class="pointer-events-auto absolute top-0 -z-10 h-full w-full bg-black bg-opacity-30"
-          meeDialogBackdrop
+          ngbDialogBackdrop
           [@fadeAnimation]
         ></div>
       }
@@ -101,7 +101,7 @@ export class MeeDialogBackdrop {
     viewAnimation,
   ],
 })
-export class MeeDialogContainer extends BaseDialog {
+export class NgbDialogContainer extends BaseDialog {
   readonly myDialog = viewChild('contentContainer', { read: ViewContainerRef });
 
   backdropColor = true;
@@ -127,14 +127,14 @@ export class MeeDialogContainer extends BaseDialog {
 }
 
 @Directive({
-  selector: '[meeDialogClose]',
-  hostDirectives: [{ directive: MeePortalClose, inputs: ['meePortalClose: meeDialogClose'] }],
+  selector: '[ngbDialogClose]',
+  hostDirectives: [{ directive: NgbPortalClose, inputs: ['ngbPortalClose: ngbDialogClose'] }],
 })
-export class MeeDialogClose {}
+export class NgbDialogClose {}
 
-export function provideDialog(dialog: typeof MeeDialogContainer) {
+export function provideDialog(dialog: typeof NgbDialogContainer) {
   return {
-    provide: MeeDialogContainer,
+    provide: NgbDialogContainer,
     useExisting: dialog,
   };
 }

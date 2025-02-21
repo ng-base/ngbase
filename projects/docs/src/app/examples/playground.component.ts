@@ -4,7 +4,7 @@ import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
 import { Input } from '@meeui/ui/form-field';
-import { AutoHeight } from '@meeui/adk/form-field';
+import { AutoHeight } from '@ngbase/adk/form-field';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
@@ -61,7 +61,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
       <div class="flex p-b4">
         <textarea
           meeInput
-          meeAutoHeight
+          ngbAutoHeight
           [(ngModel)]="prompt"
           class="min-h-[500px] flex-1"
           placeholder="Write a tagline for an ice cream shop"

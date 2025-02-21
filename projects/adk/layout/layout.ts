@@ -1,5 +1,5 @@
 import { DestroyRef, inject, signal, WritableSignal } from '@angular/core';
-import { isClient } from '@meeui/adk/utils';
+import { isClient } from '@ngbase/adk/utils';
 
 const mediaQueryListeners = new Map<
   string,

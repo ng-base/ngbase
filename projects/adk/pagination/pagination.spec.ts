@@ -1,10 +1,10 @@
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeePagination, MeePaginationBtn } from './pagination';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbPagination, NgbPaginationBtn } from './pagination';
 import { Component, signal } from '@angular/core';
 
 @Component({
-  imports: [MeePagination, MeePaginationBtn],
-  template: `<div meePagination [total]="total()" [size]="size()" [active]="active()"></div>`,
+  imports: [NgbPagination, NgbPaginationBtn],
+  template: `<div ngbPagination [total]="total()" [size]="size()" [active]="active()"></div>`,
 })
 class TestComponent {
   readonly total = signal<number>(100);
@@ -13,12 +13,12 @@ class TestComponent {
 }
 
 describe('Pagination', () => {
-  let component: MeePagination;
+  let component: NgbPagination;
   let view: RenderResult<TestComponent>;
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeePagination);
+    component = view.viewChild(NgbPagination);
     view.detectChanges();
   });
 

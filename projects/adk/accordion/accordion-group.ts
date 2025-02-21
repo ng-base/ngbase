@@ -1,12 +1,12 @@
 import { booleanAttribute, contentChildren, Directive, effect, input, signal } from '@angular/core';
-import { MeeAccordion } from './accordion-item';
+import { NgbAccordion } from './accordion-item';
 
 @Directive({
-  selector: '[meeAccordionGroup]',
-  exportAs: 'meeAccordionGroup',
+  selector: '[ngbAccordionGroup]',
+  exportAs: 'ngbAccordionGroup',
 })
-export class MeeAccordionGroup {
-  readonly items = contentChildren(MeeAccordion);
+export class NgbAccordionGroup {
+  readonly items = contentChildren(NgbAccordion);
   readonly multiple = input(false, { transform: booleanAttribute });
   readonly activeId = signal('');
 

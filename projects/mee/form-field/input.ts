@@ -7,14 +7,20 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { InputBase, MeeFormField, MeeInputError, MeeLabel, toggleDiv } from '@meeui/adk/form-field';
+import {
+  InputBase,
+  NgbFormField,
+  NgbInputError,
+  NgbLabel,
+  toggleDiv,
+} from '@ngbase/adk/form-field';
 import { InputStyle } from './input-style.directive';
-import { MeeSelectTarget } from '@meeui/adk/select';
+import { NgbSelectTarget } from '@ngbase/adk/select';
 
 @Component({
   selector: 'mee-form-field, [meeFormField]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [MeeFormField, MeeSelectTarget],
+  hostDirectives: [NgbFormField, NgbSelectTarget],
   imports: [InputStyle],
   template: `
     <ng-content select="[meeLabel]" />
@@ -31,7 +37,7 @@ import { MeeSelectTarget } from '@meeui/adk/select';
   },
 })
 export class FormField {
-  readonly selectTarget = inject(MeeSelectTarget);
+  readonly selectTarget = inject(NgbSelectTarget);
   readonly target = viewChild.required<ElementRef<HTMLDivElement>>('target');
   private _ = effect(() => {
     this.selectTarget.target.set(this.target().nativeElement);
@@ -46,12 +52,14 @@ export class FormField {
     '[class.border-red-500]': 'formField?.hasErrors()',
   },
 })
-export class Input<T = unknown> {}
+export class Input<T = unknown> {
+  readonly formField = inject(NgbFormField, { optional: true });
+}
 
 @Component({
   selector: '[meeLabel]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [MeeLabel],
+  hostDirectives: [NgbLabel],
   template: `<ng-content />`,
   host: {
     class: 'block font-medium mx-b0.5',
@@ -74,7 +82,7 @@ export class InputPrefix {}
 
 @Component({
   selector: '[meeError]',
-  hostDirectives: [{ directive: MeeInputError, inputs: ['meeError'] }],
+  hostDirectives: [{ directive: NgbInputError, inputs: ['ngbError: meeError'] }],
   template: `<ng-content />`,
   host: {
     class: 'text-red-500 mx-b0.5',
@@ -83,7 +91,7 @@ export class InputPrefix {}
   animations: [toggleDiv],
 })
 export class InputError {
-  readonly error = inject(MeeInputError);
+  readonly error = inject(NgbInputError);
   readonly isInvalid = this.error.isInvalid;
 
   constructor() {

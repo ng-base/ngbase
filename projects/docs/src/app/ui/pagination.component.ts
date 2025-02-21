@@ -54,7 +54,7 @@ export default class PaginationComponent {
 
   adkCode = `
   import { Component } from '@angular/core';
-  import { MeePagination, MeePaginationBtn } from '@meeui/adk/pagination';
+  import { MeePagination, MeePaginationBtn } from '@ngbase/adk/pagination';
   import { Button } from '@meeui/ui/button';
   import { Option, Select } from '@meeui/ui/select';
 

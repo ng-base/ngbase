@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeNavigationMenu } from './navigation-menu';
-import { MeeMenu } from './menu';
-import { MeeMenuTrigger } from './menu-trigger';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbNavigationMenu } from './navigation-menu';
+import { NgbMenu } from './menu';
+import { NgbMenuTrigger } from './menu-trigger';
 
 @Component({
-  imports: [MeeNavigationMenu, MeeMenu, MeeMenuTrigger],
-  template: `<main meeNavigationMenu>
-      <button meeMenuTrigger>Menu 1</button>
-      <button [meeMenuTrigger]="meeMenu1">Menu 2</button>
+  imports: [NgbNavigationMenu, NgbMenu, NgbMenuTrigger],
+  template: `<main ngbNavigationMenu>
+      <button ngbMenuTrigger>Menu 1</button>
+      <button [ngbMenuTrigger]="ngbMenu1">Menu 2</button>
     </main>
-    <div meeMenu #meeMenu1="meeMenu">
+    <div ngbMenu #ngbMenu1="ngbMenu">
       <div>Option 1</div>
       <div>Option 2</div>
     </div>
-    <div meeMenu #meeMenu2="meeMenu">
+    <div ngbMenu #ngbMenu2="ngbMenu">
       <div>Option 3</div>
       <div>Option 4</div>
     </div>`,
@@ -23,11 +23,11 @@ class TestComponent {}
 
 describe('NavigationMenu', () => {
   let view: RenderResult<TestComponent>;
-  let navMenu: MeeNavigationMenu;
+  let navMenu: NgbNavigationMenu;
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    navMenu = view.viewChild(MeeNavigationMenu);
+    navMenu = view.viewChild(NgbNavigationMenu);
   });
 
   it('should create', () => {

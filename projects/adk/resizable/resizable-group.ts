@@ -10,24 +10,24 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
-import { MeeResizable } from './resizable';
+import { uniqueId } from '@ngbase/adk/utils';
+import { NgbResizable } from './resizable';
 
 @Component({
-  selector: '[meeResizableGroup]',
-  exportAs: 'meeResizableGroup',
+  selector: '[ngbResizableGroup]',
+  exportAs: 'ngbResizableGroup',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content select="[meeResizable]" />`,
+  template: `<ng-content select="[ngbResizable]" />`,
   host: {
     class: 'flex w-full',
     '[class.flex-col]': "direction() === 'vertical'",
     '[attr.id]': 'id',
   },
 })
-export class MeeResizableGroup {
+export class NgbResizableGroup {
   readonly document = inject(DOCUMENT);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly panels = contentChildren(forwardRef(() => MeeResizable));
+  readonly panels = contentChildren(forwardRef(() => NgbResizable));
   readonly direction = input<'horizontal' | 'vertical'>('horizontal');
   readonly id = uniqueId();
 
@@ -110,6 +110,6 @@ export class MeeResizableGroup {
   }
 }
 
-export function provideResizableGroup(resizableGroup: typeof MeeResizableGroup) {
-  return { provide: MeeResizableGroup, useExisting: resizableGroup };
+export function provideResizableGroup(resizableGroup: typeof NgbResizableGroup) {
+  return { provide: NgbResizableGroup, useExisting: resizableGroup };
 }

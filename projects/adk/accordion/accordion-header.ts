@@ -1,8 +1,8 @@
 import { Directive, inject } from '@angular/core';
-import { MeeAccordion } from './accordion-item';
+import { NgbAccordion } from './accordion-item';
 
 @Directive({
-  selector: '[meeAccordionHeader]',
+  selector: '[ngbAccordionHeader]',
   host: {
     '(click)': 'accordion.disabled() ? null : accordion.toggle()',
     '[tabindex]': 'accordion.disabled() ? -1 : 0',
@@ -12,6 +12,6 @@ import { MeeAccordion } from './accordion-item';
     '[id]': `'accordion-' + accordion.id`,
   },
 })
-export class MeeAccordionHeader {
-  accordion = inject(MeeAccordion);
+export class NgbAccordionHeader {
+  accordion = inject(NgbAccordion);
 }

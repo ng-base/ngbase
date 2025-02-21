@@ -1,10 +1,10 @@
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeList } from './list';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbList } from './list';
 import { Component } from '@angular/core';
 
 @Component({
-  template: `<li meeList></li>`,
-  imports: [MeeList],
+  template: `<li ngbList></li>`,
+  imports: [NgbList],
 })
 class TestComponent {}
 

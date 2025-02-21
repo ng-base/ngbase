@@ -9,13 +9,13 @@ import {
   Signal,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { uniqueId } from '@meeui/adk/utils';
-import { MeeInputError } from './error';
+import { uniqueId } from '@ngbase/adk/utils';
+import { NgbInputError } from './error';
 
 @Directive({
-  selector: 'mee-form-field, [meeFormField]',
+  selector: 'ngb-form-field, [ngbFormField]',
 })
-export class MeeFormField {
+export class NgbFormField {
   readonly _control = contentChild(NgControl, { descendants: true });
   readonly _id = uniqueId();
 
@@ -25,7 +25,7 @@ export class MeeFormField {
     () => this.status() === 'INVALID' && this._control()?.touched,
   );
 
-  readonly errors = contentChildren<MeeInputError>(forwardRef(() => MeeInputError));
+  readonly errors = contentChildren<NgbInputError>(forwardRef(() => NgbInputError));
   readonly hasErrors = computed(() => this._invalid() || this.errors().some(e => e.isInvalid()));
 }
 

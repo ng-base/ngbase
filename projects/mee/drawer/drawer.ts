@@ -6,9 +6,9 @@ import {
   afterNextRender,
   viewChild,
 } from '@angular/core';
-import { FocusTrap } from '@meeui/adk/a11y';
-import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
-import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
+import { FocusTrap } from '@ngbase/adk/a11y';
+import { BaseDialog, DialogOptions } from '@ngbase/adk/portal';
+import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
 
 @Component({
   selector: 'mee-drawer',

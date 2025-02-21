@@ -1,7 +1,7 @@
 import { Directive, inject, Injectable, input, output } from '@angular/core';
-import { DialogRef } from '@meeui/adk/portal';
-import { documentListener } from '@meeui/adk/utils';
-import { MeeMenu } from './menu';
+import { DialogRef } from '@ngbase/adk/portal';
+import { documentListener } from '@ngbase/adk/utils';
+import { NgbMenu } from './menu';
 
 @Injectable({ providedIn: 'root' })
 class MenuService {
@@ -19,13 +19,13 @@ class MenuService {
 }
 
 @Directive({
-  selector: '[meeContextMenu]',
+  selector: '[ngbContextMenu]',
   host: {
     '(contextmenu)': 'open($event)',
   },
 })
-export class MeeContextMenu {
-  readonly meeContextMenu = input.required<MeeMenu>();
+export class NgbContextMenu {
+  readonly ngbContextMenu = input.required<NgbMenu>();
   readonly menuService = inject(MenuService);
 
   readonly ctxOpen = output<boolean>();
@@ -41,7 +41,7 @@ export class MeeContextMenu {
   open(ev: MouseEvent) {
     ev.preventDefault();
     ev.stopPropagation();
-    const menu = this.meeContextMenu();
+    const menu = this.ngbContextMenu();
     menu.open({
       target: ev.target as HTMLElement,
       client: { x: ev.clientX, y: ev.clientY, w: 1, h: 1 },

@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
+import { injectDirectionality } from '@ngbase/adk/bidi';
 
 @Directive({
-  selector: '[meeBreadcrumbSeparatorAria]',
+  selector: '[ngbBreadcrumbSeparatorAria]',
   host: {
     tabindex: '-1',
     'aria-hidden': 'true',
@@ -10,11 +10,11 @@ import { injectDirectionality } from '@meeui/adk/bidi';
     '[style.transform]': 'dir.isRtl() ? "rotate(180deg)" : ""',
   },
 })
-export class MeeBreadcrumbSeparatorAria {
+export class NgbBreadcrumbSeparatorAria {
   readonly dir = injectDirectionality();
 }
 
 @Directive({
-  selector: '[meeBreadcrumbsSeparator]',
+  selector: '[ngbBreadcrumbsSeparator]',
 })
-export class MeeBreadcrumbSeparator {}
+export class NgbBreadcrumbSeparator {}

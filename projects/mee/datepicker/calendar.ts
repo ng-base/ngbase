@@ -6,9 +6,9 @@ import {
   CalendarMonthBtn,
   CalendarTitle,
   CalendarYearBtn,
-  MeeCalendar,
+  NgbCalendar,
   provideCalendar,
-} from '@meeui/adk/datepicker';
+} from '@ngbase/adk/datepicker';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -33,13 +33,13 @@ import { TimePicker } from './time';
   ],
   template: `
     <div class="mb-b2 flex items-center justify-between">
-      <button meeCalendarBtn="left" meeButton="outline" class="h-b6 w-b6 rounded-md !px-0">
+      <button ngbCalendarBtn="left" meeButton="outline" class="h-b6 w-b6 rounded-md !px-0">
         <mee-icon [name]="dir.isRtl() ? 'lucideChevronRight' : 'lucideChevronLeft'" />
       </button>
-      <button meeCalendarTitle meeButton="ghost" class="small rounded-md">
+      <button ngbCalendarTitle meeButton="ghost" class="small rounded-md">
         {{ title() }}
       </button>
-      <button meeCalendarBtn="right" meeButton="outline" class="h-b6 w-b6 rounded-md !px-0">
+      <button ngbCalendarBtn="right" meeButton="outline" class="h-b6 w-b6 rounded-md !px-0">
         <mee-icon [name]="dir.isRtl() ? 'lucideChevronLeft' : 'lucideChevronRight'" />
       </button>
     </div>
@@ -48,8 +48,8 @@ import { TimePicker } from './time';
       <div class="grid grid-cols-3">
         @for (year of years(); track year.year) {
           <button
-            [meeCalYearBtn]="year"
-            #yearBtn="meeCalYearBtn"
+            [ngbCalYearBtn]="year"
+            #yearBtn="ngbCalYearBtn"
             class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -66,8 +66,8 @@ import { TimePicker } from './time';
       <div class="grid grid-cols-3">
         @for (month of months(); track month.value) {
           <button
-            [meeCalMonthBtn]="month"
-            #monthBtn="meeCalMonthBtn"
+            [ngbCalMonthBtn]="month"
+            #monthBtn="ngbCalMonthBtn"
             class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -89,8 +89,8 @@ import { TimePicker } from './time';
       <div class="grid grid-cols-7 gap-y-b2">
         @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
-            #days="meeCalDayBtn"
-            [meeCalDayBtn]="day"
+            #days="ngbCalDayBtn"
+            [ngbCalDayBtn]="day"
             class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -114,4 +114,4 @@ import { TimePicker } from './time';
     class: 'inline-flex flex-col min-h-[18.75rem] p-b2 w-full',
   },
 })
-export class Calendar<D> extends MeeCalendar<D> {}
+export class Calendar<D> extends NgbCalendar<D> {}

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Tree, TreeNodeDef } from './tree';
 
 // Mock data

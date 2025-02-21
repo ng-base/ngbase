@@ -45,7 +45,7 @@ export default class CheckboxComponent {
   import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
   import { FormsModule } from '@angular/forms';
   import { FocusStyle } from './focus-style.directive';
-  import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
+  import { CheckboxButton, MeeCheckbox } from '@ngbase/adk/checkbox';
 
   @Component({
     selector: 'mee-checkbox',

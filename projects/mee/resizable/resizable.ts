@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  MeeGutter,
-  MeeResizable,
-  MeeResizableGroup,
+  NgbGutter,
+  NgbResizable,
+  NgbResizableGroup,
   provideResizable,
   provideResizableGroup,
-} from '@meeui/adk/resizable';
+} from '@ngbase/adk/resizable';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideGripVertical } from '@ng-icons/lucide';
@@ -22,7 +22,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     '[attr.id]': 'id',
   },
 })
-export class ResizableGroup extends MeeResizableGroup {}
+export class ResizableGroup extends NgbResizableGroup {}
 
 @Component({
   selector: 'mee-resizable',
@@ -30,12 +30,12 @@ export class ResizableGroup extends MeeResizableGroup {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideResizable(Resizable)],
   viewProviders: [provideIcons({ lucideGripVertical })],
-  imports: [Icon, MeeGutter],
+  imports: [Icon, NgbGutter],
   template: `<ng-content />
     <ng-template #dragElement>
       @if (draggable()) {
         <div
-          meeGutter
+          ngbGutter
           class="{{
             'dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0' +
               (resizable.direction() === 'vertical'
@@ -56,4 +56,4 @@ export class ResizableGroup extends MeeResizableGroup {}
     class: 'relative overflow-hidden block flex-none',
   },
 })
-export class Resizable extends MeeResizable {}
+export class Resizable extends NgbResizable {}

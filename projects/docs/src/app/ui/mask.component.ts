@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaskPipe } from '@meeui/adk/mask';
+import { MaskPipe } from '@ngbase/adk/mask';
 import { MaskInput } from '@meeui/ui/mask';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';

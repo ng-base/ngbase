@@ -11,20 +11,20 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { DialogRef } from '@meeui/adk/portal';
-import { RangePipe, uniqueId } from '@meeui/adk/utils';
-import { MeeCalendar } from './calendar';
-import { DatePickerOptions, MeeDatepickerTrigger } from './datepicker-trigger';
-import { injectMeeDateAdapter } from './native-date-adapter';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { DialogRef } from '@ngbase/adk/portal';
+import { RangePipe, uniqueId } from '@ngbase/adk/utils';
+import { NgbCalendar } from './calendar';
+import { DatePickerOptions, NgbDatepickerTrigger } from './datepicker-trigger';
+import { injectNgbDateAdapter } from './native-date-adapter';
 
 @Directive({
-  selector: '[meeDatepickerGroup]',
-  exportAs: 'meeDatepickerGroup',
+  selector: '[ngbDatepickerGroup]',
+  exportAs: 'ngbDatepickerGroup',
   hostDirectives: [AccessibleGroup],
 })
 export class DatepickerGroup<D> {
-  readonly picker = inject(MeeDatePicker<D>);
+  readonly picker = inject(NgbDatePicker<D>);
   readonly allyGroup = inject(AccessibleGroup);
 
   constructor() {
@@ -35,13 +35,13 @@ export class DatepickerGroup<D> {
 }
 
 @Component({
-  selector: '[meeDatepicker]',
+  selector: '[ngbDatepicker]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MeeCalendar, RangePipe, NgTemplateOutlet, AccessibleGroup, DatepickerGroup],
+  imports: [NgbCalendar, RangePipe, NgTemplateOutlet, AccessibleGroup, DatepickerGroup],
   template: `
-    <div class="flex" meeDatepickerGroup>
+    <div class="flex" ngbDatepickerGroup>
       @for (no of noOfCalendar() | range; track no) {
-        <mee-calendar [first]="$first" [last]="$last" [index]="$index" />
+        <ngb-calendar [first]="$first" [last]="$last" [index]="$index" />
       }
     </div>
     @if (template()) {
@@ -54,12 +54,12 @@ export class DatepickerGroup<D> {
     class: 'inline-block',
   },
 })
-export class MeeDatePicker<D> {
-  private datepickerTrigger: MeeDatepickerTrigger<D> | null = inject(MeeDatepickerTrigger, {
+export class NgbDatePicker<D> {
+  private datepickerTrigger: NgbDatepickerTrigger<D> | null = inject(NgbDatepickerTrigger, {
     optional: true,
   });
   private dialogRef = inject<DialogRef<DatePickerOptions<D>>>(DialogRef, { optional: true });
-  readonly adapter = injectMeeDateAdapter<D>();
+  readonly adapter = injectNgbDateAdapter<D>();
   readonly dateFilter = input(this.data?.dateFilter || (() => true));
   readonly pickerType = input<'date' | 'month' | 'year'>(this.data?.pickerType || 'date');
   readonly allyGroup = viewChild(AccessibleGroup);
@@ -222,9 +222,9 @@ export class MeeDatePicker<D> {
   }
 }
 
-export function provideDatePicker<D>(picker: typeof MeeDatePicker<D>) {
+export function provideDatePicker<D>(picker: typeof NgbDatePicker<D>) {
   return {
-    provide: MeeDatePicker,
+    provide: NgbDatePicker,
     useExisting: picker,
   };
 }

@@ -70,7 +70,7 @@ export default class SidenavComponent {
     provideSidenav,
     slideAnimation,
     SidenavType,
-  } from '@meeui/adk/sidenav';
+  } from '@ngbase/adk/sidenav';
 
   export type { SidenavType };
 

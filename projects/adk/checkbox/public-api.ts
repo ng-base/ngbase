@@ -2,4 +2,4 @@
  * Public API Surface of checkbox
  */
 
-export { CheckboxButton, MeeCheckbox } from './checkbox';
+export { CheckboxButton, NgbCheckbox } from './checkbox';

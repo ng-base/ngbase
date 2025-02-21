@@ -1,9 +1,9 @@
 import { Directive, computed, inject, input } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { MeeSelectable } from './selectable';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { NgbSelectable } from './selectable';
 
 @Directive({
-  selector: '[meeSelectableItem]',
+  selector: '[ngbSelectableItem]',
   host: {
     role: 'tab',
     '(click)': 'select()',
@@ -11,8 +11,8 @@ import { MeeSelectable } from './selectable';
   },
   hostDirectives: [AccessibleItem],
 })
-export class MeeSelectableItem<T> {
-  readonly selectable: MeeSelectable<T> = inject(MeeSelectable);
+export class NgbSelectableItem<T> {
+  readonly selectable: NgbSelectable<T> = inject(NgbSelectable);
   readonly value = input.required<T>();
 
   readonly selected = computed(() => this.value() === this.selectable.activeIndex());

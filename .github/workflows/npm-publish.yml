@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: 20
           registry-url: 'https://registry.npmjs.org'
-          scope: '@meeui'
+          scope: '@ngbase'
           cache: 'pnpm'
       - name: Update .npmrc
         run: echo "publish-branch=release/*|main" >> .npmrc
@@ -48,7 +48,7 @@ jobs:
         run: |
           pnpm install
           pnpm build:lib
-          cd dist/mee
+          cd dist/adk
           pnpm publish --access public --force
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

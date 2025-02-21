@@ -1,2 +1,2 @@
-export { MeeSelectable } from './selectable';
-export { MeeSelectableItem } from './selectable-item';
+export { NgbSelectable } from './selectable';
+export { NgbSelectableItem } from './selectable-item';

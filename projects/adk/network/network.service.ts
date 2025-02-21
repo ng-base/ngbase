@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { isClient } from '@meeui/adk/utils';
-import { documentListener, ListenerOut } from '@meeui/adk/utils';
+import { isClient } from '@ngbase/adk/utils';
+import { documentListener, ListenerOut } from '@ngbase/adk/utils';
 
 @Injectable({ providedIn: 'root' })
 export class Network {

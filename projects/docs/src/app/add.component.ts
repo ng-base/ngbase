@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { Autofocus } from '@meeui/adk/a11y';
-import { DialogRef } from '@meeui/adk/portal';
+import { Autofocus } from '@ngbase/adk/a11y';
+import { DialogRef } from '@ngbase/adk/portal';
 import { Button } from '@meeui/ui/button';
 import { DialogClose, dialogPortal } from '@meeui/ui/dialog';
 import { Input } from '@meeui/ui/form-field';
@@ -14,7 +14,7 @@ import { AppService } from './app.service';
   imports: [Button, DialogClose, Select, Option, Input, Autofocus],
   providers: [AddService],
   template: `
-    <input meeInput meeAutofocus />
+    <input meeInput ngbAutofocus />
     <mee-select>
       <mee-option value="1">1</mee-option>
       <mee-option value="2">2</mee-option>

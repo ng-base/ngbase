@@ -10,11 +10,11 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { PopoverPosition } from '@meeui/adk/popover';
+import { PopoverPosition } from '@ngbase/adk/popover';
 import { TooltipService } from './tooltip.service';
-import { MeeTooltipTemplate } from './tooltip';
+import { NgbTooltipTemplate } from './tooltip';
 
-export function provideMeeTooltipOptions(options: TooltipOptions) {
+export function provideNgbTooltipOptions(options: TooltipOptions) {
   return { provide: TOOLTIP_OPTIONS, useValue: options };
 }
 
@@ -24,21 +24,21 @@ export interface TooltipOptions {
   showDelay?: number;
   hideDelay?: number;
   position?: PopoverPosition;
-  component?: Type<MeeTooltipTemplate>;
+  component?: Type<NgbTooltipTemplate>;
 }
 
 @Directive({
-  selector: '[meeTooltip]',
+  selector: '[ngbTooltip]',
 })
-export class MeeTooltip implements OnDestroy {
+export class NgbTooltip implements OnDestroy {
   // Dependencies
   private defaultOptions = inject(TOOLTIP_OPTIONS, { optional: true });
   private el = inject(ElementRef);
   private tooltipService = inject(TooltipService);
 
   // Inputs
-  readonly meeTooltip = input<string>();
-  readonly meeTooltipPosition = input<PopoverPosition>();
+  readonly ngbTooltip = input<string>();
+  readonly ngbTooltipPosition = input<PopoverPosition>();
   readonly delay = input(0);
 
   // State
@@ -47,7 +47,7 @@ export class MeeTooltip implements OnDestroy {
     const options: TooltipOptions = {
       showDelay: this.delay() || o.showDelay || 0,
       hideDelay: o.hideDelay || 0,
-      position: this.meeTooltipPosition() || o.position || 'top',
+      position: this.ngbTooltipPosition() || o.position || 'top',
       component: this.defaultOptions?.component || o.component,
     };
     return options;
@@ -57,7 +57,7 @@ export class MeeTooltip implements OnDestroy {
   constructor() {
     let active = false;
     afterRenderEffect(() => {
-      const content = this.meeTooltip();
+      const content = this.ngbTooltip();
       untracked(() => {
         if (content) {
           if (!active) {
@@ -79,7 +79,7 @@ export class MeeTooltip implements OnDestroy {
     if (options.showDelay === 0 || this.tooltipService.tooltipOpen) {
       this.tooltipService.insert(
         this.el.nativeElement,
-        this.meeTooltip()!,
+        this.ngbTooltip()!,
         options.position!,
         this.quickHide,
         options.component,
@@ -89,7 +89,7 @@ export class MeeTooltip implements OnDestroy {
     this.timer = setTimeout(() => {
       this.tooltipService.insert(
         this.el.nativeElement,
-        this.meeTooltip()!,
+        this.ngbTooltip()!,
         options.position!,
         this.hide,
         options.component,

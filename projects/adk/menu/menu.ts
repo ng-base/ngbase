@@ -11,26 +11,26 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { Keys } from '@meeui/adk/keys';
-import { MeeList } from '@meeui/adk/list';
-import { DialogRef } from '@meeui/adk/portal';
-import { MeeOption } from '@meeui/adk/select';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { Keys } from '@ngbase/adk/keys';
+import { NgbList } from '@ngbase/adk/list';
+import { DialogRef } from '@ngbase/adk/portal';
+import { NgbOption } from '@ngbase/adk/select';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { MeeMenuTrigger } from './menu-trigger';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { meePopoverPortal, PopoverOptions } from '@meeui/adk/popover';
-import { uniqueId } from '@meeui/adk/utils';
+import { NgbMenuTrigger } from './menu-trigger';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { ngbPopoverPortal, PopoverOptions } from '@ngbase/adk/popover';
+import { uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeMenuGroup]',
+  selector: '[ngbMenuGroup]',
   hostDirectives: [AccessibleGroup],
   host: {
     '(click)': 'menu.close()',
   },
 })
 export class MenuGroup {
-  readonly menu = inject(MeeMenu);
+  readonly menu = inject(NgbMenu);
   readonly allyGroup = inject(AccessibleGroup);
 
   constructor() {
@@ -44,38 +44,38 @@ export class MenuGroup {
 }
 
 @Component({
-  selector: '[meeMenu]',
-  exportAs: 'meeMenu',
+  selector: '[ngbMenu]',
+  exportAs: 'ngbMenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AccessibleGroup, MenuGroup],
   template: `
     <ng-template #container>
-      <div meeMenuGroup>
+      <div ngbMenuGroup>
         <ng-content />
       </div>
     </ng-template>
   `,
 })
-export class MeeMenu implements OnDestroy {
+export class NgbMenu implements OnDestroy {
   readonly dir = injectDirectionality();
-  readonly popover = meePopoverPortal();
+  readonly popover = ngbPopoverPortal();
   private readonly menuEl = viewChild<MenuGroup, ElementRef<HTMLDivElement>>(MenuGroup, {
     read: ElementRef,
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
-  readonly options = contentChildren(MeeOption, { descendants: true });
-  readonly lists = contentChildren(MeeList, { descendants: true });
+  readonly options = contentChildren(NgbOption, { descendants: true });
+  readonly lists = contentChildren(NgbList, { descendants: true });
   readonly manager = new Keys();
   readonly selected = output<string>();
   readonly ayId = uniqueId();
 
   // this will be injected by the MenuTrigger directive
-  parentMenuTrigger?: MeeMenuTrigger;
+  parentMenuTrigger?: NgbMenuTrigger;
 
   // this will be injected by the MenuTrigger directive
   diaRef!: DialogRef;
   readonly events = new Subject<{ event: MouseEvent; type: 'enter' | 'leave' }>();
-  readonly activeOption = new BehaviorSubject<MeeOption<any> | MeeList | null>(null);
+  readonly activeOption = new BehaviorSubject<NgbOption<any> | NgbList | null>(null);
   isOpen = false;
 
   constructor() {
@@ -132,7 +132,7 @@ export class MeeMenu implements OnDestroy {
     });
   }
 
-  get rootParent(): MeeMenu | undefined {
+  get rootParent(): NgbMenu | undefined {
     return this.parentMenuTrigger?.rootParent || this;
   }
 
@@ -148,7 +148,7 @@ export class MeeMenu implements OnDestroy {
   }
 }
 
-export const provideMenu = (menu: typeof MeeMenu) => ({
-  provide: MeeMenu,
+export const provideMenu = (menu: typeof NgbMenu) => ({
+  provide: NgbMenu,
   useExisting: menu,
 });

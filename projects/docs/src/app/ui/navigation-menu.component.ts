@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger, NavigationMenu } from '@meeui/ui/menu';

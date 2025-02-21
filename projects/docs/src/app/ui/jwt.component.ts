@@ -13,7 +13,7 @@ import { Heading } from '@meeui/ui/typography';
 })
 export default class JwtComponent {
   tsCode = `
-  import { provideJwt } from '@meeui/adk/jwt';
+  import { provideJwt } from '@ngbase/adk/jwt';
 
   export const appConfig: ApplicationConfig = {
     providers: [

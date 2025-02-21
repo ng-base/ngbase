@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { MeeTour } from '@meeui/adk/tour';
+import { NgbTour } from '@ngbase/adk/tour';
 
 @Directive({
   selector: '[meeTour]',
-  hostDirectives: [MeeTour],
+  hostDirectives: [NgbTour],
 })
 export class Tour {}

@@ -111,7 +111,7 @@ export default class TabsComponent {
     TabButton,
     TabButtonsGroup,
     TabScroll,
-  } from '@meeui/adk/tabs';
+  } from '@ngbase/adk/tabs';
 
   @Component({
     selector: 'mee-tabs',

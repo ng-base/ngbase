@@ -17,7 +17,7 @@ import { Heading } from '@meeui/ui/typography';
 export default class TestComponent {
   tsCode = `
   import { Injectable, Component, inject } from '@angular/core';
-  import { render, RenderResult } from '@meeui/adk/test';
+  import { render, RenderResult } from '@ngbase/adk/test';
 
   @Injectable({ providedIn: 'root' })
   class TestService {

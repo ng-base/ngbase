@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Switch } from './switch';
-import { MeeSwitch, MeeSwitchThumb } from '@meeui/adk/switch';
+import { NgbSwitch, NgbSwitchThumb } from '@ngbase/adk/switch';
 
 describe('SwitchComponent', () => {
-  let component: MeeSwitch;
+  let component: NgbSwitch;
   let view: RenderResult<TestComponent>;
 
   @Component({
@@ -18,7 +18,7 @@ describe('SwitchComponent', () => {
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeSwitch);
+    component = view.viewChild(NgbSwitch);
     view.detectChanges();
   });
 
@@ -41,7 +41,7 @@ describe('SwitchComponent', () => {
   it('should render content when checked', () => {
     component.checked.set(true);
     view.detectChanges();
-    const span = view.$(MeeSwitchThumb);
+    const span = view.$(NgbSwitchThumb);
     expect(span.attr('aria-checked')).toBe('true');
 
     component.checked.set(false);

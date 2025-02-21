@@ -1,5 +1,5 @@
 import { Component, signal, viewChild } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Drag, DragData } from './drag';
 
 // Mock PointerEvent
@@ -20,7 +20,7 @@ class MockPointerEvent extends Event {
   imports: [Drag],
   template: `
     <div class="parent" style="width: 100px; height: 100px; background: red;">
-      <div class="child" meeDrag [dragBoundary]="dragBoundary()" (meeDrag)="onDrag($event)">
+      <div class="child" ngbDrag [dragBoundary]="dragBoundary()" (ngbDrag)="onDrag($event)">
         Drag me
       </div>
     </div>

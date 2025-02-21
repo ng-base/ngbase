@@ -19,7 +19,7 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@meeui/adk/*": ["./projects/adk/*/public-api"],
+      "@ngbase/adk/*": ["./projects/adk/*/public-api"],
       // "@meeui/adk/*": ["./dist/adk/*"],
       "@meeui/ui/*": ["./projects/mee/*/public-api"]
     }

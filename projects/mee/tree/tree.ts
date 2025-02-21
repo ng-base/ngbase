@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Directive, signal } from '@angular/core';
 import {
-  MeeTree,
-  MeeTreeNode,
-  MeeTreeNodeContent,
-  MeeTreeNodeDef,
-  MeeTreeNodeToggle,
+  NgbTree,
+  NgbTreeNode,
+  NgbTreeNodeContent,
+  NgbTreeNodeDef,
+  NgbTreeNodeToggle,
   provideTree,
   provideTreeNode,
-} from '@meeui/adk/tree';
+} from '@ngbase/adk/tree';
 
 @Component({
   selector: 'mee-tree',
@@ -19,7 +19,7 @@ import {
     class: 'block',
   },
 })
-export class Tree<T> extends MeeTree<T> {}
+export class Tree<T> extends NgbTree<T> {}
 
 @Component({
   selector: 'mee-tree-node',
@@ -37,13 +37,13 @@ export class Tree<T> extends MeeTree<T> {}
     class: 'block w-full cursor-pointer',
   },
 })
-export class TreeNode<T> extends MeeTreeNode<T> {
+export class TreeNode<T> extends NgbTreeNode<T> {
   override size = signal(16);
 }
 
 @Directive({
   selector: '[meeTreeNodeToggle]',
-  hostDirectives: [MeeTreeNodeToggle],
+  hostDirectives: [NgbTreeNodeToggle],
   host: {
     class: `aria-[hidden="true"]:invisible`,
   },
@@ -52,13 +52,13 @@ export class TreeNodeToggle {}
 
 @Directive({
   selector: '[meeTreeNodeDef]',
-  hostDirectives: [MeeTreeNodeDef],
+  hostDirectives: [NgbTreeNodeDef],
 })
 export class TreeNodeDef<T> {}
 
 @Directive({
   selector: '[meeTreeNodeContent]',
-  hostDirectives: [MeeTreeNodeContent],
+  hostDirectives: [NgbTreeNodeContent],
   host: {
     class: 'ml-8',
   },

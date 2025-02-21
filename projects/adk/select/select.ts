@@ -10,11 +10,11 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
-import { filterFunction, provideValueAccessor } from '@meeui/adk/utils';
-import { MeeOption } from './option';
+import { AccessibleGroup, AccessibleItem } from '@ngbase/adk/a11y';
+import { filterFunction, provideValueAccessor } from '@ngbase/adk/utils';
+import { NgbOption } from './option';
 import { SelectBase } from './select-base';
-import { MeeSelectInput } from './select-input';
+import { NgbSelectInput } from './select-input';
 
 export interface OptionContext<T> {
   $implicit: T;
@@ -22,14 +22,14 @@ export interface OptionContext<T> {
 }
 
 @Directive({
-  selector: '[meeSelectOption]',
+  selector: '[ngbSelectOption]',
 })
-export class MeeSelectOption<T> {
+export class NgbSelectOption<T> {
   readonly template = inject(TemplateRef<OptionContext<T>>);
 }
 
 @Directive({
-  selector: '[meeSelectValue]',
+  selector: '[ngbSelectValue]',
   host: {
     type: 'button',
     role: 'combobox',
@@ -38,14 +38,14 @@ export class MeeSelectOption<T> {
   },
 })
 export class SelectValue {
-  readonly select = inject(MeeSelect<any>);
+  readonly select = inject(NgbSelect<any>);
 }
 
 @Directive({
-  selector: '[meeSelectOptionGroup]',
+  selector: '[ngbSelectOptionGroup]',
   hostDirectives: [AccessibleGroup],
 })
-export class MeeSelectOptionGroup {
+export class NgbSelectOptionGroup {
   readonly group = inject(AccessibleGroup);
   readonly select = inject(SelectBase<any>);
 
@@ -57,18 +57,18 @@ export class MeeSelectOptionGroup {
 }
 
 @Component({
-  selector: '[meeSelect]',
+  selector: '[ngbSelect]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [_provide(MeeSelect)],
+  providers: [_provide(NgbSelect)],
   imports: [
     AccessibleGroup,
     FormsModule,
     AccessibleItem,
-    forwardRef(() => MeeSelectInput),
-    MeeOption,
+    forwardRef(() => NgbSelectInput),
+    NgbOption,
     NgTemplateOutlet,
     SelectValue,
-    MeeSelectOptionGroup,
+    NgbSelectOptionGroup,
   ],
   host: {
     role: 'listbox',
@@ -82,7 +82,7 @@ export class MeeSelectOptionGroup {
   },
   template: `
     <button
-      meeSelectValue
+      ngbSelectValue
       class="flex min-h-b5 w-full items-center justify-between gap-b whitespace-nowrap outline-none"
       [class.opacity-50]="disabled()"
     >
@@ -90,7 +90,7 @@ export class MeeSelectOptionGroup {
       <ng-content select=".select-prefix" />
 
       <span class="truncate" [class.text-muted]="!cValue()">
-        <ng-content select="[meeSelectTrigger]">
+        <ng-content select="[ngbSelectTrigger]">
           {{ cValue() || placeholder() }}
         </ng-content>
       </span>
@@ -99,16 +99,16 @@ export class MeeSelectOptionGroup {
     <!-- Options template -->
     <ng-template #optionsTemplate>
       <div class="flex flex-col overflow-hidden">
-        <ng-content select="[meeSelectInput]">
+        <ng-content select="[ngbSelectInput]">
           @if (options().length) {
-            <input meeSelectInput placeholder="Search options" [(value)]="optionsFilter.search" />
+            <input ngbSelectInput placeholder="Search options" [(value)]="optionsFilter.search" />
           }
         </ng-content>
-        <div #optionsGroup meeSelectOptionGroup class="overflow-auto p-b">
+        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-b">
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {
-                <div meeOption [value]="option" [ayId]="ayId">
+                <div ngbOption [value]="option" [ayId]="ayId">
                   @if (optionTemplate(); as ot) {
                     <ng-template
                       [ngTemplateOutlet]="ot.template"
@@ -126,9 +126,9 @@ export class MeeSelectOptionGroup {
     </ng-template>
   `,
 })
-export class MeeSelect<T> extends SelectBase<T> {
+export class NgbSelect<T> extends SelectBase<T> {
   readonly search = model<string>('');
-  readonly optionTemplate = contentChild(MeeSelectOption<T>);
+  readonly optionTemplate = contentChild(NgbSelectOption<T>);
   readonly defaultFilter = (option: string) => option;
   readonly optionsFilter = filterFunction(this.options, { filter: this.defaultFilter });
 
@@ -137,11 +137,11 @@ export class MeeSelect<T> extends SelectBase<T> {
   }
 }
 
-function _provide(select: typeof MeeSelect) {
+function _provide(select: typeof NgbSelect) {
   return [{ provide: SelectBase, useExisting: select }, provideValueAccessor(select)];
 }
 
-export function provideSelect(select: typeof MeeSelect) {
-  const deps = [_provide(select), { provide: MeeSelect, useExisting: select }];
+export function provideSelect(select: typeof NgbSelect) {
+  const deps = [_provide(select), { provide: NgbSelect, useExisting: select }];
   return deps;
 }

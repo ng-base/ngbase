@@ -1,14 +1,14 @@
 import { ComponentRef, inject, Injectable, Type } from '@angular/core';
-import { basePortal, DialogRef } from '@meeui/adk/portal';
-import { MeeSonner, SonnerData, SonnerType } from './sonner';
+import { basePortal, DialogRef } from '@ngbase/adk/portal';
+import { NgbSonner, SonnerData, SonnerType } from './sonner';
 
 @Injectable({ providedIn: 'root' })
 export class SonnerService {
   private NAME = 'sonner';
-  private base = basePortal(this.NAME, MeeSonner);
-  private sonner: { parent: ComponentRef<MeeSonner>; diaRef: DialogRef<MeeSonner> } | undefined;
+  private base = basePortal(this.NAME, NgbSonner);
+  private sonner: { parent: ComponentRef<NgbSonner>; diaRef: DialogRef<NgbSonner> } | undefined;
 
-  updateSonner(component: Type<MeeSonner> = MeeSonner) {
+  updateSonner(component: Type<NgbSonner> = NgbSonner) {
     this.base.updateBaseComponent(component);
   }
 
@@ -25,7 +25,7 @@ export class SonnerService {
   }
 }
 
-export function meeSonnerPortal(component?: Type<MeeSonner>) {
+export function ngbSonnerPortal(component?: Type<NgbSonner>) {
   const sonnerService = inject(SonnerService);
 
   sonnerService.updateSonner(component);

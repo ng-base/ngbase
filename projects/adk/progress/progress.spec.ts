@@ -1,12 +1,12 @@
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeProgress, MeeProgressBar } from './progress';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbProgress, NgbProgressBar } from './progress';
 import { Component, signal } from '@angular/core';
 
 @Component({
-  imports: [MeeProgress, MeeProgressBar],
+  imports: [NgbProgress, NgbProgressBar],
   template: `
-    <div id="progress" meeProgress [value]="value()">
-      <div id="progressBar" meeProgressBar></div>
+    <div id="progress" ngbProgress [value]="value()">
+      <div id="progressBar" ngbProgressBar></div>
     </div>
   `,
 })
@@ -15,12 +15,12 @@ class ProgressTestComponent {
 }
 
 describe('ProgressComponent', () => {
-  let component: MeeProgress;
+  let component: NgbProgress;
   let view: RenderResult<ProgressTestComponent>;
 
   beforeEach(async () => {
     view = await render(ProgressTestComponent);
-    component = view.viewChild(MeeProgress);
+    component = view.viewChild(NgbProgress);
     view.detectChanges();
   });
 

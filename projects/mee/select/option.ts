@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MeeOption, MeeOptionGroup } from '@meeui/adk/select';
+import { NgbOption, NgbOptionGroup } from '@ngbase/adk/select';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { ListStyle } from '@meeui/ui/list';
 
 @Component({
   selector: 'mee-option, [meeOption]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [ListStyle, { directive: MeeOption, inputs: ['value', 'disabled', 'ayId'] }],
+  hostDirectives: [ListStyle, { directive: NgbOption, inputs: ['value', 'disabled', 'ayId'] }],
   imports: [Checkbox],
   template: ` @if (option.multiple()) {
       <mee-checkbox [checked]="option.checked()" class="!py-0" />
@@ -17,7 +17,7 @@ import { ListStyle } from '@meeui/ui/list';
   },
 })
 export class Option<T> {
-  readonly option = inject(MeeOption<T>);
+  readonly option = inject(NgbOption<T>);
 }
 
 @Component({
@@ -31,4 +31,4 @@ export class Option<T> {
     class: 'block',
   },
 })
-export class OptionGroup extends MeeOptionGroup {}
+export class OptionGroup extends NgbOptionGroup {}

@@ -2,4 +2,4 @@
  * Public API Surface of slider
  */
 
-export { MeeSlider, SliderTrack, SliderRange, SliderThumb, provideSlider } from './slider';
+export { NgbSlider, SliderTrack, SliderRange, SliderThumb, provideSlider } from './slider';

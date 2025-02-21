@@ -10,21 +10,21 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
+import { uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeTabHeader]',
+  selector: '[ngbTabHeader]',
 })
-export class MeeTabHeader {}
+export class NgbTabHeader {}
 
 @Directive({
-  selector: '[meeTabLazy]',
+  selector: '[ngbTabLazy]',
 })
-export class MeeTabLazy {}
+export class NgbTabLazy {}
 
 @Component({
-  selector: 'mee-tab',
-  exportAs: 'meeTab',
+  selector: 'ngb-tab',
+  exportAs: 'ngbTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   template: `
@@ -41,10 +41,10 @@ export class MeeTabLazy {}
     '[attr.aria-labelledby]': 'id',
   },
 })
-export class MeeTab {
+export class NgbTab {
   // Dependencies
-  readonly header = contentChild(MeeTabHeader, { read: TemplateRef });
-  readonly lazy = contentChild(MeeTabLazy, { read: TemplateRef });
+  readonly header = contentChild(NgbTabHeader, { read: TemplateRef });
+  readonly lazy = contentChild(NgbTabLazy, { read: TemplateRef });
 
   // Inputs
   readonly label = input('Tab');
@@ -66,9 +66,9 @@ export class MeeTab {
   readonly lazyTemplate = computed(() => this.active() && this.lazy());
 }
 
-export function provideTab(tab: typeof MeeTab) {
+export function provideTab(tab: typeof NgbTab) {
   return {
-    provide: MeeTab,
+    provide: NgbTab,
     useExisting: tab,
   };
 }

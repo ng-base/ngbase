@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { injectNetwork } from '@meeui/adk/network';
-import { isClient } from '@meeui/adk/utils';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { injectNetwork } from '@ngbase/adk/network';
+import { isClient } from '@ngbase/adk/utils';
 import { sonnerPortal } from '@meeui/ui/sonner';
 import { injectTheme } from '@meeui/ui/theme';
 

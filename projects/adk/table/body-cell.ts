@@ -1,17 +1,17 @@
 import { Directive, inject } from '@angular/core';
-import { MeeColumn } from './column';
+import { NgbColumn } from './column';
 
 @Directive({
-  selector: '[meeCell]',
+  selector: '[ngbCell]',
   host: {
     '[class]': `column.sticky() === 'start' ? 'sticky left-0 border-r z-10' : column.sticky() === 'end' ? 'sticky right-0 border-l z-10' : ''`,
   },
 })
-export class MeeCell {
-  readonly column = inject(MeeColumn);
+export class NgbCell {
+  readonly column = inject(NgbColumn);
 }
 
 @Directive({
-  selector: '[meeCellDef]',
+  selector: '[ngbCellDef]',
 })
-export class MeeCellDef {}
+export class NgbCellDef {}

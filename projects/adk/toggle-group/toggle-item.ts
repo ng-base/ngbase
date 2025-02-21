@@ -1,17 +1,17 @@
 import { booleanAttribute, computed, Directive, inject, input, linkedSignal } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { MeeToggleGroup } from './toggle-group';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { NgbToggleGroup } from './toggle-group';
 
 @Directive({
-  selector: 'button[meeToggleItem]',
+  selector: 'button[ngbToggleItem]',
   hostDirectives: [{ directive: AccessibleItem, inputs: ['disabled'] }],
   host: {
     '(click)': 'updateValue()',
   },
 })
-export class MeeToggleItem<T> {
+export class NgbToggleItem<T> {
   private accessibleItem = inject(AccessibleItem);
-  readonly toggleGroup = inject<MeeToggleGroup<T>>(MeeToggleGroup);
+  readonly toggleGroup = inject<NgbToggleGroup<T>>(NgbToggleGroup);
 
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly value = input.required<any>();

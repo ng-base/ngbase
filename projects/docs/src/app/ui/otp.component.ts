@@ -2,12 +2,12 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
 import { Heading } from '@meeui/ui/typography';
-import { FormField, InputOtp, Label } from '@meeui/ui/form-field';
+import { InputOtp } from '@meeui/ui/form-field';
 import { Checkbox } from '@meeui/ui/checkbox';
 
 @Component({
   selector: 'app-otp',
-  imports: [FormsModule, Heading, InputOtp, DocCode, FormField, Label, Checkbox],
+  imports: [FormsModule, Heading, InputOtp, DocCode, Checkbox],
   template: `
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
@@ -18,23 +18,21 @@ import { Checkbox } from '@meeui/ui/checkbox';
           <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>
         </div>
         <form #myForm="ngForm" (ngSubmit)="submit()">
-          <div meeFormField>
-            <label meeLabel>OTP: {{ otp() }}</label>
-            <mee-input-otp
-              placeholder=""
-              separator=""
-              [size]="[1, 1, 1, 1]"
-              [disabled]="disabled()"
-              [(ngModel)]="otp"
-              name="otp"
-              [masked]="masked()"
-            />
-          </div>
+          <label>OTP: {{ otp() }}</label>
+          <mee-input-otp
+            placeholder=""
+            separator=""
+            [size]="[1, 1, 1, 1]"
+            [disabled]="disabled()"
+            [(ngModel)]="otp"
+            name="otp"
+            [masked]="masked()"
+          />
 
           <button type="submit">Submit</button>
         </form>
-        <div meeFormField>
-          <label meeLabel>Card: {{ otp1 }}</label>
+        <div>
+          <label>Card: {{ otp1 }}</label>
           <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
         </div>
       </div>

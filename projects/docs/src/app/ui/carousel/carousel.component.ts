@@ -18,7 +18,7 @@ import { DocCode, getCode } from '../code.component';
         @for (item of 11 | range; track item) {
           <div
             meeCarouselItem
-            class="aspect-square flex-[0_0_100%] pl-4 md:flex-[0_0_calc(100%/2)]"
+            class="aspect-square min-w-0 shrink-0 grow-0 basis-full pl-4 md:basis-1/2 lg:basis-1/3"
           >
             <mee-card class="grid h-full place-items-center" meeHeader="lg">
               {{ item }}

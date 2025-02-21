@@ -134,11 +134,13 @@ export class MeeCarousel {
     });
 
     effect(cleanup => {
-      const observer = new ResizeObserver(() => {
-        requestAnimationFrame(() => this.isReady.set(true));
-      });
-      observer.observe(this.mainContainer().el.nativeElement);
-      cleanup(() => observer.disconnect());
+      if (typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(() => {
+          requestAnimationFrame(() => this.isReady.set(true));
+        });
+        observer.observe(this.mainContainer().el.nativeElement);
+        cleanup(() => observer.disconnect());
+      }
     });
 
     // if the total steps changes, we need to update the current step

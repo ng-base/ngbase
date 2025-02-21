@@ -21,7 +21,7 @@ export class AccessibilityService {
       this.activeGroupOrder.splice(index, 1);
     }
     this.activeGroupOrder.push(id);
-    // console.trace('setActiveGroup', this.activeGroupOrder);
+    // console.log('setActiveGroup', this.activeGroupOrder);
   }
 
   removeActiveGroup(id: string) {
@@ -44,6 +44,7 @@ export class AccessibilityService {
 
   addGroup(key: string, group: AccessibleGroup) {
     this.groups.update(x => new Map([...x, [key, group]]));
+    this.setActiveGroup(key);
   }
 
   removeGroup(key: string) {

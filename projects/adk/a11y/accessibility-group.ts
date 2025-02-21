@@ -9,7 +9,6 @@ import {
   input,
   linkedSignal,
   model,
-  OnDestroy,
   output,
   signal,
   untracked,
@@ -30,7 +29,7 @@ type Direction = 'next' | 'previous' | 'up' | 'down' | 'first' | 'last';
     tabindex: '0',
   },
 })
-export class AccessibleGroup implements OnDestroy {
+export class AccessibleGroup {
   private readonly allyService = inject(AccessibilityService);
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly document = inject(DOCUMENT);
@@ -83,15 +82,18 @@ export class AccessibleGroup implements OnDestroy {
       const id = this._ayId();
       if (id) {
         this.allyService.addGroup(id, this);
-        cleanup(() => this.allyService.removeGroup(id));
+        cleanup(() => {
+          this.off();
+          this.allyService.removeGroup(id);
+        });
       }
     });
     effect(() => {
       const items = this.items();
       const isOn = this.isOn();
-      // this.log('group', items);
       untracked(() => {
         items.forEach(item => item.blur());
+        // console.log('group', this._ayId(), items.length, isOn);
         this.log('focus', items.length, isOn, this._initialFocus());
         let item = this.focusedItem?.deref();
         if (items.length && isOn && this._initialFocus()) {
@@ -117,20 +119,20 @@ export class AccessibleGroup implements OnDestroy {
 
   handleFocusIn = (_: FocusEvent) => {
     if (!this.isOn()) {
+      // console.log(`focus in ${this._ayId()}`);
       this.on();
     }
   };
 
   handleFocusOut = (event: FocusEvent) => {
     if (!this.el.nativeElement.contains(event.relatedTarget as Node)) {
-      // console.count(`focus out ${this.ayId()}`);
+      // console.log(`focus out ${this._ayId()}`);
       this.off();
     }
   };
 
   on = () => {
     this.allyService.setActiveGroup(this._ayId()!);
-    // console.count(`focus in ${this.ayId()}`);
     if (this._isPopup()) {
       this.document.querySelectorAll('body > *').forEach(el => {
         if (el.tagName !== 'MEE-PORTAL') {
@@ -151,7 +153,6 @@ export class AccessibleGroup implements OnDestroy {
         el.removeAttribute('aria-hidden');
       });
     }
-    // console.count(`off ${this.ayId()}`);
     this.document.removeEventListener('keydown', this.onKeyDown);
     this.isOn.set(false);
     this.el.nativeElement.tabIndex = 0;
@@ -161,6 +162,7 @@ export class AccessibleGroup implements OnDestroy {
     const items = this.items();
     // this.log('key down', this.ayId(), event.key, items.length);
     if (!items.length || !this.allyService.isActive(this._ayId()!)) return;
+    // console.log(`key down ${this.ayId()}`);
 
     let item = this.focusedItem?.deref();
     // If there is no focused item, then wait for the first key press to focus the item
@@ -188,8 +190,11 @@ export class AccessibleGroup implements OnDestroy {
         if (isInput) return;
         const expand = item._expandable() && !item._expanded();
         if (item.hasPopup() || expand) {
-          item.events.next({ event, type: 'keyRight', item });
-          item.click();
+          if (item.events.observed) {
+            item.events.next({ event, type: 'keyRight', item });
+          } else {
+            item.click();
+          }
           return;
         }
         nextIndex = (currentIndex + 1) % items.length;
@@ -202,9 +207,14 @@ export class AccessibleGroup implements OnDestroy {
         let prevItem = prevGroup?.focusedItem?.deref();
         const isSameGroup = prevGroup?._ayId() === this._ayId();
         const collapse = item._expandable() && item._expanded();
-        if ((!isSameGroup && prevGroup?.isOn() && prevItem) || collapse) {
-          prevItem?.events.next({ event, type: 'keyLeft', item });
-          item.click();
+        if ((!isSameGroup && prevItem) || collapse) {
+          if (prevItem?.events.observed) {
+            prevItem?.events.next({ event, type: 'keyLeft', item });
+          } else {
+            // this click is common between the tree and the menu
+            // we need to check if the item is a tree node and if it has children
+            item.click();
+          }
           return;
         } else if (item._expandable()) {
           nextIndex = this.findNextOrPreviousLevelItem(currentIndex, 'previous', items);
@@ -379,9 +389,5 @@ export class AccessibleGroup implements OnDestroy {
 
   unregister(item: AccessibleItem) {
     this.elements.update(x => x.filter(y => y !== item));
-  }
-
-  ngOnDestroy() {
-    this.off();
   }
 }

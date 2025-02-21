@@ -12,7 +12,7 @@ import { injectTheme } from './theme.service';
   viewProviders: [provideIcons({ lucideMoon, lucideSun })],
   template: `
     <button meeButton="icon" class="tour-mode h-9 w-9" (click)="themeService.toggle()">
-      <mee-icon [name]="themeService.mode() === 'dark' ? 'lucideMoon' : 'lucideSun'" />
+      <mee-icon [name]="themeService.mode() === 'dark' ? 'lucideSun' : 'lucideMoon'" />
       <span class="sr-only">Toggle theme</span>
     </button>
   `,

@@ -10,7 +10,10 @@ import { injectTheme } from '@meeui/ui/theme';
 @Directive({
   selector: '[meeTooltip]',
   hostDirectives: [
-    { directive: NgbTooltip, inputs: ['ngbTooltip', 'ngbTooltipPosition', 'delay'] },
+    {
+      directive: NgbTooltip,
+      inputs: ['ngbTooltip: meeTooltip', 'ngbTooltipPosition: meeTooltipPosition', 'delay'],
+    },
   ],
 })
 export class Tooltip {}

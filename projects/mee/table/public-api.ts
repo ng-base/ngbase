@@ -1,6 +1,6 @@
 import { Cell, CellDef } from './body-cell';
 import { BodyRow, BodyRowDef } from './body-row';
-import { Row } from './column';
+import { Column } from './column';
 import { Head, HeadDef } from './head-cell';
 import { HeadRow, HeadRowDef } from './head-row';
 import { Table } from './table';
@@ -21,6 +21,6 @@ export const TableComponents = [
   HeadDef,
   HeadRow,
   HeadRowDef,
-  Row,
+  Column,
   Table,
 ];

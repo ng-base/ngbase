@@ -6,7 +6,7 @@ import { MeeCell, MeeCellDef } from '@meeui/adk/table';
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [MeeCell],
   host: {
-    class: 'px-b4 py-b2 align-middle',
+    class: 'px-b4 py-b2 align-middle bg-foreground',
   },
   template: `<ng-content />`,
 })

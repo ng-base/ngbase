@@ -82,7 +82,7 @@ interface Restaurant {
         <!-- Main Table -->
         <table meeTable [data]="dataSource()">
           <!-- Checkbox Column -->
-          <ng-container meeRow="select">
+          <ng-container meeColumn="select">
             <th meeHead *meeHeadDef class="!px-b">
               <mee-checkbox
                 (checkedChange)="masterToggle()"
@@ -100,7 +100,7 @@ interface Restaurant {
           </ng-container>
 
           <!-- Name Column -->
-          <ng-container meeRow="name">
+          <ng-container meeColumn="name">
             <th meeHead *meeHeadDef mat-sort-header>Company</th>
             <td meeCell *meeCellDef="let row">
               <div class="company-cell">
@@ -111,19 +111,19 @@ interface Restaurant {
           </ng-container>
 
           <!-- Score Column -->
-          <ng-container meeRow="score">
+          <ng-container meeColumn="score">
             <th meeHead *meeHeadDef mat-sort-header>Score</th>
             <td meeCell *meeCellDef="let row">{{ row.score }}</td>
           </ng-container>
 
           <!-- Industry Column -->
-          <ng-container meeRow="industry">
+          <ng-container meeColumn="industry">
             <th meeHead *meeHeadDef mat-sort-header>Industry</th>
             <td meeCell *meeCellDef="let row">{{ row.industry }}</td>
           </ng-container>
 
           <!-- Location Column -->
-          <ng-container meeRow="location">
+          <ng-container meeColumn="location">
             <th meeHead *meeHeadDef mat-sort-header>Location</th>
             <td meeCell *meeCellDef="let row">
               {{ row.location }}
@@ -136,7 +136,7 @@ interface Restaurant {
           </ng-container>
 
           <!-- Has Fish Column -->
-          <ng-container meeRow="hasFish">
+          <ng-container meeColumn="hasFish">
             <th meeHead *meeHeadDef>Do they have fish on the menu?</th>
             <td meeCell *meeCellDef="let row">
               <div [class]="'fish-status ' + (row.hasFish.startsWith('Yes') ? 'yes' : 'no')">

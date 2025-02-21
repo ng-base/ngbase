@@ -3,10 +3,11 @@ import { MeeCellDef } from './body-cell';
 import { MeeHeadDef } from './head-cell';
 
 @Directive({
-  selector: '[meeRow]',
+  selector: '[meeColumn]',
 })
-export class MeeRow {
-  readonly meeRow = input.required<string>();
+export class MeeColumn {
+  readonly meeColumn = input.required<string>();
+  readonly sticky = input<'start' | 'end' | ''>('');
   readonly cells = contentChild(MeeCellDef, { read: TemplateRef });
   readonly heads = contentChild(MeeHeadDef, { read: TemplateRef });
 }

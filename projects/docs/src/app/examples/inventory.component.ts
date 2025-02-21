@@ -179,7 +179,7 @@ import {
                 <p class="text-muted-foreground mb-b4">Recent orders from your store.</p>
 
                 <table meeTable [data]="tableData" [trackBy]="trackByFn">
-                  <ng-container meeRow="customer">
+                  <ng-container meeColumn="customer">
                     <th meeHead *meeHeadDef>Customer</th>
                     <td meeCell *meeCellDef="let element">
                       <div class="font-medium">{{ element.name }}</div>
@@ -188,25 +188,25 @@ import {
                       </div>
                     </td>
                   </ng-container>
-                  <ng-container meeRow="type">
+                  <ng-container meeColumn="type">
                     <th meeHead *meeHeadDef>Type</th>
                     <td meeCell *meeCellDef="let element">
                       {{ element.type }}
                     </td>
                   </ng-container>
-                  <ng-container meeRow="status">
+                  <ng-container meeColumn="status">
                     <th meeHead *meeHeadDef>Status</th>
                     <td meeCell *meeCellDef="let element">
                       <mee-badge>{{ element.status }}</mee-badge>
                     </td>
                   </ng-container>
-                  <ng-container meeRow="date">
+                  <ng-container meeColumn="date">
                     <th meeHead *meeHeadDef>Date</th>
                     <td meeCell *meeCellDef="let element">
                       {{ element.date }}
                     </td>
                   </ng-container>
-                  <ng-container meeRow="amount">
+                  <ng-container meeColumn="amount">
                     <th meeHead *meeHeadDef>Amount</th>
                     <td meeCell *meeCellDef="let element">
                       {{ element.amount }}

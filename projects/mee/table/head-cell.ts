@@ -5,7 +5,7 @@ import { MeeHead, MeeHeadDef } from '@meeui/adk/table';
   selector: '[meeHead]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'px-b4 py-b2 text-left align-middle font-medium text-muted border-b',
+    class: 'px-b4 py-b2 text-left align-middle font-medium text-muted border-b bg-foreground',
   },
   hostDirectives: [MeeHead],
   template: `<ng-content />`,

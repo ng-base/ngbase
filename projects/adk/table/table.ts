@@ -15,7 +15,7 @@ import {
   effect,
   EmbeddedViewRef,
 } from '@angular/core';
-import { MeeRow } from './column';
+import { MeeColumn } from './column';
 
 import { MeeBodyRowDef } from './body-row';
 import { MeeHeadRowDef } from './head-row';
@@ -39,7 +39,7 @@ export class MeeTable<T> {
   private readonly tbody = viewChild('tbody', { read: ViewContainerRef });
   private readonly bodyRowDef = contentChildren(MeeBodyRowDef, { read: TemplateRef });
   private readonly headRowDef = contentChild(MeeHeadRowDef, { read: TemplateRef });
-  readonly rows = contentChildren(MeeRow);
+  readonly columns = contentChildren(MeeColumn);
   readonly data = input.required<T[]>();
   readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
   private readonly injector = inject(Injector);

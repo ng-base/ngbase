@@ -11,7 +11,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ROW_TOKEN, MeeTable } from './table';
-import { MeeRow } from './column';
+import { MeeColumn } from './column';
 
 @Directive({
   selector: '[meeHeadRowDef]',
@@ -34,32 +34,32 @@ export class MeeHeadRow implements OnDestroy {
   def = inject(ROW_TOKEN);
   table = inject(MeeTable);
   container = viewChild('container', { read: ViewContainerRef });
-  ref = new Map<MeeRow, EmbeddedViewRef<any>>();
+  ref = new Map<MeeColumn, EmbeddedViewRef<any>>();
   headDef = inject(MeeHeadRowDef);
 
   constructor() {
     effect(() => {
-      const rows = this.table.rows();
-      this.ref.forEach((ref, row) => {
-        if (!rows.includes(row)) {
+      const columns = this.table.columns();
+      this.ref.forEach((ref, column) => {
+        if (!columns.includes(column)) {
           ref.destroy();
-          this.ref.delete(row);
+          this.ref.delete(column);
           return;
         }
       });
       const cols = this.headDef.meeHeadRowDef();
-      rows.forEach(row => {
-        if (!cols?.includes(row.meeRow())) {
-          if (this.ref.has(row)) {
-            const ref = this.ref.get(row);
+      columns.forEach(column => {
+        if (!cols?.includes(column.meeColumn())) {
+          if (this.ref.has(column)) {
+            const ref = this.ref.get(column);
             ref!.destroy();
-            this.ref.delete(row);
+            this.ref.delete(column);
           }
           return;
         }
-        if (!this.ref.has(row)) {
-          const ref = this.container()!.createEmbeddedView(row.heads()!);
-          this.ref.set(row, ref);
+        if (!this.ref.has(column)) {
+          const ref = this.container()!.createEmbeddedView(column.heads()!);
+          this.ref.set(column, ref);
         }
       });
     });

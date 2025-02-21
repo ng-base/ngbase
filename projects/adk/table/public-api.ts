@@ -1,6 +1,6 @@
 import { MeeCell, MeeCellDef } from './body-cell';
 import { MeeBodyRow, MeeBodyRowDef } from './body-row';
-import { MeeRow } from './column';
+import { MeeColumn } from './column';
 import { MeeHead, MeeHeadDef } from './head-cell';
 import { MeeHeadRow, MeeHeadRowDef } from './head-row';
 import { MeeTable } from './table';
@@ -14,7 +14,7 @@ const TableComponents = [
   MeeHeadDef,
   MeeHeadRow,
   MeeHeadRowDef,
-  MeeRow,
+  MeeColumn,
   MeeTable,
 ];
 
@@ -27,7 +27,7 @@ export {
   MeeHeadDef,
   MeeHeadRow,
   MeeHeadRowDef,
-  MeeRow,
+  MeeColumn,
   MeeTable,
   TableComponents,
 };

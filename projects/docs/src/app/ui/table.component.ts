@@ -36,7 +36,10 @@ interface Employee {
       <mee-scroll-area class="m-bb h-full max-h-[500px] max-w-4xl">
         <table meeTable [data]="employees()" [trackBy]="trackByFn">
           @for (column of columns(); track column) {
-            <ng-container [meeRow]="column">
+            <ng-container
+              [meeColumn]="column"
+              [sticky]="column === 'Id' ? 'start' : column === 'Title 16' ? 'end' : ''"
+            >
               <th class="whitespace-nowrap" meeHead *meeHeadDef>
                 {{ column }}
               </th>
@@ -50,8 +53,8 @@ interface Employee {
               </td>
             </ng-container>
           }
-          <ng-container meeRow="expandables">
-            <th meeHead *meeHeadDef>Expandables</th>
+          <ng-container meeColumn="expandable">
+            <th meeHead *meeHeadDef>Expandable</th>
             <td meeCell *meeCellDef="let element" [attr.colspan]="columns().length">
               @if (selected?.Id === element.Id) {
                 {{ element.Id }} -- This is extented row for id {{ element.Id }}
@@ -67,7 +70,7 @@ interface Employee {
           ></tr>
           <tr
             meeBodyRow
-            *meeBodyRowDef="let row; columns: ['expandables']"
+            *meeBodyRowDef="let row; columns: ['expandable']"
             [class.hidden]="selected?.Id !== row.Id"
           ></tr>
         </table>

@@ -12,7 +12,7 @@ import {
   untracked,
 } from '@angular/core';
 import { ROW_TOKEN, MeeTable } from './table';
-import { MeeRow } from './column';
+import { MeeColumn } from './column';
 
 @Directive({ selector: '[meeBodyRowDef]' })
 export class MeeBodyRowDef {
@@ -31,12 +31,12 @@ export class MeeBodyRow implements OnDestroy {
   readonly rowDef = inject(MeeBodyRowDef);
 
   readonly container = viewChild('container', { read: ViewContainerRef });
-  readonly ref = new Map<MeeRow, EmbeddedViewRef<any>>();
+  readonly ref = new Map<MeeColumn, EmbeddedViewRef<any>>();
 
   constructor() {
     effect(() => {
       const data = this.def;
-      const rows = this.table.rows();
+      const rows = this.table.columns();
       // Remove rows that are no longer in the definition
       this.ref.forEach((ref, row) => {
         if (!rows.includes(row)) {
@@ -47,7 +47,7 @@ export class MeeBodyRow implements OnDestroy {
 
       const cols = this.rowDef.meeBodyRowDefColumns();
       rows.forEach(row => {
-        if (!cols?.includes(row.meeRow())) {
+        if (!cols?.includes(row.meeColumn())) {
           if (this.ref.has(row)) {
             const ref = this.ref.get(row);
             ref!.destroy();

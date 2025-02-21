@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { MeeRow } from '@meeui/adk/table';
+import { MeeColumn } from '@meeui/adk/table';
 
 @Directive({
-  selector: '[meeRow]',
-  hostDirectives: [{ directive: MeeRow, inputs: ['meeRow'] }],
+  selector: '[meeColumn]',
+  hostDirectives: [{ directive: MeeColumn, inputs: ['meeColumn', 'sticky'] }],
 })
-export class Row {}
+export class Column {}

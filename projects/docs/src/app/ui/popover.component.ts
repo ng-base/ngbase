@@ -34,7 +34,7 @@ export default class PopoverComponent {
 
   tsCode = `
   import { Component } from '@angular/core';
-  import { popoverPortal, PopoverTrigger, PopoverClose } from '@meeui/adk/popover';
+  import { popoverPortal, PopoverTrigger, PopoverClose } from '@ngbase/adk/popover';
   import { AddComponent } from '../add.component';
 
   @Component({

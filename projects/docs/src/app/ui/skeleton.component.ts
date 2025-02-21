@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Card } from '@meeui/ui/card';
 import { Skeleton } from '@meeui/ui/skeleton';
 

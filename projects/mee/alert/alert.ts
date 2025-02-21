@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DialogInput, DialogOptions, DialogRef } from '@meeui/adk/portal';
+import { DialogInput, DialogOptions, DialogRef } from '@ngbase/adk/portal';
 import { Button, ButtonVariant } from '@meeui/ui/button';
 import { dialogPortal } from '@meeui/ui/dialog';
 

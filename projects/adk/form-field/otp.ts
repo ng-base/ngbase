@@ -15,23 +15,23 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor, RangePipe } from '@meeui/adk/utils';
+import { provideValueAccessor } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: 'input[meeOtpInput]',
+  selector: 'input[ngbOtpInput]',
   host: {
     '[disabled]': 'otp.disabled() || undefined',
     style:
       'position: absolute; inset: 0; border: none; background: transparent; caret-color: transparent; outline: none; color: transparent; letter-spacing: -0.5rem;',
   },
 })
-export class MeeOtpInput {
-  readonly otp = inject(MeeInputOtp);
+export class NgbOtpInput {
+  readonly otp = inject(NgbInputOtp);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
 }
 
 @Directive({
-  selector: '[meeOtpValue]',
+  selector: '[ngbOtpValue]',
   host: {
     style: `pointer-events: none`,
     '[attr.data-focus]': 'focused() || undefined',
@@ -40,8 +40,8 @@ export class MeeOtpInput {
     tabindex: '-1',
   },
 })
-export class MeeOtpValue {
-  readonly otp = inject(MeeInputOtp);
+export class NgbOtpValue {
+  readonly otp = inject(NgbInputOtp);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly index = computed(() => this.otp._otpValues().findIndex(v => this.el === v.el));
   readonly value = computed(() => this.otp.values()[this.index()] || '');
@@ -61,12 +61,12 @@ export class MeeOtpValue {
 }
 
 @Directive({
-  selector: '[meeInputOtp]',
-  providers: [_provide(MeeInputOtp)],
+  selector: '[ngbInputOtp]',
+  providers: [_provide(NgbInputOtp)],
 })
-export class MeeInputOtp implements ControlValueAccessor {
-  private readonly inputs = viewChild.required<MeeOtpInput>(MeeOtpInput);
-  readonly _otpValues = viewChildren<MeeOtpValue>(MeeOtpValue);
+export class NgbInputOtp implements ControlValueAccessor {
+  private readonly inputs = viewChild.required<NgbOtpInput>(NgbOtpInput);
+  readonly _otpValues = viewChildren<NgbOtpValue>(NgbOtpValue);
   // private readonly
 
   readonly size = input<number[]>([4]);
@@ -174,10 +174,10 @@ export class MeeInputOtp implements ControlValueAccessor {
   }
 }
 
-function _provide(otp: typeof MeeInputOtp) {
+function _provide(otp: typeof NgbInputOtp) {
   return [provideValueAccessor(otp)];
 }
 
-export function provideInputOtp(otp: typeof MeeInputOtp) {
-  return [_provide(otp), { provide: MeeInputOtp, useExisting: otp }];
+export function provideInputOtp(otp: typeof NgbInputOtp) {
+  return [_provide(otp), { provide: NgbInputOtp, useExisting: otp }];
 }

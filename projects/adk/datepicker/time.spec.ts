@@ -1,12 +1,12 @@
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeTimePicker } from './time';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbTimePicker } from './time';
 
 describe('TimeComponent', () => {
-  let component: MeeTimePicker;
-  let view: RenderResult<MeeTimePicker>;
+  let component: NgbTimePicker;
+  let view: RenderResult<NgbTimePicker>;
 
   beforeEach(async () => {
-    view = await render(MeeTimePicker);
+    view = await render(NgbTimePicker);
     component = view.host;
     view.detectChanges();
   });

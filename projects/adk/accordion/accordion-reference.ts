@@ -1,12 +1,12 @@
 /**
  * Reference Implementation
  * ----------------------
- * These are the underlying directives from @meeui/adk/accordion
+ * These are the underlying directives from @ngbase/adk/accordion
  * that power the component. You don't need to copy these.
  */
 
 import { booleanAttribute, contentChildren, Directive, input, model, signal } from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
+import { uniqueId } from '@ngbase/adk/utils';
 
 /**
  * Core group directive that handles:
@@ -15,12 +15,12 @@ import { uniqueId } from '@meeui/adk/utils';
  * - Active state management
  */
 @Directive({
-  selector: '[meeAccordionGroup]',
-  exportAs: 'meeAccordionGroup',
+  selector: '[ngbAccordionGroup]',
+  exportAs: 'ngbAccordionGroup',
 })
-export class MeeAccordionGroup {
+export class NgbAccordionGroup {
   // Tracks all child accordion items
-  readonly items = contentChildren(MeeAccordion);
+  readonly items = contentChildren(NgbAccordion);
 
   // Controls multiple expansion mode
   readonly multiple = input(false, { transform: booleanAttribute });
@@ -37,10 +37,10 @@ export class MeeAccordionGroup {
  * - Toggle functionality
  */
 @Directive({
-  selector: '[meeAccordion]',
-  exportAs: 'meeAccordion',
+  selector: '[ngbAccordion]',
+  exportAs: 'ngbAccordion',
 })
-export class MeeAccordion {
+export class NgbAccordion {
   // Manages the expanded state
   readonly expanded = model(false);
 
@@ -59,11 +59,11 @@ export class MeeAccordion {
  * These handle the structural aspects of the accordion
  */
 @Directive({
-  selector: '[meeAccordionContent]',
+  selector: '[ngbAccordionContent]',
 })
-export class MeeAccordionContent {}
+export class NgbAccordionContent {}
 
 @Directive({
-  selector: '[meeAccordionHeader]',
+  selector: '[ngbAccordionHeader]',
 })
-export class MeeAccordionHeader {}
+export class NgbAccordionHeader {}

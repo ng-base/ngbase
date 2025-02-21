@@ -1,24 +1,24 @@
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeMenu } from './menu';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbMenu } from './menu';
 import { Component } from '@angular/core';
-import { MeeList } from '@meeui/adk/list';
-import { MeeMenuTrigger } from './menu-trigger';
+import { NgbList } from '@ngbase/adk/list';
+import { NgbMenuTrigger } from './menu-trigger';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 @Component({
-  imports: [MeeMenuTrigger, MeeMenu, MeeList],
+  imports: [NgbMenuTrigger, NgbMenu, NgbList],
   template: `
-    <button class="menu-1" [meeMenuTrigger]="menu1">New Team</button>
-    <div #menu1="meeMenu" meeMenu>
-      <div class="menu-1-list" meeList>Menu List1 1</div>
-      <div class="menu-1-list-menu-2" [meeMenuTrigger]="menu2">New Team</div>
+    <button class="menu-1" [ngbMenuTrigger]="menu1">New Team</button>
+    <div #menu1="ngbMenu" ngbMenu>
+      <div class="menu-1-list" ngbList>Menu List1 1</div>
+      <div class="menu-1-list-menu-2" [ngbMenuTrigger]="menu2">New Team</div>
     </div>
-    <div #menu2="meeMenu" meeMenu>
-      <div class="menu-2-list" meeList>Menu List2 1</div>
-      <div class="menu-2-list-menu-3" [meeMenuTrigger]="menu3">New Team</div>
+    <div #menu2="ngbMenu" ngbMenu>
+      <div class="menu-2-list" ngbList>Menu List2 1</div>
+      <div class="menu-2-list-menu-3" [ngbMenuTrigger]="menu3">New Team</div>
     </div>
-    <div #menu3="meeMenu" meeMenu>
-      <div class="menu-3-list" meeList>Menu List3 1</div>
+    <div #menu3="ngbMenu" ngbMenu>
+      <div class="menu-3-list" ngbList>Menu List3 1</div>
     </div>
   `,
 })

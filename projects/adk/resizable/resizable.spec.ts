@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { DragData } from '@meeui/adk/drag';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeResizable } from './resizable';
-import { MeeResizableGroup } from './resizable-group';
+import { DragData } from '@ngbase/adk/drag';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbResizable } from './resizable';
+import { NgbResizableGroup } from './resizable-group';
 
 @Component({
-  imports: [MeeResizableGroup, MeeResizable],
+  imports: [NgbResizableGroup, NgbResizable],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div meeResizableGroup #resizableGroup>
-      <!-- <mee-resizable [size]="show() ? 50 : 0" />
-      <mee-resizable size="auto" /> -->
-      <div meeResizable [size]="show() ? '250px' : 0"></div>
-      <div meeResizable size="250px" min="50px" max="300px"></div>
-      <div meeResizable size="250px" min="50px"></div>
-      <div meeResizable></div>
+    <div ngbResizableGroup #resizableGroup>
+      <!-- <ngb-resizable [size]="show() ? 50 : 0" />
+      <ngb-resizable size="auto" /> -->
+      <div ngbResizable [size]="show() ? '250px' : 0"></div>
+      <div ngbResizable size="250px" min="50px" max="300px"></div>
+      <div ngbResizable size="250px" min="50px"></div>
+      <div ngbResizable></div>
       @if (showLast()) {
-        <div meeResizable size="250px" min="50px"></div>
+        <div ngbResizable size="250px" min="50px"></div>
       }
     </div>
   `,
@@ -35,13 +35,13 @@ class ResizableTestComponent {
 
 describe('Resizables', () => {
   let testComponent: ResizableTestComponent;
-  let resizables: MeeResizable[];
+  let resizables: NgbResizable[];
   let view: RenderResult<ResizableTestComponent>;
 
   beforeEach(async () => {
     view = await render(ResizableTestComponent);
     testComponent = view.host;
-    resizables = view.viewChildren(MeeResizable);
+    resizables = view.viewChildren(NgbResizable);
   });
 
   function drag(
@@ -57,7 +57,7 @@ describe('Resizables', () => {
     const panel = resizables[0];
     jest.spyOn(panel, 'handleDrag');
     await view.whenStable();
-    resizables = view.viewChildren(MeeResizable);
+    resizables = view.viewChildren(NgbResizable);
     expect(resizables.length).toBe(5);
     view.detectChanges();
     expect(panel.handleDrag).toHaveBeenCalled();

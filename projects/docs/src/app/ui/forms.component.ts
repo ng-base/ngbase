@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Autofocus } from '@meeui/adk/a11y';
-import { markControlsTouched } from '@meeui/adk/form-field';
+import { Autofocus } from '@ngbase/adk/a11y';
+import { markControlsTouched } from '@ngbase/adk/form-field';
 import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
 import { Button } from '@meeui/ui/button';
 import { DatepickerTrigger } from '@meeui/ui/datepicker';
@@ -30,12 +30,12 @@ import { Heading } from '@meeui/ui/typography';
   template: `
     <h4 meeHeader class="mb-5">Forms</h4>
     <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
-      <div meeFormField>
+      <mee-form-field>
         <label meeLabel>Name</label>
-        <input meeInput class="w-full" meeAutofocus formControlName="name" placeholder="Name" />
+        <input meeInput class="w-full" ngbAutofocus formControlName="name" placeholder="Name" />
         <p meeError="required">Name is required</p>
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel>Email</label>
         <input
           meeInput
@@ -45,8 +45,8 @@ import { Heading } from '@meeui/ui/typography';
           placeholder="Email"
         />
         <p meeError="required">Email is required</p>
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel>Password</label>
         <input
           meeInput
@@ -56,16 +56,16 @@ import { Heading } from '@meeui/ui/typography';
           autocomplete="off"
           placeholder="Password"
         />
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel>Country</label>
         <mee-select formControlName="country" placeholder="Country" class="w-full">
           <mee-option value="India">India</mee-option>
           <mee-option value="USA">USA</mee-option>
           <mee-option value="UK">UK</mee-option>
         </mee-select>
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel>Date</label>
         <input
           class="w-full"
@@ -74,8 +74,8 @@ import { Heading } from '@meeui/ui/typography';
           meeDatepickerTrigger
           readonly
         />
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel>Users</label>
         <mee-autocomplete
           formControlName="users"
@@ -88,7 +88,7 @@ import { Heading } from '@meeui/ui/typography';
           <mee-option value="User 2">User 2</mee-option>
           <mee-option value="User 3">User 3</mee-option>
         </mee-autocomplete>
-      </div>
+      </mee-form-field>
       <button meeButton type="submit" (click)="submit()">Submit</button>
     </form>
   `,

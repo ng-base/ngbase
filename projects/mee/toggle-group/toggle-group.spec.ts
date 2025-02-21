@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { ToggleGroup } from './toggle-group';
 
 describe('ToggleGroupComponent', () => {

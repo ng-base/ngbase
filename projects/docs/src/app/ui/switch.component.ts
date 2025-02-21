@@ -36,7 +36,7 @@ export default class SwitchComponent {
 
   adkCode = `
   import { ChangeDetectionStrategy, Component } from '@angular/core';
-  import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from '@meeui/adk/switch';
+  import { MeeSwitch, MeeSwitchLabel, MeeSwitchThumb, MeeSwitchTrack } from '@ngbase/adk/switch';
 
   @Component({
     selector: 'mee-switch',

@@ -3,12 +3,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IconService } from './icon.service';
 
 @Directive({
-  selector: '[meeIcon]',
+  selector: '[ngbIcon]',
   host: {
     '[innerHTML]': 'svg()',
   },
 })
-export class MeeIcon {
+export class NgbIcon {
   readonly service = inject(IconService);
   readonly sanitizer = inject(DomSanitizer);
 

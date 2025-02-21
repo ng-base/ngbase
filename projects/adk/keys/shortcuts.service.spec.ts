@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RenderResult, injectService, render } from '@meeui/adk/test';
-import { uniqueId } from '@meeui/adk/utils';
+import { RenderResult, injectService, render } from '@ngbase/adk/test';
+import { uniqueId } from '@ngbase/adk/utils';
 import { Shortcuts, keyMap } from './shortcuts.service';
 
 interface ComboOptions {

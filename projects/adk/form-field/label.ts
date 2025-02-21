@@ -1,13 +1,13 @@
 import { Directive, inject } from '@angular/core';
-import { MeeFormField } from './form-field';
+import { NgbFormField } from './form-field';
 
 @Directive({
-  selector: '[meeLabel]',
+  selector: '[ngbLabel]',
   host: {
     '[attr.for]': 'id',
   },
 })
-export class MeeLabel {
-  private readonly formField = inject(MeeFormField);
+export class NgbLabel {
+  private readonly formField = inject(NgbFormField);
   readonly id = this.formField._id;
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
+import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { NumberOnly } from './number-only';
 
 describe('NumberOnly Directive', () => {
@@ -10,7 +10,7 @@ describe('NumberOnly Directive', () => {
   @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NumberOnly],
-    template: `<input meeNumberOnly [min]="min()" [max]="max()" [len]="len()" [(value)]="value" />`,
+    template: `<input ngbNumberOnly [min]="min()" [max]="max()" [len]="len()" [(value)]="value" />`,
   })
   class TestComponent {
     min = signal<number | undefined>(undefined);

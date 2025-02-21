@@ -1,7 +1,7 @@
 import { Component, ElementRef, TemplateRef, viewChild } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/adk/test';
-import { meePopoverPortal } from './popover.service';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { ngbPopoverPortal } from './popover.service';
 
 @Component({
   template: `<div #target></div>
@@ -10,7 +10,7 @@ import { meePopoverPortal } from './popover.service';
 class TestComponent {
   readonly target = viewChild.required<ElementRef<HTMLElement>>('target');
   readonly pop = viewChild.required<TemplateRef<any>>('pop');
-  readonly service = meePopoverPortal();
+  readonly service = ngbPopoverPortal();
 
   open() {
     const target = this.target().nativeElement;
@@ -39,14 +39,14 @@ describe('PopoverService', () => {
   });
 
   it('should open', async () => {
-    expect(view.queryRoot('mee-popover')).toBeFalsy();
+    expect(view.queryRoot('ngb-popover')).toBeFalsy();
     const diaRef = view.host.open();
     await view.whenStable();
-    expect(view.queryRoot('mee-popover')?.textContent).toContain('pop');
+    expect(view.queryRoot('ngb-popover')?.textContent).toContain('pop');
 
     // close
     diaRef.close();
     await view.whenStable();
-    expect(view.queryRoot('mee-popover')).toBeFalsy();
+    expect(view.queryRoot('ngb-popover')).toBeFalsy();
   });
 });

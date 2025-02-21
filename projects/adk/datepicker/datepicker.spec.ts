@@ -1,8 +1,8 @@
 import { Component, TemplateRef, viewChild } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { DialogRef } from '@meeui/adk/portal';
-import { MeeDatePicker } from './datepicker';
-import { MeeDatepickerTrigger } from './datepicker-trigger';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { DialogRef } from '@ngbase/adk/portal';
+import { NgbDatePicker } from './datepicker';
+import { NgbDatepickerTrigger } from './datepicker-trigger';
 
 @Component({
   template: `<ng-template #templateRef>
@@ -16,14 +16,14 @@ class TestDatePicker {
 const mockDialogRef = { data: { value: [] as any[] } };
 
 describe('DatePicker', () => {
-  let component: MeeDatePicker<Date>;
-  let view: RenderResult<MeeDatePicker<Date>>;
+  let component: NgbDatePicker<Date>;
+  let view: RenderResult<NgbDatePicker<Date>>;
   let templateRef: TemplateRef<any>;
 
   beforeEach(async () => {
-    view = await render(MeeDatePicker<Date>, [
+    view = await render(NgbDatePicker<Date>, [
       { provide: DialogRef, useValue: mockDialogRef },
-      { provide: MeeDatepickerTrigger, useValue: { updateInput: jest.fn() } },
+      { provide: NgbDatepickerTrigger, useValue: { updateInput: jest.fn() } },
     ]);
     component = view.host;
     view.detectChanges();
@@ -194,7 +194,7 @@ describe('DatePicker', () => {
   it('should render the correct number of calendars', () => {
     component.noOfCalendar.set(3);
     view.detectChanges();
-    const calendars = view.$All('mee-calendar');
+    const calendars = view.$All('ngb-calendar');
     expect(calendars.length).toBe(3);
   });
 

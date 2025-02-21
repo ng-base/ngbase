@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeDialogBackdrop,
-  MeeDialogContainer,
-  MeeDialogMain,
-  meeDialogPortal,
+  NgbDialogBackdrop,
+  NgbDialogContainer,
+  NgbDialogMain,
+  ngbDialogPortal,
   provideDialog,
-  MeeDialog,
-  MeeDialogClose,
-} from '@meeui/adk/dialog';
-import { DragMove } from '@meeui/adk/drag';
+  NgbDialog,
+  NgbDialogClose,
+} from '@ngbase/adk/dialog';
+import { DragMove } from '@ngbase/adk/drag';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -19,12 +19,12 @@ import { lucideX } from '@ng-icons/lucide';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideDialog(DialogContainer)],
   viewProviders: [provideIcons({ lucideX })],
-  imports: [Button, Icon, DragMove, MeeDialogMain, MeeDialogBackdrop],
+  imports: [Button, Icon, DragMove, NgbDialogMain, NgbDialogBackdrop],
   template: `
     <div class="pointer-events-none flex h-full items-center justify-center">
       <div
         #myDialog
-        meeDialogMain
+        ngbDialogMain
         [@viewAnimation]
         class="{{
           'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
@@ -36,7 +36,7 @@ import { lucideX } from '@ng-icons/lucide';
         @if (!isHideHeader) {
           <div
             class="flex items-center justify-between border-b px-b4 py-b2"
-            meeDragMove
+            ngbDragMove
             [target]="myDialog"
           >
             <h2 class="flex-1 text-base font-bold">{{ options().title }}</h2>
@@ -54,7 +54,7 @@ import { lucideX } from '@ng-icons/lucide';
       @if (showBackdrop()) {
         <div
           class="pointer-events-auto absolute top-0 -z-10 h-full w-full bg-black bg-opacity-30"
-          meeDialogBackdrop
+          ngbDialogBackdrop
           [@fadeAnimation]
         ></div>
       }
@@ -64,11 +64,11 @@ import { lucideX } from '@ng-icons/lucide';
     class: 'fixed block top-0 bottom-0 left-0 right-0 overflow-auto pointer-events-none z-p',
   },
 })
-export class DialogContainer extends MeeDialogContainer {}
+export class DialogContainer extends NgbDialogContainer {}
 
 @Directive({
   selector: '[meeDialogClose]',
-  hostDirectives: [MeeDialogClose],
+  hostDirectives: [NgbDialogClose],
 })
 export class DialogClose {}
 
@@ -83,7 +83,7 @@ export class DialogClose {}
 export class DialogTitle {}
 
 export function dialogPortal() {
-  return meeDialogPortal(DialogContainer);
+  return ngbDialogPortal(DialogContainer);
 }
 
-export type Dialog = MeeDialog;
+export type Dialog = NgbDialog;

@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FocusStyle } from './focus-style.directive';
-import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
+import { CheckboxButton, NgbCheckbox } from '@ngbase/adk/checkbox';
 
 @Component({
   selector: 'mee-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [
     {
-      directive: MeeCheckbox,
+      directive: NgbCheckbox,
       inputs: ['disabled', 'checked', 'indeterminate'],
       outputs: ['checkedChange', 'change'],
     },
@@ -17,7 +17,7 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
   template: `
     <button
       meeFocusStyle
-      meeCheckboxButton
+      ngbCheckboxButton
       class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
       [class]="checkbox.disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
     >
@@ -34,7 +34,7 @@ import { CheckboxButton, MeeCheckbox } from '@meeui/adk/checkbox';
   },
 })
 export class Checkbox {
-  readonly checkbox = inject(MeeCheckbox);
+  readonly checkbox = inject(NgbCheckbox);
 
   readonly path = computed(() =>
     this.checkbox.indeterminate()

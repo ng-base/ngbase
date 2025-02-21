@@ -8,11 +8,11 @@ import {
   ColorSelected,
   ColorSpectrum,
   ColorSpectrumSelector,
-  MeeColorInput,
-  MeeColorPicker,
+  NgbColorInput,
+  NgbColorPicker,
   registerColorPicker,
-} from '@meeui/adk/color-picker';
-import { InputBase } from '@meeui/adk/form-field';
+} from '@ngbase/adk/color-picker';
+import { InputBase } from '@ngbase/adk/form-field';
 
 @Component({
   selector: 'mee-color-picker-container',
@@ -28,25 +28,25 @@ import { InputBase } from '@meeui/adk/form-field';
   ],
   template: `
     <div class="flex w-full flex-col">
-      <div meeColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-h">
+      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-h">
         <button
-          meeColorSpectrumSelector
+          ngbColorSpectrumSelector
           class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
         ></button>
       </div>
       <div class="flex gap-b4 p-b3">
-        <div meeColorSelected class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
+        <div ngbColorSelected class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
         <div class="flex flex-1 flex-col gap-b4">
-          <div meeColorHue class="relative h-b3">
+          <div ngbColorHue class="relative h-b3">
             <button
-              meeColorHueThumb
+              ngbColorHueThumb
               class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
 
-          <div meeColorAlpha class="relative h-b3">
+          <div ngbColorAlpha class="relative h-b3">
             <button
-              meeColorAlphaThumb
+              ngbColorAlphaThumb
               class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
@@ -70,7 +70,7 @@ import { InputBase } from '@meeui/adk/form-field';
     class: 'inline-block min-w-[245px]',
   },
 })
-export class ColorPicker extends MeeColorPicker {}
+export class ColorPicker extends NgbColorPicker {}
 
 @Component({
   selector: 'mee-color-input',
@@ -79,7 +79,7 @@ export class ColorPicker extends MeeColorPicker {}
   imports: [ColorPickerTrigger, InputBase],
   template: `
     <input
-      meeInputBase
+      ngbInputBase
       type="text"
       [value]="value()"
       (valueChange)="updateValue($event)"
@@ -88,7 +88,7 @@ export class ColorPicker extends MeeColorPicker {}
     <button
       #color
       type="button"
-      meeColorPickerTrigger
+      ngbColorPickerTrigger
       [value]="value()"
       [format]="format()"
       [presetColors]="presetColors()"
@@ -101,4 +101,4 @@ export class ColorPicker extends MeeColorPicker {}
     class: '!inline-flex gap-2 items-center',
   },
 })
-export class ColorInput extends MeeColorInput {}
+export class ColorInput extends NgbColorInput {}

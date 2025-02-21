@@ -12,15 +12,15 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { FocusTrap } from '@meeui/adk/a11y';
-import { BaseDialog, MeePortalClose } from '@meeui/adk/portal';
-import { createHostAnimation, disposals } from '@meeui/adk/utils';
+import { FocusTrap } from '@ngbase/adk/a11y';
+import { BaseDialog, NgbPortalClose } from '@ngbase/adk/portal';
+import { createHostAnimation, disposals } from '@ngbase/adk/utils';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { PopoverOptions, PopoverPosition } from './popover.service';
 import { tooltipPosition } from './utils';
 
 @Directive({
-  selector: '[meePopoverBackdrop]',
+  selector: '[ngbPopoverBackdrop]',
   hostDirectives: [FocusTrap],
   host: {
     '[style.clipPath]': 'popover.options().clipPath?.()',
@@ -28,8 +28,8 @@ import { tooltipPosition } from './utils';
     '(click)': '!popover.options().disableClose && popover.close()',
   },
 })
-export class MeePopoverBackdrop {
-  readonly popover = inject(MeePopover);
+export class NgbPopoverBackdrop {
+  readonly popover = inject(NgbPopover);
   readonly focusTrap = inject(FocusTrap);
 
   constructor() {
@@ -38,19 +38,19 @@ export class MeePopoverBackdrop {
 }
 
 @Directive({
-  selector: '[meePopoverMain]',
+  selector: '[ngbPopoverMain]',
   host: {
     '[class]': 'popover.options().className',
   },
 })
-export class MeePopoverMain {
-  readonly popover = inject(MeePopover);
+export class NgbPopoverMain {
+  readonly popover = inject(NgbPopover);
 }
 
 @Component({
-  selector: 'mee-popover',
+  selector: 'ngb-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MeePopoverBackdrop, MeePopoverMain],
+  imports: [NgbPopoverBackdrop, NgbPopoverMain],
   template: ` <style>
       .popover-anchor {
         --action-angle: 180deg;
@@ -73,7 +73,7 @@ export class MeePopoverMain {
       }
     </style>
     <div
-      meePopoverMain
+      ngbPopoverMain
       [@slideInOutAnimation]
       class="{{
         'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md ' +
@@ -86,7 +86,7 @@ export class MeePopoverMain {
     </div>
     @if (options().backdrop) {
       <div
-        meePopoverBackdrop
+        ngbPopoverBackdrop
         class="popover-backdrop pointer-events-auto fixed top-0 h-full w-full"
       ></div>
     }`,
@@ -106,15 +106,15 @@ export class MeePopoverMain {
     ]),
   ],
 })
-export class MeePopover extends BaseDialog {
+export class NgbPopover extends BaseDialog {
   private readonly disposals = disposals();
 
   readonly myDialog = viewChild.required('myDialog', { read: ViewContainerRef });
-  readonly container = viewChild.required<MeePopoverMain, ElementRef<HTMLElement>>(MeePopoverMain, {
+  readonly container = viewChild.required<NgbPopoverMain, ElementRef<HTMLElement>>(NgbPopoverMain, {
     read: ElementRef,
   });
-  readonly backdropElement = viewChild<MeePopoverBackdrop, ElementRef<HTMLElement>>(
-    MeePopoverBackdrop,
+  readonly backdropElement = viewChild<NgbPopoverBackdrop, ElementRef<HTMLElement>>(
+    NgbPopoverBackdrop,
     { read: ElementRef },
   );
 
@@ -355,11 +355,11 @@ function scrollToElement(target: HTMLElement) {
 }
 
 @Directive({
-  selector: '[meePopoverClose]',
-  hostDirectives: [{ directive: MeePortalClose, inputs: ['meePortalClose: meePopoverClose'] }],
+  selector: '[ngbPopoverClose]',
+  hostDirectives: [{ directive: NgbPortalClose, inputs: ['ngbPortalClose: ngbPopoverClose'] }],
 })
-export class MeePopoverClose {}
+export class NgbPopoverClose {}
 
-export function providePopover(popover: typeof MeePopover) {
-  return { provide: MeePopover, useExisting: popover };
+export function providePopover(popover: typeof NgbPopover) {
+  return { provide: NgbPopover, useExisting: popover };
 }

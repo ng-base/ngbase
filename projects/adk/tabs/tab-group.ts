@@ -16,17 +16,17 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { AccessibleGroup, AccessibleItem } from '@meeui/adk/a11y';
-import { uniqueId } from '@meeui/adk/utils';
-import { MeeTab } from './tab';
+import { AccessibleGroup, AccessibleItem } from '@ngbase/adk/a11y';
+import { uniqueId } from '@ngbase/adk/utils';
+import { NgbTab } from './tab';
 
 export interface TabChangeEvent {
-  tab: MeeTab;
+  tab: NgbTab;
   index: number;
 }
 
 @Directive({
-  selector: '[meeTabButtonsGroup]',
+  selector: '[ngbTabButtonsGroup]',
   hostDirectives: [{ directive: AccessibleGroup }],
   host: {
     role: 'tablist',
@@ -34,7 +34,7 @@ export interface TabChangeEvent {
   },
 })
 export class TabButtonsGroup {
-  private readonly tabGroup = inject(MeeTabs);
+  private readonly tabGroup = inject(NgbTabs);
   private readonly accessibleGroup = inject(AccessibleGroup);
 
   constructor() {
@@ -43,79 +43,79 @@ export class TabButtonsGroup {
 }
 
 @Component({
-  selector: 'button[meeTabButton]',
+  selector: 'button[ngbTabButton]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: AccessibleItem }],
   imports: [NgTemplateOutlet],
   template: `
-    @if (meeTabButton().header(); as template) {
+    @if (ngbTabButton().header(); as template) {
       <ng-container *ngTemplateOutlet="template" />
     } @else {
-      {{ meeTabButton().label() }}
+      {{ ngbTabButton().label() }}
     }
   `,
   host: {
     type: 'button',
     role: 'tab',
-    '[attr.id]': 'meeTabButton().id',
-    '(click)': '!meeTabButton().disabled() && tabGroup.setActive(meeTabButton())',
+    '[attr.id]': 'ngbTabButton().id',
+    '(click)': '!ngbTabButton().disabled() && tabGroup.setActive(ngbTabButton())',
   },
 })
 export class TabButton {
-  private readonly tabGroup = inject(MeeTabs);
+  private readonly tabGroup = inject(NgbTabs);
   private readonly accessibleItem = inject(AccessibleItem);
 
-  readonly meeTabButton = input.required<MeeTab>();
+  readonly ngbTabButton = input.required<NgbTab>();
 
   constructor() {
     this.accessibleItem._selected = computed(
-      () => this.meeTabButton().tabId() === this.tabGroup.selectedIndex(),
+      () => this.ngbTabButton().tabId() === this.tabGroup.selectedIndex(),
     );
-    this.accessibleItem._disabled = computed(() => this.meeTabButton().disabled());
+    this.accessibleItem._disabled = computed(() => this.ngbTabButton().disabled());
     this.accessibleItem._ayId.set(this.tabGroup.ayId);
   }
 }
 
 @Directive({
-  selector: 'button[meeTabScroll]',
+  selector: 'button[ngbTabScroll]',
   host: {
     type: 'button',
     tabindex: '-1',
     style: '{display: none}',
-    '(click)': 'tabGroup.scroll(meeTabScroll())',
+    '(click)': 'tabGroup.scroll(ngbTabScroll())',
   },
 })
 export class TabScroll {
-  readonly meeTabScroll = input.required<'left' | 'right'>();
-  readonly tabGroup = inject(MeeTabs);
+  readonly ngbTabScroll = input.required<'left' | 'right'>();
+  readonly tabGroup = inject(NgbTabs);
 }
 
 @Component({
-  selector: 'mee-tabs',
-  exportAs: 'meeTabs',
+  selector: 'ngb-tabs',
+  exportAs: 'ngbTabs',
   imports: [TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
       <div class="relative flex overflow-hidden">
         <button
-          meeTabScroll="left"
+          ngbTabScroll="left"
           class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           <
         </button>
-        <nav meeTabButtonsGroup class="overflow-auto">
+        <nav ngbTabButtonsGroup class="overflow-auto">
           <div #tabListContainer class="flex h-full w-max">
             @for (tab of tabs(); track tab.id) {
               <button
-                [meeTabButton]="tab"
+                [ngbTabButton]="tab"
                 class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>
         </nav>
         <button
-          meeTabScroll="right"
+          ngbTabScroll="right"
           class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           >
@@ -128,7 +128,7 @@ export class TabScroll {
     class: 'bg-foreground flex flex-col',
   },
 })
-export class MeeTabs<T extends MeeTab = MeeTab> {
+export class NgbTabs<T extends NgbTab = NgbTab> {
   readonly tabList = viewChild.required<TabButtonsGroup, ElementRef<HTMLElement>>(TabButtonsGroup, {
     read: ElementRef,
   });
@@ -141,7 +141,7 @@ export class MeeTabs<T extends MeeTab = MeeTab> {
   readonly scrollButtons = viewChildren<TabScroll, ElementRef<HTMLElement>>(TabScroll, {
     read: ElementRef,
   });
-  readonly tabs = contentChildren<T>(MeeTab as any);
+  readonly tabs = contentChildren<T>(NgbTab as any);
 
   readonly selectedIndex = model<any>(0);
   readonly selectedTabChange = output<TabChangeEvent>();
@@ -201,7 +201,7 @@ export class MeeTabs<T extends MeeTab = MeeTab> {
 
       // tabMap is used to keep track of the tab headers
       this.tabMap.clear();
-      let activeTab: MeeTab;
+      let activeTab: NgbTab;
       tabs.forEach((tab, index) => {
         tab.active.set(activeIndex === tab.tabId());
         if (activeIndex === tab.tabId()) {
@@ -245,7 +245,7 @@ export class MeeTabs<T extends MeeTab = MeeTab> {
     });
   }
 
-  setActive(tab: MeeTab) {
+  setActive(tab: NgbTab) {
     // if the tab is not found, return
     if (!tab) return;
 
@@ -278,9 +278,9 @@ export class MeeTabs<T extends MeeTab = MeeTab> {
   }
 }
 
-export function provideTabs<T extends MeeTab>(tab: typeof MeeTabs<T>) {
+export function provideTabs<T extends NgbTab>(tab: typeof NgbTabs<T>) {
   return {
-    provide: MeeTabs,
+    provide: NgbTabs,
     useExisting: tab,
   };
 }

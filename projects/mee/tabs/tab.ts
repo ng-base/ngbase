@@ -1,16 +1,16 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeTab,
-  MeeTabHeader,
-  MeeTabLazy,
-  MeeTabs,
+  NgbTab,
+  NgbTabHeader,
+  NgbTabLazy,
+  NgbTabs,
   provideTab,
   provideTabs,
   TabButton,
   TabButtonsGroup,
   TabScroll,
-} from '@meeui/adk/tabs';
+} from '@ngbase/adk/tabs';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
@@ -25,23 +25,23 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
       <ng-content select=".tab-start-header-content" />
       <div class="relative flex overflow-hidden">
         <button
-          meeTabScroll="left"
+          ngbTabScroll="left"
           class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           <mee-icon name="lucideChevronLeft" />
         </button>
-        <nav meeTabButtonsGroup class="overflow-auto">
+        <nav ngbTabButtonsGroup class="overflow-auto">
           <div #tabListContainer class="flex h-full w-max">
             @for (tab of tabs(); track tab.id) {
               <button
-                [meeTabButton]="tab"
+                [ngbTabButton]="tab"
                 class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>
         </nav>
         <button
-          meeTabScroll="right"
+          ngbTabScroll="right"
           class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
         >
           <mee-icon name="lucideChevronRight" />
@@ -54,7 +54,7 @@ import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
     class: 'bg-foreground flex flex-col',
   },
 })
-export class Tabs extends MeeTabs<Tab> {}
+export class Tabs extends NgbTabs<Tab> {}
 
 @Component({
   selector: 'mee-tab',
@@ -74,16 +74,16 @@ export class Tabs extends MeeTabs<Tab> {}
     '[class]': `active() ? 'flex-1 h-full pt-b4' : 'hidden'`,
   },
 })
-export class Tab extends MeeTab {}
+export class Tab extends NgbTab {}
 
 @Directive({
   selector: '[meeTabHeader]',
-  hostDirectives: [MeeTabHeader],
+  hostDirectives: [NgbTabHeader],
 })
 export class TabHeader {}
 
 @Directive({
   selector: '[meeTabLazy]',
-  hostDirectives: [MeeTabLazy],
+  hostDirectives: [NgbTabLazy],
 })
 export class TabLazy {}

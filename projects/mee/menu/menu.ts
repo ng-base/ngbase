@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { MeeMenu, MeeMenuTrigger, MenuGroup, provideMenu } from '@meeui/adk/menu';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { NgbMenu, NgbMenuTrigger, MenuGroup, provideMenu } from '@ngbase/adk/menu';
 
 @Component({
   selector: 'mee-menu',
@@ -10,18 +10,25 @@ import { MeeMenu, MeeMenuTrigger, MenuGroup, provideMenu } from '@meeui/adk/menu
   imports: [AccessibleGroup, MenuGroup],
   template: `
     <ng-template #container>
-      <div meeMenuGroup class="flex flex-col p-b">
+      <div ngbMenuGroup class="flex flex-col p-b">
         <ng-content />
       </div>
     </ng-template>
   `,
 })
-export class Menu extends MeeMenu {}
+export class Menu extends NgbMenu {}
 
 @Directive({
   selector: '[meeMenuTrigger]',
   hostDirectives: [
-    { directive: MeeMenuTrigger, inputs: ['meeMenuTrigger', 'meeMenuTriggerData', 'options'] },
+    {
+      directive: NgbMenuTrigger,
+      inputs: [
+        'ngbMenuTrigger: meeMenuTrigger',
+        'ngbMenuTriggerData: meeMenuTriggerData',
+        'options',
+      ],
+    },
   ],
   host: {
     class: 'outline-none',

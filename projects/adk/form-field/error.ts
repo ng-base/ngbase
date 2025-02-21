@@ -1,25 +1,25 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { computed, Directive, inject, input, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
-import { MeeFormField } from './form-field';
+import { NgbFormField } from './form-field';
 
 @Directive({
-  selector: '[meeError]',
+  selector: '[ngbError]',
   host: {
     '[hidden]': '!animate() && !isInvalid()',
   },
 })
-export class MeeInputError {
-  private readonly formField = inject(MeeFormField);
+export class NgbInputError {
+  private readonly formField = inject(NgbFormField);
   /* the input can have comma separated error names like
    * 'required' or '!required && minlength'
    */
-  readonly meeError = input.required<string>();
+  readonly ngbError = input.required<string>();
   readonly invalid = input<boolean>();
   readonly animate = signal(false);
 
   private readonly errorNames = computed(() => {
-    const names = (this.meeError() ?? '').split('&&');
+    const names = (this.ngbError() ?? '').split('&&');
     return names.reduce(
       (acc, n) => {
         const trimmed = n.trim();

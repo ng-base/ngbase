@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export const MeeDateAdapter = new InjectionToken<DateAdapter>('mat-date-formats');
+export const NgbDateAdapter = new InjectionToken<DateAdapter>('ngp-date-formats');
 
 export interface DateAdapter<D = Date> {
   // Core conversion methods

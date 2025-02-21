@@ -1,18 +1,18 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { CheckboxButton, MeeCheckbox } from './checkbox';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { CheckboxButton, NgbCheckbox } from './checkbox';
 
 @Component({
-  imports: [MeeCheckbox, CheckboxButton, FormsModule],
+  imports: [NgbCheckbox, CheckboxButton, FormsModule],
   template: `<div
-    meeCheckbox
+    ngbCheckbox
     [(ngModel)]="checked"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
   >
     <button
-      meeCheckboxButton
+      ngbCheckboxButton
       [class]="disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
     >
       @if (path(); as d) {
@@ -35,12 +35,12 @@ class TestComponent {
 }
 
 describe('CheckboxComponent', () => {
-  let component: MeeCheckbox;
+  let component: NgbCheckbox;
   let view: RenderResult<TestComponent>;
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeCheckbox);
+    component = view.viewChild(NgbCheckbox);
     view.detectChanges();
   });
 

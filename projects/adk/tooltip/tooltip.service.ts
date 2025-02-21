@@ -1,7 +1,7 @@
 import { ComponentRef, Injectable, Type } from '@angular/core';
-import { basePortal, DialogInput } from '@meeui/adk/portal';
-import { PopoverPosition } from '@meeui/adk/popover';
-import { MeeTooltipTemplate } from './tooltip';
+import { basePortal, DialogInput } from '@ngbase/adk/portal';
+import { PopoverPosition } from '@ngbase/adk/popover';
+import { NgbTooltipTemplate } from './tooltip';
 
 @Injectable({ providedIn: 'root' })
 export class TooltipService {
@@ -15,7 +15,7 @@ export class TooltipService {
     content: string,
     position: PopoverPosition,
     hide: VoidFunction,
-    component?: Type<MeeTooltipTemplate>,
+    component?: Type<NgbTooltipTemplate>,
   ) {
     clearTimeout(this.timeoutId);
     if (this.tooltipOpen) {
@@ -39,22 +39,22 @@ export class TooltipService {
 
 interface TooltipOpen {
   destroy: VoidFunction;
-  parent: ComponentRef<MeeTooltipTemplate>;
-  replace: ((component: DialogInput<MeeTooltipTemplate>) => void) | undefined;
+  parent: ComponentRef<NgbTooltipTemplate>;
+  replace: ((component: DialogInput<NgbTooltipTemplate>) => void) | undefined;
 }
 
 export function tooltipPortal() {
   const NAME = 'tooltip';
-  const base = basePortal(NAME, MeeTooltipTemplate);
+  const base = basePortal(NAME, NgbTooltipTemplate);
 
   function open(
     content: string,
     target: HTMLElement,
     position: PopoverPosition,
     hide: VoidFunction,
-    parentComponent?: Type<MeeTooltipTemplate>,
+    parentComponent?: Type<NgbTooltipTemplate>,
   ) {
-    const { diaRef, parent, replace } = base.open<MeeTooltipTemplate>(
+    const { diaRef, parent, replace } = base.open<NgbTooltipTemplate>(
       undefined,
       comp => {
         comp.instance.update(content, target, position || 'top', hide);

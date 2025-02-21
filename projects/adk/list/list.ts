@@ -7,16 +7,16 @@ import {
   linkedSignal,
   WritableSignal,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
+import { AccessibleItem } from '@ngbase/adk/a11y';
 
 @Directive({
-  selector: '[meeList]',
+  selector: '[ngbList]',
   hostDirectives: [{ directive: AccessibleItem, inputs: ['role', 'disabled'] }],
   host: {
     role: 'list',
   },
 })
-export class MeeList {
+export class NgbList {
   // Dependencies
   private readonly allyItem = inject(AccessibleItem);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -47,9 +47,9 @@ export class MeeList {
   }
 }
 
-export function provideList(list: typeof MeeList) {
+export function provideList(list: typeof NgbList) {
   return {
-    provide: MeeList,
+    provide: NgbList,
     useExisting: list,
   };
 }

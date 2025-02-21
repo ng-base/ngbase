@@ -7,12 +7,12 @@ import {
   input,
   output,
 } from '@angular/core';
-import { InputBase } from '@meeui/adk/form-field';
-import { MeeAutocomplete } from './autocomplete';
+import { InputBase } from '@ngbase/adk/form-field';
+import { NgbAutocomplete } from './autocomplete';
 
 @Directive({
-  selector: '[meeAutocompleteInput]',
-  exportAs: 'meeAutocompleteInput',
+  selector: '[ngbAutocompleteInput]',
+  exportAs: 'ngbAutocompleteInput',
   hostDirectives: [{ directive: InputBase, inputs: ['value'], outputs: ['valueChange'] }],
   host: {
     '(focus)': 'onFocus()',
@@ -21,14 +21,14 @@ import { MeeAutocomplete } from './autocomplete';
     autocomplete: 'off',
   },
 })
-export class MeeAutocompleteInput<T> {
+export class NgbAutocompleteInput<T> {
   // Dependencies
-  readonly autoComplete = inject(MeeAutocomplete);
+  readonly autoComplete = inject(NgbAutocomplete);
   readonly input = inject(InputBase);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
 
   // Inputs
-  readonly meeAutocompleteInput = output<string>();
+  readonly ngbAutocompleteInput = output<string>();
   readonly options = input<T[]>([]);
   readonly filterFn = input<(query: string, value: T, values: T[]) => boolean>();
 
@@ -73,6 +73,6 @@ export class MeeAutocompleteInput<T> {
 
   updateSearch(value: string) {
     this.input.setValue(value);
-    this.meeAutocompleteInput.emit(value);
+    this.ngbAutocompleteInput.emit(value);
   }
 }

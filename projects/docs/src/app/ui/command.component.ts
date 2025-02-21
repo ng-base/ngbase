@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Command } from '@meeui/ui/command';
 import { dialogPortal } from '@meeui/ui/dialog';
-import { keyMap } from '@meeui/adk/keys';
+import { keyMap } from '@ngbase/adk/keys';
 
 @Component({
   selector: 'app-command',

@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { AccessibilityService } from './accessibility.service';
 
 @Directive({
-  selector: '[meeAccessibleItem]',
+  selector: '[ngbAccessibleItem]',
   host: {
     '[attr.aria-pressed]': 'pressed()',
     '[attr.aria-disabled]': '_disabled() || null',

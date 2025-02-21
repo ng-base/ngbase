@@ -1,9 +1,9 @@
 import { Directive, ElementRef, ApplicationRef, inject, input, afterRender } from '@angular/core';
-import { isClient } from '@meeui/adk/utils';
+import { isClient } from '@ngbase/adk/utils';
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
-  selector: '[meeAutofocus]',
+  selector: '[ngbAutofocus]',
 })
 export class Autofocus {
   private el = inject(ElementRef);

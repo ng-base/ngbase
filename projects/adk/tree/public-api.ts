@@ -1,3 +1,3 @@
-export { MeeTree, provideTree } from './tree';
-export { MeeTreeNode, provideTreeNode } from './tree-node';
-export { MeeTreeNodeToggle, MeeTreeNodeDef, MeeTreeNodeContent } from './tree-toggle';
+export { NgbTree, provideTree } from './tree';
+export { NgbTreeNode, provideTreeNode } from './tree-node';
+export { NgbTreeNodeToggle, NgbTreeNodeDef, NgbTreeNodeContent } from './tree-toggle';

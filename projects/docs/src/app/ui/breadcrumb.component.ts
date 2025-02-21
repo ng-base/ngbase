@@ -67,7 +67,7 @@ export default class BreadcrumbComponent {
     MeeBreadcrumbSeparator,
     MeeBreadcrumbSeparatorAria,
     provideBreadcrumb,
-  } from '@meeui/adk/breadcrumb';
+  } from '@ngbase/adk/breadcrumb';
 
   @Component({
     selector: 'mee-breadcrumbs',

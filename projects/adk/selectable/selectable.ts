@@ -1,17 +1,17 @@
 import { Directive, inject, model, output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeSelectable]',
+  selector: '[ngbSelectable]',
   host: {
     role: 'tablist',
   },
   hostDirectives: [AccessibleGroup],
-  providers: [provideValueAccessor(MeeSelectable)],
+  providers: [provideValueAccessor(NgbSelectable)],
 })
-export class MeeSelectable<T> implements ControlValueAccessor {
+export class NgbSelectable<T> implements ControlValueAccessor {
   readonly allyGroup = inject(AccessibleGroup);
 
   readonly activeIndex = model<T>();

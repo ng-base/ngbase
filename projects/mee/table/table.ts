@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeTable } from '@meeui/adk/table';
+import { NgbTable } from '@ngbase/adk/table';
 
 @Component({
   selector: 'table[meeTable]',
@@ -7,7 +7,7 @@ import { MeeTable } from '@meeui/adk/table';
   host: {
     class: 'w-full text-sm',
   },
-  providers: [{ provide: MeeTable, useExisting: Table }],
+  providers: [{ provide: NgbTable, useExisting: Table }],
   template: `
     <thead>
       <ng-container #thead />
@@ -17,4 +17,4 @@ import { MeeTable } from '@meeui/adk/table';
     </tbody>
   `,
 })
-export class Table<T> extends MeeTable<T> {}
+export class Table<T> extends NgbTable<T> {}

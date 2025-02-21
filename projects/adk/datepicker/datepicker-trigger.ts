@@ -11,20 +11,20 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { InputBase } from '@meeui/adk/form-field';
-import { meePopoverPortal } from '@meeui/adk/popover';
-import { MeeDatePicker } from './datepicker';
-import { injectMeeDateAdapter } from './native-date-adapter';
+import { InputBase } from '@ngbase/adk/form-field';
+import { ngbPopoverPortal } from '@ngbase/adk/popover';
+import { NgbDatePicker } from './datepicker';
+import { injectNgbDateAdapter } from './native-date-adapter';
 
 const DEFAULT_FIELD_FORMAT = 'ISO';
 const DEFAULT_FORMAT = 'M/d/yyyy';
 const DEFAULT_TIME_FORMAT = 'M/d/yyyy, HH:mm a';
 
-const DatePicker = new InjectionToken<typeof MeeDatePicker>('DatePicker');
+const DatePicker = new InjectionToken<typeof NgbDatePicker>('DatePicker');
 
 @Directive({
-  selector: '[meeDatepickerTrigger]',
-  exportAs: 'meeDatepickerTrigger',
+  selector: '[ngbDatepickerTrigger]',
+  exportAs: 'ngbDatepickerTrigger',
   hostDirectives: [InputBase],
   host: {
     class: 'cursor-pointer hover:bg-muted-background',
@@ -32,16 +32,16 @@ const DatePicker = new InjectionToken<typeof MeeDatePicker>('DatePicker');
     readonly: 'true',
   },
 })
-export class MeeDatepickerTrigger<D> {
+export class NgbDatepickerTrigger<D> {
   readonly el = inject(ElementRef);
   readonly inputS = inject(InputBase);
   private readonly injector = inject(Injector);
-  readonly adapter = injectMeeDateAdapter<D>();
-  readonly popover = meePopoverPortal();
+  readonly adapter = injectNgbDateAdapter<D>();
+  readonly popover = ngbPopoverPortal();
   private datepicker =
-    inject<typeof MeeDatePicker<D>>(DatePicker, { optional: true }) ?? MeeDatePicker<D>;
+    inject<typeof NgbDatePicker<D>>(DatePicker, { optional: true }) ?? NgbDatePicker<D>;
 
-  // readonly datepicker = input<MeeDatePicker<D>>();
+  // readonly datepicker = input<NgbDatePicker<D>>();
   readonly noOfCalendars = input(1, { transform: (v: number) => Math.max(1, v) });
   readonly range = input(false, { transform: booleanAttribute });
   readonly time = input(false, { transform: booleanAttribute });
@@ -130,7 +130,7 @@ export interface DatePickerOptions<D> {
   time: boolean;
 }
 
-export function registerDatePicker<D>(datePicker: typeof MeeDatePicker<D>) {
+export function registerDatePicker<D>(datePicker: typeof NgbDatePicker<D>) {
   return {
     provide: DatePicker,
     useValue: datePicker,

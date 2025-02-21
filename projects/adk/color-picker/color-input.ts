@@ -1,13 +1,13 @@
 import { Directive, input, model } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/adk/utils';
+import { provideValueAccessor } from '@ngbase/adk/utils';
 import { ColorFormat } from './color-picker';
 
 @Directive({
-  selector: '[meeColorInput]',
-  providers: [provideValueAccessor(MeeColorInput)],
+  selector: '[ngbColorInput]',
+  providers: [provideValueAccessor(NgbColorInput)],
 })
-export class MeeColorInput implements ControlValueAccessor {
+export class NgbColorInput implements ControlValueAccessor {
   readonly format = input<ColorFormat>('hex');
   readonly presetColors = input<string[]>();
   readonly value = model<string>('');

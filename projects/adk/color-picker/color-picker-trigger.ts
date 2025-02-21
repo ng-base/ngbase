@@ -10,16 +10,16 @@ import {
   model,
   untracked,
 } from '@angular/core';
-import { meePopoverPortal } from '@meeui/adk/popover';
-import { provideValueAccessor } from '@meeui/adk/utils';
-import { MeeColorInput } from './color-input';
-import { ColorFormat, MeeColorPicker } from './color-picker';
+import { ngbPopoverPortal } from '@ngbase/adk/popover';
+import { provideValueAccessor } from '@ngbase/adk/utils';
+import { NgbColorInput } from './color-input';
+import { ColorFormat, NgbColorPicker } from './color-picker';
 
-const ColorPicker = new InjectionToken<typeof MeeColorPicker>('ColorPicker');
+const ColorPicker = new InjectionToken<typeof NgbColorPicker>('ColorPicker');
 
 interface ColorPickerOptions {
-  picker: typeof MeeColorPicker;
-  accessor: typeof MeeColorInput;
+  picker: typeof NgbColorPicker;
+  accessor: typeof NgbColorInput;
 }
 
 export const registerColorPicker = ({ picker, accessor }: ColorPickerOptions) => [
@@ -28,7 +28,7 @@ export const registerColorPicker = ({ picker, accessor }: ColorPickerOptions) =>
 ];
 
 @Directive({
-  selector: '[meeColorPickerTrigger]',
+  selector: '[ngbColorPickerTrigger]',
   host: {
     '(click)': 'open()',
   },
@@ -36,8 +36,8 @@ export const registerColorPicker = ({ picker, accessor }: ColorPickerOptions) =>
 export class ColorPickerTrigger {
   private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private colorPicker =
-    inject<typeof MeeColorPicker>(ColorPicker, { optional: true }) ?? MeeColorPicker;
-  private popover = meePopoverPortal();
+    inject<typeof NgbColorPicker>(ColorPicker, { optional: true }) ?? NgbColorPicker;
+  private popover = ngbPopoverPortal();
   private injector = inject(Injector);
 
   readonly format = input<ColorFormat>('hex');
@@ -57,7 +57,7 @@ export class ColorPickerTrigger {
 
     this.effectRef = effect(
       () => {
-        const colorPicker = childSignal()?.instance as MeeColorPicker;
+        const colorPicker = childSignal()?.instance as NgbColorPicker;
         if (colorPicker) {
           untracked(() => {
             colorPicker.setValue(this.value() || '#000000');

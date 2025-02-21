@@ -1,54 +1,54 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeRadio, MeeRadioIndicator } from './radio';
-import { MeeRadioGroup } from './radio-group';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbRadio, NgbRadioIndicator } from './radio';
+import { NgbRadioGroup } from './radio-group';
 
 @Component({
-  imports: [MeeRadioGroup, MeeRadio, MeeRadioIndicator, FormsModule, ReactiveFormsModule],
+  imports: [NgbRadioGroup, NgbRadio, NgbRadioIndicator, FormsModule, ReactiveFormsModule],
   template: `
     <form [formGroup]="form">
-      <div meeRadioGroup formControlName="option" id="first">
-        <div meeRadio [value]="'option1'">
-          <button meeRadioIndicator><div></div></button>
+      <div ngbRadioGroup formControlName="option" id="first">
+        <div ngbRadio [value]="'option1'">
+          <button ngbRadioIndicator><div></div></button>
           Option 1
         </div>
-        <div meeRadio [value]="'option2'">
-          <button meeRadioIndicator><div></div></button>
+        <div ngbRadio [value]="'option2'">
+          <button ngbRadioIndicator><div></div></button>
           Option 2
         </div>
-        <div meeRadio [value]="'option3'" [disabled]="isDisabled">
-          <button meeRadioIndicator><div></div></button>
+        <div ngbRadio [value]="'option3'" [disabled]="isDisabled">
+          <button ngbRadioIndicator><div></div></button>
           Option 3
         </div>
       </div>
     </form>
-    <div meeRadioGroup [(ngModel)]="selectedValue" id="second">
-      <div meeRadio [value]="'option1'">
-        <button meeRadioIndicator><div></div></button>
+    <div ngbRadioGroup [(ngModel)]="selectedValue" id="second">
+      <div ngbRadio [value]="'option1'">
+        <button ngbRadioIndicator><div></div></button>
         Option 1
       </div>
-      <div meeRadio [value]="'option2'">
-        <button meeRadioIndicator><div></div></button>
+      <div ngbRadio [value]="'option2'">
+        <button ngbRadioIndicator><div></div></button>
         Option 2
       </div>
-      <div meeRadio [value]="'option3'" [disabled]="true">
-        <button meeRadioIndicator><div></div></button>
+      <div ngbRadio [value]="'option3'" [disabled]="true">
+        <button ngbRadioIndicator><div></div></button>
         Option 3
       </div>
     </div>
 
-    <div meeRadioGroup [(value)]="value" id="third">
-      <div meeRadio [value]="'option1'">
-        <button meeRadioIndicator><div></div></button>
+    <div ngbRadioGroup [(value)]="value" id="third">
+      <div ngbRadio [value]="'option1'">
+        <button ngbRadioIndicator><div></div></button>
         Option 1
       </div>
-      <div meeRadio [value]="'option2'">
-        <button meeRadioIndicator><div></div></button>
+      <div ngbRadio [value]="'option2'">
+        <button ngbRadioIndicator><div></div></button>
         Option 2
       </div>
-      <div meeRadio [value]="'option3'">
-        <button meeRadioIndicator><div></div></button>
+      <div ngbRadio [value]="'option3'">
+        <button ngbRadioIndicator><div></div></button>
         Option 3
       </div>
     </div>
@@ -75,8 +75,8 @@ describe('RadioGroup and Radio', () => {
     component = view.host;
     view.detectChanges();
 
-    radioGroupElement = view.viewChildrenDebug(MeeRadioGroup);
-    radioElements = view.viewChildrenDebug(MeeRadio);
+    radioGroupElement = view.viewChildrenDebug(NgbRadioGroup);
+    radioElements = view.viewChildrenDebug(NgbRadio);
   });
 
   it('should create the radio group', () => {
@@ -85,7 +85,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should have six radio buttons in total', () => {
-    const allRadioButtons = view.$All('.mee-radio');
+    const allRadioButtons = view.$All('.ngb-radio');
     expect(allRadioButtons.length).toBe(9);
   });
 
@@ -96,7 +96,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should update the ngModel when a radio button is clicked', () => {
-    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
+    const ngModelRadios = view.$All('.ngb-radio-group:nth-child(2) .ngb-radio');
     ngModelRadios[1].click();
     view.detectChanges();
     expect(component.selectedValue).toBe('option2');
@@ -112,7 +112,7 @@ describe('RadioGroup and Radio', () => {
   it('should update the UI when the ngModel changes', async () => {
     component.selectedValue = 'option1';
     await view.formStable();
-    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
+    const ngModelRadios = view.$All('.ngb-radio-group:nth-child(2) .ngb-radio');
     expect(ngModelRadios[0].$('button > div')).toBeTruthy();
     expect(ngModelRadios[1].$('button > div')).toBeFalsy();
   });
@@ -122,7 +122,7 @@ describe('RadioGroup and Radio', () => {
     view.detectChanges();
     expect(component.form.get('option')?.value).not.toBe('option3');
 
-    const ngModelRadios = view.$All('.mee-radio-group:nth-child(2) .mee-radio');
+    const ngModelRadios = view.$All('.ngb-radio-group:nth-child(2) .ngb-radio');
     ngModelRadios[2].click();
     view.detectChanges();
     expect(component.selectedValue).not.toBe('option3');
@@ -183,8 +183,8 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should emit value change on clicking', () => {
-    // const radioGroup = radioGroupElement[1].componentInstance as MeeRadioGroup;
-    const radioGroup = view.viewChild(MeeRadioGroup, '#second');
+    // const radioGroup = radioGroupElement[1].componentInstance as NgbRadioGroup;
+    const radioGroup = view.viewChild(NgbRadioGroup, '#second');
     jest.spyOn(radioGroup, 'onChange');
     radioElements[4].nativeElement.click();
     view.detectChanges();

@@ -2,13 +2,8 @@ import { Directive, ElementRef, inject, input } from '@angular/core';
 import { Drag } from './drag';
 
 @Directive({
-  selector: '[meeDragMove]',
-  hostDirectives: [
-    {
-      directive: Drag,
-      inputs: ['dragBoundary'],
-    },
-  ],
+  selector: '[ngbDragMove]',
+  hostDirectives: [{ directive: Drag, inputs: ['dragBoundary'] }],
 })
 export class DragMove {
   private drag = inject(Drag);

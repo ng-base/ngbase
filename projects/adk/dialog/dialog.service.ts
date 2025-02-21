@@ -1,7 +1,7 @@
-import { basePortal, DialogInput, DialogOptions } from '@meeui/adk/portal';
-import { MeeDialogContainer } from './dialog';
+import { basePortal, DialogInput, DialogOptions } from '@ngbase/adk/portal';
+import { NgbDialogContainer } from './dialog';
 
-export function meeDialogPortal(component: typeof MeeDialogContainer) {
+export function ngbDialogPortal(component: typeof NgbDialogContainer) {
   const NAME = 'dialog';
   const base = basePortal(NAME, component);
 
@@ -23,4 +23,4 @@ export function meeDialogPortal(component: typeof MeeDialogContainer) {
   return { open, closeAll };
 }
 
-export type MeeDialog = ReturnType<typeof meeDialogPortal>;
+export type NgbDialog = ReturnType<typeof ngbDialogPortal>;

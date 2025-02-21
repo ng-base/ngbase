@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSelectable } from './selectable';
-import { MeeSelectableItem } from './selectable-item';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbSelectable } from './selectable';
+import { NgbSelectableItem } from './selectable-item';
 
 @Component({
-  imports: [MeeSelectable, MeeSelectableItem, FormsModule],
+  imports: [NgbSelectable, NgbSelectableItem, FormsModule],
   template: `
-    <div meeSelectable [(ngModel)]="selectedValue">
-      <div meeSelectableItem [value]="1">Item 1</div>
-      <div meeSelectableItem [value]="2">Item 2</div>
-      <div meeSelectableItem [value]="3">Item 3</div>
+    <div ngbSelectable [(ngModel)]="selectedValue">
+      <div ngbSelectableItem [value]="1">Item 1</div>
+      <div ngbSelectableItem [value]="2">Item 2</div>
+      <div ngbSelectableItem [value]="3">Item 3</div>
     </div>
   `,
 })
@@ -20,11 +20,11 @@ class TestHostComponent {
 
 describe('Selectable', () => {
   let view: RenderResult<TestHostComponent>;
-  let selectable: MeeSelectable<number>;
+  let selectable: NgbSelectable<number>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent);
-    selectable = view.viewChild(MeeSelectable<number>);
+    selectable = view.viewChild(NgbSelectable<number>);
     view.detectChanges();
   });
 
@@ -33,7 +33,7 @@ describe('Selectable', () => {
   });
 
   function selectableItems() {
-    return view.viewChildren(MeeSelectableItem);
+    return view.viewChildren(NgbSelectableItem);
   }
 
   it('should have three selectable items', () => {

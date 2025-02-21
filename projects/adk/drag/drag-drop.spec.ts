@@ -1,14 +1,14 @@
 import { Component, DebugElement, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Drag, DragData } from './drag';
 import { DragDrop, moveItemInArray } from './drag-drop';
 
 @Component({
   imports: [DragDrop, Drag],
   template: `
-    <div meeDrop (orderChanged)="onOrderChanged($event)">
+    <div ngbDrop (orderChanged)="onOrderChanged($event)">
       @for (item of items(); track item) {
-        <div meeDrag>{{ item }}</div>
+        <div ngbDrag>{{ item }}</div>
       }
     </div>
   `,

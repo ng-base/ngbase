@@ -1,35 +1,35 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Directive, input, signal } from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
+import { uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeSonnerBase]',
-  exportAs: 'meeSonnerBase',
+  selector: '[ngbSonnerBase]',
+  exportAs: 'ngbSonnerBase',
   host: {
     style: `position: absolute; right: 0; display: flex; flex-direction: column;`,
     '[style]': `{
-      'z-index': -meeSonnerBase(),
-      bottom: 16 * meeSonnerBase() + 'px',
-      visibility: meeSonnerBase() < 3 ? 'visible' : 'hidden',
-      transform: 'scale(' + (1 - meeSonnerBase() * 0.08) + ')',
-      opacity: meeSonnerBase() < 3 ? 1 : 0,
+      'z-index': -ngbSonnerBase(),
+      bottom: 16 * ngbSonnerBase() + 'px',
+      visibility: ngbSonnerBase() < 3 ? 'visible' : 'hidden',
+      transform: 'scale(' + (1 - ngbSonnerBase() * 0.08) + ')',
+      opacity: ngbSonnerBase() < 3 ? 1 : 0,
     }`,
     '[@slideInOutAnimation]': '',
   },
 })
 export class SonnerBase {
-  readonly meeSonnerBase = input.required<number>();
+  readonly ngbSonnerBase = input.required<number>();
 }
 
 @Component({
-  selector: 'mee-sonner',
+  selector: 'ngb-sonner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SonnerBase],
   template: `
     <ul class="fixed bottom-0 right-0 flex flex-col gap-2">
       @for (msg of messages(); track msg.id) {
         <li
-          [meeSonnerBase]="$index"
+          [ngbSonnerBase]="$index"
           class="{{
             'm-4 w-96 gap-b rounded-base border bg-foreground p-4 shadow-lg transition-all duration-300' +
               (msg.type === 'success' ? ' bg-green-50 text-green-600' : '') +
@@ -54,7 +54,7 @@ export class SonnerBase {
     ]),
   ],
 })
-export class MeeSonner {
+export class NgbSonner {
   readonly messages = signal<SonnerMessage[]>([]);
 
   addMessage(message: string, type: SonnerType, data?: SonnerData) {

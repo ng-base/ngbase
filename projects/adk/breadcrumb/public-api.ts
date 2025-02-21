@@ -1,4 +1,4 @@
-export { MeeBreadcrumbs } from './breadcrumbs';
-export { MeeBreadcrumb, provideBreadcrumb } from './breadcrumb';
-export { MeeBreadcrumbLink } from './breadcrumb-link';
-export { MeeBreadcrumbSeparatorAria, MeeBreadcrumbSeparator } from './breadcrumb-separator';
+export { NgbBreadcrumbs } from './breadcrumbs';
+export { NgbBreadcrumb, provideBreadcrumb } from './breadcrumb';
+export { NgbBreadcrumbLink } from './breadcrumb-link';
+export { NgbBreadcrumbSeparatorAria, NgbBreadcrumbSeparator } from './breadcrumb-separator';

@@ -10,10 +10,10 @@ import {
   model,
 } from '@angular/core';
 import { slideAnimation } from './animation';
-import { MeeStep } from './step';
+import { NgbStep } from './step';
 
 @Directive({
-  selector: '[meeStepperStep]',
+  selector: '[ngbStepperStep]',
   host: {
     '[attr.data-status]': 'status()',
     '[attr.aria-current]': 'status() === "active" ? true : undefined',
@@ -21,12 +21,12 @@ import { MeeStep } from './step';
     '[attr.data-index]': '!last() ? true : undefined',
   },
 })
-export class MeeStepperStep {
-  readonly stepper = inject(MeeStepper);
-  readonly meeStepperStep = input(0);
-  readonly last = computed(() => this.meeStepperStep() === this.stepper.steps().length - 1);
+export class NgbStepperStep {
+  readonly stepper = inject(NgbStepper);
+  readonly ngbStepperStep = input(0);
+  readonly last = computed(() => this.ngbStepperStep() === this.stepper.steps().length - 1);
   readonly status = computed(() => {
-    const index = this.meeStepperStep();
+    const index = this.ngbStepperStep();
     const activeIndex = this.stepper.activeIndex();
 
     if (index < activeIndex) return 'completed';
@@ -36,15 +36,15 @@ export class MeeStepperStep {
 }
 
 @Component({
-  selector: '[meeStepper]',
-  exportAs: 'meeStepper',
+  selector: '[ngbStepper]',
+  exportAs: 'ngbStepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, MeeStepperStep],
+  imports: [NgTemplateOutlet, NgbStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
       @for (step of steps(); track step) {
         <div
-          [meeStepperStep]="$index"
+          [ngbStepperStep]="$index"
           class="{{
             'relative flex [&:not(:last-child)]:flex-1 [&:not(:last-child)]:after:mx-2 [&:not(:last-child)]:after:block [&:not(:last-child)]:after:flex-1 [&:not(:last-child)]:after:bg-background [&:not(:last-child)]:after:transition-colors' +
               (activeIndex() > $index ? ' [&:not(:last-child)]:after:bg-primary' : '') +
@@ -81,8 +81,8 @@ export class MeeStepperStep {
   `,
   animations: [slideAnimation],
 })
-export class MeeStepper {
-  readonly steps = contentChildren(MeeStep);
+export class NgbStepper {
+  readonly steps = contentChildren(NgbStep);
   readonly activeIndex = model(0);
   readonly direction = input<'horizontal' | 'vertical'>('horizontal');
 
@@ -99,7 +99,7 @@ export class MeeStepper {
   }
 }
 
-export const provideStepper = (stepper: typeof MeeStepper) => ({
-  provide: MeeStepper,
+export const provideStepper = (stepper: typeof NgbStepper) => ({
+  provide: NgbStepper,
   useExisting: stepper,
 });

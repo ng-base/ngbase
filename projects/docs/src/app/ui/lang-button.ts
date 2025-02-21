@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { isClient } from '@meeui/adk/utils';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { isClient } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 
 @Component({

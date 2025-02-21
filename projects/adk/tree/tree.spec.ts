@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeTree } from './tree';
-import { MeeTreeNodeDef } from './tree-toggle';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbTree } from './tree';
+import { NgbTreeNodeDef } from './tree-toggle';
 
 // Mock data
 interface TestNode {
@@ -26,10 +26,10 @@ const mockData: TestNode[] = [
 ];
 
 @Component({
-  imports: [MeeTree, MeeTreeNodeDef],
+  imports: [NgbTree, NgbTreeNodeDef],
   template: `
-    <div meeTree [dataSource]="data()" [trackBy]="trackBy" [children]="getChildren">
-      <ng-template meeTreeNodeDef let-node>
+    <div ngbTree [dataSource]="data()" [trackBy]="trackBy" [children]="getChildren">
+      <ng-template ngbTreeNodeDef let-node>
         {{ node.name }}
       </ng-template>
     </div>
@@ -63,13 +63,13 @@ class TestHostComponent {
 describe('Tree', () => {
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
-  let treeComponent: MeeTree<TestNode>;
+  let treeComponent: NgbTree<TestNode>;
 
   beforeEach(async () => {
     view = await render(TestHostComponent);
     component = view.host;
     view.detectChanges();
-    treeComponent = view.viewChild(MeeTree<TestNode>);
+    treeComponent = view.viewChild(NgbTree<TestNode>);
   });
 
   function textContent() {

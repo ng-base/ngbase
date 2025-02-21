@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ElementHelper, render, RenderResult } from '@meeui/adk/test';
+import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { Mask } from './mask';
 
 @Component({
   imports: [Mask, FormsModule],
-  template: `<input [meeMask]="mask()" [(ngModel)]="value" />`,
+  template: `<input [ngbMask]="mask()" [(ngModel)]="value" />`,
 })
 class TestComponent {
   readonly mask = signal('');

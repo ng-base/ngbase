@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeSonner, meeSonnerPortal, SonnerBase } from '@meeui/adk/sonner';
+import { NgbSonner, ngbSonnerPortal, SonnerBase } from '@ngbase/adk/sonner';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import {
@@ -20,7 +20,7 @@ import {
     <ul class="fixed bottom-0 right-0 flex flex-col gap-b">
       @for (msg of messages(); track msg.id) {
         <li
-          [meeSonnerBase]="$index"
+          [ngbSonnerBase]="$index"
           class="{{
             'm-4 w-96 rounded-base border bg-foreground p-4 shadow-lg transition-all duration-300' +
               (msg.type === 'success' ? ' bg-green-50 text-green-600' : '') +
@@ -42,7 +42,7 @@ import {
     </ul>
   `,
 })
-export class Sonner extends MeeSonner {
+export class Sonner extends NgbSonner {
   readonly icons = {
     success: 'lucideCircleCheck',
     error: 'lucideCircleAlert',
@@ -53,6 +53,6 @@ export class Sonner extends MeeSonner {
 }
 
 export function sonnerPortal() {
-  const portal = meeSonnerPortal(Sonner);
+  const portal = ngbSonnerPortal(Sonner);
   return portal;
 }

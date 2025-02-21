@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { injectTranslate, Translate, translate } from '@meeui/adk/translate';
-import { RangePipe } from '@meeui/adk/utils';
+import { injectTranslate, Translate, translate } from '@ngbase/adk/translate';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { ToggleGroup, ToggleItem } from '@meeui/ui/toggle-group';
 import { DocCode } from './code.component';
@@ -39,7 +39,7 @@ export default class TranslationComponent {
   // readonly num = signal(1);
 
   tsCode = `
-  import { Translate } from '@meeui/adk/translate';
+  import { Translate } from '@ngbase/adk/translate';
 
   @Component({
     selector: 'app-root',

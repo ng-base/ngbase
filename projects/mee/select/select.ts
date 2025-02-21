@@ -2,12 +2,12 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MeeSelect,
-  MeeSelectOption,
-  MeeSelectOptionGroup,
+  NgbSelect,
+  NgbSelectOption,
+  NgbSelectOptionGroup,
   provideSelect,
   SelectValue,
-} from '@meeui/adk/select';
+} from '@ngbase/adk/select';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
@@ -16,7 +16,7 @@ import { SelectInput } from './select-input';
 
 @Directive({
   selector: '[meeSelectOption]',
-  hostDirectives: [MeeSelectOption],
+  hostDirectives: [NgbSelectOption],
 })
 export class SelectOption<T> {}
 
@@ -32,11 +32,11 @@ export class SelectOption<T> {}
     Option,
     NgTemplateOutlet,
     SelectValue,
-    MeeSelectOptionGroup,
+    NgbSelectOptionGroup,
   ],
   template: `
     <button
-      meeSelectValue
+      ngbSelectValue
       [class.opacity-50]="disabled()"
       class="flex min-h-b5 w-full items-center justify-between gap-b whitespace-nowrap outline-none"
     >
@@ -64,7 +64,7 @@ export class SelectOption<T> {}
             />
           }
         </ng-content>
-        <div #optionsGroup meeSelectOptionGroup class="overflow-auto p-b">
+        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-b">
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {
@@ -91,6 +91,6 @@ export class SelectOption<T> {}
     '[class.pointer-events-none]': 'disabled()',
   },
 })
-export class Select<T> extends MeeSelect<T> {
+export class Select<T> extends NgbSelect<T> {
   override sideOffset = 16;
 }

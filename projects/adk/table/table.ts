@@ -15,15 +15,15 @@ import {
   effect,
   EmbeddedViewRef,
 } from '@angular/core';
-import { MeeColumn } from './column';
+import { NgbColumn } from './column';
 
-import { MeeBodyRowDef } from './body-row';
-import { MeeHeadRowDef } from './head-row';
+import { NgbBodyRowDef } from './body-row';
+import { NgbHeadRowDef } from './head-row';
 
 export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
 
 @Component({
-  selector: 'table[meeTable]',
+  selector: 'table[ngbTable]',
   template: `
     <thead>
       <ng-container #thead />
@@ -34,12 +34,12 @@ export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MeeTable<T> {
+export class NgbTable<T> {
   private readonly thead = viewChild('thead', { read: ViewContainerRef });
   private readonly tbody = viewChild('tbody', { read: ViewContainerRef });
-  private readonly bodyRowDef = contentChildren(MeeBodyRowDef, { read: TemplateRef });
-  private readonly headRowDef = contentChild(MeeHeadRowDef, { read: TemplateRef });
-  readonly columns = contentChildren(MeeColumn);
+  private readonly bodyRowDef = contentChildren(NgbBodyRowDef, { read: TemplateRef });
+  private readonly headRowDef = contentChild(NgbHeadRowDef, { read: TemplateRef });
+  readonly columns = contentChildren(NgbColumn);
   readonly data = input.required<T[]>();
   readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
   private readonly injector = inject(Injector);

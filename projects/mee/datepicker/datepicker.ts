@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DatepickerGroup, MeeDatePicker, provideDatePicker } from '@meeui/adk/datepicker';
-import { RangePipe } from '@meeui/adk/utils';
+import { DatepickerGroup, NgbDatePicker, provideDatePicker } from '@ngbase/adk/datepicker';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Calendar } from './calendar';
 
 @Component({
@@ -10,7 +10,7 @@ import { Calendar } from './calendar';
   providers: [provideDatePicker(DatePicker)],
   imports: [Calendar, RangePipe, NgTemplateOutlet, DatepickerGroup],
   template: `
-    <div class="flex" meeDatepickerGroup>
+    <div class="flex" ngbDatepickerGroup>
       @for (no of noOfCalendar() | range; track no) {
         <mee-calendar [first]="$first" [last]="$last" [index]="$index" />
       }
@@ -25,4 +25,4 @@ import { Calendar } from './calendar';
     class: 'inline-block',
   },
 })
-export class DatePicker<D> extends MeeDatePicker<D> {}
+export class DatePicker<D> extends NgbDatePicker<D> {}

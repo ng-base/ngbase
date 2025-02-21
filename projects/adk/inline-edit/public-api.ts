@@ -1,1 +1,1 @@
-export { MeeInlineEdit, MeeInlineInput, MeeInlineValue, provideInlineEdit } from './inline-edit';
+export { NgbInlineEdit, NgbInlineInput, NgbInlineValue, provideInlineEdit } from './inline-edit';

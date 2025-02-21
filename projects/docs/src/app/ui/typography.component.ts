@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Card } from '@meeui/ui/card';
 import { Separator } from '@meeui/ui/separator';
 import { Heading } from '@meeui/ui/typography';

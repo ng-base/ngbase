@@ -10,10 +10,10 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { MeeStepper } from './stepper';
+import { NgbStepper } from './stepper';
 
 @Component({
-  selector: '[meeStep]',
+  selector: '[ngbStep]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   template: `@if (horizontalTemplate(); as template) {
@@ -25,9 +25,9 @@ import { MeeStepper } from './stepper';
       </div>
     </ng-template> `,
 })
-export class MeeStep {
-  readonly stepper = inject(MeeStepper);
-  readonly header = contentChild(MeeStepHeader, { read: TemplateRef });
+export class NgbStep {
+  readonly stepper = inject(NgbStepper);
+  readonly header = contentChild(NgbStepHeader, { read: TemplateRef });
   readonly stepContainer = viewChild.required('stepContainer', { read: TemplateRef });
 
   readonly title = input<any>('Tab');
@@ -44,11 +44,11 @@ export class MeeStep {
 }
 
 @Directive({
-  selector: '[meeStepHeader]',
+  selector: '[ngbStepHeader]',
 })
-export class MeeStepHeader {}
+export class NgbStepHeader {}
 
-export const provideStep = (step: typeof MeeStep) => ({
-  provide: MeeStep,
+export const provideStep = (step: typeof NgbStep) => ({
+  provide: NgbStep,
   useExisting: step,
 });

@@ -7,7 +7,7 @@ import { Input } from '@meeui/ui/form-field';
 import { Pagination } from '@meeui/ui/pagination';
 import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { TableComponents } from '@meeui/ui/table';
-import { SelectionModel } from '@meeui/adk/collections';
+import { SelectionModel } from '@ngbase/adk/collections';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideArrowUpDown,

@@ -1,14 +1,14 @@
 import { booleanAttribute, Directive, inject, input, model } from '@angular/core';
-import { uniqueId } from '@meeui/adk/utils';
-import { MeeAccordionGroup } from './accordion-group';
+import { uniqueId } from '@ngbase/adk/utils';
+import { NgbAccordionGroup } from './accordion-group';
 
 @Directive({
-  selector: '[meeAccordion]',
-  exportAs: 'meeAccordion',
+  selector: '[ngbAccordion]',
+  exportAs: 'ngbAccordion',
 })
-export class MeeAccordion {
+export class NgbAccordion {
   // Dependencies
-  private accordionService = inject(MeeAccordionGroup);
+  private accordionService = inject(NgbAccordionGroup);
 
   // Inputs
   readonly expanded = model(false);

@@ -31,8 +31,8 @@ export class DragData {
 }
 
 @Directive({
-  selector: '[meeDragHandle]',
-  exportAs: 'meeDragHandle',
+  selector: '[ngbDragHandle]',
+  exportAs: 'ngbDragHandle',
   host: {
     class: 'cursor-move',
   },
@@ -40,8 +40,8 @@ export class DragData {
 export class DragHandle {}
 
 @Directive({
-  selector: '[meeDrag]',
-  exportAs: 'meeDrag',
+  selector: '[ngbDrag]',
+  exportAs: 'ngbDrag',
 })
 export class Drag {
   readonly el = inject(ElementRef);
@@ -50,7 +50,7 @@ export class Drag {
 
   readonly handle = contentChild(DragHandle, { read: ElementRef, descendants: true });
   readonly events = new Subject<DragData>();
-  readonly meeDrag = outputFromObservable(this.events);
+  readonly ngbDrag = outputFromObservable(this.events);
 
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly lockAxis = input<'x' | 'y'>();

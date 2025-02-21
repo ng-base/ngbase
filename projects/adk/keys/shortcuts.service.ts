@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
-import { documentListener, isClient, uniqueId } from '@meeui/adk/utils';
+import { documentListener, isClient, uniqueId } from '@ngbase/adk/utils';
 
 const IGNORED_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const SHORTCUT_MAP: Record<string, string> = {

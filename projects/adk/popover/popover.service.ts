@@ -1,8 +1,8 @@
 import { inject, InjectionToken, Signal, Type, WritableSignal } from '@angular/core';
-import { DialogInput, DialogOptions, DialogRef } from '@meeui/adk/portal';
+import { DialogInput, DialogOptions, DialogRef } from '@ngbase/adk/portal';
 import { Observable } from 'rxjs';
 import { basePopoverPortal } from './base-popover.service';
-import { MeePopover } from './popover';
+import { NgbPopover } from './popover';
 
 export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
 
@@ -23,17 +23,17 @@ export class PopoverOptions extends DialogOptions {
 export interface PopoverOpen<T> {
   diaRef: DialogRef<any>;
   events: Observable<{ type: string; value: any }>;
-  parent: MeePopover;
+  parent: NgbPopover;
   replace: ((component: DialogInput<T>) => void) | undefined;
   childSignal: WritableSignal<any>;
 }
 
-const POPOVER_TOKEN = new InjectionToken<Type<MeePopover>>('POPOVER_TOKEN');
+const POPOVER_TOKEN = new InjectionToken<Type<NgbPopover>>('POPOVER_TOKEN');
 
-export type PopoverType = ReturnType<typeof meePopoverPortal>;
+export type PopoverType = ReturnType<typeof ngbPopoverPortal>;
 
-export function meePopoverPortal() {
-  const popover = inject(POPOVER_TOKEN, { optional: true }) ?? MeePopover;
+export function ngbPopoverPortal() {
+  const popover = inject(POPOVER_TOKEN, { optional: true }) ?? NgbPopover;
   const base = basePopoverPortal(popover);
 
   function open<T>(component: DialogInput<T>, options: PopoverOptions): PopoverOpen<T> {
@@ -43,6 +43,6 @@ export function meePopoverPortal() {
   return { open, closeAll: base.closeAll };
 }
 
-export const registerMeePopover = (popover: Type<MeePopover>) => {
+export const registerNgbPopover = (popover: Type<NgbPopover>) => {
   return { provide: POPOVER_TOKEN, useValue: popover };
 };

@@ -12,36 +12,36 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { Directionality } from '@meeui/adk/bidi';
-import { MeeDatePicker } from './datepicker';
-import { MeeTimePicker } from './time';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { Directionality } from '@ngbase/adk/bidi';
+import { NgbDatePicker } from './datepicker';
+import { NgbTimePicker } from './time';
 
 @Directive({
-  selector: '[meeCalendarBtn]',
+  selector: '[ngbCalendarBtn]',
   host: {
     type: 'button',
     '[class]': '!visible() ? "invisible" : ""',
-    '(click)': 'cal.navigate(meeCalendarBtn() === "left" ? -1 : 1)',
+    '(click)': 'cal.navigate(ngbCalendarBtn() === "left" ? -1 : 1)',
     '[disabled]': 'disabled()',
     '[tabIndex]': 'disabled() ? -1 : 0',
   },
 })
 export class CalendarBtn<D> {
-  readonly cal = inject<MeeCalendar<D>>(MeeCalendar);
+  readonly cal = inject<NgbCalendar<D>>(NgbCalendar);
 
-  readonly meeCalendarBtn = input.required<'left' | 'right'>();
+  readonly ngbCalendarBtn = input.required<'left' | 'right'>();
 
   readonly disabled = computed(() => {
-    return this.meeCalendarBtn() === 'left' ? this.cal.leftBtn() : this.cal.rightBtn();
+    return this.ngbCalendarBtn() === 'left' ? this.cal.leftBtn() : this.cal.rightBtn();
   });
   readonly visible = computed(() => {
-    return this.meeCalendarBtn() === 'left' ? this.cal.first() : this.cal.last();
+    return this.ngbCalendarBtn() === 'left' ? this.cal.first() : this.cal.last();
   });
 }
 
 @Directive({
-  selector: '[meeCalendarTitle]',
+  selector: '[ngbCalendarTitle]',
   host: {
     type: 'button',
     '(click)': 'cal.toggleView()',
@@ -49,78 +49,78 @@ export class CalendarBtn<D> {
   },
 })
 export class CalendarTitle<D> {
-  readonly cal = inject<MeeCalendar<D>>(MeeCalendar);
+  readonly cal = inject<NgbCalendar<D>>(NgbCalendar);
 }
 
 @Directive({
-  selector: '[meeCalYearBtn]',
-  exportAs: 'meeCalYearBtn',
+  selector: '[ngbCalYearBtn]',
+  exportAs: 'ngbCalYearBtn',
   hostDirectives: [AccessibleItem],
   host: {
     type: 'button',
-    '(click)': '!meeCalYearBtn().disabled && cal.selectYear(meeCalYearBtn().year)',
+    '(click)': '!ngbCalYearBtn().disabled && cal.selectYear(ngbCalYearBtn().year)',
   },
 })
 export class CalendarYearBtn<D> {
-  readonly cal = inject<MeeCalendar<D>>(MeeCalendar);
+  readonly cal = inject<NgbCalendar<D>>(NgbCalendar);
   readonly ally = inject(AccessibleItem);
-  readonly meeCalYearBtn = input.required<{ year: number; disabled: boolean }>();
+  readonly ngbCalYearBtn = input.required<{ year: number; disabled: boolean }>();
 
-  readonly active = computed(() => this.meeCalYearBtn().year === this.cal.cStartYear());
+  readonly active = computed(() => this.ngbCalYearBtn().year === this.cal.cStartYear());
   readonly selected = computed(() => this.cal.todayDay() && this.active());
 
   constructor() {
     this.ally._ayId.set(this.cal.datePicker.ayId);
     effect(() => {
-      this.ally._data.set(this.meeCalYearBtn());
+      this.ally._data.set(this.ngbCalYearBtn());
     });
   }
 }
 
 @Directive({
-  selector: '[meeCalMonthBtn]',
-  exportAs: 'meeCalMonthBtn',
+  selector: '[ngbCalMonthBtn]',
+  exportAs: 'ngbCalMonthBtn',
   hostDirectives: [AccessibleItem],
   host: {
     type: 'button',
-    '(click)': '!meeCalMonthBtn().disabled && cal.selectMonth(meeCalMonthBtn())',
+    '(click)': '!ngbCalMonthBtn().disabled && cal.selectMonth(ngbCalMonthBtn())',
   },
 })
 export class CalendarMonthBtn<D> {
-  readonly cal = inject<MeeCalendar<D>>(MeeCalendar);
+  readonly cal = inject<NgbCalendar<D>>(NgbCalendar);
   readonly ally = inject(AccessibleItem);
-  readonly meeCalMonthBtn = input.required<{ name: string; value: number; disabled: boolean }>();
+  readonly ngbCalMonthBtn = input.required<{ name: string; value: number; disabled: boolean }>();
 
   readonly active = computed(() =>
     this.cal.datePicker
       .dates()
-      .month.includes(this.meeCalMonthBtn().value + '-' + this.cal.cStartYear()),
+      .month.includes(this.ngbCalMonthBtn().value + '-' + this.cal.cStartYear()),
   );
   readonly selected = computed(
-    () => this.cal.todayDay() && this.cal.cStartMonth() === this.meeCalMonthBtn().value,
+    () => this.cal.todayDay() && this.cal.cStartMonth() === this.ngbCalMonthBtn().value,
   );
 
   constructor() {
     this.ally._ayId.set(this.cal.datePicker.ayId);
     effect(() => {
-      this.ally._data.set(this.meeCalMonthBtn());
+      this.ally._data.set(this.ngbCalMonthBtn());
     });
   }
 }
 
 @Directive({
-  selector: '[meeCalDayBtn]',
-  exportAs: 'meeCalDayBtn',
+  selector: '[ngbCalDayBtn]',
+  exportAs: 'ngbCalDayBtn',
   hostDirectives: [AccessibleItem],
   host: {
     type: 'button',
-    '(click)': '!meeCalDayBtn().disabled && cal.selectDate(meeCalDayBtn().day, meeCalDayBtn().mon)',
+    '(click)': '!ngbCalDayBtn().disabled && cal.selectDate(ngbCalDayBtn().day, ngbCalDayBtn().mon)',
   },
 })
 export class CalendarDayBtn<D> {
-  readonly cal = inject<MeeCalendar<D>>(MeeCalendar);
+  readonly cal = inject<NgbCalendar<D>>(NgbCalendar);
   readonly ally = inject(AccessibleItem);
-  readonly meeCalDayBtn = input.required<{
+  readonly ngbCalDayBtn = input.required<{
     day: number;
     mon: number;
     disabled: boolean;
@@ -132,12 +132,12 @@ export class CalendarDayBtn<D> {
     this.cal.datePicker
       .dates()
       .day.includes(
-        this.meeCalDayBtn().day + '-' + this.meeCalDayBtn().mon + '-' + this.cal.cStartYear(),
+        this.ngbCalDayBtn().day + '-' + this.ngbCalDayBtn().mon + '-' + this.cal.cStartYear(),
       ),
   );
-  readonly dummy = computed(() => !this.meeCalDayBtn().current || this.meeCalDayBtn().disabled);
+  readonly dummy = computed(() => !this.ngbCalDayBtn().current || this.ngbCalDayBtn().disabled);
   readonly selected = computed(() => {
-    const day = this.meeCalDayBtn();
+    const day = this.ngbCalDayBtn();
     return (
       (day.day === this.cal.todayDay() && day.current) ||
       (day.count <= this.cal.datePicker.hoveredCount() &&
@@ -149,19 +149,19 @@ export class CalendarDayBtn<D> {
   constructor() {
     this.ally._ayId.set(this.cal.datePicker.ayId);
     effect(() => {
-      this.ally._data.set(this.meeCalDayBtn());
-      this.ally._id.set(this.meeCalDayBtn().day + '-' + this.meeCalDayBtn().mon);
-      this.ally._skip.set(this.meeCalDayBtn().disabled);
+      this.ally._data.set(this.ngbCalDayBtn());
+      this.ally._id.set(this.ngbCalDayBtn().day + '-' + this.ngbCalDayBtn().mon);
+      this.ally._skip.set(this.ngbCalDayBtn().disabled);
     });
   }
 }
 
 @Component({
-  selector: 'mee-calendar',
+  selector: 'ngb-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgClass,
-    MeeTimePicker,
+    NgbTimePicker,
     CalendarBtn,
     CalendarTitle,
     CalendarYearBtn,
@@ -170,17 +170,17 @@ export class CalendarDayBtn<D> {
   ],
   template: `
     <div class="mb-b2 flex items-center justify-between">
-      <button meeCalendarBtn="left">{{ dir.isRtl() ? '>' : '<' }}</button>
-      <button meeCalendarTitle>{{ title() }}</button>
-      <button meeCalendarBtn="right">{{ dir.isRtl() ? '<' : '>' }}</button>
+      <button ngbCalendarBtn="left">{{ dir.isRtl() ? '>' : '<' }}</button>
+      <button ngbCalendarTitle>{{ title() }}</button>
+      <button ngbCalendarBtn="right">{{ dir.isRtl() ? '<' : '>' }}</button>
     </div>
 
     @if (datePicker.showType() === 'year') {
       <div class="grid grid-cols-3">
         @for (year of years(); track year.year) {
           <button
-            [meeCalYearBtn]="year"
-            #yearBtn="meeCalYearBtn"
+            [ngbCalYearBtn]="year"
+            #yearBtn="ngbCalYearBtn"
             class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -197,8 +197,8 @@ export class CalendarDayBtn<D> {
       <div class="grid grid-cols-3">
         @for (month of months(); track month.value) {
           <button
-            [meeCalMonthBtn]="month"
-            #monthBtn="meeCalMonthBtn"
+            [ngbCalMonthBtn]="month"
+            #monthBtn="ngbCalMonthBtn"
             class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -220,8 +220,8 @@ export class CalendarDayBtn<D> {
       <div class="grid grid-cols-7 gap-y-b2">
         @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
-            #days="meeCalDayBtn"
-            [meeCalDayBtn]="day"
+            #days="ngbCalDayBtn"
+            [ngbCalDayBtn]="day"
             class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
@@ -236,15 +236,15 @@ export class CalendarDayBtn<D> {
         }
       </div>
       @if (datePicker.time() && datePicker.range()) {
-        <div meeTime [(value)]="time1" (valueChange)="timeChanged(0, time1()!)"></div>
-        <div meeTime [(value)]="time2" (valueChange)="timeChanged(1, time2()!)"></div>
+        <div ngbTime [(value)]="time1" (valueChange)="timeChanged(0, time1()!)"></div>
+        <div ngbTime [(value)]="time2" (valueChange)="timeChanged(1, time2()!)"></div>
       }
     }
   `,
 })
-export class MeeCalendar<D> implements OnDestroy {
+export class NgbCalendar<D> implements OnDestroy {
   readonly dir = inject(Directionality);
-  readonly datePicker = inject<MeeDatePicker<D>>(MeeDatePicker);
+  readonly datePicker = inject<NgbDatePicker<D>>(NgbDatePicker);
   readonly days = viewChildren<CalendarDayBtn<D>, ElementRef<HTMLElement>>(CalendarDayBtn, {
     read: ElementRef,
   });
@@ -510,9 +510,9 @@ export class MeeCalendar<D> implements OnDestroy {
   }
 }
 
-export function provideCalendar<D>(cal: typeof MeeCalendar) {
+export function provideCalendar<D>(cal: typeof NgbCalendar) {
   return {
-    provide: MeeCalendar,
+    provide: NgbCalendar,
     useExisting: cal,
   };
 }

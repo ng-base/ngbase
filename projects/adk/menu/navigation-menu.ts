@@ -1,16 +1,16 @@
 import { Directive, contentChildren, effect, input } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
-import { PopoverOpen, meePopoverPortal } from '@meeui/adk/popover';
-import { documentListener, uniqueId } from '@meeui/adk/utils';
-import { MeeMenuTrigger } from './menu-trigger';
+import { injectDirectionality } from '@ngbase/adk/bidi';
+import { PopoverOpen, ngbPopoverPortal } from '@ngbase/adk/popover';
+import { documentListener, uniqueId } from '@ngbase/adk/utils';
+import { NgbMenuTrigger } from './menu-trigger';
 
 @Directive({
-  selector: '[meeNavigationMenu]',
+  selector: '[ngbNavigationMenu]',
 })
-export class MeeNavigationMenu {
-  private popover = meePopoverPortal();
+export class NgbNavigationMenu {
+  private popover = ngbPopoverPortal();
   private readonly dir = injectDirectionality();
-  private readonly menus = contentChildren(MeeMenuTrigger, { descendants: true });
+  private readonly menus = contentChildren(NgbMenuTrigger, { descendants: true });
 
   readonly hover = input<boolean>(false);
 
@@ -19,7 +19,7 @@ export class MeeNavigationMenu {
   private timerId: any = 0;
   private popoverOpen?: PopoverOpen<any>;
   private clicked = false;
-  private currentEl?: MeeMenuTrigger;
+  private currentEl?: NgbMenuTrigger;
 
   constructor() {
     documentListener('click', () => {
@@ -51,9 +51,9 @@ export class MeeNavigationMenu {
     });
   }
 
-  open(menuTrigger: MeeMenuTrigger) {
+  open(menuTrigger: NgbMenuTrigger) {
     clearTimeout(this.timerId);
-    const menu = menuTrigger.meeMenuTrigger();
+    const menu = menuTrigger.ngbMenuTrigger();
     const target = menuTrigger.el.nativeElement;
     if (this.close) {
       // console.log('navigation menu open existing', menu);

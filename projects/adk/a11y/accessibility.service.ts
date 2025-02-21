@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { documentListener } from '@meeui/adk/utils';
+import { documentListener } from '@ngbase/adk/utils';
 import { AccessibleGroup } from './accessibility-group';
 
 @Injectable({ providedIn: 'root' })

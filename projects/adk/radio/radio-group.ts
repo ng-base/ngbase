@@ -1,22 +1,22 @@
 import { contentChildren, Directive, forwardRef, inject, model } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
-import { MeeRadio } from './radio';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
+import { NgbRadio } from './radio';
 
 @Directive({
-  selector: '[meeRadioGroup]',
+  selector: '[ngbRadioGroup]',
   host: {
-    class: 'mee-radio-group',
+    class: 'ngb-radio-group',
     role: 'radiogroup',
   },
   hostDirectives: [AccessibleGroup],
-  providers: [provideValueAccessor(MeeRadioGroup)],
+  providers: [provideValueAccessor(NgbRadioGroup)],
 })
-export class MeeRadioGroup implements ControlValueAccessor {
+export class NgbRadioGroup implements ControlValueAccessor {
   readonly allyGroup = inject(AccessibleGroup);
   readonly radios = contentChildren(
-    forwardRef(() => MeeRadio),
+    forwardRef(() => NgbRadio),
     { descendants: true },
   );
   readonly value = model<any>('');

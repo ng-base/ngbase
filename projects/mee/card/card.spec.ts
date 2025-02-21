@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Card } from './card';
 
 describe('CardComponent', () => {

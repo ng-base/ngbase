@@ -1,15 +1,15 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { computed, Directive, ElementRef, inject, input, linkedSignal } from '@angular/core';
-import { Directionality } from '@meeui/adk/bidi';
+import { Directionality } from '@ngbase/adk/bidi';
 import { SidenavService } from './sidenav.service';
 
 @Directive({
-  selector: '[meeSidenavHeaderContent]',
+  selector: '[ngbSidenavHeaderContent]',
   host: {
     '[style.width]': 'w()',
   },
 })
-export class MeeSidenavHeaderContent {
+export class NgbSidenavHeaderContent {
   readonly sidenav = inject(SidenavService);
   readonly w = computed(() =>
     this.sidenav.mode() === 'partial' && !this.sidenav.show()
@@ -19,12 +19,12 @@ export class MeeSidenavHeaderContent {
 }
 
 @Directive({
-  selector: '[meeSidenavHeaderTrack]',
+  selector: '[ngbSidenavHeaderTrack]',
   host: {
     '[style.width]': 'sidenav.w()',
   },
 })
-export class MeeSidenavHeaderTrack {
+export class NgbSidenavHeaderTrack {
   readonly sidenav = inject(SidenavService);
 }
 
@@ -37,7 +37,7 @@ export function slideAnimation(ease: string) {
 }
 
 @Directive({
-  selector: '[meeSidenavHeader]',
+  selector: '[ngbSidenavHeader]',
   host: {
     style: 'overflow:hidden;position:absolute;',
     '[style.visibility]': 'sidenav.visibility() ? "visible" : "hidden"',
@@ -51,7 +51,7 @@ export function slideAnimation(ease: string) {
     '[@.disabled]': 'isAnimationDisabled()',
   },
 })
-export class MeeSidenavHeader {
+export class NgbSidenavHeader {
   readonly sidenav = inject(SidenavService);
   readonly el = inject(ElementRef);
   readonly dir = inject(Directionality);

@@ -8,7 +8,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { keyMap } from '@meeui/adk/keys';
+import { keyMap } from '@ngbase/adk/keys';
 import { first } from 'rxjs';
 import { BaseDialog, DialogInput, DialogOptions, DialogRef, createInj } from './dialog-ref';
 import { PortalService } from './portal.service';

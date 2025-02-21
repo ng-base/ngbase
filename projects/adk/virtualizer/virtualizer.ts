@@ -11,7 +11,7 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { cleanup, isClient } from '@meeui/adk/utils';
+import { cleanup, isClient } from '@ngbase/adk/utils';
 
 export type Orientation = 'vertical' | 'horizontal';
 
@@ -38,7 +38,7 @@ interface VirtualItem {
 }
 
 @Component({
-  selector: 'mee-virtualizer, [meeVirtualizer]',
+  selector: 'ngb-virtualizer, [ngbVirtualizer]',
   imports: [NgTemplateOutlet],
   template: `
     <div

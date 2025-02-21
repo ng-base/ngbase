@@ -14,12 +14,12 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { Drag, DragData } from '@meeui/adk/drag';
-import { MeeResizableGroup } from './resizable-group';
+import { Drag, DragData } from '@ngbase/adk/drag';
+import { NgbResizableGroup } from './resizable-group';
 
 @Directive({
-  selector: '[meeGutter]',
-  exportAs: 'meeGutter',
+  selector: '[ngbGutter]',
+  exportAs: 'ngbGutter',
   hostDirectives: [Drag],
   host: {
     role: 'separator',
@@ -27,8 +27,8 @@ import { MeeResizableGroup } from './resizable-group';
     '[attr.aria-valuemax]': 'resizable.max()',
   },
 })
-export class MeeGutter {
-  readonly resizable = inject(MeeResizable);
+export class NgbGutter {
+  readonly resizable = inject(NgbResizable);
   readonly drag = inject(Drag);
 
   constructor() {
@@ -38,15 +38,15 @@ export class MeeGutter {
 }
 
 @Component({
-  selector: '[meeResizable]',
-  exportAs: 'meeResizable',
-  imports: [Drag, MeeGutter],
+  selector: '[ngbResizable]',
+  exportAs: 'ngbResizable',
+  imports: [Drag, NgbGutter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />
     <ng-template #dragElement>
       @if (draggable()) {
         <div
-          meeGutter
+          ngbGutter
           class="{{
             'dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0 ' +
               (resizable.direction() === 'vertical'
@@ -57,10 +57,10 @@ export class MeeGutter {
       }
     </ng-template>`,
 })
-export class MeeResizable {
+export class NgbResizable {
   // Dependencies
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly resizable = inject(MeeResizableGroup);
+  readonly resizable = inject(NgbResizableGroup);
   readonly containerRef = inject(ViewContainerRef);
   readonly dragElement = viewChild('dragElement', { read: TemplateRef });
   readonly drag = viewChild(Drag);
@@ -282,6 +282,6 @@ export class MeeResizable {
   }
 }
 
-export function provideResizable(resizable: typeof MeeResizable) {
-  return { provide: MeeResizable, useExisting: resizable };
+export function provideResizable(resizable: typeof NgbResizable) {
+  return { provide: NgbResizable, useExisting: resizable };
 }

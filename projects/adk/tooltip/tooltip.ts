@@ -8,10 +8,10 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
+import { PopoverPosition, tooltipPosition } from '@ngbase/adk/popover';
 
 @Component({
-  selector: '[meeTooltip]',
+  selector: '[ngbTooltip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `{{ content() }}`,
   host: {
@@ -26,7 +26,7 @@ import { PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
     ]),
   ],
 })
-export class MeeTooltipTemplate implements OnDestroy {
+export class NgbTooltipTemplate implements OnDestroy {
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly content = signal('Tooltip');
 

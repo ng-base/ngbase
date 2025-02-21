@@ -2,7 +2,7 @@
  * Public API Surface of accordion
  */
 
-export { MeeAccordionGroup } from './accordion-group';
-export { MeeAccordion } from './accordion-item';
-export { MeeAccordionHeader } from './accordion-header';
-export { MeeAccordionContent, slideAnimation } from './accordion-content';
+export { NgbAccordionGroup } from './accordion-group';
+export { NgbAccordion } from './accordion-item';
+export { NgbAccordionHeader } from './accordion-header';
+export { NgbAccordionContent, slideAnimation } from './accordion-content';

@@ -8,10 +8,10 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
+import { AccessibleItem } from '@ngbase/adk/a11y';
 
 @Directive({
-  selector: '[meeOption]',
+  selector: '[ngbOption]',
   hostDirectives: [AccessibleItem],
   host: {
     role: 'option',
@@ -19,7 +19,7 @@ import { AccessibleItem } from '@meeui/adk/a11y';
     '(click)': 'selectOption()',
   },
 })
-export class MeeOption<T> {
+export class NgbOption<T> {
   readonly allyItem = inject(AccessibleItem);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 

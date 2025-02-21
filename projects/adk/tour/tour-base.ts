@@ -10,14 +10,14 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { PopoverOptions, PopoverPosition, tooltipPosition } from '@meeui/adk/popover';
-import { BaseDialog, DialogOptions } from '@meeui/adk/portal';
+import { PopoverOptions, PopoverPosition, tooltipPosition } from '@ngbase/adk/popover';
+import { BaseDialog, DialogOptions } from '@ngbase/adk/portal';
 import { debounceTime, fromEvent, startWith, take } from 'rxjs';
-import { MeeTourService } from './tour.service';
+import { NgbTourService } from './tour.service';
 import { tourAnimation } from './animation';
 
 @Component({
-  selector: '[meeTour]',
+  selector: '[ngbTour]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -35,8 +35,8 @@ import { tourAnimation } from './animation';
   },
   animations: [tourAnimation],
 })
-export class MeeBaseTour extends BaseDialog implements OnDestroy {
-  readonly tourService = inject(MeeTourService);
+export class NgbBaseTour extends BaseDialog implements OnDestroy {
+  readonly tourService = inject(NgbTourService);
   readonly myDialog = viewChild('myDialog', { read: ViewContainerRef });
   readonly container = viewChild<ElementRef<HTMLElement>>('container');
 

@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeToggleGroup } from './toggle-group';
-import { MeeToggleItem } from './toggle-item';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbToggleGroup } from './toggle-group';
+import { NgbToggleItem } from './toggle-item';
 
 @Component({
-  imports: [MeeToggleGroup, MeeToggleItem],
-  template: `<div meeToggleGroup [multiple]="multiple()">
-    <button meeToggleItem value="1">Item 1</button>
-    <button meeToggleItem value="2">Item 2</button>
+  imports: [NgbToggleGroup, NgbToggleItem],
+  template: `<div ngbToggleGroup [multiple]="multiple()">
+    <button ngbToggleItem value="1">Item 1</button>
+    <button ngbToggleItem value="2">Item 2</button>
   </div>`,
 })
 class TestComponent {
@@ -15,12 +15,12 @@ class TestComponent {
 }
 
 describe('ToggleGroupComponent', () => {
-  let component: MeeToggleGroup<any>;
+  let component: NgbToggleGroup<any>;
   let view: RenderResult<TestComponent>;
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeToggleGroup);
+    component = view.viewChild(NgbToggleGroup);
     view.detectChanges();
   });
 

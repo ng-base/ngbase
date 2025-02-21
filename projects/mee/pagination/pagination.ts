@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { MeePagination, MeePaginationBtn } from '@meeui/adk/pagination';
+import { NgbPagination, NgbPaginationBtn } from '@ngbase/adk/pagination';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { Option, Select } from '@meeui/ui/select';
@@ -13,7 +13,7 @@ import {
 
 @Component({
   selector: 'mee-pagination',
-  providers: [{ provide: MeePagination, useExisting: Pagination }],
+  providers: [{ provide: NgbPagination, useExisting: Pagination }],
   viewProviders: [
     provideIcons({
       lucideChevronLeft,
@@ -22,7 +22,7 @@ import {
       lucideChevronsRight,
     }),
   ],
-  imports: [Button, Icon, Select, Option, MeePaginationBtn],
+  imports: [Button, Icon, Select, Option, NgbPaginationBtn],
   template: `
     <div class="flex items-center gap-b2">
       <div>Rows per page</div>
@@ -36,16 +36,16 @@ import {
     </div>
     <div>Page {{ active() }} of {{ totalSnaps() }}</div>
     <div class="flex items-center gap-b2">
-      <button meePaginationBtn="prev" meeButton="outline" class="h-b8 w-b8 !p-b2">
+      <button ngbPaginationBtn="prev" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsLeft" />
       </button>
-      <button meePaginationBtn="prev" jump="-1" meeButton="outline" class="h-b8 w-b8 !p-b2">
+      <button ngbPaginationBtn="prev" jump="-1" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronLeft" />
       </button>
       @if (showPage()) {
         @for (snap of snaps(); track snap) {
           <button
-            meePaginationBtn="page"
+            ngbPaginationBtn="page"
             [jump]="snap"
             meeButton="ghost"
             class="min-w-b9 !p-b2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
@@ -54,10 +54,10 @@ import {
           </button>
         }
       }
-      <button meePaginationBtn="next" jump="1" meeButton="outline" class="h-b8 w-b8 !p-b2">
+      <button ngbPaginationBtn="next" jump="1" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronRight" />
       </button>
-      <button meePaginationBtn="next" meeButton="outline" class="h-b8 w-b8 !p-b2">
+      <button ngbPaginationBtn="next" meeButton="outline" class="h-b8 w-b8 !p-b2">
         <mee-icon name="lucideChevronsRight" />
       </button>
     </div>
@@ -66,6 +66,6 @@ import {
     class: 'flex items-center gap-b8 font-semibold',
   },
 })
-export class Pagination extends MeePagination {
+export class Pagination extends NgbPagination {
   readonly showPage = input<boolean>(false);
 }

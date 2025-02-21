@@ -11,27 +11,27 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { ROW_TOKEN, MeeTable } from './table';
-import { MeeColumn } from './column';
+import { ROW_TOKEN, NgbTable } from './table';
+import { NgbColumn } from './column';
 
-@Directive({ selector: '[meeBodyRowDef]' })
-export class MeeBodyRowDef {
-  readonly meeBodyRowDefColumns = input<string[]>([]);
+@Directive({ selector: '[ngbBodyRowDef]' })
+export class NgbBodyRowDef {
+  readonly ngbBodyRowDefColumns = input<string[]>([]);
   context: any;
 }
 
 @Component({
-  selector: '[meeBodyRow]',
+  selector: '[ngbBodyRow]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-container #container />`,
 })
-export class MeeBodyRow implements OnDestroy {
+export class NgbBodyRow implements OnDestroy {
   readonly def = inject(ROW_TOKEN);
-  readonly table = inject(MeeTable);
-  readonly rowDef = inject(MeeBodyRowDef);
+  readonly table = inject(NgbTable);
+  readonly rowDef = inject(NgbBodyRowDef);
 
   readonly container = viewChild('container', { read: ViewContainerRef });
-  readonly ref = new Map<MeeColumn, EmbeddedViewRef<any>>();
+  readonly ref = new Map<NgbColumn, EmbeddedViewRef<any>>();
 
   constructor() {
     effect(() => {
@@ -45,9 +45,9 @@ export class MeeBodyRow implements OnDestroy {
         }
       });
 
-      const cols = this.rowDef.meeBodyRowDefColumns();
+      const cols = this.rowDef.ngbBodyRowDefColumns();
       rows.forEach(row => {
-        if (!cols?.includes(row.meeColumn())) {
+        if (!cols?.includes(row.ngbColumn())) {
           if (this.ref.has(row)) {
             const ref = this.ref.get(row);
             ref!.destroy();

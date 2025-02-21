@@ -1,7 +1,7 @@
 import { inject, InjectionToken } from '@angular/core';
-import { MeeTourService } from '@meeui/adk/tour';
+import { NgbTourService } from '@ngbase/adk/tour';
 
-export const TourService = new InjectionToken<MeeTourService>('TourService', {
+export const TourService = new InjectionToken<NgbTourService>('TourService', {
   providedIn: 'root',
-  factory: () => inject(MeeTourService),
+  factory: () => inject(NgbTourService),
 });

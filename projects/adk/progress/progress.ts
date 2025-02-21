@@ -1,19 +1,19 @@
 import { computed, Directive, inject, input } from '@angular/core';
-import { injectDirectionality } from '@meeui/adk/bidi';
+import { injectDirectionality } from '@ngbase/adk/bidi';
 
 @Directive({
-  selector: '[meeProgressBar]',
+  selector: '[ngbProgressBar]',
   host: {
     '[style.transform]': `'translateX(' + progress.total() + '%)'`,
   },
 })
-export class MeeProgressBar {
-  readonly progress = inject(MeeProgress);
+export class NgbProgressBar {
+  readonly progress = inject(NgbProgress);
 }
 
 @Directive({
-  selector: '[meeProgress]',
-  exportAs: 'meeProgress',
+  selector: '[ngbProgress]',
+  exportAs: 'ngbProgress',
   host: {
     style: `overflow: hidden`,
     role: 'progressbar',
@@ -22,7 +22,7 @@ export class MeeProgressBar {
     '[attr.aria-valuemax]': '100',
   },
 })
-export class MeeProgress {
+export class NgbProgress {
   readonly value = input(0);
   readonly dir = injectDirectionality();
 

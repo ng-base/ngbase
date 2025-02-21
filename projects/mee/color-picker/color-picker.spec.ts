@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
-import { ColorFormat } from '@meeui/adk/color-picker';
-import { DialogRef } from '@meeui/adk/portal';
-import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
+import { ColorFormat } from '@ngbase/adk/color-picker';
+import { DialogRef } from '@ngbase/adk/portal';
+import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { ColorPicker } from './color-picker';
 
 describe('ColorPicker', () => {

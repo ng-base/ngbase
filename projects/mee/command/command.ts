@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AccessibleGroup, AccessibleItem, Autofocus } from '@meeui/adk/a11y';
-import { DialogRef } from '@meeui/adk/portal';
-import { filterFunction, uniqueId } from '@meeui/adk/utils';
+import { AccessibleGroup, AccessibleItem, Autofocus } from '@ngbase/adk/a11y';
+import { DialogRef } from '@ngbase/adk/portal';
+import { filterFunction, uniqueId } from '@ngbase/adk/utils';
 import { List } from '@meeui/ui/list';
 
 export interface CommandGroup {
@@ -21,9 +21,9 @@ export interface CommandItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, List, AccessibleGroup, AccessibleItem, Autofocus, RouterLink],
   template: `
-    <div meeAccessibleGroup [ayId]="ayId" [isPopup]="true" class="static w-full">
+    <div ngbAccessibleGroup [ayId]="ayId" [isPopup]="true" class="static w-full">
       <input
-        meeAutofocus
+        ngbAutofocus
         [(ngModel)]="filter.search"
         type="text"
         placeholder="Search for apps and commands"

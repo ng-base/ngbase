@@ -8,22 +8,22 @@ import {
   model,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { AccessibleGroup } from '@meeui/adk/a11y';
-import { provideValueAccessor, uniqueId } from '@meeui/adk/utils';
-import { MeeToggleItem } from './toggle-item';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { provideValueAccessor, uniqueId } from '@ngbase/adk/utils';
+import { NgbToggleItem } from './toggle-item';
 
 @Directive({
-  selector: '[meeToggleGroup]',
+  selector: '[ngbToggleGroup]',
   hostDirectives: [AccessibleGroup],
-  providers: [provideValueAccessor(MeeToggleGroup)],
+  providers: [provideValueAccessor(NgbToggleGroup)],
   host: {
     role: 'group',
   },
 })
-export class MeeToggleGroup<T> implements ControlValueAccessor {
+export class NgbToggleGroup<T> implements ControlValueAccessor {
   readonly accessibleGroup = inject(AccessibleGroup);
   readonly multiple = input(true, { transform: booleanAttribute });
-  readonly toggleItems = contentChildren(MeeToggleItem);
+  readonly toggleItems = contentChildren(NgbToggleItem);
   readonly ayId = uniqueId();
   // value can be array or single value
   readonly value = model<T | T[]>();

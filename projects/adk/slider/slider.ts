@@ -18,12 +18,12 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Directionality } from '@meeui/adk/bidi';
-import { Drag, DragData } from '@meeui/adk/drag';
-import { provideValueAccessor } from '@meeui/adk/utils';
+import { Directionality } from '@ngbase/adk/bidi';
+import { Drag, DragData } from '@ngbase/adk/drag';
+import { provideValueAccessor } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: '[meeSliderTrack]',
+  selector: '[ngbSliderTrack]',
   hostDirectives: [Drag],
   host: {
     style: 'overflow: hidden; position: relative;',
@@ -31,7 +31,7 @@ import { provideValueAccessor } from '@meeui/adk/utils';
   },
 })
 export class SliderTrack {
-  readonly slider = inject(MeeSlider);
+  readonly slider = inject(NgbSlider);
   private readonly drag = inject(Drag);
 
   constructor() {
@@ -40,18 +40,18 @@ export class SliderTrack {
 }
 
 @Directive({
-  selector: '[meeSliderRange]',
+  selector: '[ngbSliderRange]',
   host: {
     '[attr.aria-disabled]': 'slider.disabled()',
     style: 'position: absolute;',
   },
 })
 export class SliderRange {
-  readonly slider = inject(MeeSlider);
+  readonly slider = inject(NgbSlider);
 }
 
 @Directive({
-  selector: '[meeSliderThumb]',
+  selector: '[ngbSliderThumb]',
   host: {
     type: 'button',
     role: 'slider',
@@ -64,7 +64,7 @@ export class SliderRange {
   },
 })
 export class SliderThumb {
-  readonly slider = inject(MeeSlider);
+  readonly slider = inject(NgbSlider);
   readonly el = inject(ElementRef);
 
   readonly index = computed(() => {
@@ -78,21 +78,21 @@ export class SliderThumb {
 }
 
 @Component({
-  selector: '[meeSlider]',
-  exportAs: 'meeSlider',
+  selector: '[ngbSlider]',
+  exportAs: 'ngbSlider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideValueAccessor(MeeSlider)],
+  providers: [provideValueAccessor(NgbSlider)],
   imports: [SliderTrack, SliderRange, SliderThumb],
   template: `
-    <div meeSliderTrack>
-      <div meeSliderRange></div>
+    <div ngbSliderTrack>
+      <div ngbSliderRange></div>
     </div>
     @for (thumb of noOfThumbs(); track thumb) {
-      <button meeSliderThumb></button>
+      <button ngbSliderThumb></button>
     }
   `,
 })
-export class MeeSlider implements ControlValueAccessor {
+export class NgbSlider implements ControlValueAccessor {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly dir = inject(Directionality); // this.dir.isRtl();
   private readonly drag = viewChild.required(Drag);
@@ -343,7 +343,7 @@ export class MeeSlider implements ControlValueAccessor {
   }
 }
 
-export const provideSlider = (slider: Type<MeeSlider>) => [
-  { provide: MeeSlider, useExisting: slider },
+export const provideSlider = (slider: Type<NgbSlider>) => [
+  { provide: NgbSlider, useExisting: slider },
   provideValueAccessor(slider),
 ];

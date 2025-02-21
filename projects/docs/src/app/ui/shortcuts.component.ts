@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { keyMap } from '@meeui/adk/keys';
+import { keyMap } from '@ngbase/adk/keys';
 import { injectTheme } from '@meeui/ui/theme';
 import { DocCode } from './code.component';
 import { Heading } from '@meeui/ui/typography';
@@ -18,7 +18,7 @@ export default class ShortcutsComponent {
   private router = inject(Router);
 
   usage = `
-  import { keyMap } from '@meeui/adk/keys';
+  import { keyMap } from '@ngbase/adk/keys';
 
   @Component({
     ...

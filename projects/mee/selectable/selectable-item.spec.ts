@@ -1,6 +1,6 @@
 import { Component, ModelSignal, signal } from '@angular/core';
-import { MeeSelectable, MeeSelectableItem } from '@meeui/adk/selectable';
-import { render, RenderResult } from '@meeui/adk/test';
+import { NgbSelectable, NgbSelectableItem } from '@ngbase/adk/selectable';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Selectable, SelectableItem } from './selectable';
 
 // Test host component
@@ -19,13 +19,13 @@ const SelectableStub: Partial<Selectable<string>> = {
 
 describe('SelectableItem', () => {
   let view: RenderResult<TestHostComponent>;
-  let selectableItem: MeeSelectableItem<string>;
-  let selectable: MeeSelectable<string>;
+  let selectableItem: NgbSelectableItem<string>;
+  let selectable: NgbSelectable<string>;
 
   beforeEach(async () => {
-    view = await render(TestHostComponent, [{ provide: MeeSelectable, useValue: SelectableStub }]);
-    selectable = view.inject(MeeSelectable<string>);
-    selectableItem = view.viewChild(MeeSelectableItem<string>);
+    view = await render(TestHostComponent, [{ provide: NgbSelectable, useValue: SelectableStub }]);
+    selectable = view.inject(NgbSelectable<string>);
+    selectableItem = view.viewChild(NgbSelectableItem<string>);
     view.detectChanges();
   });
 

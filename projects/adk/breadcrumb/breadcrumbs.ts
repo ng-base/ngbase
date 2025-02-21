@@ -1,12 +1,12 @@
 import { contentChildren, Directive } from '@angular/core';
-import { MeeBreadcrumb } from './breadcrumb';
+import { NgbBreadcrumb } from './breadcrumb';
 
 @Directive({
-  selector: '[meeBreadcrumbs]',
+  selector: '[ngbBreadcrumbs]',
   host: {
     'aria-label': 'breadcrumb',
   },
 })
-export class MeeBreadcrumbs {
-  readonly items = contentChildren(MeeBreadcrumb);
+export class NgbBreadcrumbs {
+  readonly items = contentChildren(NgbBreadcrumb);
 }

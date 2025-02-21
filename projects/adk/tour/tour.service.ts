@@ -1,18 +1,18 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { DialogInput } from '@meeui/adk/portal';
-import { PopoverOpen, meePopoverPortal } from '@meeui/adk/popover';
-import { MeeTourStep } from './tour-step';
+import { DialogInput } from '@ngbase/adk/portal';
+import { PopoverOpen, ngbPopoverPortal } from '@ngbase/adk/popover';
+import { NgbTourStep } from './tour-step';
 
 @Injectable({ providedIn: 'root' })
-export class MeeTourService {
-  private popover = meePopoverPortal();
-  readonly steps = signal<MeeTourStep[]>([]);
+export class NgbTourService {
+  private popover = ngbPopoverPortal();
+  readonly steps = signal<NgbTourStep[]>([]);
   readonly step = signal(-1);
   private readonly ids = signal<string[]>([]);
   currentStep = computed(() => {
     const id = this.ids()[this.step()];
     const steps = this.steps();
-    return steps.find(x => x.meeTourStep() === id);
+    return steps.find(x => x.ngbTourStep() === id);
   });
   private diaRef?: PopoverOpen<any>;
   private id = 0;
@@ -46,7 +46,7 @@ export class MeeTourService {
 
   constructor() {}
 
-  addStep(step: MeeTourStep) {
+  addStep(step: NgbTourStep) {
     this.steps.update(x => [...x, step]);
   }
 
@@ -88,7 +88,7 @@ export class MeeTourService {
         return;
       }
       this.step.set(id);
-      const step = steps.find(x => x.meeTourStep() === ids[id]);
+      const step = steps.find(x => x.ngbTourStep() === ids[id]);
       if (!step) {
         return;
       }

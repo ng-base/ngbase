@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Picasa, PicasaItem } from '@meeui/ui/picasa';
 import { Heading } from '@meeui/ui/typography';
 

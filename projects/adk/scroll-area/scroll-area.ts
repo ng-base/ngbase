@@ -11,13 +11,13 @@ import {
   inject,
   contentChildren,
 } from '@angular/core';
-import { Drag, DragData } from '@meeui/adk/drag';
-import { isClient } from '@meeui/adk/utils';
+import { Drag, DragData } from '@ngbase/adk/drag';
+import { isClient } from '@ngbase/adk/utils';
 
 export type ScrollBarOrientation = 'vertical' | 'horizontal' | 'both';
 
 @Directive({
-  selector: '[meeScrollBar]',
+  selector: '[ngbScrollBar]',
   hostDirectives: [Drag],
   host: {
     style: `position: absolute; cursor: pointer; z-index: 100;`,
@@ -27,31 +27,31 @@ export type ScrollBarOrientation = 'vertical' | 'horizontal' | 'both';
     '[hidden]': '!show()',
   },
 })
-export class MeeScrollBar {
+export class NgbScrollBar {
   readonly el = inject<ElementRef<HTMLDivElement>>(ElementRef);
-  readonly scrollArea = inject(MeeScrollArea);
+  readonly scrollArea = inject(NgbScrollArea);
   readonly drag = inject(Drag);
-  readonly meeScrollBar = input.required<'vertical' | 'horizontal'>();
+  readonly ngbScrollBar = input.required<'vertical' | 'horizontal'>();
 
   readonly visible = computed(() => {
-    return this.meeScrollBar() === 'vertical'
+    return this.ngbScrollBar() === 'vertical'
       ? this.scrollArea.showVerticalScroll()
       : this.scrollArea.showHorizontalScroll();
   });
 
   readonly show = computed(() => {
-    return this.meeScrollBar() === 'vertical'
+    return this.ngbScrollBar() === 'vertical'
       ? this.scrollArea.showVerticalBar()
       : this.scrollArea.showHorizontalBar();
   });
 
   readonly size = computed(() => {
     let sty =
-      this.meeScrollBar() === 'vertical'
+      this.ngbScrollBar() === 'vertical'
         ? `height: ${this.scrollArea.scrollbarHeight()}%;`
         : `width: ${this.scrollArea.scrollbarWidth()}%;`;
     sty +=
-      this.meeScrollBar() === 'vertical'
+      this.ngbScrollBar() === 'vertical'
         ? 'width: 8px; top: 0; right: 0;'
         : 'height: 8px; bottom: 0; left: 0;';
     return sty;
@@ -59,7 +59,7 @@ export class MeeScrollBar {
 
   constructor() {
     this.drag.events.subscribe(data => {
-      if (this.meeScrollBar() === 'vertical') {
+      if (this.ngbScrollBar() === 'vertical') {
         this.scrollArea.startDraggingVertical(data);
       } else {
         this.scrollArea.startDraggingHorizontal(data);
@@ -69,7 +69,7 @@ export class MeeScrollBar {
 }
 
 @Component({
-  selector: '[meeScrollArea]',
+  selector: '[ngbScrollArea]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="scroll-area-viewport hide-scrollbar" #scrollAreaViewport>
@@ -78,7 +78,7 @@ export class MeeScrollBar {
       </div>
     </div>
 
-    <ng-content select="[meeScrollBar]"></ng-content>
+    <ng-content select="[ngbScrollBar]"></ng-content>
 
     <!-- Corner piece when both scrollbars are visible -->
     @if (hasVertical() && hasHorizontal() && orientation() === 'both') {
@@ -131,17 +131,17 @@ export class MeeScrollBar {
     `,
   ],
 })
-export class MeeScrollArea {
+export class NgbScrollArea {
   readonly scrollAreaViewport =
     viewChild.required<ElementRef<HTMLDivElement>>('scrollAreaViewport');
-  readonly scrollbars = contentChildren(MeeScrollBar);
+  readonly scrollbars = contentChildren(NgbScrollBar);
   readonly scrollbarVertical = computed(() => {
     const scrollbars = this.scrollbars();
-    return scrollbars.find(scrollbar => scrollbar.meeScrollBar() === 'vertical');
+    return scrollbars.find(scrollbar => scrollbar.ngbScrollBar() === 'vertical');
   });
   readonly scrollbarHorizontal = computed(() => {
     const scrollbars = this.scrollbars();
-    return scrollbars.find(scrollbar => scrollbar.meeScrollBar() === 'horizontal');
+    return scrollbars.find(scrollbar => scrollbar.ngbScrollBar() === 'horizontal');
   });
 
   readonly orientation = input<ScrollBarOrientation>('both');

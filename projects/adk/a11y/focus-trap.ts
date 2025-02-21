@@ -9,16 +9,16 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[meeFocusTrap]',
+  selector: '[ngbFocusTrap]',
 })
 export class FocusTrap {
   private el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  readonly meeFocusTrap = input(true, { transform: booleanAttribute });
+  readonly ngbFocusTrap = input(true, { transform: booleanAttribute });
   readonly focusInitial = input(true, { transform: booleanAttribute });
 
   // hacky way
-  _focusTrap = linkedSignal(this.meeFocusTrap);
+  _focusTrap = linkedSignal(this.ngbFocusTrap);
   _focusInitial = linkedSignal(this.focusInitial);
 
   private firstFocusableElement: HTMLElement | null = null;

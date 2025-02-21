@@ -1,15 +1,15 @@
 import { Directive, ElementRef, inject, input } from '@angular/core';
-import { MeeTourService } from './tour.service';
+import { NgbTourService } from './tour.service';
 
 @Directive({
-  selector: '[meeTourStep]',
+  selector: '[ngbTourStep]',
 })
-export class MeeTourStep {
+export class NgbTourStep {
   readonly el = inject<ElementRef>(ElementRef);
-  readonly tourService = inject(MeeTourService);
+  readonly tourService = inject(NgbTourService);
 
   // Inputs
-  readonly meeTourStep = input.required<string>();
+  readonly ngbTourStep = input.required<string>();
 
   constructor() {
     this.tourService.addStep(this);

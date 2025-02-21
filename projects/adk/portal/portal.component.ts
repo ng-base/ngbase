@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewContainerRef, viewChild } from '@angular/core';
 
 @Component({
-  selector: 'mee-portal',
+  selector: 'ngb-portal',
   template: `<ng-container #myDialog />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

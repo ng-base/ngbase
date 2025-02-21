@@ -1,8 +1,13 @@
 import { Directive } from '@angular/core';
-import { MeeHoverCard } from '@meeui/adk/hover-card';
+import { NgbHoverCard } from '@ngbase/adk/hover-card';
 
 @Directive({
   selector: '[meeHoverCard]',
-  hostDirectives: [{ directive: MeeHoverCard, inputs: ['meeHoverCard', 'options', 'delay'] }],
+  hostDirectives: [
+    {
+      directive: NgbHoverCard,
+      inputs: ['ngbHoverCard: meeHoverCard', 'options', 'delay'],
+    },
+  ],
 })
 export class HoverCard<T = any> {}

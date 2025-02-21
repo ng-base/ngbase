@@ -48,7 +48,7 @@ export default class ProgressComponent {
 
   adkCode = `
   import { ChangeDetectionStrategy, Component } from '@angular/core';
-  import { MeeProgress, MeeProgressBar } from '@meeui/adk/progress';
+  import { MeeProgress, MeeProgressBar } from '@ngbase/adk/progress';
 
   @Component({
     selector: 'mee-progress',

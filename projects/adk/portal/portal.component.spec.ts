@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Portal } from './portal.component';
 
 describe('PortalComponent', () => {

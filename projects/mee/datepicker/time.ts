@@ -1,29 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MeeTimeInput, MeeTimePicker, provideTimePicker } from '@meeui/adk/datepicker';
+import { NgbTimeInput, NgbTimePicker, provideTimePicker } from '@ngbase/adk/datepicker';
 import { Button } from '@meeui/ui/button';
 
 @Component({
   selector: 'mee-time',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideTimePicker(TimePicker)],
-  imports: [Button, MeeTimeInput],
+  imports: [Button, NgbTimeInput],
   template: `
     <input
-      meeTimeInput="hours"
+      ngbTimeInput="hours"
       [(value)]="hours"
       (valueChange)="updateValue()"
       class="w-7 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
-      meeTimeInput="minutes"
+      ngbTimeInput="minutes"
       [(value)]="minutes"
       (valueChange)="updateValue()"
       class="w-7 px-b text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
-      meeTimeInput="seconds"
+      ngbTimeInput="seconds"
       [(value)]="seconds"
       (valueChange)="updateValue()"
       class="w-7 px-b text-center font-semibold focus:bg-muted-background"
@@ -43,4 +43,4 @@ import { Button } from '@meeui/ui/button';
     class: 'inline-flex gap-b items-center justify-center',
   },
 })
-export class TimePicker extends MeeTimePicker {}
+export class TimePicker extends NgbTimePicker {}

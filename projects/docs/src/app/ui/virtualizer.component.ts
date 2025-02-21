@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Heading } from '@meeui/ui/typography';
-import { VirtualFor, Virtualizer } from '@meeui/adk/virtualizer';
+import { VirtualFor, Virtualizer } from '@ngbase/adk/virtualizer';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ import { VirtualFor, Virtualizer } from '@meeui/adk/virtualizer';
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div>
           <h4 meeHeader="sm" class="mt-4">Vertical</h4>
-          <mee-virtualizer #vv [itemSize]="50" class="h-[400px] border">
+          <ngb-virtualizer #vv [itemSize]="50" class="h-[400px] border">
             <div
               *virtualFor="let item of items; let i = index"
               class="flex h-full items-center border-b px-b4"
@@ -24,19 +24,19 @@ import { VirtualFor, Virtualizer } from '@meeui/adk/virtualizer';
               id: {{ item.id }} | name: {{ item.name }} | description: {{ item.description }} |
               value: {{ item.value }}
             </div>
-          </mee-virtualizer>
+          </ngb-virtualizer>
         </div>
 
         <div>
           <h4 meeHeader="sm" class="mt-4">Horizontal</h4>
-          <mee-virtualizer orientation="horizontal" [itemSize]="50" class="h-[400px] border">
+          <ngb-virtualizer orientation="horizontal" [itemSize]="50" class="h-[400px] border">
             <div
               *virtualFor="let item of items; let i = index"
               class="flex h-full w-full items-center border-r py-b4 [writing-mode:vertical-lr]"
             >
               Column {{ i }}
             </div>
-          </mee-virtualizer>
+          </ngb-virtualizer>
         </div>
       </div>
     </div>

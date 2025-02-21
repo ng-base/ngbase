@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeePortalClose } from './portal-close.directive';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbPortalClose } from './portal-close.directive';
 import { DialogRef } from './dialog-ref';
 
 @Component({
-  selector: 'mee-test-dialog',
-  imports: [MeePortalClose],
-  template: `<button [meePortalClose]="value()">Close</button>`,
+  selector: 'ngb-test-dialog',
+  imports: [NgbPortalClose],
+  template: `<button [ngbPortalClose]="value()">Close</button>`,
 })
 class TestComponent {
   readonly value = signal<any>(undefined);
@@ -15,12 +15,12 @@ class TestComponent {
 describe('DialogCloseDirective', () => {
   let component: TestComponent;
   let view: RenderResult<TestComponent>;
-  let directive: MeePortalClose;
+  let directive: NgbPortalClose;
 
   beforeEach(async () => {
     view = await render(TestComponent, [{ provide: DialogRef, useValue: { close: jest.fn() } }]);
     component = view.host;
-    directive = view.viewChild(MeePortalClose);
+    directive = view.viewChild(NgbPortalClose);
     view.detectChanges();
   });
 

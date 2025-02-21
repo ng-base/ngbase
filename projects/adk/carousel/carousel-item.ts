@@ -1,9 +1,9 @@
 import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
-  selector: '[meeCarouselItem]',
+  selector: '[ngbCarouselItem]',
 })
-export class MeeCarouselItem {
+export class NgbCarouselItem {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   get width() {

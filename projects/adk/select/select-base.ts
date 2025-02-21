@@ -17,16 +17,16 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Directionality } from '@meeui/adk/bidi';
-import { meePopoverPortal } from '@meeui/adk/popover';
-import { uniqueId } from '@meeui/adk/utils';
+import { Directionality } from '@ngbase/adk/bidi';
+import { ngbPopoverPortal } from '@ngbase/adk/popover';
+import { uniqueId } from '@ngbase/adk/utils';
 import { Subject } from 'rxjs';
-import { MeeOption } from './option';
+import { NgbOption } from './option';
 
 @Directive({
-  selector: '[meeSelectTarget]',
+  selector: '[ngbSelectTarget]',
 })
-export class MeeSelectTarget {
+export class NgbSelectTarget {
   readonly target = signal<HTMLDivElement | null>(null);
 }
 
@@ -35,9 +35,9 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   // Dependencies
   readonly el = inject(ElementRef);
   readonly dir = inject(Directionality);
-  readonly target = inject(MeeSelectTarget, { optional: true });
-  readonly list = contentChildren(MeeOption, { descendants: true });
-  readonly popover = meePopoverPortal();
+  readonly target = inject(NgbSelectTarget, { optional: true });
+  readonly list = contentChildren(NgbOption, { descendants: true });
+  readonly popover = ngbPopoverPortal();
 
   readonly optionsTemplate = viewChild('optionsTemplate', { read: TemplateRef });
   readonly container = viewChild('container', { read: ElementRef });

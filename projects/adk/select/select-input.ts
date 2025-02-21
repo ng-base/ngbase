@@ -1,11 +1,11 @@
 import { Directive, ElementRef, computed, inject, input } from '@angular/core';
-import { Autofocus } from '@meeui/adk/a11y';
-import { InputBase } from '@meeui/adk/form-field';
-import { MeeSelect } from './select';
+import { Autofocus } from '@ngbase/adk/a11y';
+import { InputBase } from '@ngbase/adk/form-field';
+import { NgbSelect } from './select';
 
 @Directive({
-  selector: '[meeSelectInput]',
-  exportAs: 'meeSelectInput',
+  selector: '[ngbSelectInput]',
+  exportAs: 'ngbSelectInput',
   hostDirectives: [
     Autofocus,
     { directive: InputBase, inputs: ['value'], outputs: ['valueChange'] },
@@ -15,10 +15,10 @@ import { MeeSelect } from './select';
     '[tabindex]': '0',
   },
 })
-export class MeeSelectInput<T> {
+export class NgbSelectInput<T> {
   // Dependencies
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  readonly select = inject<MeeSelect<T>>(MeeSelect, { optional: true });
+  readonly select = inject<NgbSelect<T>>(NgbSelect, { optional: true });
   readonly inputBase = inject(InputBase);
 
   // Inputs
@@ -50,6 +50,6 @@ export class MeeSelectInput<T> {
 }
 
 @Directive({
-  selector: '[meeSelectTrigger]',
+  selector: '[ngbSelectTrigger]',
 })
-export class MeeSelectTrigger {}
+export class NgbSelectTrigger {}

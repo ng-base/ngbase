@@ -1,14 +1,14 @@
-import { render, RenderResult } from '@meeui/adk/test';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Progress } from './progress';
-import { MeeProgress } from '@meeui/adk/progress';
+import { NgbProgress } from '@ngbase/adk/progress';
 
 describe('ProgressComponent', () => {
-  let component: MeeProgress;
+  let component: NgbProgress;
   let view: RenderResult<Progress>;
 
   beforeEach(async () => {
     view = await render(Progress);
-    component = view.injectHost(MeeProgress);
+    component = view.injectHost(NgbProgress);
     view.detectChanges();
   });
 

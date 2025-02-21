@@ -1,13 +1,13 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSonner } from './sonner';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbSonner } from './sonner';
 
 describe('Sonner', () => {
-  let component: MeeSonner;
-  let view: RenderResult<MeeSonner>;
+  let component: NgbSonner;
+  let view: RenderResult<NgbSonner>;
 
   beforeEach(async () => {
-    view = await render(MeeSonner, [provideNoopAnimations()]);
+    view = await render(NgbSonner, [provideNoopAnimations()]);
     component = view.host;
     view.detectChanges();
   });

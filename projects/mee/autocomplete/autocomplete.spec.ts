@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { firstOutputFrom, render, RenderResult } from '@meeui/adk/test';
+import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { Option } from '@meeui/ui/select';
 import { Autocomplete, AutocompleteInput } from './autocomplete';
 

@@ -1,8 +1,8 @@
-export { MeeSidenav, MeeSidenavOverlay, provideSidenav } from './sidenav';
+export { NgbSidenav, NgbSidenavOverlay, provideSidenav } from './sidenav';
 export {
-  MeeSidenavHeader,
-  MeeSidenavHeaderContent,
-  MeeSidenavHeaderTrack,
+  NgbSidenavHeader,
+  NgbSidenavHeaderContent,
+  NgbSidenavHeaderTrack,
   slideAnimation,
 } from './sidenav-header';
 export { type SidenavType } from './sidenav.service';

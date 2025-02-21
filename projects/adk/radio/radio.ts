@@ -8,12 +8,12 @@ import {
   input,
   linkedSignal,
 } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { MeeRadioGroup } from './radio-group';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { NgbRadioGroup } from './radio-group';
 
 @Component({
-  selector: '[meeRadioIndicator]',
-  exportAs: 'meeRadioIndicator',
+  selector: '[ngbRadioIndicator]',
+  exportAs: 'ngbRadioIndicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [AccessibleItem],
   template: `
@@ -27,8 +27,8 @@ import { MeeRadioGroup } from './radio-group';
     '[attr.aria-checked]': 'radio.checked()',
   },
 })
-export class MeeRadioIndicator {
-  readonly radio = inject(MeeRadio);
+export class NgbRadioIndicator {
+  readonly radio = inject(NgbRadio);
   readonly allyItem = inject(AccessibleItem);
   readonly disabled = linkedSignal(this.radio.disabled);
 
@@ -39,11 +39,11 @@ export class MeeRadioIndicator {
 }
 
 @Directive({
-  selector: '[meeRadio]',
+  selector: '[ngbRadio]',
   // template: `
   //   <button
-  //     meeFocusStyle
-  //     meeRadioIndicator
+  //     ngbFocusStyle
+  //     ngbRadioIndicator
   //     class="custom-radio relative flex h-b4 w-b4 flex-none items-center justify-center rounded-full border border-primary"
   //     [class]="disabled() ? 'border-muted' : 'border-primary'"
   //   >
@@ -54,14 +54,14 @@ export class MeeRadioIndicator {
   //   <ng-content />
   // `,
   host: {
-    class: 'mee-radio',
+    class: 'ngb-radio',
     '(click)': '!disabled() && updateValue($event)',
     '[attr.aria-disabled]': 'disabled()',
     // '[class]': `disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
   },
 })
-export class MeeRadio {
-  readonly radio = inject(MeeRadioGroup);
+export class NgbRadio {
+  readonly radio = inject(NgbRadioGroup);
   readonly value = input<any>();
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly checked = computed(() => this.value() === this.radio.value());

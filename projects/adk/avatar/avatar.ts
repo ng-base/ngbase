@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[meeAvatar]',
+  selector: '[ngbAvatar]',
 })
-export class MeeAvatar {
+export class NgbAvatar {
   readonly src = input<string>();
   readonly name = input<string>();
   readonly text = input<string>();
@@ -32,10 +32,10 @@ export class MeeAvatar {
 }
 
 @Directive({
-  selector: '[meeAvatarGroup]',
+  selector: '[ngbAvatarGroup]',
 })
-export class MeeAvatarGroup {
-  readonly avatars = contentChildren<MeeAvatar, ElementRef<HTMLElement>>(MeeAvatar, {
+export class NgbAvatarGroup {
+  readonly avatars = contentChildren<NgbAvatar, ElementRef<HTMLElement>>(NgbAvatar, {
     read: ElementRef,
   });
   readonly reverse = input<boolean>(false);
@@ -56,6 +56,6 @@ export class MeeAvatarGroup {
   }
 }
 
-export function provideAvatar(avatar: Type<MeeAvatar>) {
-  return { provide: MeeAvatar, useExisting: avatar };
+export function provideAvatar(avatar: Type<NgbAvatar>) {
+  return { provide: NgbAvatar, useExisting: avatar };
 }

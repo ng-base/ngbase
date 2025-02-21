@@ -1,6 +1,6 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DialogRef } from '@meeui/adk/portal';
-import { render, RenderResult } from '@meeui/adk/test';
+import { DialogRef } from '@ngbase/adk/portal';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { SheetContainer } from './sheet';
 
 const options = { title: 'Drawer' };

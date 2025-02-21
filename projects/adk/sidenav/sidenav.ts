@@ -9,12 +9,12 @@ import {
   signal,
   Type,
 } from '@angular/core';
-import { fadeAnimation } from '@meeui/adk/utils';
+import { fadeAnimation } from '@ngbase/adk/utils';
 import { SidenavType } from './sidenav.service';
 import { SidenavService } from './sidenav.service';
 
 @Component({
-  selector: '[meeSidenavOverlay]',
+  selector: '[ngbSidenavOverlay]',
   template: ``,
   host: {
     class: 'sidenav-overlay',
@@ -24,21 +24,20 @@ import { SidenavService } from './sidenav.service';
   },
   animations: [fadeAnimation('500ms')],
 })
-export class MeeSidenavOverlay {
-  readonly sidenav = inject(MeeSidenav);
+export class NgbSidenavOverlay {
+  readonly sidenav = inject(NgbSidenav);
 }
 
 @Directive({
-  selector: '[meeSidenav]',
-  exportAs: 'meeSidenav',
+  selector: '[ngbSidenav]',
+  exportAs: 'ngbSidenav',
   providers: [SidenavService],
   host: {
     style: 'position:relative;width:100%;height:100%;',
   },
 })
-export class MeeSidenav {
+export class NgbSidenav {
   readonly sidenavService = inject(SidenavService);
-  readonly status = signal(1);
 
   // Inputs
   readonly show = model(true);
@@ -56,7 +55,7 @@ export class MeeSidenav {
   }
 }
 
-export const provideSidenav = (sidenav: Type<MeeSidenav>) => [
+export const provideSidenav = (sidenav: Type<NgbSidenav>) => [
   SidenavService,
-  { provide: MeeSidenav, useExisting: sidenav },
+  { provide: NgbSidenav, useExisting: sidenav },
 ];

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, signal } from '@angular/core';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeTab, MeeTabHeader, MeeTabLazy } from './tab';
-import { MeeTabs } from './tab-group';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbTab, NgbTabHeader, NgbTabLazy } from './tab';
+import { NgbTabs } from './tab-group';
 
 describe('Tabs Component', () => {
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
-  let tabsComponent: MeeTabs;
+  let tabsComponent: NgbTabs;
 
   @Component({
     selector: 'app-lazy',
@@ -21,22 +21,22 @@ describe('Tabs Component', () => {
   }
 
   @Component({
-    imports: [MeeTabs, MeeTab, MeeTabHeader, MeeTabLazy, LazyComponent],
+    imports: [NgbTabs, NgbTab, NgbTabHeader, NgbTabLazy, LazyComponent],
     template: `
-      <mee-tabs [(selectedIndex)]="tabIndex">
-        <mee-tab>
-          <p *meeTabHeader>Custom Tab 1</p>
+      <ngb-tabs [(selectedIndex)]="tabIndex">
+        <ngb-tab>
+          <p *ngbTabHeader>Custom Tab 1</p>
           Content 1
-        </mee-tab>
-        <mee-tab mode="lazy">
-          <app-lazy *meeTabLazy></app-lazy>
-        </mee-tab>
+        </ngb-tab>
+        <ngb-tab mode="lazy">
+          <app-lazy *ngbTabLazy></app-lazy>
+        </ngb-tab>
         @for (tab of tabs(); track tab.id) {
-          <mee-tab [label]="tab.name" [disabled]="tab.disabled">
+          <ngb-tab [label]="tab.name" [disabled]="tab.disabled">
             <p>Custom {{ tab.content }}</p>
-          </mee-tab>
+          </ngb-tab>
         }
-      </mee-tabs>
+      </ngb-tabs>
     `,
   })
   class TestHostComponent {
@@ -70,7 +70,7 @@ describe('Tabs Component', () => {
     view = await render(TestHostComponent);
     component = view.host;
     view.detectChanges();
-    tabsComponent = view.viewChild(MeeTabs);
+    tabsComponent = view.viewChild(NgbTabs);
   });
 
   const tabs = () => view.$All('button[role="tab"]');
@@ -100,12 +100,12 @@ describe('Tabs Component', () => {
 
   it('should display correct content for active tab', () => {
     view.detectChanges();
-    const content = view.$('mee-tab:not([aria-hidden="true"])');
+    const content = view.$('ngb-tab:not([aria-hidden="true"])');
     expect(content?.textContent?.trim()).toBe('Content 1');
 
     clickTab(2);
 
-    const newContent = view.$('mee-tab:not([aria-hidden="true"])');
+    const newContent = view.$('ngb-tab:not([aria-hidden="true"])');
     expect(newContent?.textContent?.trim()).toBe('Custom Content 1');
   });
 

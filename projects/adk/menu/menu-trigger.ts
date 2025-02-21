@@ -1,13 +1,13 @@
 import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
-import { AccessibleItem } from '@meeui/adk/a11y';
-import { DialogOptions } from '@meeui/adk/portal';
+import { AccessibleItem } from '@ngbase/adk/a11y';
+import { DialogOptions } from '@ngbase/adk/portal';
 import { Subject } from 'rxjs';
-import { MeeMenu } from './menu';
-import { MeeNavigationMenu } from './navigation-menu';
+import { NgbMenu } from './menu';
+import { NgbNavigationMenu } from './navigation-menu';
 
 @Directive({
-  selector: '[meeMenuTrigger]',
-  exportAs: 'meeMenuTrigger',
+  selector: '[ngbMenuTrigger]',
+  exportAs: 'ngbMenuTrigger',
   host: {
     '(click)': 'clickOpen($event)',
     '[attr.aria-expanded]': 'menuOpen()',
@@ -15,14 +15,14 @@ import { MeeNavigationMenu } from './navigation-menu';
     tabindex: '0',
   },
 })
-export class MeeMenuTrigger {
-  private readonly nav = inject(MeeNavigationMenu, { optional: true });
-  private readonly parent = inject(MeeMenu, { optional: true });
+export class NgbMenuTrigger {
+  private readonly nav = inject(NgbNavigationMenu, { optional: true });
+  private readonly parent = inject(NgbMenu, { optional: true });
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly a11y = inject(AccessibleItem, { optional: true });
 
-  readonly meeMenuTrigger = input.required<MeeMenu>();
-  readonly meeMenuTriggerData = input();
+  readonly ngbMenuTrigger = input.required<NgbMenu>();
+  readonly ngbMenuTriggerData = input();
   readonly options = input<DialogOptions>({});
 
   private readonly _menuOpen = signal<boolean>(false);
@@ -30,7 +30,7 @@ export class MeeMenuTrigger {
   readonly events = new Subject<{
     event: MouseEvent;
     type: 'enter' | 'leave' | 'click';
-    menu: MeeMenuTrigger;
+    menu: NgbMenuTrigger;
   }>();
   private closeParent = true;
   private delayTimer: any = 0;
@@ -79,7 +79,7 @@ export class MeeMenuTrigger {
   }
 
   private get menu() {
-    return this.meeMenuTrigger();
+    return this.ngbMenuTrigger();
   }
 
   get rootParent() {
@@ -104,25 +104,25 @@ export class MeeMenuTrigger {
   }
 
   private closeMenu() {
-    this.meeMenuTrigger().close();
+    this.ngbMenuTrigger().close();
   }
 
   openMenu() {
-    const menu = this.meeMenuTrigger();
+    const menu = this.ngbMenuTrigger();
     if (menu.isOpen) {
       return;
     }
     // console.log('open menu', this.parent);
     // const { diaRef, events } = this.popover.open(menu.container()!, {
     //   ...this.options(),
-    //   data: this.meeMenuTriggerData(),
+    //   data: this.ngbMenuTriggerData(),
     //   backdrop: !this.parent,
     //   target: this.el.nativeElement,
     //   position: this.parent ? 'right' : 'bl',
     //   offset: 4,
     //   ayId: this.ayId(),
     // });
-    menu.open({ target: this.el.nativeElement, data: this.meeMenuTriggerData() }, !!this.parent);
+    menu.open({ target: this.el.nativeElement, data: this.ngbMenuTriggerData() }, !!this.parent);
     this._menuOpen.set(true);
     menu.parentMenuTrigger = this;
     // if (this.nav) {

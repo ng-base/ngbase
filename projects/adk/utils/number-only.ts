@@ -1,7 +1,7 @@
 import { Directive, effect, ElementRef, inject, input, linkedSignal, model } from '@angular/core';
 
 @Directive({
-  selector: '[meeNumberOnly]',
+  selector: '[ngbNumberOnly]',
   host: {
     '(input)': 'value.set($event.target.value)',
     '[value]': 'value()',

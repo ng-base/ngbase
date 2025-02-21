@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Carousel, CarouselButton, CarouselItem } from '@meeui/ui/carousel';

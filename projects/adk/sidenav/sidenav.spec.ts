@@ -1,16 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSidenav } from './sidenav';
-import { MeeSidenavHeader } from './sidenav-header';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbSidenav, NgbSidenavOverlay } from './sidenav';
+import { NgbSidenavHeader, slideAnimation } from './sidenav-header';
 import { SidenavType } from './sidenav.service';
 
 @Component({
-  imports: [MeeSidenav, MeeSidenavHeader],
-  template: `<div meeSidenav [(show)]="show" [mode]="mode()">
-    <div meeSidenavHeader id="header"></div>
+  imports: [NgbSidenav, NgbSidenavHeader, NgbSidenavOverlay],
+  template: `<div ngbSidenav #sidenav="ngbSidenav" [(show)]="show" [mode]="mode()">
+    @if (sidenav.showOverlay()) {
+      <div ngbSidenavOverlay></div>
+    }
+    <div ngbSidenavHeader id="header"></div>
     <div id="content">content</div>
   </div>`,
+  animations: [slideAnimation('500ms ease-in-out')],
 })
 class TestComponent {
   readonly show = signal(false);
@@ -20,15 +24,15 @@ class TestComponent {
 describe('sidenav', () => {
   let view: RenderResult<TestComponent>;
   let component: TestComponent;
-  let sidenav: MeeSidenav;
-  let header: MeeSidenavHeader;
+  let sidenav: NgbSidenav;
+  let header: NgbSidenavHeader;
 
   beforeEach(async () => {
     view = await render(TestComponent, [provideNoopAnimations()]);
     component = view.host;
     await view.whenStable();
-    sidenav = view.viewChild(MeeSidenav);
-    header = view.viewChild(MeeSidenavHeader);
+    sidenav = view.viewChild(NgbSidenav);
+    header = view.viewChild(NgbSidenavHeader);
   });
 
   it('should create', () => {
@@ -38,7 +42,7 @@ describe('sidenav', () => {
   it('should hide the header', async () => {
     component.show.set(false);
     view.detectChanges();
-    expect(sidenav.status()).toBe(0);
+    expect(sidenav.sidenavService.status()).toBe(0);
     expect(header.el.nativeElement.style.visibility).toBe('hidden');
   });
 
@@ -46,7 +50,7 @@ describe('sidenav', () => {
     component.show.set(true);
     await view.whenStable();
     view.detectChanges();
-    expect(sidenav.status()).toBe(1);
+    expect(sidenav.sidenavService.status()).toBe(1);
     expect(header.el.nativeElement.style.visibility).toBe('visible');
   });
 
@@ -54,7 +58,7 @@ describe('sidenav', () => {
     expect(sidenav.show()).toBe(false);
     sidenav.toggle();
     await view.whenStable();
-    expect(sidenav.status()).toBe(1);
+    expect(sidenav.sidenavService.status()).toBe(1);
     expect(component.show()).toBe(true);
   });
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { TourService } from '@meeui/ui/tour';
 

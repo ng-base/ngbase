@@ -1,7 +1,7 @@
 import { Component, DebugElement, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MeeRadioGroup } from '@meeui/adk/radio';
-import { render, RenderResult } from '@meeui/adk/test';
+import { NgbRadioGroup } from '@ngbase/adk/radio';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Radio, RadioGroup } from './radio';
 
 @Component({
@@ -48,7 +48,7 @@ describe('RadioGroup and Radio', () => {
     component = view.host;
     view.detectChanges();
 
-    radioGroupElement = view.viewChildrenDebug(MeeRadioGroup);
+    radioGroupElement = view.viewChildrenDebug(NgbRadioGroup);
     radioElements = view.viewChildrenDebug(Radio);
   });
 
@@ -156,7 +156,7 @@ describe('RadioGroup and Radio', () => {
   });
 
   it('should emit value change on clicking', () => {
-    const radioGroup = view.viewChild(MeeRadioGroup, '#second');
+    const radioGroup = view.viewChild(NgbRadioGroup, '#second');
     jest.spyOn(radioGroup, 'onChange');
     radioElements[4].nativeElement.click();
     view.detectChanges();

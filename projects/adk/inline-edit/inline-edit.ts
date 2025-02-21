@@ -9,11 +9,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { InputBase } from '@meeui/adk/form-field';
-import { disposals, documentListener, provideValueAccessor } from '@meeui/adk/utils';
+import { InputBase } from '@ngbase/adk/form-field';
+import { disposals, documentListener, provideValueAccessor } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: 'input[meeInlineInput]',
+  selector: 'input[ngbInlineInput]',
   hostDirectives: [InputBase],
   host: {
     '(blur)': 'ie.onBlur()',
@@ -22,8 +22,8 @@ import { disposals, documentListener, provideValueAccessor } from '@meeui/adk/ut
     '[style.width.px]': 'ie.inputWidth()',
   },
 })
-export class MeeInlineInput {
-  readonly ie = inject(MeeInlineEdit);
+export class NgbInlineInput {
+  readonly ie = inject(NgbInlineEdit);
   readonly inputBase = inject(InputBase);
 
   constructor() {
@@ -35,25 +35,25 @@ export class MeeInlineInput {
 }
 
 @Directive({
-  selector: '[meeInlineValue]',
+  selector: '[ngbInlineValue]',
   host: {
     '(click)': 'ie.onClick()',
     '(dblclick)': 'ie.onDoubleClick()',
   },
 })
-export class MeeInlineValue {
-  readonly ie = inject(MeeInlineEdit);
+export class NgbInlineValue {
+  readonly ie = inject(NgbInlineEdit);
 }
 
 @Directive({
-  selector: '[meeInlineEdit]',
+  selector: '[ngbInlineEdit]',
   providers: [provideInlineEdit()],
 })
-export class MeeInlineEdit implements ControlValueAccessor {
+export class NgbInlineEdit implements ControlValueAccessor {
   // Dependencies
   private readonly el = inject(ElementRef);
   private readonly disposals = disposals();
-  readonly inputElement = viewChild<MeeInlineInput, ElementRef>(MeeInlineInput, {
+  readonly inputElement = viewChild<NgbInlineInput, ElementRef>(NgbInlineInput, {
     read: ElementRef,
   });
 
@@ -125,5 +125,5 @@ export class MeeInlineEdit implements ControlValueAccessor {
 }
 
 export function provideInlineEdit() {
-  return provideValueAccessor(MeeInlineEdit);
+  return provideValueAccessor(NgbInlineEdit);
 }

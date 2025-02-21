@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RangePipe } from '@meeui/adk/utils';
+import { RangePipe } from '@ngbase/adk/utils';
 import { Selectable, SelectableItem } from '@meeui/ui/selectable';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';

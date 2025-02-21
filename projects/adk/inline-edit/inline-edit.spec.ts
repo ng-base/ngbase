@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { MeeInlineEdit, MeeInlineInput, MeeInlineValue, provideInlineEdit } from './inline-edit';
-import { render, RenderResult } from '@meeui/adk/test';
+import { NgbInlineEdit, NgbInlineInput, NgbInlineValue, provideInlineEdit } from './inline-edit';
+import { render, RenderResult } from '@ngbase/adk/test';
 
 @Component({
-  providers: [provideInlineEdit(), { provide: MeeInlineEdit, useExisting: TestComponent }],
-  imports: [MeeInlineInput, MeeInlineValue],
-  template: `<div meeInlineEdit>
+  providers: [provideInlineEdit(), { provide: NgbInlineEdit, useExisting: TestComponent }],
+  imports: [NgbInlineInput, NgbInlineValue],
+  template: `<div ngbInlineEdit>
     @if (isEditing()) {
-      <input meeInlineInput />
+      <input ngbInlineInput />
     } @else {
-      <div id="value" meeInlineValue>Hello</div>
+      <div id="value" ngbInlineValue>Hello</div>
     }
   </div>`,
 })
-class TestComponent extends MeeInlineEdit {}
+class TestComponent extends NgbInlineEdit {}
 
-describe('MeeInlineEdit', () => {
+describe('NgbInlineEdit', () => {
   let view: RenderResult<TestComponent>;
   let component: TestComponent;
 

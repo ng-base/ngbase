@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
-  MeeAutocomplete,
-  MeeAutocompleteInput,
+  NgbAutocomplete,
+  NgbAutocompleteInput,
   provideAutocomplete,
-} from '@meeui/adk/autocomplete';
-import { MeeSelectOptionGroup } from '@meeui/adk/select';
+} from '@ngbase/adk/autocomplete';
+import { NgbSelectOptionGroup } from '@ngbase/adk/select';
 
 @Component({
   selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideAutocomplete(Autocomplete)],
-  imports: [MeeSelectOptionGroup],
+  imports: [NgbSelectOptionGroup],
   template: `
     <ul #container class="readonly !flex w-full flex-wrap gap-2" (click)="prevent($event)">
       <ng-content select="mee-chip, mee-chip-group" />
@@ -20,7 +20,7 @@ import { MeeSelectOptionGroup } from '@meeui/adk/select';
       </li>
     </ul>
     <ng-template #optionsTemplate>
-      <div #optionsGroup meeSelectOptionGroup class="p-b">
+      <div #optionsGroup ngbSelectOptionGroup class="p-b">
         <ng-content />
       </div>
     </ng-template>
@@ -29,16 +29,16 @@ import { MeeSelectOptionGroup } from '@meeui/adk/select';
     class: 'inline-flex',
   },
 })
-export class Autocomplete<T> extends MeeAutocomplete<T> {}
+export class Autocomplete<T> extends NgbAutocomplete<T> {}
 
 @Directive({
   selector: '[meeAutocompleteInput]',
   exportAs: 'meeAutocompleteInput',
   hostDirectives: [
     {
-      directive: MeeAutocompleteInput,
+      directive: NgbAutocompleteInput,
       inputs: ['options', 'filterFn'],
-      outputs: ['meeAutocompleteInput'],
+      outputs: ['ngbAutocompleteInput: meeAutocompleteInput'],
     },
   ],
   host: {

@@ -1,4 +1,4 @@
-import { injectService } from '@meeui/adk/test';
+import { injectService } from '@ngbase/adk/test';
 import { PortalService } from './portal.service';
 
 describe('PortalService', () => {

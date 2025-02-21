@@ -60,7 +60,7 @@ export default class AvatarComponent {
 
   adkCode = `
   import { ChangeDetectionStrategy, Component } from '@angular/core';
-  import { MeeAvatar, MeeAvatarGroup, provideAvatar } from '@meeui/adk/avatar';
+  import { MeeAvatar, MeeAvatarGroup, provideAvatar } from '@ngbase/adk/avatar';
 
   @Component({
     selector: 'mee-avatar-group',

@@ -1,16 +1,16 @@
 import { Directive, model } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { provideValueAccessor } from '@meeui/adk/utils';
+import { provideValueAccessor } from '@ngbase/adk/utils';
 
 @Directive({
-  selector: 'button[meeToggle]',
-  providers: [provideValueAccessor(MeeToggle)],
+  selector: 'button[ngbToggle]',
+  providers: [provideValueAccessor(NgbToggle)],
   host: {
     '(click)': 'toggle()',
     '[attr.aria-pressed]': 'value()',
   },
 })
-export class MeeToggle implements ControlValueAccessor {
+export class NgbToggle implements ControlValueAccessor {
   value = model(false);
   onChange = (_: boolean) => {};
   onTouched = () => {};

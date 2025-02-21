@@ -1,17 +1,17 @@
 import { signal } from '@angular/core';
-import { MeeRadio, MeeRadioGroup } from '@meeui/adk/radio';
-import { render, RenderResult } from '@meeui/adk/test';
+import { NgbRadio, NgbRadioGroup } from '@ngbase/adk/radio';
+import { render, RenderResult } from '@ngbase/adk/test';
 import { Radio } from './radio';
 
 describe('RadioComponent', () => {
-  let component: MeeRadio;
+  let component: NgbRadio;
   let view: RenderResult<Radio>;
 
   beforeEach(async () => {
     view = await render(Radio, [
-      { provide: MeeRadioGroup, useValue: { value: signal('1'), updateValue: () => {} } },
+      { provide: NgbRadioGroup, useValue: { value: signal('1'), updateValue: () => {} } },
     ]);
-    component = view.injectHost(MeeRadio);
+    component = view.injectHost(NgbRadio);
     view.detectChanges();
   });
 

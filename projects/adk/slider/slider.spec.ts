@@ -1,13 +1,13 @@
-import { DragData } from '@meeui/adk/drag';
-import { render, RenderResult } from '@meeui/adk/test';
-import { MeeSlider, SliderThumb } from './slider';
+import { DragData } from '@ngbase/adk/drag';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { NgbSlider, SliderThumb } from './slider';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [MeeSlider, FormsModule],
+  imports: [NgbSlider, FormsModule],
   template: `<div
-    meeSlider
+    ngbSlider
     [range]="range()"
     [(ngModel)]="value"
     [step]="step()"
@@ -25,7 +25,7 @@ class TestComponent {
 }
 
 describe('Slider', () => {
-  let component: MeeSlider;
+  let component: NgbSlider;
   let view: RenderResult<TestComponent>;
 
   function stimulateDrag(type: 'start' | 'move' | 'end', x: number, clientX: number) {
@@ -40,7 +40,7 @@ describe('Slider', () => {
 
   beforeEach(async () => {
     view = await render(TestComponent);
-    component = view.viewChild(MeeSlider);
+    component = view.viewChild(NgbSlider);
     view.detectChanges();
 
     // Mock the element

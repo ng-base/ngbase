@@ -6,17 +6,17 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { documentListener } from '@meeui/adk/utils';
-import { MeeList } from './list';
+import { documentListener } from '@ngbase/adk/utils';
+import { NgbList } from './list';
 
 @Directive({
-  selector: '[meeActionGroup]',
+  selector: '[ngbActionGroup]',
 })
-export class MeeListActionGroup {
-  readonly options = contentChildren(MeeList, { descendants: true });
+export class NgbListActionGroup {
+  readonly options = contentChildren(NgbList, { descendants: true });
 
-  private readonly activeIndex = signal<MeeList | undefined>(undefined);
-  private readonly optionsMap = new WeakMap<MeeList, number>();
+  private readonly activeIndex = signal<NgbList | undefined>(undefined);
+  private readonly optionsMap = new WeakMap<NgbList, number>();
 
   constructor() {
     documentListener('keydown', this.handleKeyDown);
@@ -50,7 +50,7 @@ export class MeeListActionGroup {
     }
   };
 
-  private afterAction(lastIndex?: MeeList) {
+  private afterAction(lastIndex?: NgbList) {
     const option = this.activeIndex();
     lastIndex?.unselect();
     option?.focus();

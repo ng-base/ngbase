@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { createHostAnimation, fadeAnimation } from '@meeui/adk/utils';
+import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
 
 export const slideInOutAnimation = trigger('slideInOutAnimation', [
   state('1', style({ transform: 'none', opacity: 1 })),

@@ -1,10 +1,14 @@
 import { Directive } from '@angular/core';
-import { MeeContextMenu } from '@meeui/adk/menu';
+import { NgbContextMenu } from '@ngbase/adk/menu';
 
 @Directive({
   selector: '[meeContextMenu]',
   hostDirectives: [
-    { directive: MeeContextMenu, inputs: ['meeContextMenu'], outputs: ['ctxOpen', 'ctxClose'] },
+    {
+      directive: NgbContextMenu,
+      inputs: ['ngbContextMenu: meeContextMenu'],
+      outputs: ['ctxOpen', 'ctxClose'],
+    },
   ],
 })
 export class ContextMenu {}

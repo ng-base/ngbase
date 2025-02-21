@@ -20,7 +20,7 @@ export type ScrollBarOrientation = 'vertical' | 'horizontal' | 'both';
   selector: '[meeScrollBar]',
   hostDirectives: [Drag],
   host: {
-    style: `position: absolute; cursor: pointer;`,
+    style: `position: absolute; cursor: pointer; z-index: 100;`,
     '[style]': 'size()',
     '[attr.data-visible]': 'visible()',
     '[attr.data-active]': 'scrollArea.isDragging()',
@@ -73,7 +73,7 @@ export class MeeScrollBar {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="scroll-area-viewport hide-scrollbar" #scrollAreaViewport>
-      <div class="scroll-area-content">
+      <div class="scroll-area-content" style="height: 100%;">
         <ng-content></ng-content>
       </div>
     </div>

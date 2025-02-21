@@ -42,6 +42,26 @@ export interface ConfigObj {
   windowHeight: number;
   scrollWidth: number;
 }
+
+export interface OverflowData {
+  top: boolean;
+  bottom: boolean;
+  left: boolean;
+  right: boolean;
+  leftSide: boolean;
+  rightSide: boolean;
+  any: boolean;
+  preferredHorizontal: 'left' | 'right' | undefined;
+  preferredVertical: 'top' | 'bottom' | undefined;
+  overflowAmount: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    leftSide: number;
+    rightSide: number;
+  };
+}
 // Enums and Interfaces
 
 export interface PositionResult {
@@ -50,9 +70,14 @@ export interface PositionResult {
   bottom?: number;
   right?: number;
   position: Position;
+  maxHeight?: number;
+  maxWidth?: number;
 }
 
 export class PopoverPositioner {
+  private overflow!: OverflowData;
+  private elRect!: Rect;
+  private offset = this.config.offset || 5;
   constructor(
     private config: PopoverOptions,
     private windowDimensions: { width: number; height: number },
@@ -62,6 +87,7 @@ export class PopoverPositioner {
   public calculatePosition(): PositionResult {
     const targetRect = this.getTargetRect();
     const elRect = this.getElementRect();
+    this.elRect = elRect;
     const initialPosition = this.getInitialPosition(
       targetRect,
       elRect,
@@ -92,8 +118,7 @@ export class PopoverPositioner {
   }
 
   private getInitialPosition(targetRect: Rect, elRect: Rect, position: Position): PositionResult {
-    const offset = this.config.offset || 5;
-    const coords = this.getCoordinatesForPosition(position, targetRect, elRect, offset);
+    const coords = this.getCoordinatesForPosition(position, targetRect, elRect, this.offset);
     // coords.left = Math.max(0, coords.left);
     // coords.top = Math.max(0, coords.top);
     return { ...coords, position };
@@ -142,7 +167,8 @@ export class PopoverPositioner {
     targetRect: Rect,
     elRect: Rect,
   ): PositionResult {
-    const overflow = this.checkOverflow(position, elRect);
+    const overflow = this.checkOverflow(position, elRect, targetRect);
+    this.overflow = overflow;
     if (overflow.any) {
       const newPosition = this.getAlternativePosition(position.position, overflow);
       return this.getInitialPosition(targetRect, elRect, newPosition);
@@ -150,60 +176,186 @@ export class PopoverPositioner {
     return position;
   }
 
-  private checkOverflow(
-    position: PositionResult,
-    elRect: Rect,
-  ): { top: boolean; bottom: boolean; left: boolean; right: boolean; any: boolean } {
-    const isTop = position.top < 0;
-    const isBottom = position.top + elRect.height > this.windowDimensions.height;
-    const isLeft = position.left - elRect.width < 0;
-    const isRight = position.left + elRect.width > this.windowDimensions.width;
+  private checkOverflow(position: PositionResult, elRect: Rect, targetRect: Rect): OverflowData {
+    // Calculate available space on all sides
+    const topSpace = position.top;
+    const bottomSpace = this.windowDimensions.height - position.top;
+    const leftSpace = position.left;
+    const rightSpace = this.windowDimensions.width - position.left;
+    // Calculate overflow amounts (negative means no overflow)
+    const topOverflow = -(targetRect.top - elRect.height);
+    const bottomOverflow =
+      targetRect.top + targetRect.height + elRect.height - this.windowDimensions.height;
+    // const leftOverflow = -(position.left - (elRect.width - targetRect.width));
+    const leftOverflow = -(targetRect.left + targetRect.width - elRect.width);
+    const leftSideOverflow = -(targetRect.left - elRect.width);
+    const rightOverflow = targetRect.left + elRect.width - this.windowDimensions.width;
+    const rightSideOverflow = -(targetRect.left + targetRect.width - elRect.width);
+
+    const isTop = topOverflow > 0;
+    const isBottom = bottomOverflow > 0;
+    const isLeft = leftOverflow > 0;
+    const isRight = rightOverflow > 0;
+    const isLeftSide = leftSideOverflow > 0;
+    const isRightSide = rightSideOverflow > 0;
+
+    let preferredHorizontal: 'left' | 'right' | undefined;
+    let preferredVertical: 'top' | 'bottom' | undefined;
+    // If both left and right overflow, determine which side has more space
+    if (isLeft || isRight) {
+      preferredHorizontal = leftOverflow > rightOverflow ? 'right' : 'left';
+    } else if (isLeftSide || isRightSide) {
+      preferredHorizontal = leftSideOverflow > rightSideOverflow ? 'right' : 'left';
+    }
+
+    // If both top and bottom overflow, determine which side has more space
+    if (isTop || isBottom) {
+      preferredVertical = topOverflow > bottomOverflow ? 'bottom' : 'top';
+    }
     return {
       top: isTop,
       bottom: isBottom,
       left: isLeft,
       right: isRight,
-      any: isTop || isBottom || isLeft || isRight,
+      leftSide: isLeftSide,
+      rightSide: isRightSide,
+      any: isTop || isBottom || isLeft || isRight || isLeftSide || isRightSide,
+      preferredHorizontal,
+      preferredVertical,
+      overflowAmount: {
+        top: topOverflow,
+        bottom: bottomOverflow,
+        left: leftOverflow,
+        right: rightOverflow,
+        leftSide: leftSideOverflow,
+        rightSide: rightSideOverflow,
+      },
     };
   }
 
-  getAlternativePosition(
-    position: Position,
-    overflow: { top: boolean; bottom: boolean; left: boolean; right: boolean },
-  ): Position {
-    if (overflow.top) {
-      if (position === Position.Top) {
-        return Position.Bottom;
+  getAlternativePosition(position: Position, overflow: OverflowData): Position {
+    // if (overflow.top) {
+    //   if (position === Position.Top) {
+    //     return Position.Bottom;
+    //   }
+    // }
+    // if (
+    //   (overflow.preferredVertical === 'top' || !overflow.bottom) &&
+    //   (overflow.preferredHorizontal === 'left' || !overflow.right)
+    // ) {
+    //   return Position.BottomRight;
+    // }
+    // if (
+    //   (overflow.preferredVertical === 'top' || !overflow.bottom) &&
+    //   (overflow.preferredHorizontal === 'right' || !overflow.left)
+    // ) {
+    //   return Position.BottomLeft;
+    // }
+    // if (
+    //   (overflow.preferredVertical === 'bottom' || !overflow.top) &&
+    //   (overflow.preferredHorizontal === 'left' || !overflow.right)
+    // ) {
+    //   return Position.TopRight;
+    // }
+    // if (
+    //   (overflow.preferredVertical === 'bottom' || !overflow.top) &&
+    //   (overflow.preferredHorizontal === 'right' || !overflow.left)
+    // ) {
+    //   return Position.TopLeft;
+    // }
+    // if (overflow.bottom) {
+    //   if (position.includes('bottom')) {
+    //     return positionSwap[position] as Position;
+    //   } else if (position.includes('bl') && overflow.preferredVertical === 'top') {
+    //     return overflow.right && overflow.preferredHorizontal !== 'right'
+    //       ? Position.TopRight
+    //       : Position.TopLeft;
+    //   } else if (position.includes('bl') && overflow.preferredVertical === 'bottom') {
+    //     return overflow.right && overflow.preferredHorizontal !== 'right'
+    //       ? Position.BottomRight
+    //       : Position.BottomLeft;
+    //   }
+    // }
+    // if (overflow.left) {
+    //   if (position === Position.Left) {
+    //     return Position.Right;
+    //   }
+    //   if (overflow.preferredHorizontal === 'left' || !overflow.right) {
+    //     return overflow.bottom ? Position.TopLeft : Position.BottomLeft;
+    //   }
+    //   if (overflow.preferredHorizontal === 'right') {
+    //     return overflow.bottom ? Position.TopRight : Position.BottomRight;
+    //   }
+    // }
+    // if (overflow.right) {
+    //   if (position.includes('right')) {
+    //     return !overflow.left
+    //       ? Position.Left
+    //       : overflow.bottom && !overflow.left
+    //         ? (positionSwap[position] as Position)
+    //         : overflow.left && overflow.bottom
+    //           ? Position.Top
+    //           : Position.BottomRight;
+    //   } else if (position.includes('bl')) {
+    //     return overflow.bottom ? Position.TopRight : Position.BottomRight;
+    //   }
+    // }
+    // return position;
+    if (!overflow.any) {
+      return position;
+    }
+
+    // Simple mapping for opposite positions
+    const opposites = {
+      [Position.Top]: Position.Bottom,
+      [Position.Bottom]: Position.Top,
+      [Position.Left]: Position.Right,
+      [Position.Right]: Position.Left,
+      [Position.TopLeft]: Position.BottomRight,
+      [Position.TopRight]: Position.BottomLeft,
+      [Position.BottomLeft]: Position.TopRight,
+      [Position.BottomRight]: Position.TopLeft,
+    };
+
+    // For cardinal positions (Top, Bottom, Left, Right)
+    if ([Position.Top, Position.Bottom].includes(position)) {
+      return (overflow.preferredVertical as any) || opposites[position];
+    }
+
+    if ([Position.Left, Position.Right].includes(position)) {
+      return (overflow.preferredHorizontal as any) || opposites[position];
+    }
+
+    // For corner positions
+    const isTop = position.includes('t');
+    const isLeft = position.includes('l');
+
+    const vertical = overflow.preferredVertical === 'top' ? 't' : 'b';
+    const horizontal = overflow.preferredHorizontal === 'left' ? 'r' : 'l';
+
+    // If current position overflows, use the preferred directions
+    if (
+      (isTop && overflow.top) ||
+      (!isTop && overflow.bottom) ||
+      (isLeft && overflow.left) ||
+      (!isLeft && overflow.right) ||
+      (horizontal === 'r' && overflow.right) ||
+      (horizontal === 'l' && overflow.left)
+    ) {
+      switch (vertical + horizontal) {
+        case 'tl':
+          return Position.TopLeft;
+        case 'tr':
+          return Position.TopRight;
+        case 'bl':
+          return Position.BottomLeft;
+        case 'br':
+          return Position.BottomRight;
+        default:
+          return opposites[position];
       }
     }
-    if (overflow.bottom) {
-      if (position.includes('bottom')) {
-        return positionSwap[position] as Position;
-      } else if (position.includes('bl')) {
-        return overflow.right ? Position.TopRight : Position.TopLeft;
-      }
-    }
-    if (overflow.left) {
-      if (position === 'br') {
-        return overflow.bottom ? Position.TopLeft : Position.BottomLeft;
-      }
-      if (position === Position.Left) {
-        return Position.Right;
-      }
-    }
-    if (overflow.right) {
-      if (position.includes('right')) {
-        return !overflow.left
-          ? Position.Left
-          : overflow.bottom && !overflow.left
-            ? (positionSwap[position] as Position)
-            : overflow.left && overflow.bottom
-              ? Position.Top
-              : Position.BottomRight;
-      } else if (position.includes('bl')) {
-        return overflow.bottom ? Position.TopRight : Position.BottomRight;
-      }
-    }
+
     return position;
   }
 
@@ -212,24 +364,60 @@ export class PopoverPositioner {
     const bottom = position.position.startsWith('t')
       ? this.windowDimensions.height - (top + elRect.height)
       : undefined;
-    const right =
+    // this is required if tooltip is going outside of the screen horizontally
+    // this has to be done only if the position is top or bottom
+    let right: number | undefined;
+    right =
       left + elRect.width > this.windowDimensions.width
         ? 0
         : position.position.endsWith('r')
           ? this.windowDimensions.width - (left + elRect.width) - this.scrollWidth
           : undefined;
-    // const rightPos =
-    //     leftPos + elWidth > windowWidth
-    //       ? 0
-    //       : position.endsWith('r')
-    //         ? windowWidth - (leftPos + elWidth) - scrollWidth
-    //         : undefined;
+
+    let overallOffset = this.getOverallOffset(position);
+    let maxHeight: number | undefined;
+    if (
+      position.position.startsWith('t') &&
+      this.overflow.overflowAmount.top > -overallOffset.vertical
+    ) {
+      maxHeight = this.elRect.height - this.overflow.overflowAmount.top - overallOffset.vertical;
+    } else if (
+      position.position.startsWith('b') &&
+      this.overflow.overflowAmount.bottom > -overallOffset.vertical
+    ) {
+      maxHeight = this.elRect.height - this.overflow.overflowAmount.bottom - overallOffset.vertical;
+    }
+
+    let maxWidth: number | undefined;
+    if (
+      position.position.endsWith('l') &&
+      this.overflow.overflowAmount.right > -overallOffset.horizontal
+    ) {
+      maxWidth = this.elRect.width - this.overflow.overflowAmount.right - overallOffset.horizontal;
+    } else if (
+      position.position.endsWith('r') &&
+      this.overflow.overflowAmount.left > -overallOffset.horizontal
+    ) {
+      maxWidth = this.elRect.width - this.overflow.overflowAmount.left - overallOffset.horizontal;
+    }
     return {
-      top: Math.max(0, Math.min(top, this.windowDimensions.height - elRect.height)),
+      // top: Math.max(0, Math.min(top, this.windowDimensions.height - (maxHeight || elRect.height))),
+      top: Math.max(0, top),
       bottom,
-      left: right ? 0 : Math.max(0, left),
-      right,
+      left: right ? 0 : Math.max(overallOffset.horizontal, left),
+      right: right ? Math.max(overallOffset.horizontal, right) : undefined,
       position: position.position,
+      maxHeight,
+      maxWidth,
+    };
+  }
+
+  private getOverallOffset(position: PositionResult) {
+    const overallOffset = this.config.sideOffset ?? 0;
+    const isHorizontal = position.position === 'left' || position.position === 'right';
+    return {
+      horizontal: overallOffset + (isHorizontal ? this.offset : 0),
+      vertical: overallOffset + (isHorizontal ? 0 : this.offset),
     };
   }
 }

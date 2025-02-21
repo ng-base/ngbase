@@ -11,6 +11,7 @@ export class PopoverOptions extends DialogOptions {
   el?: HTMLElement;
   position?: PopoverPosition;
   offset?: number;
+  sideOffset?: number;
   client?: { x: number; y: number; w: number; h: number } | null;
   className?: string;
   backdropClassName?: string;

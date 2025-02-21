@@ -239,12 +239,13 @@ export class MeePopover extends BaseDialog {
     if (!target) {
       return;
     }
-    const { top, bottom, left, right, position } = tooltipPosition({
+    const { top, bottom, left, right, position, maxHeight, maxWidth } = tooltipPosition({
       target,
       el,
       position: this.lastPosition,
       client: this.options().client,
       offset: this.options().offset,
+      sideOffset: this.options().sideOffset,
     });
     // change the anchor position
     if (this.options().anchor) {
@@ -265,6 +266,13 @@ export class MeePopover extends BaseDialog {
     } else {
       el.style.left = `${left}px`;
       el.style.right = '';
+    }
+
+    if (maxHeight) {
+      el.style.maxHeight = `${maxHeight}px`;
+    }
+    if (maxWidth) {
+      el.style.maxWidth = `${maxWidth}px`;
     }
   }
 

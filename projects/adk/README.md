@@ -1,63 +1,57 @@
-# Adk
+# NgBase
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+![NgBase Logo](https://your-logo-url.com) <!-- Add a logo if available -->
 
-## Code scaffolding
+NgBase is a **lightweight, flexible UI primitives library** for Angular. It provides unstyled foundational Directives and components that developers can customize to match their design systems.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📦 Installation
 
-```bash
-ng generate component component-name
+```sh
+npm install @ngbase/adk
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+or
 
-```bash
-ng generate --help
+```sh
+pnpm install @ngbase/adk
 ```
 
-## Building
+## 📖 Documentation
 
-To build the library, run:
+For detailed documentation, visit **[NgBase Docs](https://ngbase.dev)**.
 
-```bash
-ng build adk
-```
+## 🚀 Features
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+- **Primitive Components** – Build your own themed UI components with ease.
+- **Fully Functional Primitives** – No unnecessary abstractions, just powerful building blocks.
+- **Highly Customizable** – Works seamlessly with Tailwind, SCSS, or any styling approach.
+- **Lightweight & Performant** – Optimized for speed and minimal overhead.
+- **Zero Dependencies** – No external dependencies, ensuring a clean setup.
+- **Zoneless** – Designed to work efficiently without Zone.js.
+- **Fully Typed & Modular** – Type-safe and tree-shakable.
+- **Angular Signals Support** – Leverages Angular signals for reactive state management.
+- **Angular 19+ Compatible** – Designed for the latest Angular versions.
 
-### Publishing the Library
+For detailed documentation, visit **[NgBase Docs](https://ngbase.dev)**.
 
-Once the project is built, you can publish your library by following these steps:
+## 🛠️ Contributing
 
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/adk
-   ```
+We welcome contributions! To get started:
 
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
+1. Fork the repository
+2. Create a new branch (`feat/new-component`)
+3. Commit your changes
+4. Open a pull request
 
-## Running unit tests
+## 📜 License
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+MIT License. See `LICENSE` for details.
 
-```bash
-ng test
-```
+## 📬 Stay Connected
 
-## Running end-to-end tests
+- Follow updates on **[Twitter](https://twitter.com/sheikalthafdev)**
+- Join the discussion on **[Discord](https://discord.gg/ngbase)**
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+⭐ If you like **NgBase**, give it a **star** on GitHub to show support!

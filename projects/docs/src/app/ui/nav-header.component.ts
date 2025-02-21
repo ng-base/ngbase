@@ -12,13 +12,7 @@ import { Command, CommandItem } from '@meeui/ui/command';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 class="p-b2 font-semibold">Getting Started</h4>
-    <a
-      meeList
-      (click)="scrollToTop()"
-      routerLinkActive="text-primary"
-      routerLink="introduction"
-      disabled
-    >
+    <a meeList (click)="scrollToTop()" routerLinkActive="text-primary" routerLink="">
       Introduction
     </a>
     <a
@@ -54,7 +48,7 @@ import { Command, CommandItem } from '@meeui/ui/command';
             meeList
             (click)="scrollToTop()"
             routerLinkActive="text-primary"
-            [routerLink]="item.link || null"
+            [routerLink]="item.link ? '/docs/' + item.link : null"
             [disabled]="item.link === ''"
             class="text-muted"
           >

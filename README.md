@@ -1,27 +1,57 @@
-# MeeUi
+# NgBase
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+![NgBase Logo](https://your-logo-url.com) <!-- Add a logo if available -->
 
-## Development server
+NgBase is a **lightweight, flexible UI primitives library** for Angular. It provides unstyled foundational Directives and components that developers can customize to match their design systems.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📦 Installation
 
-## Code scaffolding
+```sh
+npm install @ngbase/adk
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+or
 
-## Build
+```sh
+pnpm install @ngbase/adk
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 📖 Documentation
 
-## Running unit tests
+For detailed documentation, visit **[NgBase Docs](https://ngbase.dev)**.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🚀 Features
 
-## Running end-to-end tests
+- **Primitive Components** – Build your own themed UI components with ease.
+- **Fully Functional Primitives** – No unnecessary abstractions, just powerful building blocks.
+- **Highly Customizable** – Works seamlessly with Tailwind, SCSS, or any styling approach.
+- **Lightweight & Performant** – Optimized for speed and minimal overhead.
+- **Zero Dependencies** – No external dependencies, ensuring a clean setup.
+- **Zoneless** – Designed to work efficiently without Zone.js.
+- **Fully Typed & Modular** – Type-safe and tree-shakable.
+- **Angular Signals Support** – Leverages Angular signals for reactive state management.
+- **Angular 19+ Compatible** – Designed for the latest Angular versions.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+For detailed documentation, visit **[NgBase Docs](https://ngbase.dev)**.
 
-## Further help
+## 🛠️ Contributing
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+We welcome contributions! To get started:
+
+1. Fork the repository
+2. Create a new branch (`feat/new-component`)
+3. Commit your changes
+4. Open a pull request
+
+## 📜 License
+
+MIT License. See `LICENSE` for details.
+
+## 📬 Stay Connected
+
+- Follow updates on **[Twitter](https://twitter.com/sheikalthafdev)**
+- Join the discussion on **[Discord](https://discord.gg/ngbase)**
+
+---
+
+⭐ If you like **NgBase**, give it a **star** on GitHub to show support!

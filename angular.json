@@ -37,7 +37,7 @@
                 "input": "projects/docs/src/app/ui"
               },
               {
-                "glob": "**/*-usage.ts",
+                "glob": "**/*-{usage,adk}.ts",
                 "input": "projects/docs/src/app/ui"
               },
               {

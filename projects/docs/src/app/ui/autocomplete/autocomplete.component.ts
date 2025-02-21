@@ -5,7 +5,7 @@ import { Chip, ChipGroup } from '@meeui/ui/chip';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 import { filterFunction } from '@ngbase/adk/utils';
-import { DocCode } from './code.component';
+import { DocCode, getCode } from '../code.component';
 import { FormField, Label } from '@meeui/ui/form-field';
 
 @Component({
@@ -27,7 +27,7 @@ import { FormField, Label } from '@meeui/ui/form-field';
   template: `
     <h4 meeHeader="sm" class="mb-5" id="autocompletePage">Autocomplete</h4>
 
-    <app-doc-code [tsCode]="tsCode" [adkCode]="adkCode">
+    <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
       <div class="flex flex-col gap-2">
         <!-- Value: {{ selectValue2.value() }} -->
         <mee-form-field class="w-72 md:w-96">
@@ -84,97 +84,9 @@ export default class AutocompleteComponent {
   selectValue1 = new AutocompleteForm<string[]>(['Option 1']);
   selectValue2 = new AutocompleteForm<string>('Option 1');
 
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { FormControl, ReactiveFormsModule } from '@angular/forms';
-  import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
-  import { Option } from '@meeui/ui/select';
+  tsCode = getCode('autocomplete/autocomplete-usage.ts');
 
-  @Component({
-    selector: 'app-root',
-    imports: [ReactiveFormsModule, Autocomplete, AutocompleteInput, Option],
-    template: \`
-      <mee-autocomplete [(ngModel)]="value" class="w-full">
-        <input
-          meeAutocompleteInput
-          placeholder="Search options"
-          [formControl]="search"
-        />
-        @for (item of optionsFilter(); track item) {
-          <mee-option [value]="item">{{ item }}</mee-option>
-        }
-      </mee-autocomplete>
-    \`
-  })
-  export class AppComponent {
-    value = signal(value);
-    
-    search = signal('');
-    
-    options = Array.from({ length: 50 }, (_, i) => \`Option $\{i + 1}\`);
-    optionsFilter = computed(() => {
-      const search = this.search().toLowerCase();
-      return this.options.filter(option => option.toLowerCase().includes(search));
-    });
-  }
-  `;
-
-  adkCode = `
-  import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-  import {
-    MeeAutocomplete,
-    MeeAutocompleteInput,
-    provideAutocomplete,
-  } from '@ngbase/adk/autocomplete';
-  import { MeeSelectOptionGroup } from '@ngbase/adk/select';
-  import { InputStyle } from '@/ui/form-field';
-
-  @Component({
-    selector: 'mee-autocomplete',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [provideAutocomplete(Autocomplete)],
-    imports: [InputStyle, MeeSelectOptionGroup],
-    template: \`
-      <ul
-        #container
-        meeInputStyle
-        class="readonly !flex w-full flex-wrap gap-2"
-        (click)="prevent($event)"
-      >
-        <ng-content select="mee-chip, mee-chip-group" />
-
-        <li class="flex min-w-8 flex-1 items-center" (click)="open()">
-          <ng-content select="input" />
-        </li>
-      </ul>
-      <ng-template #optionsTemplate>
-        <div #optionsGroup meeSelectOptionGroup class="p-b">
-          <ng-content />
-        </div>
-      </ng-template>
-    \`,
-    host: {
-      class: 'inline-flex',
-    },
-  })
-  export class Autocomplete<T> extends MeeAutocomplete<T> {}
-
-  @Directive({
-    selector: '[meeAutocompleteInput]',
-    exportAs: 'meeAutocompleteInput',
-    hostDirectives: [
-      {
-        directive: MeeAutocompleteInput,
-        inputs: ['options', 'filterFn'],
-        outputs: ['meeAutocompleteInput'],
-      },
-    ],
-    host: {
-      class: 'w-full bg-transparent shadow-none outline-none',
-    },
-  })
-  export class AutocompleteInput<T> {}
-  `;
+  adkCode = getCode('autocomplete/autocomplete-adk.ts');
 }
 
 class AutocompleteForm<T> {

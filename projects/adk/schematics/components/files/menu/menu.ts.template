@@ -1,0 +1,37 @@
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { NgbMenu, NgbMenuTrigger, MenuGroup, provideMenu } from '@ngbase/adk/menu';
+
+@Component({
+  selector: '<%= name %>-menu',
+  exportAs: '<%= name %>Menu',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideMenu(Menu)],
+  imports: [AccessibleGroup, MenuGroup],
+  template: `
+    <ng-template #container>
+      <div ngbMenuGroup class="flex flex-col p-b">
+        <ng-content />
+      </div>
+    </ng-template>
+  `,
+})
+export class Menu extends NgbMenu {}
+
+@Directive({
+  selector: '[<%= name %>MenuTrigger]',
+  hostDirectives: [
+    {
+      directive: NgbMenuTrigger,
+      inputs: [
+        'ngbMenuTrigger: <%= name %>MenuTrigger',
+        'ngbMenuTriggerData: <%= name %>MenuTriggerData',
+        'options',
+      ],
+    },
+  ],
+  host: {
+    class: 'outline-none',
+  },
+})
+export class MenuTrigger {}

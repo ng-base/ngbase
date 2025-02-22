@@ -1,0 +1,40 @@
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import {
+  NgbTooltipTemplate,
+  provideNgbTooltipOptions,
+  TooltipOptions,
+  NgbTooltip,
+} from '@ngbase/adk/tooltip';
+import { injectTheme } from '<%= basepath %>/theme';
+
+@Directive({
+  selector: '[<%= name %>Tooltip]',
+  hostDirectives: [
+    {
+      directive: NgbTooltip,
+      inputs: [
+        'ngbTooltip: <%= name %>Tooltip',
+        'ngbTooltipPosition: <%= name %>TooltipPosition',
+        'delay',
+      ],
+    },
+  ],
+})
+export class Tooltip {}
+
+@Component({
+  selector: '<%= name %>-tooltip',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `{{ content() }}`,
+  host: {
+    class:
+      'fixed inline-block rounded-base bg-foreground px-b3 py-b border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',
+    '[class]': `theme.mode() === 'dark' ? 'light' : 'dark'`,
+  },
+})
+export class TooltipComponent extends NgbTooltipTemplate {
+  readonly theme = injectTheme();
+}
+
+export const provideTooltipOptions = (options: TooltipOptions) =>
+  provideNgbTooltipOptions({ ...options, component: TooltipComponent });

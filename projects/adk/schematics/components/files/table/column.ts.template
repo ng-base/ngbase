@@ -1,0 +1,8 @@
+import { Directive } from '@angular/core';
+import { NgbColumn } from '@ngbase/adk/table';
+
+@Directive({
+  selector: '[<%= name %>Column]',
+  hostDirectives: [{ directive: NgbColumn, inputs: ['ngbColumn: <%= name %>Column', 'sticky'] }],
+})
+export class Column {}

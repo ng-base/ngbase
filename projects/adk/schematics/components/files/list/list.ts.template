@@ -1,0 +1,28 @@
+import { Directive } from '@angular/core';
+import { NgbList, NgbListActionGroup, provideList } from '@ngbase/adk/list';
+
+@Directive({
+  selector: '[<%= name %>ListStyle]',
+  host: {
+    class:
+      'flex items-center gap-b2 py-b2 px-b2 hover:bg-muted-background cursor-pointer rounded-md text-left data-[focus="true"]:bg-muted-background',
+  },
+})
+export class ListStyle {}
+
+@Directive({
+  selector: '[<%= name %>List]',
+  hostDirectives: [ListStyle],
+  providers: [provideList(List)],
+  host: {
+    role: 'list',
+    '[class]': 'disabled() ? "pointer-events-none cursor-not-allowed opacity-50" : ""',
+  },
+})
+export class List extends NgbList {}
+
+@Directive({
+  selector: '[<%= name %>ActionGroup]',
+  hostDirectives: [NgbListActionGroup],
+})
+export class ListActionGroup {}

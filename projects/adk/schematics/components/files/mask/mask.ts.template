@@ -1,0 +1,8 @@
+import { Directive } from '@angular/core';
+import { Mask } from '@ngbase/adk/mask';
+
+@Directive({
+  selector: '[<%= name %>Mask]',
+  hostDirectives: [{ directive: Mask, inputs: ['ngbMask: <%= name %>Mask', 'showMaskType'] }],
+})
+export class MaskInput {}

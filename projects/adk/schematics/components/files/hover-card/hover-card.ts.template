@@ -1,0 +1,13 @@
+import { Directive } from '@angular/core';
+import { NgbHoverCard } from '@ngbase/adk/hover-card';
+
+@Directive({
+  selector: '[<%= name %>HoverCard]',
+  hostDirectives: [
+    {
+      directive: NgbHoverCard,
+      inputs: ['ngbHoverCard: <%= name %>HoverCard', 'options', 'delay'],
+    },
+  ],
+})
+export class HoverCard<T = any> {}

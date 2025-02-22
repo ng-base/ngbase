@@ -1,0 +1,8 @@
+import { Directive } from '@angular/core';
+import { NgbTour } from '@ngbase/adk/tour';
+
+@Directive({
+  selector: '[<%= name %>Tour]',
+  hostDirectives: [NgbTour],
+})
+export class Tour {}

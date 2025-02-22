@@ -1,0 +1,100 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
+import {
+  InputBase,
+  NgbFormField,
+  NgbInputError,
+  NgbLabel,
+  toggleDiv,
+} from '@ngbase/adk/form-field';
+import { InputStyle } from './input-style.directive';
+import { NgbSelectTarget } from '@ngbase/adk/select';
+
+@Component({
+  selector: '<%= name %>-form-field, [<%= name %>FormField]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgbFormField, NgbSelectTarget],
+  imports: [InputStyle],
+  template: `
+    <ng-content select="[<%= name %>Label]" />
+    <ng-content select="[<%= name %>Description]" />
+    <div class="flex items-center" #target <%= name %>InputStyle>
+      <ng-content select="[<%= name %>InputPrefix]" />
+      <ng-content />
+      <ng-content select="[<%= name %>InputSuffix]" />
+    </div>
+    <ng-content select="[<%= name %>Error]" />
+  `,
+  host: {
+    class: 'inline-flex flex-col font-medium mb-b2 gap-b',
+  },
+})
+export class FormField {
+  readonly selectTarget = inject(NgbSelectTarget);
+  readonly target = viewChild.required<ElementRef<HTMLDivElement>>('target');
+  private _ = effect(() => {
+    this.selectTarget.target.set(this.target().nativeElement);
+  });
+}
+
+@Directive({
+  selector: '[<%= name %>Input]',
+  hostDirectives: [{ directive: InputBase, inputs: ['value'] }],
+  host: {
+    class: 'focus:outline-none',
+    '[class.border-red-500]': 'formField?.hasErrors()',
+  },
+})
+export class Input<T = unknown> {
+  readonly formField = inject(NgbFormField, { optional: true });
+}
+
+@Component({
+  selector: '[<%= name %>Label]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgbLabel],
+  template: `<ng-content />`,
+  host: {
+    class: 'block font-medium mx-b0.5',
+  },
+})
+export class Label {}
+
+@Directive({
+  selector: '[<%= name %>Description]',
+  host: {
+    class: 'text-sm text-muted',
+  },
+})
+export class Description {}
+
+@Directive({
+  selector: '[<%= name %>InputPrefix]',
+})
+export class InputPrefix {}
+
+@Component({
+  selector: '[<%= name %>Error]',
+  hostDirectives: [{ directive: NgbInputError, inputs: ['ngbError: <%= name %>Error'] }],
+  template: `<ng-content />`,
+  host: {
+    class: 'text-red-500 mx-b0.5',
+    '[@toggleDiv]': 'isInvalid() ? "visible" : "hidden"',
+  },
+  animations: [toggleDiv],
+})
+export class InputError {
+  readonly error = inject(NgbInputError);
+  readonly isInvalid = this.error.isInvalid;
+
+  constructor() {
+    this.error.animate.set(true);
+  }
+}

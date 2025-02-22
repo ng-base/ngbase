@@ -1,0 +1,14 @@
+import { Directive } from '@angular/core';
+import { NgbMentionTrigger } from '@ngbase/adk/menu';
+
+@Directive({
+  selector: '[<%= name %>MentionTrigger]',
+  hostDirectives: [
+    {
+      directive: NgbMentionTrigger,
+      inputs: ['ngbMentionTrigger: <%= name %>MentionTrigger', 'key', 'options'],
+      outputs: ['search'],
+    },
+  ],
+})
+export class MentionTrigger {}

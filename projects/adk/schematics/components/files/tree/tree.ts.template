@@ -1,0 +1,66 @@
+import { ChangeDetectionStrategy, Component, Directive, signal } from '@angular/core';
+import {
+  NgbTree,
+  NgbTreeNode,
+  NgbTreeNodeContent,
+  NgbTreeNodeDef,
+  NgbTreeNodeToggle,
+  provideTree,
+  provideTreeNode,
+} from '@ngbase/adk/tree';
+
+@Component({
+  selector: '<%= name %>-tree',
+  exportAs: '<%= name %>Tree',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-container #container />`,
+  providers: [provideTree(Tree)],
+  host: {
+    class: 'block',
+  },
+})
+export class Tree<T> extends NgbTree<T> {}
+
+@Component({
+  selector: '<%= name %>-tree-node',
+  exportAs: '<%= name %>TreeNode',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="flex items-start">
+      <ng-content />
+    </div>
+    <ng-content select="[<%= name %>TreeNodeContent]" />
+    <ng-container #container />
+  `,
+  providers: [provideTreeNode(TreeNode)],
+  host: {
+    class: 'block w-full cursor-pointer',
+  },
+})
+export class TreeNode<T> extends NgbTreeNode<T> {
+  override size = signal(16);
+}
+
+@Directive({
+  selector: '[<%= name %>TreeNodeToggle]',
+  hostDirectives: [NgbTreeNodeToggle],
+  host: {
+    class: `aria-[hidden="true"]:invisible`,
+  },
+})
+export class TreeNodeToggle {}
+
+@Directive({
+  selector: '[<%= name %>TreeNodeDef]',
+  hostDirectives: [NgbTreeNodeDef],
+})
+export class TreeNodeDef<T> {}
+
+@Directive({
+  selector: '[<%= name %>TreeNodeContent]',
+  hostDirectives: [NgbTreeNodeContent],
+  host: {
+    class: 'ml-8',
+  },
+})
+export class TreeNodeContent {}

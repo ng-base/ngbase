@@ -1,0 +1,14 @@
+import { Directive } from '@angular/core';
+import { NgbContextMenu } from '@ngbase/adk/menu';
+
+@Directive({
+  selector: '[<%= name %>ContextMenu]',
+  hostDirectives: [
+    {
+      directive: NgbContextMenu,
+      inputs: ['ngbContextMenu: <%= name %>ContextMenu'],
+      outputs: ['ctxOpen', 'ctxClose'],
+    },
+  ],
+})
+export class ContextMenu {}

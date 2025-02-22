@@ -28,7 +28,7 @@ import { SheetOptions } from './sheet.service';
       [class]="options.position === 'left' ? 'justify-start' : 'justify-end'"
     >
       <div
-        class="pointer-events-auto m-b2 flex flex-col overflow-hidden rounded-base border-l bg-foreground shadow-2xl will-change-transform"
+        class="pointer-events-auto m-2 flex flex-col overflow-hidden rounded-lg border-l bg-foreground shadow-2xl will-change-transform"
         [@sideAnimation]="position()"
         [ngStyle]="{
           width: options.width,
@@ -37,14 +37,14 @@ import { SheetOptions } from './sheet.service';
         }"
       >
         @if (!isHideHeader) {
-          <div class="flex items-center border-b px-b4 py-b2">
+          <div class="flex items-center border-b px-4 py-2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton="ghost" class="-mr-b2 !p-b2" (click)="close()">
+            <button meeButton="ghost" class="-mr-2 !p-2" (click)="close()">
               <mee-icon name="lucideX" />
             </button>
           </div>
         }
-        <div class="h-full overflow-auto p-b4">
+        <div class="h-full overflow-auto p-4">
           <ng-container #myDialog />
         </div>
       </div>

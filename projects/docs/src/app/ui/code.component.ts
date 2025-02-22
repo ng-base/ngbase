@@ -44,7 +44,7 @@ export class CodeService {
   imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon, Heading],
   providers: [provideIcons({ lucideCopy })],
   template: `
-    <mee-selectable [(activeIndex)]="selected" class="mb-b2 text-xs">
+    <mee-selectable [(activeIndex)]="selected" class="mb-2 text-xs">
       @if (!hidePreview()) {
         <button meeSelectableItem [value]="1">Preview</button>
       }
@@ -53,13 +53,13 @@ export class CodeService {
     </mee-selectable>
 
     @if (selected() === 1 && !hidePreview()) {
-      <div class="flex min-h-80 items-center justify-center rounded-base border">
-        <div class="relative p-b4 md:w-auto">
+      <div class="flex min-h-80 items-center justify-center rounded-lg border">
+        <div class="relative p-4 md:w-auto">
           <ng-content />
         </div>
       </div>
     } @else if (selected() === 2) {
-      <div class="relative overflow-hidden rounded-base border font-body">
+      <div class="relative overflow-hidden rounded-lg border font-body">
         <button
           meeButton="outline"
           class="absolute right-0 top-0 h-8 w-8"
@@ -71,7 +71,7 @@ export class CodeService {
       </div>
     } @else {
       @if (adk.value(); as av) {
-        <div class="relative overflow-hidden rounded-base border font-body">
+        <div class="relative overflow-hidden rounded-lg border font-body">
           <button
             meeButton="outline"
             class="dark absolute right-0 top-0 h-8 w-8"
@@ -84,7 +84,7 @@ export class CodeService {
       }
       @if (references.value(); as rv) {
         <h4 meeHeader="md" class="mb-3 mt-5">References</h4>
-        <div class="relative overflow-hidden rounded-base border font-body">
+        <div class="relative overflow-hidden rounded-lg border font-body">
           <div [innerHTML]="rv"></div>
         </div>
       }
@@ -96,7 +96,7 @@ export class CodeService {
   styles: [
     `
       :host ::ng-deep pre {
-        @apply overflow-auto p-3 pr-b5;
+        @apply overflow-auto p-3 pr-5;
       }
       :host ::ng-deep pre,
       :host ::ng-deep code {

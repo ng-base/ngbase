@@ -15,7 +15,7 @@ import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
   template: `
     <div class="pointer-events-none flex h-full flex-col justify-end">
       <div
-        class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground p-b4 shadow-2xl"
+        class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-foreground p-4 shadow-2xl"
         [@bottomAnimation]
       >
         <button class="mx-auto h-2 w-20 rounded-full bg-muted"></button>

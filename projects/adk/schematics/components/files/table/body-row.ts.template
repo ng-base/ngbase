@@ -15,7 +15,7 @@ export class BodyRowDef {}
   providers: [{ provide: NgbBodyRow, useExisting: BodyRow }],
   template: `<ng-container #container />`,
   host: {
-    class: '[&:not(:last-child)]:border-b hover:bg-muted-background h-b12',
+    class: '[&:not(:last-child)]:border-b hover:bg-muted-background h-12',
   },
 })
 export class BodyRow extends NgbBodyRow {}

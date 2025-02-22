@@ -29,7 +29,7 @@ import { Heading } from '@meeui/ui/typography';
   ],
   template: `
     <h4 meeHeader class="mb-5">Forms</h4>
-    <form [formGroup]="forms" class="flex w-96 flex-col gap-b2">
+    <form [formGroup]="forms" class="flex w-96 flex-col gap-2">
       <mee-form-field>
         <label meeLabel>Name</label>
         <input meeInput class="w-full" ngbAutofocus formControlName="name" placeholder="Name" />

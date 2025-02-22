@@ -40,7 +40,7 @@ export function injectParams() {
   viewProviders: [provideIcons({ lucideSun, lucideMoon })],
   template: `
     <mee-tabs [selectedIndex]="tabIndex()" (selectedIndexChange)="indexChange($event)">
-      <mee-tab label="Mail" class="p-b4" [mode]="'hidden'">
+      <mee-tab label="Mail" class="p-4" [mode]="'hidden'">
         @defer (on viewport) {
           <app-mail />
         } @placeholder {
@@ -49,7 +49,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Playground" class="p-b4">
+      <mee-tab label="Playground" class="p-4">
         @defer (on viewport) {
           <app-playground />
         } @placeholder {
@@ -58,7 +58,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Music" class="p-b4">
+      <mee-tab label="Music" class="p-4">
         @defer (on viewport) {
           <app-music />
         } @placeholder {
@@ -67,7 +67,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Forms" class="p-b4">
+      <mee-tab label="Forms" class="p-4">
         @defer (on viewport) {
           <app-forms />
         } @placeholder {
@@ -76,7 +76,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Inventory" class="p-b4">
+      <mee-tab label="Inventory" class="p-4">
         @defer (on viewport) {
           <app-inventory />
         } @placeholder {
@@ -85,7 +85,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Sidebars" class="p-b4">
+      <mee-tab label="Sidebars" class="p-4">
         @defer (on viewport) {
           <app-sidebars />
         } @placeholder {
@@ -94,7 +94,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Blogs" class="p-b4">
+      <mee-tab label="Blogs" class="p-4">
         @defer (on viewport) {
           <app-blogs />
         } @placeholder {
@@ -103,7 +103,7 @@ export function injectParams() {
           <mee-spinner />
         }
       </mee-tab>
-      <mee-tab label="Termor" class="p-b4">
+      <mee-tab label="Termor" class="p-4">
         @defer (on viewport) {
           <app-termor />
         } @placeholder {

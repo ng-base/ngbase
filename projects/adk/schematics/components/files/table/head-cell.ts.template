@@ -5,7 +5,7 @@ import { NgbHead, NgbHeadDef } from '@ngbase/adk/table';
   selector: '[<%= name %>Head]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'px-b4 py-b2 text-left align-middle font-medium text-muted border-b bg-foreground',
+    class: 'px-4 py-2 text-left align-middle font-medium text-muted border-b bg-foreground',
   },
   hostDirectives: [NgbHead],
   template: `<ng-content />`,

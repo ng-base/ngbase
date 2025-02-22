@@ -40,7 +40,7 @@ import {
       ngbPopoverMain
       [@slideInOutAnimation]
       class="{{
-        'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-base border bg-foreground shadow-md ' +
+        'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-foreground shadow-md ' +
           (options().anchor ? 'popover-anchor ' : 'overflow-auto ')
       }}"
     >

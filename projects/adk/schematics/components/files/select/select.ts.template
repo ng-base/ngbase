@@ -38,7 +38,7 @@ export class SelectOption<T> {}
     <button
       ngbSelectValue
       [class.opacity-50]="disabled()"
-      class="flex min-h-b5 w-full items-center justify-between gap-b whitespace-nowrap outline-none"
+      class="flex min-h-5 w-full items-center justify-between gap-1 whitespace-nowrap outline-none"
     >
       <!-- Prefix template -->
       <ng-content select=".select-prefix" />
@@ -48,7 +48,7 @@ export class SelectOption<T> {}
           {{ cValue() || placeholder() }}
         </ng-content>
       </span>
-      <<%= name %>-icon name="lucideChevronsUpDown" class="ml-b0.5 text-muted" />
+      <<%= name %>-icon name="lucideChevronsUpDown" class="ml-0.5 text-muted" />
     </button>
 
     <!-- Options template -->
@@ -64,7 +64,7 @@ export class SelectOption<T> {}
             />
           }
         </ng-content>
-        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-b">
+        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-1">
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {

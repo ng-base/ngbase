@@ -56,7 +56,7 @@ interface Restaurant {
         <!-- Header Section -->
         <div class="header-section mat-elevation-z1">
           <!-- Search and Filter Bar -->
-          <div class="flex items-center gap-b2">
+          <div class="flex items-center gap-2">
             <button meeButton="outline" class="small gap-2">
               <mee-icon name="lucideArrowUpDown" />
               Sort
@@ -83,14 +83,14 @@ interface Restaurant {
         <table meeTable [data]="dataSource()">
           <!-- Checkbox Column -->
           <ng-container meeColumn="select">
-            <th meeHead *meeHeadDef class="!px-b">
+            <th meeHead *meeHeadDef class="!px-1">
               <mee-checkbox
                 (checkedChange)="masterToggle()"
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()"
               />
             </th>
-            <td meeCell *meeCellDef="let row" class="!px-b">
+            <td meeCell *meeCellDef="let row" class="!px-1">
               <mee-checkbox
                 (click)="$event.stopPropagation()"
                 (checkedChange)="selection.toggle(row)"

@@ -13,16 +13,16 @@ import { DocCode, getCode } from '../code.component';
     <h4 meeHeader class="mb-5" id="colorPickerPage">Card</h4>
 
     <app-doc-code [tsCode]="tsCode()">
-      <div class="grid grid-cols-4 gap-b4">
+      <div class="grid grid-cols-4 gap-4">
         @for (i of 3 | range; track $index) {
           <mee-card>
-            <div class="flex flex-col gap-b2">
+            <div class="flex flex-col gap-2">
               <mee-avatar
                 src="https://pbs.twimg.com/profile_images/1238875353457635328/VKdeKwcq_200x200.jpg"
                 alt="Mee UI"
-                class="w-b12"
+                class="w-12"
               />
-              <div class="flex flex-col gap-b4">
+              <div class="flex flex-col gap-4">
                 <div>
                   <div class="Text font-bold">Mee</div>
                   <div class="text-muted">&#64;mee_ui</div>
@@ -31,12 +31,12 @@ import { DocCode, getCode } from '../code.component';
                   Components, icons, colors, and templates for building high-quality, accessible UI.
                   Free and open-source.
                 </div>
-                <div class="flex gap-b4">
-                  <div class="flex gap-b">
+                <div class="flex gap-4">
+                  <div class="flex gap-1">
                     <div class="Text font-bold">0</div>
                     <div class="text-muted">Following</div>
                   </div>
-                  <div class="flex gap-b">
+                  <div class="flex gap-1">
                     <div class="Text font-bold">2,900</div>
                     <div class="text-muted">Followers</div>
                   </div>

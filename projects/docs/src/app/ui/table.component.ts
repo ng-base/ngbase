@@ -21,7 +21,7 @@ interface Employee {
     <!-- <button meeButton (click)="update()" class="mb-5">
       Click me {{ randomNum() }}
     </button> -->
-    <!-- <div class="mb-b2 flex gap-b2">
+    <!-- <div class="mb-2 flex gap-2">
       <mee-selectable
         [activeIndex]="1"
         (valueChanged)="$event === 0 ? startShuffle() : stopShuffle()"

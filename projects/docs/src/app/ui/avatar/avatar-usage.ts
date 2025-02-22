@@ -3,7 +3,7 @@ import { Avatar } from '@meeui/ui/avatar';
 
 @Component({
   selector: 'app-root',
-  template: ` <mee-avatar class="w-b12" src="...your image url..." /> `,
+  template: ` <mee-avatar class="w-12" src="...your image url..." /> `,
   imports: [Avatar],
 })
 export class AppComponent {}

@@ -100,7 +100,7 @@ describe('Tab Component', () => {
     tab.active.set(true);
     view.detectChanges();
     const tabEl = view.$('mee-tab');
-    expect(tabEl.hasClass('flex-1', 'h-full', 'pt-b4')).toBeTruthy();
+    expect(tabEl.hasClass('flex-1', 'h-full', 'pt-4')).toBeTruthy();
   });
 
   it('should have correct host classes when inactive', () => {

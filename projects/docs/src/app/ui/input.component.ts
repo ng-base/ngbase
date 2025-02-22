@@ -33,7 +33,7 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="inputPage">Input</h4>
     <app-doc-code [tsCode]="tsCode">
-      <div class="flex flex-col gap-b4">
+      <div class="flex flex-col gap-4">
         <mee-form-field>
           <label meeLabel>Input</label>
           <p meeDescription>This is a description</p>

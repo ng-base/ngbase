@@ -7,7 +7,7 @@ import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@an
   host: {
     class: 'bg-border block flex-none',
     '[class]': `vertical() ? 'w-[1px]' : 'h-[1px] w-full'`,
-    // '[class.my-b]': `menu`,
+    // '[class.my-1]': `menu`,
   },
 })
 export class Separator {

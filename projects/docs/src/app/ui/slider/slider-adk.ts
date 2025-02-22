@@ -33,7 +33,7 @@ import {
     }
   `,
   host: {
-    class: 'block relative my-b',
+    class: 'block relative my-1',
     '[class]': 'orientation() === "vertical" ? "w-2" : "h-2"',
   },
 })

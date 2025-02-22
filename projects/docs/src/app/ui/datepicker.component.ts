@@ -22,7 +22,7 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="datepickerPage">Datepicker</h4>
-    <div class="grid gap-b4">
+    <div class="grid gap-4">
       <mee-form-field>
         <label meeLabel>Time 24 -- {{ time24() }}</label>
         <mee-time [(value)]="time24" [is24]="true" />

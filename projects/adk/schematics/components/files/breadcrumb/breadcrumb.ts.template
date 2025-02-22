@@ -17,7 +17,7 @@ import { lucideChevronRight } from '@ng-icons/lucide';
   hostDirectives: [NgbBreadcrumbs],
   template: `<ng-content />`,
   host: {
-    class: 'flex items-center gap-b2',
+    class: 'flex items-center gap-2',
   },
 })
 export class Breadcrumbs {}
@@ -37,7 +37,7 @@ export class Breadcrumbs {}
     }
   `,
   host: {
-    class: 'flex items-center gap-b2 text-muted',
+    class: 'flex items-center gap-2 text-muted',
   },
 })
 export class Breadcrumb extends NgbBreadcrumb {}

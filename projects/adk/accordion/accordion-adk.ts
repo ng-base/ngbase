@@ -22,7 +22,7 @@ import {
   hostDirectives: [{ directive: NgbAccordionGroup, inputs: ['multiple'] }],
   template: `<ng-content />`,
   host: {
-    class: 'block rounded-base border bg-foreground', // Default styling
+    class: 'block rounded-lg border bg-foreground', // Default styling
   },
 })
 export class AccordionGroup {}

@@ -27,36 +27,36 @@ import {
   ],
   template: `
     <div class="flex w-full flex-col">
-      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-h">
+      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-md">
         <button
           ngbColorSpectrumSelector
-          class="pointer-events-none absolute -left-2 -top-2 h-b4 w-b4 cursor-pointer rounded-full border"
+          class="pointer-events-none absolute -left-2 -top-2 h-4 w-4 cursor-pointer rounded-full border"
         ></button>
       </div>
-      <div class="flex gap-b4 p-b3">
-        <div ngbColorSelected class="aspect-square w-b10 rounded-h border bg-slate-500"></div>
-        <div class="flex flex-1 flex-col gap-b4">
-          <div ngbColorHue class="relative h-b3">
+      <div class="flex gap-4 p-3">
+        <div ngbColorSelected class="aspect-square w-10 rounded-md border bg-slate-500"></div>
+        <div class="flex flex-1 flex-col gap-4">
+          <div ngbColorHue class="relative h-3">
             <button
               ngbColorHueThumb
-              class="border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
+              class="border-red pointer-events-none absolute -top-1 h-5 w-5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
 
-          <div ngbColorAlpha class="relative h-b3">
+          <div ngbColorAlpha class="relative h-3">
             <button
               ngbColorAlphaThumb
-              class="alpha-selector border-red pointer-events-none absolute -top-1 h-b5 w-b5 -translate-x-2.5 cursor-pointer rounded-full border-2"
+              class="alpha-selector border-red pointer-events-none absolute -top-1 h-5 w-5 -translate-x-2.5 cursor-pointer rounded-full border-2"
             ></button>
           </div>
         </div>
       </div>
       @if (presetColors().length) {
-        <div class="flex flex-wrap gap-b2 border-t p-b2 pt-b3">
+        <div class="flex flex-wrap gap-2 border-t p-2 pt-3">
           @for (color of presetColors(); track color) {
             <button
               type="button"
-              class="aspect-square w-b4 rounded-h border"
+              class="aspect-square w-4 rounded-md border"
               [style.backgroundColor]="color"
               (click)="setValue(color, true)"
             ></button>

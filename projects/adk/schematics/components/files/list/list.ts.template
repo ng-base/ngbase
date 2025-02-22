@@ -5,7 +5,7 @@ import { NgbList, NgbListActionGroup, provideList } from '@ngbase/adk/list';
   selector: '[<%= name %>ListStyle]',
   host: {
     class:
-      'flex items-center gap-b2 py-b2 px-b2 hover:bg-muted-background cursor-pointer rounded-md text-left data-[focus="true"]:bg-muted-background',
+      'flex items-center gap-2 py-2 px-2 hover:bg-muted-background cursor-pointer rounded-md text-left data-[focus="true"]:bg-muted-background',
   },
 })
 export class ListStyle {}

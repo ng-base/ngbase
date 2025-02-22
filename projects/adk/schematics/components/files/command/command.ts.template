@@ -27,11 +27,11 @@ export interface CommandItem {
         [(ngModel)]="filter.search"
         type="text"
         placeholder="Search for apps and commands"
-        class="sticky -top-b4 w-full border-b bg-foreground p-b4 outline-none"
+        class="sticky -top-4 w-full border-b bg-foreground p-4 outline-none"
       />
       @for (group of filter.filteredList(); track group.name) {
-        <h4 class="mx-b4 my-b2 text-sm text-gray-500">{{ group.name }}</h4>
-        <div class="flex flex-col px-b2">
+        <h4 class="mx-4 my-2 text-sm text-gray-500">{{ group.name }}</h4>
+        <div class="flex flex-col px-2">
           @for (item of group.items; track item.name) {
             <a
               <%= name %>List
@@ -62,7 +62,7 @@ export interface CommandItem {
     </div>
   `,
   host: {
-    class: 'block -m-b4',
+    class: 'block -m-4',
   },
 })
 export class Command {

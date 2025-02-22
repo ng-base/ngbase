@@ -115,7 +115,7 @@ import {
           </div>
         </mee-resizable>
         <mee-resizable [size]="40" class="flex flex-col">
-          <div class="my-b2 flex items-center justify-between px-b4">
+          <div class="my-2 flex items-center justify-between px-4">
             <h4 meeHeader="sm" class="text-xl">Inbox</h4>
             <mee-selectable [(activeIndex)]="type">
               <mee-selectable-item [value]="0" class="whitespace-nowrap">
@@ -127,10 +127,10 @@ import {
           <mee-separator />
 
           <div class="flex flex-1 flex-col overflow-hidden">
-            <div class="p-b4"><input meeInput placeholder="Search mail" class="w-full" /></div>
+            <div class="p-4"><input meeInput placeholder="Search mail" class="w-full" /></div>
 
             <mee-scroll-area class="flex-1">
-              <div class="flex flex-col gap-b4 px-b4 pb-b4">
+              <div class="flex flex-col gap-4 px-4 pb-4">
                 @for (mail of filteredMails(); track $index) {
                   <button
                     meeCard
@@ -148,10 +148,10 @@ import {
                       <span class="text-muted-foreground text-xs">7 months ago</span>
                     </div>
                     <h4 class="text-xs">{{ mail.subject }}</h4>
-                    <p class="text-muted-foreground my-b2 line-clamp-2 text-xs">
+                    <p class="text-muted-foreground my-2 line-clamp-2 text-xs">
                       {{ mail.content }}
                     </p>
-                    <div class="flex gap-b2">
+                    <div class="flex gap-2">
                       @for (tag of mail.tags; track tag) {
                         <mee-badge>{{ tag }}</mee-badge>
                       }
@@ -164,7 +164,7 @@ import {
         </mee-resizable>
         <mee-resizable [size]="40" class="flex flex-col">
           <div class="flex justify-between">
-            <div class="flex gap-b2 px-b3 py-b2.5">
+            <div class="flex gap-2 px-3 py-2.5">
               <button meeButton="ghost" class="h-9 w-9 flex-none !p-0" meeTooltip="Archive">
                 <mee-icon name="lucideArchive" />
               </button>
@@ -208,7 +208,7 @@ import {
           </div>
           <mee-separator />
           <div>
-            <div class="flex gap-b4 p-b4">
+            <div class="flex gap-4 p-4">
               <div>
                 <mee-avatar name="William Smith" />
               </div>
@@ -224,17 +224,17 @@ import {
           </div>
 
           <mee-separator />
-          <div class="flex-1 whitespace-pre-wrap p-b4">
+          <div class="flex-1 whitespace-pre-wrap p-4">
             {{ selected().content }}
           </div>
           <mee-separator />
-          <div class="p-b4">
+          <div class="p-4">
             <textarea
               meeInput
               class="min-h-20 w-full"
               [placeholder]="'Reply ' + selected().name"
             ></textarea>
-            <div class="flex justify-between pt-b4">
+            <div class="flex justify-between pt-4">
               <mee-switch class="text-sm">Mute this thread</mee-switch>
               <button meeButton>Send</button>
             </div>

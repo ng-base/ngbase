@@ -12,24 +12,24 @@ import { Button } from '@meeui/ui/button';
       ngbTimeInput="hours"
       [(value)]="hours"
       (valueChange)="updateValue()"
-      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
       ngbTimeInput="minutes"
       [(value)]="minutes"
       (valueChange)="updateValue()"
-      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
     />
     <span>:</span>
     <input
       ngbTimeInput="seconds"
       [(value)]="seconds"
       (valueChange)="updateValue()"
-      class="w-7 px-b text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
     />
     @if (!is24()) {
-      <div class="ml-b flex gap-b2">
+      <div class="ml-1 flex gap-2">
         <button [meeButton]="am() ? 'primary' : 'ghost'" class="small" (click)="changeAm(true)">
           AM
         </button>
@@ -40,7 +40,7 @@ import { Button } from '@meeui/ui/button';
     }
   `,
   host: {
-    class: 'inline-flex gap-b items-center justify-center',
+    class: 'inline-flex gap-1 items-center justify-center',
   },
 })
 export class TimePicker extends NgbTimePicker {}

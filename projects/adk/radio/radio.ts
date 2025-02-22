@@ -44,11 +44,11 @@ export class NgbRadioIndicator {
   //   <button
   //     ngbFocusStyle
   //     ngbRadioIndicator
-  //     class="custom-radio relative flex h-b4 w-b4 flex-none items-center justify-center rounded-full border border-primary"
+  //     class="custom-radio relative flex h-4 w-4 flex-none items-center justify-center rounded-full border border-primary"
   //     [class]="disabled() ? 'border-muted' : 'border-primary'"
   //   >
   //     @if (checked()) {
-  //       <div class="h-b2 w-b2 rounded-full" [class]="disabled() ? 'bg-muted' : 'bg-primary'"></div>
+  //       <div class="h-2 w-2 rounded-full" [class]="disabled() ? 'bg-muted' : 'bg-primary'"></div>
   //     }
   //   </button>
   //   <ng-content />

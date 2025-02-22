@@ -32,14 +32,14 @@ import { TimePicker } from './time';
     CalendarDayBtn,
   ],
   template: `
-    <div class="mb-b2 flex items-center justify-between">
-      <button ngbCalendarBtn="left" <%= name %>Button="outline" class="h-b6 w-b6 rounded-md !px-0">
+    <div class="mb-2 flex items-center justify-between">
+      <button ngbCalendarBtn="left" <%= name %>Button="outline" class="h-6 w-6 rounded-md !px-0">
         <<%= name %>-icon [name]="dir.isRtl() ? 'lucideChevronRight' : 'lucideChevronLeft'" />
       </button>
       <button ngbCalendarTitle <%= name %>Button="ghost" class="small rounded-md">
         {{ title() }}
       </button>
-      <button ngbCalendarBtn="right" <%= name %>Button="outline" class="h-b6 w-b6 rounded-md !px-0">
+      <button ngbCalendarBtn="right" <%= name %>Button="outline" class="h-6 w-6 rounded-md !px-0">
         <<%= name %>-icon [name]="dir.isRtl() ? 'lucideChevronLeft' : 'lucideChevronRight'" />
       </button>
     </div>
@@ -50,7 +50,7 @@ import { TimePicker } from './time';
           <button
             [ngbCalYearBtn]="year"
             #yearBtn="ngbCalYearBtn"
-            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
+            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
@@ -68,7 +68,7 @@ import { TimePicker } from './time';
           <button
             [ngbCalMonthBtn]="month"
             #monthBtn="ngbCalMonthBtn"
-            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
+            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
@@ -83,15 +83,15 @@ import { TimePicker } from './time';
     } @else {
       <div class="day-names grid grid-cols-7">
         @for (dayName of dayNames; track dayName) {
-          <div class="p-b text-center text-muted">{{ dayName }}</div>
+          <div class="p-1 text-center text-muted">{{ dayName }}</div>
         }
       </div>
-      <div class="grid grid-cols-7 gap-y-b2">
+      <div class="grid grid-cols-7 gap-y-2">
         @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
             #days="ngbCalDayBtn"
             [ngbCalDayBtn]="day"
-            class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
+            class="mx-auto flex h-9 w-9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
@@ -105,13 +105,13 @@ import { TimePicker } from './time';
         }
       </div>
       @if (datePicker.time() && datePicker.range()) {
-        <<%= name %>-time class="mt-b5 w-full" [(value)]="time1" (valueChange)="timeChanged(0, time1()!)" />
-        <<%= name %>-time class="mt-b5 w-full" [(value)]="time2" (valueChange)="timeChanged(1, time2()!)" />
+        <<%= name %>-time class="mt-5 w-full" [(value)]="time1" (valueChange)="timeChanged(0, time1()!)" />
+        <<%= name %>-time class="mt-5 w-full" [(value)]="time2" (valueChange)="timeChanged(1, time2()!)" />
       }
     }
   `,
   host: {
-    class: 'inline-flex flex-col min-h-[18.75rem] p-b2 w-full',
+    class: 'inline-flex flex-col min-h-[18.75rem] p-2 w-full',
   },
 })
 export class Calendar<D> extends NgbCalendar<D> {}

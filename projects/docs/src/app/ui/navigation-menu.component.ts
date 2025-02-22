@@ -10,7 +10,7 @@ import { DocCode } from './code.component';
   imports: [Button, Menu, List, NavigationMenu, MenuTrigger, RangePipe, DocCode],
   template: `
     <app-doc-code [tsCode]="tsCode">
-      <nav class="flex gap-2 rounded-base border bg-foreground shadow-sm" meeNavigationMenu>
+      <nav class="flex gap-2 rounded-lg border bg-foreground shadow-sm" meeNavigationMenu>
         <button meeButton="ghost">Home</button>
         <button meeButton="ghost">About</button>
         <button meeButton="ghost" [meeMenuTrigger]="solutionMenu">

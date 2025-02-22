@@ -18,13 +18,13 @@ import { DocCode } from './code.component';
     </app-doc-code>
 
     <ng-template #myTemplate>
-      <div class="w-56 p-b2">
+      <div class="w-56 p-2">
         <h4 meeHeader class="">Popover</h4>
         <p class="text-muted-foreground">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
           minima quis, accusamus vero voluptatem cumque. Impedit!
         </p>
-        <button meeButton meePopoverClose class="mt-b2">Close</button>
+        <button meeButton meePopoverClose class="mt-2">Close</button>
       </div>
     </ng-template>
   `,
@@ -45,13 +45,13 @@ export default class PopoverComponent {
       <button [meePopoverTrigger]="myTemplate">Open popover with template</button>
 
       <ng-template #myTemplate>
-        <div class="w-56 p-b2">
+        <div class="w-56 p-2">
           <h4 meeHeader class="">Popover</h4>
           <p class="text-muted-foreground">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
             minima quis, accusamus vero voluptatem cumque. Impedit!
           </p>
-          <button meeButton meePopoverClose class="mt-b2">Close</button>
+          <button meeButton meePopoverClose class="mt-2">Close</button>
         </div>
       </ng-template>
     \`

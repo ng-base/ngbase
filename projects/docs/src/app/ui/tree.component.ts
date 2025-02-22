@@ -51,7 +51,7 @@ class TreeItem {
         #myTree="meeTree"
       >
         <mee-tree-node *meeTreeNodeDef="let item; level as l" #myNode="meeTreeNode">
-          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
+          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-2">
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"

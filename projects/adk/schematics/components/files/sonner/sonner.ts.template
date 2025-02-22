@@ -17,18 +17,18 @@ import {
     provideIcons({ lucideCircleCheck, lucideInfo, lucideTriangleAlert, lucideCircleAlert }),
   ],
   template: `
-    <ul class="fixed bottom-0 right-0 flex flex-col gap-b">
+    <ul class="fixed bottom-0 right-0 flex flex-col gap-1">
       @for (msg of messages(); track msg.id) {
         <li
           [ngbSonnerBase]="$index"
           class="{{
-            'm-4 w-96 rounded-base border bg-foreground p-4 shadow-lg transition-all duration-300' +
+            'm-4 w-96 rounded-lg border bg-foreground p-4 shadow-lg transition-all duration-300' +
               (msg.type === 'success' ? ' bg-green-50 text-green-600' : '') +
               (msg.type === 'error' ? ' bg-red-50 text-red-600' : '') +
               (msg.type === 'warning' ? ' bg-yellow-50 text-yellow-600' : '')
           }}"
         >
-          <h4 class="flex items-center gap-b2 font-semibold">
+          <h4 class="flex items-center gap-2 font-semibold">
             @if (msg.type && icons[msg.type]; as iconName) {
               <<%= name %>-icon [name]="iconName" />
             }

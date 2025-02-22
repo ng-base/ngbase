@@ -71,7 +71,7 @@ export class Tabs extends NgbTabs<Tab> {}
   `,
   host: {
     class: 'block overflow-auto',
-    '[class]': `active() ? 'flex-1 h-full pt-b4' : 'hidden'`,
+    '[class]': `active() ? 'flex-1 h-full pt-4' : 'hidden'`,
   },
 })
 export class Tab extends NgbTab {}

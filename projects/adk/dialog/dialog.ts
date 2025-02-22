@@ -69,15 +69,15 @@ export class NgbDialogBackdrop {
           'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
             (options().fullWindow
               ? ' h-screen w-screen border-none'
-              : ' max-w-[calc(100vw-30px)] rounded-base')
+              : ' max-w-[calc(100vw-30px)] rounded-lg')
         }}"
       >
         @if (!isHideHeader) {
-          <div class="flex items-center justify-between border-b px-b4 py-b2">
+          <div class="flex items-center justify-between border-b px-4 py-2">
             <h2>{{ options().title }}</h2>
           </div>
         }
-        <div class="h-full overflow-auto p-b4">
+        <div class="h-full overflow-auto p-4">
           <ng-container #contentContainer />
         </div>
       </div>

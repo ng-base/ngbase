@@ -11,7 +11,7 @@ import { Slider } from '@meeui/ui/slider';
       class="grid max-w-6xl grid-cols-1 overflow-hidden sm:grid-cols-2 lg:grid-cols-3 [&>*]:relative [&>*]:px-1 [&>*]:py-12 [&>*]:before:absolute [&>*]:before:bg-border/70 [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:bg-border/70 [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] sm:[&>*]:px-8 xl:[&>*]:px-12"
     >
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Simple slider - {{ value() }}</h4>
+        <h4 class="py-2 font-semibold">Simple slider - {{ value() }}</h4>
         <mee-slider
           range="2"
           [min]="0"
@@ -23,23 +23,23 @@ import { Slider } from '@meeui/ui/slider';
         />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Disabled slider</h4>
+        <h4 class="py-2 font-semibold">Disabled slider</h4>
         <mee-slider [disabled]="true" [min]="0" [max]="100" [step]="1" [value]="50" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with square thumb</h4>
+        <h4 class="py-2 font-semibold">Slider with square thumb</h4>
         <mee-slider [min]="0" [max]="10" [step]="1" [value]="5" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with solid thumb</h4>
+        <h4 class="py-2 font-semibold">Slider with solid thumb</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with tiny thumb</h4>
+        <h4 class="py-2 font-semibold">Slider with tiny thumb</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with reference labels</h4>
+        <h4 class="py-2 font-semibold">Slider with reference labels</h4>
         <div>
           <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
           <span
@@ -52,7 +52,7 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with ticks</h4>
+        <h4 class="py-2 font-semibold">Slider with ticks</h4>
         <div>
           <mee-slider [min]="0" [max]="12" [step]="1" [value]="0" />
           <span
@@ -89,26 +89,26 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="flex justify-between py-b2 font-semibold">
+        <h4 class="flex justify-between py-2 font-semibold">
           Slider with output
           <output class="text-sm font-medium tabular-nums">{{ slider.value() }}</output>
         </h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" #slider="meeSlider" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with labels</h4>
+        <h4 class="py-2 font-semibold">Slider with labels</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with labels and tooltip</h4>
+        <h4 class="py-2 font-semibold">Slider with labels and tooltip</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Dual range slider</h4>
+        <h4 class="py-2 font-semibold">Dual range slider</h4>
         <mee-slider range="2" [min]="0" [max]="100" [step]="1" [value]="[25, 75]" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="flex justify-between py-b2 font-semibold">
+        <h4 class="flex justify-between py-2 font-semibold">
           Dual range slider with output
           <output class="text-sm font-medium tabular-nums"
             >{{ $any(sliderDo.value())?.[0] }} - {{ $any(sliderDo.value())?.[1] }}</output
@@ -124,46 +124,46 @@ import { Slider } from '@meeui/ui/slider';
         />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="flex justify-between py-b2 font-semibold">
+        <h4 class="flex justify-between py-2 font-semibold">
           Volume
           <output class="text-sm font-medium tabular-nums">{{ sliderVolume.value() }}</output>
         </h4>
         <mee-slider #sliderVolume="meeSlider" [min]="0" [max]="100" [step]="1" [value]="40" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with multiple thumbs</h4>
+        <h4 class="py-2 font-semibold">Slider with multiple thumbs</h4>
         <mee-slider range="3" [min]="0" [max]="100" [step]="1" [value]="[25, 50, 95]" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Temperature</h4>
+        <h4 class="py-2 font-semibold">Temperature</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Slider with input</h4>
+        <h4 class="py-2 font-semibold">Slider with input</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Rate your experience</h4>
+        <h4 class="py-2 font-semibold">Rate your experience</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Rate your experience</h4>
+        <h4 class="py-2 font-semibold">Rate your experience</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Dual range slider with input</h4>
+        <h4 class="py-2 font-semibold">Dual range slider with input</h4>
         <mee-slider range="2" [min]="0" [max]="100" [step]="1" [value]="[25, 50]" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">100 credits/mo</h4>
+        <h4 class="py-2 font-semibold">100 credits/mo</h4>
         <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">From $5 to $1,240+</h4>
+        <h4 class="py-2 font-semibold">From $5 to $1,240+</h4>
         <mee-slider range="2" [min]="0" [max]="100" [step]="1" [value]="[0, 100]" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Vertical slider</h4>
+        <h4 class="py-2 font-semibold">Vertical slider</h4>
         <div class="flex justify-center">
           <mee-slider
             [min]="0"
@@ -176,7 +176,7 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Vertical slider with input</h4>
+        <h4 class="py-2 font-semibold">Vertical slider with input</h4>
         <div class="flex justify-center">
           <mee-slider
             [min]="0"
@@ -189,7 +189,7 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Vertical dual range slider and tooltip</h4>
+        <h4 class="py-2 font-semibold">Vertical dual range slider and tooltip</h4>
         <div class="flex justify-center">
           <mee-slider
             range="2"
@@ -203,7 +203,7 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Object position</h4>
+        <h4 class="py-2 font-semibold">Object position</h4>
         <div class="flex flex-col gap-4">
           <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
           <mee-slider [min]="0" [max]="100" [step]="1" [value]="25" />
@@ -211,11 +211,11 @@ import { Slider } from '@meeui/ui/slider';
         </div>
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Price slider</h4>
+        <h4 class="py-2 font-semibold">Price slider</h4>
         <mee-slider range="2" [min]="0" [max]="100" [step]="1" [value]="[25, 50]" />
       </div>
       <div class="space-y-4 p-8">
-        <h4 class="py-b2 font-semibold">Equalizer</h4>
+        <h4 class="py-2 font-semibold">Equalizer</h4>
         <div class="flex justify-center gap-8">
           <mee-slider
             [min]="0"

@@ -169,7 +169,7 @@ export class CalendarDayBtn<D> {
     CalendarDayBtn,
   ],
   template: `
-    <div class="mb-b2 flex items-center justify-between">
+    <div class="mb-2 flex items-center justify-between">
       <button ngbCalendarBtn="left">{{ dir.isRtl() ? '>' : '<' }}</button>
       <button ngbCalendarTitle>{{ title() }}</button>
       <button ngbCalendarBtn="right">{{ dir.isRtl() ? '<' : '>' }}</button>
@@ -181,7 +181,7 @@ export class CalendarDayBtn<D> {
           <button
             [ngbCalYearBtn]="year"
             #yearBtn="ngbCalYearBtn"
-            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
+            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
               year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
@@ -199,7 +199,7 @@ export class CalendarDayBtn<D> {
           <button
             [ngbCalMonthBtn]="month"
             #monthBtn="ngbCalMonthBtn"
-            class="items-center justify-center rounded-md py-b2 h-9 w-[84px] {{
+            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
               month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{
@@ -214,15 +214,15 @@ export class CalendarDayBtn<D> {
     } @else {
       <div class="day-names grid grid-cols-7">
         @for (dayName of dayNames; track dayName) {
-          <div class="p-b text-center text-muted">{{ dayName }}</div>
+          <div class="p-1 text-center text-muted">{{ dayName }}</div>
         }
       </div>
-      <div class="grid grid-cols-7 gap-y-b2">
+      <div class="grid grid-cols-7 gap-y-2">
         @for (day of getDaysArray(); track day.day + '-' + day.mon) {
           <button
             #days="ngbCalDayBtn"
             [ngbCalDayBtn]="day"
-            class="mx-auto flex h-b9 w-b9 items-center justify-center text-center {{
+            class="mx-auto flex h-9 w-9 items-center justify-center text-center {{
               day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
             }}"
             [ngClass]="{

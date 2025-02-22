@@ -28,10 +28,10 @@ export class TabLazyComponent {
       <mee-tabs
         [(selectedIndex)]="tabIndex"
         (selectedIndexChange)="tabIndexChange($event)"
-        class="w-[40rem] max-w-full overflow-hidden rounded-base border shadow-sm"
+        class="w-[40rem] max-w-full overflow-hidden rounded-lg border shadow-sm"
       >
         <div
-          class="tab-start-header-content flex items-center justify-center whitespace-nowrap px-b4"
+          class="tab-start-header-content flex items-center justify-center whitespace-nowrap px-4"
         >
           <h4 class="text-base font-semibold">Tab Header</h4>
         </div>
@@ -41,14 +41,14 @@ export class TabLazyComponent {
           </button>
         </div>
         @for (n of tabs(); track n.id) {
-          <mee-tab [title]="n.name" class="p-b4" [disabled]="n.disabled">
+          <mee-tab [title]="n.name" class="p-4" [disabled]="n.disabled">
             <div *meeTabHeader class="flex h-full items-center whitespace-nowrap">
               {{ n.name }}
 
               <div
                 meeButton="ghost"
                 tabindex="-1"
-                class="ml-2 h-7 w-7 !p-b"
+                class="ml-2 h-7 w-7 !p-1"
                 (click)="$event.stopPropagation(); deleteTab(n.id)"
               >
                 <mee-icon name="lucideX" />

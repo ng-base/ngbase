@@ -5,7 +5,7 @@ import { Component, input } from '@angular/core';
   template: ``,
   host: {
     class: 'block animate-pulse bg-muted-background',
-    '[class]': `shape() === 'circle' ? 'rounded-full' : 'rounded-bt'`,
+    '[class]': `shape() === 'circle' ? 'rounded-full' : 'rounded-md'`,
   },
 })
 export class Skeleton {

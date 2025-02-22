@@ -47,7 +47,7 @@ import {
           </div>
           @if (step.verticalTemplate(); as template) {
             <div class="ml-12" [@slide]>
-              <div class="pt-b4">
+              <div class="pt-4">
                 <ng-container *ngTemplateOutlet="template" />
               </div>
             </div>
@@ -73,7 +73,7 @@ export class Stepper extends NgbStepper {}
     </ng-template>
 
     @if (horizontalTemplate(); as template) {
-      <div class="pb-b4">
+      <div class="pb-4">
         <ng-container *ngTemplateOutlet="template" />
       </div>
     }

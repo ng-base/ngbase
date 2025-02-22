@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Chip } from '@meeui/ui/chip';
 import { Heading } from '@meeui/ui/typography';
-import { DocCode } from './code.component';
+import { DocCode, getCode } from '../code.component';
 
 @Component({
   selector: 'app-chip',
@@ -9,21 +9,13 @@ import { DocCode } from './code.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5">Chip</h4>
-    <app-doc-code [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
       <div meeChip>Chip</div>
     </app-doc-code>
   `,
 })
 export default class ChipComponent {
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { Chip } from '@meeui/ui/chip';
+  tsCode = getCode('/chip/chip-usage.ts');
 
-  @Component({
-    selector: 'app-root',
-    imports: [Chip],
-    template: \`<button meeChip>Chip</button>\`,
-  })
-  export class AppComponent { }
-  `;
+  adkCode = getCode('/chip/chip-adk.ts');
 }

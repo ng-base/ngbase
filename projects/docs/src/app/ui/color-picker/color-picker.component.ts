@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ColorInput } from '@meeui/ui/color-picker';
 import { FormField, Label } from '@meeui/ui/form-field';
 import { Heading } from '@meeui/ui/typography';
-import { DocCode } from './code.component';
+import { DocCode, getCode } from '../code.component';
 
 @Component({
   selector: 'app-color-picker',
@@ -13,8 +13,8 @@ import { DocCode } from './code.component';
     <!-- <button meeButton meeColorPickerTrigger class="mt-5">Open color picker</button>
     color -- {{ hexColor() }} -->
 
-    <app-doc-code [tsCode]="tsCode">
-      <div meeFormField>
+    <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
+      <mee-form-field>
         <label meeLabel>Hex color</label>
         <mee-color-input
           [(ngModel)]="hexColor"
@@ -33,12 +33,12 @@ import { DocCode } from './code.component';
             '#cbd5e1',
           ]"
         />
-      </div>
+      </mee-form-field>
 
-      <div meeFormField>
+      <mee-form-field>
         <label meeLabel>RGB color</label>
         <mee-color-input [format]="'rgb'" [(value)]="rgbColor" />
-      </div>
+      </mee-form-field>
     </app-doc-code>
   `,
 })
@@ -47,26 +47,7 @@ export default class ColorPickerComponent {
   rgbColor = signal('rgb(255, 0, 0)');
   hsbColor = signal('hsb(215, 91%, 100%)');
 
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { ColorInput } from '@meeui/ui/color-picker';
-  import { Label } from '@meeui/ui/input';
+  tsCode = getCode('/color-picker/color-picker-usage.ts');
 
-  @Component({
-    selector: 'app-root',
-    template: \`
-      <label meeLabel>
-        Hex color
-        <mee-color-input
-          [(ngModel)]="hexColor"
-          [presetColors]="['#ffffff', '#2889e9']"
-         />
-      </label>
-    \`,
-    imports: [ColorInput, Label],
-  })
-  export class AppComponent {
-    hexColor = '#1778FF';
-  }
-  `;
+  adkCode = getCode('/color-picker/color-picker-adk.ts');
 }

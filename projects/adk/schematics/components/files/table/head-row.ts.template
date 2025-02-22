@@ -5,7 +5,7 @@ import { NgbHeadRow, NgbHeadRowDef } from '@ngbase/adk/table';
   selector: '[<%= name %>HeadRow]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: `h-b10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-foreground`,
+    class: `h-10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-foreground`,
   },
   providers: [{ provide: NgbHeadRow, useExisting: HeadRow }],
   template: `<ng-container #container />`,

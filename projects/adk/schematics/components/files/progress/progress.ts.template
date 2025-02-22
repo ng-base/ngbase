@@ -8,7 +8,7 @@ import { NgbProgress, NgbProgressBar } from '@ngbase/adk/progress';
   imports: [NgbProgressBar],
   template: `<div class="h-full bg-primary transition" ngbProgressBar></div>`,
   host: {
-    class: 'block h-b2 my-1 bg-muted-background rounded-full',
+    class: 'block h-2 my-1 bg-muted-background rounded-full',
   },
 })
 export class Progress {}

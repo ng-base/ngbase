@@ -14,17 +14,17 @@ import { DocCode, getCode } from '../code.component';
     <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
       <button meeButton (click)="openAlert()">Open alert</button>
     </app-doc-code>
-    <!-- <mee-selectable [(activeIndex)]="selected" class="mb-b2 text-xs">
+    <!-- <mee-selectable [(activeIndex)]="selected" class="mb-2 text-xs">
       <mee-selectable-item [value]="1">Preview</mee-selectable-item>
       <mee-selectable-item [value]="2">Source</mee-selectable-item>
     </mee-selectable>
 
     @if (selected() === 1) {
-      <div class="grid min-h-80 place-items-center rounded-base border bg-background">
+      <div class="grid min-h-80 place-items-center rounded-lg border bg-background">
         <button meeButton (click)="openAlert()">Open alert</button>
       </div>
     } @else {
-      <mee-tabs class="small dark overflow-hidden rounded-base border bg-black text-xs">
+      <mee-tabs class="small dark overflow-hidden rounded-lg border bg-black text-xs">
         <mee-tab label="HTML" class="!p-0">
           <div [innerHTML]="html()"></div>
         </mee-tab>

@@ -16,7 +16,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
   imports: [DragDrop, Drag, DragMove, Heading],
   providers: [provideIcons({ lucideGripVertical })],
   template: `
-    <h4 meeHeader="sm" class="mb-b5">Drag and Drop</h4>
+    <h4 meeHeader="sm" class="mb-5">Drag and Drop</h4>
     <div class="parent flex h-96 w-96 items-center justify-center border bg-background">
       <div
         ngbDragMove
@@ -27,33 +27,33 @@ import { lucideGripVertical } from '@ng-icons/lucide';
       </div>
     </div>
 
-    <!-- <div class="flex gap-b4">
-      <div meeDrop (orderChanged)="drop($event)" class="drop-list mt-10 w-96 rounded-base border">
+    <!-- <div class="flex gap-4">
+      <div meeDrop (orderChanged)="drop($event)" class="drop-list mt-10 w-96 rounded-lg border">
         @for (item of dragItems; track item) {
-          <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
-            <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-b" />
+          <div class="flex items-center border-b bg-foreground p-2" meeDrag>
+            <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-1" />
             {{ item }}
           </div>
         }
       </div>
     </div> -->
-    <div class="flex gap-b4">
-      <div class="drop-list mt-10 w-96 rounded-base border">
-        <h4 meeHeader="sm" class="m-b2">To do</h4>
+    <div class="flex gap-4">
+      <div class="drop-list mt-10 w-96 rounded-lg border">
+        <h4 meeHeader="sm" class="m-2">To do</h4>
         <div ngbDrop (orderChanged)="todoDrop($event)">
           @for (item of todo(); track item) {
-            <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
+            <div class="flex items-center border-b bg-foreground p-2" meeDrag>
               {{ item }}
             </div>
           }
         </div>
       </div>
 
-      <div class="drop-list mt-10 w-96 rounded-base border">
-        <h4 meeHeader="sm" class="m-b2">Done</h4>
+      <div class="drop-list mt-10 w-96 rounded-lg border">
+        <h4 meeHeader="sm" class="m-2">Done</h4>
         <div ngbDrop (orderChanged)="doneDrop($event)">
           @for (item of done(); track item) {
-            <div class="flex items-center border-b bg-foreground p-b2" meeDrag>
+            <div class="flex items-center border-b bg-foreground p-2" meeDrag>
               {{ item }}
             </div>
           }
@@ -65,11 +65,11 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     <div
       ngbDrop
       (orderChanged)="gridDrop($event)"
-      class="drop-parent mt-10 inline-flex rounded-base border"
+      class="drop-parent mt-10 inline-flex rounded-lg border"
     >
       @for (item of grid; track item) {
         <div
-          class="flex h-9 w-9 items-center justify-center border-r bg-foreground p-b2"
+          class="flex h-9 w-9 items-center justify-center border-r bg-foreground p-2"
           meeDrag
           dragBoundary=".drop-parent"
         >
@@ -81,11 +81,11 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     <div
       ngbDrop
       (orderChanged)="gridDrop($event)"
-      class="drop-parent-1 mt-10 grid w-96 grid-cols-3 rounded-base border"
+      class="drop-parent-1 mt-10 grid w-96 grid-cols-3 rounded-lg border"
     >
       @for (item of grid; track item) {
         <div
-          class="flex items-center border-b bg-foreground p-b2"
+          class="flex items-center border-b bg-foreground p-2"
           ngbDrag
           dragBoundary=".drop-parent-1"
         >

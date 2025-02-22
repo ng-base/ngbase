@@ -16,7 +16,7 @@ import { DocCode } from './code.component';
         [total]="400"
         [showPage]="true"
         (valueChanged)="valueChanged($event)"
-        class="rounded-base border bg-foreground p-b4 shadow-sm"
+        class="rounded-lg border bg-foreground p-4 shadow-sm"
       />
     </app-doc-code>
   `,
@@ -39,7 +39,7 @@ export default class PaginationComponent {
         [sizeOptions]="[10, 20, 50, 100]"
         [showPage]="true"
         (valueChanged)="valueChanged($event)"
-        class="rounded-base border bg-foreground p-b4 shadow-sm"
+        class="rounded-lg border bg-foreground p-4 shadow-sm"
       />
     \`
   })
@@ -74,7 +74,7 @@ export default class PaginationComponent {
         </mee-select>
       </div>
       <div>Page {{ active() }} of {{ _totalSize() }}</div>
-      <div class="flex items-center gap-b2">
+      <div class="flex items-center gap-2">
         <button meePaginationBtn="prev" meeButton="outline" class="h-8 w-8 !p-2">
           <<
         </button>

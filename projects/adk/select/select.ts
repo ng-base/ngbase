@@ -83,7 +83,7 @@ export class NgbSelectOptionGroup {
   template: `
     <button
       ngbSelectValue
-      class="flex min-h-b5 w-full items-center justify-between gap-b whitespace-nowrap outline-none"
+      class="flex min-h-5 w-full items-center justify-between gap-1 whitespace-nowrap outline-none"
       [class.opacity-50]="disabled()"
     >
       <!-- Prefix template -->
@@ -104,7 +104,7 @@ export class NgbSelectOptionGroup {
             <input ngbSelectInput placeholder="Search options" [(value)]="optionsFilter.search" />
           }
         </ng-content>
-        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-b">
+        <div #optionsGroup ngbSelectOptionGroup class="overflow-auto p-1">
           <div class="h-full" role="listbox" aria-label="Suggestions">
             <ng-content>
               @for (option of optionsFilter.filteredList(); track option; let i = $index) {

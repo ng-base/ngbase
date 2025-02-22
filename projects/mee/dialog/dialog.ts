@@ -30,24 +30,24 @@ import { lucideX } from '@ng-icons/lucide';
           'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
             (options().fullWindow
               ? ' h-screen w-screen border-none'
-              : ' max-w-[calc(100vw-30px)] rounded-base')
+              : ' max-w-[calc(100vw-30px)] rounded-lg')
         }}"
       >
         @if (!isHideHeader) {
           <div
-            class="flex items-center justify-between border-b px-b4 py-b2"
+            class="flex items-center justify-between border-b px-4 py-2"
             ngbDragMove
             [target]="myDialog"
           >
             <h2 class="flex-1 text-base font-bold">{{ options().title }}</h2>
             @if (!options().disableClose) {
-              <button meeButton="ghost" class="-mr-b2 !p-b2" (click)="close()">
+              <button meeButton="ghost" class="-mr-2 !p-2" (click)="close()">
                 <mee-icon name="lucideX" />
               </button>
             }
           </div>
         }
-        <div class="h-full overflow-auto p-b4">
+        <div class="h-full overflow-auto p-4">
           <ng-container #contentContainer />
         </div>
       </div>

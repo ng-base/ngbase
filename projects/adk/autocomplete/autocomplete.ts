@@ -25,7 +25,7 @@ import { NgbAutocompleteInput } from './autocomplete-input';
       </li>
     </ul>
     <ng-template #optionsTemplate>
-      <div #optionsGroup ngbSelectOptionGroup class="p-b">
+      <div #optionsGroup ngbSelectOptionGroup class="p-1">
         <ng-content />
       </div>
     </ng-template>

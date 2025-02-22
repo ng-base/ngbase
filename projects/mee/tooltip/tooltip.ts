@@ -24,7 +24,7 @@ export class Tooltip {}
   template: `{{ content() }}`,
   host: {
     class:
-      'fixed inline-block rounded-base bg-foreground px-b3 py-b border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',
+      'fixed inline-block rounded-lg bg-foreground px-3 py-1 border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',
     '[class]': `theme.mode() === 'dark' ? 'light' : 'dark'`,
   },
 })

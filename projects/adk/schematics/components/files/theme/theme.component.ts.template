@@ -21,7 +21,7 @@ interface ThemeData {
   selector: '<%= name %>-theme',
   imports: [Input, ReactiveFormsModule, Button, ColorInput],
   template: `
-    <div class="mb-b4 flex gap-4">
+    <div class="mb-4 flex gap-4">
       @for (theme of themes; track theme) {
         <button <%= name %>Button="outline" (click)="changeTheme(theme)">
           {{ theme.name }}
@@ -114,13 +114,13 @@ export class ThemeComponent {
       const style = document.documentElement.style;
       style.setProperty('--radius', value.radius!);
       style.setProperty('--spacing-base', value.space!);
-      style.setProperty('--background', this.colorRGB(value.background!));
-      style.setProperty('--foreground', this.colorRGB(value.foreground!));
-      style.setProperty('--primary', this.colorRGB(value.primary!));
-      style.setProperty('--muted', this.colorRGB(value.muted!));
-      style.setProperty('--border', this.colorRGB(value.border!));
-      style.setProperty('--text', this.colorRGB(value.text!));
-      style.setProperty('--input', this.colorRGB(value.input!));
+      style.setProperty('---color-background', this.colorRGB(value.background!));
+      style.setProperty('---color-foreground', this.colorRGB(value.foreground!));
+      style.setProperty('--color-primary', this.colorRGB(value.primary!));
+      style.setProperty('---color-muted', this.colorRGB(value.muted!));
+      style.setProperty('---color-border', this.colorRGB(value.border!));
+      style.setProperty('---color-text', this.colorRGB(value.text!));
+      style.setProperty('---color-input', this.colorRGB(value.input!));
     });
 
     console.log(this.colorRGB('#ffffff'));

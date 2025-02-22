@@ -20,7 +20,7 @@ import { NgbStepper } from './stepper';
       <ng-container *ngTemplateOutlet="template" />
     }
     <ng-template #stepContainer>
-      <div class="py-b4">
+      <div class="py-4">
         <ng-content />
       </div>
     </ng-template> `,

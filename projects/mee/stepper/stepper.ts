@@ -22,7 +22,7 @@ import {
         <div
           [ngbStepperStep]="$index"
           class="{{
-            'relative flex pb-b4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-background data-[index]:after:transition-colors' +
+            'relative flex pb-4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-background data-[index]:after:transition-colors' +
               (activeIndex() > $index ? ' data-[index]:after:bg-primary' : '') +
               (direction() === 'vertical'
                 ? ' flex-col data-[index]:after:absolute data-[index]:after:bottom-0 data-[index]:after:left-3 data-[index]:after:top-10 data-[index]:after:w-0.5'
@@ -47,7 +47,7 @@ import {
           </div>
           @if (step.verticalTemplate(); as template) {
             <div class="ml-12" [@slide]>
-              <div class="pt-b4">
+              <div class="pt-4">
                 <ng-container *ngTemplateOutlet="template" />
               </div>
             </div>
@@ -73,7 +73,7 @@ export class Stepper extends NgbStepper {}
     </ng-template>
 
     @if (horizontalTemplate(); as template) {
-      <div class="pb-b4">
+      <div class="pb-4">
         <ng-container *ngTemplateOutlet="template" />
       </div>
     }

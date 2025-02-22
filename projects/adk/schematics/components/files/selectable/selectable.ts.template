@@ -8,7 +8,7 @@ import { NgbSelectable, NgbSelectableItem } from '@ngbase/adk/selectable';
   template: `<ng-content />`,
   host: {
     class:
-      'flex-1 flex items-center font-medium justify-center px-b3 py-b1.5 cursor-pointer transition-colors rounded-bt whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+      'flex-1 flex items-center font-medium justify-center px-3 py-1.5 cursor-pointer transition-colors rounded-md whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
     '[class]': `selectable.selected() ? 'bg-foreground shadow-md ring-1 ring-border' : 'opacity-60'`,
   },
 })
@@ -21,7 +21,7 @@ export class SelectableItem<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
   host: {
-    class: 'inline-flex relative bg-muted-background rounded-bt p-b0.5',
+    class: 'inline-flex relative bg-muted-background rounded-md p-0.5',
   },
   hostDirectives: [
     {

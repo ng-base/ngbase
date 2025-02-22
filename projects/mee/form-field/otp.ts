@@ -29,7 +29,7 @@ import { InputStyle } from './input-style.directive';
     <input type="text" ngbOtpInput ngbNumberOnly class="selection:bg-transparent" />
   `,
   host: {
-    class: 'inline-flex items-center justify-center rounded-base relative',
+    class: 'inline-flex items-center justify-center rounded-lg relative',
   },
 })
 export class InputOtp extends NgbInputOtp {

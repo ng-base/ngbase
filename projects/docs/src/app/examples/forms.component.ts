@@ -45,9 +45,9 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
     FormField,
   ],
   template: `
-    <mee-card class="flex w-[28rem] flex-col gap-b2">
-      <h4 meeHeader="sm" class="mb-b4">Let’s get you hired!</h4>
-      <div class="flex gap-b4">
+    <mee-card class="flex w-[28rem] flex-col gap-2">
+      <h4 meeHeader="sm" class="mb-4">Let’s get you hired!</h4>
+      <div class="flex gap-4">
         <div meeFormField>
           <label meeLabel> First Name*</label>
           <input meeInput placeholder="First Name" />
@@ -76,7 +76,7 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
       </div>
       <div meeFormField>
         <label meeLabel> Year of Experience </label>
-        <div class="flex gap-b4">
+        <div class="flex gap-4">
           <input meeInput id="experience" placeholder="Years" />
           <input meeInput id="experience" placeholder="Months" />
         </div>
@@ -98,11 +98,11 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
           }
         </mee-autocomplete>
       </div>
-      <div class="mb-b4 flex flex-col">
+      <div class="mb-4 flex flex-col">
         <mee-checkbox>Subscribe to our newsletter</mee-checkbox>
         <mee-checkbox>Accept terms and conditions</mee-checkbox>
       </div>
-      <div class="flex flex-col gap-b4 text-center">
+      <div class="flex flex-col gap-4 text-center">
         <button meeButton>Find Dream Jobs</button>
         <p>Already have an account? <a>Login here</a></p>
         <p>

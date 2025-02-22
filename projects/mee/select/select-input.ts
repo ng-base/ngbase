@@ -9,7 +9,7 @@ import { InputStyle } from '@meeui/ui/form-field';
     InputStyle,
   ],
   host: {
-    class: 'w-full !m-0 mb-b !ring-0 !border-0 !border-b rounded-none px-b3 z-10',
+    class: 'w-full !m-0 mb-1 !ring-0 !border-0 !border-b rounded-none px-3 z-10',
   },
 })
 export class SelectInput<T> {}

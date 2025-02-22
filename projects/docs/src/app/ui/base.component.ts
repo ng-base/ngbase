@@ -48,16 +48,16 @@ import { LangButton } from './lang-button';
   viewProviders: [provideIcons({ lucideMenu })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="sticky top-0 z-20 w-full border-b bg-foreground px-b4 py-b2">
+    <nav class="sticky top-0 z-20 w-full border-b bg-foreground px-4 py-2">
       <div class="flex h-full items-center justify-between">
-        <div class="flex items-center gap-b2 text-lg">
+        <div class="flex items-center gap-2 text-lg">
           <button meeButton="ghost" (click)="toggleShow()" class="h-8 w-8">
             <mee-icon name="lucideMenu" />
           </button>
           <img src="/logo.svg" alt="logo" class="h-6" />
           <h4 meeHeader="xs">NgBase</h4>
         </div>
-        <div class="flex h-full items-center gap-b">
+        <div class="flex h-full items-center gap-1">
           <button
             meeButton="ghost"
             (click)="themeService.open()"
@@ -90,7 +90,7 @@ import { LangButton } from './lang-button';
           <app-nav class="tour-nav block" meeTourStep></app-nav>
         </mee-sidenav-header>
         <div class="flex-1 overflow-x-hidden">
-          <div class="p-b4">
+          <div class="p-4">
             <router-outlet />
           </div>
           <!-- <div class="flex h-screen w-full items-center justify-center">

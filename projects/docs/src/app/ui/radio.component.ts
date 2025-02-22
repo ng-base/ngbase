@@ -18,10 +18,10 @@ import { DocCode } from './code.component';
         <mee-radio value="2">Radio 2</mee-radio>
         <mee-radio value="3" disabled>Radio 3</mee-radio>
       </mee-radio-group>
-      <mee-radio-group [(ngModel)]="radioValue" class="mt-10 grid w-full gap-b4 md:w-96">
-        <mee-card class="!py-b2">
+      <mee-radio-group [(ngModel)]="radioValue" class="mt-10 grid w-full gap-4 md:w-96">
+        <mee-card class="!py-2">
           <mee-radio value="1">
-            <div class="ml-b2">
+            <div class="ml-2">
               <h4 meeHeader="xs">Radio 1</h4>
               <p class="text-muted">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere
@@ -30,9 +30,9 @@ import { DocCode } from './code.component';
             </div>
           </mee-radio>
         </mee-card>
-        <mee-card class="!py-b2">
+        <mee-card class="!py-2">
           <mee-radio value="2">
-            <div class="ml-b2">
+            <div class="ml-2">
               <h4 meeHeader="xs">Radio 2</h4>
               <p class="text-muted">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere

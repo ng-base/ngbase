@@ -13,7 +13,7 @@ import { DocCode } from './code.component';
       <mee-sidenav
         [show]="show()"
         [mode]="mode()"
-        class="min-h-64 !w-96 rounded-base border bg-foreground"
+        class="min-h-64 !w-96 rounded-lg border bg-foreground"
       >
         <mee-sidenav-header class="border-r" width="100px" minWidth="50px">
           <div class="p-2">This is the header</div>

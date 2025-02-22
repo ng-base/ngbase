@@ -69,7 +69,7 @@ import { DocCode } from './code.component';
               }
             </mee-option-group>
           }
-          <div class="select-footer border-t px-b3 py-b2">Footer</div>
+          <div class="select-footer border-t px-3 py-2">Footer</div>
         </mee-select>
       </mee-form-field>
       <mee-form-field class="mt-5 min-w-52">

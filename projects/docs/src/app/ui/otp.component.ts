@@ -12,7 +12,7 @@ import { Checkbox } from '@meeui/ui/checkbox';
     <h4 meeHeader class="mb-5" id="inputNumberPage">Input OTP</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <div class="flex flex-col items-start gap-b4">
+      <div class="flex flex-col items-start gap-4">
         <div class="flex items-center gap-2">
           <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
           <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>

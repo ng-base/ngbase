@@ -52,14 +52,14 @@ export class NgbTimeInput {
     <span>:</span>
     <input ngbTimeInput="seconds" [(value)]="seconds" (valueChange)="updateValue()" />
     @if (!is24()) {
-      <div class="ml-b flex gap-b2">
+      <div class="ml-1 flex gap-2">
         <button type="button" class="small" (click)="changeAm(true)">AM</button>
         <button type="button" class="small" (click)="changeAm(false)">PM</button>
       </div>
     }
   `,
   host: {
-    class: 'inline-flex gap-b items-center justify-center',
+    class: 'inline-flex gap-1 items-center justify-center',
   },
 })
 export class NgbTimePicker implements ControlValueAccessor {

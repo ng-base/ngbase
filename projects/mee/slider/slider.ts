@@ -26,17 +26,17 @@ import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
         ngbSliderThumb
         meeFocusStyle
         class="{{
-          'inline-block h-b5 w-b5 rounded-full border-2 bg-foreground shadow-md aria-[disabled=false]:border-primary aria-[disabled=true]:bg-muted-background ' +
+          'inline-block h-5 w-5 rounded-full border-2 bg-foreground shadow-md aria-[disabled=false]:border-primary aria-[disabled=true]:bg-muted-background ' +
             (orientation() === 'vertical'
-              ? '-left-b1.5 -translate-y-1/2'
-              : '-top-b1.5 -translate-x-1/2')
+              ? '-left-1.5 -translate-y-1/2'
+              : '-top-1.5 -translate-x-1/2')
         }}"
       ></button>
     }
   `,
   host: {
-    class: 'block relative my-b',
-    '[class]': 'orientation() === "vertical" ? "w-b2" : "h-b2"',
+    class: 'block relative my-1',
+    '[class]': 'orientation() === "vertical" ? "w-2" : "h-2"',
   },
 })
 export class Slider extends NgbSlider {}

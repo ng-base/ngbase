@@ -60,7 +60,7 @@ interface TreeItem {
       <button meeButton="outline" (click)="myTree.expandAll()">Expand All</button>
       <mee-tree [dataSource]="items()" [trackBy]="trackBy" [children]="getChildren" #myTree>
         <mee-tree-node *meeTreeNodeDef="let item" #myNode>
-          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-b2">
+          <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-2">
             <mee-icon
               size="20px"
               [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"

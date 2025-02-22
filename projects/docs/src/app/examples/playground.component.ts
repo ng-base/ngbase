@@ -39,7 +39,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
   viewProviders: [provideIcons({ lucideBookText, lucideDownload })],
   template: `
     <mee-card class="!p-0">
-      <div class="flex items-center gap-2 p-b4">
+      <div class="flex items-center gap-2 p-4">
         <h4 meeHeader="sm" class="flex-1">Playground</h4>
         <mee-select class="w-72" placeholder="Load a preset">
           <input meeSelectInput placeholder="Select preset" [(ngModel)]="searchPreset" />
@@ -55,10 +55,10 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
       <mee-separator />
       <mee-menu #menuDots>
         <button meeOption>Content filter preferences</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Delete preset</button>
       </mee-menu>
-      <div class="flex p-b4">
+      <div class="flex p-4">
         <textarea
           meeInput
           ngbAutoHeight
@@ -66,8 +66,8 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
           class="min-h-[500px] flex-1"
           placeholder="Write a tagline for an ice cream shop"
         ></textarea>
-        <div class="flex w-52 flex-col gap-7 pl-b4">
-          <div class="flex flex-col gap-b2">
+        <div class="flex w-52 flex-col gap-7 pl-4">
+          <div class="flex flex-col gap-2">
             <h4 class="mb-1 font-medium">Mode</h4>
             <!-- <mee-toggle-group>
               <button meeToggleItem><-</button>
@@ -86,7 +86,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
             </mee-selectable>
           </div>
 
-          <div class="flex flex-col gap-b2">
+          <div class="flex flex-col gap-2">
             <h4 meeHeader class="mb-1">Model</h4>
             <mee-select class="w-full" placeholder="Select model" [(ngModel)]="model">
               <input meeSelectInput placeholder="Select model" [(ngModel)]="searchModel" />
@@ -100,23 +100,23 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
             </mee-select>
           </div>
 
-          <div class="flex flex-col gap-b2">
+          <div class="flex flex-col gap-2">
             <h4 meeHeader class="mb-1">Temperature - {{ temperature() }}</h4>
             <mee-slider [max]="1" [step]="0.1" [(ngModel)]="temperature" />
           </div>
 
-          <div class="flex flex-col gap-b2">
+          <div class="flex flex-col gap-2">
             <h4 meeHeader class="mb-1">Max Length - {{ maxLength() }}</h4>
             <mee-slider [max]="4000" [(ngModel)]="maxLength" />
           </div>
 
-          <div class="flex flex-col gap-b2">
+          <div class="flex flex-col gap-2">
             <h4 meeHeader class="mb-1">Top P - {{ topP() }}</h4>
             <mee-slider [max]="1" [step]="0.1" [(ngModel)]="topP" />
           </div>
         </div>
       </div>
-      <div class="flex gap-b2 px-b4 pb-b4">
+      <div class="flex gap-2 px-4 pb-4">
         <button meeButton>Submit</button>
         <button meeButton="secondary">X</button>
       </div>

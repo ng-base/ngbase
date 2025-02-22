@@ -10,7 +10,7 @@ import { NgbMenu, NgbMenuTrigger, MenuGroup, provideMenu } from '@ngbase/adk/men
   imports: [AccessibleGroup, MenuGroup],
   template: `
     <ng-template #container>
-      <div ngbMenuGroup class="flex flex-col p-b">
+      <div ngbMenuGroup class="flex flex-col p-1">
         <ng-content />
       </div>
     </ng-template>

@@ -19,13 +19,13 @@ import { Heading } from '@meeui/ui/typography';
       quod numquam temporibus!
     </p>
 
-    <h4 meeHeader="lg" class="mt-b4">Heading lg</h4>
+    <h4 meeHeader="lg" class="mt-4">Heading lg</h4>
     <h4 meeHeader="md">Heading md</h4>
     <h4 meeHeader="sm">Heading sm</h4>
     <h4 meeHeader="xs">Heading xs</h4>
     <h4 meeHeader>Heading</h4>
 
-    <div class="mt-b4 flex flex-col gap-b4">
+    <div class="mt-4 flex flex-col gap-4">
       @for (i of 2 | range; track i) {
         <mee-card>
           <h4 meeHeader>Heading 2</h4>

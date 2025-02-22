@@ -19,7 +19,7 @@ import { VirtualFor, Virtualizer } from '@ngbase/adk/virtualizer';
           <ngb-virtualizer #vv [itemSize]="50" class="h-[400px] border">
             <div
               *virtualFor="let item of items; let i = index"
-              class="flex h-full items-center border-b px-b4"
+              class="flex h-full items-center border-b px-4"
             >
               id: {{ item.id }} | name: {{ item.name }} | description: {{ item.description }} |
               value: {{ item.value }}
@@ -32,7 +32,7 @@ import { VirtualFor, Virtualizer } from '@ngbase/adk/virtualizer';
           <ngb-virtualizer orientation="horizontal" [itemSize]="50" class="h-[400px] border">
             <div
               *virtualFor="let item of items; let i = index"
-              class="flex h-full w-full items-center border-r py-b4 [writing-mode:vertical-lr]"
+              class="flex h-full w-full items-center border-r py-4 [writing-mode:vertical-lr]"
             >
               Column {{ i }}
             </div>

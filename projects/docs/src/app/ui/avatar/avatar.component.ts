@@ -8,9 +8,9 @@ import { DocCode, getCode } from '../code.component';
   imports: [Heading, Avatar, DocCode, AvatarGroup],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h4 meeHeader class="mb-b5" id="avatarPage">Avatar</h4>
+    <h4 meeHeader class="mb-5" id="avatarPage">Avatar</h4>
     <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
-      <div class="flex items-center gap-b2">
+      <div class="flex items-center gap-2">
         <mee-avatar class="w-9" name="Sheik Althaf" />
         <mee-avatar
           class="shadow-outline-red w-9"

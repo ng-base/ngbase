@@ -45,7 +45,7 @@ export class DatepickerGroup<D> {
       }
     </div>
     @if (template()) {
-      <div class="px-b2 pb-b2">
+      <div class="px-2 pb-2">
         <ng-container *ngTemplateOutlet="template()" />
       </div>
     }

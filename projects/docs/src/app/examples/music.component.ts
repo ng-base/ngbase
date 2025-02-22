@@ -57,7 +57,7 @@ import {
   ],
   template: `
     <mee-card class="!p-0">
-      <div class="flex gap-b2 px-b4 py-b" meeNavigationMenu>
+      <div class="flex gap-2 px-4 py-1" meeNavigationMenu>
         <button meeButton="ghost" class="small !font-bold" [meeMenuTrigger]="music">Music</button>
         <button meeButton="ghost" class="small" [meeMenuTrigger]="file">File</button>
         <button meeButton="ghost" class="small" [meeMenuTrigger]="edit">Edit</button>
@@ -78,7 +78,7 @@ import {
         <button meeOption>LibraryImport</button>
         <button meeOption>Burn Playlist to Disc</button>
         <button meeOption>Show in Finder <mee-key meeKey="⇧⌘P" /></button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Convert</button>
         <button meeOption>Page Setup <mee-key meeKey="⇧⌘P" /></button>
         <button meeOption>Print</button>
@@ -87,13 +87,13 @@ import {
       <mee-menu #edit>
         <button meeOption>Undo</button>
         <button meeOption>Redo</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Cut</button>
         <button meeOption>Copy</button>
         <button meeOption>Paste</button>
         <button meeOption>Select All</button>
         <button meeOption>Deselect All</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Smart Dictation...</button>
         <button meeOption>Emoji & Symbols</button>
       </mee-menu>
@@ -102,26 +102,26 @@ import {
         <button meeOption>Show Playing Next</button>
         <button meeOption>Show Lyrics</button>
         <button meeOption>Show Status Bar</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Hide Sidebar</button>
         <button meeOption>Enter Full Screen</button>
       </mee-menu>
 
       <mee-menu #account>
         <button meeOption>Switch Account</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Andy</button>
         <button meeOption>Benoit</button>
         <button meeOption>Luis</button>
-        <mee-separator class="my-b" />
+        <mee-separator class="my-1" />
         <button meeOption>Manage Family...</button>
         <button meeOption>Add Account...</button>
       </mee-menu>
 
       <mee-separator />
       <div class="flex">
-        <div class="w-52 flex-none p-b4">
-          <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Discover</h4>
+        <div class="w-52 flex-none p-4">
+          <h4 meeHeader="sm" class="mb-2 mt-5 pl-2">Discover</h4>
           <div class="flex flex-col py-2">
             <button meeList class="bg-muted-background font-medium">
               <mee-icon name="lucideCirclePlay" />Listen Now
@@ -130,7 +130,7 @@ import {
             <button meeList class="font-medium"><mee-icon name="lucideRadio" /> Radio</button>
           </div>
 
-          <h4 meeHeader="sm" class="mb-b2 mt-5 pl-b2">Library</h4>
+          <h4 meeHeader="sm" class="mb-2 mt-5 pl-2">Library</h4>
           <div class="flex flex-col py-2">
             <button meeList class="font-medium"><mee-icon name="lucideListMusic" />Playlist</button>
             <button meeList class="font-medium"><mee-icon name="lucideMusic2" /> Songs</button>
@@ -140,7 +140,7 @@ import {
           </div>
         </div>
         <mee-separator vertical />
-        <div class="flex-1 overflow-hidden p-b4">
+        <div class="flex-1 overflow-hidden p-4">
           <div class="flex justify-between">
             <mee-selectable [activeIndex]="0">
               <mee-selectable-item [value]="0">Music</mee-selectable-item>
@@ -152,7 +152,7 @@ import {
 
           <h4 meeHeader="sm" class="mt-5">Listen Now</h4>
           <p class="text-muted-foreground">Top picks for you. Updated daily.</p>
-          <mee-separator class="my-b4" />
+          <mee-separator class="my-4" />
 
           <mee-scroll-area>
             <div class="flex gap-2">
@@ -165,7 +165,7 @@ import {
                   >
                     {{ item }}
                   </mee-card>
-                  <h4 meeHeader class="mt-b2">React Rendezvous</h4>
+                  <h4 meeHeader class="mt-2">React Rendezvous</h4>
                   <p class="text-muted-foreground">Ethan Byte</p>
                 </div>
               }
@@ -174,7 +174,7 @@ import {
 
           <h4 meeHeader="sm" class="mt-8">Made for You</h4>
           <p class="text-muted-foreground">Your personal playlists. Updated daily.</p>
-          <mee-separator class="my-b4" />
+          <mee-separator class="my-4" />
 
           <mee-scroll-area>
             <div class="flex gap-2">
@@ -186,7 +186,7 @@ import {
                     meeHeader="sm"
                   >
                   </mee-card>
-                  <h4 meeHeader class="mt-b2">React Rendezvous</h4>
+                  <h4 meeHeader class="mt-2">React Rendezvous</h4>
                   <p class="text-muted-foreground">Ethan Byte</p>
                 </div>
               }

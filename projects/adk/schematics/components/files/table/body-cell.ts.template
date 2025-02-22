@@ -6,7 +6,7 @@ import { NgbCell, NgbCellDef } from '@ngbase/adk/table';
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [NgbCell],
   host: {
-    class: 'px-b4 py-b2 align-middle bg-foreground',
+    class: 'px-4 py-2 align-middle bg-foreground',
   },
   template: `<ng-content />`,
 })

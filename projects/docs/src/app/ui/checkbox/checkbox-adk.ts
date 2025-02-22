@@ -18,7 +18,7 @@ import { CheckboxButton, NgbCheckbox } from '@ngbase/adk/checkbox';
     <button
       meeFocusStyle
       ngbCheckboxButton
-      class="custom-checkbox relative flex h-b4 w-b4 flex-none items-center justify-center rounded border border-primary transition-colors"
+      class="custom-checkbox relative flex h-4 w-4 flex-none items-center justify-center rounded border border-primary transition-colors"
       [class]="checkbox.disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
     >
       @if (path(); as d) {
@@ -30,7 +30,7 @@ import { CheckboxButton, NgbCheckbox } from '@ngbase/adk/checkbox';
     <ng-content />
   `,
   host: {
-    class: 'inline-flex items-center gap-b2 py-1 disabled:opacity-60 disabled:cursor-not-allowed',
+    class: 'inline-flex items-center gap-2 py-1 disabled:opacity-60 disabled:cursor-not-allowed',
   },
 })
 export class Checkbox {

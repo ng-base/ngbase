@@ -70,9 +70,9 @@ export class NgbPaginationBtn {
   selector: '[ngbPagination]',
   imports: [NgbSelect, NgbOption, NgbPaginationBtn],
   template: `
-    <div class="flex items-center gap-b2">
+    <div class="flex items-center gap-2">
       <div>Rows per page</div>
-      <div ngbSelect [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-b1.5">
+      <div ngbSelect [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-1.5">
         @for (size of sizeOptions(); track size) {
           <div ngbOption [value]="size">
             {{ size }}
@@ -81,25 +81,25 @@ export class NgbPaginationBtn {
       </div>
     </div>
     <div>Page {{ active() }} of {{ totalSnaps() }}</div>
-    <div class="flex items-center gap-b2">
-      <button ngbPaginationBtn="prev" class="h-b8 w-b8 !p-b2"><</button>
-      <button ngbPaginationBtn="prev" jump="-1" class="h-b8 w-b8 !p-b2"><</button>
+    <div class="flex items-center gap-2">
+      <button ngbPaginationBtn="prev" class="h-8 w-8 !p-2"><</button>
+      <button ngbPaginationBtn="prev" jump="-1" class="h-8 w-8 !p-2"><</button>
       @for (snap of snaps(); track snap) {
         <button
           ngbPaginationBtn="page"
           [jump]="snap"
           [class]="active() === snap ? 'bg-muted-background text-primary' : ''"
-          class="min-w-b9 !p-b2 ring-offset-background"
+          class="min-w-9 !p-2 ring-offset-background"
         >
           {{ snap }}
         </button>
       }
-      <button ngbPaginationBtn="next" jump="1" class="h-b8 w-b8 !p-b2">></button>
-      <button ngbPaginationBtn="next" class="h-b8 w-b8 !p-b2">></button>
+      <button ngbPaginationBtn="next" jump="1" class="h-8 w-8 !p-2">></button>
+      <button ngbPaginationBtn="next" class="h-8 w-8 !p-2">></button>
     </div>
   `,
   host: {
-    class: 'flex items-center gap-b8 font-semibold',
+    class: 'flex items-center gap-8 font-semibold',
     role: 'pagination',
     'aria-label': 'pagination',
   },

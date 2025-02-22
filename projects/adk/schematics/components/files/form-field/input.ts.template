@@ -33,7 +33,7 @@ import { NgbSelectTarget } from '@ngbase/adk/select';
     <ng-content select="[<%= name %>Error]" />
   `,
   host: {
-    class: 'inline-flex flex-col font-medium mb-b2 gap-b',
+    class: 'inline-flex flex-col font-medium mb-2 gap-1',
   },
 })
 export class FormField {
@@ -62,7 +62,7 @@ export class Input<T = unknown> {
   hostDirectives: [NgbLabel],
   template: `<ng-content />`,
   host: {
-    class: 'block font-medium mx-b0.5',
+    class: 'block font-medium mx-0.5',
   },
 })
 export class Label {}
@@ -85,7 +85,7 @@ export class InputPrefix {}
   hostDirectives: [{ directive: NgbInputError, inputs: ['ngbError: <%= name %>Error'] }],
   template: `<ng-content />`,
   host: {
-    class: 'text-red-500 mx-b0.5',
+    class: 'text-red-500 mx-0.5',
     '[@toggleDiv]': 'isInvalid() ? "visible" : "hidden"',
   },
   animations: [toggleDiv],

@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DocCode } from './code.component';
 import { Heading } from '@meeui/ui/typography';
-import { InputOtp } from '@meeui/ui/form-field';
+import { InputOtp } from '@meeui/ui/otp';
 import { Checkbox } from '@meeui/ui/checkbox';
 
 @Component({
@@ -18,7 +18,7 @@ import { Checkbox } from '@meeui/ui/checkbox';
           <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>
         </div>
         <form #myForm="ngForm" (ngSubmit)="submit()">
-          <label>OTP: {{ otp() }}</label>
+          <label class="block">OTP: {{ otp() }}</label>
           <mee-input-otp
             placeholder=""
             separator=""

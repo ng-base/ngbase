@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { Input } from './input';
+import { Input } from './form-field';
 
 @Component({
   imports: [Input],

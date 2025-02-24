@@ -1,7 +1,7 @@
-import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
-import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from './otp';
 import { Component } from '@angular/core';
+import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { RangePipe } from '@ngbase/adk/utils';
+import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from './otp';
 
 @Component({
   selector: 'test-component',

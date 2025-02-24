@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { injectDirectionality } from '@ngbase/adk/bidi';
-import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from '@ngbase/adk/form-field';
+import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from '@ngbase/adk/otp';
 import { NumberOnly, RangePipe } from '@ngbase/adk/utils';
-import { InputStyle } from './input-style.directive';
+import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
-  selector: '<%= name %>-input-otp',
+  selector: 'mee-input-otp',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideInputOtp(InputOtp)],
   imports: [InputStyle, RangePipe, NgbOtpInput, NgbOtpValue, NumberOnly],
@@ -13,7 +13,7 @@ import { InputStyle } from './input-style.directive';
     @for (num of size(); track $index; let l = $last) {
       @for (n of num | range; track n; let i = $index; let ll = $last) {
         <div
-          <%= name %>InputStyle
+          meeInputStyle
           ngbOtpValue
           class="{{
             'mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold data-[disabled]:bg-muted-background/40 data-[disabled]:text-muted data-[focus]:relative' +

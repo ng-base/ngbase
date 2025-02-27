@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';

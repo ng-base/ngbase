@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { List } from '@meeui/ui/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
@@ -76,7 +76,7 @@ import { Command, CommandItem } from '@meeui/ui/command';
     class: 'block p-4',
   },
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
   dialog = dialogPortal();
 
   private adkList: { name: string; link: string }[] = [
@@ -95,7 +95,7 @@ export class NavComponent implements OnInit {
 
   private componentList: CommandItem[] = [
     { name: 'Accordion', link: 'docs/accordion' },
-    { name: 'Alert', link: 'docs/' },
+    { name: 'Alert', link: '' },
     { name: 'Alert Dialog', link: 'docs/alert-dialog' },
     { name: 'Avatar', link: 'docs/avatar' },
     { name: 'Autocomplete', link: 'docs/autocomplete' },
@@ -116,7 +116,7 @@ export class NavComponent implements OnInit {
     { name: 'Drag', link: 'docs/drag' },
     { name: 'Forms', link: 'docs/forms' },
     { name: 'Hover Card', link: 'docs/hover-card' },
-    { name: 'Icon', link: 'docs/' },
+    { name: 'Icon', link: '' },
     { name: 'Input', link: 'docs/input' },
     { name: 'Input OTP', link: 'docs/otp' },
     { name: 'List', link: 'docs/list' },
@@ -133,7 +133,7 @@ export class NavComponent implements OnInit {
     { name: 'Scroll Area', link: 'docs/scroll-area' },
     { name: 'Select', link: 'docs/select' },
     { name: 'Selectable', link: 'docs/selectable' },
-    { name: 'Separator', link: 'docs/' },
+    { name: 'Separator', link: '' },
     { name: 'Sheet', link: 'docs/sheet' },
     { name: 'Slider', link: 'docs/slider' },
     { name: 'Sonner', link: 'docs/sonner' },
@@ -159,8 +159,6 @@ export class NavComponent implements OnInit {
   constructor() {
     keyMap('ctrl+k|meta+k', () => this.open());
   }
-
-  ngOnInit() {}
 
   scrollToTop() {
     window.scrollTo(0, 0);

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { injectTheme } from '@meeui/ui/theme';
 import {
+  NgbTooltip,
   NgbTooltipTemplate,
   provideNgbTooltipOptions,
+  tooltipAnimation,
   TooltipOptions,
-  NgbTooltip,
 } from '@ngbase/adk/tooltip';
-import { injectTheme } from '@meeui/ui/theme';
 
 @Directive({
   selector: '[meeTooltip]',
@@ -27,6 +28,7 @@ export class Tooltip {}
       'fixed inline-block rounded-lg bg-foreground px-3 py-1 border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',
     '[class]': `theme.mode() === 'dark' ? 'light' : 'dark'`,
   },
+  animations: [tooltipAnimation],
 })
 export class TooltipComponent extends NgbTooltipTemplate {
   readonly theme = injectTheme();

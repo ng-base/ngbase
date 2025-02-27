@@ -1,30 +1,19 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  afterRenderEffect,
-  inject,
-  signal,
-} from '@angular/core';
+import { Directive, ElementRef, OnDestroy, afterRenderEffect, inject, signal } from '@angular/core';
 import { PopoverPosition, tooltipPosition } from '@ngbase/adk/popover';
 
-@Component({
+export const tooltipAnimation = trigger('tooltipAnimation', [
+  state('1', style({ transform: 'none', opacity: 1 })),
+  state('void', style({ transform: 'translateY(-5px) scale(0.95)', opacity: 0 })),
+  state('0', style({ transform: 'translateY(-5px) scale(0.95)', opacity: 0 })),
+  transition('* => *', animate('150ms ease-out')),
+]);
+
+@Directive({
   selector: '[ngbTooltip]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `{{ content() }}`,
   host: {
-    '[@slideInOutAnimation]': '1',
+    '[@tooltipAnimation]': '',
   },
-  animations: [
-    trigger('slideInOutAnimation', [
-      state('1', style({ transform: 'none', opacity: 1 })),
-      state('void', style({ transform: 'translateY(-5px) scale(0.95)', opacity: 0 })),
-      state('0', style({ transform: 'translateY(-5px) scale(0.95)', opacity: 0 })),
-      transition('* => *', animate('150ms ease-out')),
-    ]),
-  ],
 })
 export class NgbTooltipTemplate implements OnDestroy {
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { RangePipe } from '@ngbase/adk/utils';
-import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from './otp';
+import { NgbInputOtp, NgbOtpInput, NgbOtpValue, aliasInputOtp } from './otp';
 
 @Component({
   selector: 'test-component',
   imports: [RangePipe, NgbOtpInput, NgbOtpValue],
-  providers: [provideInputOtp(TestComponent)],
+  providers: [aliasInputOtp(TestComponent)],
   template: `
     @for (num of size(); track $index; let l = $last) {
       @for (n of num | range; track n; let i = $index; let ll = $last) {

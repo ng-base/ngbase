@@ -1,11 +1,28 @@
 import { DragData } from '@ngbase/adk/drag';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbSlider, SliderThumb } from './slider';
-import { Component, signal } from '@angular/core';
+import { aliasSlider, NgbSlider, SliderRange, SliderThumb, SliderTrack } from './slider';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [NgbSlider, FormsModule],
+  selector: '[ngbSlider]',
+  exportAs: 'ngbSlider',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasSlider(TestSlider)],
+  imports: [SliderTrack, SliderRange, SliderThumb],
+  template: `
+    <div ngbSliderTrack>
+      <div ngbSliderRange></div>
+    </div>
+    @for (thumb of noOfThumbs(); track thumb) {
+      <button ngbSliderThumb></button>
+    }
+  `,
+})
+class TestSlider extends NgbSlider {}
+
+@Component({
+  imports: [TestSlider, FormsModule],
   template: `<div
     ngbSlider
     [range]="range()"

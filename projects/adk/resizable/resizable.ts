@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
   Directive,
   ElementRef,
   TemplateRef,
@@ -37,25 +35,9 @@ export class NgbGutter {
   }
 }
 
-@Component({
+@Directive({
   selector: '[ngbResizable]',
   exportAs: 'ngbResizable',
-  imports: [Drag, NgbGutter],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content />
-    <ng-template #dragElement>
-      @if (draggable()) {
-        <div
-          ngbGutter
-          class="{{
-            'dragElement relative flex cursor-ew-resize items-center justify-center after:absolute after:top-0 ' +
-              (resizable.direction() === 'vertical'
-                ? 'bottom-0 left-0 h-0 w-full cursor-ns-resize border-b after:-mt-1 after:h-2 after:w-full'
-                : 'right-0 top-0 w-0 cursor-ew-resize border-l after:h-full after:w-2')
-          }}"
-        ></div>
-      }
-    </ng-template>`,
 })
 export class NgbResizable {
   // Dependencies
@@ -282,6 +264,6 @@ export class NgbResizable {
   }
 }
 
-export function provideResizable(resizable: typeof NgbResizable) {
+export function aliasResizable(resizable: typeof NgbResizable) {
   return { provide: NgbResizable, useExisting: resizable };
 }

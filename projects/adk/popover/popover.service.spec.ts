@@ -1,11 +1,31 @@
 import { Component, ElementRef, TemplateRef, viewChild } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { ngbPopoverPortal } from './popover.service';
+import { NgbPopover, NgbPopoverMain, NgbPopoverBackdrop, aliasPopover } from './popover';
+import { ngbPopoverPortal, registerNgbPopover } from './popover.service';
+
+@Component({
+  selector: 'ngb-popover',
+  imports: [NgbPopoverMain, NgbPopoverBackdrop],
+  providers: [aliasPopover(TestPopover)],
+  template: ` <div ngbPopoverMain>
+      <ng-container #myDialog />
+    </div>
+    @if (options().backdrop) {
+      <div ngbPopoverBackdrop class="popover-backdrop"></div>
+    }
+    <ng-template #pop>pop</ng-template>`,
+})
+class TestPopover extends NgbPopover {}
+
+export function testRegisterPopover() {
+  return registerNgbPopover(TestPopover);
+}
 
 @Component({
   template: `<div #target></div>
     <ng-template #pop>pop</ng-template>`,
+  providers: [testRegisterPopover()],
 })
 class TestComponent {
   readonly target = viewChild.required<ElementRef<HTMLElement>>('target');

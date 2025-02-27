@@ -1,7 +1,6 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
   computed,
+  Directive,
   inject,
   linkedSignal,
   signal,
@@ -14,32 +13,13 @@ import { injectDirectionality } from '@ngbase/adk/bidi';
 import { NgbTree, TREE_NODE_DATA, TreeNodeData } from './tree';
 import { NgbTreeNodeDef } from './tree-toggle';
 
-@Component({
+@Directive({
   selector: '[ngbTreeNode]',
   exportAs: 'ngbTreeNode',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <style>
-      .tree-node {
-        display: flex;
-        align-items: start;
-      }
-    </style>
-    <div class="tree-node">
-      <ng-content />
-    </div>
-    <ng-content select="[ngbTreeNodeContent]" />
-    <ng-container #container />
-  `,
   hostDirectives: [AccessibleItem],
   host: {
-    '[style]': 'padding()',
-    '(selectedChange)': 'toggle()',
-    '[ayId]': 'tree.ayId',
-    '[level]': 'data.level',
-    '[expandable]': 'hasChildren()',
-    '[expanded]': 'isOpen()',
     role: 'treeitem',
+    '[style]': 'padding()',
     '[attr.aria-expanded]': 'isOpen()',
   },
 })
@@ -104,6 +84,6 @@ export class NgbTreeNode<T> {
   // }
 }
 
-export function provideTreeNode<T>(treeNode: Type<NgbTreeNode<T>>) {
+export function aliasTreeNode<T>(treeNode: Type<NgbTreeNode<T>>) {
   return { provide: NgbTreeNode, useExisting: treeNode };
 }

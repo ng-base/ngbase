@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
+  aliasPopover,
   NgbPopover,
   NgbPopoverBackdrop,
   NgbPopoverClose,
   NgbPopoverMain,
   ngbPopoverPortal,
   NgbPopoverTrigger,
-  providePopover,
   registerNgbPopover,
 } from '@ngbase/adk/popover';
 
 @Component({
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [providePopover(Popover)],
+  providers: [aliasPopover(Popover)],
   imports: [NgbPopoverBackdrop, NgbPopoverMain],
   template: ` <style>
       .popover-anchor {

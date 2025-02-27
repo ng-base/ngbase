@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { NgbPagination, NgbPaginationBtn } from '@ngbase/adk/pagination';
+import { aliasPagination, NgbPagination, NgbPaginationBtn } from '@ngbase/adk/pagination';
 import { Button } from '<%= basepath %>/button';
 import { Icon } from '<%= basepath %>/icon';
 import { Option, Select } from '<%= basepath %>/select';
@@ -13,7 +13,7 @@ import {
 
 @Component({
   selector: '<%= name %>-pagination',
-  providers: [{ provide: NgbPagination, useExisting: Pagination }],
+  providers: [aliasPagination(Pagination)],
   viewProviders: [
     provideIcons({
       lucideChevronLeft,

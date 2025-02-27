@@ -1,4 +1,4 @@
-import { computed, Directive, inject, Type } from '@angular/core';
+import { computed, Directive, inject } from '@angular/core';
 import { NgbBreadcrumbs } from './breadcrumbs';
 
 @Directive({
@@ -17,6 +17,6 @@ export class NgbBreadcrumb {
   });
 }
 
-export function provideBreadcrumb(breadcrumb: Type<NgbBreadcrumb>) {
+export function aliasBreadcrumb(breadcrumb: typeof NgbBreadcrumb) {
   return { provide: NgbBreadcrumb, useExisting: breadcrumb };
 }

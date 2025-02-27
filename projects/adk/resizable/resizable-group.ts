@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
+  Directive,
   ElementRef,
   contentChildren,
   effect,
@@ -13,14 +12,10 @@ import {
 import { uniqueId } from '@ngbase/adk/utils';
 import { NgbResizable } from './resizable';
 
-@Component({
+@Directive({
   selector: '[ngbResizableGroup]',
   exportAs: 'ngbResizableGroup',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content select="[ngbResizable]" />`,
   host: {
-    class: 'flex w-full',
-    '[class.flex-col]': "direction() === 'vertical'",
     '[attr.id]': 'id',
   },
 })
@@ -110,6 +105,6 @@ export class NgbResizableGroup {
   }
 }
 
-export function provideResizableGroup(resizableGroup: typeof NgbResizableGroup) {
+export function aliasResizableGroup(resizableGroup: typeof NgbResizableGroup) {
   return { provide: NgbResizableGroup, useExisting: resizableGroup };
 }

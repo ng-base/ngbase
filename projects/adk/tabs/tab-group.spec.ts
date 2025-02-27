@@ -1,7 +1,33 @@
-import { Component, OnDestroy, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, signal } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbTab, NgbTabHeader, NgbTabLazy } from './tab';
-import { NgbTabs } from './tab-group';
+import { NgbTabHeader, NgbTabLazy } from './tab';
+import { aliasTabs, NgbTabs, TabButton, TabButtonsGroup, TabScroll } from './tab-group';
+import { TestTab } from './tab.spec';
+
+@Component({
+  selector: 'ngb-tabs',
+  exportAs: 'ngbTabs',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTabs(TestTabs)],
+  imports: [TabButton, TabButtonsGroup, TabScroll],
+  template: `<div>
+      <ng-content select=".tab-start-header-content" />
+      <div>
+        <button ngbTabScroll="left"><</button>
+        <nav ngbTabButtonsGroup>
+          <div #tabListContainer>
+            @for (tab of tabs(); track tab.id) {
+              <button [ngbTabButton]="tab"></button>
+            }
+          </div>
+        </nav>
+        <button ngbTabScroll="right">></button>
+      </div>
+      <ng-content select=".tab-header-content" />
+    </div>
+    <ng-content /> `,
+})
+class TestTabs extends NgbTabs<TestTab> {}
 
 describe('Tabs Component', () => {
   let component: TestHostComponent;
@@ -21,7 +47,7 @@ describe('Tabs Component', () => {
   }
 
   @Component({
-    imports: [NgbTabs, NgbTab, NgbTabHeader, NgbTabLazy, LazyComponent],
+    imports: [TestTabs, TestTab, NgbTabHeader, NgbTabLazy, LazyComponent],
     template: `
       <ngb-tabs [(selectedIndex)]="tabIndex">
         <ngb-tab>

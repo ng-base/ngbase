@@ -1,34 +1,152 @@
 import { Component, TemplateRef, viewChild } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
 import { DialogRef } from '@ngbase/adk/portal';
-import { NgbDatePicker } from './datepicker';
+import { aliasDatePicker, DatepickerGroup, NgbDatePicker } from './datepicker';
 import { NgbDatepickerTrigger } from './datepicker-trigger';
+import { testRegisterPopover } from '../popover/popover.service.spec';
+import {
+  CalendarBtn,
+  CalendarDayBtn,
+  CalendarMonthBtn,
+  CalendarTitle,
+  CalendarYearBtn,
+  NgbCalendar,
+  aliasCalendar,
+} from './calendar';
+import { RangePipe } from '@ngbase/adk/utils';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgbTimePicker } from './time';
+
+@Component({
+  selector: 'ngb-calendar',
+  providers: [aliasCalendar(TestCalendar)],
+  imports: [
+    NgClass,
+    NgbTimePicker,
+    CalendarBtn,
+    CalendarTitle,
+    CalendarYearBtn,
+    CalendarMonthBtn,
+    CalendarDayBtn,
+  ],
+  template: `
+    <div>
+      <button ngbCalendarBtn="left">{{ dir.isRtl() ? '>' : '<' }}</button>
+      <button ngbCalendarTitle>{{ title() }}</button>
+      <button ngbCalendarBtn="right">{{ dir.isRtl() ? '<' : '>' }}</button>
+    </div>
+
+    @if (datePicker.showType() === 'year') {
+      <div>
+        @for (year of years(); track year.year) {
+          <button
+            [ngbCalYearBtn]="year"
+            #yearBtn="ngbCalYearBtn"
+            [ngClass]="{
+              'year-selected': yearBtn.selected(),
+              'year-active': yearBtn.active(),
+              'year-disabled': year.disabled,
+            }"
+          >
+            {{ year.year }}
+          </button>
+        }
+      </div>
+    } @else if (datePicker.showType() === 'month') {
+      <div>
+        @for (month of months(); track month.value) {
+          <button
+            [ngbCalMonthBtn]="month"
+            #monthBtn="ngbCalMonthBtn"
+            [ngClass]="{
+              'month-selected': monthBtn.selected(),
+              'month-active': monthBtn.active(),
+              'month-disabled': month.disabled,
+            }"
+          >
+            {{ month.name }}
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="day-names">
+        @for (dayName of dayNames; track dayName) {
+          <div>{{ dayName }}</div>
+        }
+      </div>
+      <div>
+        @for (day of getDaysArray(); track day.day + '-' + day.mon) {
+          <button
+            #days="ngbCalDayBtn"
+            [ngbCalDayBtn]="day"
+            [ngClass]="{
+              'day-selected': days.selected(),
+              'day-dummy': days.dummy(),
+              'day-active': days.active(),
+              'day-disabled': day.disabled,
+            }"
+          >
+            {{ day.day }}
+          </button>
+        }
+      </div>
+      @if (datePicker.time() && datePicker.range()) {
+        <div ngbTime [(value)]="time1" (valueChange)="timeChanged(0, time1()!)"></div>
+        <div ngbTime [(value)]="time2" (valueChange)="timeChanged(1, time2()!)"></div>
+      }
+    }
+  `,
+})
+class TestCalendar<D> extends NgbCalendar<D> {}
+
+@Component({
+  selector: '[ngbDatepicker]',
+  imports: [TestCalendar, RangePipe, NgTemplateOutlet, DatepickerGroup],
+  providers: [testRegisterPopover(), aliasDatePicker(TestDatePicker)],
+  template: `
+    <div class="flex" ngbDatepickerGroup>
+      @for (no of noOfCalendar() | range; track no) {
+        <ngb-calendar [first]="$first" [last]="$last" [index]="$index" />
+      }
+    </div>
+    @if (template()) {
+      <div class="px-2 pb-2">
+        <ng-container *ngTemplateOutlet="template()" />
+      </div>
+    }
+  `,
+  host: {
+    class: 'inline-block',
+  },
+})
+class TestDatePicker<D> extends NgbDatePicker<D> {}
 
 @Component({
   template: `<ng-template #templateRef>
     <div id="templateDiv">Test</div>
   </ng-template>`,
 })
-class TestDatePicker {
+class TestDatePickerRef {
   templateRef = viewChild.required('templateRef', { read: TemplateRef });
 }
 
 const mockDialogRef = { data: { value: [] as any[] } };
 
 describe('DatePicker', () => {
-  let component: NgbDatePicker<Date>;
-  let view: RenderResult<NgbDatePicker<Date>>;
+  let component: TestDatePicker<Date>;
+  let view: RenderResult<TestDatePicker<Date>>;
   let templateRef: TemplateRef<any>;
 
   beforeEach(async () => {
-    view = await render(NgbDatePicker<Date>, [
+    view = await render(TestDatePicker<Date>, [
+      testRegisterPopover(),
       { provide: DialogRef, useValue: mockDialogRef },
       { provide: NgbDatepickerTrigger, useValue: { updateInput: jest.fn() } },
     ]);
     component = view.host;
     view.detectChanges();
 
-    const compFixture = await render(TestDatePicker);
+    const compFixture = await render(TestDatePickerRef);
     templateRef = compFixture.host.templateRef();
   });
 

@@ -5,16 +5,16 @@ import {
   NgbTreeNodeContent,
   NgbTreeNodeDef,
   NgbTreeNodeToggle,
-  provideTree,
-  provideTreeNode,
+  aliasTree,
+  aliasTreeNode,
 } from '@ngbase/adk/tree';
 
 @Component({
   selector: 'mee-tree',
   exportAs: 'meeTree',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTree(Tree)],
   template: `<ng-container #container />`,
-  providers: [provideTree(Tree)],
   host: {
     class: 'block',
   },
@@ -25,6 +25,7 @@ export class Tree<T> extends NgbTree<T> {}
   selector: 'mee-tree-node',
   exportAs: 'meeTreeNode',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTreeNode(TreeNode)],
   template: `
     <div class="flex items-start">
       <ng-content />
@@ -32,7 +33,6 @@ export class Tree<T> extends NgbTree<T> {}
     <ng-content select="[meeTreeNodeContent]" />
     <ng-container #container />
   `,
-  providers: [provideTreeNode(TreeNode)],
   host: {
     class: 'block w-full cursor-pointer',
   },

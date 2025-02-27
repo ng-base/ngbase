@@ -1,13 +1,23 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbTooltipTemplate } from './tooltip';
+import { NgbTooltipTemplate, tooltipAnimation } from './tooltip';
+import { Component } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: '[ngbTooltip]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `{{ content() }}`,
+  animations: [tooltipAnimation],
+})
+class TestTooltipTemplate extends NgbTooltipTemplate {}
 
 describe('TooltipComponent', () => {
-  let component: NgbTooltipTemplate;
-  let view: RenderResult<NgbTooltipTemplate>;
+  let component: TestTooltipTemplate;
+  let view: RenderResult<TestTooltipTemplate>;
 
   beforeEach(async () => {
-    view = await render(NgbTooltipTemplate, [provideNoopAnimations()]);
+    view = await render(TestTooltipTemplate, [provideNoopAnimations()]);
     component = view.host;
     // fake the target
     component['target'] = document.createElement('div');

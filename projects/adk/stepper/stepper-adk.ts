@@ -6,15 +6,15 @@ import {
   NgbStepper,
   NgbStepperStep,
   provideStep,
-  provideStepper,
-  slideAnimation,
+  aliasStepper,
+  stepperAnimation,
 } from '@ngbase/adk/stepper';
 
 @Component({
   selector: 'mee-stepper',
   exportAs: 'meeStepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideStepper(Stepper)],
+  providers: [aliasStepper(Stepper)],
   imports: [NgTemplateOutlet, NgbStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
@@ -57,7 +57,7 @@ import {
     </div>
     <ng-content />
   `,
-  animations: [slideAnimation],
+  animations: [stepperAnimation],
 })
 export class Stepper extends NgbStepper {}
 

@@ -92,6 +92,6 @@ function _provide(ngbSwitch: typeof NgbSwitch) {
   return [provideValueAccessor(ngbSwitch)];
 }
 
-export function provideSwitch(ngbSwitch: Type<NgbSwitch>) {
+export function aliasSwitch(ngbSwitch: Type<NgbSwitch>) {
   return [_provide(ngbSwitch), { provide: NgbSwitch, useExisting: ngbSwitch }];
 }

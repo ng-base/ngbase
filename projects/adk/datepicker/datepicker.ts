@@ -1,7 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
   computed,
   Directive,
   inject,
@@ -13,8 +10,7 @@ import {
 } from '@angular/core';
 import { AccessibleGroup } from '@ngbase/adk/a11y';
 import { DialogRef } from '@ngbase/adk/portal';
-import { RangePipe, uniqueId } from '@ngbase/adk/utils';
-import { NgbCalendar } from './calendar';
+import { uniqueId } from '@ngbase/adk/utils';
 import { DatePickerOptions, NgbDatepickerTrigger } from './datepicker-trigger';
 import { injectNgbDateAdapter } from './native-date-adapter';
 
@@ -34,25 +30,8 @@ export class DatepickerGroup<D> {
   }
 }
 
-@Component({
+@Directive({
   selector: '[ngbDatepicker]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbCalendar, RangePipe, NgTemplateOutlet, AccessibleGroup, DatepickerGroup],
-  template: `
-    <div class="flex" ngbDatepickerGroup>
-      @for (no of noOfCalendar() | range; track no) {
-        <ngb-calendar [first]="$first" [last]="$last" [index]="$index" />
-      }
-    </div>
-    @if (template()) {
-      <div class="px-2 pb-2">
-        <ng-container *ngTemplateOutlet="template()" />
-      </div>
-    }
-  `,
-  host: {
-    class: 'inline-block',
-  },
 })
 export class NgbDatePicker<D> {
   private datepickerTrigger: NgbDatepickerTrigger<D> | null = inject(NgbDatepickerTrigger, {
@@ -222,7 +201,7 @@ export class NgbDatePicker<D> {
   }
 }
 
-export function provideDatePicker<D>(picker: typeof NgbDatePicker<D>) {
+export function aliasDatePicker<D>(picker: typeof NgbDatePicker<D>) {
   return {
     provide: NgbDatePicker,
     useExisting: picker,

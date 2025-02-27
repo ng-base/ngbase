@@ -1,7 +1,4 @@
-import { NgClass } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
   computed,
   Directive,
   effect,
@@ -15,7 +12,6 @@ import {
 import { AccessibleItem } from '@ngbase/adk/a11y';
 import { Directionality } from '@ngbase/adk/bidi';
 import { NgbDatePicker } from './datepicker';
-import { NgbTimePicker } from './time';
 
 @Directive({
   selector: '[ngbCalendarBtn]',
@@ -156,91 +152,8 @@ export class CalendarDayBtn<D> {
   }
 }
 
-@Component({
+@Directive({
   selector: 'ngb-calendar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgClass,
-    NgbTimePicker,
-    CalendarBtn,
-    CalendarTitle,
-    CalendarYearBtn,
-    CalendarMonthBtn,
-    CalendarDayBtn,
-  ],
-  template: `
-    <div class="mb-2 flex items-center justify-between">
-      <button ngbCalendarBtn="left">{{ dir.isRtl() ? '>' : '<' }}</button>
-      <button ngbCalendarTitle>{{ title() }}</button>
-      <button ngbCalendarBtn="right">{{ dir.isRtl() ? '<' : '>' }}</button>
-    </div>
-
-    @if (datePicker.showType() === 'year') {
-      <div class="grid grid-cols-3">
-        @for (year of years(); track year.year) {
-          <button
-            [ngbCalYearBtn]="year"
-            #yearBtn="ngbCalYearBtn"
-            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
-              year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
-            }}"
-            [ngClass]="{
-              'border bg-muted-background': yearBtn.selected(),
-              '!bg-primary text-foreground': yearBtn.active(),
-            }"
-          >
-            {{ year.year }}
-          </button>
-        }
-      </div>
-    } @else if (datePicker.showType() === 'month') {
-      <div class="grid grid-cols-3">
-        @for (month of months(); track month.value) {
-          <button
-            [ngbCalMonthBtn]="month"
-            #monthBtn="ngbCalMonthBtn"
-            class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
-              month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
-            }}"
-            [ngClass]="{
-              'border bg-muted-background': monthBtn.selected(),
-              '!bg-primary text-foreground': monthBtn.active(),
-            }"
-          >
-            {{ month.name }}
-          </button>
-        }
-      </div>
-    } @else {
-      <div class="day-names grid grid-cols-7">
-        @for (dayName of dayNames; track dayName) {
-          <div class="p-1 text-center text-muted">{{ dayName }}</div>
-        }
-      </div>
-      <div class="grid grid-cols-7 gap-y-2">
-        @for (day of getDaysArray(); track day.day + '-' + day.mon) {
-          <button
-            #days="ngbCalDayBtn"
-            [ngbCalDayBtn]="day"
-            class="mx-auto flex h-9 w-9 items-center justify-center text-center {{
-              day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
-            }}"
-            [ngClass]="{
-              'bg-muted-background': days.selected(),
-              'opacity-40': days.dummy(),
-              '!bg-primary text-foreground': days.active(),
-            }"
-          >
-            {{ day.day }}
-          </button>
-        }
-      </div>
-      @if (datePicker.time() && datePicker.range()) {
-        <div ngbTime [(value)]="time1" (valueChange)="timeChanged(0, time1()!)"></div>
-        <div ngbTime [(value)]="time2" (valueChange)="timeChanged(1, time2()!)"></div>
-      }
-    }
-  `,
 })
 export class NgbCalendar<D> implements OnDestroy {
   readonly dir = inject(Directionality);
@@ -510,7 +423,7 @@ export class NgbCalendar<D> implements OnDestroy {
   }
 }
 
-export function provideCalendar<D>(cal: typeof NgbCalendar) {
+export function aliasCalendar<D>(cal: typeof NgbCalendar<D>) {
   return {
     provide: NgbCalendar,
     useExisting: cal,

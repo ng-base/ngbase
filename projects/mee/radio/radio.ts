@@ -21,20 +21,15 @@ export class RadioGroup {}
     <button
       meeFocusStyle
       ngbRadioIndicator
-      #radioIndicator
-      class="custom-radio relative flex h-4 w-4 flex-none items-center justify-center rounded-full border border-primary"
-      [class]="radioIndicator.disabled() ? 'border-muted' : 'border-primary'"
+      class="custom-radio relative flex h-4 w-4 flex-none items-center justify-center rounded-full border border-primary group-aria-[disabled='true']:border-muted"
     >
-      <div
-        class="h-2 w-2 rounded-full"
-        [class]="radioIndicator.disabled() ? 'bg-muted' : 'bg-primary'"
-      ></div>
+      <div class="h-2 w-2 rounded-full bg-primary group-aria-[disabled='true']:bg-muted"></div>
     </button>
     <ng-content />
   `,
   host: {
     class:
-      'flex items-center gap-2 py-1 cursor-pointer aria-[disabled="true"]:opacity-40 aria-[disabled="true"]:cursor-not-allowed',
+      'flex items-center gap-2 py-1 cursor-pointer aria-[disabled="true"]:opacity-40 aria-[disabled="true"]:cursor-not-allowed group',
   },
 })
 export class Radio {}

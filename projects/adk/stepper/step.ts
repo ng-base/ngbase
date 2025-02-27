@@ -1,7 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
   Directive,
   TemplateRef,
   computed,
@@ -12,18 +9,8 @@ import {
 } from '@angular/core';
 import { NgbStepper } from './stepper';
 
-@Component({
+@Directive({
   selector: '[ngbStep]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet],
-  template: `@if (horizontalTemplate(); as template) {
-      <ng-container *ngTemplateOutlet="template" />
-    }
-    <ng-template #stepContainer>
-      <div class="py-4">
-        <ng-content />
-      </div>
-    </ng-template> `,
 })
 export class NgbStep {
   readonly stepper = inject(NgbStepper);

@@ -1,16 +1,12 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-import {
-  NgbAutocomplete,
-  NgbAutocompleteInput,
-  provideAutocomplete,
-} from '@ngbase/adk/autocomplete';
+import { NgbAutocomplete, NgbAutocompleteInput, aliasAutocomplete } from '@ngbase/adk/autocomplete';
 import { NgbSelectOptionGroup } from '@ngbase/adk/select';
 import { InputStyle } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideAutocomplete(Autocomplete)],
+  providers: [aliasAutocomplete(Autocomplete)],
   imports: [InputStyle, NgbSelectOptionGroup],
   template: `
     <ul

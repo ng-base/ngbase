@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { AccessibleGroup } from '@ngbase/adk/a11y';
-import { NgbMenu, NgbMenuTrigger, MenuGroup, provideMenu } from '@ngbase/adk/menu';
+import { NgbMenu, NgbMenuTrigger, NgpMenuGroup, aliasMenu } from '@ngbase/adk/menu';
 
 @Component({
   selector: 'mee-menu',
   exportAs: 'meeMenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideMenu(Menu)],
-  imports: [AccessibleGroup, MenuGroup],
+  providers: [aliasMenu(Menu)],
+  imports: [AccessibleGroup, NgpMenuGroup],
   template: `
     <ng-template #container>
       <div ngbMenuGroup class="flex flex-col p-1">

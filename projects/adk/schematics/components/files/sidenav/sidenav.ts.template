@@ -5,9 +5,9 @@ import {
   NgbSidenavHeaderContent,
   NgbSidenavHeaderTrack,
   NgbSidenavOverlay,
-  provideSidenav,
-  slideAnimation,
   SidenavType,
+  aliasSidenav,
+  slideAnimation,
 } from '@ngbase/adk/sidenav';
 
 export type { SidenavType };
@@ -15,7 +15,7 @@ export type { SidenavType };
 @Component({
   selector: '<%= name %>-sidenav',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideSidenav(Sidenav)],
+  providers: [aliasSidenav(Sidenav)],
   imports: [NgbSidenavOverlay, NgbSidenavHeaderTrack],
   template: `
     @if (showOverlay()) {

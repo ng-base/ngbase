@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbTree } from './tree';
+import { aliasTree, NgbTree } from './tree';
 import { NgbTreeNodeDef } from './tree-toggle';
 
 // Mock data
@@ -26,7 +26,15 @@ const mockData: TestNode[] = [
 ];
 
 @Component({
-  imports: [NgbTree, NgbTreeNodeDef],
+  selector: '[ngbTree]',
+  exportAs: 'ngbTree',
+  providers: [aliasTree(TestTree)],
+  template: `<ng-container #container />`,
+})
+class TestTree<T> extends NgbTree<T> {}
+
+@Component({
+  imports: [TestTree, NgbTreeNodeDef],
   template: `
     <div ngbTree [dataSource]="data()" [trackBy]="trackBy" [children]="getChildren">
       <ng-template ngbTreeNodeDef let-node>

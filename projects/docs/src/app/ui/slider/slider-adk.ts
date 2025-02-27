@@ -1,17 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  NgbSlider,
-  SliderRange,
-  SliderThumb,
-  SliderTrack,
-  provideSlider,
-} from '@ngbase/adk/slider';
+import { NgbSlider, SliderRange, SliderThumb, SliderTrack, aliasSlider } from '@ngbase/adk/slider';
 
 @Component({
   selector: 'mee-slider',
   exportAs: 'meeSlider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideSlider(Slider)],
+  providers: [aliasSlider(Slider)],
   imports: [SliderTrack, SliderRange, SliderThumb],
   template: `
     <div
@@ -33,8 +27,7 @@ import {
     }
   `,
   host: {
-    class: 'block relative my-1',
-    '[class]': 'orientation() === "vertical" ? "w-2" : "h-2"',
+    class: 'block relative my-1 aria-[orientation=vertical]:w-2 aria-[orientation=horizontal]:h-2',
   },
 })
 export class Slider extends NgbSlider {}

@@ -1,5 +1,5 @@
 import {
-  Component,
+  Directive,
   EmbeddedViewRef,
   InjectionToken,
   Injector,
@@ -92,10 +92,9 @@ export interface TreeNodeImplicit<T> {
   level: number;
 }
 
-@Component({
+@Directive({
   selector: '[ngbTree]',
   exportAs: 'ngbTree',
-  template: `<ng-container #container />`,
   hostDirectives: [AccessibleGroup],
   host: {
     role: 'tree',
@@ -228,6 +227,6 @@ export class NgbTree<T> {
   }
 }
 
-export function provideTree<T>(tree: Type<NgbTree<T>>) {
+export function aliasTree<T>(tree: Type<NgbTree<T>>) {
   return { provide: NgbTree, useExisting: tree };
 }

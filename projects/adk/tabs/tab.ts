@@ -1,7 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
   Directive,
   TemplateRef,
   booleanAttribute,
@@ -22,18 +19,9 @@ export class NgbTabHeader {}
 })
 export class NgbTabLazy {}
 
-@Component({
+@Directive({
   selector: 'ngb-tab',
   exportAs: 'ngbTab',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet],
-  template: `
-    @if (lazyTemplate(); as template) {
-      <ng-container *ngTemplateOutlet="template" />
-    } @else if (activeMode()) {
-      <ng-content />
-    }
-  `,
   host: {
     role: 'tabpanel',
     '[tabindex]': 'active() ? 0 : -1',
@@ -66,9 +54,6 @@ export class NgbTab {
   readonly lazyTemplate = computed(() => this.active() && this.lazy());
 }
 
-export function provideTab(tab: typeof NgbTab) {
-  return {
-    provide: NgbTab,
-    useExisting: tab,
-  };
+export function aliasTab(tab: typeof NgbTab) {
+  return { provide: NgbTab, useExisting: tab };
 }

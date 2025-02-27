@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { NgbPagination, NgbPaginationBtn } from '@ngbase/adk/pagination';
+import { aliasPagination, NgbPagination, NgbPaginationBtn } from '@ngbase/adk/pagination';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { Option, Select } from '@meeui/ui/select';
@@ -13,7 +13,7 @@ import {
 
 @Component({
   selector: 'mee-pagination',
-  providers: [{ provide: NgbPagination, useExisting: Pagination }],
+  providers: [aliasPagination(Pagination)],
   viewProviders: [
     provideIcons({
       lucideChevronLeft,

@@ -6,12 +6,12 @@ import { NgbRadio } from './radio';
 
 @Directive({
   selector: '[ngbRadioGroup]',
+  providers: [provideValueAccessor(NgbRadioGroup)],
+  hostDirectives: [AccessibleGroup],
   host: {
     class: 'ngb-radio-group',
     role: 'radiogroup',
   },
-  hostDirectives: [AccessibleGroup],
-  providers: [provideValueAccessor(NgbRadioGroup)],
 })
 export class NgbRadioGroup implements ControlValueAccessor {
   readonly allyGroup = inject(AccessibleGroup);

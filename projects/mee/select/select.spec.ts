@@ -4,10 +4,12 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ElementHelper, firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { Option } from './option';
 import { Select } from './select';
+import { registerPopover } from '@meeui/ui/popover';
 
 // Test host component
 @Component({
   imports: [Select, Option, ReactiveFormsModule],
+  providers: [registerPopover()],
   template: `
     <form [formGroup]="form">
       <mee-select

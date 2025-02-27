@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbSonner, ngbSonnerPortal, SonnerBase } from '@ngbase/adk/sonner';
+import { NgbSonner, ngbSonnerPortal, sonnerAnimation, SonnerBase } from '@ngbase/adk/sonner';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import {
@@ -12,10 +12,10 @@ import {
 @Component({
   selector: 'mee-sonner',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, SonnerBase],
   providers: [
     provideIcons({ lucideCircleCheck, lucideInfo, lucideTriangleAlert, lucideCircleAlert }),
   ],
+  imports: [Icon, SonnerBase],
   template: `
     <ul class="fixed bottom-0 right-0 flex flex-col gap-1">
       @for (msg of messages(); track msg.id) {
@@ -41,6 +41,7 @@ import {
       }
     </ul>
   `,
+  animations: [sonnerAnimation],
 })
 export class Sonner extends NgbSonner {
   readonly icons = {

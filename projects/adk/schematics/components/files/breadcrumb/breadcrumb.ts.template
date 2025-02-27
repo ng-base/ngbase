@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { Icon } from '<%= basepath %>/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronRight } from '@ng-icons/lucide';
 import {
+  aliasBreadcrumb,
   NgbBreadcrumb,
   NgbBreadcrumbLink,
   NgbBreadcrumbs,
   NgbBreadcrumbSeparator,
   NgbBreadcrumbSeparatorAria,
-  provideBreadcrumb,
 } from '@ngbase/adk/breadcrumb';
-import { Icon } from '<%= basepath %>/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideChevronRight } from '@ng-icons/lucide';
 
 @Component({
   selector: '<%= name %>-breadcrumbs',
@@ -25,7 +25,7 @@ export class Breadcrumbs {}
 @Component({
   selector: '<%= name %>-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideBreadcrumb(Breadcrumb)],
+  providers: [aliasBreadcrumb(Breadcrumb)],
   viewProviders: [provideIcons({ lucideChevronRight })],
   imports: [Icon, NgbBreadcrumbLink, NgbBreadcrumbSeparatorAria],
   template: `

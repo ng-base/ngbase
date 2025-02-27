@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbTimeInput, NgbTimePicker, provideTimePicker } from '@ngbase/adk/datepicker';
+import { NgbTimeInput, NgbTimePicker, aliasTimePicker } from '@ngbase/adk/datepicker';
 import { Button } from '@meeui/ui/button';
 
 @Component({
   selector: 'mee-time',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTimePicker(TimePicker)],
+  providers: [aliasTimePicker(TimePicker)],
   imports: [Button, NgbTimeInput],
   template: `
     <input
@@ -30,10 +30,18 @@ import { Button } from '@meeui/ui/button';
     />
     @if (!is24()) {
       <div class="ml-1 flex gap-2">
-        <button [meeButton]="am() ? 'primary' : 'ghost'" class="small" (click)="changeAm(true)">
+        <button
+          [meeButton]="am() ? 'primary' : 'ghost'"
+          class="small !px-1 !py-0"
+          (click)="changeAm(true)"
+        >
           AM
         </button>
-        <button [meeButton]="!am() ? 'primary' : 'ghost'" class="small" (click)="changeAm(false)">
+        <button
+          [meeButton]="!am() ? 'primary' : 'ghost'"
+          class="small !px-1 !py-0"
+          (click)="changeAm(false)"
+        >
           PM
         </button>
       </div>

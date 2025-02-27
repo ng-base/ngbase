@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbChip, NgbChipGroup, NgbChipRemove, provideChip } from '@ngbase/adk/chip';
+import { NgbChip, NgbChipGroup, NgbChipRemove, aliasChip } from '@ngbase/adk/chip';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -15,7 +15,7 @@ export class ChipGroup<T> {}
 @Component({
   selector: 'mee-chip, [meeChip]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideChip(Chip)],
+  providers: [aliasChip(Chip)],
   viewProviders: [provideIcons({ lucideX })],
   imports: [Button, Icon, NgbChipRemove],
   template: `<ng-content />

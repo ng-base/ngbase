@@ -1,25 +1,25 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import { Icon } from '<%= basepath %>/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import {
+  aliasTab,
+  aliasTabs,
   NgbTab,
   NgbTabHeader,
   NgbTabLazy,
   NgbTabs,
-  provideTab,
-  provideTabs,
   TabButton,
   TabButtonsGroup,
   TabScroll,
 } from '@ngbase/adk/tabs';
-import { Icon } from '<%= basepath %>/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 
 @Component({
   selector: '<%= name %>-tabs',
   imports: [Icon, TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTabs(Tabs)],
+  providers: [aliasTabs(Tabs)],
   viewProviders: [provideIcons({ lucideChevronRight, lucideChevronLeft })],
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
@@ -60,7 +60,7 @@ export class Tabs extends NgbTabs<Tab> {}
   selector: '<%= name %>-tab',
   exportAs: '<%= name %>Tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTab(Tab)],
+  providers: [aliasTab(Tab)],
   imports: [NgTemplateOutlet],
   template: `
     @if (lazyTemplate(); as template) {

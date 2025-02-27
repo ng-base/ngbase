@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Icon } from '@meeui/ui/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideGripVertical } from '@ng-icons/lucide';
 import {
   NgbGutter,
   NgbResizable,
   NgbResizableGroup,
-  provideResizable,
-  provideResizableGroup,
+  aliasResizable,
+  aliasResizableGroup,
 } from '@ngbase/adk/resizable';
-import { Icon } from '@meeui/ui/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideGripVertical } from '@ng-icons/lucide';
 
 @Component({
   selector: 'mee-resizable-group',
   exportAs: 'meeResizableGroup',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideResizableGroup(ResizableGroup)],
+  providers: [aliasResizableGroup(ResizableGroup)],
   template: `<ng-content select="mee-resizable" />`,
   host: {
     class: 'flex w-full',
@@ -28,7 +28,7 @@ export class ResizableGroup extends NgbResizableGroup {}
   selector: 'mee-resizable',
   exportAs: 'meeResizable',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideResizable(Resizable)],
+  providers: [aliasResizable(Resizable)],
   viewProviders: [provideIcons({ lucideGripVertical })],
   imports: [Icon, NgbGutter],
   template: `<ng-content />

@@ -113,7 +113,7 @@ import {
                 </div>
               </ng-template>
               <mee-accordion-group multiple>
-                <mee-accordion #ac1="ngbAccordion" class="border-none" [expanded]="true">
+                <mee-accordion #ac1="meeAccordion" class="border-none" [expanded]="true">
                   <button meeAccordionHeader class="flex items-center gap-2 !px-0">
                     <mee-icon name="lucideSquareTerminal" />
                     Playground
@@ -125,7 +125,7 @@ import {
                   </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion #ac2="ngbAccordion" class="border-none">
+                <mee-accordion #ac2="meeAccordion" class="border-none">
                   <button meeAccordionHeader class="flex items-center gap-2 !px-0">
                     <mee-icon name="lucideBot" />
                     Models
@@ -137,7 +137,7 @@ import {
                   </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion #ac3="ngbAccordion" class="border-none">
+                <mee-accordion #ac3="meeAccordion" class="border-none">
                   <button meeAccordionHeader class="flex items-center gap-2 !px-0">
                     <mee-icon name="lucideBook" />
                     Documentation
@@ -149,7 +149,7 @@ import {
                   </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion #ac4="ngbAccordion" class="border-none">
+                <mee-accordion #ac4="meeAccordion" class="border-none">
                   <button
                     meeAccordionHeader
                     class="flex items-center gap-2 !px-0 focus:ring-offset-2"
@@ -164,7 +164,7 @@ import {
                   </button>
                   <ng-container *ngTemplateOutlet="subMenu" />
                 </mee-accordion>
-                <mee-accordion #ac5="ngbAccordion" class="border-none">
+                <mee-accordion #ac5="meeAccordion" class="border-none">
                   <button meeAccordionHeader class="flex items-center gap-2 !px-0">
                     <mee-icon name="lucideSettings2" />
                     Settings

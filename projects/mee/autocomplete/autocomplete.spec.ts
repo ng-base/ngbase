@@ -4,10 +4,12 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { Option } from '@meeui/ui/select';
 import { Autocomplete, AutocompleteInput } from './autocomplete';
+import { registerPopover } from '@meeui/ui/popover';
 
 // Test host component
 @Component({
   imports: [Autocomplete, AutocompleteInput, Option, FormsModule],
+  providers: [registerPopover()],
   template: `
     <mee-autocomplete
       [(ngModel)]="selectedValue"

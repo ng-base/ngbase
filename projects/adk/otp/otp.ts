@@ -176,6 +176,6 @@ function _provide(otp: typeof NgbInputOtp) {
   return [provideValueAccessor(otp)];
 }
 
-export function provideInputOtp(otp: typeof NgbInputOtp) {
+export function aliasInputOtp(otp: typeof NgbInputOtp) {
   return [_provide(otp), { provide: NgbInputOtp, useExisting: otp }];
 }

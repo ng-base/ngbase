@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbAvatar, NgbAvatarGroup, provideAvatar } from '@ngbase/adk/avatar';
+import { NgbAvatar, NgbAvatarGroup, aliasAvatar } from '@ngbase/adk/avatar';
 
 @Component({
   selector: '<%= name %>-avatar-group',
@@ -15,7 +15,7 @@ export class AvatarGroup {}
 @Component({
   selector: '<%= name %>-avatar, [<%= name %>Avatar]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideAvatar(Avatar)],
+  providers: [aliasAvatar(Avatar)],
   template: `
     @if (src(); as img) {
       <img [src]="img" alt="avatar" class="h-full max-h-full max-w-full" />

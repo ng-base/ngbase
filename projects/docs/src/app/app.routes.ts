@@ -6,14 +6,10 @@ export const routes: Routes = [
     path: '',
     component: BaseComponent,
     children: [
-      {
-        path: '',
-        loadComponent: () => import('./introduction.ng'),
-      },
-      {
-        path: 'docs',
-        loadChildren: () => import('./ui/ui.routes').then(m => m.UI_ROUTES),
-      },
+      { path: '', loadComponent: () => import('./introduction.ng') },
+      { path: 'docs', loadChildren: () => import('./ui/ui.routes') },
+      { path: 'examples', loadChildren: () => import('./examples/example.routes') },
+      { path: 'origin', loadChildren: () => import('./origin/origin.routes') },
     ],
   },
 ];

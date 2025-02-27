@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Heading } from '@meeui/ui/typography';
 import { ChatService } from './chat.service';
 import { Card } from '@meeui/ui/card';
@@ -26,10 +26,8 @@ import { Separator } from '@meeui/ui/separator';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
   chatService = inject(ChatService);
 
   constructor() {}
-
-  ngOnInit() {}
 }

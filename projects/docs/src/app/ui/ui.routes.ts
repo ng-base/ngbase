@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { BaseComponent } from './base.component';
-import { PopoverDemoComponent } from './popover-demo.component';
 
 export const UI_ROUTES: Routes = [
   { path: 'accordion', loadComponent: () => import('./accordion/accordion.component') },
@@ -65,8 +63,8 @@ export const UI_ROUTES: Routes = [
   { path: 'virtualizer', loadComponent: () => import('./virtualizer.component') },
   { path: 'translation', loadComponent: () => import('./translation.component') },
   { path: 'jwt', loadComponent: () => import('./jwt.component') },
-  { path: 'examples', loadChildren: () => import('../examples/example.routes') },
-  { path: 'origin', loadChildren: () => import('../origin/origin.routes') },
-  { path: 'test', loadComponent: () => import('./test.component') },
+  { path: 'test', loadComponent: () => import('./test/test.component') },
   { path: '', redirectTo: 'accordion', pathMatch: 'full' },
 ];
+
+export default UI_ROUTES;

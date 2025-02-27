@@ -1,56 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DocCode } from './code.component';
-import { Heading } from '@meeui/ui/typography';
-
-@Component({
-  selector: 'app-test',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocCode, Heading],
-  template: ` <h4 meeHeader="sm" class="mb-5">Test</h4>
-    <app-doc-code
-      [tsCode]="tsCode"
-      [adkCode]="adkCode"
-      [referencesCode]="referencesCode"
-      hidePreview
-    />`,
-})
-export default class TestComponent {
-  tsCode = `
-  import { Injectable, Component, inject } from '@angular/core';
-  import { render, RenderResult } from '@ngbase/adk/test';
-
-  @Injectable({ providedIn: 'root' })
-  class TestService {
-    value = 'Hello World';
-  }
-
-  @Component({
-    selector: 'app-test',
-    template: \`<p>{{ service.value }}</p>\`,
-  })
-  class TestComponent {
-    readonly service = inject(TestService);
-  }
-
-  const testServiceFake = fakeService(TestService, () => ({
-    value: 'Hello World',
-  }));
-
-  describe('TestComponent', () => {
-    let view: RenderResult<TestComponent>;
-
-    beforeEach(async () => {
-      view = await render(TestComponent, [testServiceFake]);
-    });
-
-    it('should create', () => {
-      expect(view.host).toBeTruthy();
-    });
-  });
-  `;
-  adkCode = '';
-  referencesCode = `
-  class RenderResult<T> extends ElementHelper<HTMLElement> {
+class RenderResult<T> extends ElementHelper<HTMLElement> {
     /**
      * Component instance reference
      */
@@ -277,5 +225,3 @@ export default class TestComponent {
     service: Type<T>, 
     providers?: RenderProvider[]
   ): T;
-  `;
-}

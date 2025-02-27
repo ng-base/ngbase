@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RangePipe } from '@ngbase/adk/utils';
 import { Button } from '@meeui/ui/button';
 import { TourService } from '@meeui/ui/tour';
@@ -39,10 +39,6 @@ import { TourService } from '@meeui/ui/tour';
     class: 'block p-2',
   },
 })
-export class TourDemoComponent implements OnInit {
+export class TourDemoComponent {
   tourService = inject(TourService);
-
-  constructor() {}
-
-  ngOnInit() {}
 }

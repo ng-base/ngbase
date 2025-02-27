@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { TourService } from '@meeui/ui/tour';
 import { Heading } from '@meeui/ui/typography';
@@ -13,11 +13,8 @@ import { TourDemoComponent } from './tour-demo.component';
     <button meeButton (click)="start()" meeShortcut="ctrl+t" (onKeys)="start()">Start Tour</button>
   `,
 })
-export default class TourComponent implements OnInit {
+export default class TourComponent {
   tourService = inject(TourService);
-  constructor() {}
-
-  ngOnInit() {}
 
   start() {
     this.tourService.start(TourDemoComponent, [

@@ -1,4 +1,4 @@
-export { NgbSidenav, NgbSidenavOverlay, provideSidenav } from './sidenav';
+export { NgbSidenav, NgbSidenavOverlay, aliasSidenav } from './sidenav';
 export {
   NgbSidenavHeader,
   NgbSidenavHeaderContent,

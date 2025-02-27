@@ -5,13 +5,13 @@ import {
   NgbCarouselContainer,
   NgbCarouselItem,
   NgbCarouselSubContainer,
-  provideCarousel,
+  aliasCarousel,
 } from '@ngbase/adk/carousel';
 
 @Component({
   selector: '<%= name %>-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideCarousel(Carousel)],
+  providers: [aliasCarousel(Carousel)],
   imports: [NgbCarouselContainer, NgbCarouselSubContainer],
   template: `
     <div class="touch-none overflow-hidden" ngbCarouselContainer>

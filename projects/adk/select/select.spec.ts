@@ -3,15 +3,62 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ElementHelper, firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
 import { NgbOption } from './option';
-import { NgbSelect } from './select';
+import { aliasSelect, NgbSelect } from './select';
+import { testRegisterPopover } from '../popover/popover.service.spec';
+
+@Component({
+  selector: 'ngb-select',
+  providers: [testRegisterPopover(), aliasSelect(TestSelect)],
+  template: `
+    <button ngbSelectValue [disabled]="disabled()">
+      <!-- Prefix template -->
+      <ng-content select=".select-prefix" />
+
+      <span [class.text-muted]="!cValue()">
+        <ng-content select="[ngbSelectTrigger]">
+          {{ cValue() || placeholder() }}
+        </ng-content>
+      </span>
+    </button>
+
+    <!-- Options template -->
+    <ng-template #optionsTemplate>
+      <div>
+        <ng-content select="[ngbSelectInput]">
+          @if (options().length) {
+            <input ngbSelectInput placeholder="Search options" [(value)]="optionsFilter.search" />
+          }
+        </ng-content>
+        <div #optionsGroup ngbSelectOptionGroup>
+          <div role="listbox" aria-label="Suggestions">
+            <ng-content>
+              @for (option of optionsFilter.filteredList(); track option; let i = $index) {
+                <div ngbOption [value]="option" [ayId]="ayId">
+                  @if (optionTemplate(); as ot) {
+                    <ng-template
+                      [ngTemplateOutlet]="ot.template"
+                      [ngTemplateOutletContext]="{ $implicit: option, index: i }"
+                    />
+                  } @else {
+                    {{ option }}
+                  }
+                </div>
+              }
+            </ng-content>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  `,
+})
+class TestSelect<T> extends NgbSelect<T> {}
 
 // Test host component
 @Component({
-  imports: [NgbSelect, NgbOption, ReactiveFormsModule],
+  imports: [TestSelect, NgbOption, ReactiveFormsModule],
   template: `
     <form [formGroup]="form">
-      <div
-        ngbSelect
+      <ngb-select
         id="select1"
         formControlName="selectedValue"
         [multiple]="multiple()"
@@ -22,7 +69,7 @@ import { NgbSelect } from './select';
             {{ option.label }}
           </div>
         }
-      </div>
+      </ngb-select>
     </form>
   `,
 })

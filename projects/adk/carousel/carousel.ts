@@ -306,6 +306,6 @@ export class NgbCarousel {
   }
 }
 
-export function provideCarousel(carousel: typeof NgbCarousel) {
+export function aliasCarousel(carousel: typeof NgbCarousel) {
   return { provide: NgbCarousel, useExisting: carousel };
 }

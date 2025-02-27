@@ -1,14 +1,4 @@
-import {
-  Component,
-  computed,
-  Directive,
-  inject,
-  input,
-  model,
-  numberAttribute,
-  output,
-} from '@angular/core';
-import { NgbSelect, NgbOption } from '@ngbase/adk/select';
+import { computed, Directive, inject, input, model, numberAttribute, output } from '@angular/core';
 
 @Directive({
   selector: '[ngbPaginationBtn]',
@@ -66,40 +56,9 @@ export class NgbPaginationBtn {
   }
 }
 
-@Component({
+@Directive({
   selector: '[ngbPagination]',
-  imports: [NgbSelect, NgbOption, NgbPaginationBtn],
-  template: `
-    <div class="flex items-center gap-2">
-      <div>Rows per page</div>
-      <div ngbSelect [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-1.5">
-        @for (size of sizeOptions(); track size) {
-          <div ngbOption [value]="size">
-            {{ size }}
-          </div>
-        }
-      </div>
-    </div>
-    <div>Page {{ active() }} of {{ totalSnaps() }}</div>
-    <div class="flex items-center gap-2">
-      <button ngbPaginationBtn="prev" class="h-8 w-8 !p-2"><</button>
-      <button ngbPaginationBtn="prev" jump="-1" class="h-8 w-8 !p-2"><</button>
-      @for (snap of snaps(); track snap) {
-        <button
-          ngbPaginationBtn="page"
-          [jump]="snap"
-          [class]="active() === snap ? 'bg-muted-background text-primary' : ''"
-          class="min-w-9 !p-2 ring-offset-background"
-        >
-          {{ snap }}
-        </button>
-      }
-      <button ngbPaginationBtn="next" jump="1" class="h-8 w-8 !p-2">></button>
-      <button ngbPaginationBtn="next" class="h-8 w-8 !p-2">></button>
-    </div>
-  `,
   host: {
-    class: 'flex items-center gap-8 font-semibold',
     role: 'pagination',
     'aria-label': 'pagination',
   },
@@ -156,4 +115,8 @@ export class NgbPagination {
     this.active.set(1);
     this.valueChanged.emit(this.active());
   }
+}
+
+export function aliasPagination(pagination: typeof NgbPagination) {
+  return { provide: NgbPagination, useExisting: pagination };
 }

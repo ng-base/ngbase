@@ -6,7 +6,6 @@ import {
   input,
   linkedSignal,
   model,
-  signal,
   Type,
 } from '@angular/core';
 import { fadeAnimation } from '@ngbase/adk/utils';
@@ -55,7 +54,7 @@ export class NgbSidenav {
   }
 }
 
-export const provideSidenav = (sidenav: Type<NgbSidenav>) => [
+export const aliasSidenav = (sidenav: Type<NgbSidenav>) => [
   SidenavService,
   { provide: NgbSidenav, useExisting: sidenav },
 ];

@@ -1,22 +1,30 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DragData } from '@ngbase/adk/drag';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbResizable } from './resizable';
+import { aliasResizable, NgbResizable, NgbGutter } from './resizable';
 import { NgbResizableGroup } from './resizable-group';
 
 @Component({
-  imports: [NgbResizableGroup, NgbResizable],
+  selector: '[testResizable]',
+  providers: [aliasResizable(TestResizable)],
+  imports: [NgbGutter],
+  template: `<ng-template #dragElement><div ngbGutter></div></ng-template>`,
+})
+class TestResizable extends NgbResizable {}
+
+@Component({
+  imports: [NgbResizableGroup, TestResizable],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div ngbResizableGroup #resizableGroup>
       <!-- <ngb-resizable [size]="show() ? 50 : 0" />
       <ngb-resizable size="auto" /> -->
-      <div ngbResizable [size]="show() ? '250px' : 0"></div>
-      <div ngbResizable size="250px" min="50px" max="300px"></div>
-      <div ngbResizable size="250px" min="50px"></div>
-      <div ngbResizable></div>
+      <div testResizable [size]="show() ? '250px' : 0"></div>
+      <div testResizable size="250px" min="50px" max="300px"></div>
+      <div testResizable size="250px" min="50px"></div>
+      <div testResizable></div>
       @if (showLast()) {
-        <div ngbResizable size="250px" min="50px"></div>
+        <div testResizable size="250px" min="50px"></div>
       }
     </div>
   `,

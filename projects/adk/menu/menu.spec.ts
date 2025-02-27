@@ -1,12 +1,27 @@
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbMenu } from './menu';
+import { aliasMenu, NgbMenu, NgpMenuGroup } from './menu';
 import { Component } from '@angular/core';
 import { NgbList } from '@ngbase/adk/list';
 import { NgbMenuTrigger } from './menu-trigger';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-
+import { testRegisterPopover } from '../popover/popover.service.spec';
 @Component({
-  imports: [NgbMenuTrigger, NgbMenu, NgbList],
+  selector: '[ngbMenu]',
+  exportAs: 'ngbMenu',
+  providers: [testRegisterPopover(), aliasMenu(TestMenu)],
+  imports: [NgpMenuGroup],
+  template: `
+    <ng-template #container>
+      <div ngbMenuGroup>
+        <ng-content />
+      </div>
+    </ng-template>
+  `,
+})
+class TestMenu extends NgbMenu {}
+@Component({
+  imports: [NgbMenuTrigger, TestMenu, NgbList],
+  providers: [testRegisterPopover()],
   template: `
     <button class="menu-1" [ngbMenuTrigger]="menu1">New Team</button>
     <div #menu1="ngbMenu" ngbMenu>

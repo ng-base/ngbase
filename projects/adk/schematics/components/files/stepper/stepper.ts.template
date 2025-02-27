@@ -1,20 +1,20 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
+  aliasStepper,
   NgbStep,
   NgbStepHeader,
   NgbStepper,
   NgbStepperStep,
   provideStep,
-  provideStepper,
-  slideAnimation,
+  stepperAnimation,
 } from '@ngbase/adk/stepper';
 
 @Component({
   selector: '<%= name %>-stepper',
   exportAs: '<%= name %>Stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideStepper(Stepper)],
+  providers: [aliasStepper(Stepper)],
   imports: [NgTemplateOutlet, NgbStepperStep],
   template: `
     <div class="flex justify-between" [class.flex-col]="direction() === 'vertical'">
@@ -57,7 +57,7 @@ import {
     </div>
     <ng-content />
   `,
-  animations: [slideAnimation],
+  animations: [stepperAnimation],
 })
 export class Stepper extends NgbStepper {}
 

@@ -132,9 +132,6 @@ export class NgbDialogContainer extends BaseDialog {
 })
 export class NgbDialogClose {}
 
-export function provideDialog(dialog: typeof NgbDialogContainer) {
-  return {
-    provide: NgbDialogContainer,
-    useExisting: dialog,
-  };
+export function aliasDialog(dialog: typeof NgbDialogContainer) {
+  return { provide: NgbDialogContainer, useExisting: dialog };
 }

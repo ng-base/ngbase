@@ -1,8 +1,6 @@
 import {
   afterNextRender,
   booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
   computed,
   Directive,
   effect,
@@ -12,7 +10,6 @@ import {
   linkedSignal,
   model,
   numberAttribute,
-  Type,
   untracked,
   viewChild,
   viewChildren,
@@ -77,20 +74,13 @@ export class SliderThumb {
   });
 }
 
-@Component({
+@Directive({
   selector: '[ngbSlider]',
   exportAs: 'ngbSlider',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideValueAccessor(NgbSlider)],
-  imports: [SliderTrack, SliderRange, SliderThumb],
-  template: `
-    <div ngbSliderTrack>
-      <div ngbSliderRange></div>
-    </div>
-    @for (thumb of noOfThumbs(); track thumb) {
-      <button ngbSliderThumb></button>
-    }
-  `,
+  host: {
+    '[attr.aria-orientation]': 'orientation()',
+  },
 })
 export class NgbSlider implements ControlValueAccessor {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -343,7 +333,7 @@ export class NgbSlider implements ControlValueAccessor {
   }
 }
 
-export const provideSlider = (slider: Type<NgbSlider>) => [
+export const aliasSlider = (slider: typeof NgbSlider) => [
   { provide: NgbSlider, useExisting: slider },
   provideValueAccessor(slider),
 ];

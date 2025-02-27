@@ -2,13 +2,35 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { firstOutputFrom, render, RenderResult } from '@ngbase/adk/test';
-import { NgbOption } from '@ngbase/adk/select';
-import { NgbAutocomplete } from './autocomplete';
+import { NgbOption, NgbSelectOptionGroup } from '@ngbase/adk/select';
+import { aliasAutocomplete, NgbAutocomplete } from './autocomplete';
 import { NgbAutocompleteInput } from './autocomplete-input';
+import { testRegisterPopover } from '../popover/popover.service.spec';
+
+@Component({
+  selector: '[ngbAutocomplete]',
+  providers: [testRegisterPopover(), aliasAutocomplete(TestAutocomplete)],
+  imports: [NgbSelectOptionGroup],
+  template: `
+    <ul #container (click)="prevent($event)">
+      <ng-content select="ngb-chip, ngb-chip-group" />
+
+      <li (click)="open()">
+        <ng-content select="input" />
+      </li>
+    </ul>
+    <ng-template #optionsTemplate>
+      <div #optionsGroup ngbSelectOptionGroup>
+        <ng-content />
+      </div>
+    </ng-template>
+  `,
+})
+export class TestAutocomplete<T> extends NgbAutocomplete<T> {}
 
 // Test host component
 @Component({
-  imports: [NgbAutocomplete, NgbAutocompleteInput, NgbOption, FormsModule],
+  imports: [TestAutocomplete, NgbAutocompleteInput, NgbOption, FormsModule],
   template: `
     <div
       ngbAutocomplete

@@ -5,11 +5,11 @@ import { NgbTourStep } from './tour-step';
 
 @Injectable({ providedIn: 'root' })
 export class NgbTourService {
-  private popover = ngbPopoverPortal();
+  private readonly popover = ngbPopoverPortal();
   readonly steps = signal<NgbTourStep[]>([]);
   readonly step = signal(-1);
   private readonly ids = signal<string[]>([]);
-  currentStep = computed(() => {
+  readonly currentStep = computed(() => {
     const id = this.ids()[this.step()];
     const steps = this.steps();
     return steps.find(x => x.ngbTourStep() === id);
@@ -22,7 +22,7 @@ export class NgbTourService {
   readonly isLast = computed(() => this.step() === this.ids().length - 1);
   readonly totalSteps = computed(() => this.ids().length);
   scrolled = signal(0);
-  private clipPath = computed(() => {
+  private readonly clipPath = computed(() => {
     const _ = this.scrolled();
     const currentStep = this.currentStep();
     if (!currentStep) {
@@ -43,8 +43,6 @@ export class NgbTourService {
       0 0
     )`;
   });
-
-  constructor() {}
 
   addStep(step: NgbTourStep) {
     this.steps.update(x => [...x, step]);

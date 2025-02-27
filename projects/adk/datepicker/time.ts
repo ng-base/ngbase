@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
   computed,
   Directive,
   effect,
@@ -40,27 +38,9 @@ export class NgbTimeInput {
   }
 }
 
-@Component({
+@Directive({
   selector: '[ngbTime]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [_provide(NgbTimePicker)],
-  imports: [NumberOnly, NgbTimeInput],
-  template: `
-    <input ngbTimeInput="hours" [(value)]="hours" (valueChange)="updateValue()" />
-    <span>:</span>
-    <input ngbTimeInput="minutes" [(value)]="minutes" (valueChange)="updateValue()" />
-    <span>:</span>
-    <input ngbTimeInput="seconds" [(value)]="seconds" (valueChange)="updateValue()" />
-    @if (!is24()) {
-      <div class="ml-1 flex gap-2">
-        <button type="button" class="small" (click)="changeAm(true)">AM</button>
-        <button type="button" class="small" (click)="changeAm(false)">PM</button>
-      </div>
-    }
-  `,
-  host: {
-    class: 'inline-flex gap-1 items-center justify-center',
-  },
 })
 export class NgbTimePicker implements ControlValueAccessor {
   readonly is24 = input(false);
@@ -136,6 +116,6 @@ function _provide(picker: typeof NgbTimePicker) {
   return [provideValueAccessor(picker)];
 }
 
-export function provideTimePicker(picker: typeof NgbTimePicker) {
+export function aliasTimePicker(picker: typeof NgbTimePicker) {
   return [_provide(picker), { provide: NgbTimePicker, useExisting: picker }];
 }

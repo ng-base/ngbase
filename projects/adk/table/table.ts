@@ -1,19 +1,18 @@
 import {
-  Component,
-  contentChildren,
   contentChild,
-  TemplateRef,
-  input,
-  viewChild,
-  ChangeDetectionStrategy,
-  ViewContainerRef,
-  Injector,
-  inject,
-  InjectionToken,
-  IterableDiffers,
-  IterableDiffer,
+  contentChildren,
+  Directive,
   effect,
   EmbeddedViewRef,
+  inject,
+  InjectionToken,
+  Injector,
+  input,
+  IterableDiffer,
+  IterableDiffers,
+  TemplateRef,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { NgbColumn } from './column';
 
@@ -22,17 +21,8 @@ import { NgbHeadRowDef } from './head-row';
 
 export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
 
-@Component({
+@Directive({
   selector: 'table[ngbTable]',
-  template: `
-    <thead>
-      <ng-container #thead />
-    </thead>
-    <tbody>
-      <ng-container #tbody />
-    </tbody>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgbTable<T> {
   private readonly thead = viewChild('thead', { read: ViewContainerRef });

@@ -1,13 +1,42 @@
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbSonner } from './sonner';
+import { NgbSonner, sonnerAnimation, SonnerBase } from './sonner';
+import { Component } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'ngb-sonner',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SonnerBase],
+  template: `
+    <ul>
+      @for (msg of messages(); track msg.id) {
+        <li
+          [ngbSonnerBase]="$index"
+          class="{{
+            (msg.type === 'success' ? ' success' : '') +
+              (msg.type === 'error' ? ' error' : '') +
+              (msg.type === 'warning' ? ' warning' : '')
+          }}"
+        >
+          <h4>{{ msg.message }}</h4>
+          @if (msg.data?.description) {
+            <p>{{ msg.data?.description }}</p>
+          }
+        </li>
+      }
+    </ul>
+  `,
+  animations: [sonnerAnimation],
+})
+class TestSonner extends NgbSonner {}
 
 describe('Sonner', () => {
-  let component: NgbSonner;
-  let view: RenderResult<NgbSonner>;
+  let component: TestSonner;
+  let view: RenderResult<TestSonner>;
 
   beforeEach(async () => {
-    view = await render(NgbSonner, [provideNoopAnimations()]);
+    view = await render(TestSonner, [provideNoopAnimations()]);
     component = view.host;
     view.detectChanges();
   });

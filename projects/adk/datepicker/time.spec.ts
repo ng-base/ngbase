@@ -1,12 +1,36 @@
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbTimePicker } from './time';
+import { aliasTimePicker, NgbTimeInput, NgbTimePicker } from './time';
+import { Component } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { NumberOnly } from '@ngbase/adk/utils';
+
+@Component({
+  selector: '[ngbTime]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTimePicker(TestTimePicker)],
+  imports: [NumberOnly, NgbTimeInput],
+  template: `
+    <input ngbTimeInput="hours" [(value)]="hours" (valueChange)="updateValue()" />
+    <span>:</span>
+    <input ngbTimeInput="minutes" [(value)]="minutes" (valueChange)="updateValue()" />
+    <span>:</span>
+    <input ngbTimeInput="seconds" [(value)]="seconds" (valueChange)="updateValue()" />
+    @if (!is24()) {
+      <div>
+        <button type="button" (click)="changeAm(true)">AM</button>
+        <button type="button" (click)="changeAm(false)">PM</button>
+      </div>
+    }
+  `,
+})
+class TestTimePicker extends NgbTimePicker {}
 
 describe('TimeComponent', () => {
-  let component: NgbTimePicker;
-  let view: RenderResult<NgbTimePicker>;
+  let component: TestTimePicker;
+  let view: RenderResult<TestTimePicker>;
 
   beforeEach(async () => {
-    view = await render(NgbTimePicker);
+    view = await render(TestTimePicker);
     component = view.host;
     view.detectChanges();
   });

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { NgbHoverCard } from './hover-card';
+import { testRegisterPopover } from '../popover/popover.service.spec';
 
 describe('HoverCard Directive', () => {
   let view: RenderResult<TestComponent>;
@@ -20,7 +21,7 @@ describe('HoverCard Directive', () => {
   class TestComponent {}
 
   beforeEach(async () => {
-    view = await render(TestComponent, [provideNoopAnimations()]);
+    view = await render(TestComponent, [provideNoopAnimations(), testRegisterPopover()]);
 
     element = view.$('button');
     directive = view.viewChild(NgbHoverCard);

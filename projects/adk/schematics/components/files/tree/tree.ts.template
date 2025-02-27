@@ -5,16 +5,16 @@ import {
   NgbTreeNodeContent,
   NgbTreeNodeDef,
   NgbTreeNodeToggle,
-  provideTree,
-  provideTreeNode,
+  aliasTree,
+  aliasTreeNode,
 } from '@ngbase/adk/tree';
 
 @Component({
   selector: '<%= name %>-tree',
   exportAs: '<%= name %>Tree',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTree(Tree)],
   template: `<ng-container #container />`,
-  providers: [provideTree(Tree)],
   host: {
     class: 'block',
   },

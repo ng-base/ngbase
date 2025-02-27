@@ -1,14 +1,31 @@
-import { Component, signal, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, TemplateRef } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { NgbTab, NgbTabHeader } from './tab';
+import { aliasTab, NgbTab, NgbTabHeader } from './tab';
+import { NgTemplateOutlet } from '@angular/common';
+
+@Component({
+  selector: 'ngb-tab',
+  exportAs: 'ngbTab',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [aliasTab(TestTab)],
+  imports: [NgTemplateOutlet],
+  template: `
+    @if (lazyTemplate(); as template) {
+      <ng-container *ngTemplateOutlet="template" />
+    } @else if (activeMode()) {
+      <ng-content />
+    }
+  `,
+})
+export class TestTab extends NgbTab {}
 
 describe('Tab Component', () => {
-  let tab: NgbTab;
+  let tab: TestTab;
   let component: TestHostComponent;
   let view: RenderResult<TestHostComponent>;
 
   @Component({
-    imports: [NgbTab, NgbTabHeader],
+    imports: [TestTab, NgbTabHeader],
     template: `<ngb-tab [label]="label()" [disabled]="disabled()" [mode]="mode()">
       Tab Content
     </ngb-tab>`,

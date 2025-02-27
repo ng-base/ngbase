@@ -1,18 +1,16 @@
 import {
-  Component,
   Directive,
-  inject,
-  viewChild,
-  ViewContainerRef,
-  OnDestroy,
-  ChangeDetectionStrategy,
   effect,
   EmbeddedViewRef,
+  inject,
   input,
+  OnDestroy,
   untracked,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { ROW_TOKEN, NgbTable } from './table';
 import { NgbColumn } from './column';
+import { NgbTable, ROW_TOKEN } from './table';
 
 @Directive({ selector: '[ngbBodyRowDef]' })
 export class NgbBodyRowDef {
@@ -20,10 +18,8 @@ export class NgbBodyRowDef {
   context: any;
 }
 
-@Component({
+@Directive({
   selector: '[ngbBodyRow]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-container #container />`,
 })
 export class NgbBodyRow implements OnDestroy {
   readonly def = inject(ROW_TOKEN);

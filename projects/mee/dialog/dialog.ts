@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
-import {
-  NgbDialogBackdrop,
-  NgbDialogContainer,
-  NgbDialogMain,
-  ngbDialogPortal,
-  provideDialog,
-  NgbDialog,
-  NgbDialogClose,
-} from '@ngbase/adk/dialog';
-import { DragMove } from '@ngbase/adk/drag';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideX } from '@ng-icons/lucide';
+import {
+  aliasDialog,
+  NgbDialog,
+  NgbDialogBackdrop,
+  NgbDialogClose,
+  NgbDialogContainer,
+  NgbDialogMain,
+  ngbDialogPortal,
+} from '@ngbase/adk/dialog';
+import { DragMove } from '@ngbase/adk/drag';
 
 @Component({
   selector: 'mee-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideDialog(DialogContainer)],
+  providers: [aliasDialog(DialogContainer)],
   viewProviders: [provideIcons({ lucideX })],
   imports: [Button, Icon, DragMove, NgbDialogMain, NgbDialogBackdrop],
   template: `

@@ -1,26 +1,24 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  ElementRef,
-  OnDestroy,
-  TemplateRef,
   contentChildren,
+  Directive,
   effect,
+  ElementRef,
   inject,
+  OnDestroy,
   output,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { AccessibleGroup } from '@ngbase/adk/a11y';
+import { injectDirectionality } from '@ngbase/adk/bidi';
 import { Keys } from '@ngbase/adk/keys';
 import { NgbList } from '@ngbase/adk/list';
+import { ngbPopoverPortal, PopoverOptions } from '@ngbase/adk/popover';
 import { DialogRef } from '@ngbase/adk/portal';
 import { NgbOption } from '@ngbase/adk/select';
+import { uniqueId } from '@ngbase/adk/utils';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { NgbMenuTrigger } from './menu-trigger';
-import { injectDirectionality } from '@ngbase/adk/bidi';
-import { ngbPopoverPortal, PopoverOptions } from '@ngbase/adk/popover';
-import { uniqueId } from '@ngbase/adk/utils';
 
 @Directive({
   selector: '[ngbMenuGroup]',
@@ -29,7 +27,7 @@ import { uniqueId } from '@ngbase/adk/utils';
     '(click)': 'menu.close()',
   },
 })
-export class MenuGroup {
+export class NgpMenuGroup {
   readonly menu = inject(NgbMenu);
   readonly allyGroup = inject(AccessibleGroup);
 
@@ -43,23 +41,14 @@ export class MenuGroup {
   }
 }
 
-@Component({
+@Directive({
   selector: '[ngbMenu]',
   exportAs: 'ngbMenu',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AccessibleGroup, MenuGroup],
-  template: `
-    <ng-template #container>
-      <div ngbMenuGroup>
-        <ng-content />
-      </div>
-    </ng-template>
-  `,
 })
 export class NgbMenu implements OnDestroy {
   readonly dir = injectDirectionality();
   readonly popover = ngbPopoverPortal();
-  private readonly menuEl = viewChild<MenuGroup, ElementRef<HTMLDivElement>>(MenuGroup, {
+  private readonly menuEl = viewChild<NgpMenuGroup, ElementRef<HTMLDivElement>>(NgpMenuGroup, {
     read: ElementRef,
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
@@ -148,7 +137,7 @@ export class NgbMenu implements OnDestroy {
   }
 }
 
-export const provideMenu = (menu: typeof NgbMenu) => ({
+export const aliasMenu = (menu: typeof NgbMenu) => ({
   provide: NgbMenu,
   useExisting: menu,
 });

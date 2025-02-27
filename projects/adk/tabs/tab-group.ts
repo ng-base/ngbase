@@ -5,7 +5,6 @@ import {
   Directive,
   ElementRef,
   afterNextRender,
-  booleanAttribute,
   computed,
   contentChildren,
   effect,
@@ -27,7 +26,7 @@ export interface TabChangeEvent {
 
 @Directive({
   selector: '[ngbTabButtonsGroup]',
-  hostDirectives: [{ directive: AccessibleGroup }],
+  hostDirectives: [AccessibleGroup],
   host: {
     role: 'tablist',
     style: 'scrollbar-width: none',
@@ -45,7 +44,7 @@ export class TabButtonsGroup {
 @Component({
   selector: 'button[ngbTabButton]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [{ directive: AccessibleItem }],
+  hostDirectives: [AccessibleItem],
   imports: [NgTemplateOutlet],
   template: `
     @if (ngbTabButton().header(); as template) {
@@ -90,43 +89,9 @@ export class TabScroll {
   readonly tabGroup = inject(NgbTabs);
 }
 
-@Component({
+@Directive({
   selector: 'ngb-tabs',
   exportAs: 'ngbTabs',
-  imports: [TabButton, TabButtonsGroup, TabScroll],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="flex items-center border-b">
-      <ng-content select=".tab-start-header-content" />
-      <div class="relative flex overflow-hidden">
-        <button
-          ngbTabScroll="left"
-          class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
-        >
-          <
-        </button>
-        <nav ngbTabButtonsGroup class="overflow-auto">
-          <div #tabListContainer class="flex h-full w-max">
-            @for (tab of tabs(); track tab.id) {
-              <button
-                [ngbTabButton]="tab"
-                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
-              ></button>
-            }
-          </div>
-        </nav>
-        <button
-          ngbTabScroll="right"
-          class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
-        >
-          >
-        </button>
-      </div>
-      <ng-content select=".tab-header-content" />
-    </div>
-    <ng-content /> `,
-  host: {
-    class: 'bg-foreground flex flex-col',
-  },
 })
 export class NgbTabs<T extends NgbTab = NgbTab> {
   readonly tabList = viewChild.required<TabButtonsGroup, ElementRef<HTMLElement>>(TabButtonsGroup, {
@@ -278,7 +243,7 @@ export class NgbTabs<T extends NgbTab = NgbTab> {
   }
 }
 
-export function provideTabs<T extends NgbTab>(tab: typeof NgbTabs<T>) {
+export function aliasTabs<T extends NgbTab>(tab: typeof NgbTabs<T>) {
   return {
     provide: NgbTabs,
     useExisting: tab,

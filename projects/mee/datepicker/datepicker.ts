@@ -1,13 +1,13 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DatepickerGroup, NgbDatePicker, provideDatePicker } from '@ngbase/adk/datepicker';
+import { DatepickerGroup, NgbDatePicker, aliasDatePicker } from '@ngbase/adk/datepicker';
 import { RangePipe } from '@ngbase/adk/utils';
 import { Calendar } from './calendar';
 
 @Component({
   selector: 'mee-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideDatePicker(DatePicker)],
+  providers: [aliasDatePicker(DatePicker)],
   imports: [Calendar, RangePipe, NgTemplateOutlet, DatepickerGroup],
   template: `
     <div class="flex" ngbDatepickerGroup>

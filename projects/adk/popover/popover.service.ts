@@ -43,6 +43,6 @@ export function ngbPopoverPortal() {
   return { open, closeAll: base.closeAll };
 }
 
-export const registerNgbPopover = (popover: Type<NgbPopover>) => {
+export const registerNgbPopover = (popover: typeof NgbPopover) => {
   return { provide: POPOVER_TOKEN, useValue: popover };
 };

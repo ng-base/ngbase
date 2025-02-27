@@ -40,24 +40,10 @@ export class NgbRadioIndicator {
 
 @Directive({
   selector: '[ngbRadio]',
-  // template: `
-  //   <button
-  //     ngbFocusStyle
-  //     ngbRadioIndicator
-  //     class="custom-radio relative flex h-4 w-4 flex-none items-center justify-center rounded-full border border-primary"
-  //     [class]="disabled() ? 'border-muted' : 'border-primary'"
-  //   >
-  //     @if (checked()) {
-  //       <div class="h-2 w-2 rounded-full" [class]="disabled() ? 'bg-muted' : 'bg-primary'"></div>
-  //     }
-  //   </button>
-  //   <ng-content />
-  // `,
   host: {
     class: 'ngb-radio',
     '(click)': '!disabled() && updateValue($event)',
     '[attr.aria-disabled]': 'disabled()',
-    // '[class]': `disabled() ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'`,
   },
 })
 export class NgbRadio {

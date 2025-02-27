@@ -25,3 +25,7 @@ export class NgbAccordion {
     this.accordionService.activeId.set(this.expanded() ? this.id : '');
   }
 }
+
+export function aliasAccordion(accordion: typeof NgbAccordion) {
+  return { provide: NgbAccordion, useExisting: accordion };
+}

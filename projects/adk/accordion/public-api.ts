@@ -3,6 +3,6 @@
  */
 
 export { NgbAccordionGroup } from './accordion-group';
-export { NgbAccordion } from './accordion-item';
+export { NgbAccordion, aliasAccordion } from './accordion-item';
 export { NgbAccordionHeader } from './accordion-header';
 export { NgbAccordionContent, slideAnimation } from './accordion-content';

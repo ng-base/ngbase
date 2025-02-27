@@ -1,16 +1,16 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  NgbSelect,
-  NgbSelectOption,
-  NgbSelectOptionGroup,
-  provideSelect,
-  SelectValue,
-} from '@ngbase/adk/select';
 import { Icon } from '<%= basepath %>/icon';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronsUpDown } from '@ng-icons/lucide';
+import {
+  aliasSelect,
+  NgbSelect,
+  NgbSelectOption,
+  NgbSelectOptionGroup,
+  SelectValue,
+} from '@ngbase/adk/select';
 import { Option } from './option';
 import { SelectInput } from './select-input';
 
@@ -24,7 +24,7 @@ export class SelectOption<T> {}
   selector: '<%= name %>-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [provideIcons({ lucideChevronsUpDown })],
-  providers: [provideSelect(Select)],
+  providers: [aliasSelect(Select)],
   imports: [
     Icon,
     FormsModule,

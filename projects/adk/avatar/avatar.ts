@@ -56,6 +56,6 @@ export class NgbAvatarGroup {
   }
 }
 
-export function provideAvatar(avatar: Type<NgbAvatar>) {
+export function aliasAvatar(avatar: Type<NgbAvatar>) {
   return { provide: NgbAvatar, useExisting: avatar };
 }

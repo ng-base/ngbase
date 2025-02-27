@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Directive, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
+  aliasAccordion,
   NgbAccordion,
   NgbAccordionContent,
   NgbAccordionGroup,
@@ -20,14 +21,13 @@ export class AccordionGroup {}
 
 @Component({
   selector: 'mee-accordion',
+  exportAs: 'meeAccordion',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [
-    { directive: NgbAccordion, inputs: ['expanded', 'disabled'], outputs: ['expandedChange'] },
-  ],
+  providers: [aliasAccordion(Accordion)],
   imports: [NgbAccordionContent],
   template: `
     <ng-content select="[meeAccordionHeader]" />
-    @if (accordion.expanded()) {
+    @if (expanded()) {
       <div ngbAccordionContent [@slide] class="overflow-hidden">
         <div class="px-3 pb-4 text-muted">
           <ng-content />
@@ -40,9 +40,7 @@ export class AccordionGroup {}
   },
   animations: [slideAnimation],
 })
-export class Accordion {
-  readonly accordion = inject(NgbAccordion);
-}
+export class Accordion extends NgbAccordion {}
 
 @Directive({
   selector: '[meeAccordionHeader]',

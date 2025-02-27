@@ -24,4 +24,6 @@ export class NgbChip<T = any> {
   readonly close = output();
 }
 
-export const provideChip = (chip: typeof NgbChip) => [{ provide: NgbChip, useExisting: chip }];
+export function aliasChip(chip: typeof NgbChip) {
+  return { provide: NgbChip, useExisting: chip };
+}

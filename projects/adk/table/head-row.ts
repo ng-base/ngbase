@@ -1,17 +1,15 @@
 import {
-  Component,
   Directive,
-  inject,
-  viewChild,
-  ViewContainerRef,
-  ChangeDetectionStrategy,
   effect,
   EmbeddedViewRef,
+  inject,
   input,
   OnDestroy,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { ROW_TOKEN, NgbTable } from './table';
 import { NgbColumn } from './column';
+import { NgbTable, ROW_TOKEN } from './table';
 
 @Directive({
   selector: '[ngbHeadRowDef]',
@@ -21,10 +19,8 @@ export class NgbHeadRowDef {
   readonly ngbHeadRowDefSticky = input();
 }
 
-@Component({
+@Directive({
   selector: '[ngbHeadRow]',
-  template: `<ng-container #container />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     // '[class]': `headDef.ngbHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
     '[attr.data-sticky]': 'headDef.ngbHeadRowDefSticky()',

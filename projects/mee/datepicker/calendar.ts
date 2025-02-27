@@ -1,5 +1,9 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Button } from '@meeui/ui/button';
+import { Icon } from '@meeui/ui/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import {
   CalendarBtn,
   CalendarDayBtn,
@@ -7,18 +11,14 @@ import {
   CalendarTitle,
   CalendarYearBtn,
   NgbCalendar,
-  provideCalendar,
+  aliasCalendar,
 } from '@ngbase/adk/datepicker';
-import { Button } from '@meeui/ui/button';
-import { Icon } from '@meeui/ui/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideChevronLeft, lucideChevronRight } from '@ng-icons/lucide';
 import { TimePicker } from './time';
 
 @Component({
   selector: 'mee-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideCalendar(Calendar)],
+  providers: [aliasCalendar(Calendar)],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   imports: [
     NgClass,

@@ -1,12 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
+  aliasTab,
+  aliasTabs,
   NgbTab,
   NgbTabHeader,
   NgbTabLazy,
   NgbTabs,
-  provideTab,
-  provideTabs,
   TabButton,
   TabButtonsGroup,
   TabScroll,
@@ -16,7 +16,7 @@ import {
   selector: 'mee-tabs',
   imports: [TabButton, TabButtonsGroup, TabScroll],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTabs(Tabs)],
+  providers: [aliasTabs(Tabs)],
   template: `<div class="flex items-center border-b">
       <ng-content select=".tab-start-header-content" />
       <div class="relative flex overflow-hidden">
@@ -56,7 +56,7 @@ export class Tabs extends NgbTabs {}
   selector: 'mee-tab',
   exportAs: 'meeTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideTab(Tab)],
+  providers: [aliasTab(Tab)],
   imports: [NgTemplateOutlet],
   template: `
     @if (lazyTemplate(); as template) {

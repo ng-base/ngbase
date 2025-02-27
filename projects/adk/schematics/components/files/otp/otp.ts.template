@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { injectDirectionality } from '@ngbase/adk/bidi';
-import { NgbInputOtp, NgbOtpInput, NgbOtpValue, provideInputOtp } from '@ngbase/adk/otp';
+import { NgbInputOtp, NgbOtpInput, NgbOtpValue, aliasInputOtp } from '@ngbase/adk/otp';
 import { NumberOnly, RangePipe } from '@ngbase/adk/utils';
 import { InputStyle } from '<%= basepath %>/form-field';
 
 @Component({
   selector: '<%= name %>-input-otp',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideInputOtp(InputOtp)],
+  providers: [aliasInputOtp(InputOtp)],
   imports: [InputStyle, RangePipe, NgbOtpInput, NgbOtpValue, NumberOnly],
   template: `
     @for (num of size(); track $index; let l = $last) {

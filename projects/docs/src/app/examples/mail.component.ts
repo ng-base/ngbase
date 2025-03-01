@@ -5,7 +5,7 @@ import { Badge } from '@meeui/ui/badge';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
-import { Input } from '@meeui/ui/form-field';
+import { FormField, Input } from '@meeui/ui/form-field';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Resizable, ResizableGroup } from '@meeui/ui/resizable';
@@ -43,6 +43,7 @@ import {
     FormsModule,
     Card,
     Heading,
+    FormField,
     Select,
     Option,
     ResizableGroup,
@@ -87,11 +88,13 @@ import {
       <mee-resizable-group>
         <mee-resizable [size]="20">
           <div class="px-2 py-2">
-            <mee-select placeholder="Select" [(ngModel)]="account">
-              @for (account of accounts; track account) {
-                <mee-option [value]="account">{{ account.email }}</mee-option>
-              }
-            </mee-select>
+            <mee-form-field class="w-full">
+              <mee-select placeholder="Select" [(ngModel)]="account">
+                @for (account of accounts; track account) {
+                  <mee-option [value]="account">{{ account.email }}</mee-option>
+                }
+              </mee-select>
+            </mee-form-field>
           </div>
           <mee-separator />
           <div class="p-2">

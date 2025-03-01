@@ -131,7 +131,6 @@ export class DialogOptions<T = any> {
   maxHeight?: string;
   classNames?: string[] = [];
   header?: boolean;
-  overrideLowerDialog?: boolean = false;
   disableClose? = false;
   ayId?: string;
   focusTrap? = true;

@@ -1,11 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { isClient } from '@ngbase/adk/utils';
-import { dialogPortal } from '<%= basepath %>/dialog';
-import { ThemeComponent } from './theme.component';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  dialog = dialogPortal();
   mode = signal<'light' | 'dark' | ''>('light');
 
   constructor() {
@@ -30,14 +27,6 @@ export class ThemeService {
     }
     localStorage.setItem('theme', mode);
     this.mode.set(mode);
-  }
-
-  open() {
-    this.dialog.open(ThemeComponent, {
-      title: 'Theme',
-      backdrop: false,
-      width: '20rem',
-    });
   }
 }
 

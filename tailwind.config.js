@@ -5,15 +5,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(var(--color-primary))',
-        muted: 'rgb(var(--color-muted))',
-        gy: 'rgb(var(--color-gray))',
-        background: 'rgb(var(--color-background))',
-        foreground: 'rgb(var(--color-foreground))',
-        'muted-background': 'rgb(var(--color-muted-background))',
-        border: 'rgb(var(--color-border))',
-        text: 'rgb(var(--color-text))',
-        input: 'rgb(var(--color-input))',
+        primary: 'rgba(var(--color-primary))',
+        muted: 'rgba(var(--color-muted))',
+        gy: 'rgba(var(--color-gray))',
+        background: 'rgba(var(--color-background))',
+        foreground: 'rgba(var(--color-foreground))',
+        'muted-background': 'rgba(var(--color-muted-background))',
+        border: 'rgba(var(--color-border))',
+        text: 'rgba(var(--color-text))',
+        input: 'rgba(var(--color-input))',
       },
       fontFamily: {
         body: ['Inter'],

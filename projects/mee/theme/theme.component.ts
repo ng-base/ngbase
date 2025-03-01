@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { ColorInput } from '@meeui/ui/color-picker';
-import { Input } from '@meeui/ui/form-field';
+import { FormField, Input } from '@meeui/ui/form-field';
 
 interface ThemeData {
   name: string;
@@ -19,7 +19,7 @@ interface ThemeData {
 
 @Component({
   selector: 'mee-theme',
-  imports: [Input, ReactiveFormsModule, Button, ColorInput],
+  imports: [Input, ReactiveFormsModule, Button, ColorInput, FormField],
   template: `
     <div class="mb-4 flex gap-4">
       @for (theme of themes; track theme) {
@@ -29,38 +29,70 @@ interface ThemeData {
       }
     </div>
     <form [formGroup]="form">
-      <table>
+      <table class="[&>tr_td]:pt-2">
         <tr>
           <td>Radius:</td>
-          <td><input class="w-48" meeInput formControlName="radius" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <input meeInput class="w-full" formControlName="radius" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Space:</td>
-          <td><input class="w-48" meeInput formControlName="space" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <input meeInput class="w-full" formControlName="space" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Background:</td>
-          <td><mee-color-input class="w-48" formControlName="background" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="background" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Foreground:</td>
-          <td><mee-color-input class="w-48" formControlName="foreground" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="foreground" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Primary:</td>
-          <td><mee-color-input class="w-48" formControlName="primary" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="primary" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Muted:</td>
-          <td><mee-color-input class="w-48" formControlName="muted" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="muted" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Border:</td>
-          <td><mee-color-input class="w-48" formControlName="border" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="border" />
+            </mee-form-field>
+          </td>
         </tr>
         <tr>
           <td>Text:</td>
-          <td><mee-color-input class="w-48" formControlName="text" /></td>
+          <td>
+            <mee-form-field class="w-48">
+              <mee-color-input class="w-full" formControlName="text" />
+            </mee-form-field>
+          </td>
         </tr>
       </table>
     </form>

@@ -33,7 +33,7 @@ import { NgbSelectTarget } from '@ngbase/adk/select';
     <ng-content select="[meeError]" />
   `,
   host: {
-    class: 'inline-flex flex-col font-medium mb-2 gap-1',
+    class: 'inline-flex flex-col font-medium gap-1',
   },
 })
 export class FormField {

@@ -45,23 +45,23 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
     FormField,
   ],
   template: `
-    <mee-card class="flex w-[28rem] flex-col gap-2">
+    <mee-card class="flex w-[28rem] flex-col gap-4">
       <h4 meeHeader="sm" class="mb-4">Let’s get you hired!</h4>
       <div class="flex gap-4">
-        <div meeFormField>
+        <mee-form-field>
           <label meeLabel> First Name*</label>
           <input meeInput placeholder="First Name" />
-        </div>
-        <div meeFormField>
+        </mee-form-field>
+        <mee-form-field>
           <label meeLabel> Last Name* </label>
           <input meeInput placeholder="Last Name" />
-        </div>
+        </mee-form-field>
       </div>
-      <div meeFormField>
+      <mee-form-field>
         <label meeLabel> Email ID </label>
         <input meeInput id="emailId" placeholder="Email id" />
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel class="w-full"> Location </label>
         <mee-select placeholder="Location" [multiple]="true" [(ngModel)]="location">
           <input meeSelectInput placeholder="Search location" [(ngModel)]="locationList.search" />
@@ -69,19 +69,19 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
             <mee-option [value]="loc">{{ loc }}</mee-option>
           }
         </mee-select>
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel> Contact Number </label>
         <input meeInput id="contactNumber" placeholder="Contact number" />
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel> Year of Experience </label>
         <div class="flex gap-4">
           <input meeInput id="experience" placeholder="Years" />
           <input meeInput id="experience" placeholder="Months" />
         </div>
-      </div>
-      <div meeFormField>
+      </mee-form-field>
+      <mee-form-field>
         <label meeLabel> My Technical Skills </label>
         <mee-autocomplete placeholder="My Technical Skills" [multiple]="true" [(ngModel)]="skills">
           <input
@@ -97,7 +97,7 @@ export function selectFilter<T>(value: (value: T) => string, initialItems: T[] =
             <mee-option [value]="skill">{{ skill }}</mee-option>
           }
         </mee-autocomplete>
-      </div>
+      </mee-form-field>
       <div class="mb-4 flex flex-col">
         <mee-checkbox>Subscribe to our newsletter</mee-checkbox>
         <mee-checkbox>Accept terms and conditions</mee-checkbox>

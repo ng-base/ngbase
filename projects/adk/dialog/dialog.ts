@@ -91,7 +91,6 @@ export class NgbDialogBackdrop {
     </div>
   `,
   host: {
-    '[style]': '{ "z-index": options.overrideLowerDialog ? "982" : "980" }',
     '[@parentAnimation]': '',
     '(@parentAnimation.done)': 'animationDone()',
   },

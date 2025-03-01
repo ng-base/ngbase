@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
-import { Input } from '@meeui/ui/form-field';
+import { FormField, Input } from '@meeui/ui/form-field';
 import { AutoHeight } from '@ngbase/adk/form-field';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
@@ -20,6 +20,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
   imports: [
     FormsModule,
     Card,
+    FormField,
     SelectInput,
     Select,
     Option,
@@ -41,12 +42,14 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
     <mee-card class="!p-0">
       <div class="flex items-center gap-2 p-4">
         <h4 meeHeader="sm" class="flex-1">Playground</h4>
-        <mee-select class="w-72" placeholder="Load a preset">
-          <input meeSelectInput placeholder="Select preset" [(ngModel)]="searchPreset" />
-          @for (item of filteredPresets(); track item) {
-            <mee-option [value]="item">{{ item }}</mee-option>
-          }
-        </mee-select>
+        <mee-form-field>
+          <mee-select class="w-72" placeholder="Load a preset">
+            <input meeSelectInput placeholder="Select preset" [(ngModel)]="searchPreset" />
+            @for (item of filteredPresets(); track item) {
+              <mee-option [value]="item">{{ item }}</mee-option>
+            }
+          </mee-select>
+        </mee-form-field>
         <button meeButton="secondary">Save</button>
         <button meeButton="secondary">View Code</button>
         <button meeButton="secondary">Share</button>
@@ -59,13 +62,15 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
         <button meeOption>Delete preset</button>
       </mee-menu>
       <div class="flex p-4">
-        <textarea
-          meeInput
-          ngbAutoHeight
-          [(ngModel)]="prompt"
-          class="min-h-[500px] flex-1"
-          placeholder="Write a tagline for an ice cream shop"
-        ></textarea>
+        <mee-form-field class="flex-1">
+          <textarea
+            meeInput
+            ngbAutoHeight
+            [(ngModel)]="prompt"
+            class="min-h-[500px] flex-1"
+            placeholder="Write a tagline for an ice cream shop"
+          ></textarea>
+        </mee-form-field>
         <div class="flex w-52 flex-col gap-7 pl-4">
           <div class="flex flex-col gap-2">
             <h4 class="mb-1 font-medium">Mode</h4>
@@ -88,16 +93,18 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
 
           <div class="flex flex-col gap-2">
             <h4 meeHeader class="mb-1">Model</h4>
-            <mee-select class="w-full" placeholder="Select model" [(ngModel)]="model">
-              <input meeSelectInput placeholder="Select model" [(ngModel)]="searchModel" />
-              @for (item of filteredModels(); track item.name) {
-                <mee-option-group [label]="item.name">
-                  @for (option of item.list; track option) {
-                    <mee-option [value]="option">{{ option }}</mee-option>
-                  }
-                </mee-option-group>
-              }
-            </mee-select>
+            <mee-form-field>
+              <mee-select class="w-full" placeholder="Select model" [(ngModel)]="model">
+                <input meeSelectInput placeholder="Select model" [(ngModel)]="searchModel" />
+                @for (item of filteredModels(); track item.name) {
+                  <mee-option-group [label]="item.name">
+                    @for (option of item.list; track option) {
+                      <mee-option [value]="option">{{ option }}</mee-option>
+                    }
+                  </mee-option-group>
+                }
+              </mee-select>
+            </mee-form-field>
           </div>
 
           <div class="flex flex-col gap-2">

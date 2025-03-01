@@ -35,7 +35,7 @@ import {
             @for (tab of tabs(); track tab.id) {
               <button
                 [ngbTabButton]="tab"
-                class="whitespace-nowrap border-b-2 border-transparent aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
+                class="whitespace-nowrap border-b-2 border-transparent px-4 py-3 font-medium text-muted aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>

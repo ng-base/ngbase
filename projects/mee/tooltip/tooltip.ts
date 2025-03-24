@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { injectTheme } from '@meeui/ui/theme';
+import { NgbPopoverArrow, providePopoverArrowTracker } from '@ngbase/adk/popover';
 import {
   NgbTooltip,
   NgbTooltipTemplate,
@@ -22,7 +23,9 @@ export class Tooltip {}
 @Component({
   selector: 'mee-tooltip',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `{{ content() }}`,
+  providers: [providePopoverArrowTracker()],
+  imports: [NgbPopoverArrow],
+  template: `<div ngbPopoverArrow>{{ content() }}</div>`,
   host: {
     class:
       'fixed inline-block rounded-lg bg-foreground px-3 py-1 border shadow-md z-p whitespace-pre-line max-w-[15rem] text-text',

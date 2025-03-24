@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
   aliasPopover,
   NgbPopover,
+  NgbPopoverArrow,
   NgbPopoverBackdrop,
   NgbPopoverClose,
   NgbPopoverMain,
@@ -14,34 +15,14 @@ import {
   selector: 'mee-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [aliasPopover(Popover)],
-  imports: [NgbPopoverBackdrop, NgbPopoverMain],
-  template: ` <style>
-      .popover-anchor {
-        --action-angle: 180deg;
-        --action-left: 50%;
-        --action-top: -1rem;
-      }
-      .popover-anchor::before {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-top: 0.8rem solid;
-        @apply border-foreground;
-        border-left: 0.5rem solid transparent;
-        border-right: 0.5rem solid transparent;
-        top: var(--action-top);
-        left: var(--action-left);
-        transform: translateX(-50%) rotate(var(--action-angle, 180deg));
-      }
-    </style>
-    <div
+  imports: [NgbPopoverBackdrop, NgbPopoverMain, NgbPopoverArrow],
+  template: ` <div
       ngbPopoverMain
+      ngbPopoverArrow
       [@slideInOutAnimation]
       class="{{
         'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-foreground shadow-md ' +
-          (options().anchor ? 'popover-anchor ' : 'overflow-auto ')
+          (options().anchor ? '' : 'overflow-auto ')
       }}"
     >
       <div class="flex flex-1 flex-col overflow-auto">

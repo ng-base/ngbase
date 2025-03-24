@@ -2,6 +2,7 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { DialogRef } from '@ngbase/adk/portal';
 import { render, RenderResult } from '@ngbase/adk/test';
 import { NgbPopover } from './popover';
+import { providePopoverArrowTracker } from './popover-arrow.ng';
 
 const options = {
   title: 'Drawer',
@@ -22,6 +23,7 @@ describe('DrawerComponent', () => {
   beforeEach(async () => {
     view = await render(NgbPopover, [
       provideNoopAnimations(),
+      providePopoverArrowTracker(),
       { provide: DialogRef, useValue: mockDialogRef },
     ]);
     component = view.host;

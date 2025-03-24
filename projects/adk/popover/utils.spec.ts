@@ -1,12 +1,23 @@
 import { PopoverOptions } from './popover.service';
 import { PopoverPositioner, Position, PositionResult, Rect } from './utils';
 
-const createMockElement = (rect: Partial<DOMRect>): HTMLElement =>
+export const createMockElement = (rect: Partial<DOMRect>): HTMLElement =>
   ({
     getBoundingClientRect: () => rect as DOMRect,
     clientWidth: rect.width || 0,
     clientHeight: rect.height || 0,
   }) as unknown as HTMLElement;
+
+const resultDimensions = (rect: Partial<PositionResult>): PositionResult => ({
+  top: 0,
+  left: 0,
+  position: Position.Right,
+  bottom: undefined,
+  right: undefined,
+  maxWidth: undefined,
+  maxHeight: undefined,
+  ...rect,
+});
 
 describe('utils', () => {
   const mockWindowDimensions = { width: 1292, height: 944 };
@@ -18,13 +29,13 @@ describe('utils', () => {
         'bl',
         { top: 489, left: 257, width: 111.28125, height: 38 },
         { width: 153, height: 225 },
-        { top: 531, bottom: undefined, left: 257, right: undefined, position: 'bl' },
+        resultDimensions({ top: 531, left: 257, position: Position.BottomLeft }),
       ],
       [
         'right',
         { top: 608, left: 262, width: 136.625, height: 36 },
         { width: 869, height: 264 },
-        { top: 608, bottom: undefined, left: 402.625, right: undefined, position: 'right' },
+        resultDimensions({ top: 494, left: 402.625, position: Position.Right }),
       ],
     ];
 
@@ -61,13 +72,31 @@ describe('utils', () => {
     const positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
     const output = positioner.calculatePosition();
 
-    expect(output).toEqual({
-      top: 531,
-      bottom: undefined,
-      left: 0,
-      right: 41,
-      position: 'br',
-    });
+    expect(output).toEqual(
+      resultDimensions({ top: 531, left: 0, right: 41, position: Position.BottomRight }),
+    );
+  });
+
+  it('should return proper dimensions and position for left target and right position', () => {
+    const target = createMockElement({ top: 10, left: 10, width: 100, height: 20 });
+    const el = createMockElement({ width: 150, height: 14 });
+    const config: PopoverOptions = { offset: 10, position: Position.Right, target, el };
+    const windowDimensions = { width: 1000, height: 1000 };
+    const positioner = new PopoverPositioner(config, windowDimensions);
+    const output = positioner.calculatePosition();
+
+    expect(output).toEqual(resultDimensions({ top: 13, left: 120, position: Position.Right }));
+  });
+
+  it('should return proper dimensions and position for right target and right position', () => {
+    const target = createMockElement({ top: 10, left: 890, width: 100, height: 20 });
+    const el = createMockElement({ width: 150, height: 14 });
+    const config: PopoverOptions = { offset: 10, position: Position.Right, target, el };
+    const windowDimensions = { width: 1000, height: 1000 };
+    const positioner = new PopoverPositioner(config, windowDimensions);
+    const output = positioner.calculatePosition();
+
+    expect(output).toEqual(resultDimensions({ top: 13, right: 120, position: Position.Left }));
   });
 
   describe('checkOverflow', () => {

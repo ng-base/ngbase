@@ -10,7 +10,7 @@ import {
   input,
   untracked,
 } from '@angular/core';
-import { PopoverPosition } from '@ngbase/adk/popover';
+import { PopoverPosition, providePopoverArrowTracker } from '@ngbase/adk/popover';
 import { TooltipService } from './tooltip.service';
 import { NgbTooltipTemplate } from './tooltip';
 
@@ -29,6 +29,7 @@ export interface TooltipOptions {
 
 @Directive({
   selector: '[ngbTooltip]',
+  providers: [providePopoverArrowTracker()],
 })
 export class NgbTooltip implements OnDestroy {
   // Dependencies

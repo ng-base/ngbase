@@ -20,11 +20,25 @@ describe('TooltipComponent', () => {
     view = await render(TestTooltipTemplate, [provideNoopAnimations()]);
     component = view.host;
     // fake the target
-    component['target'] = document.createElement('div');
+    component['target'].set(document.createElement('div'));
     view.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set the position when the target is set', () => {
+    jest.spyOn(component, 'setPosition');
+    component['target'].set(document.createElement('div'));
+    view.detectChanges();
+    expect(component['setPosition']).toHaveBeenCalled();
+  });
+
+  it('should set the position when the content is set', () => {
+    jest.spyOn(component, 'setPosition');
+    component['content'].set('test');
+    view.detectChanges();
+    expect(component['setPosition']).toHaveBeenCalled();
   });
 });

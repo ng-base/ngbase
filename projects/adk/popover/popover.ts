@@ -16,6 +16,7 @@ import { createHostAnimation, disposals } from '@ngbase/adk/utils';
 import { EMPTY, Observable, fromEvent, map, startWith, switchMap } from 'rxjs';
 import { PopoverOptions, PopoverPosition } from './popover.service';
 import { tooltipPosition } from './utils';
+import { POPOVER_ARROW_TRACKER, providePopoverArrowTracker } from './popover-arrow.ng';
 
 @Directive({
   selector: '[ngbPopoverBackdrop]',
@@ -63,6 +64,7 @@ export class NgbPopoverMain {
   ],
 })
 export class NgbPopover extends BaseDialog {
+  readonly arrowTracker = inject(POPOVER_ARROW_TRACKER);
   private readonly disposals = disposals();
 
   readonly myDialog = viewChild.required('myDialog', { read: ViewContainerRef });
@@ -204,15 +206,15 @@ export class NgbPopover extends BaseDialog {
       sideOffset: this.options().sideOffset,
     });
     // change the anchor position
-    if (this.options().anchor) {
-      this.updateAnchorPosition(position, el, target);
-    }
+    // if (this.options().anchor) {
+    // this.updateAnchorPosition(position, el, target);
+    // }
     this.lastPosition = position;
     // we need to update the values directly instead of signal to avoid too many CD checks
     if (bottom) {
       el.style.bottom = `${bottom}px`;
       el.style.top = '';
-    } else if (top) {
+    } else if (top !== undefined) {
       el.style.top = `${top}px`;
       el.style.bottom = '';
     }
@@ -230,46 +232,7 @@ export class NgbPopover extends BaseDialog {
     if (maxWidth) {
       el.style.maxWidth = `${maxWidth}px`;
     }
-  }
-
-  private updateAnchorPosition(position: PopoverPosition, el: HTMLElement, target: HTMLElement) {
-    let deg = '0deg';
-    let anchorTop = '50%';
-    let anchorLeft = '50%';
-    const anchorWidth = 12.8;
-
-    const thHeight = target.offsetHeight / 2;
-    const thWidth = target.offsetWidth / 2;
-
-    switch (position) {
-      case 'top':
-      case 'tl':
-      case 'tr':
-        anchorTop = '100%';
-        break;
-      case 'left':
-        deg = '270deg';
-        anchorLeft = `calc(100% + ${anchorWidth / 2}px)`;
-        anchorTop = thHeight > el.clientHeight ? '50%' : `calc(${thHeight}px)`;
-        break;
-      case 'right':
-        deg = '90deg';
-        anchorLeft = `-${anchorWidth / 2}px`;
-        anchorTop = thHeight > el.clientHeight ? '50%' : `calc(${thHeight}px)`;
-        break;
-      case 'bottom':
-      case 'bl':
-      case 'br':
-        deg = '180deg';
-        anchorTop = '-1rem';
-        anchorLeft = thWidth > el.clientWidth ? '50%' : `calc(100% - ${thWidth}px)`;
-        break;
-    }
-
-    el.style.setProperty('--action-angle', deg);
-    el.style.setProperty('--action-left', anchorLeft);
-    el.style.setProperty('--action-top', anchorTop);
-    // console.log('updateAnchorPosition', position, deg);
+    this.arrowTracker.values.set({ top, bottom, left, right, target, position });
   }
 
   override setOptions(options: PopoverOptions): void {
@@ -317,5 +280,5 @@ function scrollToElement(target: HTMLElement) {
 export class NgbPopoverClose {}
 
 export function aliasPopover(popover: typeof NgbPopover) {
-  return { provide: NgbPopover, useExisting: popover };
+  return [{ provide: NgbPopover, useExisting: popover }, providePopoverArrowTracker()];
 }

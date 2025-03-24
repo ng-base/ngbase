@@ -1,15 +1,15 @@
 import { PopoverOptions, PopoverPosition } from './popover.service';
 
-const positionSwap: Record<PopoverPosition, PopoverPosition> = {
-  top: 'bottom',
-  bottom: 'top',
-  left: 'right',
-  right: 'left',
-  tl: 'bl',
-  tr: 'br',
-  bl: 'tl',
-  br: 'tr',
-};
+// const positionSwap: Record<PopoverPosition, PopoverPosition> = {
+//   top: 'bottom',
+//   bottom: 'top',
+//   left: 'right',
+//   right: 'left',
+//   tl: 'bl',
+//   tr: 'br',
+//   bl: 'tl',
+//   br: 'tr',
+// };
 
 export interface Rect {
   top: number;
@@ -78,10 +78,11 @@ export class PopoverPositioner {
   private overflow!: OverflowData;
   private elRect!: Rect;
   private offset = this.config.offset || 5;
+
   constructor(
     private config: PopoverOptions,
     private windowDimensions: { width: number; height: number },
-    private scrollWidth: number,
+    private scrollWidth: number = 0,
   ) {}
 
   public calculatePosition(): PositionResult {
@@ -94,7 +95,7 @@ export class PopoverPositioner {
       (this.config.position as Position) || Position.Bottom,
     );
     const adjustedPosition = this.adjustForOverflow(initialPosition, targetRect, elRect);
-    return this.finalizePosition(adjustedPosition, elRect);
+    return this.finalizePosition(adjustedPosition, elRect, targetRect);
   }
 
   private getTargetRect(): Rect {
@@ -178,18 +179,21 @@ export class PopoverPositioner {
 
   private checkOverflow(position: PositionResult, elRect: Rect, targetRect: Rect): OverflowData {
     // Calculate available space on all sides
-    const topSpace = position.top;
-    const bottomSpace = this.windowDimensions.height - position.top;
-    const leftSpace = position.left;
-    const rightSpace = this.windowDimensions.width - position.left;
+    // const topSpace = position.top;
+    // const bottomSpace = this.windowDimensions.height - position.top;
+    // const leftSpace = position.left;
+    // const rightSpace = this.windowDimensions.width - position.left;
     // Calculate overflow amounts (negative means no overflow)
     const topOverflow = -(targetRect.top - elRect.height);
     const bottomOverflow =
       targetRect.top + targetRect.height + elRect.height - this.windowDimensions.height;
     // const leftOverflow = -(position.left - (elRect.width - targetRect.width));
-    const leftOverflow = -(targetRect.left + targetRect.width - elRect.width);
+    // this is for bottom left and top left -->
+    const leftOverflow = -(targetRect.left - elRect.width);
     const leftSideOverflow = -(targetRect.left - elRect.width);
-    const rightOverflow = targetRect.left + elRect.width - this.windowDimensions.width;
+    // this is for bottom right and top right <--
+    const rightOverflow =
+      targetRect.left + targetRect.width + elRect.width - this.windowDimensions.width;
     const rightSideOverflow = -(targetRect.left + targetRect.width - elRect.width);
 
     const isTop = topOverflow > 0;
@@ -359,7 +363,11 @@ export class PopoverPositioner {
     return position;
   }
 
-  private finalizePosition(position: PositionResult, elRect: Rect): PositionResult {
+  private finalizePosition(
+    position: PositionResult,
+    elRect: Rect,
+    targetRect: Rect,
+  ): PositionResult {
     const { top, left } = position;
     const bottom = position.position.startsWith('t')
       ? this.windowDimensions.height - (top + elRect.height)
@@ -370,7 +378,7 @@ export class PopoverPositioner {
     right =
       left + elRect.width > this.windowDimensions.width
         ? 0
-        : position.position.endsWith('r')
+        : position.position.endsWith('r') || position.position === Position.Left
           ? this.windowDimensions.width - (left + elRect.width) - this.scrollWidth
           : undefined;
 
@@ -400,9 +408,13 @@ export class PopoverPositioner {
     ) {
       maxWidth = this.elRect.width - this.overflow.overflowAmount.left - overallOffset.horizontal;
     }
+    let t = top;
+    if (['right', 'left'].includes(position.position)) {
+      t = top + (targetRect.height - elRect.height) / 2;
+    }
     return {
       // top: Math.max(0, Math.min(top, this.windowDimensions.height - (maxHeight || elRect.height))),
-      top: Math.max(0, top),
+      top: Math.max(0, t),
       bottom,
       left: right ? 0 : Math.max(overallOffset.horizontal, left),
       right: right ? Math.max(overallOffset.horizontal, right) : undefined,

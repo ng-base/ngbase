@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Directive, ElementRef, OnDestroy, afterRenderEffect, inject, signal } from '@angular/core';
-import { PopoverPosition, tooltipPosition } from '@ngbase/adk/popover';
+import { POPOVER_ARROW_TRACKER, PopoverPosition, tooltipPosition } from '@ngbase/adk/popover';
 
 export const tooltipAnimation = trigger('tooltipAnimation', [
   state('1', style({ transform: 'none', opacity: 1 })),
@@ -17,9 +17,10 @@ export const tooltipAnimation = trigger('tooltipAnimation', [
 })
 export class NgbTooltipTemplate implements OnDestroy {
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly content = signal('Tooltip');
+  readonly arrowTracker = inject(POPOVER_ARROW_TRACKER, { optional: true });
 
-  private target!: HTMLElement;
+  readonly content = signal('Tooltip');
+  private target = signal<HTMLElement | undefined>(undefined);
   private position: PopoverPosition = 'top';
   private hide!: VoidFunction;
   private observer?: MutationObserver;
@@ -27,8 +28,11 @@ export class NgbTooltipTemplate implements OnDestroy {
   constructor() {
     afterRenderEffect(() => {
       const _ = this.content();
+      const target = this.target();
       // we need for the content to be set before setting the position
-      this.setPosition(this.target);
+      if (target) {
+        this.setPosition(target);
+      }
     });
   }
 
@@ -43,14 +47,15 @@ export class NgbTooltipTemplate implements OnDestroy {
 
   private setTarget(target: HTMLElement) {
     this.ngOnDestroy();
-    this.target = target;
+    this.target.set(target);
     this.listenTarget();
   }
 
   private listenTarget() {
     this.observer = new MutationObserver(() => {
-      if (this.target.isConnected) {
-        this.setPosition(this.target);
+      const target = this.target();
+      if (target?.isConnected) {
+        this.setPosition(target);
       } else {
         this.onRemoved();
       }
@@ -66,10 +71,11 @@ export class NgbTooltipTemplate implements OnDestroy {
   setPosition(target: HTMLElement) {
     const el = this.el.nativeElement;
 
-    const { top, bottom, left, right } = tooltipPosition({
+    const { top, bottom, left, right, position } = tooltipPosition({
       target,
       el,
       position: this.position,
+      offset: 8,
     });
     if (bottom != undefined) {
       el.style.bottom = `${bottom}px`;
@@ -81,6 +87,7 @@ export class NgbTooltipTemplate implements OnDestroy {
     } else {
       el.style.left = `${left}px`;
     }
+    this.arrowTracker?.values.set({ top, bottom, left, right, target, position });
   }
 
   ngOnDestroy(): void {

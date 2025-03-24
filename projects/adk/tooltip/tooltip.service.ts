@@ -7,7 +7,8 @@ import { NgbTooltipTemplate } from './tooltip';
 export class TooltipService {
   tooltip = tooltipPortal();
   tooltipOpen: TooltipOpen | undefined;
-  timeoutId: any;
+  private position?: PopoverPosition;
+  private timeoutId: any;
   delay = 100;
 
   insert(
@@ -18,23 +19,31 @@ export class TooltipService {
     component?: Type<NgbTooltipTemplate>,
   ) {
     clearTimeout(this.timeoutId);
+    // destroy immediately if position is different
+    if (this.position && this.position !== position) this.destroy(true);
+
+    // update if tooltip is open
     if (this.tooltipOpen) {
       this.tooltipOpen.parent.instance.update(content, el, position, hide);
-      // setTimeout(() => {
-      //   this.tooltipOpen.parent.instance.setPosition(el);
-      // });
     } else {
       this.tooltipOpen = this.tooltip.open(content, el, position, hide, component);
     }
+    this.position = position;
   }
 
-  destroy = () => {
-    this.timeoutId = setTimeout(() => {
-      this.tooltipOpen?.destroy();
-      this.tooltipOpen = undefined;
-      this.delay = 100;
-    }, this.delay ?? 100);
+  destroy = (force?: boolean) => {
+    if (force) {
+      this.close();
+    } else {
+      this.timeoutId = setTimeout(() => this.close(), this.delay ?? 100);
+    }
   };
+
+  private close() {
+    this.tooltipOpen?.destroy();
+    this.tooltipOpen = undefined;
+    this.delay = 100;
+  }
 }
 
 interface TooltipOpen {

@@ -79,13 +79,17 @@ export class NgbTooltipTemplate implements OnDestroy {
     });
     if (bottom != undefined) {
       el.style.bottom = `${bottom}px`;
+      el.style.top = '';
     } else {
       el.style.top = `${top}px`;
+      el.style.bottom = '';
     }
     if (right != undefined) {
       el.style.right = `${right}px`;
+      el.style.left = '';
     } else {
       el.style.left = `${left}px`;
+      el.style.right = '';
     }
     this.arrowTracker?.values.set({ top, bottom, left, right, target, position });
   }

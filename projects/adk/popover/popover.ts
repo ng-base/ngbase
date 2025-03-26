@@ -211,10 +211,10 @@ export class NgbPopover extends BaseDialog {
     // }
     this.lastPosition = position;
     // we need to update the values directly instead of signal to avoid too many CD checks
-    if (bottom) {
+    if (bottom !== undefined) {
       el.style.bottom = `${bottom}px`;
       el.style.top = '';
-    } else if (top !== undefined) {
+    } else {
       el.style.top = `${top}px`;
       el.style.bottom = '';
     }

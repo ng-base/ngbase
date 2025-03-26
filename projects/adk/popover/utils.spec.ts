@@ -1,5 +1,4 @@
-import { PopoverOptions } from './popover.service';
-import { PopoverPositioner, Position, PositionResult, Rect } from './utils';
+import { OverlayPosition, PopoverPositioner, Position, PositionResult, Rect } from './utils';
 
 export const createMockElement = (rect: Partial<DOMRect>): HTMLElement =>
   ({
@@ -9,8 +8,8 @@ export const createMockElement = (rect: Partial<DOMRect>): HTMLElement =>
   }) as unknown as HTMLElement;
 
 const resultDimensions = (rect: Partial<PositionResult>): PositionResult => ({
-  top: 0,
-  left: 0,
+  top: undefined,
+  left: undefined,
   position: Position.Right,
   bottom: undefined,
   right: undefined,
@@ -22,67 +21,55 @@ const resultDimensions = (rect: Partial<PositionResult>): PositionResult => ({
 describe('utils', () => {
   const mockWindowDimensions = { width: 1292, height: 944 };
   const mockScrollWidth = 0;
+  const values: [OverlayPosition, HTMLElement, HTMLElement, PositionResult][] = [
+    [
+      Position.BottomLeft,
+      createMockElement({ top: 489, left: 257, width: 111.28125, height: 38 }),
+      createMockElement({ width: 153, height: 225 }),
+      resultDimensions({ top: 531, left: 257, position: Position.BottomLeft }),
+    ],
+    [
+      Position.Right,
+      createMockElement({ top: 608, left: 262, width: 136.625, height: 36 }),
+      createMockElement({ width: 869, height: 264 }),
+      resultDimensions({ top: 494, left: 402.625, position: Position.Right }),
+    ],
+  ];
 
-  it('should return proper dimensions', () => {
-    const values = [
-      [
-        'bl',
-        { top: 489, left: 257, width: 111.28125, height: 38 },
-        { width: 153, height: 225 },
-        resultDimensions({ top: 531, left: 257, position: Position.BottomLeft }),
-      ],
-      [
-        'right',
-        { top: 608, left: 262, width: 136.625, height: 36 },
-        { width: 869, height: 264 },
-        resultDimensions({ top: 494, left: 402.625, position: Position.Right }),
-      ],
-    ];
-
+  it('should return proper dimensions for below scenarios', () => {
     for (const [position, target, el, expected] of values) {
-      const config: PopoverOptions = {
-        offset: 4,
-        position: position as Position,
-        target: createMockElement(target as any),
-        el: createMockElement(el as any),
-      };
-      const positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
+      const positioner = new PopoverPositioner(
+        { offset: 4, position, target, el },
+        mockWindowDimensions,
+        mockScrollWidth,
+      );
       const output = positioner.calculatePosition();
       expect(output).toEqual(expected);
     }
-    // const target = createMockElement({ top: 489, left: 257, width: 111.28125, height: 38 });
-    // const el = createMockElement({ width: 153, height: 225 });
-    // const config: OverlayConfig = { offset: 4, position: 'bl', target, el };
-    // const positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
-    // const output = positioner.calculatePosition();
-
-    // expect(output).toEqual({
-    //   top: 531,
-    //   bottom: undefined,
-    //   left: 257,
-    //   right: undefined,
-    //   position: 'bl',
-    // });
   });
 
   it('should return proper dimensions if the width is overflowing the right', () => {
     const target = createMockElement({ top: 489, left: 1139.71875, width: 111.28125, height: 38 });
     const el = createMockElement({ width: 153, height: 225 });
-    const config: PopoverOptions = { offset: 4, position: 'bl', target, el };
-    const positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
+    const positioner = new PopoverPositioner(
+      { offset: 4, position: Position.BottomLeft, target, el },
+      mockWindowDimensions,
+      mockScrollWidth,
+    );
     const output = positioner.calculatePosition();
 
     expect(output).toEqual(
-      resultDimensions({ top: 531, left: 0, right: 41, position: Position.BottomRight }),
+      resultDimensions({ top: 531, right: 41, position: Position.BottomRight }),
     );
   });
 
   it('should return proper dimensions and position for left target and right position', () => {
     const target = createMockElement({ top: 10, left: 10, width: 100, height: 20 });
     const el = createMockElement({ width: 150, height: 14 });
-    const config: PopoverOptions = { offset: 10, position: Position.Right, target, el };
-    const windowDimensions = { width: 1000, height: 1000 };
-    const positioner = new PopoverPositioner(config, windowDimensions);
+    const positioner = new PopoverPositioner(
+      { offset: 10, position: Position.Right, target, el },
+      { width: 1000, height: 1000 },
+    );
     const output = positioner.calculatePosition();
 
     expect(output).toEqual(resultDimensions({ top: 13, left: 120, position: Position.Right }));
@@ -91,258 +78,40 @@ describe('utils', () => {
   it('should return proper dimensions and position for right target and right position', () => {
     const target = createMockElement({ top: 10, left: 890, width: 100, height: 20 });
     const el = createMockElement({ width: 150, height: 14 });
-    const config: PopoverOptions = { offset: 10, position: Position.Right, target, el };
-    const windowDimensions = { width: 1000, height: 1000 };
-    const positioner = new PopoverPositioner(config, windowDimensions);
+    const positioner = new PopoverPositioner(
+      { offset: 10, position: Position.Right, target, el },
+      { width: 1000, height: 1000 },
+    );
     const output = positioner.calculatePosition();
 
     expect(output).toEqual(resultDimensions({ top: 13, right: 120, position: Position.Left }));
   });
 
-  describe('checkOverflow', () => {
-    let positioner: PopoverPositioner;
+  it('should handle max height on overflow', () => {
+    const target = createMockElement({ top: 500, left: 300, width: 100, height: 100 });
+    const el = createMockElement({ width: 150, height: 600 });
+    const positioner = new PopoverPositioner(
+      { offset: 10, position: Position.BottomLeft, target, el },
+      { width: 1000, height: 1000 },
+    );
+    const output = positioner.calculatePosition();
 
-    beforeEach(() => {
-      const target = createMockElement({ top: 489, left: 257, width: 111.28125, height: 38 });
-      const el = createMockElement({ width: 153, height: 225 });
-      const config: PopoverOptions = { offset: 4, position: 'bl', target, el };
-      positioner = new PopoverPositioner(config, mockWindowDimensions, mockScrollWidth);
-    });
-
-    it('should return false if there is no overflow', () => {
-      const values: [PositionResult, Rect, any][] = [
-        [
-          { top: 531, left: 257, position: Position.BottomLeft },
-          { top: 0, left: 0, width: 153, height: 225 },
-          { top: false, left: false, right: false, bottom: false, any: false },
-        ],
-        [
-          { top: 531, left: 1200, position: Position.BottomLeft },
-          { top: 0, left: 0, width: 153, height: 225 },
-          { top: false, left: false, right: true, bottom: false, any: true },
-        ],
-        // [
-        //   { top: 531, left: 580, position: Position.Right },
-        //   { top: 0, left: 0, width: 780, height: 225 },
-        //   { top: false, left: true, right: true, bottom: false, any: true },
-        // ],
-        [
-          { top: 608, left: 411.296875, position: Position.Right },
-          { top: 0, left: 0, width: 898, height: 264 },
-          { top: false, bottom: false, left: true, right: true, any: true },
-        ],
-      ];
-
-      // for (const [result, rect, expected] of values) {
-      //   const output = positioner['checkOverflow'](result, rect);
-      //   expect(output).toEqual(expected);
-      // }
-    });
+    expect(output).toEqual(
+      resultDimensions({ bottom: 510, left: 300, maxHeight: 490, position: Position.TopLeft }),
+    );
   });
 
-  // it('should calculate tooltip position', () => {
-  //   const testCases: { input: ConfigObj; expectedOutput: any }[] = [
-  //     {
-  //       input: {
-  //         top: 192,
-  //         left: 429,
-  //         width: 1,
-  //         height: 1,
-  //         elWidth: 174.2109375,
-  //         elHeight: 274.15625,
-  //         offset: 0,
-  //         priority: 'bl',
-  //         position: 'bl',
-  //         windowWidth: 1192,
-  //         windowHeight: 507,
-  //         scrollWidth: 0,
-  //       },
-  //       expectedOutput: {
-  //         top: 193,
-  //         bottom: 0,
-  //         left: 429,
-  //         position: 'bottom',
-  //       },
-  //     },
-  //     {
-  //       input: {
-  //         top: 345,
-  //         left: 433,
-  //         width: 1,
-  //         height: 1,
-  //         elWidth: 174.2109375,
-  //         elHeight: 274.15625,
-  //         offset: 0,
-  //         priority: 'bl',
-  //         position: 'bl',
-  //         windowWidth: 1192,
-  //         windowHeight: 507,
-  //         scrollWidth: 0,
-  //       },
-  //       expectedOutput: {
-  //         top: 70.84375,
-  //         bottom: 162,
-  //         left: 433,
-  //         position: 'tl',
-  //       },
-  //     },
-  //     {
-  //       input: {
-  //         top: 120.15625,
-  //         left: 1046.0625,
-  //         width: 120.9375,
-  //         height: 40,
-  //         elWidth: 174.2109375,
-  //         elHeight: 274.15625,
-  //         offset: 5,
-  //         priority: 'bl',
-  //         position: 'bl',
-  //         windowWidth: 1192,
-  //         windowHeight: 507,
-  //         scrollWidth: 0,
-  //       },
-  //       expectedOutput: {
-  //         top: 165.15625,
-  //         bottom: 0,
-  //         left: 992.7890625,
-  //         position: 'bottom',
-  //         scrollWidth: 0,
-  //       },
-  //     },
-  //     {
-  //       input: {
-  //         top: 65,
-  //         left: 0,
-  //         width: 224,
-  //         height: 442,
-  //         elWidth: 400,
-  //         elHeight: 146,
-  //         offset: 5,
-  //         priority: 'right',
-  //         position: 'right',
-  //         windowWidth: 1192,
-  //         windowHeight: 507,
-  //         scrollWidth: 0,
-  //       },
-  //       expectedOutput: {
-  //         top: 512,
-  //         bottom: 0,
-  //         left: 0,
-  //         position: 'bottom',
-  //       },
-  //     },
-  //   ];
+  it('should handle the sideOffset for maxHeight and maxWidth', () => {
+    const target = createMockElement({ top: 500, left: 300, width: 100, height: 100 });
+    const el = createMockElement({ width: 150, height: 600 });
+    const positioner = new PopoverPositioner(
+      { offset: 10, position: Position.BottomLeft, target, el, sideOffset: 10 },
+      { width: 1000, height: 1000 },
+    );
+    const output = positioner.calculatePosition();
 
-  //   for (const testCase of testCases) {
-  //     const output = tooltipPositionInternal(testCase.input);
-  //     expect(output).toEqual(testCase.expectedOutput);
-  //   }
-  // });
-
-  // it('should check overflow', () => {
-  //   // top left corner
-  //   let output = checkOverflow({
-  //     top: 0,
-  //     left: 0,
-  //     width: 160,
-  //     height: 160,
-  //     elWidth: 234,
-  //     elHeight: 194,
-  //     offset: 0,
-  //     windowWidth: 1192,
-  //     windowHeight: 507,
-  //     position: 'bl',
-  //     priority: 'bl',
-  //   });
-  //   expect(output).toEqual({
-  //     top: true,
-  //     left: true,
-  //     right: false,
-  //     bottom: false,
-  //   });
-
-  //   // top right corner
-  //   output = checkOverflow({
-  //     top: 0,
-  //     left: 1032,
-  //     width: 160,
-  //     height: 160,
-  //     elWidth: 234,
-  //     elHeight: 194,
-  //     offset: 0,
-  //     windowWidth: 1192,
-  //     windowHeight: 507,
-  //     position: 'bl',
-  //     priority: 'bl',
-  //   });
-  //   expect(output).toEqual({
-  //     top: true,
-  //     left: false,
-  //     right: true,
-  //     bottom: false,
-  //   });
-
-  //   // // bottom right corner
-  //   output = checkOverflow({
-  //     top: 347,
-  //     left: 1032,
-  //     width: 160,
-  //     height: 160,
-  //     elWidth: 234,
-  //     elHeight: 194,
-  //     offset: 0,
-  //     windowWidth: 1192,
-  //     windowHeight: 507,
-  //     position: 'bl',
-  //     priority: 'bl',
-  //   });
-  //   expect(output).toEqual({
-  //     top: false,
-  //     left: false,
-  //     right: true,
-  //     bottom: true,
-  //   });
-
-  //   // // bottom left corner
-  //   output = checkOverflow({
-  //     top: 347,
-  //     left: 0,
-  //     width: 160,
-  //     height: 160,
-  //     elWidth: 234,
-  //     elHeight: 194,
-  //     offset: 0,
-  //     windowWidth: 1192,
-  //     windowHeight: 507,
-  //     position: 'bl',
-  //     priority: 'bl',
-  //   });
-  //   expect(output).toEqual({
-  //     top: false,
-  //     left: true,
-  //     right: false,
-  //     bottom: true,
-  //   });
-
-  //   // // others
-  //   output = checkOverflow({
-  //     top: 40,
-  //     left: 0,
-  //     width: 160,
-  //     height: 467,
-  //     elWidth: 234,
-  //     elHeight: 194,
-  //     offset: 0,
-  //     windowWidth: 1192,
-  //     windowHeight: 507,
-  //     position: 'bl',
-  //     priority: 'bl',
-  //   });
-  //   expect(output).toEqual({
-  //     top: true,
-  //     left: true,
-  //     right: false,
-  //     bottom: true,
-  //   });
-  // });
+    expect(output).toEqual(
+      resultDimensions({ bottom: 510, left: 300, maxHeight: 480, position: Position.TopLeft }),
+    );
+  });
 });

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, afterNextRender, inject, input, signal } from '@angular/core';
 import { AccessibleItem } from '@ngbase/adk/a11y';
-import { DialogOptions } from '@ngbase/adk/portal';
+import { PopoverOptions } from '@ngbase/adk/popover';
 import { Subject } from 'rxjs';
 import { NgbMenu } from './menu';
 import { NgbNavigationMenu } from './navigation-menu';
@@ -23,7 +23,7 @@ export class NgbMenuTrigger {
 
   readonly ngbMenuTrigger = input.required<NgbMenu>();
   readonly ngbMenuTriggerData = input();
-  readonly options = input<DialogOptions>({});
+  readonly options = input<Partial<PopoverOptions>>({});
 
   private readonly _menuOpen = signal<boolean>(false);
   readonly menuOpen = this._menuOpen.asReadonly();
@@ -122,7 +122,10 @@ export class NgbMenuTrigger {
     //   offset: 4,
     //   ayId: this.ayId(),
     // });
-    menu.open({ target: this.el.nativeElement, data: this.ngbMenuTriggerData() }, !!this.parent);
+    menu.open(
+      { ...this.options(), target: this.el.nativeElement, data: this.ngbMenuTriggerData() },
+      !!this.parent,
+    );
     this._menuOpen.set(true);
     menu.parentMenuTrigger = this;
     // if (this.nav) {

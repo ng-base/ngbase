@@ -102,7 +102,7 @@ export class NgbMenu implements OnDestroy {
     const { diaRef } = this.popover.open(this.container()!, {
       ...this.options(),
       backdrop: !subMenu,
-      position: subMenu ? (rtl ? 'left' : 'right') : rtl ? 'br' : 'bl',
+      position: subMenu ? (rtl ? 'ls' : 'rs') : rtl ? 'br' : 'bl',
       offset: 4,
       ayId: this.ayId,
       ...options,

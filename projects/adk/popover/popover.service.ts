@@ -3,10 +3,11 @@ import { DialogInput, DialogOptions, DialogRef } from '@ngbase/adk/portal';
 import { Observable } from 'rxjs';
 import { basePopoverPortal } from './base-popover.service';
 import { NgbPopover } from './popover';
+import { OverlayPosition, PopoverUtilConfig } from './utils';
 
-export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'tr' | 'bl' | 'br';
+export type PopoverPosition = OverlayPosition;
 
-export class PopoverOptions extends DialogOptions {
+export class PopoverOptions extends DialogOptions implements PopoverUtilConfig {
   target!: HTMLElement;
   el?: HTMLElement;
   position?: PopoverPosition;

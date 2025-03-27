@@ -117,28 +117,28 @@ import { DocCode } from './code.component';
 
     <!-- mat menu -->
     <mee-menu #animals="meeMenu">
-      <button meeList [meeMenuTrigger]="vertebrates">
+      <button meeList [meeMenuTrigger]="vertebrates" class="flex items-center justify-between">
         Vertebrates
-        <mee-icon name="lucideChevronRight" class="ml-auto" />
+        <mee-icon name="lucideChevronRight" class="rtl:rotate-180" />
       </button>
-      <button meeList [meeMenuTrigger]="invertebrates">
+      <button meeList [meeMenuTrigger]="invertebrates" class="flex items-center justify-between">
         Invertebrates
-        <mee-icon name="lucideChevronRight" class="ml-auto" />
+        <mee-icon name="lucideChevronRight" class="rtl:rotate-180" />
       </button>
     </mee-menu>
 
     <mee-menu #vertebrates="meeMenu">
-      <button meeList [meeMenuTrigger]="fish">
+      <button meeList [meeMenuTrigger]="fish" class="flex items-center justify-between">
         Fishes
-        <mee-icon name="lucideChevronRight" class="ml-auto" />
+        <mee-icon name="lucideChevronRight" class="rtl:rotate-180" />
       </button>
-      <button meeList [meeMenuTrigger]="amphibians">
+      <button meeList [meeMenuTrigger]="amphibians" class="flex items-center justify-between">
         Amphibians
-        <mee-icon name="lucideChevronRight" class="ml-auto" />
+        <mee-icon name="lucideChevronRight" class="rtl:rotate-180" />
       </button>
-      <button meeList [meeMenuTrigger]="reptiles">
+      <button meeList [meeMenuTrigger]="reptiles" class="flex items-center justify-between">
         Reptiles
-        <mee-icon name="lucideChevronRight" class="ml-auto" />
+        <mee-icon name="lucideChevronRight" class="rtl:rotate-180" />
       </button>
       <button meeList>Birds</button>
       <button meeList>Mammals</button>

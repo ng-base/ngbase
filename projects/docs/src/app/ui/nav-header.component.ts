@@ -5,10 +5,19 @@ import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion'
 import { dialogPortal } from '@meeui/ui/dialog';
 import { keyMap } from '@ngbase/adk/keys';
 import { Command, CommandItem } from '@meeui/ui/command';
+import { Tooltip } from '@meeui/ui/tooltip';
 
 @Component({
   selector: 'app-nav',
-  imports: [List, RouterLink, RouterLinkActive, Accordion, AccordionGroup, AccordionHeader],
+  imports: [
+    List,
+    RouterLink,
+    RouterLinkActive,
+    Accordion,
+    AccordionGroup,
+    AccordionHeader,
+    Tooltip,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 class="p-2 font-semibold">Getting Started</h4>
@@ -50,6 +59,8 @@ import { Command, CommandItem } from '@meeui/ui/command';
             routerLinkActive="text-primary"
             [routerLink]="item.link || null"
             [disabled]="item.link === ''"
+            [meeTooltip]="item.name"
+            [meeTooltipPosition]="'right'"
             class="text-muted"
           >
             {{ item.name }}

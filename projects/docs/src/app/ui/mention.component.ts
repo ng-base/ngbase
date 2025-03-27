@@ -7,7 +7,7 @@ import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
 
 @Component({
-  selector: 'app-placeholder',
+  selector: 'app-mention',
   imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, DocCode],
   template: `
     <h4 meeHeader class="mb-5" id="mentionPage">Mention</h4>

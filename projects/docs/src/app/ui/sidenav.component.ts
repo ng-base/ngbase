@@ -2,10 +2,11 @@ import { Component, signal } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Sidenav, SidenavHeader, SidenavType } from '@meeui/ui/sidenav';
 import { DocCode } from './code.component';
+import { Heading } from '@meeui/ui/typography';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [Sidenav, SidenavHeader, Button, DocCode],
+  imports: [Sidenav, SidenavHeader, Button, DocCode, Heading],
   template: `
     <h4 meeHeader class="mb-5" id="sidenavPage">Sidenav</h4>
 

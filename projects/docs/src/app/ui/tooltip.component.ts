@@ -13,7 +13,9 @@ import { DocCode } from './code.component';
 
     <app-doc-code [tsCode]="tsCode">
       <div class="flex justify-between gap-4">
-        <button meeTooltip="Tooltip" meeButton>Hover over to show tooltip</button>
+        <button meeTooltip="Tooltip" meeTooltipPosition="bottom" meeButton>
+          Hover over to show tooltip
+        </button>
         <button meeTooltip="Tooltip with longer content" meeButton>show</button>
       </div>
     </app-doc-code>

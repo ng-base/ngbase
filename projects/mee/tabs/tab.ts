@@ -7,6 +7,7 @@ import {
   aliasTab,
   aliasTabs,
   NgbTab,
+  NgbTabChangeEvent,
   NgbTabHeader,
   NgbTabLazy,
   NgbTabs,
@@ -87,3 +88,5 @@ export class TabHeader {}
   hostDirectives: [NgbTabLazy],
 })
 export class TabLazy {}
+
+export type TabChangeEvent = NgbTabChangeEvent;

@@ -11,7 +11,7 @@ import { NgbSwitch, NgbSwitchLabel, NgbSwitchThumb, NgbSwitchTrack } from '@ngba
   template: `
     <button
       ngbSwitchTrack
-      class="relative w-9 rounded-full border-0.5 border-transparent bg-muted-background transition-colors aria-[checked=true]:bg-primary"
+      class="relative w-9 rounded-full border-2 border-transparent bg-muted-background transition-colors aria-[checked=true]:bg-primary"
     >
       <span
         #thumb="ngbSwitchThumb"

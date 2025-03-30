@@ -38,12 +38,12 @@ export class SelectOption<T> {}
     <button
       ngbSelectValue
       [class.opacity-50]="disabled()"
-      class="flex min-h-5 w-full items-center justify-between gap-1 whitespace-nowrap outline-none"
+      class="flex min-h-5 w-full items-center gap-1 whitespace-nowrap text-left outline-none"
     >
       <!-- Prefix template -->
       <ng-content select=".select-prefix" />
 
-      <span class="truncate" [class.text-muted]="!cValue()">
+      <span class="flex-1 truncate" [class.text-muted]="!cValue()">
         <ng-content select="[meeSelectTrigger]">
           {{ cValue() || placeholder() }}
         </ng-content>
@@ -87,7 +87,7 @@ export class SelectOption<T> {}
     </ng-template>
   `,
   host: {
-    class: 'flex cursor-pointer font-medium',
+    class: 'flex cursor-pointer font-medium outline-none',
     '[class.pointer-events-none]': 'disabled()',
   },
 })

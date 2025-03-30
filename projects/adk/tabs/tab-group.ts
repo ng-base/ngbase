@@ -19,7 +19,7 @@ import { AccessibleGroup, AccessibleItem } from '@ngbase/adk/a11y';
 import { uniqueId } from '@ngbase/adk/utils';
 import { NgbTab } from './tab';
 
-export interface TabChangeEvent {
+export interface NgbTabChangeEvent {
   tab: NgbTab;
   index: number;
 }
@@ -109,7 +109,7 @@ export class NgbTabs<T extends NgbTab = NgbTab> {
   readonly tabs = contentChildren<T>(NgbTab as any);
 
   readonly selectedIndex = model<any>(0);
-  readonly selectedTabChange = output<TabChangeEvent>();
+  readonly selectedTabChange = output<NgbTabChangeEvent>();
 
   private selectedId?: number;
   private readonly tabMap = new Map<number, string>();

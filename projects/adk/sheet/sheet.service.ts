@@ -1,13 +1,13 @@
 import { basePortal, DialogInput, DialogOptions } from '@ngbase/adk/portal';
-import { SheetContainer } from './sheet';
+import { NgbSheetContainer } from './sheet';
 
 export class SheetOptions extends DialogOptions {
   position?: 'left' | 'right' = 'right';
 }
 
-export function sheetPortal() {
+export function ngbSheetPortal(component: typeof NgbSheetContainer) {
   const NAME = 'sheet';
-  const base = basePortal(NAME, SheetContainer);
+  const base = basePortal(NAME, component);
 
   function open<T>(component: DialogInput, opt?: SheetOptions) {
     const { diaRef } = base.open(
@@ -19,8 +19,8 @@ export function sheetPortal() {
       opt,
     );
 
-    const { afterClosed } = diaRef;
-    return { afterClosed };
+    const { afterClosed, close } = diaRef;
+    return { afterClosed, close };
   }
 
   function closeAll() {
@@ -29,4 +29,4 @@ export function sheetPortal() {
   return { open, closeAll };
 }
 
-export type Sheet = ReturnType<typeof sheetPortal>;
+export type NgbSheet = ReturnType<typeof ngbSheetPortal>;

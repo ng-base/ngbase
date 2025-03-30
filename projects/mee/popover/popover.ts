@@ -18,14 +18,10 @@ import {
   imports: [NgbPopoverBackdrop, NgbPopoverMain, NgbPopoverArrow],
   template: ` <div
       ngbPopoverMain
-      ngbPopoverArrow
       [@slideInOutAnimation]
-      class="{{
-        'menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-foreground shadow-md ' +
-          (options().anchor ? '' : 'overflow-auto ')
-      }}"
+      class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-foreground shadow-md"
     >
-      <div class="flex flex-1 flex-col overflow-auto">
+      <div class="flex flex-1 flex-col overflow-auto" ngbPopoverArrow>
         <ng-container #myDialog />
       </div>
     </div>

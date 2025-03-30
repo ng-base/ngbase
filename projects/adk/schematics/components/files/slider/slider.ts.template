@@ -29,7 +29,7 @@ import { ɵFocusStyle as FocusStyle } from '<%= basepath %>/checkbox';
     }
   `,
   host: {
-    class: 'block relative my-1 aria-[orientation=vertical]:w-2 aria-[orientation=horizontal]:h-2',
+    class: 'block relative my-2 aria-[orientation=vertical]:w-2 aria-[orientation=horizontal]:h-2',
   },
 })
 export class Slider extends NgbSlider {}

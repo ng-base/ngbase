@@ -25,7 +25,7 @@ import { NgbSelectTarget } from '@ngbase/adk/select';
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
-    <div class="flex items-center" #target meeInputStyle>
+    <div class="mt-1 flex items-center" #target meeInputStyle>
       <ng-content select="[meeInputPrefix]" />
       <ng-content />
       <ng-content select="[meeInputSuffix]" />
@@ -77,8 +77,19 @@ export class Description {}
 
 @Directive({
   selector: '[meeInputPrefix]',
+  host: {
+    class: 'mr-2.5',
+  },
 })
 export class InputPrefix {}
+
+@Directive({
+  selector: '[meeInputSuffix]',
+  host: {
+    class: 'ml-2.5',
+  },
+})
+export class InputSuffix {}
 
 @Component({
   selector: '[meeError]',

@@ -1,20 +1,26 @@
-import { NgStyle } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Button } from '@meeui/ui/button';
-import { Icon } from '@meeui/ui/icon';
-import { provideIcons } from '@ng-icons/core';
-import { lucideX } from '@ng-icons/lucide';
-import { sideAnimation } from '@ngbase/adk/dialog';
-import { NgbSheet, NgbSheetContainer, ngbSheetPortal } from '@ngbase/adk/sheet';
-import { aliasSheet } from '@ngbase/adk/sheet';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { DialogRef } from '@ngbase/adk/portal';
+import { render, RenderResult } from '@ngbase/adk/test';
+import { aliasSheet, NgbSheetContainer } from './sheet';
 import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
+import { sideAnimation } from '@ngbase/adk/dialog';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgStyle } from '@angular/common';
+
+const options = { title: 'Drawer' };
+const mockDialogRef = new DialogRef(
+  options,
+  () => jest.fn(),
+  () => jest.fn(),
+  true,
+);
 
 @Component({
   selector: 'mee-sheet',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [aliasSheet(SheetContainer)],
-  viewProviders: [provideIcons({ lucideX })],
-  imports: [NgStyle, Button, Icon],
+  providers: [aliasSheet(SheetTest)],
+  imports: [NgStyle],
   template: `
     <div
       class="pointer-events-none flex h-full"
@@ -32,9 +38,7 @@ import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
         @if (!isHideHeader) {
           <div class="flex items-center border-b px-4 py-2">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
-            <button meeButton="ghost" class="-mr-2 !p-2" (click)="close()">
-              <mee-icon name="lucideX" />
-            </button>
+            <button meeButton="ghost" class="-mr-2 !p-2" (click)="close()">X</button>
           </div>
         }
         <div class="h-full overflow-auto p-4">
@@ -60,10 +64,23 @@ import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
     sideAnimation,
   ],
 })
-export class SheetContainer extends NgbSheetContainer {}
+export class SheetTest extends NgbSheetContainer {}
 
-export function sheetPortal() {
-  return ngbSheetPortal(SheetContainer);
-}
+describe('DrawerComponent', () => {
+  let component: SheetTest;
+  let view: RenderResult<SheetTest>;
 
-export type Sheet = NgbSheet;
+  beforeEach(async () => {
+    view = await render(SheetTest, [
+      provideNoopAnimations(),
+      { provide: DialogRef, useValue: mockDialogRef },
+    ]);
+    component = view.host;
+    component.setOptions(options);
+    view.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

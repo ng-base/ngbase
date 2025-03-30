@@ -13,6 +13,7 @@ import { ListStyle } from '@meeui/ui/list';
     }
     <ng-content />`,
   host: {
+    class: 'outline-none',
     '[class.bg-muted-background]': 'option.active() || option.checked()',
   },
 })

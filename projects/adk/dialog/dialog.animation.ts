@@ -8,10 +8,13 @@ import {
 } from '@angular/animations';
 
 export const sideAnimation: AnimationTriggerMetadata = trigger('sideAnimation', [
-  state('left', style({ transform: 'translate3d(-100%, 0, 0)' })),
-  state('right', style({ transform: 'translate3d(100%, 0, 0)' })),
-  state('center', style({ transform: 'none' })),
-  transition('void => *', animate('0ms')),
+  state('1', style({ transform: 'none' })),
+  state('void', style({ transform: '{{outTransform}}' }), {
+    params: { outTransform: 'translate3d(100%, 0, 0)' },
+  }),
+  state('0', style({ transform: '{{outTransform}}' }), {
+    params: { outTransform: 'translate3d(100%, 0, 0)' },
+  }),
   transition('* => *', animate('300ms cubic-bezier(0.55, 0.31, 0.15, 0.93)')),
 ]);
 

@@ -1,6 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DatepickerGroup, NgbDatePicker, aliasDatePicker } from '@ngbase/adk/datepicker';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import {
+  DatepickerGroup,
+  NgbDatePicker,
+  NgbDatepickerTrigger,
+  aliasDatePicker,
+  registerDatePicker,
+} from '@ngbase/adk/datepicker';
 import { RangePipe } from '@ngbase/adk/utils';
 import { Calendar } from './calendar';
 
@@ -26,3 +32,27 @@ import { Calendar } from './calendar';
   },
 })
 export class DatePicker<D> extends NgbDatePicker<D> {}
+
+@Directive({
+  selector: '[meeDatepickerTrigger]',
+  providers: [registerDatePicker(DatePicker)],
+  hostDirectives: [
+    {
+      directive: NgbDatepickerTrigger,
+      inputs: [
+        'noOfCalendars',
+        'range',
+        'time',
+        'format',
+        'fieldFormat',
+        'dateFilter',
+        'pickerType',
+        'pickerTemplate',
+      ],
+    },
+  ],
+  host: {
+    class: 'cursor-pointer hover:bg-muted-background outline-none',
+  },
+})
+export class DatepickerTrigger<D> {}

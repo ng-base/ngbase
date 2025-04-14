@@ -56,7 +56,7 @@ export class AccessibleGroup {
   _initialFocus = linkedSignal(this.initialFocus);
 
   private focusedItem?: WeakRef<AccessibleItem>;
-  private isOn = signal(false);
+  private isOn = false;
 
   readonly elements = signal<AccessibleItem[]>([]);
 
@@ -74,7 +74,7 @@ export class AccessibleGroup {
     return items;
   });
 
-  readonly focusChanged = output<{ current: AccessibleItem; previous?: AccessibleItem }>();
+  // readonly focusChanged = output<{ current: AccessibleItem; previous?: AccessibleItem }>();
 
   constructor() {
     this.el.nativeElement.style.outline = 'none';
@@ -88,22 +88,9 @@ export class AccessibleGroup {
         });
       }
     });
-    effect(() => {
-      const items = this.items();
-      const isOn = this.isOn();
-      untracked(() => {
-        items.forEach(item => item.blur());
-        // console.log('group', this._ayId(), items.length, isOn);
-        this.log('focus', items.length, isOn, this._initialFocus());
-        let item = this.focusedItem?.deref();
-        if (items.length && isOn && this._initialFocus()) {
-          if (!item || !items.includes(item)) {
-            item = items[0];
-          }
-          this.focusItem(item);
-        }
-      });
-    });
+
+    effect(() => this.itemChanged());
+
     effect(() => {
       const isPopup = this._isPopup();
       untracked(() => {
@@ -117,8 +104,25 @@ export class AccessibleGroup {
     });
   }
 
+  private itemChanged() {
+    const items = this.items();
+    const isOn = this.isOn;
+    untracked(() => {
+      items.forEach(item => item.blur());
+      // console.log('group', this._ayId(), items.length, isOn);
+      this.log('focus', items.length, isOn, this._initialFocus());
+      let item = this.focusedItem?.deref();
+      if (items.length && isOn && this._initialFocus()) {
+        if (!item || !items.includes(item)) {
+          item = items[0];
+        }
+        this.focusItem(item);
+      }
+    });
+  }
+
   handleFocusIn = (_: FocusEvent) => {
-    if (!this.isOn()) {
+    if (!this.isOn) {
       // console.log(`focus in ${this._ayId()}`);
       this.on();
     }
@@ -142,7 +146,8 @@ export class AccessibleGroup {
       });
     }
     this.document.addEventListener('keydown', this.onKeyDown);
-    this.isOn.set(true);
+    this.isOn = true;
+    this.itemChanged();
     this.el.nativeElement.tabIndex = -1;
   };
 
@@ -154,7 +159,8 @@ export class AccessibleGroup {
       });
     }
     this.document.removeEventListener('keydown', this.onKeyDown);
-    this.isOn.set(false);
+    this.isOn = false;
+    this.itemChanged();
     this.el.nativeElement.tabIndex = 0;
   };
 
@@ -331,8 +337,8 @@ export class AccessibleGroup {
         !this.allyService.usingMouse,
       );
       // this.focusCount++;
-      if (this.clickable()) nextItem.click();
-      this.focusChanged.emit({ current: nextItem, previous: previousItem });
+      if (this.clickable() && !this.allyService.usingMouse) nextItem.click();
+      // this.focusChanged.emit({ current: nextItem, previous: previousItem });
     }
   }
 

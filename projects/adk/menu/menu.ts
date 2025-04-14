@@ -4,6 +4,7 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   OnDestroy,
   output,
   TemplateRef,
@@ -24,7 +25,7 @@ import { NgbMenuTrigger } from './menu-trigger';
   selector: '[ngbMenuGroup]',
   hostDirectives: [AccessibleGroup],
   host: {
-    '(click)': 'menu.close()',
+    '(click)': 'menu.noAutoClose() ? null : menu.close()',
   },
 })
 export class NgpMenuGroup {
@@ -52,11 +53,14 @@ export class NgbMenu implements OnDestroy {
     read: ElementRef,
   });
   readonly container = viewChild.required('container', { read: TemplateRef });
+  readonly content = contentChildren(NgpMenuContent, { read: TemplateRef, descendants: true });
   readonly options = contentChildren(NgbOption, { descendants: true });
   readonly lists = contentChildren(NgbList, { descendants: true });
   readonly manager = new Keys();
   readonly selected = output<string>();
   readonly ayId = uniqueId();
+
+  readonly noAutoClose = input<boolean>(false);
 
   // this will be injected by the MenuTrigger directive
   parentMenuTrigger?: NgbMenuTrigger;
@@ -99,12 +103,16 @@ export class NgbMenu implements OnDestroy {
 
   open(options: PopoverOptions, subMenu: boolean = false) {
     const rtl = this.dir.isRtl();
-    const { diaRef } = this.popover.open(this.container()!, {
+    const content = this.content()[0];
+    const template = content || this.container()!;
+
+    const { diaRef } = this.popover.open(template, {
       ...this.options(),
       backdrop: !subMenu,
       position: subMenu ? (rtl ? 'ls' : 'rs') : rtl ? 'br' : 'bl',
       offset: 4,
       ayId: this.ayId,
+      data: options.data,
       ...options,
     });
     this.diaRef = diaRef;
@@ -125,9 +133,9 @@ export class NgbMenu implements OnDestroy {
     return this.parentMenuTrigger?.rootParent || this;
   }
 
-  close = () => {
+  close = (data?: any) => {
     if (!this.isOpen) return;
-    this.diaRef?.close();
+    this.diaRef?.close(data);
     this.activeOption.next(null);
     this.isOpen = false;
   };
@@ -136,6 +144,11 @@ export class NgbMenu implements OnDestroy {
     this.close();
   }
 }
+
+@Directive({
+  selector: 'ng-template[ngbMenuContent]',
+})
+export class NgpMenuContent {}
 
 export const aliasMenu = (menu: typeof NgbMenu) => ({
   provide: NgbMenu,

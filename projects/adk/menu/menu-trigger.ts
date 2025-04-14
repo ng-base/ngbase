@@ -103,7 +103,7 @@ export class NgbMenuTrigger {
     this.openMenu();
   }
 
-  private closeMenu() {
+  closeMenu() {
     this.ngbMenuTrigger().close();
   }
 

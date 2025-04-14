@@ -80,7 +80,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
       if (component instanceof TemplateRef) {
         child = vcRef.createEmbeddedView(
           component,
-          { $implicit: options.data },
+          { $implicit: options.data, ...(Array.isArray(options.data) ? {} : options.data) },
           { injector: parent.injector },
         );
         diaRef.events.next('created');

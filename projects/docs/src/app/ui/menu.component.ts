@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Icon } from '@meeui/ui/icon';
 import { List } from '@meeui/ui/list';
-import { Menu, MenuTrigger } from '@meeui/ui/menu';
+import { Menu, MenuContent, MenuTrigger } from '@meeui/ui/menu';
 import { PopoverTrigger } from '@meeui/ui/popover';
 import { Option } from '@meeui/ui/select';
 import { Separator } from '@meeui/ui/separator';
@@ -25,6 +25,7 @@ import { DocCode } from './code.component';
     Menu,
     Separator,
     MenuTrigger,
+    MenuContent,
     Button,
     List,
     Icon,
@@ -46,7 +47,13 @@ import { DocCode } from './code.component';
   template: `
     <h4 meeHeader class="mb-5" id="menuPage">Menu</h4>
     <app-doc-code [tsCode]="tsCode">
-      <button meeButton [meeMenuTrigger]="menuContainer11">Open menu</button>
+      <button
+        meeButton
+        [meeMenuTrigger]="menuContainer11"
+        [meeMenuTriggerData]="{ data: 'Custom data' }"
+      >
+        Open menu
+      </button>
     </app-doc-code>
     <div class="flex justify-between">
       <button meeButton [meeMenuTrigger]="animals">Open menu</button>
@@ -218,13 +225,16 @@ import { DocCode } from './code.component';
     </mee-menu>
 
     <mee-menu #menuContainer11>
-      <button meeList>Profile</button>
-      <button meeList>Billing</button>
-      <button meeList>Settings</button>
-      <button meeList>Keyboard shortcuts</button>
-      <mee-separator />
-      <button meeList>Team</button>
-      <button meeList>New Team</button>
+      <ng-template meeMenuContent let-data="data">
+        <button meeList>{{ data }}</button>
+        <button meeList>Profile</button>
+        <button meeList>Billing</button>
+        <button meeList>Settings</button>
+        <button meeList>Keyboard shortcuts</button>
+        <mee-separator />
+        <button meeList>Team</button>
+        <button meeList>New Team</button>
+      </ng-template>
     </mee-menu>
 
     <mee-menu #menuContainer2>

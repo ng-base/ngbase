@@ -259,7 +259,14 @@ export function fakeService<T extends Type<any>>(
   impl: Partial<InstanceType<T>> | (() => Partial<InstanceType<T>>),
 ) {
   const fn = typeof impl === 'function' ? impl : () => impl;
-  return { provide: service, useFactory: fn };
+  let v: ReturnType<typeof fn>;
+  return {
+    provide: service,
+    useFactory: () => (v = fn()),
+    get v() {
+      return v as InstanceType<T>;
+    },
+  };
 }
 
 type FakeService<T extends Type<any>> = ReturnType<typeof fakeService<T>>;

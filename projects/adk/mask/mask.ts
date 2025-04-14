@@ -11,7 +11,6 @@ import { InputBase } from '@ngbase/adk/form-field';
 
 @Directive({
   selector: '[ngbMask]',
-  hostDirectives: [InputBase],
   host: {
     '(keydown)': 'onKeyDown($event)',
     '(paste)': 'onPaste($event)',
@@ -65,6 +64,11 @@ export class Mask {
         'CapsLock',
       ].includes(keyCode)
     ) {
+      return;
+    }
+
+    // allow selecting all text
+    if (keyCode === 'a' && (event.metaKey || event.ctrlKey)) {
       return;
     }
 

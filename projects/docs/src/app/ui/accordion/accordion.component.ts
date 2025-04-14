@@ -3,15 +3,24 @@ import { FormsModule } from '@angular/forms';
 import { Accordion, AccordionGroup, AccordionHeader } from '@meeui/ui/accordion';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { Heading } from '@meeui/ui/typography';
-import { DocCode, getCode } from '../code.component';
+import { DocCode, getCode, getMarkdown } from '../code.component';
 
 @Component({
   selector: 'app-accordion',
   imports: [FormsModule, Heading, AccordionGroup, Accordion, AccordionHeader, Checkbox, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h4 meeHeader="sm" class="mb-5" id="accordionPage">Accordion</h4>
-    <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()" [referencesCode]="references()">
+    <h4 meeHeader="sm" class="mb-2" id="accordionPage">Accordion</h4>
+    <p class="mb-5">
+      The accordion component is a collapsible panel that can be used to show and hide content,
+      providing a clean and organized way to present information.
+    </p>
+    <app-doc-code
+      [tsCode]="tsCode()"
+      [adkCode]="adkCode()"
+      [referencesCode]="references()"
+      [markdownCode]="md()"
+    >
       <mee-checkbox [(ngModel)]="accordionMultiple">Multiple</mee-checkbox>
       <mee-accordion-group [multiple]="accordionMultiple()" class="w-full md:w-96">
         <mee-accordion>
@@ -45,4 +54,5 @@ export default class AccordionComponent {
   readonly tsCode = getCode('accordion/accordion-usage.ts');
   readonly references = getCode('accordion/accordion-reference.ts');
   readonly adkCode = getCode('accordion/accordion-adk.ts');
+  readonly md = getCode('accordion/accordion.md');
 }

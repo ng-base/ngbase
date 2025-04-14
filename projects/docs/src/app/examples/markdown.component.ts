@@ -19,7 +19,7 @@ import { marked } from 'marked';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<article
     [innerHTML]="htmlContent()"
-    class="markdown prose mx-auto overflow-auto lg:prose-xl"
+    class="markdown prose max-w-none"
     [class]="theme.mode() === 'dark' ? 'dark:prose-invert' : ''"
   ></article>`,
   styles: [

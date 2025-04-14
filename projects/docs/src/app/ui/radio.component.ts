@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Card } from '@meeui/ui/card';
 import { Radio, RadioGroup } from '@meeui/ui/radio';
 import { Heading } from '@meeui/ui/typography';
@@ -7,13 +7,13 @@ import { DocCode } from './code.component';
 
 @Component({
   selector: 'app-radio',
-  imports: [Heading, RadioGroup, Radio, Card, FormsModule, DocCode],
+  imports: [Heading, RadioGroup, Radio, Card, FormsModule, DocCode, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 meeHeader class="mb-5" id="radioPage">Radio</h4>
 
     <app-doc-code [tsCode]="tsCode">
-      <mee-radio-group [(ngModel)]="radioValue">
+      <mee-radio-group [formControl]="myRadio">
         <mee-radio value="1">Radio 1</mee-radio>
         <mee-radio value="2">Radio 2</mee-radio>
         <mee-radio value="3" disabled>Radio 3</mee-radio>
@@ -47,6 +47,7 @@ import { DocCode } from './code.component';
 })
 export default class RadioComponent {
   radioValue = '1';
+  myRadio = new FormControl('1');
 
   tsCode = `
   import { Component } from '@angular/core';

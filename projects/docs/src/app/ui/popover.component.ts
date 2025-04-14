@@ -22,7 +22,12 @@ import { DocCode } from './code.component';
         <h4 meeHeader class="">Popover</h4>
         <p class="text-muted-foreground">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus
-          minima quis, accusamus vero voluptatem cumque. Impedit!
+          minima quis, accusamus vero voluptatem cumque. Impedit! Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Non expedita sit facere minus minima quis, accusamus vero
+          voluptatem cumque. Impedit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+          expedita sit facere minus minima quis, accusamus vero voluptatem cumque. Impedit! Lorem
+          ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere minus minima
+          quis, accusamus vero voluptatem cumque. Impedit!
         </p>
         <button meeButton meePopoverClose class="mt-2">Close</button>
       </div>

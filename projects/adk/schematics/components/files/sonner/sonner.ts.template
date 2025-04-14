@@ -17,7 +17,7 @@ import {
   ],
   imports: [Icon, SonnerBase],
   template: `
-    <ul class="fixed bottom-0 right-0 flex flex-col gap-1">
+    <ul class="fixed bottom-0 right-0 z-p flex flex-col gap-1">
       @for (msg of messages(); track msg.id) {
         <li
           [ngbSonnerBase]="$index"

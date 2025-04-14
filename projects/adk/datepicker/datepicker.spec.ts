@@ -1,4 +1,4 @@
-import { Component, TemplateRef, viewChild } from '@angular/core';
+import { Component, signal, TemplateRef, viewChild } from '@angular/core';
 import { render, RenderResult } from '@ngbase/adk/test';
 import { DialogRef } from '@ngbase/adk/portal';
 import { aliasDatePicker, DatepickerGroup, NgbDatePicker } from './datepicker';
@@ -130,7 +130,7 @@ class TestDatePickerRef {
   templateRef = viewChild.required('templateRef', { read: TemplateRef });
 }
 
-const mockDialogRef = { data: { value: [] as any[] } };
+const mockDialogRef = { data: { value: signal<any[]>([]) } };
 
 describe('DatePicker', () => {
   let component: TestDatePicker<Date>;
@@ -168,15 +168,15 @@ describe('DatePicker', () => {
   });
 
   it('should handle the values parsed properly', () => {
-    mockDialogRef.data.value = [new Date(2024, 6, 5)];
+    mockDialogRef.data.value.set([new Date(2024, 6, 5)]);
     component['init']();
     expect(component.selectedDates()).toEqual([new Date(2024, 6, 5), null]);
 
-    mockDialogRef.data.value = [new Date(2024, 6, 5), new Date(2024, 6, 6)];
+    mockDialogRef.data.value.set([new Date(2024, 6, 5), new Date(2024, 6, 6)]);
     component['init']();
     expect(component.selectedDates()).toEqual([new Date(2024, 6, 5), new Date(2024, 6, 6)]);
 
-    mockDialogRef.data.value = ['2024-07-05', '2024-07-06'];
+    mockDialogRef.data.value.set(['2024-07-05', '2024-07-06']);
     component['init']();
     expect(component.selectedDates()).toEqual([new Date(2024, 6, 5), new Date(2024, 6, 6)]);
   });

@@ -2,10 +2,11 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ElementHelper, render, RenderResult } from '@ngbase/adk/test';
 import { Mask } from './mask';
+import { InputBase } from '@ngbase/adk/form-field';
 
 @Component({
-  imports: [Mask, FormsModule],
-  template: `<input [ngbMask]="mask()" [(ngModel)]="value" />`,
+  imports: [Mask, FormsModule, InputBase],
+  template: `<input ngbInputBase [ngbMask]="mask()" [(ngModel)]="value" />`,
 })
 class TestComponent {
   readonly mask = signal('');

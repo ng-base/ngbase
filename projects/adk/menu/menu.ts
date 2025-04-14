@@ -43,6 +43,11 @@ export class NgpMenuGroup {
 }
 
 @Directive({
+  selector: 'ng-template[ngbMenuContent]',
+})
+export class NgpMenuContent {}
+
+@Directive({
   selector: '[ngbMenu]',
   exportAs: 'ngbMenu',
 })
@@ -144,11 +149,6 @@ export class NgbMenu implements OnDestroy {
     this.close();
   }
 }
-
-@Directive({
-  selector: 'ng-template[ngbMenuContent]',
-})
-export class NgpMenuContent {}
 
 export const aliasMenu = (menu: typeof NgbMenu) => ({
   provide: NgbMenu,

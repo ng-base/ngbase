@@ -1,12 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  afterNextRender,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Directive, ElementRef, effect, inject, input, output } from '@angular/core';
 import { InputBase } from '@ngbase/adk/form-field';
 import { NgbAutocomplete } from './autocomplete';
 
@@ -26,18 +18,22 @@ export class NgbAutocompleteInput<T> {
   readonly autoComplete = inject(NgbAutocomplete);
   readonly input = inject(InputBase);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  readonly isChip = input(false);
 
   // Inputs
   readonly ngbAutocompleteInput = output<string>();
 
   constructor() {
-    afterNextRender(() => {
-      this.el.nativeElement.addEventListener('keydown', event => {
+    effect(cleanup => {
+      if (!this.isChip()) return;
+      const fn = (event: KeyboardEvent) => {
         const value = (event.target as any).value;
         if (event.key === 'Backspace' && value === '') {
           this.autoComplete.popValue();
         }
-      });
+      };
+      this.el.nativeElement.addEventListener('keydown', fn);
+      cleanup(() => this.el.nativeElement.removeEventListener('keydown', fn));
       // if (this.autoComplete.multiple()) return;
       // this.autoComplete.events.subscribe(event => {
       //   if (event === 'close') {

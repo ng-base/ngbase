@@ -120,7 +120,7 @@ export class NgbDialogContainer extends BaseDialog {
 
   override setOptions(options: DialogOptions) {
     this.options.set(options);
-    this.isHideHeader = !options.header || false;
+    this.isHideHeader = options.header === false;
     this.backdropColor = options.backdropColor || true;
   }
 }

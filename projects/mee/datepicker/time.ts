@@ -12,21 +12,21 @@ import { Button } from '@meeui/ui/button';
       ngbTimeInput="hours"
       [(value)]="hours"
       (valueChange)="updateValue()"
-      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold outline-none focus:bg-muted-background"
     />
     <span>:</span>
     <input
       ngbTimeInput="minutes"
       [(value)]="minutes"
       (valueChange)="updateValue()"
-      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold outline-none focus:bg-muted-background"
     />
     <span>:</span>
     <input
       ngbTimeInput="seconds"
       [(value)]="seconds"
       (valueChange)="updateValue()"
-      class="w-7 px-1 text-center font-semibold focus:bg-muted-background"
+      class="w-7 px-1 text-center font-semibold outline-none focus:bg-muted-background"
     />
     @if (!is24()) {
       <div class="ml-1 flex gap-2">

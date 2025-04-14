@@ -114,4 +114,18 @@ describe('utils', () => {
       resultDimensions({ bottom: 510, left: 300, maxHeight: 480, position: Position.TopLeft }),
     );
   });
+
+  it('should handle the sideOffset properly', () => {
+    const target = createMockElement({ top: 880, left: 300, width: 100, height: 10 });
+    const el = createMockElement({ width: 100, height: 100 });
+    const positioner = new PopoverPositioner(
+      { offset: 10, position: Position.BottomLeft, target, el, sideOffset: 16 },
+      { width: 1000, height: 1000 },
+    );
+    const output = positioner.calculatePosition();
+
+    expect(output).toEqual(
+      resultDimensions({ bottom: 130, left: 300, position: Position.TopLeft }),
+    );
+  });
 });

@@ -209,7 +209,7 @@ export class PopoverPositioner {
   constructor(
     private config: PopoverUtilConfig,
     private windowDimensions: { width: number; height: number },
-    private scrollWidth: number = 0,
+    private scrollWidth = 0,
   ) {
     this.offset = this.config.offset || 5;
     this.sideOffset = this.config.sideOffset || 0;
@@ -266,7 +266,14 @@ export class PopoverPositioner {
       return opposite;
     }
 
-    // 2. For vertical positions, prefer the side with more space
+    // 2. Try fallbacks in order
+    for (const fallback of meta.fallbacks) {
+      if (!this.positionOverflows(fallback, targetRect)) {
+        return fallback;
+      }
+    }
+
+    // 3. For vertical positions, prefer the side with more space
     if (meta.main === 'vertical') {
       const preferredVertical = space.top > space.bottom ? Position.Top : Position.Bottom;
       if (!this.positionOverflows(preferredVertical, targetRect)) {
@@ -274,18 +281,11 @@ export class PopoverPositioner {
       }
     }
 
-    // 3. For horizontal positions, prefer the side with more space
+    // 4. For horizontal positions, prefer the side with more space
     if (meta.main === 'horizontal') {
       const preferredHorizontal = space.left > space.right ? Position.Left : Position.Right;
       if (!this.positionOverflows(preferredHorizontal, targetRect)) {
         return preferredHorizontal;
-      }
-    }
-
-    // 4. Try fallbacks in order
-    for (const fallback of meta.fallbacks) {
-      if (!this.positionOverflows(fallback, targetRect)) {
-        return fallback;
       }
     }
 
@@ -313,12 +313,12 @@ export class PopoverPositioner {
     const coords = meta.getCoords(targetRect, element, this.offset);
     const { width: windowWidth, height: windowHeight } = this.windowDimensions;
 
-    // Check boundaries
+    // Check boundaries and consider sideOffset
     return (
       coords.left < 0 ||
-      coords.left + element.width > windowWidth ||
+      coords.left + element.width + this.sideOffset > windowWidth ||
       coords.top < 0 ||
-      coords.top + element.height > windowHeight
+      coords.top + element.height + this.sideOffset > windowHeight
     );
   }
 

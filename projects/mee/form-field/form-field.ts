@@ -46,13 +46,13 @@ export class FormField {
 
 @Directive({
   selector: '[meeInput]',
-  hostDirectives: [{ directive: InputBase, inputs: ['value'] }],
+  hostDirectives: [{ directive: InputBase, inputs: ['value'], outputs: ['valueChange'] }],
   host: {
-    class: 'focus:outline-none',
+    class: 'outline-none w-full',
     '[class.border-red-500]': 'formField?.hasErrors()',
   },
 })
-export class Input<T = unknown> {
+export class Input {
   readonly formField = inject(NgbFormField, { optional: true });
 }
 

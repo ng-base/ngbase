@@ -1,7 +1,15 @@
-import { contentChild, contentChildren, Directive, effect, Type } from '@angular/core';
+import {
+  computed,
+  contentChild,
+  contentChildren,
+  Directive,
+  effect,
+  input,
+  Type,
+} from '@angular/core';
 import { NgbChip } from '@ngbase/adk/chip';
 import { SelectBase } from '@ngbase/adk/select';
-import { provideValueAccessor } from '@ngbase/adk/utils';
+import { filterFunction, FilterOptions, provideValueAccessor } from '@ngbase/adk/utils';
 import { NgbAutocompleteInput } from './autocomplete-input';
 
 @Directive({
@@ -9,8 +17,19 @@ import { NgbAutocompleteInput } from './autocomplete-input';
   providers: [_provide(NgbAutocomplete)],
 })
 export class NgbAutocomplete<T> extends SelectBase<T> {
-  searchInput = contentChild(NgbAutocompleteInput);
-  chips = contentChildren(NgbChip);
+  readonly searchInput = contentChild(NgbAutocompleteInput);
+  readonly chips = contentChildren(NgbChip);
+  readonly filterFn = input((option: string) => option as string);
+  readonly queryFn = input<(query: string, option: any) => boolean>();
+  readonly filterOptions = input<FilterOptions<T>>();
+  readonly optionsFilter = filterFunction(
+    this.options,
+    computed(
+      () =>
+        this.filterOptions() ??
+        ({ filter: this.filterFn(), query: this.queryFn() } as FilterOptions<T>),
+    ),
+  );
 
   constructor() {
     super(false);

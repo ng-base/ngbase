@@ -36,7 +36,7 @@ export const UI_ROUTES: Routes = [
   { path: 'calendar', loadComponent: () => import('./calendar/calendar.component') },
   { path: 'dialog', loadComponent: () => import('./dialog.component') },
   { path: 'drawer', loadComponent: () => import('./drawer.component') },
-  { path: 'input', loadComponent: () => import('./input.component') },
+  { path: 'form-field', loadComponent: () => import('./form-field/form-field.component') },
   { path: 'switch', loadComponent: () => import('./switch/switch.component') },
   { path: 'mention', loadComponent: () => import('./mention.component') },
   { path: 'tour', loadComponent: () => import('./tour.component') },
@@ -62,7 +62,7 @@ export const UI_ROUTES: Routes = [
   { path: 'inline-edit', loadComponent: () => import('./inline-edit.component') },
   { path: 'virtualizer', loadComponent: () => import('./virtualizer.component') },
   { path: 'translation', loadComponent: () => import('./translation.component') },
-  { path: 'jwt', loadComponent: () => import('./jwt.component') },
+  { path: 'jwt', loadComponent: () => import('./jwt/jwt.component') },
   { path: 'test', loadComponent: () => import('./test/test.component') },
   { path: '', redirectTo: 'accordion', pathMatch: 'full' },
 ];

@@ -1,7 +1,9 @@
 import {
   computed,
   Directive,
+  effect,
   inject,
+  Injector,
   input,
   model,
   signal,
@@ -34,6 +36,7 @@ export class DatepickerGroup<D> {
   selector: '[ngbDatepicker]',
 })
 export class NgbDatePicker<D> {
+  readonly injector = inject(Injector);
   private datepickerTrigger: NgbDatepickerTrigger<D> | null = inject(NgbDatepickerTrigger, {
     optional: true,
   });
@@ -92,12 +95,17 @@ export class NgbDatePicker<D> {
   readonly ayId = uniqueId();
 
   constructor() {
-    this.init();
+    effect(() => {
+      this.init();
+    });
     // this.allyGroup.focusChanged.subscribe(item => this.focusChanged(item));
   }
 
   private init() {
-    const v = this.data?.value?.filter(x => x).map(x => this.adapter.parse(x));
+    const v = this.data
+      ?.value()
+      ?.filter(x => x)
+      .map(x => this.adapter.parse(x));
     if (Array.isArray(v) && v.length) {
       let date: D;
       let dates: [D, D | null];

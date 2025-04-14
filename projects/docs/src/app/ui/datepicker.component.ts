@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
-import { DatepickerTrigger, TimePicker } from '@meeui/ui/datepicker';
-import { FormField, Label } from '@meeui/ui/form-field';
+import { DatepickerTrigger, EndDate, TimePicker } from '@meeui/ui/datepicker';
+import { FormField, InputSuffix, Label } from '@meeui/ui/form-field';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
+import { PopoverClose } from '@meeui/ui/popover';
+import { Radio, RadioGroup } from '@meeui/ui/radio';
 
 @Component({
   selector: 'app-datepicker',
@@ -18,6 +20,11 @@ import { DocCode } from './code.component';
     DocCode,
     Label,
     FormField,
+    InputSuffix,
+    PopoverClose,
+    Radio,
+    RadioGroup,
+    EndDate,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -36,39 +43,45 @@ import { DocCode } from './code.component';
         @if (show()) {
           <div class="flex w-52 flex-col">
             <mee-form-field class="w-full">
-              <label meeLabel for="date" class="mb-1">Datetime</label>
+              <!-- <label meeLabel for="date" class="mb-1">Datetime</label> -->
               <input
                 [formControl]="date"
                 id="date"
                 placeholder="Date"
                 meeDatepickerTrigger
                 format="dd-MM-yyyy hh:mm a"
-                [range]="true"
-                [time]="true"
+                range
+                time
                 readonly
               />
             </mee-form-field>
           </div>
+          {{ date.value }}
         }
         <mee-form-field class="w-full">
           <label meeLabel class="flex w-52 flex-col"> Date 2 calendars</label>
           <input
-            [(ngModel)]="dateRange"
+            #dateRangeTrigger="meeDatepickerTrigger"
+            [(ngModel)]="startDate"
             placeholder="Date"
             meeDatepickerTrigger
-            [noOfCalendars]="2"
+            noOfCalendars="2"
             format="dd/MM/yyyy"
-            [range]="true"
+            range
             readonly
           />
+          <input [meeEndDate]="dateRangeTrigger" [(ngModel)]="endDate" />
+          <button meeInputSuffix meeButton (click)="dateRange.set([])">clear</button>
         </mee-form-field>
         <mee-form-field class="w-full">
           <label meeLabel class="flex w-52 flex-col"> Date </label>
           <input
-            [formControl]="date"
+            [formControl]="dateSingle"
             placeholder="Date"
             meeDatepickerTrigger
+            name="dateSingle"
             format="dd-MM-yyyy"
+            [pickerTemplate]="pickerTemplate"
             readonly
           />
         </mee-form-field>
@@ -95,16 +108,28 @@ import { DocCode } from './code.component';
           />
         </mee-form-field>
       </app-doc-code>
+
+      <ng-template #pickerTemplate>
+        <mee-radio-group class="flex flex-col gap-2">
+          <mee-radio meePopoverClose value="1">One</mee-radio>
+          <mee-radio meePopoverClose value="2">Two</mee-radio>
+          <mee-radio meePopoverClose value="3">Three</mee-radio>
+          <mee-radio value="4">Four</mee-radio>
+        </mee-radio-group>
+      </ng-template>
     </div>
   `,
 })
 export default class DatepickerComponent {
   date = new FormControl();
+  dateSingle = new FormControl();
   rangeDate: Date[] = [];
   time24 = signal('');
   time = signal('10:12:02 AM');
   show = signal(true);
-  dateRange = signal(['2024-10-01T00:00:00.000Z', '2024-10-31T23:59:59.999Z']);
+  dateRange = signal<string[]>(['2024-10-01T00:00:00.000Z', '2024-10-31T23:59:59.999Z']);
+  startDate = signal('');
+  endDate = signal('');
 
   tsCode = `
   import { Component, signal } from '@angular/core';

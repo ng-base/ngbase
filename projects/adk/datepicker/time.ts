@@ -72,7 +72,7 @@ export class NgbTimePicker implements ControlValueAccessor {
   private parseValue(value: string | null | undefined) {
     if (value) {
       const [time, period] = value.split(' ');
-      const [hours, minutes, seconds] = time.split(':');
+      const [hours, minutes, seconds = '00'] = time.split(':');
       const am = period === 'AM';
 
       this.hours.set(padString(hours));

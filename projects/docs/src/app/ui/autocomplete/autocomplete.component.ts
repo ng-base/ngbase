@@ -92,7 +92,9 @@ export default class AutocompleteComponent {
 class AutocompleteForm<T> {
   value!: Signal<T>;
   options = Array.from({ length: 50 }, (_, i) => `Option ${i + 1}`);
-  optionsFilter = filterFunction(this.options, { filter: option => option });
+  optionsFilter = filterFunction(this.options, () => ({
+    filter: option => option,
+  }));
 
   constructor(value: T) {
     this.value = signal(value);

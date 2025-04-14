@@ -54,7 +54,11 @@ class TreeItem {
           <button meeButton="ghost" meeTreeNodeToggle class="h-9 w-9 !p-2">
             <mee-icon
               size="20px"
-              [name]="myNode.isOpen() ? 'lucideChevronDown' : 'lucideChevronRight'"
+              class="{{
+                'transition-transform duration-300 ' +
+                  (myNode.isOpen() ? 'rotate-90' : 'rtl:rotate-180')
+              }}"
+              name="lucideChevronRight"
             />
             <!-- {{ myNode.isOpen() ? '▼' : '►' }} -->
           </button>

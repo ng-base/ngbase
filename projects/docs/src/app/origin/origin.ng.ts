@@ -13,6 +13,9 @@ import { Card } from '@meeui/ui/card';
     <a meeCard="outline" routerLink="carousel">
       <h4 meeHeader="md">Carousel</h4>
     </a>
+    <a meeCard="outline" routerLink="dropdown">
+      <h4 meeHeader="md">Dropdown</h4>
+    </a>
   </div>`,
 })
 export default class Origin {}

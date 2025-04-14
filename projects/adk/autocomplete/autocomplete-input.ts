@@ -29,17 +29,6 @@ export class NgbAutocompleteInput<T> {
 
   // Inputs
   readonly ngbAutocompleteInput = output<string>();
-  readonly options = input<T[]>([]);
-  readonly filterFn = input<(query: string, value: T, values: T[]) => boolean>();
-
-  // State
-  readonly filteredOptions = computed(() => {
-    const fn = this.filterFn();
-    const options = this.options();
-    const search = this.input.value();
-    const values = search ? options.filter(v => fn!(search, v, options)) : options;
-    return values;
-  });
 
   constructor() {
     afterNextRender(() => {

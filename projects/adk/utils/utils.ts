@@ -78,35 +78,36 @@ export function documentListener<T extends Event>(
   return controller;
 }
 
-export function filterFunction<T, V = T>(
-  data: Signal<T[]> | T[],
-  options: {
-    filter?: (v: V) => string;
-    key?: keyof T;
-    childrenFilter?: (v: T) => V[];
-    query?: (v: V, search: string) => boolean;
-  },
-) {
+export type FilterOptions<T, V = any> = {
+  filter: (v: V) => string;
+  query?: (query: string, option: V) => boolean;
+  key?: keyof T;
+  childrenFilter?: (v: T) => V[];
+};
+
+export function filterFunction<T, V = T>(data: Signal<T[]> | T[], ops: () => FilterOptions<T, V>) {
   const search = signal('');
   const list = linkedSignal(isSignal(data) ? data : signal(data || []));
 
   const filteredList = computed(() => {
-    const text = search().toLowerCase();
-    const lists = list();
+    const options = ops();
+    const text = search()?.trim().toLowerCase() || '';
+    const lists = list() || [];
+    const filter = options.filter ?? ((v: V) => v as string);
 
-    const query =
-      options.query ?? ((v: V, t: string) => options.filter!(v).toLowerCase().includes(t));
+    const query = options.query ?? ((t: string, v: V) => filter(v).toLowerCase().includes(t));
     const vvv = lists.reduce((acc, item) => {
-      if (options.childrenFilter) {
-        const children = options.childrenFilter(item);
-        const filteredChildren = children.filter(child => query(child as unknown as V, text));
-        if (filteredChildren.length) {
+      // Get children from key or childrenFilter
+      const children = options.key ? (item[options.key] as V[]) : options.childrenFilter?.(item);
+      if (children) {
+        const filteredChildren = children?.filter(child => query(text, child as V));
+        if (filteredChildren?.length) {
           acc.push({
             ...item,
             [(options.key as unknown as string) || 'children']: filteredChildren,
           });
         }
-      } else if (query(item as unknown as V, text)) {
+      } else if (query(text, item as unknown as V)) {
         acc.push(item);
       }
       return acc;

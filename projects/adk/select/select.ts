@@ -1,6 +1,14 @@
-import { contentChild, Directive, inject, model, TemplateRef } from '@angular/core';
+import {
+  computed,
+  contentChild,
+  Directive,
+  inject,
+  input,
+  model,
+  TemplateRef,
+} from '@angular/core';
 import { AccessibleGroup } from '@ngbase/adk/a11y';
-import { filterFunction, provideValueAccessor } from '@ngbase/adk/utils';
+import { filterFunction, FilterOptions, provideValueAccessor } from '@ngbase/adk/utils';
 import { SelectBase } from './select-base';
 
 export interface OptionContext<T> {
@@ -60,8 +68,17 @@ export class NgbSelectOptionGroup {
 export class NgbSelect<T> extends SelectBase<T> {
   readonly search = model<string>('');
   readonly optionTemplate = contentChild(NgbSelectOption<T>);
-  readonly defaultFilter = (option: string) => option;
-  readonly optionsFilter = filterFunction(this.options, { filter: this.defaultFilter });
+  readonly filterFn = input((option: string) => option as string);
+  readonly queryFn = input<(query: string, option: any) => boolean>();
+  readonly filterOptions = input<FilterOptions<T>>();
+  readonly optionsFilter = filterFunction(
+    this.options,
+    computed(
+      () =>
+        this.filterOptions() ??
+        ({ filter: this.filterFn(), query: this.queryFn() } as FilterOptions<T>),
+    ),
+  );
 
   constructor() {
     super(true);

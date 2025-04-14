@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Directionality } from '@ngbase/adk/bidi';
-import { ngbPopoverPortal } from '@ngbase/adk/popover';
+import { ngbPopoverPortal, PopoverOptions } from '@ngbase/adk/popover';
 import { uniqueId } from '@ngbase/adk/utils';
 import { Subject } from 'rxjs';
 import { NgbOption } from './option';
@@ -50,11 +50,12 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   readonly placeholder = input<string>(' ');
   readonly disabled = model<boolean>(false);
   readonly size = input<'target' | 'free'>('free');
+  readonly noAutoClose = input(false, { transform: booleanAttribute });
   readonly opened = output<boolean>();
   readonly closed = output<boolean>();
 
   // state
-  sideOffset = 0;
+  defaultOptions: Partial<PopoverOptions> = {};
   readonly panelOpen = signal(false);
   readonly values = signal<T[]>([]);
   readonly status = signal<'opening' | 'opened' | 'closed'>('closed');
@@ -105,7 +106,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
             this.setValue([option.getValue()]);
             option.checked.set(!option.checked());
             option.onSelectionChange.emit(option.getValue());
-            if (!this.multiple()) {
+            if (!this.multiple() && !this.noAutoClose()) {
               this.close();
             }
           });
@@ -145,6 +146,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
 
     const el = this.target?.target() || this.container()?.nativeElement || this.el.nativeElement;
     const { diaRef, events } = this.popover.open(this.optionsTemplate()!, {
+      ...this.defaultOptions,
       target: el,
       position: this.dir.isRtl() ? 'br' : 'bl',
       backdrop: this.isSelect,
@@ -152,7 +154,6 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
       maxHeight: '400px',
       ayId: this.ayId,
       focusTrap: false,
-      sideOffset: this.sideOffset,
       afterFocusEl: this.container()?.nativeElement || this.el.nativeElement,
     });
     this.withInPopup = false;
@@ -243,7 +244,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
     } else {
       localValue = values;
       setValue = values[0];
-      this.close();
+      if (!this.noAutoClose()) this.close();
     }
     // console.log('setValue', localValue, this.values());
     this.values.set(localValue);

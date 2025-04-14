@@ -6,13 +6,14 @@ import {
   Input,
   InputError,
   InputPrefix,
+  InputSuffix,
   Label,
 } from '@meeui/ui/form-field';
 import { Icon } from '@meeui/ui/icon';
 import { Heading } from '@meeui/ui/typography';
 import { provideIcons } from '@ng-icons/core';
 import { lucideEye, lucideEyeOff } from '@ng-icons/lucide';
-import { DocCode } from './code.component';
+import { DocCode, getCode } from '../code.component';
 
 @Component({
   selector: 'app-input',
@@ -28,18 +29,19 @@ import { DocCode } from './code.component';
     DocCode,
     Icon,
     InputPrefix,
+    InputSuffix,
   ],
   viewProviders: [provideIcons({ lucideEye, lucideEyeOff })],
   template: `
     <h4 meeHeader class="mb-5" id="inputPage">Input</h4>
-    <app-doc-code [tsCode]="tsCode">
+    <app-doc-code [tsCode]="tsCode()" [adkCommand]="adkCommand">
       <div class="flex flex-col gap-4">
         <mee-form-field>
           <label meeLabel>Input</label>
           <p meeDescription>This is a description</p>
-          <!-- <mee-icon name="lucideEyeOff" /> -->
+          <mee-icon name="lucideEye" meeInputPrefix class="text-muted" />
           <input meeInput [formControl]="inputValue" placeholder="Input" class="w-full" />
-          <mee-icon name="lucideEye" meeInputPrefix />
+          <mee-icon name="lucideEyeOff" meeInputSuffix class="text-muted" />
           <p meeError="required">This field is required</p>
           <p meeError="!required && minlength">This field must be at least 3 characters long</p>
         </mee-form-field>
@@ -55,22 +57,6 @@ import { DocCode } from './code.component';
 export default class InputComponent {
   inputValue = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  tsCode = `
-  import { Component } from '@angular/core';
-  import { FormsModule } from '@angular/forms';
-  import { Input } from '@meeui/ui/input';
-
-  @Component({
-    selector: 'app-root',
-    imports: [FormsModule, Input],
-    template: \`
-      <input meeInput [(ngModel)]="inputValue" placeholder="Input" />
-      
-      <textarea meeInput></textarea>
-    \`,
-  })
-  export class AppComponent {
-    inputValue = '';
-  }
-  `;
+  tsCode = getCode('form-field/form-field-usage.ts');
+  adkCommand = `pnpm ng g @ngbase/adk:ui`;
 }

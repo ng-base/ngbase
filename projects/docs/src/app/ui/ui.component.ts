@@ -18,7 +18,7 @@ import DatepickerComponent from './datepicker.component';
 import DialogComponent from './dialog.component';
 import DrawerComponent from './drawer.component';
 import HoverCardComponent from './hover-card.component';
-import InputComponent from './input.component';
+import InputComponent from './form-field/form-field.component';
 import MentionComponent from './mention.component';
 import MenuComponent from './menu.component';
 import OtpComponent from './otp.component';

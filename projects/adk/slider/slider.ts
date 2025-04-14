@@ -1,6 +1,7 @@
 import {
   afterNextRender,
   booleanAttribute,
+  ChangeDetectorRef,
   computed,
   Directive,
   effect,
@@ -110,6 +111,7 @@ export class NgbSlider implements ControlValueAccessor {
   private activeIndex = 0;
   private totalWidth = 0;
   private totalSliderWidth = 0;
+  private cdr = inject(ChangeDetectorRef);
 
   constructor() {
     effect(() => {
@@ -330,6 +332,8 @@ export class NgbSlider implements ControlValueAccessor {
     this.value.set(percentage);
     this.onChange?.(percentage);
     this.onTouched?.();
+    // this is required for reactive forms to work
+    this.cdr.markForCheck();
   }
 }
 

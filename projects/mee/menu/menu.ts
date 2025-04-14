@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import { AccessibleGroup } from '@ngbase/adk/a11y';
-import { NgbMenu, NgbMenuTrigger, NgpMenuGroup, aliasMenu } from '@ngbase/adk/menu';
+import { NgbMenu, NgbMenuTrigger, NgpMenuGroup, aliasMenu, NgpMenuContent } from '@ngbase/adk/menu';
 
 @Component({
   selector: 'mee-menu',
@@ -35,3 +35,9 @@ export class Menu extends NgbMenu {}
   },
 })
 export class MenuTrigger {}
+
+@Directive({
+  selector: 'ng-template[meeMenuContent]',
+  hostDirectives: [NgpMenuContent],
+})
+export class MenuContent {}

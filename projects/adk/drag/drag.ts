@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  NgZone,
   booleanAttribute,
   computed,
   contentChild,
@@ -45,7 +44,6 @@ export class DragHandle {}
 })
 export class Drag {
   readonly el = inject(ElementRef);
-  readonly zone = inject(NgZone);
   readonly document = inject(DOCUMENT);
 
   readonly handle = contentChild(DragHandle, { read: ElementRef, descendants: true });

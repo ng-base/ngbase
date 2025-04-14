@@ -23,6 +23,7 @@ import { Heading } from '@meeui/ui/typography';
 import { injectTheme } from '@meeui/ui/theme';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
+import { MarkdownComponent } from '../examples/markdown.component';
 
 @Injectable({ providedIn: 'root' })
 export class CodeService {
@@ -32,7 +33,7 @@ export class CodeService {
     if (this.highlighter) return this.highlighter;
     this.highlighter = await createHighlighter({
       themes: ['github-light', 'github-dark'],
-      langs: ['angular-ts'],
+      langs: ['angular-ts', 'bash'],
     });
     return this.highlighter!;
   }
@@ -41,7 +42,7 @@ export class CodeService {
 @Component({
   selector: 'app-doc-code',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon, Heading],
+  imports: [Selectable, SelectableItem, CopyToClipboard, Button, Icon, Heading, MarkdownComponent],
   providers: [provideIcons({ lucideCopy })],
   template: `
     <mee-selectable [(activeIndex)]="selected" class="mb-2 text-xs">
@@ -58,6 +59,8 @@ export class CodeService {
           <ng-content />
         </div>
       </div>
+
+      <app-markdown [markdownContent]="markdownCode()" />
     } @else if (selected() === 2) {
       <div class="relative overflow-hidden rounded-lg border font-body">
         <button
@@ -70,11 +73,23 @@ export class CodeService {
         <div [innerHTML]="ts.value()"></div>
       </div>
     } @else {
+      @if (adkCommandHtml.value(); as av) {
+        <div class="relative overflow-hidden rounded-lg border font-body">
+          <button
+            meeButton="outline"
+            class="absolute right-0 top-0 h-8 w-8"
+            [ngbCopyToClipboard]="adkCommand()"
+          >
+            <mee-icon name="lucideCopy" />
+          </button>
+          <div [innerHTML]="av"></div>
+        </div>
+      }
       @if (adk.value(); as av) {
         <div class="relative overflow-hidden rounded-lg border font-body">
           <button
             meeButton="outline"
-            class="dark absolute right-0 top-0 h-8 w-8"
+            class="absolute right-0 top-0 h-8 w-8"
             [ngbCopyToClipboard]="adkCode()"
           >
             <mee-icon name="lucideCopy" />
@@ -126,7 +141,9 @@ export class DocCode {
 
   readonly tsCode = input<string>('');
   readonly adkCode = input<string>('');
+  readonly adkCommand = input<string>('');
   readonly referencesCode = input<string>('');
+  readonly markdownCode = input<string>('');
   readonly hidePreview = input(false, { transform: booleanAttribute });
 
   readonly selected = linkedSignal(() => (this.hidePreview() ? 2 : 1));
@@ -135,7 +152,7 @@ export class DocCode {
   readonly ts = this.getThemeCode(this.tsCode);
 
   readonly adk = this.getThemeCode(this.adkCode);
-
+  readonly adkCommandHtml = this.getBaseCommandHtml();
   readonly references = this.getThemeCode(this.referencesCode);
 
   private getThemeCode(code: Signal<string>) {
@@ -153,9 +170,33 @@ export class DocCode {
       },
     });
   }
+
+  private getBaseCommandHtml() {
+    return resource({
+      request: () => ({ command: this.adkCommand(), theme: this.themeService.mode() }),
+      loader: async ({ request: { command, theme } }) => {
+        if (!command) return null;
+        const highlighter = await this.codeService.getHighlighter();
+        const html = highlighter.codeToHtml(command, {
+          lang: 'bash',
+          themes: { light: 'github-light', dark: 'github-dark' },
+          defaultColor: theme,
+        });
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+      },
+    });
+  }
 }
 
 export function getCode(path: string) {
+  const httpClient = inject(HttpClient);
+  const x = rxResource({
+    loader: () => httpClient.get(path, { responseType: 'text' }),
+  });
+  return computed(() => x.value()?.trim() ?? '');
+}
+
+export function getMarkdown(path: string) {
   const httpClient = inject(HttpClient);
   const x = rxResource({
     loader: () => httpClient.get(path, { responseType: 'text' }),

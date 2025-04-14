@@ -33,9 +33,9 @@ export class NgbCarouselSubContainer {
   private el = inject(ElementRef<HTMLElement>);
   private dir = injectDirectionality();
 
-  updateScrollPosition(x: number, skipDirection = false) {
+  updateScrollPosition(x: number) {
     const el = this.el.nativeElement;
-    if (this.dir.isRtl() && !skipDirection) {
+    if (this.dir.isRtl()) {
       el.style.transform = `translate3d(${x}px, 0, 0)`;
     } else {
       el.style.transform = `translate3d(${-x}px, 0, 0)`;
@@ -119,8 +119,8 @@ export class NgbCarousel {
             cancelAnimationFrame(this.animationId);
             this.currentScroll = this.x();
           } else if (event.type === 'move') {
-            this.currentScroll = this.x() - event.x;
-            this.subContainer().updateScrollPosition(this.currentScroll, true);
+            this.currentScroll = this.x() + (this.dir.isRtl() ? event.x : -event.x);
+            this.subContainer().updateScrollPosition(this.currentScroll);
           } else if (event.type === 'end') {
             const step = this.getStepBasedOnX(
               this.currentScroll,

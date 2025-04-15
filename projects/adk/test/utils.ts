@@ -254,22 +254,41 @@ export class RenderResult<T> extends ElementHelper<HTMLElement> {
   }
 }
 
-export function fakeService<T extends Type<any>>(
-  service: T,
-  impl: Partial<InstanceType<T>> | (() => Partial<InstanceType<T>>),
-) {
-  const fn = typeof impl === 'function' ? impl : () => impl;
-  let v: ReturnType<typeof fn>;
+export interface FakeServiceResult<T extends Type<any>, C = any> {
+  provide: T;
+  useFactory: () => any;
+  v: InstanceType<T>;
+  _: C;
+}
+
+export function fakeService<
+  T extends Type<any>,
+  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __: any }),
+>(service: T, impl: I) {
+  // Extract the exact type of __ from the implementation
+  type ControlsType = I extends () => Partial<InstanceType<T>> & { __: infer C } ? C : never;
+
+  const fn = typeof impl === 'function' ? (impl as () => any) : () => impl;
+
+  let v: any;
+
   return {
     provide: service,
     useFactory: () => (v = fn()),
     get v() {
       return v as InstanceType<T>;
     },
+    get _() {
+      return (v as any).__ as ControlsType;
+    },
   };
 }
 
-type FakeService<T extends Type<any>> = ReturnType<typeof fakeService<T>>;
+export type FakeService<
+  T extends Type<any>,
+  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __: any }) = any,
+> = FakeServiceResult<T, I extends () => Partial<InstanceType<T>> & { __: infer C } ? C : never>;
+
 type RenderProvider = Provider | EnvironmentProviders | FakeService<any>;
 
 export async function render<T>(

@@ -48,7 +48,7 @@ export function providePopoverArrowTracker() {
           height: 0;
           border-style: solid;
           border-top: 0.5rem solid;
-          @apply border-foreground;
+          @apply border-background;
           border-left: 0.45rem solid transparent;
           border-right: 0.45rem solid transparent;
           top: var(--action-top);

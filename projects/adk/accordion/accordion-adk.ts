@@ -22,7 +22,7 @@ import {
   hostDirectives: [{ directive: NgbAccordionGroup, inputs: ['multiple'] }],
   template: `<ng-content />`,
   host: {
-    class: 'block rounded-lg border bg-foreground', // Default styling
+    class: 'block rounded-lg border bg-background', // Default styling
   },
 })
 export class AccordionGroup {}
@@ -39,7 +39,7 @@ export class AccordionGroup {}
     <ng-content select="[meeAccordionHeader]" />
     @if (accordion.expanded()) {
       <div ngbAccordionContent [@slide] class="overflow-hidden">
-        <div class="px-3 pb-4 text-muted">
+        <div class="text-muted-foreground px-3 pb-4">
           <ng-content />
         </div>
       </div>

@@ -87,29 +87,35 @@ import {
     }),
   ],
   template: `
-    <mee-card class="h-[950px] overflow-hidden !bg-background !p-0">
+    <mee-card class="h-[950px] overflow-hidden !bg-foreground !p-0">
       <mee-sidenav>
-        <mee-sidenav-header class="w-64 border-r bg-foreground">
+        <mee-sidenav-header class="w-64 border-r bg-background">
           <div class="flex h-full w-64 flex-col">
             <mee-select placeholder="Acme corp" class="m-2" [(ngModel)]="user">
               <div meeSelectTrigger class="flex items-center gap-1">
-                <mee-icon name="lucideEclipse" class="rounded bg-text p-1 text-foreground" />
+                <mee-icon name="lucideEclipse" class="rounded bg-text p-1 text-background" />
                 <span>{{ user }}</span>
               </div>
               <mee-option value="Acme Corp."> Acme Corp. </mee-option>
             </mee-select>
             <mee-separator />
             <div class="p-4">
-              <p class="mb-2 text-sm font-medium text-muted">Platform</p>
+              <p class="text-muted-foreground mb-2 text-sm font-medium">Platform</p>
               <button meeList class="!bg-transparent !px-0 font-medium">
                 <mee-icon name="lucideSearch" />
                 Search
               </button>
               <ng-template #subMenu>
                 <div class="ml-2 flex flex-col border-l pl-2">
-                  <button meeList class="text-muted hover:bg-transparent">History</button>
-                  <button meeList class="text-muted hover:bg-transparent">Starred</button>
-                  <button meeList class="text-muted hover:bg-transparent">Settings</button>
+                  <button meeList class="text-muted-foreground hover:bg-transparent">
+                    History
+                  </button>
+                  <button meeList class="text-muted-foreground hover:bg-transparent">
+                    Starred
+                  </button>
+                  <button meeList class="text-muted-foreground hover:bg-transparent">
+                    Settings
+                  </button>
                 </div>
               </ng-template>
               <mee-accordion-group multiple>
@@ -180,7 +186,7 @@ import {
             </div>
             <mee-separator />
             <div class="p-4">
-              <p class="mb-2 text-sm font-medium text-muted">Recent Projects</p>
+              <p class="text-muted-foreground mb-2 text-sm font-medium">Recent Projects</p>
               <button meeList class="!px-0 text-xs font-medium hover:bg-transparent">
                 <mee-icon name="lucideFrame" />
                 Design Engineering
@@ -193,18 +199,27 @@ import {
                 <mee-icon name="lucideMap" />
                 Travel
               </button>
-              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <button
+                meeList
+                class="text-muted-foreground !px-0 text-xs font-medium hover:bg-transparent"
+              >
                 <mee-icon name="lucideSquarePlus" />
                 Add Project
               </button>
             </div>
             <div class="mt-auto p-4">
-              <p class="mb-2 text-sm font-medium text-muted">Help</p>
-              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <p class="text-muted-foreground mb-2 text-sm font-medium">Help</p>
+              <button
+                meeList
+                class="text-muted-foreground !px-0 text-xs font-medium hover:bg-transparent"
+              >
                 <mee-icon name="lucideLifeBuoy" />
                 Support
               </button>
-              <button meeList class="!px-0 text-xs font-medium text-muted hover:bg-transparent">
+              <button
+                meeList
+                class="text-muted-foreground !px-0 text-xs font-medium hover:bg-transparent"
+              >
                 <mee-icon name="lucideSend" />
                 Feedback
               </button>
@@ -212,9 +227,9 @@ import {
                 <div class="flex items-center justify-between text-xs">
                   <div>
                     <h4 class="font-semibold">You're running out of space</h4>
-                    <p class="text-muted">79.2 GB / 100 GB used</p>
+                    <p class="text-muted-foreground">79.2 GB / 100 GB used</p>
                   </div>
-                  <div class="grid place-items-center rounded-lg bg-muted-background p-2">
+                  <div class="grid place-items-center rounded-lg bg-muted p-2">
                     <mee-icon name="lucideDatabase" size="1rem" />
                   </div>
                 </div>
@@ -228,12 +243,12 @@ import {
                 [meeMenuTrigger]="userMenu"
                 [options]="{ width: 'target' }"
               >
-                <mee-avatar class="bg-purple-600 p-2 text-foreground">
+                <mee-avatar class="bg-purple-600 p-2 text-background">
                   <mee-icon name="lucideUser" />
                 </mee-avatar>
                 <div>
                   <h4 class="font-semibold">Shadcn</h4>
-                  <p class="leading-none text-muted">m&#64;example.com</p>
+                  <p class="text-muted-foreground leading-none">m&#64;example.com</p>
                 </div>
                 <div class="ml-auto">
                   <mee-icon name="lucideChevronsUpDown" />
@@ -242,12 +257,12 @@ import {
 
               <mee-menu #userMenu>
                 <button class="flex w-full items-center gap-2 p-2 text-left">
-                  <mee-avatar class="bg-purple-600 p-2 text-foreground">
+                  <mee-avatar class="bg-purple-600 p-2 text-background">
                     <mee-icon name="lucideUser" />
                   </mee-avatar>
                   <div>
                     <h4 class="font-semibold">Shadcn</h4>
-                    <p class="leading-none text-muted">m&#64;example.com</p>
+                    <p class="text-muted-foreground leading-none">m&#64;example.com</p>
                   </div>
                 </button>
                 <mee-separator class="my-1" />

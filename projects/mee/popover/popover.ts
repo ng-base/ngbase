@@ -19,7 +19,7 @@ import {
   template: ` <div
       ngbPopoverMain
       [@slideInOutAnimation]
-      class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-foreground shadow-md"
+      class="menu-container pointer-events-auto fixed z-10 flex flex-col rounded-lg border bg-popover text-popover-foreground shadow-md"
     >
       <div class="flex flex-1 flex-col overflow-auto" ngbPopoverArrow>
         <ng-container #myDialog />
@@ -59,6 +59,6 @@ export class PopoverTrigger {}
 
 @Directive({
   selector: '[meePopoverClose]',
-  hostDirectives: [NgbPopoverClose],
+  hostDirectives: [{ directive: NgbPopoverClose, inputs: ['ngbPopoverClose: meePopoverClose'] }],
 })
 export class PopoverClose {}

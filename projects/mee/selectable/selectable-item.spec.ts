@@ -48,7 +48,7 @@ describe('SelectableItem', () => {
   it('should have the correct CSS classes when not selected', () => {
     const element = getSelectableItem();
     expect(element.hasClass('opacity-60')).toBeTruthy();
-    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeFalsy();
+    expect(element.hasClass('bg-background', 'shadow-md', 'ring-1', 'ring-border')).toBeFalsy();
   });
 
   it('should have the correct CSS classes when selected', () => {
@@ -57,7 +57,7 @@ describe('SelectableItem', () => {
 
     const element = getSelectableItem();
     expect(element.hasClass('opacity-60')).toBeFalsy();
-    expect(element.hasClass('bg-foreground', 'shadow-md', 'ring-1', 'ring-border')).toBeTruthy();
+    expect(element.hasClass('bg-background', 'shadow-md', 'ring-1', 'ring-border')).toBeTruthy();
   });
 
   it('should call select method when clicked', () => {

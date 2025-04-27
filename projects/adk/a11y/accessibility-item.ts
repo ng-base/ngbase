@@ -98,7 +98,7 @@ export class AccessibleItem<T = any> implements OnDestroy {
     // console.log('focus', focus);
     // console.log('scrollIntoView', isKeyboard);
     if (focus) this.el.focus();
-    // this.el.classList.add('bg-muted-background');
+    // this.el.classList.add('bg-muted');
     this.el.setAttribute('data-focus', 'true');
     if (isKeyboard) this.el.scrollIntoView({ block: 'nearest' });
     this.el.tabIndex = 0;

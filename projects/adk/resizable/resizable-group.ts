@@ -23,7 +23,9 @@ export class NgbResizableGroup {
   readonly document = inject(DOCUMENT);
   readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly panels = contentChildren(forwardRef(() => NgbResizable));
+
   readonly direction = input<'horizontal' | 'vertical'>('horizontal');
+
   readonly id = uniqueId();
 
   private overlayDiv?: HTMLDivElement;

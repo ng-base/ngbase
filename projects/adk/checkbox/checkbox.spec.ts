@@ -1,22 +1,25 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, Directive, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { render, RenderResult } from '@ngbase/adk/test';
-import { CheckboxButton, NgbCheckbox } from './checkbox';
+import { aliasCheckbox, CheckboxButton, NgbCheckbox } from './checkbox';
+
+@Directive({
+  selector: '[testCheckbox]',
+  providers: [aliasCheckbox(TestCheckbox)],
+})
+class TestCheckbox extends NgbCheckbox {}
 
 @Component({
-  imports: [NgbCheckbox, CheckboxButton, FormsModule],
+  imports: [TestCheckbox, CheckboxButton, FormsModule],
   template: `<div
-    ngbCheckbox
+    testCheckbox
     [(ngModel)]="checked"
     [disabled]="disabled()"
     [indeterminate]="indeterminate()"
   >
-    <button
-      ngbCheckboxButton
-      [class]="disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
-    >
+    <button ngbCheckboxButton>
       @if (path(); as d) {
-        <svg class="h-full w-full text-foreground" viewBox="0 0 24 24" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path [attr.d]="d" stroke="currentColor" stroke-width="2" fill="none" />
         </svg>
       }

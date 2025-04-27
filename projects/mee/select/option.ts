@@ -14,7 +14,7 @@ import { ListStyle } from '@meeui/ui/list';
     <ng-content />`,
   host: {
     class: 'outline-none',
-    '[class.bg-muted-background]': 'option.active() || option.checked()',
+    '[class.bg-muted]': 'option.active() || option.checked()',
   },
 })
 export class Option<T> {
@@ -24,7 +24,7 @@ export class Option<T> {
 @Component({
   selector: 'mee-option-group, [meeOptionGroup]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="sticky -top-1 z-10 bg-foreground px-2 py-1.5 text-sm text-muted">
+  template: `<div class="text-muted-foreground bg-popover sticky -top-1 z-10 px-2 py-1.5 text-sm">
       {{ label() }}
     </div>
     <ng-content />`,

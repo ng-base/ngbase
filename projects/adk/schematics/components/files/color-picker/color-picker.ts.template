@@ -28,7 +28,7 @@ import { InputBase } from '@ngbase/adk/form-field';
   ],
   template: `
     <div class="flex w-full flex-col">
-      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-md">
+      <div ngbColorSpectrum class="relative h-[160px] w-full overflow-hidden rounded-md border-b">
         <button
           ngbColorSpectrumSelector
           class="pointer-events-none absolute -left-2 -top-2 h-4 w-4 cursor-pointer rounded-full border"

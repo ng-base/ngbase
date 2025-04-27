@@ -19,10 +19,16 @@ import { CheckboxButton, NgbCheckbox } from '@ngbase/adk/checkbox';
       meeFocusStyle
       ngbCheckboxButton
       class="custom-checkbox relative flex h-4 w-4 flex-none items-center justify-center rounded border border-primary transition-colors"
-      [class]="checkbox.disabled() ? '!border-muted bg-muted' : path() ? 'bg-primary' : ''"
+      [class]="
+        checkbox.disabled()
+          ? '!border-muted-foreground bg-muted-foreground'
+          : path()
+            ? 'bg-primary'
+            : ''
+      "
     >
       @if (path(); as d) {
-        <svg class="h-full w-full text-foreground" viewBox="0 0 24 24" aria-hidden="true">
+        <svg class="h-full w-full text-background" viewBox="0 0 24 24" aria-hidden="true">
           <path [attr.d]="d" stroke="currentColor" stroke-width="2" fill="none" />
         </svg>
       }

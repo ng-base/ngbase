@@ -16,7 +16,7 @@ import { Skeleton } from '@meeui/ui/skeleton';
             <div class="flex flex-col gap-4">
               <div class="space-y-2">
                 <mee-skeleton class="Text h-4 w-20 font-bold" />
-                <mee-skeleton class="h-4 w-20 text-muted" />
+                <mee-skeleton class="text-muted-foreground h-4 w-20" />
               </div>
               <div class="space-y-4">
                 <mee-skeleton class="h-4" />

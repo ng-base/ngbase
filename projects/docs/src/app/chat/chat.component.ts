@@ -14,7 +14,7 @@ import { Separator } from '@meeui/ui/separator';
       <mee-card class="w-96"> </mee-card>
       <mee-card class="flex-1">
         @for (chat of chatService.data; track chat.id) {
-          <div class="flex gap-2 py-4" [class]="chat.type == 'sent' ? 'bg-background' : ''">
+          <div class="flex gap-2 py-4" [class]="chat.type == 'sent' ? 'bg-foreground' : ''">
             <div class="items center flex">
               {{ chat.message }}
             </div>

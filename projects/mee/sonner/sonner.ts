@@ -22,7 +22,7 @@ import {
         <li
           [ngbSonnerBase]="$index"
           class="{{
-            'm-4 w-96 rounded-lg border bg-foreground p-4 shadow-lg transition-all duration-300' +
+            'm-4 w-96 rounded-lg border bg-background p-4 shadow-lg transition-all duration-300' +
               (msg.type === 'success' ? ' bg-green-50 text-green-600' : '') +
               (msg.type === 'error' ? ' bg-red-50 text-red-600' : '') +
               (msg.type === 'warning' ? ' bg-yellow-50 text-yellow-600' : '')
@@ -35,7 +35,7 @@ import {
             {{ msg.message }}
           </h4>
           @if (msg.data?.description) {
-            <p class="text-muted">{{ msg.data?.description }}</p>
+            <p class="text-muted-foreground">{{ msg.data?.description }}</p>
           }
         </li>
       }

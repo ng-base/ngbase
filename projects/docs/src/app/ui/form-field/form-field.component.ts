@@ -39,9 +39,9 @@ import { DocCode, getCode } from '../code.component';
         <mee-form-field>
           <label meeLabel>Input</label>
           <p meeDescription>This is a description</p>
-          <mee-icon name="lucideEye" meeInputPrefix class="text-muted" />
+          <mee-icon name="lucideEye" meePrefix class="text-muted-foreground" />
           <input meeInput [formControl]="inputValue" placeholder="Input" class="w-full" />
-          <mee-icon name="lucideEyeOff" meeInputSuffix class="text-muted" />
+          <mee-icon name="lucideEyeOff" meeSuffix class="text-muted-foreground" />
           <p meeError="required">This field is required</p>
           <p meeError="!required && minlength">This field must be at least 3 characters long</p>
         </mee-form-field>

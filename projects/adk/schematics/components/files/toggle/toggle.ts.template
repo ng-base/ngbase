@@ -7,7 +7,7 @@ import { NgbToggle } from '@ngbase/adk/toggle';
   hostDirectives: [{ directive: NgbToggle, inputs: ['value'], outputs: ['valueChange'] }],
   template: `<ng-content />`,
   host: {
-    class: 'block w-9 h-9 rounded relative aria-[pressed=true]:bg-background',
+    class: 'block w-9 h-9 rounded relative aria-[pressed=true]:bg-foreground',
   },
 })
 export class Toggle {}

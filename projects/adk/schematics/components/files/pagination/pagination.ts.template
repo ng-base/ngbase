@@ -26,7 +26,11 @@ import {
   template: `
     <div class="flex items-center gap-2">
       <div>Rows per page</div>
-      <<%= name %>-select [value]="size()" (valueChange)="sizeChanged($event)" class="w-20 !py-1.5">
+      <<%= name %>-select
+        [value]="size()"
+        (valueChange)="sizeChanged($event)"
+        class="h-8 !w-auto rounded-md border px-2"
+      >
         @for (size of sizeOptions(); track size) {
           <<%= name %>-option [value]="size">
             {{ size }}
@@ -48,7 +52,7 @@ import {
             ngbPaginationBtn="page"
             [jump]="snap"
             <%= name %>Button="ghost"
-            class="min-w-9 !p-2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
+            class="min-w-9 !p-2 ring-offset-foreground aria-[current=page]:bg-muted aria-[current=page]:text-primary"
           >
             {{ snap }}
           </button>

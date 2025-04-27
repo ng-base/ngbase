@@ -37,7 +37,7 @@ import { marked } from 'marked';
           }
 
           #typing-animation {
-            @apply bg-muted-background;
+            @apply bg-muted;
             display: inline-block;
             width: 5px;
             height: 15px;

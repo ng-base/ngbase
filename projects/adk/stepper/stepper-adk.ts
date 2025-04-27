@@ -22,7 +22,7 @@ import {
         <div
           [ngbStepperStep]="$index"
           class="{{
-            'relative flex pb-4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-background data-[index]:after:transition-colors' +
+            'relative flex pb-4 data-[index]:flex-1 data-[index]:after:mx-2 data-[index]:after:block data-[index]:after:flex-1 data-[index]:after:bg-foreground data-[index]:after:transition-colors' +
               (activeIndex() > $index ? ' data-[index]:after:bg-primary' : '') +
               (direction() === 'vertical'
                 ? ' flex-col data-[index]:after:absolute data-[index]:after:bottom-0 data-[index]:after:left-3 data-[index]:after:top-10 data-[index]:after:w-0.5'

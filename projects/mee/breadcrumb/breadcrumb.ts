@@ -33,11 +33,15 @@ export class Breadcrumbs {}
       <ng-content />
     </a>
     @if (!active()) {
-      <mee-icon ngbBreadcrumbSeparatorAria name="lucideChevronRight" class="text-muted" />
+      <mee-icon
+        ngbBreadcrumbSeparatorAria
+        name="lucideChevronRight"
+        class="text-muted-foreground"
+      />
     }
   `,
   host: {
-    class: 'flex items-center gap-2 text-muted',
+    class: 'flex items-center gap-2 text-muted-foreground',
   },
 })
 export class Breadcrumb extends NgbBreadcrumb {}

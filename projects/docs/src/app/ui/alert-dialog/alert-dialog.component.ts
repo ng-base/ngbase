@@ -20,7 +20,7 @@ import { DocCode, getCode } from '../code.component';
     </mee-selectable>
 
     @if (selected() === 1) {
-      <div class="grid min-h-80 place-items-center rounded-lg border bg-background">
+      <div class="grid min-h-80 place-items-center rounded-lg border bg-foreground">
         <button meeButton (click)="openAlert()">Open alert</button>
       </div>
     } @else {

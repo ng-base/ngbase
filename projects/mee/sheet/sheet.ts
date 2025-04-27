@@ -21,7 +21,7 @@ import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
       [class]="options.position === 'left' ? 'justify-start' : 'justify-end'"
     >
       <div
-        class="pointer-events-auto m-2 flex flex-col overflow-hidden rounded-lg border-l bg-foreground shadow-2xl will-change-transform"
+        class="pointer-events-auto m-2 flex flex-col overflow-hidden rounded-lg border-l bg-background shadow-2xl will-change-transform"
         [@sideAnimation]="position()"
         [ngStyle]="{
           width: options.width,

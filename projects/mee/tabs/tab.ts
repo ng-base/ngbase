@@ -27,7 +27,7 @@ import {
       <div class="relative flex overflow-hidden">
         <button
           ngbTabScroll="left"
-          class="absolute left-0 z-10 h-full place-items-center bg-foreground px-2"
+          class="absolute left-0 z-10 h-full place-items-center bg-background px-2"
         >
           <mee-icon name="lucideChevronLeft" />
         </button>
@@ -36,14 +36,14 @@ import {
             @for (tab of tabs(); track tab.id) {
               <button
                 [ngbTabButton]="tab"
-                class="whitespace-nowrap border-b-2 border-transparent px-4 py-3 font-medium text-muted aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[disabled=true]:text-muted aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
+                class="text-muted-foreground aria-[disabled=true]:text-muted-foreground whitespace-nowrap border-b-2 border-transparent px-4 py-3 font-medium aria-[disabled=true]:cursor-not-allowed aria-[selected=true]:!border-primary aria-[selected=true]:!text-primary aria-[disabled=true]:opacity-50"
               ></button>
             }
           </div>
         </nav>
         <button
           ngbTabScroll="right"
-          class="absolute right-0 z-10 h-full place-items-center bg-foreground px-2"
+          class="absolute right-0 z-10 h-full place-items-center bg-background px-2"
         >
           <mee-icon name="lucideChevronRight" />
         </button>
@@ -52,7 +52,7 @@ import {
     </div>
     <ng-content /> `,
   host: {
-    class: 'bg-foreground flex flex-col',
+    class: 'bg-background flex flex-col',
   },
 })
 export class Tabs extends NgbTabs<Tab> {}

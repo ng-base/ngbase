@@ -41,7 +41,7 @@ export class Sidenav extends NgbSidenav {}
     </div>
   `,
   host: {
-    class: 'block h-full bg-foreground z-p transition-[width] duration-500',
+    class: 'block h-full bg-background z-p transition-[width] duration-500',
   },
   animations: [slideAnimation('500ms cubic-bezier(0.4, 0, 0.2, 1)')],
 })

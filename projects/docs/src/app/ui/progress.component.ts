@@ -57,7 +57,7 @@ export default class ProgressComponent {
     imports: [MeeProgressBar],
     template: \`<div class="h-full bg-primary transition" meeProgressBar></div>\`,
     host: {
-      class: 'block h-2 my-1 bg-background rounded-full',
+      class: 'block h-2 my-1 bg-foreground rounded-full',
     },
   })
   export class Progress {}

@@ -45,7 +45,7 @@ export class ResizableGroup extends NgbResizableGroup {}
         >
           <mee-icon
             name="lucideGripVertical"
-            class="z-30 rounded-lg border bg-muted-background py-0.5"
+            class="z-30 rounded-lg border bg-muted py-0.5"
             size=".75rem"
             [class]="resizable.direction() === 'vertical' ? 'rotate-90' : ''"
           />

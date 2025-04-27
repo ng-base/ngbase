@@ -1,16 +1,17 @@
-import { Cell, CellDef } from './body-cell';
-import { BodyRow, BodyRowDef } from './body-row';
-import { Column } from './column';
-import { Head, HeadDef } from './head-cell';
-import { HeadRow, HeadRowDef } from './head-row';
-import { Table } from './table';
+import {
+  BodyRow,
+  BodyRowDef,
+  Cell,
+  CellDef,
+  Column,
+  HeadDef,
+  Head,
+  Table,
+  HeadRow,
+  HeadRowDef,
+} from './table';
 
 export * from './table';
-export * from './column';
-export * from './body-cell';
-export * from './head-cell';
-export * from './body-row';
-export * from './head-row';
 
 export const TableComponents = [
   BodyRow,

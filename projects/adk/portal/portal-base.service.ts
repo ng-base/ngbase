@@ -39,7 +39,7 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
 
     // close on backdrop click
     let sub: () => void | undefined;
-    const childSignal = signal<any>(undefined);
+    const childSignal = signal<ComponentRef<any> | EmbeddedViewRef<any> | undefined>(undefined);
 
     if (component === undefined) {
       return { diaRef, parent, instance: null, childSignal };
@@ -56,12 +56,11 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     }
 
     let vwRef: ViewContainerRef;
-    let child: ComponentRef<any> | EmbeddedViewRef<any>;
     const parentInstance = parent.instance as BaseDialog;
 
     parentInstance.afterView.pipe(first()).subscribe(vcRef => {
       vwRef = vcRef;
-      createChild(component, vcRef);
+      const child = createChild(component, vcRef);
 
       // diaRef.onDestroy.subscribe(() => child.destroy());
       diaRef.events.next('created');
@@ -78,20 +77,17 @@ export function basePortal<U>(name: string, baseComponent: Type<U>) {
     function createChild(component: DialogInput<any>, vcRef: ViewContainerRef) {
       // for template type
       if (component instanceof TemplateRef) {
-        child = vcRef.createEmbeddedView(
+        return vcRef.createEmbeddedView(
           component,
           { $implicit: options.data, ...(Array.isArray(options.data) ? {} : options.data) },
           { injector: parent.injector },
         );
-        diaRef.events.next('created');
-        return;
       }
       // for component type
-      child = vcRef.createComponent(component, {
+      return vcRef.createComponent(component, {
         injector: parent.injector,
       });
     }
-    // parent.instance.
 
     return { diaRef, parent, replace, childSignal };
   }

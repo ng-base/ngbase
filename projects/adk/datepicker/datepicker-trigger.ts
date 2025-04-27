@@ -70,12 +70,13 @@ export class NgbDatepickerTrigger<D> {
   readonly time = input(false, { transform: booleanAttribute });
   readonly format = input<string>('');
   readonly fieldFormat = input<string>(DEFAULT_FIELD_FORMAT);
-  private displayFormat = computed(() => {
-    return this.format() || (this.time() ? DEFAULT_TIME_FORMAT : DEFAULT_FORMAT);
-  });
   readonly dateFilter = input<(date: D) => boolean>(() => true);
   readonly pickerType = input<'date' | 'month' | 'year'>('date');
   readonly pickerTemplate = input<TemplateRef<any> | null>(null);
+
+  private displayFormat = computed(() => {
+    return this.format() || (this.time() ? DEFAULT_TIME_FORMAT : DEFAULT_FORMAT);
+  });
   close?: VoidFunction;
   private readonly inputValue = computed(() => this.getInputValue());
   endDate?: NgbEndDate<D>;

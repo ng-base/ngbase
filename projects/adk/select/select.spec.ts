@@ -14,7 +14,7 @@ import { testRegisterPopover } from '../popover/popover.service.spec';
       <!-- Prefix template -->
       <ng-content select=".select-prefix" />
 
-      <span [class.text-muted]="!cValue()">
+      <span [class.text-muted-foreground]="!cValue()">
         <ng-content select="[ngbSelectTrigger]">
           {{ cValue() || placeholder() }}
         </ng-content>

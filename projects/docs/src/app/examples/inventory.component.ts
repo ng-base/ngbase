@@ -85,7 +85,7 @@ import {
           <mee-icon name="lucideLineChart" size="1.2rem" />
         </button>
       </div>
-      <div class="flex-1 bg-background p-4">
+      <div class="flex-1 bg-foreground p-4">
         <!-- Header -->
         <div class="flex gap-4">
           <mee-breadcrumbs>
@@ -94,10 +94,10 @@ import {
             <mee-breadcrumb>Recent Orders</mee-breadcrumb>
           </mee-breadcrumbs>
           <div class="flex-1"></div>
-          <input meeInput placeholder="Search..." class="w-[366px] bg-foreground" />
+          <input meeInput placeholder="Search..." class="w-[366px] bg-background" />
           <button
             meeButton="outline"
-            class="rounded-full bg-foreground !px-2"
+            class="rounded-full bg-background !px-2"
             [meeMenuTrigger]="userMenu"
           >
             <mee-icon name="lucideUser" size="1.2rem" />
@@ -128,16 +128,16 @@ import {
                 <button meeButton class="flex-none" class="mt-4">Create New Order</button>
               </mee-card>
               <mee-card class="flex flex-col gap-2 p-8">
-                <p class="text-muted">This Week</p>
+                <p class="text-muted-foreground">This Week</p>
                 <h4 meeHeader="md">$1,329</h4>
-                <p class="text-muted">+25% from last week</p>
+                <p class="text-muted-foreground">+25% from last week</p>
 
                 <mee-progress [value]="25" class="!h-4" />
               </mee-card>
               <mee-card class="flex flex-col gap-2 p-8">
-                <p class="text-muted">This Month</p>
+                <p class="text-muted-foreground">This Month</p>
                 <h4 meeHeader="md">$5,329</h4>
-                <p class="text-muted">+10% from last month</p>
+                <p class="text-muted-foreground">+10% from last month</p>
 
                 <mee-progress [value]="10" class="!h-4" />
               </mee-card>
@@ -145,7 +145,7 @@ import {
             <!-- Table header -->
             <div class="mt-4">
               <div class="my-2 mt-8 flex">
-                <mee-selectable class="bg-muted" [activeIndex]="0">
+                <mee-selectable class="bg-muted-foreground" [activeIndex]="0">
                   <mee-selectable-item [value]="0">Week</mee-selectable-item>
                   <mee-selectable-item [value]="1">Month</mee-selectable-item>
                   <mee-selectable-item [value]="2">Year</mee-selectable-item>
@@ -154,13 +154,13 @@ import {
                 <div class="ml-auto flex items-center gap-2">
                   <button
                     meeButton="outline"
-                    class="small bg-foreground"
+                    class="small bg-background"
                     [meeMenuTrigger]="filterMenu"
                   >
                     <mee-icon class="mr-2" name="lucideFilter" />
                     Filter
                   </button>
-                  <button meeButton="outline" class="small bg-foreground">
+                  <button meeButton="outline" class="small bg-background">
                     <mee-icon class="mr-2" name="lucideFile" /> Export
                   </button>
                   <mee-menu #filterMenu>
@@ -176,14 +176,14 @@ import {
               </div>
               <mee-card class="p-8">
                 <h4 meeHeader="sm" class="mb-4">Orders</h4>
-                <p class="text-muted-foreground mb-4">Recent orders from your store.</p>
+                <p class="mb-4 text-muted-foreground">Recent orders from your store.</p>
 
                 <table meeTable [data]="tableData" [trackBy]="trackByFn">
                   <ng-container meeColumn="customer">
                     <th meeHead *meeHeadDef>Customer</th>
                     <td meeCell *meeCellDef="let element">
                       <div class="font-medium">{{ element.name }}</div>
-                      <div class="text-muted">
+                      <div class="text-muted-foreground">
                         {{ element.email }}
                       </div>
                     </td>
@@ -221,16 +221,16 @@ import {
 
           <!-- Table -->
           <mee-card class="overflow-hidden !p-0">
-            <div class="flex bg-background p-8">
+            <div class="flex bg-foreground p-8">
               <div>
                 <h4 class="text-lg font-semibold">Order Oe31b70H</h4>
-                <p class="text-muted">Date: November 23, 2023</p>
+                <p class="text-muted-foreground">Date: November 23, 2023</p>
               </div>
               <div class="ml-auto flex items-center gap-2">
-                <button meeButton="outline" class="h-9 w-9 bg-foreground">
+                <button meeButton="outline" class="h-9 w-9 bg-background">
                   <mee-icon name="lucidePackage" />
                 </button>
-                <button meeButton="outline" class="h-9 w-9 bg-foreground">
+                <button meeButton="outline" class="h-9 w-9 bg-background">
                   <mee-icon name="lucideFilter" />
                 </button>
               </div>
@@ -239,30 +239,30 @@ import {
               <h4 meeHeader class="mb-3">Order Details</h4>
               <ul class="grid gap-3">
                 <li class="flex items-center gap-2">
-                  <div class="text-muted">Glimmer Lamps x 2</div>
+                  <div class="text-muted-foreground">Glimmer Lamps x 2</div>
                   <div class="ml-auto">$250.00</div>
                 </li>
                 <li class="flex items-center gap-2">
-                  <div class="text-muted">Aqua Filters x 1</div>
+                  <div class="text-muted-foreground">Aqua Filters x 1</div>
                   <div class="ml-auto">$49.00</div>
                 </li>
                 <li class="flex items-center gap-2">
                   <mee-separator class="my-2" />
                 </li>
                 <li class="flex items-center gap-2">
-                  <div class="text-muted">Subtotal</div>
+                  <div class="text-muted-foreground">Subtotal</div>
                   <div class="ml-auto">$299.00</div>
                 </li>
                 <li class="flex items-center gap-2">
-                  <div class="text-muted">Shipping</div>
+                  <div class="text-muted-foreground">Shipping</div>
                   <div class="ml-auto">$5.00</div>
                 </li>
                 <li class="flex items-center gap-2">
-                  <div class="text-muted">Tax</div>
+                  <div class="text-muted-foreground">Tax</div>
                   <div class="ml-auto">$25.00</div>
                 </li>
                 <li class="flex items-center gap-2">
-                  <div class="font-semibold text-muted">Total</div>
+                  <div class="font-semibold text-muted-foreground">Total</div>
                   <div class="ml-auto font-semibold">$329.00</div>
                 </li>
               </ul>
@@ -273,7 +273,7 @@ import {
                     Shipping <br />
                     Information
                   </h4>
-                  <div class="text-muted">
+                  <div class="text-muted-foreground">
                     <div>Liam Johnson</div>
                     <div>1234 Main St.</div>
                     <div>Anytown, CA 12345</div>
@@ -281,7 +281,7 @@ import {
                 </div>
                 <div class="grid gap-2">
                   <h4 meeHeader class="mb-3 !font-semibold">Billing Information</h4>
-                  <div class="flex flex-col text-muted">
+                  <div class="flex flex-col text-muted-foreground">
                     <div>Same as shipping address</div>
                   </div>
                 </div>
@@ -291,15 +291,15 @@ import {
                 <h4 meeHeader class="mb-3 !font-semibold">Customer Information</h4>
                 <ul class="grid gap-3">
                   <li class="flex items-center gap-2">
-                    <div class="text-muted">Customer</div>
+                    <div class="text-muted-foreground">Customer</div>
                     <div class="ml-auto">Liam Johnson</div>
                   </li>
                   <li class="flex items-center gap-2">
-                    <div class="text-muted">Email</div>
+                    <div class="text-muted-foreground">Email</div>
                     <div class="ml-auto">liam&#64;acme.com</div>
                   </li>
                   <li class="flex items-center gap-2">
-                    <div class="text-muted">Phone</div>
+                    <div class="text-muted-foreground">Phone</div>
                     <div class="ml-auto">+1 234 567 890</div>
                   </li>
                 </ul>
@@ -309,7 +309,7 @@ import {
                 <h4 meeHeader class="mb-3 !font-semibold">Payment Information</h4>
                 <ul class="grid gap-3">
                   <li class="flex items-center gap-2">
-                    <div class="flex gap-1 text-muted">
+                    <div class="flex gap-1 text-muted-foreground">
                       <mee-icon name="lucideCreditCard" />
                       Visa
                     </div>
@@ -318,14 +318,14 @@ import {
                 </ul>
               </div>
             </div>
-            <div class="flex items-center gap-2 border-t bg-background px-8 py-4">
-              <div class="text-sm text-muted">Updated November 23, 2023</div>
+            <div class="flex items-center gap-2 border-t bg-foreground px-8 py-4">
+              <div class="text-sm text-muted-foreground">Updated November 23, 2023</div>
               <div class="ml-auto flex items-center gap-2">
-                <button meeButton="outline" class="small bg-foreground">
+                <button meeButton="outline" class="small bg-background">
                   <mee-icon name="lucideChevronLeft" />
                   <span class="sr-only">Previous Order</span>
                 </button>
-                <button meeButton="outline" class="small bg-foreground">
+                <button meeButton="outline" class="small bg-background">
                   <mee-icon name="lucideChevronRight" />
                   <span class="sr-only">Next Order</span>
                 </button>

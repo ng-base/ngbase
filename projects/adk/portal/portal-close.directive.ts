@@ -8,10 +8,10 @@ import { DialogRef } from './dialog-ref';
   },
 })
 export class NgbPortalClose {
-  private readonly dialogRef = inject(DialogRef);
+  readonly dialogRef = inject(DialogRef);
   readonly ngbPortalClose = input();
 
-  close() {
-    this.dialogRef.close(this.ngbPortalClose());
+  close(data = this.ngbPortalClose()) {
+    this.dialogRef.close(data);
   }
 }

@@ -39,11 +39,11 @@ export class NgbList {
 
   focus() {
     this.el.nativeElement.scrollIntoView({ block: 'nearest' });
-    this.el.nativeElement.classList.add('bg-muted-background');
+    this.el.nativeElement.classList.add('bg-muted');
   }
 
   unselect() {
-    this.el.nativeElement.classList.remove('bg-muted-background');
+    this.el.nativeElement.classList.remove('bg-muted');
   }
 }
 

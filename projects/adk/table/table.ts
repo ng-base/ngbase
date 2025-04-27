@@ -25,15 +25,18 @@ export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
   selector: 'table[ngbTable]',
 })
 export class NgbTable<T> {
+  private readonly injector = inject(Injector);
+  private readonly differs = inject(IterableDiffers);
+
   private readonly thead = viewChild('thead', { read: ViewContainerRef });
   private readonly tbody = viewChild('tbody', { read: ViewContainerRef });
   private readonly bodyRowDef = contentChildren(NgbBodyRowDef, { read: TemplateRef });
   private readonly headRowDef = contentChild(NgbHeadRowDef, { read: TemplateRef });
   readonly columns = contentChildren(NgbColumn);
+
   readonly data = input.required<T[]>();
   readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
-  private readonly injector = inject(Injector);
-  private readonly differs = inject(IterableDiffers);
+
   private _dataDiffers?: IterableDiffer<T>;
   private readonly _values = new WeakMap<EmbeddedViewRef<TableOutletContext<T>>, T>();
   private readonly valuesTracker = new Map<string, any>();

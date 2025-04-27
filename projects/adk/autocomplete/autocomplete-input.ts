@@ -1,4 +1,12 @@
-import { Directive, ElementRef, effect, inject, input, output } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  booleanAttribute,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { InputBase } from '@ngbase/adk/form-field';
 import { NgbAutocomplete } from './autocomplete';
 
@@ -18,7 +26,8 @@ export class NgbAutocompleteInput<T> {
   readonly autoComplete = inject(NgbAutocomplete);
   readonly input = inject(InputBase);
   readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  readonly isChip = input(false);
+
+  readonly isChip = input(false, { transform: booleanAttribute });
 
   // Inputs
   readonly ngbAutocompleteInput = output<string>();
@@ -53,7 +62,7 @@ export class NgbAutocompleteInput<T> {
   }
 
   updateValue(value: string) {
-    this.el.nativeElement.value = value;
+    this.el.nativeElement.value = this.isChip() ? '' : value;
   }
 
   updateSearch(value: string) {

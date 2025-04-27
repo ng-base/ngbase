@@ -11,13 +11,13 @@ import { NgbSwitch, NgbSwitchLabel, NgbSwitchThumb, NgbSwitchTrack } from '@ngba
   template: `
     <button
       ngbSwitchTrack
-      class="relative w-9 rounded-full border-2 border-transparent bg-muted-background transition-colors aria-[checked=true]:bg-primary"
+      class="relative w-9 rounded-full border-2 border-transparent bg-muted transition-colors aria-[checked=true]:bg-primary"
     >
       <span
         #thumb="ngbSwitchThumb"
         ngbSwitchThumb
         [class]="thumb.checked() ? (thumb.rtl() ? '-translate-x-full' : 'translate-x-full') : ''"
-        class="block h-4 w-4 rounded-full bg-foreground shadow-sm transition-transform"
+        class="block h-4 w-4 rounded-full bg-background shadow-sm transition-transform"
       ></span>
     </button>
     <label ngbSwitchLabel><ng-content /></label>

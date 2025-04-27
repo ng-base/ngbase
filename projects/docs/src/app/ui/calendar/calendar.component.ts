@@ -13,7 +13,7 @@ import { DocCode, getCode } from '../code.component';
       <mee-date-picker
         [noOfCalendar]="1"
         [range]="true"
-        class="rounded-lg border bg-foreground shadow-sm"
+        class="rounded-lg border bg-background shadow-sm"
       />
     </app-doc-code>
   `,

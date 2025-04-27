@@ -29,7 +29,7 @@ export class ChipGroup<T> {}
       </button>
     }`,
   host: {
-    class: 'inline-flex items-center bg-muted-background rounded-lg px-2 py-1 text-xs font-medium',
+    class: 'inline-flex items-center bg-muted rounded-lg px-2 py-1 text-xs font-medium',
   },
 })
 export class Chip<T = any> extends NgbChip<T> {}

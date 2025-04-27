@@ -98,7 +98,7 @@ import {
           </div>
           <mee-separator />
           <div class="p-2">
-            <button meeList meeHeader class="bg-muted-background">
+            <button meeList meeHeader class="bg-muted">
               <mee-icon name="lucideInbox" /> Inbox
             </button>
             <button meeList meeHeader><mee-icon name="lucideStickyNote" /> Draft</button>
@@ -137,9 +137,9 @@ import {
                 @for (mail of filteredMails(); track $index) {
                   <button
                     meeCard
-                    class="hover:bg-muted-background"
+                    class="hover:bg-muted"
                     (click)="select(mail)"
-                    [class.bg-muted-background]="selected() === mail"
+                    [class.bg-muted]="selected() === mail"
                   >
                     <div class="flex justify-between">
                       <h4 meeHeader class="!font-semibold">
@@ -148,10 +148,10 @@ import {
                           <mee-badge class="!ml-2">New</mee-badge>
                         }
                       </h4>
-                      <span class="text-muted-foreground text-xs">7 months ago</span>
+                      <span class="text-xs text-muted-foreground">7 months ago</span>
                     </div>
                     <h4 class="text-xs">{{ mail.subject }}</h4>
-                    <p class="text-muted-foreground my-2 line-clamp-2 text-xs">
+                    <p class="my-2 line-clamp-2 text-xs text-muted-foreground">
                       {{ mail.content }}
                     </p>
                     <div class="flex gap-2">
@@ -221,7 +221,7 @@ import {
                 <h4 class="text-xs">Reply-To: {{ selected().email }}</h4>
               </div>
               <div>
-                <p class="text-muted-foreground text-xs">Oct 22, 2023, 9:00:00 AM</p>
+                <p class="text-xs text-muted-foreground">Oct 22, 2023, 9:00:00 AM</p>
               </div>
             </div>
           </div>

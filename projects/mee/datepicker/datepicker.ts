@@ -39,23 +39,8 @@ export class DatePicker<D> extends NgbDatePicker<D> {}
   selector: '[meeDatepickerTrigger]',
   exportAs: 'meeDatepickerTrigger',
   providers: [registerDatePicker(DatePicker), aliasDatePickerTrigger(DatepickerTrigger)],
-  // hostDirectives: [
-  //   {
-  //     directive: NgbDatepickerTrigger,
-  //     inputs: [
-  //       'noOfCalendars',
-  //       'range',
-  //       'time',
-  //       'format',
-  //       'fieldFormat',
-  //       'dateFilter',
-  //       'pickerType',
-  //       'pickerTemplate',
-  //     ],
-  //   },
-  // ],
   host: {
-    class: 'cursor-pointer hover:bg-muted-background outline-none w-full',
+    class: 'cursor-pointer hover:bg-muted outline-none w-full bg-transparent',
   },
 })
 export class DatepickerTrigger<D> extends NgbDatepickerTrigger<D> {}

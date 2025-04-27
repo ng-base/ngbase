@@ -14,7 +14,7 @@ import { Heading } from '@meeui/ui/typography';
       <mee-sidenav
         [show]="show()"
         [mode]="mode()"
-        class="min-h-64 !w-96 rounded-lg border bg-foreground"
+        class="min-h-64 !w-96 rounded-lg border bg-background"
       >
         <mee-sidenav-header class="border-r" width="100px" minWidth="50px">
           <div class="p-2">This is the header</div>
@@ -104,7 +104,7 @@ export default class SidenavComponent {
       </div>
     \`,
     host: {
-      class: 'block h-full bg-foreground z-10 transition-[width] duration-500',
+      class: 'block h-full bg-background z-10 transition-[width] duration-500',
     },
     animations: [slideAnimation('500ms cubic-bezier(0.4, 0, 0.2, 1)')],
   })

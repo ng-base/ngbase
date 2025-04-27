@@ -123,7 +123,7 @@ import {
         <div class="w-52 flex-none p-4">
           <h4 meeHeader="sm" class="mb-2 mt-5 pl-2">Discover</h4>
           <div class="flex flex-col py-2">
-            <button meeList class="bg-muted-background font-medium">
+            <button meeList class="bg-muted font-medium">
               <mee-icon name="lucideCirclePlay" />Listen Now
             </button>
             <button meeList class="font-medium"><mee-icon name="lucideLayoutGrid" /> Browse</button>

@@ -71,7 +71,7 @@ import { Radio, RadioGroup } from '@meeui/ui/radio';
             readonly
           />
           <input [meeEndDate]="dateRangeTrigger" [(ngModel)]="endDate" />
-          <button meeInputSuffix meeButton (click)="dateRange.set([])">clear</button>
+          <button meeSuffix meeButton (click)="dateRange.set([])">clear</button>
         </mee-form-field>
         <mee-form-field class="w-full">
           <label meeLabel class="flex w-52 flex-col"> Date </label>

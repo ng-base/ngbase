@@ -43,7 +43,7 @@ import { Slider } from '@meeui/ui/slider';
         <div>
           <mee-slider [min]="0" [max]="100" [step]="1" [value]="50" />
           <span
-            class="mt-4 flex w-full items-center justify-between gap-1 text-xs font-medium text-muted"
+            class="mt-4 flex w-full items-center justify-between gap-1 text-xs font-medium text-muted-foreground"
           >
             <span>5 GB</span>
             <span>20 GB</span>
@@ -56,34 +56,40 @@ import { Slider } from '@meeui/ui/slider';
         <div>
           <mee-slider [min]="0" [max]="12" [step]="1" [value]="0" />
           <span
-            class="text-muted-foreground mt-3 flex w-full items-center justify-between gap-1 px-2.5 text-xs font-medium"
+            class="mt-3 flex w-full items-center justify-between gap-1 px-2.5 text-xs font-medium text-muted-foreground"
             aria-hidden="true"
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted"></span><span class="">0</span></span
+              ><span class="h-1 w-px bg-muted-foreground"></span><span class="">0</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">1</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">1</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">2</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">2</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">3</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">3</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">4</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">4</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">5</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">5</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">6</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">6</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">7</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">7</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">8</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">8</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">9</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">9</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">10</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">10</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-0.5 w-px bg-muted/70"></span><span class="opacity-0">11</span></span
+              ><span class="h-0.5 w-px bg-muted-foreground/70"></span
+              ><span class="opacity-0">11</span></span
             ><span class="flex w-0 flex-col items-center justify-center gap-2"
-              ><span class="h-1 w-px bg-muted/70"></span><span class="">12</span></span
+              ><span class="h-1 w-px bg-muted-foreground/70"></span><span class="">12</span></span
             ></span
           >
         </div>

@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, input, OnDestroy, signal } from '@a
 import { ScrollArea } from '@meeui/ui/scroll-area';
 import { TableComponents } from '@meeui/ui/table';
 import { Heading } from '@meeui/ui/typography';
-import { DocCode } from './code.component';
+import { DocCode } from '../code.component';
+import TableDemoOne from './table-demo-one.ng';
 
 interface Employee {
   Id: number;
@@ -15,7 +16,7 @@ interface Employee {
 
 @Component({
   selector: 'app-table',
-  imports: [TableComponents, ScrollArea, Heading, DocCode],
+  imports: [TableComponents, ScrollArea, Heading, DocCode, TableDemoOne],
   template: `
     <h4 meeHeader class="mb-5">Table</h4>
     <!-- <button meeButton (click)="update()" class="mb-5">
@@ -33,6 +34,7 @@ interface Employee {
       <button meeButton (click)="reverse()">Reverse</button>
     </div> -->
     <app-doc-code class="!p-0">
+      <app-table-demo-one />
       <mee-scroll-area class="m-bb h-full max-h-[500px] max-w-4xl">
         <table meeTable [data]="employees()" [trackBy]="trackByFn">
           @for (column of columns(); track column) {

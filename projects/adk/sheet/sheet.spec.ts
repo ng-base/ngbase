@@ -22,12 +22,8 @@ const mockDialogRef = new DialogRef(
   providers: [aliasSheet(SheetTest)],
   imports: [NgStyle],
   template: `
-    <div
-      class="pointer-events-none flex h-full"
-      [class]="options.position === 'left' ? 'justify-start' : 'justify-end'"
-    >
+    <div [class]="options.position === 'left' ? 'justify-start' : 'justify-end'">
       <div
-        class="pointer-events-auto m-2 flex flex-col overflow-hidden rounded-lg border-l bg-foreground shadow-2xl will-change-transform"
         [@sideAnimation]="position()"
         [ngStyle]="{
           width: options.width,
@@ -47,11 +43,7 @@ const mockDialogRef = new DialogRef(
       </div>
     </div>
     @if (backdropColor) {
-      <div
-        class="absolute top-0 -z-10 h-full w-full bg-black bg-opacity-30 will-change-transform"
-        [@fadeAnimation]
-        (click)="close()"
-      ></div>
+      <div [@fadeAnimation] (click)="close()"></div>
       <!-- [class]="status() ? 'pointer-events-auto' : 'pointer-events-none'" -->
     }
   `,

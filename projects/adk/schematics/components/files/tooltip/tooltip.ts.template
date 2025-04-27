@@ -14,11 +14,7 @@ import {
   hostDirectives: [
     {
       directive: NgbTooltip,
-      inputs: [
-        'ngbTooltip: <%= name %>Tooltip',
-        'ngbTooltipPosition: <%= name %>TooltipPosition',
-        'delay',
-      ],
+      inputs: ['ngbTooltip: <%= name %>Tooltip', 'ngbTooltipPosition: <%= name %>TooltipPosition', 'delay'],
     },
   ],
 })

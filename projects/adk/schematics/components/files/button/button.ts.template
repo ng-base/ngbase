@@ -11,7 +11,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'ico
   host: {
     type: 'button',
     class:
-      'inline-flex items-center justify-center rounded-lg px-4 py-2 border disabled:opacity-50 disabled:pointer-events-none',
+      'inline-flex items-center justify-center rounded-lg py-2 border disabled:opacity-50 disabled:pointer-events-none',
     '[class]': `variant() === 'primary'
           ? 'bg-primary text-primary-foreground border-primary'
           : variant() === 'secondary'
@@ -19,6 +19,8 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'ico
           : variant() === 'ghost' || variant() === 'icon'
             ? 'hover:bg-accent hover:text-accent-foreground border-transparent'
               : 'bg-background hover:bg-accent hover:text-accent-foreground'`,
+    '[class.px-4]': 'variant() !== "icon"',
+    '[class.px-2]': 'variant() === "icon"',
   },
 })
 export class Button {

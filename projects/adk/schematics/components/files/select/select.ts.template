@@ -92,5 +92,8 @@ export class SelectOption<T> {}
   },
 })
 export class Select<T> extends NgbSelect<T> {
-  override sideOffset = 16;
+  override defaultOptions = {
+    sideOffset: 16,
+    offset1: 0,
+  };
 }

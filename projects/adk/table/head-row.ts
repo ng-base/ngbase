@@ -54,9 +54,7 @@ export class NgbHeadRow implements OnDestroy {
         }
         if (!this.ref.has(column)) {
           // maintain the order of the columns
-          const ref = this.container()!.createEmbeddedView(column.heads()!, undefined, {
-            index,
-          });
+          const ref = this.container()!.createEmbeddedView(column.heads()!, undefined, { index });
           this.ref.set(column, ref);
         }
       });

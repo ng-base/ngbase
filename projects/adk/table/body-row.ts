@@ -42,7 +42,7 @@ export class NgbBodyRow implements OnDestroy {
       });
 
       const cols = this.rowDef.ngbBodyRowDefColumns();
-      rows.forEach(row => {
+      rows.forEach((row, index) => {
         if (!cols?.includes(row.ngbColumn())) {
           if (this.ref.has(row)) {
             const ref = this.ref.get(row);
@@ -59,9 +59,8 @@ export class NgbBodyRow implements OnDestroy {
         }
 
         const ref = untracked(() => {
-          return this.container()!.createEmbeddedView(row.cells()!, {
-            $implicit: data,
-          });
+          // maintain the order of the columns
+          return this.container()!.createEmbeddedView(row.cells()!, { $implicit: data }, { index });
         });
         this.ref.set(row, ref);
       });

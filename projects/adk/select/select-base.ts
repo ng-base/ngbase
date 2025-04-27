@@ -44,13 +44,15 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   readonly optionsGroup = viewChild('optionsGroup', { read: ElementRef });
 
   // inputs
-  readonly options = input<T[]>([]);
   readonly value = model<any>('' as any);
-  readonly multiple = input(false, { transform: booleanAttribute });
-  readonly placeholder = input<string>(' ');
   readonly disabled = model<boolean>(false);
-  readonly size = input<'target' | 'free'>('free');
+
+  readonly multiple = input(false, { transform: booleanAttribute });
   readonly noAutoClose = input(false, { transform: booleanAttribute });
+  readonly options = input<T[]>([]);
+  readonly placeholder = input<string>(' ');
+  readonly size = input<'target' | 'free'>('free');
+
   readonly opened = output<boolean>();
   readonly closed = output<boolean>();
 
@@ -95,7 +97,7 @@ export abstract class SelectBase<T> implements ControlValueAccessor, OnDestroy {
   private withInPopup = false;
   valueRef: EffectRef;
 
-  constructor(private isSelect: boolean) {
+  protected constructor(private isSelect: boolean) {
     effect(() => {
       const options = this.list();
       options.forEach(option => {

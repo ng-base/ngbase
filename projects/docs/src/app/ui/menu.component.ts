@@ -73,7 +73,7 @@ import { DocCode } from './code.component';
     <mee-menu #menuContainer1>
       <div class="flex gap-4">
         <div>
-          <h4 meeHeader="xs" class="text-muted-foreground p-2">Document Set</h4>
+          <h4 meeHeader="xs" class="p-2 text-muted-foreground">Document Set</h4>
           <button meeOption><mee-icon name="lucideCross" class="mr-2" /> Document Set</button>
           <button meeOption>
             <mee-icon name="lucideTrash2" class="mr-2" /> Remove Document Set
@@ -84,7 +84,7 @@ import { DocCode } from './code.component';
         </div>
         <mee-separator vertical />
         <div>
-          <h4 meeHeader="xs" class="text-muted-foreground p-2">Document</h4>
+          <h4 meeHeader="xs" class="p-2 text-muted-foreground">Document</h4>
           <button meeOption><mee-icon name="lucidePen" class="mr-2" /> Edit Columns</button>
           <button meeOption><mee-icon name="lucideMenu" class="mr-2" /> Edit Query</button>
           <button meeOption><mee-icon name="lucideMenu" class="mr-2" /> Save View</button>
@@ -92,7 +92,7 @@ import { DocCode } from './code.component';
         </div>
         <mee-separator vertical />
         <div>
-          <h4 meeHeader="xs" class="text-muted-foreground p-2">Actions</h4>
+          <h4 meeHeader="xs" class="p-2 text-muted-foreground">Actions</h4>
           <button meeOption><mee-icon name="lucideMenu" class="mr-2" /> Export</button>
           <button meeOption><mee-icon name="lucideMenu" class="mr-2" /> Assign user</button>
           <button meeOption><mee-icon name="lucideMenu" class="mr-2" /> Assign stage</button>
@@ -104,7 +104,7 @@ import { DocCode } from './code.component';
         </div>
         <mee-separator vertical />
         <div>
-          <h4 meeHeader="xs" class="text-muted-foreground p-2">Settings</h4>
+          <h4 meeHeader="xs" class="p-2 text-muted-foreground">Settings</h4>
           <button meeOption>
             <mee-icon name="lucideMenu" class="mr-2" /> Disable Document Grouping
           </button>

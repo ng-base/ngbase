@@ -39,6 +39,7 @@ export class NgbTab {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly mode = input<'hidden' | 'lazy'>();
   readonly value = input<string | number>();
+
   readonly id = uniqueId();
   readonly index = signal(0);
   readonly tabId = computed(() => this.value() ?? this.index());

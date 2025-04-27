@@ -27,7 +27,7 @@ import { DragMove } from '@ngbase/adk/drag';
         ngbDialogMain
         [@viewAnimation]
         class="{{
-          'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-foreground shadow-lg' +
+          'pointer-events-auto relative flex max-w-[100vw] flex-col overflow-hidden border bg-background shadow-lg' +
             (options().fullWindow
               ? ' h-screen w-screen border-none'
               : ' max-w-[calc(100vw-30px)] rounded-lg')

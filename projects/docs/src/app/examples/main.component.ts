@@ -44,7 +44,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-mail />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -53,7 +53,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-playground />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -62,7 +62,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-music />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -71,7 +71,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-forms />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -80,7 +80,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-inventory />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -89,7 +89,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-sidebars />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -98,7 +98,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-blogs />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }
@@ -107,7 +107,7 @@ export function injectParams() {
         @defer (on viewport) {
           <app-termor />
         } @placeholder {
-          <p class="text-muted-foreground text-center">Loading...</p>
+          <p class="text-center text-muted-foreground">Loading...</p>
         } @loading {
           <mee-spinner />
         }

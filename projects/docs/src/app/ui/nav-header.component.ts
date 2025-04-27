@@ -61,7 +61,7 @@ import { Tooltip } from '@meeui/ui/tooltip';
             [disabled]="item.link === ''"
             [meeTooltip]="item.name"
             [meeTooltipPosition]="'right'"
-            class="text-muted"
+            class="text-muted-foreground"
           >
             {{ item.name }}
           </a>
@@ -75,7 +75,7 @@ import { Tooltip } from '@meeui/ui/tooltip';
             (click)="scrollToTop()"
             routerLinkActive="text-primary"
             [routerLink]="item.link"
-            class="text-muted"
+            class="text-muted-foreground"
           >
             {{ item.name }}
           </a>

@@ -48,7 +48,7 @@ import { LangButton } from './lang-button';
   viewProviders: [provideIcons({ lucideMenu })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="sticky top-0 z-20 w-full border-b bg-foreground px-4 py-2">
+    <nav class="sticky top-0 z-20 w-full border-b bg-background px-4 py-2">
       <div class="flex h-full items-center justify-between">
         <div class="flex items-center gap-2 text-lg">
           <button meeButton="ghost" (click)="toggleShow()" class="h-8 w-8">

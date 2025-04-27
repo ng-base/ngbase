@@ -6,6 +6,7 @@ import {
   ViewContainerRef,
   effect,
   inject,
+  input,
   linkedSignal,
   signal,
   viewChild,
@@ -273,11 +274,14 @@ function scrollToElement(target: HTMLElement) {
   });
 }
 
-@Directive({
-  selector: '[ngbPopoverClose]',
-  hostDirectives: [{ directive: NgbPortalClose, inputs: ['ngbPortalClose: ngbPopoverClose'] }],
-})
-export class NgbPopoverClose {}
+@Directive({ selector: '[ngbPopoverClose]' })
+export class NgbPopoverClose extends NgbPortalClose {
+  readonly ngbPopoverClose = input();
+
+  override close() {
+    super.close(this.ngbPopoverClose());
+  }
+}
 
 export function aliasPopover(popover: typeof NgbPopover) {
   return [{ provide: NgbPopover, useExisting: popover }, providePopoverArrowTracker()];

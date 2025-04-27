@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const UI_ROUTES: Routes = [
   { path: 'accordion', loadComponent: () => import('./accordion/accordion.component') },
-  { path: 'table', loadComponent: () => import('./table.component') },
+  { path: 'table', loadComponent: () => import('./table/table.component') },
   { path: 'spinner', loadComponent: () => import('./spinner.component') },
   { path: 'otp', loadComponent: () => import('./otp.component') },
   { path: 'tabs', loadComponent: () => import('./tabs/tabs.component') },

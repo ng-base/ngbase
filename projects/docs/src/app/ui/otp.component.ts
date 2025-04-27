@@ -17,7 +17,7 @@ import { Checkbox } from '@meeui/ui/checkbox';
           <mee-checkbox [(ngModel)]="disabled">Disabled</mee-checkbox>
           <mee-checkbox [(ngModel)]="masked">Masked</mee-checkbox>
         </div>
-        <form #myForm="ngForm" (ngSubmit)="submit()">
+        <form #myForm="ngForm" (ngSubmit)="submit()" class="flex flex-col items-start gap-2">
           <label class="block">OTP: {{ otp() }}</label>
           <mee-input-otp
             placeholder=""
@@ -31,7 +31,7 @@ import { Checkbox } from '@meeui/ui/checkbox';
 
           <button type="submit">Submit</button>
         </form>
-        <div>
+        <div class="flex flex-col gap-2">
           <label>Card: {{ otp1 }}</label>
           <mee-input-otp [size]="[4, 4, 4]" [(ngModel)]="otp1" />
         </div>

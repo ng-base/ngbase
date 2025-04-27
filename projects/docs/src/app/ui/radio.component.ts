@@ -23,7 +23,7 @@ import { DocCode } from './code.component';
           <mee-radio value="1">
             <div class="ml-2">
               <h4 meeHeader="xs">Radio 1</h4>
-              <p class="text-muted">
+              <p class="text-muted-foreground">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere
                 minus minima quis.
               </p>
@@ -34,7 +34,7 @@ import { DocCode } from './code.component';
           <mee-radio value="2">
             <div class="ml-2">
               <h4 meeHeader="xs">Radio 2</h4>
-              <p class="text-muted">
+              <p class="text-muted-foreground">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Non expedita sit facere
                 minus minima quis.
               </p>

@@ -4,7 +4,9 @@ import {
   DatepickerGroup,
   NgbDatePicker,
   NgbDatepickerTrigger,
+  NgbEndDate,
   aliasDatePicker,
+  aliasDatePickerTrigger,
   registerDatePicker,
 } from '@ngbase/adk/datepicker';
 import { RangePipe } from '@ngbase/adk/utils';
@@ -35,24 +37,23 @@ export class DatePicker<D> extends NgbDatePicker<D> {}
 
 @Directive({
   selector: '[<%= name %>DatepickerTrigger]',
-  providers: [registerDatePicker(DatePicker)],
-  hostDirectives: [
-    {
-      directive: NgbDatepickerTrigger,
-      inputs: [
-        'noOfCalendars',
-        'range',
-        'time',
-        'format',
-        'fieldFormat',
-        'dateFilter',
-        'pickerType',
-        'pickerTemplate',
-      ],
-    },
-  ],
+  exportAs: '<%= name %>DatepickerTrigger',
+  providers: [registerDatePicker(DatePicker), aliasDatePickerTrigger(DatepickerTrigger)],
   host: {
-    class: 'cursor-pointer hover:bg-muted-background outline-none',
+    class: 'cursor-pointer hover:bg-muted outline-none w-full bg-transparent',
   },
 })
-export class DatepickerTrigger<D> {}
+export class DatepickerTrigger<D> extends NgbDatepickerTrigger<D> {}
+
+@Directive({
+  selector: '[<%= name %>EndDate]',
+  hostDirectives: [{ directive: NgbEndDate, inputs: ['ngbEndDate: <%= name %>EndDate'] }],
+  host: {
+    class: 'hidden',
+  },
+})
+export class EndDate {
+  constructor() {
+    inject(NgbEndDate).hidden = true;
+  }
+}

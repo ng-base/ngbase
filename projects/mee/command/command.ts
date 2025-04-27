@@ -27,7 +27,7 @@ export interface CommandItem {
         [(ngModel)]="filter.search"
         type="text"
         placeholder="Search for apps and commands"
-        class="sticky -top-4 w-full border-b bg-foreground p-4 outline-none"
+        class="sticky -top-4 w-full border-b bg-background p-4 outline-none"
       />
       @for (group of filter.filteredList(); track group.name) {
         <h4 class="mx-4 my-2 text-sm text-gray-500">{{ group.name }}</h4>

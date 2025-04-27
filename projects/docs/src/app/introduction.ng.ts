@@ -10,7 +10,7 @@ import { Button } from '@meeui/ui/button';
     <div class="flex min-h-[calc(100vh-100px)] items-center justify-center">
       <div>
         <h1 class="text-4xl font-bold">Introduction Coming Soon...</h1>
-        <p class="text-muted-foreground mt-4">
+        <p class="mt-4 text-muted-foreground">
           <button meeButton="outline" routerLink="/docs">Read the docs here</button>
         </p>
       </div>

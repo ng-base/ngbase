@@ -55,6 +55,7 @@ import { FormField, Label } from '@meeui/ui/form-field';
             <input
               placeholder="Search options"
               meeAutocompleteInput
+              isChip
               [(ngModel)]="selectValue.optionsFilter.search"
             />
             @for (item of selectValue.optionsFilter.filteredList(); track item) {

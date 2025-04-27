@@ -22,14 +22,16 @@ export class CheckboxButton {
   host: {
     '(click)': 'updateValue()',
   },
-  providers: [provideValueAccessor(NgbCheckbox)],
 })
 export class NgbCheckbox implements ControlValueAccessor {
   readonly id = uniqueId();
-  readonly disabled = input(false);
+
   readonly checked = model(false);
-  readonly change = output<boolean>();
+  readonly disabled = input(false);
   readonly indeterminate = input(false);
+
+  readonly change = output<boolean>();
+
   onChange = (_: any) => {};
   onTouched = () => {};
 
@@ -55,4 +57,8 @@ export class NgbCheckbox implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+}
+
+export function aliasCheckbox(checkbox: typeof NgbCheckbox) {
+  return [{ provide: NgbCheckbox, useExisting: checkbox }, provideValueAccessor(checkbox)];
 }

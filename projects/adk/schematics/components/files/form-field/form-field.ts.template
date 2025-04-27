@@ -26,9 +26,9 @@ import { NgbSelectTarget } from '@ngbase/adk/select';
     <ng-content select="[<%= name %>Label]" />
     <ng-content select="[<%= name %>Description]" />
     <div class="mt-1 flex items-center" #target <%= name %>InputStyle>
-      <ng-content select="[<%= name %>InputPrefix]" />
+      <ng-content select="[<%= name %>Prefix]" />
       <ng-content />
-      <ng-content select="[<%= name %>InputSuffix]" />
+      <ng-content select="[<%= name %>Suffix]" />
     </div>
     <ng-content select="[<%= name %>Error]" />
   `,
@@ -48,7 +48,7 @@ export class FormField {
   selector: '[<%= name %>Input]',
   hostDirectives: [{ directive: InputBase, inputs: ['value'], outputs: ['valueChange'] }],
   host: {
-    class: 'outline-none w-full',
+    class: 'outline-none w-full bg-transparent',
     '[class.border-red-500]': 'formField?.hasErrors()',
   },
 })
@@ -70,13 +70,13 @@ export class Label {}
 @Directive({
   selector: '[<%= name %>Description]',
   host: {
-    class: 'text-sm text-muted',
+    class: 'text-sm text-muted-foreground',
   },
 })
 export class Description {}
 
 @Directive({
-  selector: '[<%= name %>InputPrefix]',
+  selector: '[<%= name %>Prefix]',
   host: {
     class: 'mr-2.5',
   },
@@ -84,7 +84,7 @@ export class Description {}
 export class InputPrefix {}
 
 @Directive({
-  selector: '[<%= name %>InputSuffix]',
+  selector: '[<%= name %>Suffix]',
   host: {
     class: 'ml-2.5',
   },

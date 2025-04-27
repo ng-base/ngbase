@@ -16,7 +16,7 @@ import { DocCode } from './code.component';
         [total]="400"
         [showPage]="true"
         (valueChanged)="valueChanged($event)"
-        class="rounded-lg border bg-foreground p-4 shadow-sm"
+        class="rounded-lg border bg-background p-4 shadow-sm"
       />
     </app-doc-code>
   `,
@@ -39,7 +39,7 @@ export default class PaginationComponent {
         [sizeOptions]="[10, 20, 50, 100]"
         [showPage]="true"
         (valueChanged)="valueChanged($event)"
-        class="rounded-lg border bg-foreground p-4 shadow-sm"
+        class="rounded-lg border bg-background p-4 shadow-sm"
       />
     \`
   })
@@ -87,7 +87,7 @@ export default class PaginationComponent {
               meePaginationBtn="page"
               [jump]="item"
               meeButton="ghost"
-              class="min-w-8 !p-2 ring-offset-background aria-[current=page]:bg-muted-background aria-[current=page]:text-primary"
+              class="min-w-8 !p-2 ring-offset-foreground aria-[current=page]:bg-muted aria-[current=page]:text-primary"
             >
               {{ item }}
             </button>

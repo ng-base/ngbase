@@ -22,7 +22,7 @@ import { tourAnimation } from './animation';
   template: `
     <div
       #container
-      class="pointer-events-auto fixed z-10 overflow-auto rounded-md border bg-foreground p-1 shadow-md"
+      class="pointer-events-auto fixed z-10 overflow-auto rounded-md border bg-background p-1 shadow-md"
       [@slideInOutAnimation]
     >
       <ng-container #myDialog />

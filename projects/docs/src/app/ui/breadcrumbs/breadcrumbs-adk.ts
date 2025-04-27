@@ -5,7 +5,7 @@ import {
   NgbBreadcrumbs,
   NgbBreadcrumbSeparator,
   NgbBreadcrumbSeparatorAria,
-  provideBreadcrumb,
+  aliasBreadcrumb,
 } from '@ngbase/adk/breadcrumb';
 
 @Component({
@@ -22,18 +22,18 @@ export class Breadcrumbs {}
 @Component({
   selector: 'mee-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideBreadcrumb(Breadcrumb)],
+  providers: [aliasBreadcrumb(Breadcrumb)],
   imports: [NgbBreadcrumbLink, NgbBreadcrumbSeparatorAria],
   template: `
     <a class='hover:text-primary aria-[current="page"]:text-primary' ngbBreadcrumbLink>
       <ng-content />
     </a>
     @if (!active()) {
-      <div ngbBreadcrumbSeparatorAria class="text-muted">/</div>
+      <div ngbBreadcrumbSeparatorAria class="text-muted-foreground">/</div>
     }
   `,
   host: {
-    class: 'flex items-center gap-2 text-muted',
+    class: 'flex items-center gap-2 text-muted-foreground',
   },
 })
 export class Breadcrumb extends NgbBreadcrumb {}

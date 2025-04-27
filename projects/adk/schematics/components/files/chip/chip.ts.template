@@ -9,6 +9,9 @@ import { lucideX } from '@ng-icons/lucide';
   selector: '<%= name %>-chip-group',
   hostDirectives: [NgbChipGroup],
   template: `<ng-content />`,
+  host: {
+    class: 'flex flex-wrap gap-2',
+  },
 })
 export class ChipGroup<T> {}
 
@@ -29,8 +32,7 @@ export class ChipGroup<T> {}
       </button>
     }`,
   host: {
-    class:
-      'inline-flex items-center bg-muted-background rounded-lg px-2 py-1 text-xs font-medium',
+    class: 'inline-flex items-center bg-muted rounded-lg px-2 py-1 text-xs font-medium',
   },
 })
 export class Chip<T = any> extends NgbChip<T> {}

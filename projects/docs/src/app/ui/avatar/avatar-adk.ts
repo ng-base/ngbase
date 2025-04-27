@@ -25,7 +25,7 @@ export class AvatarGroup {}
   `,
   host: {
     class:
-      'inline-flex aspect-square rounded-full overflow-hidden border-2 border-foreground relative bg-background text-muted items-center justify-center',
+      'inline-flex aspect-square rounded-full overflow-hidden border-2 border-background relative bg-foreground text-muted-foreground items-center justify-center',
   },
 })
 export class Avatar extends NgbAvatar {}

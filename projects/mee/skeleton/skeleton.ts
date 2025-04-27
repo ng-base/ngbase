@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
   selector: 'mee-skeleton',
   template: ``,
   host: {
-    class: 'block animate-pulse bg-muted-background',
+    class: 'block animate-pulse bg-muted',
     '[class]': `shape() === 'circle' ? 'rounded-full' : 'rounded-md'`,
   },
 })

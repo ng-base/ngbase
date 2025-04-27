@@ -23,7 +23,7 @@ import { FormField, Input } from '@meeui/ui/form-field';
     <h1 meeHeader class="mb-5" id="maskPage">Mask</h1>
 
     <app-doc-code>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2 items-center">
         <h4>Mask Input: '**/*#/#*##' {{ maskValue }}</h4>
         <mee-form-field>
           <input type="text" meeInput [meeMask]="'**/*#/#*##'" [(ngModel)]="maskValue" />

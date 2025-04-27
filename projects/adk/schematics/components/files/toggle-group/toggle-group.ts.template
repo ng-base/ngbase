@@ -19,7 +19,7 @@ export class ToggleGroup<T> {}
   hostDirectives: [{ directive: NgbToggleItem, inputs: ['disabled', 'value'] }],
   host: {
     class:
-      'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70 aria-[selected=true]:bg-background',
+      'inline-block rounded h-9 px-3 hover:bg-opacity-80 active:bg-opacity-70 aria-[selected=true]:bg-foreground',
   },
 })
 export class ToggleItem<T> {}

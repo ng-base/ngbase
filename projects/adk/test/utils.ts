@@ -263,7 +263,7 @@ export interface FakeServiceResult<T extends Type<any>, C = any> {
 
 export function fakeService<
   T extends Type<any>,
-  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __: any }),
+  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __?: any }),
 >(service: T, impl: I) {
   // Extract the exact type of __ from the implementation
   type ControlsType = I extends () => Partial<InstanceType<T>> & { __: infer C } ? C : never;
@@ -279,14 +279,14 @@ export function fakeService<
       return v as InstanceType<T>;
     },
     get _() {
-      return (v as any).__ as ControlsType;
+      return v.__ as ControlsType;
     },
   };
 }
 
 export type FakeService<
   T extends Type<any>,
-  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __: any }) = any,
+  I extends Partial<InstanceType<T>> | (() => Partial<InstanceType<T>> & { __?: any }) = any,
 > = FakeServiceResult<T, I extends () => Partial<InstanceType<T>> & { __: infer C } ? C : never>;
 
 type RenderProvider = Provider | EnvironmentProviders | FakeService<any>;

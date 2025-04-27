@@ -43,9 +43,12 @@ export class ResizableGroup extends NgbResizableGroup {}
                 : ' right-0 top-0 w-0 cursor-ew-resize border-l after:h-full after:w-2')
           }}"
         >
-          <<%= name %>-icon name="lucideGripVertical" class="z-30 rounded-lg border
-          bg-muted-background py-0.5" size=".75rem" [class]="resizable.direction() === 'vertical' ?
-          'rotate-90' : ''" />
+          <<%= name %>-icon
+            name="lucideGripVertical"
+            class="z-30 rounded-lg border bg-muted py-0.5"
+            size=".75rem"
+            [class]="resizable.direction() === 'vertical' ? 'rotate-90' : ''"
+          />
         </div>
       }
     </ng-template>`,

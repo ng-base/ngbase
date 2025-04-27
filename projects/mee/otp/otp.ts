@@ -16,7 +16,7 @@ import { InputStyle } from '@meeui/ui/form-field';
           meeInputStyle
           ngbOtpValue
           class="{{
-            'mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold data-[disabled]:bg-muted-background/40 data-[disabled]:text-muted data-[focus]:relative' +
+            'mb-0 aspect-square w-10 rounded-none !px-0 text-center text-base font-semibold data-[disabled]:bg-muted/40 data-[disabled]:text-muted-foreground data-[focus]:relative' +
               ((dir.isRtl() ? ll : i === 0) ? ' !rounded-l-lg' : '') +
               ((dir.isRtl() ? i === 0 : ll) ? ' !rounded-r-lg' : '')
           }}"

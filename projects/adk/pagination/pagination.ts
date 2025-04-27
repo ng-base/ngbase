@@ -65,10 +65,11 @@ export class NgbPaginationBtn {
 })
 export class NgbPagination {
   // Inputs
-  readonly total = input.required<number>();
   readonly size = model.required<number>();
-  readonly sizeOptions = input<number[]>([10, 20, 50, 100]);
   readonly active = model.required<number>();
+  readonly total = input.required<number>();
+  readonly sizeOptions = input<number[]>([10, 20, 50, 100]);
+
   readonly valueChanged = output<number>();
 
   // State

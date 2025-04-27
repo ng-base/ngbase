@@ -48,8 +48,8 @@ export class NgbCarouselSubContainer {
   exportAs: 'ngbCarousel',
 })
 export class NgbCarousel {
-  private drag = viewChild.required(Drag);
   private dir = injectDirectionality();
+  private drag = viewChild.required(Drag);
   private mainContainer = viewChild.required(NgbCarouselContainer);
   private subContainer = viewChild.required(NgbCarouselSubContainer);
   private items = contentChildren(NgbCarouselItem);

@@ -51,11 +51,11 @@ import { TimePicker } from './time';
             [ngbCalYearBtn]="year"
             #yearBtn="ngbCalYearBtn"
             class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
-              year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
+              year.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted'
             }}"
             [ngClass]="{
-              'border bg-muted-background': yearBtn.selected(),
-              '!bg-primary text-foreground': yearBtn.active(),
+              'border bg-muted': yearBtn.selected(),
+              '!bg-primary text-background': yearBtn.active(),
             }"
           >
             {{ year.year }}
@@ -69,11 +69,11 @@ import { TimePicker } from './time';
             [ngbCalMonthBtn]="month"
             #monthBtn="ngbCalMonthBtn"
             class="items-center justify-center rounded-md py-2 h-9 w-[84px] {{
-              month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
+              month.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted'
             }}"
             [ngClass]="{
-              'border bg-muted-background': monthBtn.selected(),
-              '!bg-primary text-foreground': monthBtn.active(),
+              'border bg-muted': monthBtn.selected(),
+              '!bg-primary text-background': monthBtn.active(),
             }"
           >
             {{ month.name }}
@@ -83,7 +83,7 @@ import { TimePicker } from './time';
     } @else {
       <div class="day-names grid grid-cols-7">
         @for (dayName of dayNames; track dayName) {
-          <div class="p-1 text-center text-muted">{{ dayName }}</div>
+          <div class="text-muted-foreground p-1 text-center">{{ dayName }}</div>
         }
       </div>
       <div class="grid grid-cols-7 gap-y-2">
@@ -92,12 +92,12 @@ import { TimePicker } from './time';
             #days="ngbCalDayBtn"
             [ngbCalDayBtn]="day"
             class="mx-auto flex h-9 w-9 items-center justify-center text-center {{
-              day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted-background'
+              day.disabled ? 'cursor-default opacity-50' : 'hover:bg-muted'
             }}"
             [ngClass]="{
-              'bg-muted-background': days.selected(),
+              'bg-muted': days.selected(),
               'opacity-40': days.dummy(),
-              '!bg-primary text-foreground': days.active(),
+              '!bg-primary text-background': days.active(),
             }"
           >
             {{ day.day }}

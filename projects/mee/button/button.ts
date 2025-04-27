@@ -11,14 +11,14 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'ico
   host: {
     type: 'button',
     class:
-      'inline-flex items-center justify-center rounded-lg px-4 py-2 border disabled:text-muted disabled:cursor-not-allowed',
+      'inline-flex items-center justify-center rounded-lg px-4 py-2 border disabled:opacity-50 disabled:pointer-events-none',
     '[class]': `variant() === 'primary'
-          ? 'bg-primary text-foreground disabled:bg-background disabled:border-background border-primary'
+          ? 'bg-primary text-primary-foreground border-primary'
           : variant() === 'secondary'
-          ? 'bg-muted-background disabled:bg-muted-background border-muted-background'
+          ? 'bg-secondary text-secondary-foreground border-secondary hover:bg-secondary/80'
           : variant() === 'ghost' || variant() === 'icon'
-            ? '[&:not(:disabled)]:hover:bg-muted-background [&:not(:disabled)]:active:bg-muted-background/50 border-transparent'
-              : ' text-primary [&:not(:disabled)]:hover:bg-background [&:not(:disabled)]:active:bg-background/50'`,
+            ? 'hover:bg-accent hover:text-accent-foreground border-transparent'
+              : 'bg-background hover:bg-accent hover:text-accent-foreground'`,
   },
 })
 export class Button {

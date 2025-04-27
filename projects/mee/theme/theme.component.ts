@@ -146,10 +146,10 @@ export class ThemeComponent {
       const style = document.documentElement.style;
       style.setProperty('--radius', value.radius!);
       style.setProperty('--spacing-base', value.space!);
-      style.setProperty('--color-background', this.colorRGB(value.background!));
+      style.setProperty('--color-foreground', this.colorRGB(value.background!));
       style.setProperty('--color-foreground', this.colorRGB(value.foreground!));
       style.setProperty('--color-primary', this.colorRGB(value.primary!));
-      style.setProperty('--color-muted', this.colorRGB(value.muted!));
+      style.setProperty('--color-muted-foreground', this.colorRGB(value.muted!));
       style.setProperty('--color-border', this.colorRGB(value.border!));
       style.setProperty('--color-text', this.colorRGB(value.text!));
       style.setProperty('--color-input', this.colorRGB(value.input!));

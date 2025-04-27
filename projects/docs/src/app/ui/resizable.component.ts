@@ -13,7 +13,7 @@ import { DocCode } from './code.component';
       <button meeButton (click)="toggle()" class="mb-5">Toggle</button>
       <button meeButton (click)="toggleThird()" class="mb-5">Toggle Third</button>
 
-      <mee-resizable-group class="!w-[600px] rounded-lg border bg-foreground">
+      <mee-resizable-group class="!w-[600px] rounded-lg border bg-background">
         <mee-resizable [size]="show() ? '200px' : 0" min="50px">
           <div class="flex h-[200px] w-full items-center justify-center">1</div>
         </mee-resizable>
@@ -29,7 +29,7 @@ import { DocCode } from './code.component';
           <div class="flex h-[200px] w-full items-center justify-center">4</div>
         </mee-resizable>
       </mee-resizable-group>
-      <mee-resizable-group class="!w-[700px] rounded-lg border bg-foreground">
+      <mee-resizable-group class="!w-[700px] rounded-lg border bg-background">
         <mee-resizable [size]="show() ? '100px' : 0">
           <div class="flex h-[200px] w-full items-center justify-center">1</div>
         </mee-resizable>

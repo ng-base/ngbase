@@ -33,6 +33,7 @@ export class Autocomplete<T> extends NgbAutocomplete<T> {}
   hostDirectives: [
     {
       directive: NgbAutocompleteInput,
+      inputs: ['isChip'],
       outputs: ['ngbAutocompleteInput: meeAutocompleteInput'],
     },
   ],

@@ -21,7 +21,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
       <div
         ngbDragMove
         dragBoundary=".parent"
-        class="grid h-20 w-20 place-items-center border bg-foreground"
+        class="grid h-20 w-20 place-items-center border bg-muted text-muted-foreground"
       >
         Drag me
       </div>
@@ -30,7 +30,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     <!-- <div class="flex gap-4">
       <div meeDrop (orderChanged)="drop($event)" class="drop-list mt-10 w-96 rounded-lg border">
         @for (item of dragItems; track item) {
-          <div class="flex items-center border-b bg-foreground p-2" meeDrag>
+          <div class="flex items-center border-b bg-background p-2" ngbDrag>
             <mee-icon meeDragHandle name="lucideGripVertical" class="mr-2 p-1" />
             {{ item }}
           </div>
@@ -42,7 +42,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
         <h4 meeHeader="sm" class="m-2">To do</h4>
         <div ngbDrop (orderChanged)="todoDrop($event)">
           @for (item of todo(); track item) {
-            <div class="flex items-center border-b bg-foreground p-2" meeDrag>
+            <div class="flex items-center border-b bg-background p-2" ngbDrag>
               {{ item }}
             </div>
           }
@@ -53,7 +53,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
         <h4 meeHeader="sm" class="m-2">Done</h4>
         <div ngbDrop (orderChanged)="doneDrop($event)">
           @for (item of done(); track item) {
-            <div class="flex items-center border-b bg-foreground p-2" meeDrag>
+            <div class="flex items-center border-b bg-background p-2" ngbDrag>
               {{ item }}
             </div>
           }
@@ -69,8 +69,8 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     >
       @for (item of grid; track item) {
         <div
-          class="flex h-9 w-9 items-center justify-center border-r bg-foreground p-2"
-          meeDrag
+          class="flex h-9 w-9 items-center justify-center border-r bg-background p-2"
+          ngbDrag
           dragBoundary=".drop-parent"
         >
           {{ item }}
@@ -85,7 +85,7 @@ import { lucideGripVertical } from '@ng-icons/lucide';
     >
       @for (item of grid; track item) {
         <div
-          class="flex items-center border-b bg-foreground p-2"
+          class="flex items-center border-b bg-background p-2"
           ngbDrag
           dragBoundary=".drop-parent-1"
         >

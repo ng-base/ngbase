@@ -15,7 +15,7 @@ import { keyMap } from '@ngbase/adk/keys';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `{{ content() }}`,
   host: {
-    class: 'ml-auto text-xs tracking-widest opacity-60 text-muted',
+    class: 'ml-auto text-xs tracking-widest opacity-60 text-muted-foreground',
   },
 })
 export class Key {

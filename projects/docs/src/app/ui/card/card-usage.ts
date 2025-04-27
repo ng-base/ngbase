@@ -16,7 +16,7 @@ import { Avatar } from '@meeui/ui/avatar';
         <div class="flex flex-col gap-4">
           <div>
             <div class="Text font-bold">Mee</div>
-            <div class="text-muted">&#64;mee_ui</div>
+            <div class="text-muted-foreground">&#64;mee_ui</div>
           </div>
           <div class="Text">
             Components, icons, colors, and templates for building high-quality, accessible UI. Free
@@ -25,11 +25,11 @@ import { Avatar } from '@meeui/ui/avatar';
           <div class="flex gap-4">
             <div class="flex gap-1">
               <div class="Text font-bold">0</div>
-              <div class="text-muted">Following</div>
+              <div class="text-muted-foreground">Following</div>
             </div>
             <div class="flex gap-1">
               <div class="Text font-bold">2,900</div>
-              <div class="text-muted">Followers</div>
+              <div class="text-muted-foreground">Followers</div>
             </div>
           </div>
         </div>

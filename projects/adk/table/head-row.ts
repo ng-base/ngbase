@@ -22,7 +22,6 @@ export class NgbHeadRowDef {
 @Directive({
   selector: '[ngbHeadRow]',
   host: {
-    // '[class]': `headDef.ngbHeadRowDefSticky() ? 'sticky top-0 bg-foreground' : ''`,
     '[attr.data-sticky]': 'headDef.ngbHeadRowDefSticky()',
   },
 })
@@ -44,7 +43,7 @@ export class NgbHeadRow implements OnDestroy {
         }
       });
       const cols = this.headDef.ngbHeadRowDef();
-      columns.forEach(column => {
+      columns.forEach((column, index) => {
         if (!cols?.includes(column.ngbColumn())) {
           if (this.ref.has(column)) {
             const ref = this.ref.get(column);
@@ -54,7 +53,10 @@ export class NgbHeadRow implements OnDestroy {
           return;
         }
         if (!this.ref.has(column)) {
-          const ref = this.container()!.createEmbeddedView(column.heads()!);
+          // maintain the order of the columns
+          const ref = this.container()!.createEmbeddedView(column.heads()!, undefined, {
+            index,
+          });
           this.ref.set(column, ref);
         }
       });

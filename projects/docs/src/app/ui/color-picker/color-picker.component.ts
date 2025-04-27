@@ -14,31 +14,32 @@ import { DocCode, getCode } from '../code.component';
     color -- {{ hexColor() }} -->
 
     <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
-      <mee-form-field>
-        <label meeLabel>Hex color</label>
-        <mee-color-input
-          [(ngModel)]="hexColor"
-          [presetColors]="[
-            '#000000',
-            '#93c5fd',
-            '#86efac',
-            '#fde68a',
-            '#fca5a5',
-            '#c4b5fd',
-            '#fbcfe8',
-            '#5eead4',
-            '#fdba74',
-            '#a5b4fc',
-            '#d6b4a7',
-            '#cbd5e1',
-          ]"
-        />
-      </mee-form-field>
-
-      <mee-form-field>
-        <label meeLabel>RGB color</label>
-        <mee-color-input [format]="'rgb'" [(value)]="rgbColor" />
-      </mee-form-field>
+      <div class="flex flex-col gap-4 md:flex-row">
+        <mee-form-field>
+          <label meeLabel>Hex color</label>
+          <mee-color-input
+            [(ngModel)]="hexColor"
+            [presetColors]="[
+              '#000000',
+              '#93c5fd',
+              '#86efac',
+              '#fde68a',
+              '#fca5a5',
+              '#c4b5fd',
+              '#fbcfe8',
+              '#5eead4',
+              '#fdba74',
+              '#a5b4fc',
+              '#d6b4a7',
+              '#cbd5e1',
+            ]"
+          />
+        </mee-form-field>
+        <mee-form-field>
+          <label meeLabel>RGB color</label>
+          <mee-color-input [format]="'rgb'" [(value)]="rgbColor" />
+        </mee-form-field>
+      </div>
     </app-doc-code>
   `,
 })

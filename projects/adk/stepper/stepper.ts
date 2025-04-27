@@ -30,6 +30,7 @@ export class NgbStepperStep {
 })
 export class NgbStepper {
   readonly steps = contentChildren(NgbStep);
+
   readonly activeIndex = model(0);
   readonly direction = input<'horizontal' | 'vertical'>('horizontal');
 

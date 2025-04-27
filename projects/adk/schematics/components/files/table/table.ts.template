@@ -1,12 +1,20 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgbTable } from '@ngbase/adk/table';
+import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import {
+  NgbBodyRow,
+  NgbBodyRowDef,
+  NgbCell,
+  NgbCellDef,
+  NgbColumn,
+  NgbHead,
+  NgbHeadDef,
+  NgbHeadRow,
+  NgbHeadRowDef,
+  NgbTable,
+} from '@ngbase/adk/table';
 
 @Component({
   selector: 'table[<%= name %>Table]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'w-full text-sm',
-  },
   providers: [{ provide: NgbTable, useExisting: Table }],
   template: `
     <thead>
@@ -16,5 +24,99 @@ import { NgbTable } from '@ngbase/adk/table';
       <ng-container #tbody />
     </tbody>
   `,
+  host: {
+    class: 'w-full text-sm',
+  },
 })
 export class Table<T> extends NgbTable<T> {}
+
+// Cell
+@Component({
+  selector: '[<%= name %>Cell]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgbCell],
+  template: `<ng-content />`,
+  host: {
+    class: 'px-4 py-2 align-middle bg-background',
+  },
+})
+export class Cell {}
+
+@Directive({
+  selector: '[<%= name %>CellDef]',
+  hostDirectives: [NgbCellDef],
+})
+export class CellDef {}
+
+// Body
+
+@Directive({
+  selector: '[<%= name %>BodyRowDef]',
+  hostDirectives: [
+    { directive: NgbBodyRowDef, inputs: ['ngbBodyRowDefColumns: <%= name %>BodyRowDefColumns'] },
+  ],
+})
+export class BodyRowDef {}
+
+@Component({
+  selector: '[<%= name %>BodyRow]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: NgbBodyRow, useExisting: BodyRow }],
+  template: `<ng-container #container />`,
+  host: {
+    class: '[&:not(:last-child)]:border-b hover:bg-muted h-12',
+  },
+})
+export class BodyRow extends NgbBodyRow {}
+
+// Column
+
+@Directive({
+  selector: '[<%= name %>Column]',
+  hostDirectives: [{ directive: NgbColumn, inputs: ['ngbColumn: <%= name %>Column', 'sticky'] }],
+})
+export class Column {}
+
+// Head Cell
+
+@Component({
+  selector: '[<%= name %>Head]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgbHead],
+  template: `<ng-content />`,
+  host: {
+    class:
+      'px-4 py-2 text-left align-middle font-medium text-muted-foreground border-b bg-background',
+  },
+})
+export class Head {}
+
+@Directive({
+  selector: '[<%= name %>HeadDef]',
+  hostDirectives: [NgbHeadDef],
+})
+export class HeadDef {}
+
+// Head Row
+
+@Component({
+  selector: '[<%= name %>HeadRow]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: NgbHeadRow, useExisting: HeadRow }],
+  template: `<ng-container #container />`,
+  host: {
+    class: `h-10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-background`,
+  },
+})
+export class HeadRow extends NgbHeadRow {}
+
+@Directive({
+  selector: '[<%= name %>HeadRowDef]',
+  hostDirectives: [
+    {
+      directive: NgbHeadRowDef,
+      inputs: ['ngbHeadRowDef: <%= name %>HeadRowDef', 'ngbHeadRowDefSticky: <%= name %>HeadRowDefSticky'],
+    },
+  ],
+})
+export class HeadRowDef {}

@@ -20,7 +20,7 @@ import { TourService } from '@meeui/ui/tour';
         <div class="inline-flex items-center gap-0.5">
           @for (item of tourService.totalSteps() | range; track item) {
             <div
-              class="aspect-square w-3 rounded-full bg-background"
+              class="aspect-square w-3 rounded-full bg-foreground"
               [class.bg-primary]="tourService.step() + 1 === item"
             ></div>
           }

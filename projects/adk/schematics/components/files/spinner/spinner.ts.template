@@ -64,7 +64,7 @@ const spinnerAnimation = trigger('enterLeave', [
   `,
   host: {
     class: 'inline-flex items-center justify-center transition-all duration-300 text-primary',
-    '[class]': `root() ? 'fixed inset-0 z-p bg-foreground bg-opacity-60 backdrop-blur-sm' : 'relative'`,
+    '[class]': `root() ? 'fixed inset-0 z-p bg-background bg-opacity-60 backdrop-blur-sm' : 'relative'`,
   },
   animations: [
     // animation for entering and exiting, with a bouncy effect

@@ -11,7 +11,7 @@ import { Heading } from '@meeui/ui/typography';
   template: `
     <h4 meeHeader="sm">Heading 1</h4>
     <mee-separator class="my-2" />
-    <p class="text-muted-foreground text-base">
+    <p class="text-base text-muted-foreground">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis maiores in aspernatur
       rerum, eligendi, pariatur ipsum eaque non, similique veritatis delectus earum magni nemo sunt
       odio officiis tenetur. Obcaecati excepturi minus quas optio eaque facere soluta odit nostrum

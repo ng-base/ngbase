@@ -6,7 +6,6 @@ import {
   Directive,
   inject,
   input,
-  linkedSignal,
 } from '@angular/core';
 import { AccessibleItem } from '@ngbase/adk/a11y';
 import { NgbRadioGroup } from './radio-group';
@@ -30,7 +29,7 @@ import { NgbRadioGroup } from './radio-group';
 export class NgbRadioIndicator {
   readonly radio = inject(NgbRadio);
   readonly allyItem = inject(AccessibleItem);
-  readonly disabled = linkedSignal(this.radio.disabled);
+  readonly disabled = this.radio.disabled;
 
   constructor() {
     this.allyItem._ayId.set(this.radio.ayId);
@@ -56,4 +55,8 @@ export class NgbRadio {
   updateValue() {
     this.radio.updateValue(this.value());
   }
+}
+
+export function aliasRadio(radio: typeof NgbRadio) {
+  return { provide: NgbRadio, useExisting: radio };
 }

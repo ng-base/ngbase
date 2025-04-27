@@ -80,7 +80,7 @@
       ],
       "x-prompt": {
         "message": "Which component would you like to create?",
-        "type": "list",
+        "type": "checkbox",
         "items": [
           { "value": "accordion", "label": "Accordion" },
           { "value": "alert", "label": "Alert" },

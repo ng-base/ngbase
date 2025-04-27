@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve docs --port 4555",
     "build": "ng build docs",
+    "file:copy": "node schematic-file-copy.js",
     "build:adk": "ng build adk && pnpm build:adk:schematics",
     "build:adk:schematics": "pnpm exec tsc -p projects/adk/tsconfig.schematics.json && cp -r projects/adk/schematics dist/adk/",
     "build:mee": "ng build mee",

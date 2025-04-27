@@ -70,11 +70,10 @@ export class Command {
 
   readonly ayId = uniqueId();
 
-  readonly filter = filterFunction<CommandGroup, CommandItem>(this.dialogRef.data!, {
+  readonly filter = filterFunction<CommandGroup, CommandItem>(this.dialogRef.data!, () => ({
     filter: item => item.name,
     key: 'items',
-    childrenFilter: item => item.items,
-  });
+  }));
 
   close() {
     this.dialogRef.close();

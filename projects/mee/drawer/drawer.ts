@@ -7,7 +7,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FocusTrap } from '@ngbase/adk/a11y';
-import { BaseDialog, DialogOptions } from '@ngbase/adk/portal';
+import { BaseDialog, basePortal, DialogInput, DialogOptions } from '@ngbase/adk/portal';
 import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
 
 @Component({
@@ -18,7 +18,7 @@ import { createHostAnimation, fadeAnimation } from '@ngbase/adk/utils';
         class="pointer-events-auto flex max-h-[90vh] flex-col overflow-hidden rounded-tl-2xl rounded-tr-2xl border-t bg-background p-4 shadow-2xl"
         [@bottomAnimation]
       >
-        <button class="bg-muted-foreground mx-auto h-2 w-20 rounded-full"></button>
+        <button class="mx-auto h-2 w-20 rounded-full bg-muted-foreground"></button>
         @if (!isHideHeader) {
           <div class="flex h-8 items-center">
             <h2 class="flex-1 font-bold">{{ options.title }}</h2>
@@ -77,3 +77,28 @@ export class DrawerContainer extends BaseDialog {
     this.backdropColor = this.options.backdropColor || true;
   }
 }
+
+export function drawerPortal() {
+  const NAME = 'sheet';
+  const base = basePortal(NAME, DrawerContainer);
+
+  function open<T>(component: DialogInput<T>, opt?: DialogOptions) {
+    const { diaRef } = base.open(
+      component,
+      (comp, options) => {
+        comp.instance.setOptions(options);
+      },
+      opt,
+    );
+
+    const { afterClosed } = diaRef;
+    return { afterClosed };
+  }
+
+  function closeAll() {
+    base.closeAll();
+  }
+  return { open, closeAll };
+}
+
+export type Drawer = ReturnType<typeof drawerPortal>;

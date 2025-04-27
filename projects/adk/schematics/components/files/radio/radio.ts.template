@@ -23,7 +23,7 @@ export class RadioGroup {}
       ngbRadioIndicator
       class="custom-radio relative flex h-4 w-4 flex-none items-center justify-center rounded-full border border-primary group-aria-[disabled='true']:border-muted-foreground"
     >
-       <div
+      <div
         class="h-2 w-2 rounded-full bg-primary group-aria-[disabled='true']:bg-muted-foreground"
       ></div>
     </button>

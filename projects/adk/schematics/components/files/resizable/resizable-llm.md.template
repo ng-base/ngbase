@@ -1,0 +1,31 @@
+# Resizable
+
+```typescript
+import { Resizable, ResizableGroup } from '@/ui/resizable';
+```
+
+## Components
+
+### `<%= name %>-resizable-group`
+
+- **Inputs**
+  - `direction`: 'horizontal' | 'vertical' = 'horizontal' - The direction of the resizable group
+- **Exports** - `<%= name %>ResizableGroup`
+
+### `<%= name %>-resizable`
+
+- **Inputs**
+  - `size`: number | string = 'auto' - The size of the resizable
+  - `min`: number | string = 0 - The minimum size of the resizable
+  - `max`: number | string = undefined - The maximum size of the resizable
+- **Exports** - `<%= name %>Resizable`
+
+## Usage
+
+```html
+<<%= name %>-resizable-group>
+  <<%= name %>-resizable size="100px" />
+  <<%= name %>-resizable size="300px" />
+  <<%= name %>-resizable />
+</<%= name %>-resizable-group>
+```

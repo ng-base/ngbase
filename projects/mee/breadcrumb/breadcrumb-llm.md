@@ -1,7 +1,7 @@
 # MEE Breadcrumb
 
 ```typescript
-import { Breadcrumb, Breadcrumbs } from '@/ui/breadcrumb';
+import { Breadcrumb, Breadcrumbs, BreadcrumbsSeparator } from '@/ui/breadcrumb';
 ```
 
 ## Components
@@ -10,7 +10,7 @@ import { Breadcrumb, Breadcrumbs } from '@/ui/breadcrumb';
 
 ### `<mee-breadcrumb>`
 
-### `<mee-breadcrumbs-separator>`
+### `<mee-breadcrumbs-separator>` - Optional
 
 ## Usage
 
@@ -19,7 +19,8 @@ import { Breadcrumb, Breadcrumbs } from '@/ui/breadcrumb';
   <ng-template meeBreadcrumbsSeparator>
     <mee-icon name="lucideChevronRight"></mee-icon>
   </ng-template>
-  <mee-breadcrumb>Home</mee-breadcrumb>
-  <mee-breadcrumb>About</mee-breadcrumb>
+
+  <a meeBreadcrumb routerLink="/home">Home</a>
+  <mee-breadcrumb>Contact</mee-breadcrumb>
 </mee-breadcrumbs>
 ```

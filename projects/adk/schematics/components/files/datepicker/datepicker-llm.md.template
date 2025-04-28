@@ -1,0 +1,43 @@
+# MEE Datepicker
+
+```typescript
+import { FormField, Label } from '@/ui/form-field';
+import { DatepickerTrigger } from '@/ui/datepicker';
+```
+
+## Components
+
+### `[<%= name %>DatepickerTrigger]`
+
+- **Inputs:**
+
+  - `noOfCalendars`: number - The number of calendars to display
+  - `range`: boolean - Whether to display a range of dates
+  - `time`: boolean - Whether to display a time picker
+  - `format`: string - The format of the date input
+  - `fieldFormat`: string - The format of the date input in the datepicker group
+  - `dateFilter`: (date: Date) => boolean - A function to filter dates
+  - `pickerType`: 'date' | 'month' | 'year' - The type of picker to display
+  - `pickerTemplate`: TemplateRef<any> - A template to display in the picker
+
+## Usage
+
+```html
+<<%= name %>-form-field>
+  <label <%= name %>Label>Date</label>
+  <<%= name %>-datepicker-trigger
+    [noOfCalendars]="noOfCalendars"
+    [range]="range"
+    [time]="time"
+    [format]="format"
+    [fieldFormat]="fieldFormat"
+    [dateFilter]="dateFilter"
+    [pickerType]="'date'"
+    [pickerTemplate]="pickerTemplate"
+  />
+  <ng-template #pickerTemplate>
+    <button <%= name %>Button>Today</button>
+    <button <%= name %>Button>Yesterday</button>
+  </ng-template>
+</<%= name %>-form-field>
+```

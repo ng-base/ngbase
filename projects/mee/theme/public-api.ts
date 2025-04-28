@@ -1,2 +1,2 @@
 export { injectTheme } from './theme.service';
-export { ThemeButton } from './theme-button.component';
+export { ThemeButton } from './theme-button';

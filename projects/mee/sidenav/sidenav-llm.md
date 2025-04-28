@@ -27,10 +27,10 @@ import { Sidenav, SidenavHeader } from '@/ui/sidenav';
 ```html
 <mee-sidenav [show]="show()" [mode]="mode()">
   <mee-sidenav-header width="100px" minWidth="50px">
-    <div class="p-2">This is the header</div>
+    <div class="p-2">Collapsible content like side menu</div>
   </mee-sidenav-header>
   <div class="p-2">
-    <p>This is the content</p>
+    <p>Main content</p>
     <button (click)="toggle()">Toggle</button>
   </div>
 </mee-sidenav>

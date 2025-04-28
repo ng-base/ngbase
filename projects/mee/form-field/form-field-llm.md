@@ -2,7 +2,15 @@
 
 ```typescript
 import { Icon } from '@/ui/icon';
-import { FormField } from '@/ui/form-field';
+import {
+  FormField,
+  Label,
+  Description,
+  InputPrefix,
+  InputSuffix,
+  InputError,
+  MeeInput,
+} from '@/ui/form-field';
 ```
 
 ## Components
@@ -33,7 +41,7 @@ import { FormField } from '@/ui/form-field';
 
 ```html
 <mee-form-field>
-  <mee-label>Label</mee-label>
+  <label meeLabel>Label</label>
   <input meeInput [(value)]="value" />
   <p meeDescription>Description</p>
   <p meeError="required">Error</p>
@@ -41,6 +49,7 @@ import { FormField } from '@/ui/form-field';
   <mee-icon meePrefix name="info" />
   <mee-icon meeSuffix name="info" />
 </mee-form-field>
+
 <mee-form-field>
   <input meeInput [(ngModel)]="value" />
 </mee-form-field>

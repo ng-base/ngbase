@@ -1,19 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { isClient } from '@ngbase/adk/utils';
-import { dialogPortal } from '@meeui/ui/dialog';
-import { ThemeComponent } from './theme.component';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  dialog = dialogPortal();
-  mode = signal<'light' | 'dark' | ''>('light');
+  readonly mode = signal<'light' | 'dark' | ''>('light');
 
   constructor() {
     if (isClient()) {
       const theme = localStorage.getItem('theme');
       this._update((theme as 'light' | 'dark') || 'light');
-
-      // registerShortcut('ctrl+h', () => this.open());
     }
   }
 
@@ -30,14 +25,6 @@ export class ThemeService {
     }
     localStorage.setItem('theme', mode);
     this.mode.set(mode);
-  }
-
-  open() {
-    this.dialog.open(ThemeComponent, {
-      title: 'Theme',
-      backdrop: false,
-      width: '20rem',
-    });
   }
 }
 

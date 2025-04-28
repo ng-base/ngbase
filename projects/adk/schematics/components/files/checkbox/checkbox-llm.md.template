@@ -1,0 +1,27 @@
+# MEE Checkbox
+
+```typescript
+import { Checkbox } from '<%= basepath %>/checkbox';
+```
+
+## Component
+
+### `<<%= name %>-checkbox>`
+
+- **Inputs:**
+
+  - `disabled`: boolean - Whether the checkbox is disabled
+  - `checked`: boolean - Whether the checkbox is checked (2way)
+  - `indeterminate`: boolean - Whether the checkbox is indeterminate
+
+- **Outputs:**
+
+  - `checkedChange`: boolean - Whether the checkbox is checked
+  - `change`: boolean - Whether the checkbox is checked
+
+## Usage
+
+```html
+<<%= name %>-checkbox [checked]="true" (checkedChange)="onChange($event)" />
+<<%= name %>-checkbox [(checked)]="property" />
+```

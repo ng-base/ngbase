@@ -8,14 +8,16 @@ import {
   NgbBreadcrumbLink,
   NgbBreadcrumbs,
   NgbBreadcrumbSeparator,
-  NgbBreadcrumbSeparatorAria,
 } from '@ngbase/adk/breadcrumb';
 
 @Component({
   selector: 'mee-breadcrumbs',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ lucideChevronRight })],
   hostDirectives: [NgbBreadcrumbs],
-  template: `<ng-content />`,
+  imports: [Icon, NgbBreadcrumbSeparator],
+  template: `<ng-content />
+    <mee-icon *ngbBreadcrumbsSeparator name="lucideChevronRight" class="text-muted-foreground" /> `,
   host: {
     class: 'flex items-center gap-2',
   },
@@ -23,25 +25,14 @@ import {
 export class Breadcrumbs {}
 
 @Component({
-  selector: 'mee-breadcrumb',
+  selector: 'mee-breadcrumb, [meeBreadcrumb]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [aliasBreadcrumb(Breadcrumb)],
-  viewProviders: [provideIcons({ lucideChevronRight })],
-  imports: [Icon, NgbBreadcrumbLink, NgbBreadcrumbSeparatorAria],
-  template: `
-    <a class='hover:text-primary aria-[current="page"]:text-primary' ngbBreadcrumbLink>
-      <ng-content />
-    </a>
-    @if (!active()) {
-      <mee-icon
-        ngbBreadcrumbSeparatorAria
-        name="lucideChevronRight"
-        class="text-muted-foreground"
-      />
-    }
-  `,
+  hostDirectives: [NgbBreadcrumbLink],
+  template: `<ng-content />`,
   host: {
-    class: 'flex items-center gap-2 text-muted-foreground',
+    class:
+      'flex items-center gap-2 text-muted-foreground aria-[current="page"]:text-primary hover:text-primary cursor-pointer',
   },
 })
 export class Breadcrumb extends NgbBreadcrumb {}

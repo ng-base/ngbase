@@ -1,6 +1,7 @@
 # Select
 
 ```typescript
+import { FormField, Label } from '@/ui/form-field';
 import { Select, Option, OptionGroup, SelectInput } from '@/ui/select';
 ```
 
@@ -64,12 +65,13 @@ import { Select, Option, OptionGroup, SelectInput } from '@/ui/select';
 ```html
 <mee-form-field>
   <label meeLabel>Select</label>
-  <mee-select [value]="value">
+  <mee-select [(value)]="value">
     <mee-option value="1">Option 1</mee-option>
     <mee-option value="2">Option 2</mee-option>
     <mee-option value="3">Option 3</mee-option>
   </mee-select>
 </mee-form-field>
+
 <mee-form-field>
   <mee-select [(ngModel)]="value">
     <mee-option-group label="Group 1">

@@ -24,13 +24,14 @@ const excludePatterns = [
   /\.test\.ts$/, // Exclude test files
   /\.stories\.ts$/, // Exclude storybook files
   /ng-package\.json$/, // Exclude ng-package.json
-  /-llm\.md$/, // Exclude *-llm.md files
+  // /-llm\.md$/, // Exclude *-llm.md files
 ];
 
 // File rename rules
 const renameRules = [
   { from: /public-api\.ts$/, to: 'index.ts.template' },
   { from: /\.ts$/, to: '.ts.template' }, // Convert all .ts files to .ts.template
+  { from: /\.md$/, to: '.md.template' }, // Convert all .md files to .md.template
 ];
 
 /**

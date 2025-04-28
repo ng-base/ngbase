@@ -1,0 +1,26 @@
+# MEE Breadcrumb
+
+```typescript
+import { Breadcrumb, Breadcrumbs, BreadcrumbsSeparator } from '@/ui/breadcrumb';
+```
+
+## Components
+
+### `<<%= name %>-breadcrumbs>`
+
+### `<<%= name %>-breadcrumb>`
+
+### `<<%= name %>-breadcrumbs-separator>` - Optional
+
+## Usage
+
+```html
+<<%= name %>-breadcrumbs>
+  <ng-template <%= name %>BreadcrumbsSeparator>
+    <<%= name %>-icon name="lucideChevronRight"></<%= name %>-icon>
+  </ng-template>
+
+  <a <%= name %>Breadcrumb routerLink="/home">Home</a>
+  <<%= name %>-breadcrumb>Contact</<%= name %>-breadcrumb>
+</<%= name %>-breadcrumbs>
+```

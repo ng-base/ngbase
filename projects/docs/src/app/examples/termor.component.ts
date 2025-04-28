@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button } from '@meeui/ui/button';
 import { Checkbox } from '@meeui/ui/checkbox';
 import { Icon } from '@meeui/ui/icon';
-import { Input } from '@meeui/ui/form-field';
+import { MeeInput } from '@meeui/ui/form-field';
 import { Pagination } from '@meeui/ui/pagination';
 import { Sidenav, SidenavHeader } from '@meeui/ui/sidenav';
 import { TableComponents } from '@meeui/ui/table';
@@ -29,7 +29,7 @@ interface Restaurant {
 @Component({
   selector: 'app-termor',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Input, Button, Checkbox, Pagination, TableComponents, Sidenav, SidenavHeader],
+  imports: [Icon, MeeInput, Button, Checkbox, Pagination, TableComponents, Sidenav, SidenavHeader],
   viewProviders: [
     provideIcons({
       lucideCircleUserRound,

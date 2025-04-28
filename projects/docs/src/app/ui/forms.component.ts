@@ -5,7 +5,7 @@ import { markControlsTouched } from '@ngbase/adk/form-field';
 import { Autocomplete, AutocompleteInput } from '@meeui/ui/autocomplete';
 import { Button } from '@meeui/ui/button';
 import { DatepickerTrigger } from '@meeui/ui/datepicker';
-import { FormField, Input, InputError, Label } from '@meeui/ui/form-field';
+import { FormField, MeeInput, InputError, Label } from '@meeui/ui/form-field';
 import { Option, Select } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
 
@@ -15,7 +15,7 @@ import { Heading } from '@meeui/ui/typography';
   imports: [
     ReactiveFormsModule,
     Heading,
-    Input,
+    MeeInput,
     Label,
     FormField,
     InputError,

@@ -1,0 +1,31 @@
+# Selectable
+
+```typescript
+import { Selectable, SelectableItem } from '@/ui/selectable';
+```
+
+## Components
+
+### `<%= name %>-selectable`
+
+- **Inputs**
+  - `activeIndex`: number - Active index (2way)
+- **Outputs**
+  - `activeIndexChange`: EventEmitter<number> - Active index changed event
+  - `valueChanged`: EventEmitter<any> - Value changed event
+- **Export** - `<%= name %>Selectable` - Template reference
+
+### `<%= name %>-selectable-item, [<%= name %>SelectableItem]`
+
+- **Inputs**
+  - `value`: any - Value
+- **Export** - `<%= name %>SelectableItem` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-selectable [(activeIndex)]="activeIndex">
+  <<%= name %>-selectable-item value="1">Item 1</<%= name %>-selectable-item>
+  <button <%= name %>SelectableItem value="2">Item 2</button>
+</<%= name %>-selectable>
+```

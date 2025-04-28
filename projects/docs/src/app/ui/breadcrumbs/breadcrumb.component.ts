@@ -6,10 +6,20 @@ import { DocCode, getCode } from '../code.component';
 import { provideIcons } from '@ng-icons/core';
 import { lucideChevronRight } from '@ng-icons/lucide';
 import { Icon } from '@meeui/ui/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-breadcrumb',
-  imports: [Heading, Breadcrumbs, Breadcrumb, BreadcrumbsSeparator, FormsModule, DocCode, Icon],
+  imports: [
+    Heading,
+    Breadcrumbs,
+    Breadcrumb,
+    BreadcrumbsSeparator,
+    FormsModule,
+    DocCode,
+    Icon,
+    RouterLink,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ lucideChevronRight })],
   template: `
@@ -18,7 +28,7 @@ import { Icon } from '@meeui/ui/icon';
       <mee-breadcrumbs>
         <ng-template meeBreadcrumbsSeparator>/</ng-template>
         <mee-breadcrumb>Home</mee-breadcrumb>
-        <mee-breadcrumb>Product</mee-breadcrumb>
+        <a meeBreadcrumb routerLink="/about">Product</a>
         <mee-breadcrumb>Items</mee-breadcrumb>
       </mee-breadcrumbs>
       <br />

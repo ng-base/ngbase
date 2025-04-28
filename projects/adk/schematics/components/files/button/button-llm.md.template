@@ -1,0 +1,22 @@
+# MEE Button
+
+```typescript
+import { Button } from '@/ui/button';
+```
+
+## Components
+
+### `[<%= name %>Button]`
+
+- ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'icon'
+- **Inputs:**
+
+  - `variant`: ButtonVariant = 'primary'
+
+- **Export:** `#button="<%= name %>Button"` - Template reference
+
+## Usage
+
+```html
+<button <%= name %>Button>Button</button> <button <%= name %>Button variant="ghost">Button</button>
+```

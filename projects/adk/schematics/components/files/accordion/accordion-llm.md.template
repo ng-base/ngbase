@@ -1,0 +1,35 @@
+# MEE Accordion
+
+```typescript
+import { Accordion, AccordionGroup, AccordionHeader } from '@/ui/accordion';
+```
+
+## Components
+
+### `<<%= name %>-accordion-group>`
+
+- **Input:** `[multiple]`: boolean = false - Allow multiple open items
+
+### `<<%= name %>-accordion>`
+
+- **Inputs:**
+  - `[expanded]`: boolean = false - Item expanded state (2way)
+  - `[disabled]`: boolean = false - Disable interaction
+- **Output:** `(expandedChange)`: EventEmitter<boolean> - On state change
+- **Method:** `toggle()` - Toggle expanded state
+- **Export:** `#accordion="<%= name %>Accordion"` - Template reference
+
+### `[<%= name %>AccordionHeader]`
+
+- Directive for header element
+
+## Examples
+
+```html
+<<%= name %>-accordion-group>
+  <<%= name %>-accordion>
+    <div <%= name %>AccordionHeader>Title</div>
+    <p>Content</p>
+  </<%= name %>-accordion>
+</<%= name %>-accordion-group>
+```

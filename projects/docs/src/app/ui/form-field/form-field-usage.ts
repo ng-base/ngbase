@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormsModule, Validators } from '@angular/forms';
 import {
   FormField,
-  Input,
+  MeeInput,
   Label,
   InputError,
   Description,
@@ -14,7 +14,7 @@ import {
   selector: 'app-root',
   imports: [
     FormsModule,
-    Input,
+    MeeInput,
     FormField,
     Label,
     InputError,

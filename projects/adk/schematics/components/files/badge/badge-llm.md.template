@@ -1,0 +1,21 @@
+# MEE Badge
+
+```typescript
+import { Badge } from '@/ui/badge';
+```
+
+## Components
+
+### `<<%= name %>-badge>, [<%= name %>Badge]`
+
+- **Inputs:**
+
+  - `variant`: 'info' | 'success' | 'warning' | 'danger' = 'info' - Badge variant
+
+- **Export:** `<%= name %>Badge`
+
+## Usage
+
+```html
+<<%= name %>-badge>Badge</<%= name %>-badge> <button <%= name %>Badge variant="success">Badge</button>
+```

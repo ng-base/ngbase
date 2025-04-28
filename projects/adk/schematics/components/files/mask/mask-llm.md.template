@@ -1,0 +1,19 @@
+# Mask
+
+```typescript
+import { Mask } from '@/ui/mask';
+```
+
+## Components
+
+### `<%= name %>Mask`
+
+- **Inputs**
+  - `<%= name %>Mask`: string - The mask pattern to apply to the input
+  - `showMaskType`: boolean = false - Whether to show the mask type
+
+## Usage
+
+```html
+<<%= name %>-mask [<%= name %>Mask]="'(000) 000-0000'" [showMaskType]="showMaskType" />
+```

@@ -1,0 +1,19 @@
+# Icon
+
+```typescript
+import { Icon } from '@/ui/icon';
+```
+
+## Components
+
+### `<%= name %>-icon`
+
+- **Inputs**
+  - `name`: string - The name of the icon to display
+  - `size`: string - The size of the icon to display
+
+## Usage
+
+```html
+<<%= name %>-icon name="info" />
+```

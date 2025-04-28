@@ -1,0 +1,37 @@
+# MEE Avatar
+
+```typescript
+import { Avatar, AvatarGroup } from '@/ui/avatar';
+```
+
+## Components
+
+### `<<%= name %>-avatar-group>`
+
+- **Inputs:**
+
+  - `reverse`: boolean = false - Reverse the avatar group
+  - `left`: boolean = false - Left the avatar group
+
+- **Export:** `#avatarGroup="<%= name %>AvatarGroup"` - Template reference
+
+### `<<%= name %>-avatar>, [<%= name %>Avatar]`
+
+- **Inputs:**
+
+  - `src`: string = '' - Avatar image source
+  - `name`: string = '' - Avatar name
+  - `text`: string = '' - Avatar text
+  - `size`: 'sm' | 'md' | 'lg' = 'md' - Avatar size
+
+- **Export:** `#avatar="<%= name %>Avatar"` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-avatar name="John Doe" src="https://x.me/0.jpg" />
+<<%= name %>-avatar-group>
+  <<%= name %>-avatar src="https://x.me/0.jpg" size="lg" />
+  <button <%= name %>Avatar src="https://x.me/1.jpg" size="lg" />
+</<%= name %>-avatar-group>
+```

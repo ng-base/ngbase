@@ -1,0 +1,37 @@
+# Menu
+
+```typescript
+import { Menu, MenuTrigger, MenuContent } from '@/ui/menu';
+```
+
+## Components
+
+### `<%= name %>-menu`
+
+- **Exports** - `<%= name %>Menu`
+
+### `<%= name %>MenuContent`
+
+### `<%= name %>MenuTrigger`
+
+- **Inputs**
+  - `<%= name %>MenuTrigger`: <%= name %>Menu - Menu reference
+- **Exports** - `<%= name %>MenuTrigger`
+
+## Menu Usage
+
+```html
+<button [<%= name %>MenuTrigger]="menu">Menu</button>
+<<%= name %>-menu #menu>
+  <button>Item 1</button>
+  <button>Item 2</button>
+</<%= name %>-menu>
+
+<button [<%= name %>MenuTrigger]="menu1" [<%= name %>MenuTriggerData]="{ data: 'Custom data' }">Menu</button>
+<<%= name %>-menu #menu1>
+  <ng-template <%= name %>MenuContent let-data="data">
+    <button <%= name %>List>{{ data }}</button>
+    <button <%= name %>List>Item 2</button>
+  </ng-template>
+</<%= name %>-menu>
+```

@@ -1,4 +1,4 @@
-import { computed, Directive, inject } from '@angular/core';
+import { computed, Directive, effect, inject, ViewContainerRef } from '@angular/core';
 import { NgbBreadcrumbs } from './breadcrumbs';
 
 @Directive({
@@ -15,6 +15,17 @@ export class NgbBreadcrumb {
     const items = this.breadcrumbs.items();
     return items.indexOf(this) === items.length - 1;
   });
+
+  constructor() {
+    const vcRef = inject(ViewContainerRef);
+    effect(cleanup => {
+      const separator = this.breadcrumbs.separator();
+      if (separator && !this.active()) {
+        vcRef.createEmbeddedView(separator);
+        cleanup(() => vcRef.clear());
+      }
+    });
+  }
 }
 
 export function aliasBreadcrumb(breadcrumb: typeof NgbBreadcrumb) {

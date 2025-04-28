@@ -1,0 +1,23 @@
+# Switch
+
+```typescript
+import { Switch } from '@/ui/switch';
+```
+
+## Components
+
+### `<%= name %>-switch`
+
+- **Inputs**
+  - `checked`: boolean = false - Whether the switch is checked (2way)
+  - `disabled`: boolean = false - Whether the switch is disabled
+- **Outputs**
+  - `checkedChange`: EventEmitter<boolean> - Emits the checked value when it changes
+  - `change`: EventEmitter<boolean> - Emits the checked value when it changes
+- **Export** - `<%= name %>Switch` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-switch [(checked)]="checked" [disabled]="disabled()"></<%= name %>-switch>
+```

@@ -4,7 +4,6 @@ import { injectDirectionality } from '@ngbase/adk/bidi';
 import { injectNetwork } from '@ngbase/adk/network';
 import { isClient } from '@ngbase/adk/utils';
 import { sonnerPortal } from '@meeui/ui/sonner';
-import { injectTheme } from '@meeui/ui/theme';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +12,9 @@ import { injectTheme } from '@meeui/ui/theme';
   template: `<router-outlet />`,
 })
 export class AppComponent {
-  themeService = injectTheme();
-  direction = injectDirectionality();
-  internetAvailability = injectNetwork();
-  sonner = sonnerPortal();
+  readonly direction = injectDirectionality();
+  readonly internetAvailability = injectNetwork();
+  readonly sonner = sonnerPortal();
 
   constructor() {
     let initialStatus = this.internetAvailability.isOnline();

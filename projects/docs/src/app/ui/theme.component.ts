@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { ColorInput } from '@meeui/ui/color-picker';
-import { FormField, Input } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 
 interface ThemeData {
   name: string;
@@ -19,7 +19,7 @@ interface ThemeData {
 
 @Component({
   selector: 'mee-theme',
-  imports: [Input, ReactiveFormsModule, Button, ColorInput, FormField],
+  imports: [MeeInput, ReactiveFormsModule, Button, ColorInput, FormField],
   template: `
     <div class="mb-4 flex gap-4">
       @for (theme of themes; track theme) {

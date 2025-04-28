@@ -1,0 +1,32 @@
+# Stepper
+
+```typescript
+import { Stepper, Step, StepHeader } from '@/ui/stepper';
+```
+
+## Components
+
+### `<%= name %>-stepper`
+
+- **Inputs**
+  - `activeIndex`: number = 0 - The index of the active step (2way)
+  - `direction`: 'horizontal' | 'vertical' = 'horizontal' - The direction of the stepper
+- **Export** - `<%= name %>Stepper` - Template reference
+
+### `<%= name %>-step`
+
+- **Inputs**
+  - `title`: string - The title of the step
+- **Export** - `<%= name %>Step` - Template reference
+
+### `[<%= name %>StepHeader]`
+
+## Usage
+
+```html
+<<%= name %>-stepper [(activeIndex)]="activeIndex" [direction]="direction()">
+  <<%= name %>-step title="Step 1"> Step 1 </<%= name %>-step>
+  <<%= name %>-step title="Step 2"> Step 2 </<%= name %>-step>
+  <<%= name %>-step title="Step 3"> Step 3 </<%= name %>-step>
+</<%= name %>-stepper>
+```

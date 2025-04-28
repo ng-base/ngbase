@@ -1,0 +1,76 @@
+# MEE Autocomplete
+
+```typescript
+import { FormField, Label } from '@/ui/form-field';
+import { Autocomplete, AutocompleteInput } from '@/ui/autocomplete';
+import { Option } from '@/ui/select';
+```
+
+## Components
+
+### `<<%= name %>-autocomplete>`
+
+- **Inputs:**
+
+  - `value`: any[] | any - Selected value (2way)
+  - `disabled`: boolean = false - Disable the autocomplete (2way)
+  - `multiple`: boolean = false - Allow multiple selection
+  - `noAutoClose`: boolean = false - Prevent auto close
+  - `options`: any[] - Options
+  - `placeholder`: string = ' ' - Placeholder text
+  - `size`: 'target' | 'free' = 'free' - Size of the autocomplete
+  - `filterFn`: (option: any) => boolean = (option: any) => true - Filter function
+  - `queryFn`: (query: string, option: any) => boolean = (query: string, option: any) => true - Query function
+  - `filterOptions`: FilterOptions<any> - Filter options
+
+- **Outputs:**
+
+  - `opened`: boolean - Open state
+  - `closed`: boolean - Close state
+
+- **Methods:**
+
+  - `open()`: void - Open the autocomplete
+  - `close()`: void - Close the autocomplete
+
+- **Export:** `#autocomplete="<%= name %>Autocomplete"` - Template reference
+
+### `[<%= name %>AutocompleteInput]`
+
+- **Inputs:**
+
+  - `isChip`: boolean = false - Use chip style
+  - `placeholder`: string = ' ' - Placeholder text
+  - `value`: string = '' - Value (2way)
+
+- **Outputs:**
+
+  - `ngbAutocompleteInput: <%= name %>AutocompleteInput` - Autocomplete input event (2way)
+
+- **Export:** `#autocompleteInput="<%= name %>AutocompleteInput"` - Template reference
+
+### `<<%= name %>-option>`
+
+- **Inputs:**
+
+  - `value`: any - Option value
+
+- **Export:** `#option="<%= name %>Option"` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-form-field class="w-72 md:w-96">
+  <label <%= name %>Label>Autocomplete</label>
+  <<%= name %>-autocomplete [(ngModel)]="selectValue2.value" class="w-72 md:w-96">
+    <input
+      placeholder="Search options"
+      [(ngModel)]="selectValue2.optionsFilter.search"
+      <%= name %>AutocompleteInput
+    />
+    @for (item of selectValue2.optionsFilter.filteredList(); track item) {
+    <<%= name %>-option [value]="item">{{ item }}</<%= name %>-option>
+    }
+  </<%= name %>-autocomplete>
+</<%= name %>-form-field>
+```

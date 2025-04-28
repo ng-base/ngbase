@@ -1,0 +1,16 @@
+# MEE Card
+
+```typescript
+import { Card } from '@/ui/card';
+```
+
+## Components
+
+### `<<%= name %>-card>, [<%= name %>Card]`
+
+## Usage
+
+```html
+<<%= name %>-card>Card</<%= name %>-card>
+<div <%= name %>Card>Card</div>
+```

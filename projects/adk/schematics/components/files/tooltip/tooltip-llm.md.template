@@ -1,0 +1,37 @@
+# Tooltip
+
+```typescript
+import { Tooltip } from '@/ui/tooltip';
+```
+
+## Components
+
+PopoverPosition =
+| 'top'
+| 'bottom'
+| 'left'
+| 'right'
+| 'rs'
+| 're'
+| 'ls'
+| 'le'
+| 'tl'
+| 'tr'
+| 'bl'
+| 'br';
+
+### `<%= name %>-tooltip`
+
+- **inputs**
+
+  - `<%= name %>Tooltip`: string
+  - `<%= name %>TooltipPosition`: PopoverPosition
+  - `delay`: number
+
+- **exports** - `<%= name %>Tooltip`
+
+## Usage
+
+```html
+<<%= name %>-tooltip <%= name %>Tooltip="Tooltip content" [delay]="100" />
+```

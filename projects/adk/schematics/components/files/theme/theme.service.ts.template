@@ -3,14 +3,12 @@ import { isClient } from '@ngbase/adk/utils';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  mode = signal<'light' | 'dark' | ''>('light');
+  readonly mode = signal<'light' | 'dark' | ''>('light');
 
   constructor() {
     if (isClient()) {
       const theme = localStorage.getItem('theme');
       this._update((theme as 'light' | 'dark') || 'light');
-
-      // registerShortcut('ctrl+h', () => this.open());
     }
   }
 

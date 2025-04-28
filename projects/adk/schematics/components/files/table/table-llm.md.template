@@ -1,0 +1,31 @@
+# Table
+
+```typescript
+import { TableComponents } from '@/ui/table';
+```
+
+### `<%= name %>Table`
+
+- **inputs**
+
+  - `data`: `T[]`
+  - `trackBy`: `(index: number, item: T) => string`
+
+- **Exports** - `<%= name %>Table`
+
+## Usage
+
+```html
+<table <%= name %>Table [data]="data" [trackBy]="trackBy">
+  <ng-container <%= name %>Column="name">
+    <th <%= name %>Head *<%= name %>HeadDef>Name</th>
+    <td <%= name %>Cell *<%= name %>CellDef="let row">{{row.name}}</td>
+  </ng-container>
+  <ng-container <%= name %>Column="age">
+    <th <%= name %>Head *<%= name %>HeadDef>Age</th>
+    <td <%= name %>Cell *<%= name %>CellDef="let row">{{row.age}}</td>
+  </ng-container>
+  <tr <%= name %>HeadRow *<%= name %>HeadRowDef="columns()"></tr>
+  <tr <%= name %>BodyRow *<%= name %>BodyRowDef="let row; columns: columns()"></tr>
+</table>
+```

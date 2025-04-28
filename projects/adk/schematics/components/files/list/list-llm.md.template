@@ -1,0 +1,23 @@
+# List
+
+```typescript
+import { List } from '@/ui/list';
+```
+
+## Components
+
+### `[<%= name %>List]`
+
+- **inputs**
+
+  - `disabled`: boolean
+
+- **exports** - `<%= name %>List`
+
+## Usage
+
+```html
+<button <%= name %>List>Item 1</button>
+<button <%= name %>List>Item 2</button>
+<button <%= name %>List>Item 3</button>
+```

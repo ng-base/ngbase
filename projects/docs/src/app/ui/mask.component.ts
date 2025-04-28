@@ -4,7 +4,7 @@ import { MaskPipe } from '@ngbase/adk/mask';
 import { MaskInput } from '@meeui/ui/mask';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from './code.component';
-import { FormField, Input } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'app-mask',
@@ -12,7 +12,7 @@ import { FormField, Input } from '@meeui/ui/form-field';
   imports: [
     DocCode,
     FormField,
-    Input,
+    MeeInput,
     MaskInput,
     MaskPipe,
     Heading,

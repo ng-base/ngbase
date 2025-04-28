@@ -1,0 +1,36 @@
+# Radio
+
+```typescript
+import { Radio, RadioGroup } from '@/ui/radio';
+```
+
+## Components
+
+### `<%= name %>-radio-group`
+
+- **Inputs**
+  - `value`: any - The value of the radio group (2way)
+  - **Outputs**
+  - `valueChange`: EventEmitter<any> - The event emitter for the value change
+- **Exports** - `<%= name %>RadioGroup`
+
+### `<%= name %>-radio`
+
+- **Inputs**
+  - `value`: any - The value of the radio
+  - `disabled`: boolean - Whether the radio is disabled
+- **Exports** - `<%= name %>Radio`
+
+## Usage
+
+```html
+<<%= name %>-radio-group [(value)]="value">
+  <<%= name %>-radio value="1">Radio 1</<%= name %>-radio>
+  <<%= name %>-radio value="2">Radio 2</<%= name %>-radio>
+</<%= name %>-radio-group>
+
+<<%= name %>-radio-group [(ngModel)]="value">
+  <<%= name %>-radio value="1">Radio 1</<%= name %>-radio>
+  <<%= name %>-radio value="2">Radio 2</<%= name %>-radio>
+</<%= name %>-radio-group>
+```

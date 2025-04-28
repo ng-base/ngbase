@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
-import { FormField, Input } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 import { AutoHeight } from '@ngbase/adk/form-field';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Option, OptionGroup, Select, SelectInput } from '@meeui/ui/select';
@@ -27,7 +27,7 @@ import { lucideBookText, lucideDownload } from '@ng-icons/lucide';
     OptionGroup,
     Button,
     Heading,
-    Input,
+    MeeInput,
     AutoHeight,
     Menu,
     MenuTrigger,

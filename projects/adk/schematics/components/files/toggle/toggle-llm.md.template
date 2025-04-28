@@ -1,0 +1,19 @@
+# Toggle
+
+```typescript
+import { Toggle } from '@/ui/toggle';
+```
+
+### `<%= name %>-toggle`
+
+- **inputs**
+
+  - `value`: boolean (2way)
+
+- **exports** - `<%= name %>Toggle`
+
+## Usage
+
+```html
+<<%= name %>-toggle [(value)]="value" />
+```

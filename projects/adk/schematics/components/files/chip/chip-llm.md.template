@@ -1,0 +1,29 @@
+# MEE Chip
+
+```typescript
+import { Chip, ChipGroup } from '<%= basepath %>/chip';
+```
+
+## Components
+
+### `<<%= name %>-chip-group>`
+
+### `<<%= name %>-chip>, [<%= name %>Chip]`
+
+- **Inputs:**
+
+  - `removable`: boolean - Whether the chip is removable
+  - `value`: any - The value of the chip
+
+- **Outputs:**
+
+  - `close`: void - Emits when the chip is closed
+
+## Usage
+
+```html
+<<%= name %>-chip-group>
+  <<%= name %>-chip [value]="item" [removable]="true">Text</<%= name %>-chip>
+  <button <%= name %>Chip [value]="item" [removable]="true">Text</button>
+</<%= name %>-chip-group>
+```

@@ -1,0 +1,32 @@
+# Toggle
+
+```typescript
+import { ToggleGroup, ToggleItem } from '@/ui/toggle-group';
+```
+
+### `<%= name %>-toggle-group`
+
+- **inputs**
+
+  - `value`: boolean (2way)
+  - `multiple`: boolean
+
+- **exports** - `<%= name %>ToggleGroup`
+
+### `<%= name %>-toggle-item`
+
+- **inputs**
+
+  - `value`: boolean
+  - `disabled`: boolean
+
+- **exports** - `<%= name %>ToggleItem`
+
+## Usage
+
+```html
+<<%= name %>-toggle-group [(value)]="value" [multiple]="multiple">
+  <button <%= name %>ToggleItem value="1">1</button>
+  <button <%= name %>ToggleItem value="2">2</button>
+</<%= name %>-toggle-group>
+```

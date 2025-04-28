@@ -1,0 +1,37 @@
+# Sidenav
+
+```typescript
+import { Sidenav, SidenavHeader } from '@/ui/sidenav';
+```
+
+## Components
+
+### `<%= name %>-sidenav`
+
+- **Inputs**
+  - `show`: boolean - Whether to show the sidenav (2way)
+  - `mode`: 'side' | 'over' - The mode of the sidenav
+- **Outputs**
+  - `showChange`: EventEmitter<boolean> - Show changed event
+- **Export** - `<%= name %>Sidenav` - Template reference
+
+### `<%= name %>-sidenav-header`
+
+- **Inputs**
+  - `width`: string - The width of the sidenav
+  - `minWidth`: string - The minimum width of the sidenav
+- **Export** - `<%= name %>SidenavHeader` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-sidenav [show]="show()" [mode]="mode()">
+  <<%= name %>-sidenav-header width="100px" minWidth="50px">
+    <div class="p-2">Collapsible content like side menu</div>
+  </<%= name %>-sidenav-header>
+  <div class="p-2">
+    <p>Main content</p>
+    <button (click)="toggle()">Toggle</button>
+  </div>
+</<%= name %>-sidenav>
+```

@@ -24,6 +24,8 @@ import { lucideMenu } from '@ng-icons/lucide';
 import { AppService } from '../app.service';
 import { NavComponent } from './nav-header.component';
 import { LangButton } from './lang-button';
+import { dialogPortal } from '@meeui/ui/dialog';
+import { ThemeComponent } from './theme.component';
 
 @Component({
   selector: 'mee-base',
@@ -60,7 +62,7 @@ import { LangButton } from './lang-button';
         <div class="flex h-full items-center gap-1">
           <button
             meeButton="ghost"
-            (click)="themeService.open()"
+            (click)="openTheme()"
             class="tour-theme"
             meeTourStep="theme-open"
           >
@@ -105,6 +107,7 @@ import { LangButton } from './lang-button';
   },
 })
 export class BaseComponent {
+  readonly dialog = dialogPortal();
   readonly themeService = injectTheme();
   readonly dir = inject(Directionality);
   readonly sideNav = viewChild.required(Sidenav);
@@ -130,5 +133,13 @@ export class BaseComponent {
 
   toggleMode() {
     this.mode.update(mode => (mode === 'side' ? 'over' : 'side'));
+  }
+
+  openTheme() {
+    this.dialog.open(ThemeComponent, {
+      title: 'Theme',
+      backdrop: false,
+      width: '20rem',
+    });
   }
 }

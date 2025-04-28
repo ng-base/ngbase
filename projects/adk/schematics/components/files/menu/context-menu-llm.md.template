@@ -1,0 +1,28 @@
+# Menu
+
+```typescript
+import { Menu, MenuTrigger, MenuContent } from '@/ui/menu';
+```
+
+## Components
+
+### `[<%= name %>ContextMenu]`
+
+- **Inputs**
+  - `<%= name %>ContextMenu`: Menu - Menu reference
+- **Outputs**
+  - `ctxOpen`: EventEmitter<void> - Emits when the context menu is opened
+  - `ctxClose`: EventEmitter<void> - Emits when the context menu is closed
+- **Exports** - `<%= name %>ContextMenu`
+
+## Usage
+
+```html
+<button [<%= name %>ContextMenu]="menu">Context Menu</button>
+<<%= name %>-menu #menu>
+  <button>Item 1</button>
+  <button>Item 2</button>
+</<%= name %>-menu>
+```
+
+## Context Menu

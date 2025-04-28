@@ -8,8 +8,14 @@ import { Badge } from '@/ui/badge';
 
 ### `<mee-badge>, [meeBadge]`
 
+- **Inputs:**
+
+  - `variant`: 'info' | 'success' | 'warning' | 'danger' = 'info' - Badge variant
+
+- **Export:** `meeBadge`
+
 ## Usage
 
 ```html
-<mee-badge>Badge</mee-badge> <button meeBadge>Badge</button>
+<mee-badge>Badge</mee-badge> <button meeBadge variant="success">Badge</button>
 ```

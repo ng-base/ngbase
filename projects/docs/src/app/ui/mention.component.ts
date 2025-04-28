@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FormField, Input } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 import { MentionTrigger, Menu } from '@meeui/ui/menu';
 import { Option } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
@@ -8,7 +8,7 @@ import { DocCode } from './code.component';
 
 @Component({
   selector: 'app-mention',
-  imports: [FormsModule, Heading, MentionTrigger, Input, Menu, Option, DocCode, FormField],
+  imports: [FormsModule, Heading, MentionTrigger, MeeInput, Menu, Option, DocCode, FormField],
   template: `
     <h4 meeHeader class="mb-5" id="mentionPage">Mention</h4>
     <app-doc-code [tsCode]="code">

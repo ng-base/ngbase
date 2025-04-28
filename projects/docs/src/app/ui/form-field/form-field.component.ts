@@ -3,7 +3,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import {
   Description,
   FormField,
-  Input,
+  MeeInput,
   InputError,
   InputPrefix,
   InputSuffix,
@@ -21,7 +21,7 @@ import { DocCode, getCode } from '../code.component';
     FormsModule,
     ReactiveFormsModule,
     Heading,
-    Input,
+    MeeInput,
     InputError,
     FormField,
     Label,

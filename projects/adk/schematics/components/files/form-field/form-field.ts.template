@@ -52,7 +52,7 @@ export class FormField {
     '[class.border-red-500]': 'formField?.hasErrors()',
   },
 })
-export class Input {
+export class MeeInput {
   readonly formField = inject(NgbFormField, { optional: true });
 }
 

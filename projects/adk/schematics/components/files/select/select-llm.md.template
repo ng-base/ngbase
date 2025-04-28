@@ -1,0 +1,87 @@
+# Select
+
+```typescript
+import { FormField, Label } from '@/ui/form-field';
+import { Select, Option, OptionGroup, SelectInput } from '@/ui/select';
+```
+
+## Components
+
+### `<%= name %>-select`
+
+- **Inputs**
+
+  - `value`: any[] | any - Selected value (2way)
+  - `disabled`: boolean = false - Disable the autocomplete (2way)
+  - `multiple`: boolean = false - Allow multiple selection
+  - `noAutoClose`: boolean = false - Prevent auto close
+  - `options`: any[] - Options
+  - `placeholder`: string = ' ' - Placeholder text
+  - `size`: 'target' | 'free' = 'free' - Size of the autocomplete
+  - `filterFn`: (option: any) => boolean = (option: any) => true - Filter function
+  - `queryFn`: (query: string, option: any) => boolean = (query: string, option: any) => true - Query function
+  - `filterOptions`: FilterOptions<any> - Filter options
+
+- **Outputs**
+
+  - `opened`: boolean - Open state
+  - `closed`: boolean - Close state
+
+- **Methods**
+
+  - `open()`: void - Open the select
+  - `close()`: void - Close the select
+
+- **Export** - `#select="<%= name %>Select"` - Template reference
+
+### `<%= name %>-option`
+
+- **Inputs**
+
+  - `value`: any - The value of the option
+  - `disabled`: boolean = false - Disable the option
+
+- **Export** - `#option="<%= name %>Option"` - Template reference
+
+### `<%= name %>-option-group`
+
+- **Inputs**
+
+  - `label`: string - The label of the option group
+
+- **Export** - `#optionGroup="<%= name %>OptionGroup"` - Template reference
+
+### `<%= name %>-select-input`
+
+- **Inputs**
+
+  - `placeholder`: string = ' ' - Placeholder text
+  - `value`: string = '' - Value (2way)
+
+- **Export** - `#selectInput="<%= name %>SelectInput"` - Template reference
+
+## Usage
+
+```html
+<<%= name %>-form-field>
+  <label <%= name %>Label>Select</label>
+  <<%= name %>-select [(value)]="value">
+    <<%= name %>-option value="1">Option 1</<%= name %>-option>
+    <<%= name %>-option value="2">Option 2</<%= name %>-option>
+    <<%= name %>-option value="3">Option 3</<%= name %>-option>
+  </<%= name %>-select>
+</<%= name %>-form-field>
+
+<<%= name %>-form-field>
+  <<%= name %>-select [(ngModel)]="value">
+    <<%= name %>-option-group label="Group 1">
+      <<%= name %>-option value="1">Option 1</<%= name %>-option>
+      <<%= name %>-option value="2">Option 2</<%= name %>-option>
+    </<%= name %>-option-group>
+    <<%= name %>-option-group label="Group 2">
+      <<%= name %>-option value="3">Option 3</<%= name %>-option>
+      <<%= name %>-option value="4">Option 4</<%= name %>-option>
+    </<%= name %>-option-group>
+  </<%= name %>-select>
+</<%= name %>-form-field>
+```

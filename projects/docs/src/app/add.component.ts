@@ -3,7 +3,7 @@ import { Autofocus } from '@ngbase/adk/a11y';
 import { DialogRef } from '@ngbase/adk/portal';
 import { Button } from '@meeui/ui/button';
 import { DialogClose, dialogPortal } from '@meeui/ui/dialog';
-import { Input } from '@meeui/ui/form-field';
+import { MeeInput } from '@meeui/ui/form-field';
 import { Option, Select } from '@meeui/ui/select';
 import { AddService } from './add.service';
 import { AppService } from './app.service';
@@ -11,7 +11,7 @@ import { AppService } from './app.service';
 @Component({
   selector: 'app-add',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DialogClose, Select, Option, Input, Autofocus],
+  imports: [Button, DialogClose, Select, Option, MeeInput, Autofocus],
   providers: [AddService],
   template: `
     <input meeInput ngbAutofocus />

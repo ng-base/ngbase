@@ -1,0 +1,56 @@
+# MEE Form Field
+
+```typescript
+import { Icon } from '@/ui/icon';
+import {
+  FormField,
+  Label,
+  Description,
+  InputPrefix,
+  InputSuffix,
+  InputError,
+  MeeInput,
+} from '@/ui/form-field';
+```
+
+## Components
+
+### `<%= name %>-form-field, [<%= name %>FormField]`
+
+### `[<%= name %>Label]`
+
+### `[<%= name %>Description]`
+
+### `[<%= name %>Prefix]`
+
+### `[<%= name %>Suffix]`
+
+### `[<%= name %>Error]`
+
+- **Inputs**
+  - `<%= name %>Error`: string - condition to show the error similar to ngIf
+
+### `[<%= name %>Input]`
+
+- **Inputs**
+  - `value`: string - The value of the input (2way)
+- **Outputs**
+  - `valueChange`: EventEmitter<string> - The event emitter for the value change
+
+## Usage
+
+```html
+<<%= name %>-form-field>
+  <label <%= name %>Label>Label</label>
+  <input <%= name %>Input [(value)]="value" />
+  <p <%= name %>Description>Description</p>
+  <p <%= name %>Error="required">Error</p>
+  <p <%= name %>Error="!required && minlength">Error</p>
+  <<%= name %>-icon <%= name %>Prefix name="info" />
+  <<%= name %>-icon <%= name %>Suffix name="info" />
+</<%= name %>-form-field>
+
+<<%= name %>-form-field>
+  <input <%= name %>Input [(ngModel)]="value" />
+</<%= name %>-form-field>
+```

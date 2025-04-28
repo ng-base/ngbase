@@ -1,0 +1,48 @@
+## Tabs
+
+```typescript
+import { Tabs, Tab, TabHeader, TabLazy } from '@/ui/tabs';
+```
+
+### `<%= name %>-tabs`
+
+- **inputs**
+
+  - `selectedIndex`: number (2way)
+
+- **outputs**
+  - `selectedTabChange`: `EventEmitter<TabChangeEvent>`
+
+### `<%= name %>-tab`
+
+- **inputs**
+
+  - `label`: string
+  - `disabled`: boolean
+  - `mode`: 'hidden' | 'lazy'
+  - `value`: string | number
+
+- **exports** - `<%= name %>Tab`
+
+### `<%= name %>-tab-header`
+
+- **exports** - `<%= name %>TabHeader`
+
+### `<%= name %>-tab-lazy`
+
+Use it to render the tab every time user visit the tab
+
+- **exports** - `<%= name %>TabLazy`
+
+## Usage
+
+```html
+<<%= name %>-tabs [(selectedIndex)]="selectedIndex">
+  <<%= name %>-tab label="Tab 1">Tab 1 Content</<%= name %>-tab>
+  <<%= name %>-tab>
+    <h4 *<%= name %>TabHeader>Tab 2</h4>
+    Tab 2 Content
+  </<%= name %>-tab>
+  <<%= name %>-tab *<%= name %>TabLazy="let tab"> Tab 3 </<%= name %>-tab>
+</<%= name %>-tabs>
+```

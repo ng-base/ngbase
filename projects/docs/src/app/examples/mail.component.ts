@@ -5,7 +5,7 @@ import { Badge } from '@meeui/ui/badge';
 import { Button } from '@meeui/ui/button';
 import { Card } from '@meeui/ui/card';
 import { Icon } from '@meeui/ui/icon';
-import { FormField, Input } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 import { List } from '@meeui/ui/list';
 import { Menu, MenuTrigger } from '@meeui/ui/menu';
 import { Resizable, ResizableGroup } from '@meeui/ui/resizable';
@@ -52,7 +52,7 @@ import {
     SelectableItem,
     List,
     Separator,
-    Input,
+    MeeInput,
     ScrollArea,
     Badge,
     Icon,

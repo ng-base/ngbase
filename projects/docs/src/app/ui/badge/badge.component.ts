@@ -10,7 +10,12 @@ import { DocCode, getCode } from '../code.component';
   template: `
     <h4 meeHeader class="mb-5">Badge</h4>
     <app-doc-code [tsCode]="tsCode()" [adkCode]="adkCode()">
-      <button meeBadge>Badge</button>
+      <div class="flex gap-2">
+        <button meeBadge>Badge</button>
+        <button meeBadge variant="secondary">Badge</button>
+        <button meeBadge variant="outline">Badge</button>
+        <button meeBadge variant="destructive">Badge</button>
+      </div>
     </app-doc-code>
   `,
 })

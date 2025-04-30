@@ -20,6 +20,8 @@ module.exports = {
         'popover-foreground': 'hsl(var(--color-popover-foreground))',
         accent: 'hsl(var(--color-accent))',
         'accent-foreground': 'hsl(var(--color-accent-foreground))',
+        destructive: 'hsl(var(--color-destructive))',
+        'destructive-foreground': 'hsl(var(--color-destructive-foreground))',
         border: 'hsl(var(--color-border))',
         text: 'rgba(var(--color-text))',
         input: 'hsl(var(--color-input))',

@@ -10,12 +10,12 @@ import { Badge } from '@/ui/badge';
 
 - **Inputs:**
 
-  - `variant`: 'info' | 'success' | 'warning' | 'danger' = 'info' - Badge variant
+  - `variant`: 'default' | 'secondary' | 'outline' | 'destructive' = 'default' - Badge variant
 
 - **Export:** `meeBadge`
 
 ## Usage
 
 ```html
-<mee-badge>Badge</mee-badge> <button meeBadge variant="success">Badge</button>
+<mee-badge>Badge</mee-badge> <button meeBadge variant="secondary">Badge</button>
 ```

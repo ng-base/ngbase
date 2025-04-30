@@ -25,7 +25,7 @@ import { NgbSelectTarget } from '@ngbase/adk/select';
   template: `
     <ng-content select="[meeLabel]" />
     <ng-content select="[meeDescription]" />
-    <div class="mt-1 flex items-center" #target meeInputStyle>
+    <div class="flex items-center" #target meeInputStyle>
       <ng-content select="[meePrefix]" />
       <ng-content />
       <ng-content select="[meeSuffix]" />

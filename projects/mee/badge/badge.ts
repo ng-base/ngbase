@@ -5,10 +5,15 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
   host: {
-    class: 'flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold',
-    '[class]': `variant() === 'success' ? 'bg-green-100 text-green-700' : variant() === 'warning' ? 'bg-yellow-100 text-yellow-700' : variant() === 'danger' ? 'bg-red-100 text-red-700' : 'bg-muted'`,
+    class: 'inline-flex items-center gap-1 rounded-md border px-2.5 py-0.5 text-xs font-semibold',
+    '[class]': `variant() === 'default'
+      ? 'bg-primary text-primary-foreground hover:bg-primary/80 border-transparent' 
+      : variant() === 'secondary' ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent' 
+      : variant() === 'outline' ? 'text-foreground border-input bg-background hover:bg-accent border-border' 
+      : variant() === 'destructive' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent' 
+      : 'bg-muted border-transparent'`,
   },
 })
 export class Badge {
-  readonly variant = input<'info' | 'success' | 'warning' | 'danger'>('info');
+  readonly variant = input<'default' | 'secondary' | 'outline' | 'destructive'>('default');
 }

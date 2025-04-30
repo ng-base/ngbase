@@ -8,6 +8,7 @@ import { DatepickerTrigger } from '@meeui/ui/datepicker';
 import { FormField, MeeInput, InputError, Label } from '@meeui/ui/form-field';
 import { Option, Select } from '@meeui/ui/select';
 import { Heading } from '@meeui/ui/typography';
+import { Checkbox } from '@meeui/ui/checkbox';
 
 @Component({
   selector: 'app-forms',
@@ -26,6 +27,7 @@ import { Heading } from '@meeui/ui/typography';
     DatepickerTrigger,
     Autofocus,
     Button,
+    Checkbox,
   ],
   template: `
     <h4 meeHeader class="mb-5">Forms</h4>
@@ -89,6 +91,7 @@ import { Heading } from '@meeui/ui/typography';
           <mee-option value="User 3">User 3</mee-option>
         </mee-autocomplete>
       </mee-form-field>
+      <mee-checkbox formControlName="terms"> I agree to the terms and conditions </mee-checkbox>
       <button meeButton type="submit" (click)="submit()">Submit</button>
     </form>
   `,
@@ -103,6 +106,7 @@ export default class FormsComponent {
     country: [''],
     date: [''],
     users: [''],
+    terms: [false],
   });
 
   submit() {

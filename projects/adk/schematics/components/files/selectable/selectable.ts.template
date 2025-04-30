@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgbSelectable, NgbSelectableItem } from '@ngbase/adk/selectable';
+import { ɵFocusStyle as FocusStyle } from '<%= basepath %>/checkbox';
 
 @Component({
   selector: '<%= name %>-selectable-item, [<%= name %>SelectableItem]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [{ directive: NgbSelectableItem, inputs: ['value'] }],
+  hostDirectives: [{ directive: NgbSelectableItem, inputs: ['value'] }, FocusStyle],
   template: `<ng-content />`,
   host: {
     class:
-      'flex-1 flex items-center font-medium justify-center px-3 py-1.5 cursor-pointer transition-colors rounded-md whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-    '[class]': `selectable.selected() ? 'bg-background text-primary shadow-md ring-1 ring-border' : 'opacity-60'`,
+      'flex-1 flex items-center font-medium justify-center px-3 py-1.5 cursor-pointer transition-colors rounded-md whitespace-nowrap border',
+    '[class]': `selectable.selected() ? 'bg-background text-primary shadow-md border-border' : 'opacity-60 border-transparent'`,
   },
 })
 export class SelectableItem<T> {

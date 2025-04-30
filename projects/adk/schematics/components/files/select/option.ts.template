@@ -14,7 +14,7 @@ import { ListStyle } from '<%= basepath %>/list';
     <ng-content />`,
   host: {
     class: 'outline-none',
-    '[class.bg-muted]': 'option.active() || option.checked()',
+    '[class.bg-muted]': 'option.active() || (!option.multiple() && option.checked())',
   },
 })
 export class Option<T> {
@@ -24,7 +24,7 @@ export class Option<T> {
 @Component({
   selector: '<%= name %>-option-group, [<%= name %>OptionGroup]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="text-muted-foreground bg-popover sticky -top-1 z-10 px-2 py-1.5 text-sm">
+  template: `<div class="sticky -top-1 z-10 bg-popover px-2 py-1.5 text-sm text-muted-foreground">
       {{ label() }}
     </div>
     <ng-content />`,

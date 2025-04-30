@@ -58,6 +58,7 @@ export class TabButtonsGroup {
     role: 'tab',
     '[attr.id]': 'ngbTabButton().id',
     '(click)': '!ngbTabButton().disabled() && tabGroup.setActive(ngbTabButton())',
+    '[attr.data-ch]': `!!ngbTabButton().header()`,
   },
 })
 export class TabButton {

@@ -70,7 +70,7 @@ import { DocCode } from './code.component';
 
         <mee-form-field class="w-30 mt-5">
           <label meeLabel>Small select</label>
-          <mee-select>
+          <mee-select multiple>
             <div meeSelectTrigger>Great</div>
             @for (item of selectValues(); track item) {
               <mee-option [value]="item">{{ item }}</mee-option>

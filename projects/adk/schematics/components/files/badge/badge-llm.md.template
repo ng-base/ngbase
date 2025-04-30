@@ -10,12 +10,12 @@ import { Badge } from '@/ui/badge';
 
 - **Inputs:**
 
-  - `variant`: 'info' | 'success' | 'warning' | 'danger' = 'info' - Badge variant
+  - `variant`: 'default' | 'secondary' | 'outline' | 'destructive' = 'default' - Badge variant
 
 - **Export:** `<%= name %>Badge`
 
 ## Usage
 
 ```html
-<<%= name %>-badge>Badge</<%= name %>-badge> <button <%= name %>Badge variant="success">Badge</button>
+<<%= name %>-badge>Badge</<%= name %>-badge> <button <%= name %>Badge variant="secondary">Badge</button>
 ```

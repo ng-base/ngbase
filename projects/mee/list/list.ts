@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { NgbList, NgbListActionGroup, provideList } from '@ngbase/adk/list';
+import { FocusStyle } from '../checkbox/focus-style.directive';
 
 @Directive({
   selector: '[meeListStyle]',
@@ -12,7 +13,7 @@ export class ListStyle {}
 
 @Directive({
   selector: '[meeList]',
-  hostDirectives: [ListStyle],
+  hostDirectives: [ListStyle, FocusStyle],
   providers: [provideList(List)],
   host: {
     role: 'list',

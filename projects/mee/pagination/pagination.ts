@@ -10,6 +10,7 @@ import {
   lucideChevronsLeft,
   lucideChevronsRight,
 } from '@ng-icons/lucide';
+import { FormField } from '@meeui/ui/form-field';
 
 @Component({
   selector: 'mee-pagination',
@@ -22,21 +23,19 @@ import {
       lucideChevronsRight,
     }),
   ],
-  imports: [Button, Icon, Select, Option, NgbPaginationBtn],
+  imports: [Button, Icon, Select, Option, NgbPaginationBtn, FormField],
   template: `
     <div class="flex items-center gap-2">
       <div>Rows per page</div>
-      <mee-select
-        [value]="size()"
-        (valueChange)="sizeChanged($event)"
-        class="h-8 !w-auto rounded-md border px-2"
-      >
-        @for (size of sizeOptions(); track size) {
-          <mee-option [value]="size">
-            {{ size }}
-          </mee-option>
-        }
-      </mee-select>
+      <mee-form-field class="!w-auto [&>.mis]:min-h-8 [&>.mis]:py-0">
+        <mee-select [value]="size()" (valueChange)="sizeChanged($event)">
+          @for (size of sizeOptions(); track size) {
+            <mee-option [value]="size">
+              {{ size }}
+            </mee-option>
+          }
+        </mee-select>
+      </mee-form-field>
     </div>
     <div>Page {{ active() }} of {{ totalSnaps() }}</div>
     <div class="flex items-center gap-2">

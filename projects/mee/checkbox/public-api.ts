@@ -3,4 +3,4 @@
  */
 
 export * from './checkbox';
-export { FocusStyle as ɵFocusStyle } from './focus-style.directive';
+export { FocusStyle as ɵFocusStyle, focusStyles as ɵFocusStyles } from './focus-style.directive';

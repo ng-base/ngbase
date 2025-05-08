@@ -40,6 +40,7 @@ export function providePopoverArrowTracker() {
           --action-angle: 180deg;
           --action-left: 50%;
           --action-top: -1rem;
+          --action-color: var(--color-background);
         }
         :host::before {
           content: '';
@@ -47,8 +48,7 @@ export function providePopoverArrowTracker() {
           width: 0;
           height: 0;
           border-style: solid;
-          border-top: 0.5rem solid;
-          @apply border-background;
+          border-top: 0.5rem solid var(--action-color);
           border-left: 0.45rem solid transparent;
           border-right: 0.45rem solid transparent;
           top: var(--action-top);

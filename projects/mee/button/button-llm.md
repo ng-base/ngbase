@@ -19,4 +19,9 @@ import { Button } from '@/ui/button';
 
 ```html
 <button meeButton>Button</button> <button meeButton variant="ghost">Button</button>
+<button meeButton="icon">
+  <mee-icon name="lucideHouse" />
+</button>
 ```
+
+Note: When you use icon as button, then make sure to use icon variant

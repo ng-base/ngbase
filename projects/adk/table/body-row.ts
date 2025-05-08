@@ -10,11 +10,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { NgbColumn } from './column';
-import { NgbTable, ROW_TOKEN } from './table';
+import { NgbTable, TABLE_ROW_DATA } from './table';
 
 @Directive({ selector: '[ngbBodyRowDef]' })
 export class NgbBodyRowDef {
-  readonly ngbBodyRowDefColumns = input<string[]>([]);
+  readonly ngbBodyRowDefColumns = input.required<string[]>();
   context: any;
 }
 
@@ -22,45 +22,41 @@ export class NgbBodyRowDef {
   selector: '[ngbBodyRow]',
 })
 export class NgbBodyRow implements OnDestroy {
-  readonly def = inject(ROW_TOKEN);
+  readonly rowData = inject(TABLE_ROW_DATA);
   readonly table = inject(NgbTable);
   readonly rowDef = inject(NgbBodyRowDef);
 
-  readonly container = viewChild('container', { read: ViewContainerRef });
+  readonly container = viewChild.required('container', { read: ViewContainerRef });
   readonly ref = new Map<NgbColumn, EmbeddedViewRef<any>>();
 
   constructor() {
     effect(() => {
-      const data = this.def;
-      const rows = this.table.columns();
-      // Remove rows that are no longer in the definition
-      this.ref.forEach((ref, row) => {
-        if (!rows.includes(row)) {
-          ref.destroy();
-          this.ref.delete(row);
-        }
-      });
+      const data = this.rowData();
+      const columns = this.table.columns();
 
       const cols = this.rowDef.ngbBodyRowDefColumns();
-      rows.forEach((row, index) => {
-        if (!cols?.includes(row.ngbColumn())) {
-          if (this.ref.has(row)) {
-            const ref = this.ref.get(row);
-            ref!.destroy();
+      columns.forEach(row => {
+        const index = cols.indexOf(row.ngbColumn());
+        if (index === -1) {
+          const ref = this.ref.get(row);
+          if (ref) {
+            ref.destroy();
             this.ref.delete(row);
           }
           return;
         }
-        if (this.ref.has(row)) {
-          const ref = this.ref.get(row);
-          ref!.context.$implicit = data;
-          ref!.markForCheck();
+        let ref = this.ref.get(row);
+        if (ref) {
+          // move the row to the new index
+          this.container().move(ref, index);
+          ref.context.$implicit = data;
+          ref.markForCheck();
           return;
         }
 
-        const ref = untracked(() => {
+        ref = untracked(() => {
           // maintain the order of the columns
-          return this.container()!.createEmbeddedView(row.cells()!, { $implicit: data }, { index });
+          return this.container().createEmbeddedView(row.cells()!, { $implicit: data }, { index });
         });
         this.ref.set(row, ref);
       });
@@ -68,7 +64,11 @@ export class NgbBodyRow implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.container()!.clear();
+    this.container().clear();
     this.ref.clear();
   }
+}
+
+export function aliasBodyRow(row: typeof NgbBodyRow) {
+  return { provide: NgbBodyRow, useExisting: row };
 }

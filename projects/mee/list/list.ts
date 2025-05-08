@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { NgbList, NgbListActionGroup, provideList } from '@ngbase/adk/list';
-import { FocusStyle } from '../checkbox/focus-style.directive';
+import { ɵFocusStyle as FocusStyle } from '@meeui/ui/checkbox';
 
 @Directive({
   selector: '[meeListStyle]',

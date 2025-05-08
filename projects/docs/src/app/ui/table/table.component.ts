@@ -59,11 +59,11 @@ interface Employee {
             <th meeHead *meeHeadDef>Expandable</th>
             <td meeCell *meeCellDef="let element" [attr.colspan]="columns().length">
               @if (selected?.Id === element.Id) {
-                {{ element.Id }} -- This is extented row for id {{ element.Id }}
+                {{ element.Id }} -- This is extended row for id {{ element.Id }}
               }
             </td>
           </ng-container>
-          <tr meeHeadRow *meeHeadRowDef="columns()"></tr>
+          <tr meeHeadRow *meeHeadRowDef="columns(); sticky: true"></tr>
           <tr
             meeBodyRow
             *meeBodyRowDef="let row; columns: columns()"

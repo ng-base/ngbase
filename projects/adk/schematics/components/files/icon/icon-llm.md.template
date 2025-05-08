@@ -2,6 +2,8 @@
 
 ```typescript
 import { Icon } from '@/ui/icon';
+import { provideIcons } from '@ng-icons/core';
+import { lucideHouse } from '@ng-icons/lucide';
 ```
 
 ## Components
@@ -14,6 +16,12 @@ import { Icon } from '@/ui/icon';
 
 ## Usage
 
-```html
-<<%= name %>-icon name="info" />
+```typescript
+@Component({
+  standalone: true,
+  viewProviders: [provideIcons({ lucideHouse })],
+  imports: [Icon],
+  template: `<<%= name %>-icon name="lucideHouse" />`,
+})
+export class AppComponent {}
 ```

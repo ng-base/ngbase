@@ -17,7 +17,7 @@ import { Chip, ChipGroup } from '@meeui/ui/chip';
 
 - **Outputs:**
 
-  - `close`: void - Emits when the chip is closed
+  - `close`: PointerEvent - Emits when the close button is clicked
 
 ## Usage
 

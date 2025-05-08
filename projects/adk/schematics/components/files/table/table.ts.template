@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
 import {
+  aliasBodyRow,
+  aliasHeadRow,
+  aliasTable,
   NgbBodyRow,
   NgbBodyRowDef,
   NgbCell,
@@ -15,7 +18,7 @@ import {
 @Component({
   selector: 'table[<%= name %>Table]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NgbTable, useExisting: Table }],
+  providers: [aliasTable(Table)],
   template: `
     <thead>
       <ng-container #thead />
@@ -25,7 +28,7 @@ import {
     </tbody>
   `,
   host: {
-    class: 'w-full text-sm',
+    class: 'w-full text-sm border-separate border-spacing-0',
   },
 })
 export class Table<T> extends NgbTable<T> {}
@@ -61,10 +64,10 @@ export class BodyRowDef {}
 @Component({
   selector: '[<%= name %>BodyRow]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NgbBodyRow, useExisting: BodyRow }],
+  providers: [aliasBodyRow(BodyRow)],
   template: `<ng-container #container />`,
   host: {
-    class: '[&:not(:last-child)]:border-b hover:bg-muted h-12',
+    class: '[&:not(:last-child)>td]:border-b hover:bg-muted h-12',
   },
 })
 export class BodyRow extends NgbBodyRow {}
@@ -102,10 +105,10 @@ export class HeadDef {}
 @Component({
   selector: '[<%= name %>HeadRow]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NgbHeadRow, useExisting: HeadRow }],
+  providers: [aliasHeadRow(HeadRow)],
   template: `<ng-container #container />`,
   host: {
-    class: `h-10 [&[data-sticky=true]]:sticky [&[data-sticky=true]]:top-0 [&[data-sticky=true]]:bg-background`,
+    class: `h-10 [&[data-sticky=true]>th]:sticky [&[data-sticky=true]>th]:top-0 [&[data-sticky=true]>th]:bg-background [&[data-sticky=true]>th]:z-10`,
   },
 })
 export class HeadRow extends NgbHeadRow {}

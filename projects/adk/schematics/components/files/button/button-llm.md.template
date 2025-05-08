@@ -19,4 +19,9 @@ import { Button } from '@/ui/button';
 
 ```html
 <button <%= name %>Button>Button</button> <button <%= name %>Button variant="ghost">Button</button>
+<button <%= name %>Button="icon">
+  <<%= name %>-icon name="lucideHouse" />
+</button>
 ```
+
+Note: When you use icon as button, then make sure to use icon variant

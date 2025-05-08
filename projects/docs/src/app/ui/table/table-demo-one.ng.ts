@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormField } from '@meeui/ui/form-field';
 import { Option, Select, SelectTrigger } from '@meeui/ui/select';
 import { TableComponents } from '@meeui/ui/table';
@@ -54,8 +54,8 @@ interface Task {
           {{ task.assignee }}
         </td>
       </ng-container>
-      <tr meeHeadRow *meeHeadRowDef="selectedColumn()"></tr>
-      <tr meeBodyRow *meeBodyRowDef="let task; columns: selectedColumn()"></tr>
+      <tr meeHeadRow *meeHeadRowDef="displayColumns()"></tr>
+      <tr meeBodyRow *meeBodyRowDef="let task; columns: displayColumns()"></tr>
     </table>
   `,
 })
@@ -76,5 +76,8 @@ export default class TableDemoOne {
   ]);
   readonly columns = signal<string[]>(['title', 'status', 'dueDate', 'assignee']);
   readonly selectedColumn = signal<string[]>(this.columns());
+  readonly displayColumns = computed(() =>
+    this.columns().filter(c => this.selectedColumn().includes(c)),
+  );
   trackByFn = (index: number, item: Task) => item.title;
 }

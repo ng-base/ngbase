@@ -5,7 +5,7 @@ import { Directionality } from '@ngbase/adk/bidi';
   selector: '[ngbChipRemove]',
   host: {
     type: 'button',
-    '(click)': 'chip.close.emit()',
+    '(click)': 'chip.close.emit($event)',
     '[attr.data-dir]': 'chip.dir.isRtl() ? "rtl" : "ltr"',
   },
 })

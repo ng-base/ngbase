@@ -1,13 +1,18 @@
-import { computed, signal } from '@angular/core';
+import { computed, signal, Signal } from '@angular/core';
 
 export class SelectionModel<T> {
   readonly selected = signal<T[]>([]);
   readonly hasValue = computed(() => this.selected().length > 0);
   readonly isEmpty = computed(() => this.selected().length === 0);
+  readonly isAllSelected = computed(
+    () => this.selected().length > 0 && this.selected().length === this.items().length,
+  );
+  readonly isIndeterminate = computed(() => this.selected().length > 0 && !this.isAllSelected());
 
   constructor(
     public multiple = false,
     selected: T[] = [],
+    public items: Signal<T[]> = signal([]),
   ) {
     this.selected.set(selected);
   }
@@ -35,6 +40,13 @@ export class SelectionModel<T> {
   toggle(item: T) {
     this.selected.update(selected =>
       selected.includes(item) ? selected.filter(i => i !== item) : [...selected, item],
+    );
+  }
+
+  toggleAll() {
+    const isAll = this.isIndeterminate() || !this.isAllSelected();
+    this.selected.update(x =>
+      isAll ? (this.multiple ? [...x, ...this.items()] : this.items()) : [],
     );
   }
 

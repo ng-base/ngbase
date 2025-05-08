@@ -10,7 +10,7 @@ import { DocCode, getCode, getMarkdown } from '../code.component';
   imports: [FormsModule, Heading, AccordionGroup, Accordion, AccordionHeader, Checkbox, DocCode],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h4 meeHeader="sm" class="mb-2" id="accordionPage">Accordion</h4>
+    <h4 meeHeader="sm" class="mb-5" id="accordionPage">Accordion</h4>
     <p class="mb-5">
       The accordion component is a collapsible panel that can be used to show and hide content,
       providing a clean and organized way to present information.

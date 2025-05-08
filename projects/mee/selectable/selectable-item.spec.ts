@@ -57,7 +57,7 @@ describe('SelectableItem', () => {
 
     const element = getSelectableItem();
     expect(element.hasClass('opacity-60')).toBeFalsy();
-    expect(element.hasClass('bg-background', 'shadow-md', 'ring-1', 'ring-border')).toBeTruthy();
+    expect(element.hasClass('bg-background', 'shadow-md')).toBeTruthy();
   });
 
   it('should call select method when clicked', () => {

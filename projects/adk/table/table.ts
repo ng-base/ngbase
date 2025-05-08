@@ -10,16 +10,18 @@ import {
   input,
   IterableDiffer,
   IterableDiffers,
+  signal,
   TemplateRef,
   viewChild,
   ViewContainerRef,
+  WritableSignal,
 } from '@angular/core';
 import { NgbColumn } from './column';
 
 import { NgbBodyRowDef } from './body-row';
 import { NgbHeadRowDef } from './head-row';
 
-export const ROW_TOKEN = new InjectionToken<any>('ROW_TOKEN');
+export const TABLE_ROW_DATA = new InjectionToken<WritableSignal<any>>('TABLE_ROW_DATA');
 
 @Directive({
   selector: 'table[ngbTable]',
@@ -28,10 +30,10 @@ export class NgbTable<T> {
   private readonly injector = inject(Injector);
   private readonly differs = inject(IterableDiffers);
 
-  private readonly thead = viewChild('thead', { read: ViewContainerRef });
-  private readonly tbody = viewChild('tbody', { read: ViewContainerRef });
+  private readonly thead = viewChild.required('thead', { read: ViewContainerRef });
+  private readonly tbody = viewChild.required('tbody', { read: ViewContainerRef });
   private readonly bodyRowDef = contentChildren(NgbBodyRowDef, { read: TemplateRef });
-  private readonly headRowDef = contentChild(NgbHeadRowDef, { read: TemplateRef });
+  private readonly headRowDef = contentChild.required(NgbHeadRowDef, { read: TemplateRef });
   readonly columns = contentChildren(NgbColumn);
 
   readonly data = input.required<T[]>();
@@ -39,15 +41,21 @@ export class NgbTable<T> {
 
   private _dataDiffers?: IterableDiffer<T>;
   private readonly _values = new WeakMap<EmbeddedViewRef<TableOutletContext<T>>, T>();
-  private readonly valuesTracker = new Map<string, any>();
 
   constructor() {
-    let headerRendered = false;
+    effect(cleanup => {
+      const headRowDef = this.headRowDef();
+      const thead = this.thead();
+
+      // append head row
+      const injector = Injector.create({ providers: [], parent: this.injector });
+      thead.createEmbeddedView(headRowDef, {}, { injector });
+      cleanup(() => thead.clear());
+    });
+
     effect(() => {
-      const thead = this.thead()!;
       const tbody = this.tbody()!;
-      const headRowDef = this.headRowDef()!;
-      const bodyRowDefs = this.bodyRowDef()!;
+      const bodyRowDefs = this.bodyRowDef();
       const data = this.data();
 
       this._dataDiffers ??= this.differs.find([]).create(this.trackBy());
@@ -57,32 +65,21 @@ export class NgbTable<T> {
         return;
       }
 
-      // append head row
-      if (!headerRendered) {
-        const value = null;
-        const injector = Injector.create({
-          providers: [{ provide: ROW_TOKEN, useValue: value }],
-          parent: this.injector,
-        });
-        thead.createEmbeddedView(headRowDef, { $implicit: value }, { injector });
-        headerRendered = true;
-      }
-
       const len = bodyRowDefs.length;
 
       changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
         if (item.previousIndex == null) {
           const value = item.item;
-          this.valuesTracker.set(this.trackBy()(currentIndex!, item.item), value);
+          const data = signal(value);
           const injector = Injector.create({
-            providers: [{ provide: ROW_TOKEN, useValue: value }],
+            providers: [{ provide: TABLE_ROW_DATA, useValue: data }],
             parent: this.injector,
           });
           const i = currentIndex! * len;
           for (let j = 0; j < len; j++) {
             const ref = tbody.createEmbeddedView(
               bodyRowDefs[j],
-              { $implicit: value },
+              { $implicit: value, _data: data },
               { injector, index: i + j },
             );
             this._values.set(ref, item.item);
@@ -104,9 +101,11 @@ export class NgbTable<T> {
 
       // update rows
       changes.forEachIdentityChange(record => {
-        const id = this.trackBy()(record.currentIndex!, record.item);
-        const value = this.valuesTracker.get(id)!;
-        value?.data.set(record.item);
+        const ref = tbody.get(record.currentIndex!) as any;
+        if (ref) {
+          const context = ref.context as TableOutletContext<T>;
+          context._data.set(record.item);
+        }
       });
 
       this._updateItemIndexContext();
@@ -128,7 +127,12 @@ export class NgbTable<T> {
   }
 }
 
+export function aliasTable(table: typeof NgbTable) {
+  return { provide: NgbTable, useExisting: table };
+}
+
 export class TableOutletContext<T> {
+  _data: WritableSignal<T>;
   $implicit: T;
   index?: number;
   count?: number;
@@ -138,5 +142,6 @@ export class TableOutletContext<T> {
   odd?: boolean;
   constructor(data: T) {
     this.$implicit = data;
+    this._data = signal(data);
   }
 }

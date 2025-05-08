@@ -35,3 +35,5 @@ import { Avatar, AvatarGroup } from '@/ui/avatar';
   <button <%= name %>Avatar src="https://x.me/1.jpg" size="lg" />
 </<%= name %>-avatar-group>
 ```
+
+Note: Use `<%= name %>-avatar-group` to wrap the `<%= name %>-avatar` and `button`. Always use `<%= name %>-avatar` for image avatar.

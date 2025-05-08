@@ -5,17 +5,18 @@ import {
   inject,
   input,
   OnDestroy,
+  untracked,
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { NgbColumn } from './column';
-import { NgbTable, ROW_TOKEN } from './table';
+import { NgbTable } from './table';
 
 @Directive({
   selector: '[ngbHeadRowDef]',
 })
 export class NgbHeadRowDef {
-  readonly ngbHeadRowDef = input<string[]>();
+  readonly ngbHeadRowDef = input.required<string[]>();
   readonly ngbHeadRowDefSticky = input();
 }
 
@@ -26,42 +27,44 @@ export class NgbHeadRowDef {
   },
 })
 export class NgbHeadRow implements OnDestroy {
-  def = inject(ROW_TOKEN);
-  table = inject(NgbTable);
-  container = viewChild('container', { read: ViewContainerRef });
-  ref = new Map<NgbColumn, EmbeddedViewRef<any>>();
-  headDef = inject(NgbHeadRowDef);
+  readonly headDef = inject(NgbHeadRowDef);
+  readonly table = inject(NgbTable);
+  readonly container = viewChild.required('container', { read: ViewContainerRef });
+  readonly ref = new Map<NgbColumn, EmbeddedViewRef<any>>();
 
   constructor() {
     effect(() => {
       const columns = this.table.columns();
-      this.ref.forEach((ref, column) => {
-        if (!columns.includes(column)) {
-          ref.destroy();
-          this.ref.delete(column);
-          return;
-        }
-      });
-      const cols = this.headDef.ngbHeadRowDef();
-      columns.forEach((column, index) => {
-        if (!cols?.includes(column.ngbColumn())) {
-          if (this.ref.has(column)) {
-            const ref = this.ref.get(column);
-            ref!.destroy();
+      const displayColumns = this.headDef.ngbHeadRowDef();
+      columns.forEach(column => {
+        const index = displayColumns.indexOf(column.ngbColumn());
+        if (index === -1) {
+          const ref = this.ref.get(column);
+          if (ref) {
+            ref.destroy();
             this.ref.delete(column);
           }
           return;
         }
         if (!this.ref.has(column)) {
           // maintain the order of the columns
-          const ref = this.container()!.createEmbeddedView(column.heads()!, undefined, { index });
+          const ref = untracked(() =>
+            this.container().createEmbeddedView(column.heads()!, undefined, { index }),
+          );
           this.ref.set(column, ref);
+        } else {
+          const ref = this.ref.get(column);
+          this.container().move(ref!, index);
         }
       });
     });
   }
 
   ngOnDestroy(): void {
-    this.container()!.clear();
+    this.container().clear();
   }
+}
+
+export function aliasHeadRow(headRow: typeof NgbHeadRow) {
+  return { provide: NgbHeadRow, useExisting: headRow };
 }

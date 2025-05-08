@@ -35,3 +35,5 @@ import { Avatar, AvatarGroup } from '@/ui/avatar';
   <button meeAvatar src="https://x.me/1.jpg" size="lg" />
 </mee-avatar-group>
 ```
+
+Note: Use `mee-avatar-group` to wrap the `mee-avatar` and `button`. Always use `mee-avatar` for image avatar.

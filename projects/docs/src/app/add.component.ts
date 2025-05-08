@@ -3,7 +3,7 @@ import { Autofocus } from '@ngbase/adk/a11y';
 import { DialogRef } from '@ngbase/adk/portal';
 import { Button } from '@meeui/ui/button';
 import { DialogClose, dialogPortal } from '@meeui/ui/dialog';
-import { MeeInput } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 import { Option, Select } from '@meeui/ui/select';
 import { AddService } from './add.service';
 import { AppService } from './app.service';
@@ -11,15 +11,19 @@ import { AppService } from './app.service';
 @Component({
   selector: 'app-add',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DialogClose, Select, Option, MeeInput, Autofocus],
+  imports: [Button, DialogClose, Select, Option, MeeInput, Autofocus, FormField],
   providers: [AddService],
   template: `
-    <input meeInput ngbAutofocus />
-    <mee-select>
-      <mee-option value="1">1</mee-option>
-      <mee-option value="2">2</mee-option>
-      <mee-option value="3">3</mee-option>
-    </mee-select>
+    <mee-form-field>
+      <input meeInput ngbAutofocus />
+    </mee-form-field>
+    <mee-form-field>
+      <mee-select>
+        <mee-option value="1">1</mee-option>
+        <mee-option value="2">2</mee-option>
+        <mee-option value="3">3</mee-option>
+      </mee-select>
+    </mee-form-field>
     <p class="text-muted-foreground">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime velit eveniet animi odio
       laboriosam ad ea nulla sunt dolorem iure quod dolores nesciunt, delectus consequatur a

@@ -13,6 +13,7 @@ import {
 } from '@ngbase/adk/select';
 import { Option } from './option';
 import { SelectInput } from './select-input';
+import { PopoverOptions } from '@ngbase/adk/popover';
 
 @Directive({
   selector: '[meeSelectOption]',
@@ -92,8 +93,7 @@ export class SelectOption<T> {}
   },
 })
 export class Select<T> extends NgbSelect<T> {
-  override defaultOptions = {
+  override defaultOptions: Partial<PopoverOptions> = {
     sideOffset: 16,
-    offset1: 0,
   };
 }

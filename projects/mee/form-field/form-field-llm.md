@@ -42,15 +42,17 @@ import {
 ```html
 <mee-form-field>
   <label meeLabel>Label</label>
-  <input meeInput [(value)]="value" />
   <p meeDescription>Description</p>
+  <mee-icon meePrefix name="info" />
+  <input meeInput [(value)]="value" />
+  <mee-icon meeSuffix name="info" />
   <p meeError="required">Error</p>
   <p meeError="!required && minlength">Error</p>
-  <mee-icon meePrefix name="info" />
-  <mee-icon meeSuffix name="info" />
 </mee-form-field>
 
 <mee-form-field>
   <input meeInput [(ngModel)]="value" />
 </mee-form-field>
 ```
+
+Note: Use `mee-form-field` to wrap the `meeInput`, `mee-select` or `mee-autocomplete` and label. Never use any input, select or autocomplete directly.

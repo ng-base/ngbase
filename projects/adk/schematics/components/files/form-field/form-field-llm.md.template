@@ -42,15 +42,17 @@ import {
 ```html
 <<%= name %>-form-field>
   <label <%= name %>Label>Label</label>
-  <input <%= name %>Input [(value)]="value" />
   <p <%= name %>Description>Description</p>
+  <<%= name %>-icon <%= name %>Prefix name="info" />
+  <input <%= name %>Input [(value)]="value" />
+  <<%= name %>-icon <%= name %>Suffix name="info" />
   <p <%= name %>Error="required">Error</p>
   <p <%= name %>Error="!required && minlength">Error</p>
-  <<%= name %>-icon <%= name %>Prefix name="info" />
-  <<%= name %>-icon <%= name %>Suffix name="info" />
 </<%= name %>-form-field>
 
 <<%= name %>-form-field>
   <input <%= name %>Input [(ngModel)]="value" />
 </<%= name %>-form-field>
 ```
+
+Note: Use `<%= name %>-form-field` to wrap the `<%= name %>Input`, `<%= name %>-select` or `<%= name %>-autocomplete` and label. Never use any input, select or autocomplete directly.

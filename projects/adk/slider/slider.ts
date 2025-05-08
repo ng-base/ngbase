@@ -11,6 +11,7 @@ import {
   linkedSignal,
   model,
   numberAttribute,
+  output,
   untracked,
   viewChild,
   viewChildren,
@@ -86,6 +87,8 @@ export class SliderThumb {
 export class NgbSlider implements ControlValueAccessor {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly dir = inject(Directionality); // this.dir.isRtl();
+  private cdr = inject(ChangeDetectorRef);
+
   private readonly drag = viewChild.required(Drag);
   private readonly track = viewChild.required<SliderRange, ElementRef<HTMLElement>>(SliderRange, {
     read: ElementRef,
@@ -102,6 +105,8 @@ export class NgbSlider implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
 
+  readonly afterChange = output<number | number[]>();
+
   private onChange?: (value: number | number[]) => {};
   private onTouched?: () => {};
 
@@ -111,7 +116,7 @@ export class NgbSlider implements ControlValueAccessor {
   private activeIndex = 0;
   private totalWidth = 0;
   private totalSliderWidth = 0;
-  private cdr = inject(ChangeDetectorRef);
+  private isChanged = false;
 
   constructor() {
     effect(() => {
@@ -311,6 +316,10 @@ export class NgbSlider implements ControlValueAccessor {
     } else {
       this.totalWidth = 0;
       this.totalSliderWidth = 0;
+      if (this.isChanged) {
+        this.afterChange.emit(this.values);
+        this.isChanged = false;
+      }
     }
   }
 
@@ -332,6 +341,7 @@ export class NgbSlider implements ControlValueAccessor {
     this.value.set(percentage);
     this.onChange?.(percentage);
     this.onTouched?.();
+    this.isChanged = true;
     // this is required for reactive forms to work
     this.cdr.markForCheck();
   }

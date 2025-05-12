@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, OnDestroy, signal } from '@angular/core';
 import { ScrollArea } from '@meeui/ui/scroll-area';
-import { TableComponents } from '@meeui/ui/table';
+import { Sort, SortHeader, TableComponents } from '@meeui/ui/table';
 import { Heading } from '@meeui/ui/typography';
 import { DocCode } from '../code.component';
 import TableDemoOne from './table-demo-one.ng';
@@ -16,7 +16,8 @@ interface Employee {
 
 @Component({
   selector: 'app-table',
-  imports: [TableComponents, ScrollArea, Heading, DocCode, TableDemoOne],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TableComponents, Sort, SortHeader, ScrollArea, Heading, DocCode, TableDemoOne],
   template: `
     <h4 meeHeader class="mb-5">Table</h4>
     <!-- <button meeButton (click)="update()" class="mb-5">
@@ -35,14 +36,16 @@ interface Employee {
     </div> -->
     <app-doc-code class="!p-0">
       <app-table-demo-one />
-      <mee-scroll-area class="m-bb h-full max-h-[500px] max-w-4xl">
-        <table meeTable [data]="employees()" [trackBy]="trackByFn">
+      <mee-scroll-area
+        class="m-bb z-20 mt-10 h-full max-h-[500px] max-w-4xl overflow-hidden rounded-md border"
+      >
+        <table meeTable [data]="employees()" [trackBy]="trackByFn" meeSort>
           @for (column of columns(); track column) {
             <ng-container
               [meeColumn]="column"
               [sticky]="column === 'Id' ? 'start' : column === 'Title 16' ? 'end' : ''"
             >
-              <th class="whitespace-nowrap" meeHead *meeHeadDef>
+              <th class="whitespace-nowrap" meeHead *meeHeadDef meeSortHeader>
                 {{ column }}
               </th>
               <td
@@ -79,16 +82,9 @@ interface Employee {
       </mee-scroll-area>
     </app-doc-code>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      :host {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-    `,
-  ],
+  host: {
+    class: 'flex flex-col h-full',
+  },
 })
 export default class TableComponent implements OnDestroy {
   title = input<string>('Table');

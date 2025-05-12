@@ -4,7 +4,7 @@ import { NgbColumn } from './column';
 @Directive({
   selector: '[ngbHead]',
   host: {
-    '[class]': `column.sticky() === 'start' ? 'sticky left-0 border-r z-10' : column.sticky() === 'end' ? 'sticky right-0 border-l z-10' : ''`,
+    '[attr.data-sticky]': 'column.sticky() || undefined',
   },
 })
 export class NgbHead {

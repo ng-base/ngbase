@@ -1,4 +1,5 @@
 import {
+  computed,
   contentChild,
   contentChildren,
   Directive,
@@ -36,9 +37,13 @@ export class NgbTable<T> {
   private readonly headRowDef = contentChild.required(NgbHeadRowDef, { read: TemplateRef });
   readonly columns = contentChildren(NgbColumn);
 
+  readonly plugins = signal<Set<(data: T[]) => T[]>>(new Set());
   readonly data = input.required<T[]>();
   readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
 
+  private readonly pluggedData = computed(() => {
+    return Array.from(this.plugins()).reduce((acc, plugin) => plugin(acc), this.data());
+  });
   private _dataDiffers?: IterableDiffer<T>;
   private readonly _values = new WeakMap<EmbeddedViewRef<TableOutletContext<T>>, T>();
 
@@ -56,7 +61,7 @@ export class NgbTable<T> {
     effect(() => {
       const tbody = this.tbody()!;
       const bodyRowDefs = this.bodyRowDef();
-      const data = this.data();
+      const data = this.pluggedData();
 
       this._dataDiffers ??= this.differs.find([]).create(this.trackBy());
       const changes = this._dataDiffers?.diff(data);

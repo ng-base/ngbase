@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormField } from '@meeui/ui/form-field';
 import { Option, Select, SelectTrigger } from '@meeui/ui/select';
-import { TableComponents } from '@meeui/ui/table';
+import { Sort, SortHeader, TableComponents } from '@meeui/ui/table';
 
 interface Task {
   title: string;
@@ -13,7 +13,7 @@ interface Task {
 @Component({
   selector: 'app-table-demo-one',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponents, FormField, Select, SelectTrigger, Option],
+  imports: [TableComponents, FormField, Select, SelectTrigger, Option, Sort, SortHeader],
   template: `
     <mee-form-field>
       <mee-select [(value)]="selectedColumn" multiple>
@@ -29,15 +29,15 @@ interface Task {
         <mee-option value="assignee">Assignee</mee-option>
       </mee-select>
     </mee-form-field>
-    <table meeTable [data]="tasks()" [trackBy]="trackByFn">
+    <table meeTable [data]="tasks()" [trackBy]="trackByFn" meeSort mode="selection" class="border">
       <ng-container meeColumn="title">
-        <th meeHead *meeHeadDef>Title</th>
+        <th meeHead *meeHeadDef meeSortHeader>Title</th>
         <td meeCell *meeCellDef="let task">
           {{ task.title }}
         </td>
       </ng-container>
       <ng-container meeColumn="status">
-        <th meeHead *meeHeadDef>Status</th>
+        <th meeHead *meeHeadDef meeSortHeader>Status</th>
         <td meeCell *meeCellDef="let task">
           {{ task.status }}
         </td>
@@ -49,7 +49,7 @@ interface Task {
         </td>
       </ng-container>
       <ng-container meeColumn="assignee">
-        <th meeHead *meeHeadDef>Assignee</th>
+        <th meeHead *meeHeadDef meeSortHeader>Assignee</th>
         <td meeCell *meeCellDef="let task">
           {{ task.assignee }}
         </td>
@@ -63,15 +63,15 @@ export default class TableDemoOne {
   tasks = signal<Task[]>([
     {
       title: 'Task 1',
-      status: 'In Progress',
+      status: 'Completed',
       dueDate: '2023-01-01',
-      assignee: 'John Doe',
+      assignee: 'John Smith',
     },
     {
       title: 'Task 2',
-      status: 'Completed',
+      status: 'In Progress',
       dueDate: '2023-01-02',
-      assignee: 'Jane Smith',
+      assignee: 'Jane Doe',
     },
   ]);
   readonly columns = signal<string[]>(['title', 'status', 'dueDate', 'assignee']);

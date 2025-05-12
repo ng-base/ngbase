@@ -1,5 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  input,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Icon } from '<%= basepath %>/icon';
 import { provideIcons } from '@ng-icons/core';
@@ -49,7 +55,9 @@ export class SelectOption<T> {}
           {{ cValue() || placeholder() }}
         </ng-content>
       </span>
-      <<%= name %>-icon name="lucideChevronsUpDown" class="ml-0.5 text-muted-foreground" />
+      @if (!noIcon()) {
+        <<%= name %>-icon name="lucideChevronsUpDown" class="ml-0.5 text-muted-foreground" />
+      }
     </button>
 
     <!-- Options template -->
@@ -93,6 +101,7 @@ export class SelectOption<T> {}
   },
 })
 export class Select<T> extends NgbSelect<T> {
+  readonly noIcon = input(false, { transform: booleanAttribute });
   override defaultOptions: Partial<PopoverOptions> = {
     sideOffset: 16,
   };

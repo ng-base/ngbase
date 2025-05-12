@@ -23,7 +23,7 @@ export class NgbHeadRowDef {
 @Directive({
   selector: '[ngbHeadRow]',
   host: {
-    '[attr.data-sticky]': 'headDef.ngbHeadRowDefSticky()',
+    '[attr.data-sticky]': 'headDef.ngbHeadRowDefSticky() || undefined',
   },
 })
 export class NgbHeadRow implements OnDestroy {

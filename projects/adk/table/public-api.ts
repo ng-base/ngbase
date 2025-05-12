@@ -3,20 +3,25 @@ import { NgbBodyRow, NgbBodyRowDef, aliasBodyRow } from './body-row';
 import { NgbColumn } from './column';
 import { NgbHead, NgbHeadDef } from './head-cell';
 import { NgbHeadRow, NgbHeadRowDef, aliasHeadRow } from './head-row';
-import { aliasTable, NgbTable } from './table';
+import { aliasSort, aliasSortHeader, NgbSort, NgbSortHeader } from './sort';
+import { NgbTable, aliasTable } from './table';
 
 export {
   NgbBodyRow,
   NgbBodyRowDef,
   NgbCell,
   NgbCellDef,
+  NgbColumn,
   NgbHead,
   NgbHeadDef,
   NgbHeadRow,
   NgbHeadRowDef,
-  NgbColumn,
+  NgbSort,
+  NgbSortHeader,
   NgbTable,
-  aliasTable,
-  aliasHeadRow,
   aliasBodyRow,
+  aliasHeadRow,
+  aliasSort,
+  aliasSortHeader,
+  aliasTable,
 };

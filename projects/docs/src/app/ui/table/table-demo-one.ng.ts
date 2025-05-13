@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { FormField } from '@meeui/ui/form-field';
+import { FormField, MeeInput } from '@meeui/ui/form-field';
 import { Option, Select, SelectTrigger } from '@meeui/ui/select';
-import { Sort, SortHeader, TableComponents } from '@meeui/ui/table';
+import { EmptyState, Sort, SortHeader, TableComponents } from '@meeui/ui/table';
 
 interface Task {
   title: string;
@@ -13,7 +13,17 @@ interface Task {
 @Component({
   selector: 'app-table-demo-one',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponents, FormField, Select, SelectTrigger, Option, Sort, SortHeader],
+  imports: [
+    TableComponents,
+    FormField,
+    Select,
+    SelectTrigger,
+    Option,
+    Sort,
+    SortHeader,
+    MeeInput,
+    EmptyState,
+  ],
   template: `
     <mee-form-field>
       <mee-select [(value)]="selectedColumn" multiple>
@@ -29,6 +39,11 @@ interface Task {
         <mee-option value="assignee">Assignee</mee-option>
       </mee-select>
     </mee-form-field>
+
+    <mee-form-field>
+      <input meeInput placeholder="Search" type="text" [(value)]="search" />
+    </mee-form-field>
+
     <table meeTable [data]="tasks()" [trackBy]="trackByFn" meeSort mode="selection" class="border">
       <ng-container meeColumn="title">
         <th meeHead *meeHeadDef meeSortHeader>Title</th>
@@ -54,13 +69,17 @@ interface Task {
           {{ task.assignee }}
         </td>
       </ng-container>
+      <tr meeEmptyState>
+        No data
+      </tr>
       <tr meeHeadRow *meeHeadRowDef="displayColumns()"></tr>
       <tr meeBodyRow *meeBodyRowDef="let task; columns: displayColumns()"></tr>
     </table>
   `,
 })
 export default class TableDemoOne {
-  tasks = signal<Task[]>([
+  readonly search = signal('');
+  private readonly data = signal<Task[]>([
     {
       title: 'Task 1',
       status: 'Completed',
@@ -74,6 +93,9 @@ export default class TableDemoOne {
       assignee: 'Jane Doe',
     },
   ]);
+  readonly tasks = computed(() =>
+    this.data().filter(task => task.title.toLowerCase().includes(this.search().toLowerCase())),
+  );
   readonly columns = signal<string[]>(['title', 'status', 'dueDate', 'assignee']);
   readonly selectedColumn = signal<string[]>(this.columns());
   readonly displayColumns = computed(() =>

@@ -41,7 +41,7 @@ export class NgbTable<T> {
   readonly data = input.required<T[]>();
   readonly trackBy = input<(index: number, item: T) => any>((_, item) => item);
 
-  private readonly pluggedData = computed(() => {
+  protected readonly pluggedData = computed(() => {
     return Array.from(this.plugins()).reduce((acc, plugin) => plugin(acc), this.data());
   });
   private _dataDiffers?: IterableDiffer<T>;

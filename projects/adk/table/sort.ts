@@ -22,6 +22,7 @@ export type SortFn<T> = (data: T[], column: string, direction: SortDirection) =>
 
 @Directive({
   selector: '[ngbSort]',
+  exportAs: 'ngbSort',
 })
 export class NgbSort<T> {
   private readonly table = inject(NgbTable);

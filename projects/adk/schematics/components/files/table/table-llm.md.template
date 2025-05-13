@@ -1,7 +1,7 @@
 # Table
 
 ```typescript
-import { TableComponents } from '@/ui/table';
+import { TableComponents, Sort, SortHeader, EmptyState } from '@/ui/table';
 ```
 
 ### `<%= name %>Table`
@@ -13,6 +13,29 @@ import { TableComponents } from '@/ui/table';
 
 - **Exports** - `<%= name %>Table`
 
+### `<%= name %>EmptyState`
+
+### `<%= name %>Sort`
+
+- **inputs**
+
+  - `mode`: `'selection' | 'toggle'`
+  - `sortFn`: `(data: T[], column: string, direction: 'asc' | 'desc') => T[]`
+  - `disableClear`: `boolean`
+  - `sortMode`: `'client' | 'server'`
+
+- **Outputs**
+
+  - `sortChange`: `(sort: Sort) => void`
+
+### `<%= name %>SortHeader`
+
+- **inputs**
+
+  - `disableClear`: `boolean`
+
+- **Exports** - `<%= name %>SortHeader`
+
 ## Usage
 
 ```html
@@ -23,6 +46,23 @@ import { TableComponents } from '@/ui/table';
   </ng-container>
   <ng-container <%= name %>Column="age">
     <th <%= name %>Head *<%= name %>HeadDef>Age</th>
+    <td <%= name %>Cell *<%= name %>CellDef="let row">{{row.age}}</td>
+  </ng-container>
+  <tr <%= name %>EmptyState>
+    No data
+  </tr>
+  <tr <%= name %>HeadRow *<%= name %>HeadRowDef="columns()"></tr>
+  <tr <%= name %>BodyRow *<%= name %>BodyRowDef="let row; columns: columns()"></tr>
+</table>
+
+<!-- Table with sort -->
+<table <%= name %>Table [data]="data" [trackBy]="trackBy" <%= name %>Sort>
+  <ng-container <%= name %>Column="name">
+    <th <%= name %>Head *<%= name %>HeadDef <%= name %>SortHeader>Name</th>
+    <td <%= name %>Cell *<%= name %>CellDef="let row">{{row.name}}</td>
+  </ng-container>
+  <ng-container <%= name %>Column="age">
+    <th <%= name %>Head *<%= name %>HeadDef <%= name %>SortHeader>Age</th>
     <td <%= name %>Cell *<%= name %>CellDef="let row">{{row.age}}</td>
   </ng-container>
   <tr <%= name %>HeadRow *<%= name %>HeadRowDef="columns()"></tr>

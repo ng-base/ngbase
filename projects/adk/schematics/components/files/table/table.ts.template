@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, Directive, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  Directive,
+  inject,
+  input,
+} from '@angular/core';
 import {
   aliasBodyRow,
   aliasHeadRow,
@@ -22,7 +29,12 @@ import { Select, Option, SelectTrigger } from '<%= basepath %>/select';
 import { FormField, InputSuffix } from '<%= basepath %>/form-field';
 import { Icon } from '<%= basepath %>/icon';
 import { provideIcons } from '@ng-icons/core';
-import { lucideArrowDown, lucideArrowUp, lucideChevronsUpDown } from '@ng-icons/lucide';
+import {
+  lucideArrowDown,
+  lucideArrowUp,
+  lucideArrowUpDown,
+  lucideChevronsUpDown,
+} from '@ng-icons/lucide';
 import { Button } from '<%= basepath %>/button';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -36,13 +48,31 @@ import { NgTemplateOutlet } from '@angular/common';
     </thead>
     <tbody>
       <ng-container #tbody />
+      @if (isEmpty()) {
+        <ng-content select="[<%= name %>EmptyState]" />
+      }
     </tbody>
   `,
   host: {
     class: 'w-full text-sm border-separate border-spacing-0',
   },
 })
-export class Table<T> extends NgbTable<T> {}
+export class Table<T> extends NgbTable<T> {
+  readonly isEmpty = computed(() => this.pluggedData().length === 0);
+}
+
+@Component({
+  selector: '[<%= name %>EmptyState]',
+  template: `<td class="h-24 p-2 text-center align-middle" [attr.colspan]="table.columns().length">
+    <ng-content />
+  </td>`,
+  host: {
+    class: 'border-b hover:bg-muted/50 data-[state=selected]:bg-muted',
+  },
+})
+export class EmptyState {
+  readonly table = inject(Table);
+}
 
 // Cell
 @Component({
@@ -135,6 +165,7 @@ export class HeadRowDef {}
 
 @Directive({
   selector: '[<%= name %>Sort]',
+  exportAs: '<%= name %>Sort',
   providers: [aliasSort(Sort)],
 })
 export class Sort extends NgbSort<any> {
@@ -144,7 +175,9 @@ export class Sort extends NgbSort<any> {
 @Component({
   selector: '[<%= name %>SortHeader]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  viewProviders: [provideIcons({ lucideChevronsUpDown, lucideArrowDown, lucideArrowUp })],
+  viewProviders: [
+    provideIcons({ lucideChevronsUpDown, lucideArrowDown, lucideArrowUp, lucideArrowUpDown }),
+  ],
   providers: [aliasSortHeader(SortHeader)],
   imports: [Select, Option, SelectTrigger, FormField, InputSuffix, Icon, Button, NgTemplateOutlet],
   template: `
@@ -175,6 +208,8 @@ export class SortHeader extends NgbSortHeader<Sort> {
       ? 'lucideArrowDown'
       : this.sortDirection() === 'desc'
         ? 'lucideArrowUp'
-        : 'lucideChevronsUpDown';
+        : this.sort.mode() === 'selection'
+          ? 'lucideChevronsUpDown'
+          : 'lucideArrowUpDown';
   });
 }
